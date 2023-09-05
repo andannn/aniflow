@@ -2,6 +2,9 @@ import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/anime_model.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../data/repository/ani_list_repository.dart';
+import '../data/repository/ani_list_repository.dart';
+
 mixin AnimeTableColumns {
   static const String id = 'id';
   static const String englishTitle = 'english_title';
@@ -12,7 +15,6 @@ mixin AnimeTableColumns {
 }
 
 abstract class AnimeDao {
-  static const int defaultPerPage = 10;
 
   Future<List<AnimeModel>> getCurrentSeasonAnimeByPage(
       {required int page, int perPage = defaultPerPage});
@@ -45,7 +47,7 @@ class AnimeDaoImpl extends AnimeDao {
 
   @override
   Future<List<AnimeModel>> getCurrentSeasonAnimeByPage(
-      {required int page, int perPage = AnimeDao.defaultPerPage}) async {
+      {required int page, int perPage = defaultPerPage}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 

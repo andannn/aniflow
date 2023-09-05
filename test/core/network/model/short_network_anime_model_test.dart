@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/network/model/anime_title_modle.dart';
+import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/network/model/short_network_anime_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 

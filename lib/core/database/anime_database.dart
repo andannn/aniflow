@@ -8,19 +8,24 @@ import 'anime_dao.dart';
 
 const databaseFileName = "anime_data_base.db";
 
-
 mixin Tables {
   static const String animeTable = 'anime_table';
 }
 
 
 class AnimeDatabase {
+
+  static AnimeDatabase? _instance;
+
+  factory AnimeDatabase() => _instance ??= AnimeDatabase._();
+
+  AnimeDatabase._();
+
   Database? _animeDB;
 
   AnimeDao? _animeDao;
 
   Database get animeDB => _animeDB!;
-  // NewsResourceDao? _newsResourceDap;
 
   Future<void> initDatabase({String? dbName, bool isTest = false}) async {
     if (isTest) {
