@@ -3,15 +3,13 @@ import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_graphql.dart';
+import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 
-import '../../database/anime_database.dart';
 import 'load_type.dart';
 
-/// defalut page count of anime.
-const int defaultPerPageCount = 1;
-
-final AniListRepository aniListRepo = _AniListRepositoryImpl(aniListDataSource, AnimeDatabase().getAnimeDao());
+/// default page count of anime.
+const int defaultPerPageCount = 9;
 
 enum AnimeCategory {
   /// current season releasing anime.
@@ -24,32 +22,145 @@ enum AnimeCategory {
   trending,
 }
 
-abstract class AniListRepository {
-  Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory({required AnimeCategory category});
+/// Bangumi releasing season.
+enum AnimeSeason {
+  winter('WINTER'),
+  spring('SPRING'),
+  summer('SUMMER'),
+  fall('FALL');
 
-  Future<LoadResult<ShortcutAnimeModel>> getAnimePageByCategory(
-      {required AnimeCategory category, required int page, int perPage = defaultPerPageCount});
+  final String sqlTypeString;
+
+  const AnimeSeason(this.sqlTypeString);
 }
 
-class _AniListRepositoryImpl extends AniListRepository {
-  _AniListRepositoryImpl(this.aniListDataSource, this.animeDao);
+/// Bangumi status.
+enum AnimeStatus {
+  releasing('RELEASING'),
+  finished('FINISHED'),
+  notYetReleased('NOT_YET_RELEASED');
+
+  final String sqlTypeString;
+
+  const AnimeStatus(this.sqlTypeString);
+}
+
+typedef AnimeSeasonParam = ({
+  int seasonYear,
+  AnimeSeason season,
+});
+
+/// get next bangumi season.
+AnimeSeasonParam getNextSeasonParam(AnimeSeasonParam current) {
+  int nextSeasonYear;
+  AnimeSeason nextSeason;
+  switch (current.season) {
+    case AnimeSeason.winter:
+      nextSeasonYear = current.seasonYear;
+      nextSeason = AnimeSeason.spring;
+    case AnimeSeason.spring:
+      nextSeasonYear = current.seasonYear;
+      nextSeason = AnimeSeason.summer;
+    case AnimeSeason.summer:
+      nextSeasonYear = current.seasonYear;
+      nextSeason = AnimeSeason.fall;
+    case AnimeSeason.fall:
+      nextSeasonYear = current.seasonYear + 1;
+      nextSeason = AnimeSeason.winter;
+  }
+  return (
+    seasonYear: nextSeasonYear,
+    season: nextSeason,
+  );
+}
+
+/// repository for get anime list.
+abstract class AniListRepository {
+  /// refresh the category anime table, which will deleted the table and get
+  /// data from network data source.
+  Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory(
+      {required AnimeCategory category});
+
+  /// get data from database or network if database have no data.
+  Future<LoadResult<ShortcutAnimeModel>> getAnimePageByCategory(
+      {required AnimeCategory category,
+      required int page,
+      int perPage = defaultPerPageCount});
+}
+
+class AniListRepositoryImpl extends AniListRepository {
+  AniListRepositoryImpl(
+      this.aniListDataSource, this.animeDao, this.preferences);
 
   final AniListDataSource aniListDataSource;
   final AnimeDao animeDao;
+  final AnimeTrackerPreferences preferences;
 
   @override
   Future<LoadResult<ShortcutAnimeModel>> getAnimePageByCategory(
-      {required AnimeCategory category, required int page, int perPage = defaultPerPageCount}) {
-    throw UnimplementedError();
+      {required AnimeCategory category,
+      required int page,
+      int perPage = defaultPerPageCount}) {
+    AnimeStatus? status;
+    AnimeSeasonParam? seasonParam;
+
+    AnimeSeasonParam currentSeasonParam = (
+      seasonYear: preferences.getCurrentSeasonYear(),
+      season: preferences.getCurrentSeason(),
+    );
+    switch (category) {
+      case AnimeCategory.currentSeason:
+        status = AnimeStatus.releasing;
+        seasonParam = currentSeasonParam;
+      case AnimeCategory.nextSeason:
+        status = AnimeStatus.notYetReleased;
+        seasonParam = getNextSeasonParam(currentSeasonParam);
+      case AnimeCategory.trending:
+        status = null;
+        seasonParam = null;
+    }
+    return _loadAnimePage(type: LoadType.append, animeListParam: (
+      page: page,
+      perPage: perPage,
+      seasonYear: seasonParam?.seasonYear,
+      season: seasonParam?.season,
+      status: status
+    ));
   }
 
   @override
-  Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory({required AnimeCategory category}) {
-    throw UnimplementedError();
+  Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory(
+      {required AnimeCategory category}) {
+    AnimeStatus? status;
+    AnimeSeasonParam? seasonParam;
+
+    AnimeSeasonParam currentSeasonParam = (
+      seasonYear: preferences.getCurrentSeasonYear(),
+      season: preferences.getCurrentSeason(),
+    );
+    switch (category) {
+      case AnimeCategory.currentSeason:
+        status = AnimeStatus.releasing;
+        seasonParam = currentSeasonParam;
+      case AnimeCategory.nextSeason:
+        status = AnimeStatus.notYetReleased;
+        seasonParam = getNextSeasonParam(currentSeasonParam);
+      case AnimeCategory.trending:
+        status = null;
+        seasonParam = null;
+    }
+    return _loadAnimePage(type: LoadType.append, animeListParam: (
+      page: 1,
+      perPage: defaultPerPageCount,
+      seasonYear: seasonParam?.seasonYear,
+      season: seasonParam?.season,
+      status: status
+    ));
   }
 
   Future<LoadResult<ShortcutAnimeModel>> _loadAnimePage(
-      {required LoadType type, required AnimePageQueryParam animeListParam}) async {
+      {required LoadType type,
+      required AnimePageQueryParam animeListParam}) async {
     try {
       switch (type) {
         case LoadType.refresh:
@@ -58,30 +169,42 @@ class _AniListRepositoryImpl extends AniListRepository {
           await animeDao.clearAll();
 
           /// get data from network datasource.
-          final networkRes = await aniListDataSource.getNetworkAnimePage(animeListParam: animeListParam);
+          final networkRes = await aniListDataSource.getNetworkAnimePage(
+              animeListParam: animeListParam);
 
           /// insert the anime to db.
-          final dbAnimeList = networkRes.map((e) => ShortcutAnimeEntity.fromNetworkModel(e)).toList();
+          final dbAnimeList = networkRes
+              .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
+              .toList();
           await animeDao.upsertAll(dbAnimeList);
 
           /// load success, return result.
-          return LoadSuccess(dbAnimeList.map((e) => ShortcutAnimeModel.fromDatabaseModel(e)).toList());
+          return LoadSuccess(dbAnimeList
+              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .toList());
         case LoadType.append:
-          final dbResult =
-              await animeDao.getCurrentSeasonAnimeByPage(page: animeListParam.page, perPage: animeListParam.perPage);
+          final dbResult = await animeDao.getCurrentSeasonAnimeByPage(
+              page: animeListParam.page, perPage: animeListParam.perPage);
           if (dbResult.length < animeListParam.perPage) {
             /// the data in database is not enough for one page. try to get data from network.
-            final networkRes = await aniListDataSource.getNetworkAnimePage(animeListParam: animeListParam);
+            final networkRes = await aniListDataSource.getNetworkAnimePage(
+                animeListParam: animeListParam);
 
             /// insert the network data to db.
-            final dbAnimeList = networkRes.map((e) => ShortcutAnimeEntity.fromNetworkModel(e)).toList();
+            final dbAnimeList = networkRes
+                .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
+                .toList();
             await animeDao.upsertAll(dbAnimeList);
 
             /// load success, return result.
-            return LoadSuccess(dbAnimeList.map((e) => ShortcutAnimeModel.fromDatabaseModel(e)).toList());
+            return LoadSuccess(dbAnimeList
+                .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                .toList());
           } else {
             /// we have catch in db, return the result.
-            return LoadSuccess(dbResult.map((e) => ShortcutAnimeModel.fromDatabaseModel(e)).toList());
+            return LoadSuccess(dbResult
+                .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                .toList());
           }
       }
     } on DioException catch (e) {

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,9 +11,7 @@ mixin Tables {
   static const String animeTable = 'anime_table';
 }
 
-
 class AnimeDatabase {
-
   static AnimeDatabase? _instance;
 
   factory AnimeDatabase() => _instance ??= AnimeDatabase._();
@@ -38,33 +35,13 @@ class AnimeDatabase {
     await _createTables();
   }
 
-
   AnimeDao getAnimeDao() {
-      if (_animeDB == null) {
-        throw "";
-      }
+    if (_animeDB == null) {
+      throw "";
+    }
 
-      return _animeDao ??= AnimeDaoImpl(this);
+    return _animeDao ??= AnimeDaoImpl(this);
   }
-
-  //
-  // @override
-  // TopicDao getTopicDao() {
-  //   if (niaDB == null) {
-  //     throw "";
-  //   }
-  //
-  //   return _topicDao ??= TopicDaoImpl(this, _onTableUpdated);
-  // }
-  //
-  // @override
-  // NewsResourceDao getNewsResourceDao() {
-  //   if (niaDB == null) {
-  //     throw "";
-  //   }
-  //
-  //   return _newsResourceDap ??= NewsResourceDaoImpl(this, _onTableUpdated);
-  // }
 
   Future _createTables() async {
     await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.animeTable} ('
@@ -75,27 +52,4 @@ class AnimeDatabase {
         '${AnimeTableColumns.coverImage} TEXT, '
         '${AnimeTableColumns.coverImageColor} TEXT)');
   }
-
-  //
-  // _onTableUpdated(String table) {
-  //   notifyListeners();
-  // }
 }
-//
-// extension NiaDatabaseEx on NiaDatabase {
-//   Stream<T> createStream<T>(Future<T> Function() getEventData) {
-//     late StreamController<T> controller;
-//
-//     _listener() async {
-//       controller.add(await getEventData());
-//     }
-//
-//     controller = StreamController(onListen: () {
-//       _listener();
-//       addListener(_listener);
-//     }, onCancel: () {
-//       removeListener(_listener);
-//     });
-//     return controller.stream;
-//   }
-// }

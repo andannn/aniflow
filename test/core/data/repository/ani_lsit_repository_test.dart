@@ -2,7 +2,10 @@ import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/load_type.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/network/ani_list_data_source.dart';
+import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
@@ -11,49 +14,68 @@ void main() {
     late AniListRepository aniListRepository;
 
     setUp(() async {
+      SharedPreferences.setMockInitialValues({});
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
-
+      await AnimeTrackerPreferences().init();
+      await AnimeTrackerPreferences().setCurrentSeasonYear(2023);
+      await AnimeTrackerPreferences().setCurrentSeason(AnimeSeason.summer);
       await animeDatabase.initDatabase(isTest: true);
 
-      aniListRepository = aniListRepo;
+      aniListRepository = AniListRepositoryImpl(aniListDataSource,
+          animeDatabase.getAnimeDao(), AnimeTrackerPreferences());
     });
 
-    test('ani_list_initial_get', () async {
+    test('ani_list_get_current_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      final result = await aniListRepository.loadAnimePage(type: LoadType.append, page: 1);
+      final result = await aniListRepository.getAnimePageByCategory(
+          category: AnimeCategory.currentSeason, page: 1);
       final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
-      expect((result as LoadSuccess).data, equals(dbResult));
+      expect(
+          (result as LoadSuccess).data,
+          equals(dbResult
+              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .toList()));
     });
 
-    test('ani_list_repeat_get', () async {
+    test('ani_list_refresh_current_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      await aniListRepository.loadAnimePage(type: LoadType.append, page: 1);
-
-      await aniListRepository.loadAnimePage(type: LoadType.append, page: 2);
-
-      await aniListRepository.loadAnimePage(type: LoadType.append, page: 3);
-
-      final result_again_1 = await aniListRepository.loadAnimePage(type: LoadType.append, page: 1);
-
+      final result = await aniListRepository.refreshAnimeByCategory(
+          category: AnimeCategory.currentSeason);
       final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
-      expect((result_again_1 as LoadSuccess).data, equals(dbResult));
+      expect(
+          (result as LoadSuccess).data,
+          equals(dbResult
+              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .toList()));
     });
 
-    test('ani_list_repeat_get_and_refresh', () async {
+    test('ani_list_get_nex_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      await aniListRepository.loadAnimePage(type: LoadType.append, page: 1);
-
-      await aniListRepository.loadAnimePage(type: LoadType.append, page: 2);
-
-      final result_refresh_1 = await aniListRepository.loadAnimePage(type: LoadType.refresh);
-
+      final result = await aniListRepository.getAnimePageByCategory(
+          category: AnimeCategory.nextSeason, page: 1);
       final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
-      expect((result_refresh_1 as LoadSuccess).data,
-          equals(dbResult.map((e) => ShortcutAnimeModel.fromDatabaseModel(e)).toList()));
+      expect(
+          (result as LoadSuccess).data,
+          equals(dbResult
+              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .toList()));
+    });
+
+    test('ani_list_refresh_nex_season_anime', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+
+      final result = await aniListRepository.refreshAnimeByCategory(
+          category: AnimeCategory.nextSeason);
+      final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
+      expect(
+          (result as LoadSuccess).data,
+          equals(dbResult
+              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .toList()));
     });
   });
 }

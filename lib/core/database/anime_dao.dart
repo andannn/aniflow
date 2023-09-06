@@ -14,7 +14,6 @@ mixin AnimeTableColumns {
 }
 
 abstract class AnimeDao {
-
   Future<List<ShortcutAnimeEntity>> getCurrentSeasonAnimeByPage(
       {required int page, int perPage = defaultPerPageCount});
 

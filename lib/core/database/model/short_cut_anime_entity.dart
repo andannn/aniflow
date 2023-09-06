@@ -3,6 +3,7 @@ import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'short_cut_anime_entity.g.dart';
+
 part 'short_cut_anime_entity.freezed.dart';
 
 @freezed
@@ -27,7 +28,8 @@ class ShortcutAnimeEntity with _$ShortcutAnimeEntity {
   factory ShortcutAnimeEntity.fromJson(Map<String, dynamic> json) =>
       _$$_ShortcutAnimeEntityFromJson(json);
 
-  static ShortcutAnimeEntity fromNetworkModel(ShortcutAnimeDto model) => ShortcutAnimeEntity(
+  static ShortcutAnimeEntity fromNetworkModel(ShortcutAnimeDto model) =>
+      ShortcutAnimeEntity(
         id: model.id.toString(),
         englishTitle: model.title?.english ?? '',
         romajiTitle: model.title?.romaji ?? '',
