@@ -1,8 +1,7 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/model/anime_model.dart';
+import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../data/repository/ani_list_repository.dart';
 import '../data/repository/ani_list_repository.dart';
 
 mixin AnimeTableColumns {
@@ -16,12 +15,12 @@ mixin AnimeTableColumns {
 
 abstract class AnimeDao {
 
-  Future<List<AnimeModel>> getCurrentSeasonAnimeByPage(
-      {required int page, int perPage = defaultPerPage});
+  Future<List<ShortcutAnimeEntity>> getCurrentSeasonAnimeByPage(
+      {required int page, int perPage = defaultPerPageCount});
 
   Future clearAll();
 
-  Future upsertAll(List<AnimeModel> animeList);
+  Future upsertAll(List<ShortcutAnimeEntity> animeList);
 }
 
 class AnimeDaoImpl extends AnimeDao {
@@ -35,7 +34,7 @@ class AnimeDaoImpl extends AnimeDao {
   }
 
   @override
-  Future upsertAll(List<AnimeModel> animeList) async {
+  Future upsertAll(List<ShortcutAnimeEntity> animeList) async {
     final batch = database.animeDB.batch();
 
     for (var anime in animeList) {
@@ -46,13 +45,13 @@ class AnimeDaoImpl extends AnimeDao {
   }
 
   @override
-  Future<List<AnimeModel>> getCurrentSeasonAnimeByPage(
-      {required int page, int perPage = defaultPerPage}) async {
+  Future<List<ShortcutAnimeEntity>> getCurrentSeasonAnimeByPage(
+      {required int page, int perPage = defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
     final List<Map<String, dynamic>> result = await database.animeDB
         .query(Tables.animeTable, limit: limit, offset: offset);
-    return result.map((e) => AnimeModel.fromJson(e)).toList();
+    return result.map((e) => ShortcutAnimeEntity.fromJson(e)).toList();
   }
 }

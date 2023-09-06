@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'anime_model.dart';
+part of 'short_cut_anime_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AnimeModel _$AnimeModelFromJson(Map<String, dynamic> json) {
-  return _AnimeModel.fromJson(json);
+ShortcutAnimeEntity _$ShortcutAnimeEntityFromJson(Map<String, dynamic> json) {
+  return _ShortcutAnimeEntity.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AnimeModel {
+mixin _$ShortcutAnimeEntity {
   @JsonKey(name: AnimeTableColumns.id)
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.englishTitle)
@@ -35,15 +35,15 @@ mixin _$AnimeModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AnimeModelCopyWith<AnimeModel> get copyWith =>
+  $ShortcutAnimeEntityCopyWith<ShortcutAnimeEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AnimeModelCopyWith<$Res> {
-  factory $AnimeModelCopyWith(
-          AnimeModel value, $Res Function(AnimeModel) then) =
-      _$AnimeModelCopyWithImpl<$Res, AnimeModel>;
+abstract class $ShortcutAnimeEntityCopyWith<$Res> {
+  factory $ShortcutAnimeEntityCopyWith(
+          ShortcutAnimeEntity value, $Res Function(ShortcutAnimeEntity) then) =
+      _$ShortcutAnimeEntityCopyWithImpl<$Res, ShortcutAnimeEntity>;
   @useResult
   $Res call(
       {@JsonKey(name: AnimeTableColumns.id) String id,
@@ -56,9 +56,9 @@ abstract class $AnimeModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AnimeModelCopyWithImpl<$Res, $Val extends AnimeModel>
-    implements $AnimeModelCopyWith<$Res> {
-  _$AnimeModelCopyWithImpl(this._value, this._then);
+class _$ShortcutAnimeEntityCopyWithImpl<$Res, $Val extends ShortcutAnimeEntity>
+    implements $ShortcutAnimeEntityCopyWith<$Res> {
+  _$ShortcutAnimeEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -105,11 +105,11 @@ class _$AnimeModelCopyWithImpl<$Res, $Val extends AnimeModel>
 }
 
 /// @nodoc
-abstract class _$$_AnimeModelCopyWith<$Res>
-    implements $AnimeModelCopyWith<$Res> {
-  factory _$$_AnimeModelCopyWith(
-          _$_AnimeModel value, $Res Function(_$_AnimeModel) then) =
-      __$$_AnimeModelCopyWithImpl<$Res>;
+abstract class _$$_ShortcutAnimeEntityCopyWith<$Res>
+    implements $ShortcutAnimeEntityCopyWith<$Res> {
+  factory _$$_ShortcutAnimeEntityCopyWith(_$_ShortcutAnimeEntity value,
+          $Res Function(_$_ShortcutAnimeEntity) then) =
+      __$$_ShortcutAnimeEntityCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,11 +123,11 @@ abstract class _$$_AnimeModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AnimeModelCopyWithImpl<$Res>
-    extends _$AnimeModelCopyWithImpl<$Res, _$_AnimeModel>
-    implements _$$_AnimeModelCopyWith<$Res> {
-  __$$_AnimeModelCopyWithImpl(
-      _$_AnimeModel _value, $Res Function(_$_AnimeModel) _then)
+class __$$_ShortcutAnimeEntityCopyWithImpl<$Res>
+    extends _$ShortcutAnimeEntityCopyWithImpl<$Res, _$_ShortcutAnimeEntity>
+    implements _$$_ShortcutAnimeEntityCopyWith<$Res> {
+  __$$_ShortcutAnimeEntityCopyWithImpl(_$_ShortcutAnimeEntity _value,
+      $Res Function(_$_ShortcutAnimeEntity) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -140,7 +140,7 @@ class __$$_AnimeModelCopyWithImpl<$Res>
     Object? coverImage = null,
     Object? coverImageColor = null,
   }) {
-    return _then(_$_AnimeModel(
+    return _then(_$_ShortcutAnimeEntity(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -171,8 +171,8 @@ class __$$_AnimeModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AnimeModel implements _AnimeModel {
-  _$_AnimeModel(
+class _$_ShortcutAnimeEntity implements _ShortcutAnimeEntity {
+  _$_ShortcutAnimeEntity(
       {@JsonKey(name: AnimeTableColumns.id) this.id = '',
       @JsonKey(name: AnimeTableColumns.englishTitle) this.englishTitle = '',
       @JsonKey(name: AnimeTableColumns.romajiTitle) this.romajiTitle = '',
@@ -181,8 +181,8 @@ class _$_AnimeModel implements _AnimeModel {
       @JsonKey(name: AnimeTableColumns.coverImageColor)
       this.coverImageColor = ''});
 
-  factory _$_AnimeModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AnimeModelFromJson(json);
+  factory _$_ShortcutAnimeEntity.fromJson(Map<String, dynamic> json) =>
+      _$$_ShortcutAnimeEntityFromJson(json);
 
   @override
   @JsonKey(name: AnimeTableColumns.id)
@@ -205,14 +205,14 @@ class _$_AnimeModel implements _AnimeModel {
 
   @override
   String toString() {
-    return 'AnimeModel(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor)';
+    return 'ShortcutAnimeEntity(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AnimeModel &&
+            other is _$_ShortcutAnimeEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.englishTitle, englishTitle) ||
                 other.englishTitle == englishTitle) &&
@@ -234,29 +234,30 @@ class _$_AnimeModel implements _AnimeModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnimeModelCopyWith<_$_AnimeModel> get copyWith =>
-      __$$_AnimeModelCopyWithImpl<_$_AnimeModel>(this, _$identity);
+  _$$_ShortcutAnimeEntityCopyWith<_$_ShortcutAnimeEntity> get copyWith =>
+      __$$_ShortcutAnimeEntityCopyWithImpl<_$_ShortcutAnimeEntity>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AnimeModelToJson(
+    return _$$_ShortcutAnimeEntityToJson(
       this,
     );
   }
 }
 
-abstract class _AnimeModel implements AnimeModel {
-  factory _AnimeModel(
+abstract class _ShortcutAnimeEntity implements ShortcutAnimeEntity {
+  factory _ShortcutAnimeEntity(
       {@JsonKey(name: AnimeTableColumns.id) final String id,
       @JsonKey(name: AnimeTableColumns.englishTitle) final String englishTitle,
       @JsonKey(name: AnimeTableColumns.romajiTitle) final String romajiTitle,
       @JsonKey(name: AnimeTableColumns.nativeTitle) final String nativeTitle,
       @JsonKey(name: AnimeTableColumns.coverImage) final String coverImage,
       @JsonKey(name: AnimeTableColumns.coverImageColor)
-      final String coverImageColor}) = _$_AnimeModel;
+      final String coverImageColor}) = _$_ShortcutAnimeEntity;
 
-  factory _AnimeModel.fromJson(Map<String, dynamic> json) =
-      _$_AnimeModel.fromJson;
+  factory _ShortcutAnimeEntity.fromJson(Map<String, dynamic> json) =
+      _$_ShortcutAnimeEntity.fromJson;
 
   @override
   @JsonKey(name: AnimeTableColumns.id)
@@ -278,6 +279,6 @@ abstract class _AnimeModel implements AnimeModel {
   String get coverImageColor;
   @override
   @JsonKey(ignore: true)
-  _$$_AnimeModelCopyWith<_$_AnimeModel> get copyWith =>
+  _$$_ShortcutAnimeEntityCopyWith<_$_ShortcutAnimeEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }

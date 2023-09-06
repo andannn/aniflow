@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'anime_model.dart';
+part of 'short_cut_anime_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AnimeModel _$$_AnimeModelFromJson(Map<String, dynamic> json) =>
-    _$_AnimeModel(
+_$_ShortcutAnimeEntity _$$_ShortcutAnimeEntityFromJson(
+        Map<String, dynamic> json) =>
+    _$_ShortcutAnimeEntity(
       id: json['id'] as String? ?? '',
       englishTitle: json['english_title'] as String? ?? '',
       romajiTitle: json['romaji_title'] as String? ?? '',
@@ -16,7 +17,8 @@ _$_AnimeModel _$$_AnimeModelFromJson(Map<String, dynamic> json) =>
       coverImageColor: json['cover_image_color'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_AnimeModelToJson(_$_AnimeModel instance) =>
+Map<String, dynamic> _$$_ShortcutAnimeEntityToJson(
+        _$_ShortcutAnimeEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'english_title': instance.englishTitle,

@@ -1,9 +1,9 @@
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
-import 'package:anime_tracker/core/network/model/detail_network_anime_model.dart';
+import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:dio/dio.dart';
 
 import 'api/ani_list_graphql.dart';
-import 'model/short_network_anime_model.dart';
+import 'model/short_anime_dto.dart';
 
 /// Bangumi releasing season.
 enum AnimeSeason {
@@ -33,48 +33,33 @@ final AniListDataSource aniListDataSource = _AniListDataSourceImpl();
 /// Anime list data source get from AniList.
 abstract class AniListDataSource {
   /// throw [DioException]
-  Future<List<ShortNetworkAnime>> getNetworkAnimePage({
-    required int page,
-    required int perPage,
-    required int seasonYear,
-    required AnimeSeason season,
-    required AnimeStatus status,
+  Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
+    required AnimePageQueryParam animeListParam,
   });
 
-  Future<DetailNetworkAnime> getNetworkAnime({
+  Future<DetailAnimeDto> getNetworkAnime({
     required int id,
   });
 }
 
 class _AniListDataSourceImpl implements AniListDataSource {
   @override
-  Future<DetailNetworkAnime> getNetworkAnime({required int id}) {
+  Future<DetailAnimeDto> getNetworkAnime({required int id}) {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<ShortNetworkAnime>> getNetworkAnimePage(
-      {required int page,
-      required int perPage,
-      required int seasonYear,
-      required AnimeSeason season,
-      required AnimeStatus status}) async {
-    AnimeListQueryParam param = (
-      page: page,
-      perPage: perPage,
-      seasonYear: seasonYear,
-      season: season,
-      status: status,
-    );
-    return _getAnimeList(animeListParam: param);
+  Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
+    required AnimePageQueryParam animeListParam,
+  }) async {
+    return _getAnimeList(animeListParam: animeListParam);
   }
 
-  Future<List<ShortNetworkAnime>> _getAnimeList<T>({
-    required AnimeListQueryParam animeListParam,
+  Future<List<ShortcutAnimeDto>> _getAnimeList<T>({
+    required AnimePageQueryParam animeListParam,
     CancelToken? cancelToken,
   }) async {
-    final response =
-        await AniListDio().dio.post(AniListDio.aniListUrl, queryParameters: {
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl, queryParameters: {
       'query': animeListQueryGraphQL,
       'variables': {
         'page': animeListParam.page,
@@ -86,8 +71,7 @@ class _AniListDataSourceImpl implements AniListDataSource {
     });
 
     final List resultJson = response.data['data']['Page']['media'];
-    final List<ShortNetworkAnime> animeList =
-        resultJson.map((e) => ShortNetworkAnime.fromJson(e)).toList();
+    final List<ShortcutAnimeDto> animeList = resultJson.map((e) => ShortcutAnimeDto.fromJson(e)).toList();
 
     return animeList;
   }

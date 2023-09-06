@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 
-typedef AnimeListQueryParam = ({
+typedef AnimePageQueryParam = ({
   int page,
   int perPage,
   int seasonYear,

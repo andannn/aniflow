@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'short_network_anime_model.dart';
+part of 'short_anime_dto.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,43 +14,43 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ShortNetworkAnime _$ShortNetworkAnimeFromJson(Map<String, dynamic> json) {
-  return _ShortNetworkAnime.fromJson(json);
+ShortcutAnimeDto _$ShortcutAnimeDtoFromJson(Map<String, dynamic> json) {
+  return _ShortcutAnimeDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ShortNetworkAnime {
+mixin _$ShortcutAnimeDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
   AnimeTitle? get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'coverImage')
-  Map<String, String> get coverImage => throw _privateConstructorUsedError;
+  Map<String, String?> get coverImage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ShortNetworkAnimeCopyWith<ShortNetworkAnime> get copyWith =>
+  $ShortcutAnimeDtoCopyWith<ShortcutAnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ShortNetworkAnimeCopyWith<$Res> {
-  factory $ShortNetworkAnimeCopyWith(
-          ShortNetworkAnime value, $Res Function(ShortNetworkAnime) then) =
-      _$ShortNetworkAnimeCopyWithImpl<$Res, ShortNetworkAnime>;
+abstract class $ShortcutAnimeDtoCopyWith<$Res> {
+  factory $ShortcutAnimeDtoCopyWith(
+          ShortcutAnimeDto value, $Res Function(ShortcutAnimeDto) then) =
+      _$ShortcutAnimeDtoCopyWithImpl<$Res, ShortcutAnimeDto>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') AnimeTitle? title,
-      @JsonKey(name: 'coverImage') Map<String, String> coverImage});
+      @JsonKey(name: 'coverImage') Map<String, String?> coverImage});
 
   $AnimeTitleCopyWith<$Res>? get title;
 }
 
 /// @nodoc
-class _$ShortNetworkAnimeCopyWithImpl<$Res, $Val extends ShortNetworkAnime>
-    implements $ShortNetworkAnimeCopyWith<$Res> {
-  _$ShortNetworkAnimeCopyWithImpl(this._value, this._then);
+class _$ShortcutAnimeDtoCopyWithImpl<$Res, $Val extends ShortcutAnimeDto>
+    implements $ShortcutAnimeDtoCopyWith<$Res> {
+  _$ShortcutAnimeDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -76,7 +76,7 @@ class _$ShortNetworkAnimeCopyWithImpl<$Res, $Val extends ShortNetworkAnime>
       coverImage: null == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
     ) as $Val);
   }
 
@@ -94,28 +94,28 @@ class _$ShortNetworkAnimeCopyWithImpl<$Res, $Val extends ShortNetworkAnime>
 }
 
 /// @nodoc
-abstract class _$$_ShortNetworkAnimeCopyWith<$Res>
-    implements $ShortNetworkAnimeCopyWith<$Res> {
-  factory _$$_ShortNetworkAnimeCopyWith(_$_ShortNetworkAnime value,
-          $Res Function(_$_ShortNetworkAnime) then) =
-      __$$_ShortNetworkAnimeCopyWithImpl<$Res>;
+abstract class _$$_ShortcutAnimeDtoCopyWith<$Res>
+    implements $ShortcutAnimeDtoCopyWith<$Res> {
+  factory _$$_ShortcutAnimeDtoCopyWith(
+          _$_ShortcutAnimeDto value, $Res Function(_$_ShortcutAnimeDto) then) =
+      __$$_ShortcutAnimeDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') AnimeTitle? title,
-      @JsonKey(name: 'coverImage') Map<String, String> coverImage});
+      @JsonKey(name: 'coverImage') Map<String, String?> coverImage});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
 }
 
 /// @nodoc
-class __$$_ShortNetworkAnimeCopyWithImpl<$Res>
-    extends _$ShortNetworkAnimeCopyWithImpl<$Res, _$_ShortNetworkAnime>
-    implements _$$_ShortNetworkAnimeCopyWith<$Res> {
-  __$$_ShortNetworkAnimeCopyWithImpl(
-      _$_ShortNetworkAnime _value, $Res Function(_$_ShortNetworkAnime) _then)
+class __$$_ShortcutAnimeDtoCopyWithImpl<$Res>
+    extends _$ShortcutAnimeDtoCopyWithImpl<$Res, _$_ShortcutAnimeDto>
+    implements _$$_ShortcutAnimeDtoCopyWith<$Res> {
+  __$$_ShortcutAnimeDtoCopyWithImpl(
+      _$_ShortcutAnimeDto _value, $Res Function(_$_ShortcutAnimeDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -125,7 +125,7 @@ class __$$_ShortNetworkAnimeCopyWithImpl<$Res>
     Object? title = freezed,
     Object? coverImage = null,
   }) {
-    return _then(_$_ShortNetworkAnime(
+    return _then(_$_ShortcutAnimeDto(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -137,23 +137,23 @@ class __$$_ShortNetworkAnimeCopyWithImpl<$Res>
       coverImage: null == coverImage
           ? _value._coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_ShortNetworkAnime implements _ShortNetworkAnime {
-  _$_ShortNetworkAnime(
+class _$_ShortcutAnimeDto implements _ShortcutAnimeDto {
+  _$_ShortcutAnimeDto(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'coverImage')
-      final Map<String, String> coverImage = const {}})
+      final Map<String, String?> coverImage = const {}})
       : _coverImage = coverImage;
 
-  factory _$_ShortNetworkAnime.fromJson(Map<String, dynamic> json) =>
-      _$$_ShortNetworkAnimeFromJson(json);
+  factory _$_ShortcutAnimeDto.fromJson(Map<String, dynamic> json) =>
+      _$$_ShortcutAnimeDtoFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -161,10 +161,10 @@ class _$_ShortNetworkAnime implements _ShortNetworkAnime {
   @override
   @JsonKey(name: 'title')
   final AnimeTitle? title;
-  final Map<String, String> _coverImage;
+  final Map<String, String?> _coverImage;
   @override
   @JsonKey(name: 'coverImage')
-  Map<String, String> get coverImage {
+  Map<String, String?> get coverImage {
     if (_coverImage is EqualUnmodifiableMapView) return _coverImage;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_coverImage);
@@ -172,14 +172,14 @@ class _$_ShortNetworkAnime implements _ShortNetworkAnime {
 
   @override
   String toString() {
-    return 'ShortNetworkAnime(id: $id, title: $title, coverImage: $coverImage)';
+    return 'ShortcutAnimeDto(id: $id, title: $title, coverImage: $coverImage)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShortNetworkAnime &&
+            other is _$_ShortcutAnimeDto &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
@@ -194,27 +194,26 @@ class _$_ShortNetworkAnime implements _ShortNetworkAnime {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShortNetworkAnimeCopyWith<_$_ShortNetworkAnime> get copyWith =>
-      __$$_ShortNetworkAnimeCopyWithImpl<_$_ShortNetworkAnime>(
-          this, _$identity);
+  _$$_ShortcutAnimeDtoCopyWith<_$_ShortcutAnimeDto> get copyWith =>
+      __$$_ShortcutAnimeDtoCopyWithImpl<_$_ShortcutAnimeDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ShortNetworkAnimeToJson(
+    return _$$_ShortcutAnimeDtoToJson(
       this,
     );
   }
 }
 
-abstract class _ShortNetworkAnime implements ShortNetworkAnime {
-  factory _ShortNetworkAnime(
+abstract class _ShortcutAnimeDto implements ShortcutAnimeDto {
+  factory _ShortcutAnimeDto(
           {@JsonKey(name: 'id') final int id,
           @JsonKey(name: 'title') final AnimeTitle? title,
-          @JsonKey(name: 'coverImage') final Map<String, String> coverImage}) =
-      _$_ShortNetworkAnime;
+          @JsonKey(name: 'coverImage') final Map<String, String?> coverImage}) =
+      _$_ShortcutAnimeDto;
 
-  factory _ShortNetworkAnime.fromJson(Map<String, dynamic> json) =
-      _$_ShortNetworkAnime.fromJson;
+  factory _ShortcutAnimeDto.fromJson(Map<String, dynamic> json) =
+      _$_ShortcutAnimeDto.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -224,9 +223,9 @@ abstract class _ShortNetworkAnime implements ShortNetworkAnime {
   AnimeTitle? get title;
   @override
   @JsonKey(name: 'coverImage')
-  Map<String, String> get coverImage;
+  Map<String, String?> get coverImage;
   @override
   @JsonKey(ignore: true)
-  _$$_ShortNetworkAnimeCopyWith<_$_ShortNetworkAnime> get copyWith =>
+  _$$_ShortcutAnimeDtoCopyWith<_$_ShortcutAnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/core/network/model/short_network_anime_model.dart';
+import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -22,9 +22,9 @@ void main() {
       }
     };
     test('get_topics', () async {
-      final res = ShortNetworkAnime.fromJson(dummyData);
+      final res = ShortcutAnimeDto.fromJson(dummyData);
       expect(res, equals(
-          ShortNetworkAnime(
+          ShortcutAnimeDto(
               id: 124,
               title: AnimeTitle(
                   romaji: "Fushigi Yuugi: Eikoden",

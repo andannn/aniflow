@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/model/anime_model.dart';
+import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -9,7 +9,7 @@ void main() {
     final animeDatabase = AnimeDatabase();
 
     final dummyAnimeData = [
-      AnimeModel(
+      ShortcutAnimeEntity(
           id: '5784',
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
@@ -17,7 +17,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
           coverImageColor: '#6b351a'),
-      AnimeModel(
+      ShortcutAnimeEntity(
           id: '8917',
           englishTitle: 'Bodacious Space Pirates',
           romajiTitle: 'Mouretsu Pirates',
@@ -25,7 +25,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
           coverImageColor: '#50aee4'),
-      AnimeModel(
+      ShortcutAnimeEntity(
           id: '9523',
           englishTitle: '',
           romajiTitle: 'Minori Scramble!',

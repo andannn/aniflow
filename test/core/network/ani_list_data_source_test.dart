@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/model/anime_model.dart';
+import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,7 +11,7 @@ void main() {
           seasonYear: 2012,
           season: AnimeSeason.winter,
           status: AnimeStatus.finished);
-      final dbList = rest.map((e) => AnimeModel.fromNetworkModel(e)).toList();
+      final dbList = rest.map((e) => ShortcutAnimeEntity.fromNetworkModel(e)).toList();
       print(dbList);
     });
   });

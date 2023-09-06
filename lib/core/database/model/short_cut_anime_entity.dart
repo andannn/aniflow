@@ -1,14 +1,13 @@
 import 'package:anime_tracker/core/database/anime_dao.dart';
-import 'package:anime_tracker/core/network/model/short_network_anime_model.dart';
+import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'anime_model.freezed.dart';
-
-part 'anime_model.g.dart';
+part 'short_cut_anime_entity.g.dart';
+part 'short_cut_anime_entity.freezed.dart';
 
 @freezed
-class AnimeModel with _$AnimeModel {
-  factory AnimeModel({
+class ShortcutAnimeEntity with _$ShortcutAnimeEntity {
+  factory ShortcutAnimeEntity({
     @Default('') @JsonKey(name: AnimeTableColumns.id) String id,
     @Default('')
     @JsonKey(name: AnimeTableColumns.englishTitle)
@@ -23,12 +22,12 @@ class AnimeModel with _$AnimeModel {
     @Default('')
     @JsonKey(name: AnimeTableColumns.coverImageColor)
     String coverImageColor,
-  }) = _AnimeModel;
+  }) = _ShortcutAnimeEntity;
 
-  factory AnimeModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AnimeModelFromJson(json);
+  factory ShortcutAnimeEntity.fromJson(Map<String, dynamic> json) =>
+      _$$_ShortcutAnimeEntityFromJson(json);
 
-  static AnimeModel fromNetworkModel(ShortNetworkAnime model) => AnimeModel(
+  static ShortcutAnimeEntity fromNetworkModel(ShortcutAnimeDto model) => ShortcutAnimeEntity(
         id: model.id.toString(),
         englishTitle: model.title?.english ?? '',
         romajiTitle: model.title?.romaji ?? '',
