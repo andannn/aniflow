@@ -1,0 +1,24 @@
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+
+mixin AnimeSeasonUtil {
+  /// get anime season params by DateTime.
+  static (int animeYear, AnimeSeason season) getAnimeSeasonByDataTime(DateTime time) {
+    final year = time.year;
+    final month = time.month;
+
+    AnimeSeason season;
+    switch (month) {
+      case >= 1 && < 4:
+        season = AnimeSeason.winter;
+      case >= 4 && < 7:
+        season = AnimeSeason.spring;
+      case >= 7 && < 10:
+        season = AnimeSeason.summer;
+      case >= 10 && < 1:
+        season = AnimeSeason.fall;
+      default:
+        throw 'impossible';
+    }
+    return (year, season);
+  }
+}
