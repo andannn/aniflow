@@ -43,6 +43,9 @@ dependencies:
   sqflite: ^2.3.0
   sqflite_common_ffi: ^2.3.0+2
   shared_preferences: ^2.2.1
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
