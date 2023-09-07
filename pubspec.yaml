@@ -46,6 +46,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  dynamic_color: ^1.6.6
 
 dev_dependencies:
   flutter_test:

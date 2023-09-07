@@ -67,7 +67,7 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
   }
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
-    if (navigation == TopLevelNavigation.forYou) {
+    if (navigation == TopLevelNavigation.home) {
       _backStack = [ForYouRoutePath()];
     } else {
       _backStack = [ForYouRoutePath(), navigation.toRoutePath()];

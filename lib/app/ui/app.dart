@@ -1,11 +1,11 @@
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/ui/colors.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../local/anime_tracker_localizations_delegate.dart';
 import '../navigation/nia_router.dart';
 import '../navigation/top_level_navigation.dart';
-import 'theme_data.dart';
 
 class AnimeTrackerApp extends StatefulWidget {
   const AnimeTrackerApp({super.key});
@@ -27,24 +27,52 @@ class AnimeTrackerAppState extends State<AnimeTrackerApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: lightThemeData,
-      darkTheme: darkThemeData,
-      localizationsDelegates: [
-        AnimeTrackerLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('es'),
-        Locale('zh'),
-        Locale('Jpan'),
-        Locale('ja'),
-      ],
-      home: const AnimeTrackerAppScaffold(),
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
+
+        if (lightDynamic != null && darkDynamic != null) {
+          lightColorScheme = lightDynamic.harmonized();
+          darkColorScheme = darkDynamic.harmonized();
+        } else {
+          // Otherwise, use fallback schemes.
+          lightColorScheme = ColorScheme.fromSeed(
+            seedColor: brandColor,
+          );
+          darkColorScheme = ColorScheme.fromSeed(
+            seedColor: brandColor,
+            brightness: Brightness.dark,
+          );
+        }
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme,
+            // extensions: [lightCustomColors],
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme,
+            // extensions: [darkCustomColors],
+          ),
+          localizationsDelegates: [
+            AnimeTrackerLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('es'),
+            Locale('zh'),
+            Locale('Jpan'),
+            Locale('ja'),
+          ],
+          home: const AnimeTrackerAppScaffold(),
+        );
+      },
     );
   }
 }
@@ -59,7 +87,7 @@ class AnimeTrackerAppScaffold extends StatefulWidget {
 class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   final animeTrackerRouterDelegate = AnimeTrackerRouterDelegate();
 
-  var currentNavigation = TopLevelNavigation.forYou;
+  var currentNavigation = TopLevelNavigation.home;
   var needShowAppbar = true;
 
   @override
@@ -108,15 +136,16 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   Widget? _animeTrackerNavigationBar(
       {required TopLevelNavigation selected, required Function(TopLevelNavigation) onNavigateToDestination}) {
     final currentIndex = TopLevelNavigation.values.indexOf(selected);
-    return BottomNavigationBar(
-        onTap: (index) {
-          if (currentIndex != index) {
-            onNavigateToDestination(TopLevelNavigation.values[index]);
-          }
-        },
-        currentIndex: currentIndex,
-        items: TopLevelNavigation.values
-            .map((navigation) => navigation.toBottomNavigationBarItem(isSelected: navigation == selected))
-            .toList());
+    return NavigationBar(
+      destinations: TopLevelNavigation.values
+          .map((navigation) => navigation.toBottomNavigationBarItem(isSelected: navigation == selected))
+          .toList(),
+      onDestinationSelected: (index) {
+        if (currentIndex != index) {
+          onNavigateToDestination(TopLevelNavigation.values[index]);
+        }
+      },
+      selectedIndex: currentIndex,
+    );
   }
 }

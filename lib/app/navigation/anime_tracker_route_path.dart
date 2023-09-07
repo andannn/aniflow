@@ -20,7 +20,7 @@ abstract class TopLevelRoutePath extends AnimeTrackerRoutePath {
 }
 
 class ForYouRoutePath extends TopLevelRoutePath {
-  ForYouRoutePath() : super(TopLevelNavigation.forYou);
+  ForYouRoutePath() : super(TopLevelNavigation.home);
 }
 
 class BookMarkedRoutePath extends TopLevelRoutePath {
