@@ -8,14 +8,17 @@ class AppState extends ChangeNotifier {
   AppState() {
     /// get current anime season.
     var now = DateTime.now();
-    final (currentYear, currentSeason) = AnimeSeasonUtil.getAnimeSeasonByDataTime(now);
+    final (currentYear, currentSeason) =
+        AnimeSeasonUtil.getAnimeSeasonByDataTime(now);
 
     final preferences = AnimeTrackerPreferences();
-    final (savedAnimeYear, savedAnimeSeason) = (preferences.getCurrentSeasonYear(), preferences.getCurrentSeason());
+    final (savedAnimeYear, savedAnimeSeason) =
+        (preferences.getCurrentSeasonYear(), preferences.getCurrentSeason());
 
     /// judge if need to show suggest anime board.
     if (currentYear != savedAnimeYear || currentSeason != savedAnimeSeason) {
-
+      // season changed, show suggest board.
+      preferences.setIsNeedShowSuggestBoard(true);
     }
   }
 }

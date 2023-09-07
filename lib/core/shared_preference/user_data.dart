@@ -6,6 +6,7 @@ import '../data/repository/ani_list_repository.dart';
 mixin UserDataKey {
   static const currentSeasonYear = "current_season_year";
   static const currentSeason = "current_season";
+  static const showSuggestBoard = "show_suggest_board";
 }
 
 class AnimeTrackerPreferences {
@@ -38,5 +39,13 @@ class AnimeTrackerPreferences {
 
   int getCurrentSeasonYear() {
     return _preference.getInt(UserDataKey.currentSeasonYear) ?? -1;
+  }
+
+  Future setIsNeedShowSuggestBoard(bool showSuggestBoard) {
+    return _preference.setBool(UserDataKey.showSuggestBoard, showSuggestBoard);
+  }
+
+  bool isNeedShowSuggestBoard() {
+    return _preference.getBool(UserDataKey.showSuggestBoard) ?? false;
   }
 }
