@@ -4,7 +4,12 @@ import 'ani_list_repository.dart';
 
 abstract class UserDataRepository {
   AnimeSeasonParam getAnimeSeasonParam();
+
   Future setAnimeSeasonParam(AnimeSeasonParam param);
+
+  DateTime? getLastSuccessSyncTime();
+
+  Future setLastSuccessSync(DateTime time);
 }
 
 class UserDataRepositoryImpl implements UserDataRepository {
@@ -25,4 +30,11 @@ class UserDataRepositoryImpl implements UserDataRepository {
     await preferences.setCurrentSeason(param.season);
     await preferences.setCurrentSeasonYear(param.seasonYear);
   }
+
+  @override
+  DateTime? getLastSuccessSyncTime() => preferences.getLastSuccessSync();
+
+  @override
+  Future setLastSuccessSync(DateTime time) =>
+      preferences.setLastSuccessSync(time);
 }

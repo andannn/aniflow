@@ -8,7 +8,9 @@ import 'anime_dao.dart';
 const databaseFileName = "anime_data_base.db";
 
 mixin Tables {
-  static const String animeTable = 'anime_table';
+  static const String currentSeasonAnimeTable = 'current_season_anime_table';
+  static const String nextSeasonAnimeTable = 'next_season_anime_table';
+  static const String trendingSeasonAnimeTable = 'trending_season_anime_table';
 }
 
 class AnimeDatabase {
@@ -20,7 +22,7 @@ class AnimeDatabase {
 
   Database? _animeDB;
 
-  AnimeDao? _animeDao;
+  AnimeListDao? _animeDao;
 
   Database get animeDB => _animeDB!;
 
@@ -35,7 +37,7 @@ class AnimeDatabase {
     await _createTables();
   }
 
-  AnimeDao getAnimeDao() {
+  AnimeListDao getAnimeDao() {
     if (_animeDB == null) {
       throw "";
     }
@@ -44,7 +46,21 @@ class AnimeDatabase {
   }
 
   Future _createTables() async {
-    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.animeTable} ('
+    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.currentSeasonAnimeTable} ('
+        '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
+        '${AnimeTableColumns.englishTitle} TEXT, '
+        '${AnimeTableColumns.romajiTitle} TEXT, '
+        '${AnimeTableColumns.nativeTitle} TEXT, '
+        '${AnimeTableColumns.coverImage} TEXT, '
+        '${AnimeTableColumns.coverImageColor} TEXT)');
+    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.nextSeasonAnimeTable} ('
+        '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
+        '${AnimeTableColumns.englishTitle} TEXT, '
+        '${AnimeTableColumns.romajiTitle} TEXT, '
+        '${AnimeTableColumns.nativeTitle} TEXT, '
+        '${AnimeTableColumns.coverImage} TEXT, '
+        '${AnimeTableColumns.coverImageColor} TEXT)');
+    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.trendingSeasonAnimeTable} ('
         '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
         '${AnimeTableColumns.englishTitle} TEXT, '
         '${AnimeTableColumns.romajiTitle} TEXT, '

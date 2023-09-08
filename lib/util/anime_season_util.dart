@@ -19,6 +19,6 @@ mixin AnimeSeasonUtil {
       default:
         throw 'impossible';
     }
-    return (seasonYear: year, season: season);
+    return AnimeSeasonParam(seasonYear: year, season: season);
   }
 }

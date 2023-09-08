@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'anime_tracker_route_path.dart';
 
 enum TopLevelNavigation {
-  home(
+  discover(
       selectedIcon: Icons.home_filled,
       unSelectedIcon: Icons.home_outlined,
       iconTextId: 'For you',
@@ -44,12 +44,12 @@ extension TopLevelNavigationEx on TopLevelNavigation {
 
   AnimeTrackerRoutePath toRoutePath() {
     switch (this) {
-      case TopLevelNavigation.home:
-        return ForYouRoutePath();
+      case TopLevelNavigation.discover:
+        return DiscoverRoutePath();
       case TopLevelNavigation.bookMark:
-        return BookMarkedRoutePath();
+        return DiscoverRoutePath();
       case TopLevelNavigation.interests:
-        return InterestsRoutePath();
+        return DiscoverRoutePath();
     }
   }
 }

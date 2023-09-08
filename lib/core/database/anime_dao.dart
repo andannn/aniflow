@@ -13,44 +13,46 @@ mixin AnimeTableColumns {
   static const String coverImageColor = 'cover_image_color';
 }
 
-abstract class AnimeDao {
-  Future<List<ShortcutAnimeEntity>> getCurrentSeasonAnimeByPage(
+abstract class AnimeListDao {
+  Future<List<ShortcutAnimeEntity>> getAnimeByPage(String fromTable,
       {required int page, int perPage = defaultPerPageCount});
 
-  Future clearAll();
+  Future clearAll(String fromTable);
 
-  Future upsertAll(List<ShortcutAnimeEntity> animeList);
+  Future upsertAll(String fromTable,
+      {required List<ShortcutAnimeEntity> animeList});
 }
 
-class AnimeDaoImpl extends AnimeDao {
+class AnimeDaoImpl extends AnimeListDao {
   final AnimeDatabase database;
 
   AnimeDaoImpl(this.database);
 
   @override
-  Future clearAll() async {
-    await database.animeDB.delete(Tables.animeTable);
+  Future clearAll(String fromTable) async {
+    await database.animeDB.delete(fromTable);
   }
 
   @override
-  Future upsertAll(List<ShortcutAnimeEntity> animeList) async {
+  Future upsertAll(String fromTable,
+      {required List<ShortcutAnimeEntity> animeList}) async {
     final batch = database.animeDB.batch();
 
     for (var anime in animeList) {
-      batch.insert(Tables.animeTable, anime.toJson(),
+      batch.insert(fromTable, anime.toJson(),
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
-    return await batch.commit();
+    return await batch.commit(noResult: true);
   }
 
   @override
-  Future<List<ShortcutAnimeEntity>> getCurrentSeasonAnimeByPage(
+  Future<List<ShortcutAnimeEntity>> getAnimeByPage(String fromTable,
       {required int page, int perPage = defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
     final List<Map<String, dynamic>> result = await database.animeDB
-        .query(Tables.animeTable, limit: limit, offset: offset);
+        .query(fromTable, limit: limit, offset: offset);
     return result.map((e) => ShortcutAnimeEntity.fromJson(e)).toList();
   }
 }

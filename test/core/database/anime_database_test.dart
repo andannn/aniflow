@@ -14,7 +14,7 @@ void main() {
           romajiTitle: 'Ai no Kusabi (2012)',
           nativeTitle: '間の楔',
           coverImage:
-              'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
+          'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
           coverImageColor: '#6b351a'),
       ShortcutAnimeEntity(
           id: '8917',
@@ -22,7 +22,7 @@ void main() {
           romajiTitle: 'Mouretsu Pirates',
           nativeTitle: 'モーレツ宇宙海賊',
           coverImage:
-              'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
+          'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
           coverImageColor: '#50aee4'),
       ShortcutAnimeEntity(
           id: '9523',
@@ -30,7 +30,7 @@ void main() {
           romajiTitle: 'Minori Scramble!',
           nativeTitle: 'みのりスクランブル!',
           coverImage:
-              'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
+          'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
           coverImageColor: '#f10000')
     ];
 
@@ -43,34 +43,41 @@ void main() {
 
     test('anime_dao_clear_all', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.clearAll();
+      await animeDao.clearAll(Tables.currentSeasonAnimeTable);
     });
 
     test('anime_dao_query_when_null', () async {
       final animeDao = animeDatabase.getAnimeDao();
       final res =
-          await animeDao.getCurrentSeasonAnimeByPage(page: 0, perPage: 5);
+      await animeDao.getAnimeByPage(
+          Tables.currentSeasonAnimeTable, page: 0, perPage: 5);
       expect(res, equals([]));
     });
 
     test('anime_dao_upsert_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertAll(dummyAnimeData);
+      await animeDao.upsertAll(
+          Tables.currentSeasonAnimeTable, animeList: dummyAnimeData);
 
-      final query = await animeDao.getCurrentSeasonAnimeByPage(page: 0);
+      final query = await animeDao.getAnimeByPage(
+          Tables.currentSeasonAnimeTable, page: 0);
       expect(query, equals(dummyAnimeData));
     });
     test('anime_dao_upsert_anime_and_get_by_page', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertAll(dummyAnimeData);
+      await animeDao.upsertAll(
+          Tables.currentSeasonAnimeTable, animeList: dummyAnimeData);
 
-      final queryPage1 = await animeDao.getCurrentSeasonAnimeByPage(page: 1, perPage: 1);
+      final queryPage1 = await animeDao.getAnimeByPage(
+          Tables.currentSeasonAnimeTable, page: 1, perPage: 1);
       expect(queryPage1, equals([dummyAnimeData[0]]));
 
-      final queryPage2 = await animeDao.getCurrentSeasonAnimeByPage(page: 2, perPage: 1);
+      final queryPage2 = await animeDao.getAnimeByPage(
+          Tables.currentSeasonAnimeTable, page: 2, perPage: 1);
       expect(queryPage2, equals([dummyAnimeData[1]]));
 
-      final queryPage3 = await animeDao.getCurrentSeasonAnimeByPage(page: 3, perPage: 1);
+      final queryPage3 = await animeDao.getAnimeByPage(
+          Tables.currentSeasonAnimeTable, page: 3, perPage: 1);
       expect(queryPage3, equals([dummyAnimeData[2]]));
     });
   });

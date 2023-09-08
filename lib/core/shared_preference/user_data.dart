@@ -7,6 +7,7 @@ mixin UserDataKey {
   static const currentSeasonYear = "current_season_year";
   static const currentSeason = "current_season";
   static const showSuggestBoard = "show_suggest_board";
+  static const lastSuccessSync = "last_success_sync";
 }
 
 class AnimeTrackerPreferences {
@@ -47,5 +48,14 @@ class AnimeTrackerPreferences {
 
   bool isNeedShowSuggestBoard() {
     return _preference.getBool(UserDataKey.showSuggestBoard) ?? false;
+  }
+
+  Future setLastSuccessSync(DateTime dateTime) {
+    return _preference.setString(UserDataKey.lastSuccessSync, dateTime.toIso8601String());
+  }
+
+  DateTime? getLastSuccessSync() {
+    final result = _preference.getString(UserDataKey.lastSuccessSync) ?? '';
+    return DateTime.tryParse(result);
   }
 }

@@ -31,7 +31,8 @@ void main() {
 
       final result = await aniListRepository.getAnimePageByCategory(
           category: AnimeCategory.currentSeason, page: 1);
-      final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
+      final dbResult = await animeDao
+          .getAnimeByPage(Tables.currentSeasonAnimeTable, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
@@ -44,7 +45,8 @@ void main() {
 
       final result = await aniListRepository.refreshAnimeByCategory(
           category: AnimeCategory.currentSeason);
-      final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
+      final dbResult = await animeDao
+          .getAnimeByPage(Tables.currentSeasonAnimeTable, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
@@ -57,7 +59,8 @@ void main() {
 
       final result = await aniListRepository.getAnimePageByCategory(
           category: AnimeCategory.nextSeason, page: 1);
-      final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
+      final dbResult = await animeDao
+          .getAnimeByPage(Tables.currentSeasonAnimeTable, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
@@ -70,7 +73,8 @@ void main() {
 
       final result = await aniListRepository.refreshAnimeByCategory(
           category: AnimeCategory.nextSeason);
-      final dbResult = await animeDao.getCurrentSeasonAnimeByPage(page: 1);
+      final dbResult = await animeDao
+          .getAnimeByPage(Tables.currentSeasonAnimeTable, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult

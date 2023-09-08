@@ -19,10 +19,10 @@ void main() async {
 
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
-    RepositoryProvider(
+    RepositoryProvider<AniListRepository>(
         create: (context) => AniListRepositoryImpl(aniListDataSource,
             AnimeDatabase().getAnimeDao(), AnimeTrackerPreferences())),
-    RepositoryProvider(
+    RepositoryProvider<UserDataRepository>(
         create: (context) => UserDataRepositoryImpl(AnimeTrackerPreferences())),
   ], child: const AnimeTrackerApp()));
 }

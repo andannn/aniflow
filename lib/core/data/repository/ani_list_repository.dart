@@ -7,6 +7,7 @@ import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../database/anime_database.dart';
 import 'load_type.dart';
 
 /// default page count of anime.
@@ -100,7 +101,7 @@ class AniListRepositoryImpl extends AniListRepository {
       this.aniListDataSource, this.animeDao, this.preferences);
 
   final AniListDataSource aniListDataSource;
-  final AnimeDao animeDao;
+  final AnimeListDao animeDao;
   final AnimeTrackerPreferences preferences;
 
   @override
@@ -110,6 +111,7 @@ class AniListRepositoryImpl extends AniListRepository {
       int perPage = defaultPerPageCount}) {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
+    String table;
 
     AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
@@ -119,20 +121,26 @@ class AniListRepositoryImpl extends AniListRepository {
       case AnimeCategory.currentSeason:
         status = AnimeStatus.releasing;
         seasonParam = currentSeasonParam;
+        table = Tables.currentSeasonAnimeTable;
       case AnimeCategory.nextSeason:
         status = AnimeStatus.notYetReleased;
         seasonParam = getNextSeasonParam(currentSeasonParam);
+        table = Tables.nextSeasonAnimeTable;
       case AnimeCategory.trending:
         status = null;
         seasonParam = null;
+        table = Tables.trendingSeasonAnimeTable;
     }
-    return _loadAnimePage(type: LoadType.append, animeListParam: (
-      page: page,
-      perPage: perPage,
-      seasonYear: seasonParam?.seasonYear,
-      season: seasonParam?.season,
-      status: status
-    ));
+    return _loadAnimePage(
+        fromTable: table,
+        type: LoadType.append,
+        animeListParam: (
+          page: page,
+          perPage: perPage,
+          seasonYear: seasonParam?.seasonYear,
+          season: seasonParam?.season,
+          status: status
+        ));
   }
 
   @override
@@ -140,6 +148,7 @@ class AniListRepositoryImpl extends AniListRepository {
       {required AnimeCategory category}) {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
+    String table;
 
     AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
@@ -149,31 +158,38 @@ class AniListRepositoryImpl extends AniListRepository {
       case AnimeCategory.currentSeason:
         status = AnimeStatus.releasing;
         seasonParam = currentSeasonParam;
+        table = Tables.currentSeasonAnimeTable;
       case AnimeCategory.nextSeason:
         status = AnimeStatus.notYetReleased;
         seasonParam = getNextSeasonParam(currentSeasonParam);
+        table = Tables.nextSeasonAnimeTable;
       case AnimeCategory.trending:
         status = null;
         seasonParam = null;
+        table = Tables.trendingSeasonAnimeTable;
     }
-    return _loadAnimePage(type: LoadType.append, animeListParam: (
-      page: 1,
-      perPage: defaultPerPageCount,
-      seasonYear: seasonParam?.seasonYear,
-      season: seasonParam?.season,
-      status: status
-    ));
+    return _loadAnimePage(
+        fromTable: table,
+        type: LoadType.refresh,
+        animeListParam: (
+          page: 1,
+          perPage: defaultPerPageCount,
+          seasonYear: seasonParam?.seasonYear,
+          season: seasonParam?.season,
+          status: status
+        ));
   }
 
   Future<LoadResult<ShortcutAnimeModel>> _loadAnimePage(
-      {required LoadType type,
+      {required String fromTable,
+      required LoadType type,
       required AnimePageQueryParam animeListParam}) async {
     try {
       switch (type) {
         case LoadType.refresh:
 
           /// clear the dao when refresh.
-          await animeDao.clearAll();
+          await animeDao.clearAll(fromTable);
 
           /// get data from network datasource.
           final networkRes = await aniListDataSource.getNetworkAnimePage(
@@ -183,14 +199,14 @@ class AniListRepositoryImpl extends AniListRepository {
           final dbAnimeList = networkRes
               .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
               .toList();
-          await animeDao.upsertAll(dbAnimeList);
+          await animeDao.upsertAll(fromTable, animeList: dbAnimeList);
 
           /// load success, return result.
           return LoadSuccess(dbAnimeList
               .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
               .toList());
         case LoadType.append:
-          final dbResult = await animeDao.getCurrentSeasonAnimeByPage(
+          final dbResult = await animeDao.getAnimeByPage(fromTable,
               page: animeListParam.page, perPage: animeListParam.perPage);
           if (dbResult.length < animeListParam.perPage) {
             /// the data in database is not enough for one page. try to get data from network.
@@ -201,7 +217,7 @@ class AniListRepositoryImpl extends AniListRepository {
             final dbAnimeList = networkRes
                 .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
                 .toList();
-            await animeDao.upsertAll(dbAnimeList);
+            await animeDao.upsertAll(fromTable, animeList: dbAnimeList);
 
             /// load success, return result.
             return LoadSuccess(dbAnimeList

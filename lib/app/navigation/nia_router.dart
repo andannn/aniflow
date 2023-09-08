@@ -12,7 +12,7 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
 
   RouteObserver routeObserver = RouteObserver();
 
-  List<AnimeTrackerRoutePath> _backStack = [ForYouRoutePath()];
+  List<AnimeTrackerRoutePath> _backStack = [DiscoverRoutePath()];
 
   /// get current path.
   AnimeTrackerRoutePath get currentPath => _backStack.last;
@@ -57,7 +57,7 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
 
   @override
   Future<bool> popRoute() async {
-    if (currentPath is ForYouRoutePath) {
+    if (currentPath is DiscoverRoutePath) {
       // Already in last page, nothing to do, just quit app.
       return false;
     }
@@ -67,10 +67,10 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
   }
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
-    if (navigation == TopLevelNavigation.home) {
-      _backStack = [ForYouRoutePath()];
+    if (navigation == TopLevelNavigation.discover) {
+      _backStack = [DiscoverRoutePath()];
     } else {
-      _backStack = [ForYouRoutePath(), navigation.toRoutePath()];
+      _backStack = [DiscoverRoutePath(), navigation.toRoutePath()];
     }
 
     notifyListeners();

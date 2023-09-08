@@ -34,7 +34,7 @@ class ShortcutAnimeEntity with _$ShortcutAnimeEntity {
         englishTitle: model.title?.english ?? '',
         romajiTitle: model.title?.romaji ?? '',
         nativeTitle: model.title?.native ?? '',
-        coverImage: model.coverImage['medium'] ?? '',
+        coverImage: model.coverImage['large'] ?? '',
         coverImageColor: model.coverImage['color'] ?? '',
       );
 }

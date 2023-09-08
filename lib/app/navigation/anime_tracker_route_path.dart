@@ -1,4 +1,5 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
+import 'package:anime_tracker/feature/discover/discover.dart';
 import 'package:flutter/material.dart';
 
 sealed class AnimeTrackerRoutePath {}
@@ -19,16 +20,8 @@ abstract class TopLevelRoutePath extends AnimeTrackerRoutePath {
   int get hashCode => topLevel.hashCode;
 }
 
-class ForYouRoutePath extends TopLevelRoutePath {
-  ForYouRoutePath() : super(TopLevelNavigation.home);
-}
-
-class BookMarkedRoutePath extends TopLevelRoutePath {
-  BookMarkedRoutePath() : super(TopLevelNavigation.bookMark);
-}
-
-class InterestsRoutePath extends TopLevelRoutePath {
-  InterestsRoutePath() : super(TopLevelNavigation.interests);
+class DiscoverRoutePath extends TopLevelRoutePath {
+  DiscoverRoutePath() : super(TopLevelNavigation.discover);
 }
 
 class TopicRoutePath extends AnimeTrackerRoutePath {
@@ -38,16 +31,11 @@ class TopicRoutePath extends AnimeTrackerRoutePath {
 
 extension AnimeTrackerRoutePathEx on AnimeTrackerRoutePath {
   Page generatePage() {
-    // if (this is ForYouRoutePath) {
-    //   return forYouPage;
-    // } else if (this is BookMarkedRoutePath) {
-    //   return bookMarkedPage;
-    // } else if (this is InterestsRoutePath) {
-    //   return interestsPage;
-    // } else if (this is TopicRoutePath) {
-    //   return createTopicPage((this as TopicRoutePath).topicId);
-    // }else {
-      return const MaterialPage(child: SizedBox());
-    // }
+    switch(this) {
+      case DiscoverRoutePath(topLevel: final _):
+        return MaterialPage(key: UniqueKey(), child: const DiscoverPage());
+      default:
+        return const MaterialPage(child: SizedBox());
+    }
   }
 }

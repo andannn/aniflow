@@ -1,8 +1,13 @@
 import 'package:anime_tracker/app/ui/colors.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/data/repository/userDataRepository.dart';
 import '../local/anime_tracker_localizations_delegate.dart';
 import '../navigation/nia_router.dart';
 import '../navigation/top_level_navigation.dart';
@@ -50,12 +55,10 @@ class AnimeTrackerAppState extends State<AnimeTrackerApp> {
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,
-            // extensions: [lightCustomColors],
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: darkColorScheme,
-            // extensions: [darkCustomColors],
           ),
           localizationsDelegates: [
             AnimeTrackerLocalizationsDelegate(),
@@ -81,13 +84,14 @@ class AnimeTrackerAppScaffold extends StatefulWidget {
   const AnimeTrackerAppScaffold({super.key});
 
   @override
-  State<AnimeTrackerAppScaffold> createState() => _AnimeTrackerAppScaffoldState();
+  State<AnimeTrackerAppScaffold> createState() =>
+      _AnimeTrackerAppScaffoldState();
 }
 
 class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   final animeTrackerRouterDelegate = AnimeTrackerRouterDelegate();
 
-  var currentNavigation = TopLevelNavigation.home;
+  var currentNavigation = TopLevelNavigation.discover;
   var needShowAppbar = true;
 
   @override
@@ -96,7 +100,8 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
     animeTrackerRouterDelegate.addListener(() {
       setState(() {
-        currentNavigation = animeTrackerRouterDelegate.currentTopLevelNavigation;
+        currentNavigation =
+            animeTrackerRouterDelegate.currentTopLevelNavigation;
         needShowAppbar = animeTrackerRouterDelegate.needShowTopAppBar;
       });
     });
@@ -111,34 +116,35 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: needShowAppbar ? _animeTrackerAppBar(navigation: currentNavigation) : null,
-      body: Router(routerDelegate: animeTrackerRouterDelegate, backButtonDispatcher: RootBackButtonDispatcher()),
-      bottomNavigationBar: _animeTrackerNavigationBar(
-          selected: currentNavigation,
-          onNavigateToDestination: (navigation) async {
-            animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
-          }),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DiscoverBloc(
+              userDataRepository: context.read<UserDataRepository>(),
+              aniListRepository: context.read<AniListRepository>()),
+        )
+      ],
+      child: Scaffold(
+        body: Router(
+            routerDelegate: animeTrackerRouterDelegate,
+            backButtonDispatcher: RootBackButtonDispatcher()),
+        bottomNavigationBar: _animeTrackerNavigationBar(
+            selected: currentNavigation,
+            onNavigateToDestination: (navigation) async {
+              animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
+            }),
+      ),
     );
   }
 
-  PreferredSizeWidget _animeTrackerAppBar({
-    required TopLevelNavigation navigation,
-    VoidCallback? onSettingClick,
-    VoidCallback? onSearchClick,
-  }) =>
-      AppBar(
-        leading: IconButton(onPressed: onSearchClick, icon: const Icon(Icons.search)),
-        title: Align(alignment: Alignment.center, child: Text(navigation.titleTextId)),
-        actions: [IconButton(onPressed: onSettingClick, icon: const Icon(Icons.settings))],
-      );
-
   Widget? _animeTrackerNavigationBar(
-      {required TopLevelNavigation selected, required Function(TopLevelNavigation) onNavigateToDestination}) {
+      {required TopLevelNavigation selected,
+      required Function(TopLevelNavigation) onNavigateToDestination}) {
     final currentIndex = TopLevelNavigation.values.indexOf(selected);
     return NavigationBar(
       destinations: TopLevelNavigation.values
-          .map((navigation) => navigation.toBottomNavigationBarItem(isSelected: navigation == selected))
+          .map((navigation) => navigation.toBottomNavigationBarItem(
+              isSelected: navigation == selected))
           .toList(),
       onDestinationSelected: (index) {
         if (currentIndex != index) {
