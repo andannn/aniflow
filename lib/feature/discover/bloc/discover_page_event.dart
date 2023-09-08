@@ -1,0 +1,4 @@
+
+sealed class DiscoverEvent {
+
+}

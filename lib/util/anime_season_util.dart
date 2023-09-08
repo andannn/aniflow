@@ -2,7 +2,7 @@ import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 mixin AnimeSeasonUtil {
   /// get anime season params by DateTime.
-  static (int animeYear, AnimeSeason season) getAnimeSeasonByDataTime(DateTime time) {
+  static AnimeSeasonParam getAnimeSeasonByDataTime(DateTime time) {
     final year = time.year;
     final month = time.month;
 
@@ -19,6 +19,6 @@ mixin AnimeSeasonUtil {
       default:
         throw 'impossible';
     }
-    return (year, season);
+    return (seasonYear: year, season: season);
   }
 }

@@ -5,6 +5,7 @@ import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 
 import 'load_type.dart';
 
@@ -45,10 +46,16 @@ enum AnimeStatus {
   const AnimeStatus(this.sqlTypeString);
 }
 
-typedef AnimeSeasonParam = ({
-  int seasonYear,
-  AnimeSeason season,
-});
+/// parameter present to anime season.
+class AnimeSeasonParam extends Equatable {
+  final int seasonYear;
+  final AnimeSeason season;
+
+  const AnimeSeasonParam({required this.seasonYear, required this.season});
+
+  @override
+  List<Object?> get props => [seasonYear, season];
+}
 
 /// get next bangumi season.
 AnimeSeasonParam getNextSeasonParam(AnimeSeasonParam current) {
@@ -68,7 +75,7 @@ AnimeSeasonParam getNextSeasonParam(AnimeSeasonParam current) {
       nextSeasonYear = current.seasonYear + 1;
       nextSeason = AnimeSeason.winter;
   }
-  return (
+  return AnimeSeasonParam(
     seasonYear: nextSeasonYear,
     season: nextSeason,
   );
@@ -104,7 +111,7 @@ class AniListRepositoryImpl extends AniListRepository {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
 
-    AnimeSeasonParam currentSeasonParam = (
+    AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
       season: preferences.getCurrentSeason(),
     );
@@ -134,7 +141,7 @@ class AniListRepositoryImpl extends AniListRepository {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
 
-    AnimeSeasonParam currentSeasonParam = (
+    AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
       season: preferences.getCurrentSeason(),
     );

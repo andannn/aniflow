@@ -1,8 +1,12 @@
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/userDataRepository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app/ui/app.dart';
+import 'core/network/ani_list_data_source.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,5 +18,11 @@ void main() async {
   await AnimeDatabase().initDatabase();
 
   /// run app after core instance initialized.
-  runApp(const AnimeTrackerApp());
+  runApp(MultiRepositoryProvider(providers: [
+    RepositoryProvider(
+        create: (context) => AniListRepositoryImpl(aniListDataSource,
+            AnimeDatabase().getAnimeDao(), AnimeTrackerPreferences())),
+    RepositoryProvider(
+        create: (context) => UserDataRepositoryImpl(AnimeTrackerPreferences())),
+  ], child: const AnimeTrackerApp()));
 }
