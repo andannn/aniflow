@@ -8,6 +8,8 @@ mixin UserDataKey {
   static const currentSeason = "current_season";
   static const showSuggestBoard = "show_suggest_board";
   static const lastSuccessSync = "last_success_sync";
+  static const authToken = "auth_token";
+  static const authExpiredTime = "auth_expired_time";
 }
 
 class AnimeTrackerPreferences {
@@ -56,6 +58,23 @@ class AnimeTrackerPreferences {
 
   DateTime? getLastSuccessSync() {
     final result = _preference.getString(UserDataKey.lastSuccessSync) ?? '';
+    return DateTime.tryParse(result);
+  }
+
+  Future setAuthToken(String authToken) {
+    return _preference.setString(UserDataKey.authToken, authToken);
+  }
+
+  String? getAuthToken() {
+    return _preference.getString(UserDataKey.authToken);
+  }
+
+  Future setAuthExpiredTime(DateTime dateTime) {
+    return _preference.setString(UserDataKey.authExpiredTime, dateTime.toIso8601String());
+  }
+
+  DateTime? getAuthExpiredTime() {
+    final result = _preference.getString(UserDataKey.authExpiredTime) ?? '';
     return DateTime.tryParse(result);
   }
 }

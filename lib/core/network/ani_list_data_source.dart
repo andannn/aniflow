@@ -2,30 +2,22 @@ import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:dio/dio.dart';
 
-import 'api/ani_list_graphql.dart';
+import 'api/ani_list_query_graphql.dart';
 import 'model/short_anime_dto.dart';
 
-final AniListDataSource aniListDataSource = _AniListDataSourceImpl();
-
 /// Anime list data source get from AniList.
-abstract class AniListDataSource {
+class AniListDataSource {
+  static AniListDataSource? _instance;
+
+  factory AniListDataSource() => _instance ??= AniListDataSource._();
+
+  AniListDataSource._();
+
   /// throw [DioException]
-  Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
-    required AnimePageQueryParam animeListParam,
-  });
-
-  Future<DetailAnimeDto> getNetworkAnime({
-    required int id,
-  });
-}
-
-class _AniListDataSourceImpl implements AniListDataSource {
-  @override
   Future<DetailAnimeDto> getNetworkAnime({required int id}) {
     throw UnimplementedError();
   }
 
-  @override
   Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
     required AnimePageQueryParam animeListParam,
   }) async {

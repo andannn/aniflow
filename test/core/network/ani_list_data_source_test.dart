@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('short_network_anime_model_from_json', () {
     test('get_topics_convert_to_db_model', () async {
-      final rest = await aniListDataSource.getNetworkAnimePage(animeListParam: (
+      final rest = await AniListDataSource().getNetworkAnimePage(animeListParam: (
         page: 1,
         perPage: 10,
         seasonYear: 2023,

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,6 +12,7 @@ mixin Tables {
   static const String currentSeasonAnimeTable = 'current_season_anime_table';
   static const String nextSeasonAnimeTable = 'next_season_anime_table';
   static const String trendingSeasonAnimeTable = 'trending_season_anime_table';
+  static const String userDataTable = 'user_data_table';
 }
 
 class AnimeDatabase {
@@ -23,6 +25,8 @@ class AnimeDatabase {
   Database? _animeDB;
 
   AnimeListDao? _animeDao;
+
+  UserDataDao? _userDataDao;
 
   Database get animeDB => _animeDB!;
 
@@ -37,35 +41,43 @@ class AnimeDatabase {
     await _createTables();
   }
 
-  AnimeListDao getAnimeDao() {
-    if (_animeDB == null) {
-      throw "";
-    }
+  AnimeListDao getAnimeDao() => _animeDao ??= AnimeDaoImpl(this);
 
-    return _animeDao ??= AnimeDaoImpl(this);
-  }
+  UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
   Future _createTables() async {
-    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.currentSeasonAnimeTable} ('
+    await _animeDB!.execute(
+        'CREATE TABLE IF NOT EXISTS ${Tables.currentSeasonAnimeTable} ('
         '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
         '${AnimeTableColumns.englishTitle} TEXT, '
         '${AnimeTableColumns.romajiTitle} TEXT, '
         '${AnimeTableColumns.nativeTitle} TEXT, '
         '${AnimeTableColumns.coverImage} TEXT, '
         '${AnimeTableColumns.coverImageColor} TEXT)');
-    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.nextSeasonAnimeTable} ('
+
+    await _animeDB!
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.nextSeasonAnimeTable} ('
+            '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
+            '${AnimeTableColumns.englishTitle} TEXT, '
+            '${AnimeTableColumns.romajiTitle} TEXT, '
+            '${AnimeTableColumns.nativeTitle} TEXT, '
+            '${AnimeTableColumns.coverImage} TEXT, '
+            '${AnimeTableColumns.coverImageColor} TEXT)');
+
+    await _animeDB!.execute(
+        'CREATE TABLE IF NOT EXISTS ${Tables.trendingSeasonAnimeTable} ('
         '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
         '${AnimeTableColumns.englishTitle} TEXT, '
         '${AnimeTableColumns.romajiTitle} TEXT, '
         '${AnimeTableColumns.nativeTitle} TEXT, '
         '${AnimeTableColumns.coverImage} TEXT, '
         '${AnimeTableColumns.coverImageColor} TEXT)');
-    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.trendingSeasonAnimeTable} ('
-        '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
-        '${AnimeTableColumns.englishTitle} TEXT, '
-        '${AnimeTableColumns.romajiTitle} TEXT, '
-        '${AnimeTableColumns.nativeTitle} TEXT, '
-        '${AnimeTableColumns.coverImage} TEXT, '
-        '${AnimeTableColumns.coverImageColor} TEXT)');
+
+    await _animeDB!.execute(
+        'CREATE TABLE IF NOT EXISTS ${Tables.userDataTable} ('
+            '${UserDataTableColumns.id} TEXT PRIMARY KEY, '
+            '${UserDataTableColumns.name} TEXT, '
+            '${UserDataTableColumns.avatarImage} TEXT, '
+            '${UserDataTableColumns.bannerImage} TEXT)');
   }
 }

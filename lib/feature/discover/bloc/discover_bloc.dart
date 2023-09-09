@@ -4,11 +4,10 @@ import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/load_type.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
-import '../../../core/common/globle_staic_constants.dart';
+import '../../../core/common/global_static_constants.dart';
 import '../../../core/data/repository/userDataRepository.dart';
 import '../../../util/anime_season_util.dart';
 

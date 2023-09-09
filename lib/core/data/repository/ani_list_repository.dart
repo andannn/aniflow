@@ -2,13 +2,14 @@ import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
-import 'package:anime_tracker/core/network/api/ani_list_graphql.dart';
+import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../database/anime_database.dart';
-import 'load_type.dart';
+
+part 'load_type.dart';
 
 /// default page count of anime.
 const int defaultPerPageCount = 9;

@@ -1,3 +1,5 @@
+part of 'ani_list_repository.dart';
+
 enum LoadType { refresh, append }
 
 sealed class LoadResult<T> {}

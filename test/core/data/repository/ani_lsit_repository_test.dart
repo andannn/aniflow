@@ -1,6 +1,5 @@
 import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/load_type.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
@@ -22,7 +21,7 @@ void main() {
       await AnimeTrackerPreferences().setCurrentSeason(AnimeSeason.summer);
       await animeDatabase.initDatabase(isTest: true);
 
-      aniListRepository = AniListRepositoryImpl(aniListDataSource,
+      aniListRepository = AniListRepositoryImpl(AniListDataSource(),
           animeDatabase.getAnimeDao(), AnimeTrackerPreferences());
     });
 

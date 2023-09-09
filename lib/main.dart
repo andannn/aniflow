@@ -1,4 +1,5 @@
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/repository/userDataRepository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
@@ -20,9 +21,11 @@ void main() async {
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
     RepositoryProvider<AniListRepository>(
-        create: (context) => AniListRepositoryImpl(aniListDataSource,
+        create: (context) => AniListRepositoryImpl(AniListDataSource(),
             AnimeDatabase().getAnimeDao(), AnimeTrackerPreferences())),
     RepositoryProvider<UserDataRepository>(
         create: (context) => UserDataRepositoryImpl(AnimeTrackerPreferences())),
+    RepositoryProvider<AuthRepository>(
+        create: (context) => AuthRepositoryImpl()),
   ], child: const AnimeTrackerApp()));
 }

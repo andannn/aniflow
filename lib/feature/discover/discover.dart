@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../app/local/anime_tracker_localizations.dart';
-import '../../app/local/anime_tracker_localizations_delegate.dart';
+import '../auth/auth_dialog.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -35,7 +35,14 @@ class DiscoverScreen extends StatelessWidget {
         final nextSeasonState = state.nextSeasonAnimePagingState;
         final trendingState = state.trendingAnimePagingState;
         return CustomScrollView(slivers: [
-          const SliverAppBar(title: Text('Discover')),
+          SliverAppBar(
+            title: Text(AnimeTrackerLocalizations.of(context).discover),
+            actions: [
+              IconButton(
+                  onPressed: () => showAuthDialog(context),
+                  icon: const Icon(Icons.person_outline))
+            ],
+          ),
           SliverToBoxAdapter(
             child: _buildAnimeCategoryPreview(
                 AnimeCategory.currentSeason, currentSeasonState),

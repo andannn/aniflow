@@ -53,6 +53,7 @@ dependencies:
   cached_network_image: ^3.2.3
   google_fonts: ^5.1.0
   logger: ^2.0.2
+  url_launcher: ^6.1.14
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
+import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -33,6 +34,8 @@ void main() {
           'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
           coverImageColor: '#f10000')
     ];
+
+    final dummyUserData = UserDataEntity(id: 'aa', avatar: "bb");
 
     setUp(() async {
       sqfliteFfiInit();
@@ -79,6 +82,35 @@ void main() {
       final queryPage3 = await animeDao.getAnimeByPage(
           Tables.currentSeasonAnimeTable, page: 3, perPage: 1);
       expect(queryPage3, equals([dummyAnimeData[2]]));
+    });
+
+    test('user_data_insert_test', () async {
+      final userDataDao = animeDatabase.getUserDataDao();
+
+      await userDataDao.updateUserData(dummyUserData);
+      final res = await userDataDao.getUserData();
+      expect(res, equals(dummyUserData));
+    });
+    test('get_user_data_stream_test', () async {
+      final userDataDao = animeDatabase.getUserDataDao();
+
+      await userDataDao.updateUserData(dummyUserData);
+      final res = await userDataDao.getUserDataStream().first;
+      expect(res, equals(dummyUserData));
+    });
+    test('get_none_user_data_stream_test', () async {
+      final userDataDao = animeDatabase.getUserDataDao();
+
+      final res = await userDataDao.getUserDataStream().first;
+      expect(res, equals(null));
+    });
+    test('remove_user_data_stream_test', () async {
+      final userDataDao = animeDatabase.getUserDataDao();
+      await userDataDao.updateUserData(dummyUserData);
+      await userDataDao.removeUserData();
+
+      final res = await userDataDao.getUserDataStream().first;
+      expect(res, equals(null));
     });
   });
 }
