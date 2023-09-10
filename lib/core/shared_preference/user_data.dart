@@ -61,16 +61,24 @@ class AnimeTrackerPreferences {
     return DateTime.tryParse(result);
   }
 
-  Future setAuthToken(String authToken) {
-    return _preference.setString(UserDataKey.authToken, authToken);
+  Future setAuthToken(String? authToken) {
+    if (authToken != null) {
+      return _preference.setString(UserDataKey.authToken, authToken);
+    } else {
+      return _preference.remove(UserDataKey.authToken);
+    }
   }
 
   String? getAuthToken() {
     return _preference.getString(UserDataKey.authToken);
   }
 
-  Future setAuthExpiredTime(DateTime dateTime) {
-    return _preference.setString(UserDataKey.authExpiredTime, dateTime.toIso8601String());
+  Future setAuthExpiredTime(DateTime? dateTime) {
+    if (dateTime != null) {
+      return _preference.setString(UserDataKey.authExpiredTime, dateTime.toIso8601String());
+    } else {
+      return _preference.remove(UserDataKey.authExpiredTime);
+    }
   }
 
   DateTime? getAuthExpiredTime() {

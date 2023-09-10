@@ -3,6 +3,8 @@ import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'image_load_error_widget.dart';
+
 class AnimePreviewItem extends StatelessWidget {
   const AnimePreviewItem(
       {super.key, required this.model, required this.onClick, this.width});
@@ -27,7 +29,7 @@ class AnimePreviewItem extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: model.coverImage,
                 fit: BoxFit.cover,
-                errorWidget: _buildErrorWidget,
+                errorWidget: buildErrorWidget,
               ),
             ),
             Expanded(
@@ -58,14 +60,5 @@ class AnimePreviewItem extends StatelessWidget {
       default:
         return title.english.isNotEmpty ? title.english : title.romaji;
     }
-  }
-
-  Widget _buildErrorWidget(BuildContext context, String url, error) {
-    return Center(
-      child: Opacity(
-        opacity: 0.5,
-        child: Icon(Icons.error, color: Theme.of(context).colorScheme.error),
-      ),
-    );
   }
 }

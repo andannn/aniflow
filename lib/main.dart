@@ -6,7 +6,7 @@ import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'app/ui/app.dart';
+import 'app/app.dart';
 import 'core/network/ani_list_data_source.dart';
 
 void main() async {

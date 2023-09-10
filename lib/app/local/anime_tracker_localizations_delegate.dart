@@ -2,14 +2,14 @@
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:flutter/cupertino.dart';
 
-class AnimeTrackerLocalizationsDelegate extends LocalizationsDelegate<AnimeTrackerLocalizations> {
+class AnimeTrackerLocalizationsDelegate extends LocalizationsDelegate<ATLocalizations> {
   @override
   bool isSupported(Locale locale) {
     return ['en', 'Jpan', 'ja', 'zh'].contains(locale.languageCode);
   }
 
   @override
-  Future<AnimeTrackerLocalizations> load(Locale locale) async {
+  Future<ATLocalizations> load(Locale locale) async {
     switch (locale.languageCode) {
       case 'Jpan':
       case 'ja':
@@ -22,7 +22,7 @@ class AnimeTrackerLocalizationsDelegate extends LocalizationsDelegate<AnimeTrack
   }
 
   @override
-  bool shouldReload(covariant LocalizationsDelegate<AnimeTrackerLocalizations> old) {
+  bool shouldReload(covariant LocalizationsDelegate<ATLocalizations> old) {
     return false;
   }
 

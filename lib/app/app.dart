@@ -1,15 +1,19 @@
 import 'package:anime_tracker/app/ui/colors.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../../core/data/repository/userDataRepository.dart';
-import '../local/anime_tracker_localizations_delegate.dart';
-import '../navigation/nia_router.dart';
-import '../navigation/top_level_navigation.dart';
+import '../core/data/repository/userDataRepository.dart';
+import 'local/anime_tracker_localizations_delegate.dart';
+import 'navigation/nia_router.dart';
+import 'navigation/top_level_navigation.dart';
+
+/// context of app root.
+BuildContext? globalContext;
 
 class AnimeTrackerApp extends StatefulWidget {
   const AnimeTrackerApp({super.key});
@@ -115,12 +119,15 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    globalContext = context;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => DiscoverBloc(
-              userDataRepository: context.read<UserDataRepository>(),
-              aniListRepository: context.read<AniListRepository>()),
+            userDataRepository: context.read<UserDataRepository>(),
+            aniListRepository: context.read<AniListRepository>(),
+            authRepository: context.read<AuthRepository>(),
+          ),
         )
       ],
       child: Scaffold(

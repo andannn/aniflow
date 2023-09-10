@@ -1,18 +1,34 @@
+import 'package:anime_tracker/app/app.dart';
 import 'package:flutter/material.dart';
 
-abstract class AnimeTrackerLocalizations {
+abstract class ATLocalizations {
   String get trendingNowLabel;
+
   String get popularThisSeasonLabel;
+
   String get upComingNextSeasonLabel;
+
   String get discover;
 
-  static AnimeTrackerLocalizations of(BuildContext context) {
-    return Localizations.of<AnimeTrackerLocalizations>(
-        context, AnimeTrackerLocalizations)!;
+  String get login;
+
+  String get logout;
+
+  String get logoutSuccessMessage;
+
+  String get loginSuccessMessage;
+
+  String get loginFailedMessage;
+
+  String get dataRefreshed;
+
+  static ATLocalizations of([BuildContext? context]) {
+    return Localizations.of<ATLocalizations>(
+        context ?? globalContext!, ATLocalizations)!;
   }
 }
 
-class EnAnimeTrackerLocalizations extends AnimeTrackerLocalizations {
+class EnAnimeTrackerLocalizations extends ATLocalizations {
   @override
   String get trendingNowLabel => 'Trending now';
 
@@ -24,9 +40,27 @@ class EnAnimeTrackerLocalizations extends AnimeTrackerLocalizations {
 
   @override
   String get discover => 'Discover';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get loginSuccessMessage => 'Login success!';
+
+  @override
+  String get loginFailedMessage => 'Login failed';
+
+  @override
+  String get dataRefreshed => 'Anime data is synced!';
+
+  @override
+  String get logoutSuccessMessage => 'Logout success!';
 }
 
-class JaAnimeTrackerLocalizations extends AnimeTrackerLocalizations {
+class JaAnimeTrackerLocalizations extends ATLocalizations {
   @override
   String get trendingNowLabel => 'トレンド';
 
@@ -38,9 +72,27 @@ class JaAnimeTrackerLocalizations extends AnimeTrackerLocalizations {
 
   @override
   String get discover => 'お探し';
+
+  @override
+  String get login => 'ログイン';
+
+  @override
+  String get logout => 'ログアウト';
+
+  @override
+  String get loginSuccessMessage => 'ログイン成功！';
+
+  @override
+  String get loginFailedMessage => 'ログインに失敗しました';
+
+  @override
+  String get dataRefreshed => 'アニメ情報とサーバー同期しました！';
+
+  @override
+  String get logoutSuccessMessage => 'ログアウトしました';
 }
 
-class CNAnimeTrackerLocalizations extends AnimeTrackerLocalizations {
+class CNAnimeTrackerLocalizations extends ATLocalizations {
   @override
   String get trendingNowLabel => '趋势';
 
@@ -52,4 +104,22 @@ class CNAnimeTrackerLocalizations extends AnimeTrackerLocalizations {
 
   @override
   String get discover => '探索';
+
+  @override
+  String get login => '登陆';
+
+  @override
+  String get logout => '登出';
+
+  @override
+  String get loginSuccessMessage => '登录成功！';
+
+  @override
+  String get loginFailedMessage => '登陆失败';
+
+  @override
+  String get dataRefreshed => '动画信息和服务器同步了!';
+
+  @override
+  String get logoutSuccessMessage => '登出成功';
 }

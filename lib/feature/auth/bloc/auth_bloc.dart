@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:anime_tracker/app/app.dart';
+import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/designsystem/widget/anime_tracker_snackbar.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/data/logger/logger.dart';
 import 'auth_ui_state.dart';
@@ -31,10 +35,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnLogoutButtonTapped>(_onLogoutButtonTapped);
     on<_OnUserDataChanged>(_onUserDataChanged);
 
-    _userDataSub = authRepository.getUserDataStream().listen((userDataNullable) {
+    _userDataSub =
+        authRepository.getUserDataStream().listen((userDataNullable) {
       add(_OnUserDataChanged(userDataNullable));
     });
   }
+
+  final AuthRepository _authRepository;
 
   StreamSubscription? _userDataSub;
 
@@ -43,6 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     super.onChange(change);
     logger.d('JQN change ${change.nextState}');
   }
+
   @override
   Future<void> close() {
     _userDataSub?.cancel();
@@ -50,20 +58,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return super.close();
   }
 
-  final AuthRepository _authRepository;
-
   Future<void> _onLoginButtonTapped(
       OnLoginButtonTapped event, Emitter<AuthState> emit) async {
     final isSuccess = await _authRepository.awaitAuthLogin();
     if (isSuccess) {
       logger.d('login success');
+      showSnackBarMessage(label: ATLocalizations.of().loginSuccessMessage);
     } else {
-// TODO: add auth failed process.
+      showSnackBarMessage(label: ATLocalizations.of().loginFailedMessage);
     }
   }
 
   FutureOr<void> _onLogoutButtonTapped(
-      OnLogoutButtonTapped event, Emitter<AuthState> emit) {}
+      OnLogoutButtonTapped event, Emitter<AuthState> emit) async {
+    await _authRepository.logout();
+    Navigator.pop(globalContext!);
+    showSnackBarMessage(label: ATLocalizations.of().logoutSuccessMessage);
+  }
 
   FutureOr<void> _onUserDataChanged(
       _OnUserDataChanged event, Emitter<AuthState> emit) {

@@ -73,7 +73,11 @@ class AuthRepositoryImpl implements AuthRepository {
   FutureOr<bool> isTokenValid() => authDataSource.isTokenValid();
 
   @override
-  Future logout() => userDataDao.removeUserData();
+  Future logout() async {
+    await userDataDao.removeUserData();
+    await preferences.setAuthExpiredTime(null);
+    await preferences.setAuthToken(null);
+  }
 
   @override
   Stream<UserData?> getUserDataStream() =>

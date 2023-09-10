@@ -1,6 +1,6 @@
 
 mixin Config {
-  static const refreshIntervalInHours = 24;
+  static const refreshIntervalInMinutes = 5;
 }
 
 var isUnitTest = false;

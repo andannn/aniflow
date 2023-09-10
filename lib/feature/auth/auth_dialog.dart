@@ -1,6 +1,11 @@
+import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/designsystem/widget/avatar_icon.dart';
+import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_bloc.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_ui_state.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +22,9 @@ class AuthDialog extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           AuthBloc(authRepository: context.read<AuthRepository>()),
-      child: const _AuthDialogContent(),
+      child: const AlertDialog(
+        content: _AuthDialogContent(),
+      ),
     );
   }
 }
@@ -28,19 +35,67 @@ class _AuthDialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) => AlertDialog(
-        content: Wrap(
-          direction: Axis.vertical,
-          children: [
-            TextButton(
-                onPressed: () =>
-                    context.read<AuthBloc>().add(OnLoginButtonTapped()),
-                child: Text('Login')),
-            Divider(),
-          ],
-        ),
-      ),
+      builder: (context, state) {
+        final userData = state.userData;
+        final isLoggedIn = state.isLoggedIn;
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Wrap(
+            children: [
+              Column(
+                children: [
+                  _buildUserInfoWidget(context, userData, isLoggedIn),
+                  const Divider(height: 12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: _buildLoginControlBar(context, isLoggedIn),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
       bloc: AuthBloc(authRepository: context.read<AuthRepository>()),
     );
+  }
+
+  Widget _buildUserInfoWidget(
+      BuildContext context, UserData? userData, bool isLoggedIn) {
+    final avatarUrl = userData?.avatar;
+    final bannerUrl = userData?.bannerImage;
+    final userName = userData?.name;
+
+    if (isLoggedIn) {
+      return Row(
+        children: [
+          buildAvatarIcon(context, avatarUrl!),
+          const SizedBox(width: 8),
+          Text(
+            userName!,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
+          )
+        ],
+      );
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  Widget _buildLoginControlBar(BuildContext context, bool isLoggedIn) {
+    if (isLoggedIn) {
+      return TextButton(
+          onPressed: () {
+            context.read<AuthBloc>().add(OnLogoutButtonTapped());
+          },
+          child: Text(ATLocalizations.of(context).logout));
+    } else {
+      return TextButton(
+          onPressed: () {
+            context.read<AuthBloc>().add(OnLoginButtonTapped());
+          },
+          child: Text(ATLocalizations.of(context).login));
+    }
   }
 }

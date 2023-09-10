@@ -1,13 +1,17 @@
 import 'dart:async';
 
+import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/designsystem/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
 import '../../../core/common/global_static_constants.dart';
+import '../../../core/data/model/user_data_model.dart';
+import '../../../core/data/repository/auth_repository.dart';
 import '../../../core/data/repository/userDataRepository.dart';
 import '../../../util/anime_season_util.dart';
 
@@ -27,22 +31,53 @@ class _OnAnimeLoadError extends DiscoverEvent {
   final Exception exception;
 }
 
+class _OnUserDataChanged extends DiscoverEvent {
+  _OnUserDataChanged(this.userData);
+
+  final UserData? userData;
+}
+
+extension DiscoverUiStateEx on DiscoverUiState {
+  bool get isLoggedIn => userData != null;
+}
+
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
-  DiscoverBloc({required userDataRepository, required aniListRepository})
+  DiscoverBloc(
+      {required AuthRepository authRepository,
+      required userDataRepository,
+      required aniListRepository})
       : _userDataRepository = userDataRepository,
         _aniListRepository = aniListRepository,
+        _authRepository = authRepository,
         super(DiscoverUiState()) {
     on<_OnAnimeLoaded>(_onAnimeLoaded);
     on<_OnAnimeLoadError>(_onAnimeLoadError);
+    on<_OnUserDataChanged>(_onUserDataChanged);
+
+    _userDataSub =
+        authRepository.getUserDataStream().listen((userDataNullable) {
+      add(_OnUserDataChanged(userDataNullable));
+    });
+
     _init();
   }
 
   final UserDataRepository _userDataRepository;
   final AniListRepository _aniListRepository;
+  final AuthRepository _authRepository;
+
+  StreamSubscription? _userDataSub;
 
   @override
   void onChange(Change<DiscoverUiState> change) {
     super.onChange(change);
+  }
+
+  @override
+  Future<void> close() {
+    _userDataSub?.cancel();
+
+    return super.close();
   }
 
   void _init() async {
@@ -69,15 +104,18 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     if (lastSyncTime == null) {
       if (!initialLoadResult.any((e) => e == false)) {
         logger.d('AimeTracker first sync success');
+
         /// first sync success.
         await _userDataRepository.setLastSuccessSync(DateTime.now());
+
+        showSnackBarMessage(label: ATLocalizations.of().dataRefreshed);
         return;
       }
     }
 
     if (lastSyncTime != null &&
-        DateTime.now().difference(lastSyncTime).inHours >
-            Config.refreshIntervalInHours) {
+        DateTime.now().difference(lastSyncTime).inMinutes >
+            Config.refreshIntervalInMinutes) {
       /// Refresh the data.
       final result = await Future.wait([
         _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
@@ -86,6 +124,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       ]);
       if (!result.any((e) => e == false)) {
         logger.d('AimeTracker refresh success');
+
+        /// data sync success snack bar message.
+        showSnackBarMessage(label: ATLocalizations.of().dataRefreshed);
+
         /// refresh success, update sync time.
         await _userDataRepository.setLastSuccessSync(DateTime.now());
       }
@@ -129,4 +171,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   FutureOr<void> _onAnimeLoadError(
       _OnAnimeLoadError event, Emitter<DiscoverUiState> emit) {}
+
+  FutureOr<void> _onUserDataChanged(
+      _OnUserDataChanged event, Emitter<DiscoverUiState> emit) {
+    emit(state.copyWith(userData: event.userData));
+  }
 }

@@ -2,6 +2,7 @@ import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
+import 'package:anime_tracker/core/designsystem/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +35,21 @@ class DiscoverScreen extends StatelessWidget {
         final currentSeasonState = state.currentSeasonAnimePagingState;
         final nextSeasonState = state.nextSeasonAnimePagingState;
         final trendingState = state.trendingAnimePagingState;
+        final userData = state.userData;
+        final isLoggedIn = state.isLoggedIn;
         return CustomScrollView(slivers: [
           SliverAppBar(
-            title: Text(AnimeTrackerLocalizations.of(context).discover),
+            title: Text(ATLocalizations.of(context).discover),
             actions: [
-              IconButton(
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
                   onPressed: () => showAuthDialog(context),
-                  icon: const Icon(Icons.person_outline))
+                  icon: isLoggedIn
+                      ? buildAvatarIcon(context, userData!.avatar)
+                      : const Icon(Icons.person_outline),
+                ),
+              )
             ],
           ),
           SliverToBoxAdapter(
@@ -134,11 +143,11 @@ class _AnimeCategoryPreview extends StatelessWidget {
     String title;
     switch (category) {
       case AnimeCategory.currentSeason:
-        title = AnimeTrackerLocalizations.of(context).popularThisSeasonLabel;
+        title = ATLocalizations.of(context).popularThisSeasonLabel;
       case AnimeCategory.nextSeason:
-        title = AnimeTrackerLocalizations.of(context).upComingNextSeasonLabel;
+        title = ATLocalizations.of(context).upComingNextSeasonLabel;
       case AnimeCategory.trending:
-        title = AnimeTrackerLocalizations.of(context).trendingNowLabel;
+        title = ATLocalizations.of(context).trendingNowLabel;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
