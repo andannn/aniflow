@@ -7,11 +7,16 @@ import 'image_load_error_widget.dart';
 
 class AnimePreviewItem extends StatelessWidget {
   const AnimePreviewItem(
-      {super.key, required this.model, required this.onClick, this.width});
+      {super.key,
+      required this.model,
+      required this.onClick,
+      this.width,
+      this.textStyle});
 
   final ShortcutAnimeModel model;
   final VoidCallback onClick;
   final double? width;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +42,7 @@ class AnimePreviewItem extends StatelessWidget {
               child: Center(
                 child: Text(
                   getLocalTitle(context, model.title!),
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  style: textStyle?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant),
                   maxLines: 2,
                   softWrap: true,

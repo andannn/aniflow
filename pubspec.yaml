@@ -54,6 +54,7 @@ dependencies:
   google_fonts: ^5.1.0
   logger: ^2.0.2
   url_launcher: ^6.1.14
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:

@@ -18,6 +18,10 @@ class PageReady<T> extends PagingState<T> {
   const PageReady({required super.data, required super.page});
 }
 
+class PageLoadReachEnd<T> extends PagingState<T> {
+  const PageLoadReachEnd({required super.data, required super.page});
+}
+
 class PageLoadingError<T> extends PagingState<T> {
   const PageLoadingError(this.exception, {required super.data, required super.page});
 

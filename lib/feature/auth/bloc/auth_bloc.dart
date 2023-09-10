@@ -46,12 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   StreamSubscription? _userDataSub;
 
   @override
-  void onChange(Change<AuthState> change) {
-    super.onChange(change);
-    logger.d('JQN change ${change.nextState}');
-  }
-
-  @override
   Future<void> close() {
     _userDataSub?.cancel();
 

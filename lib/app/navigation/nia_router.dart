@@ -1,4 +1,5 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:flutter/material.dart';
 import 'anime_tracker_route_path.dart';
 
@@ -76,8 +77,8 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
     notifyListeners();
   }
 
-  void navigateToTopicDetail(String topicId) {
-    _backStack += [TopicRoutePath(topicId)];
+  void navigateToAnimeList(AnimeCategory category) {
+    _backStack += [AnimeListRoutePath(category)];
 
     notifyListeners();
   }

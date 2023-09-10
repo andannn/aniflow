@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../app/local/anime_tracker_localizations.dart';
+import '../../app/navigation/nia_router.dart';
 import '../auth/auth_dialog.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class DiscoverPage extends StatefulWidget {
 class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
-    return const DiscoverScreen();
+    return const Scaffold(body: DiscoverScreen());
   }
 }
 
@@ -54,21 +55,21 @@ class DiscoverScreen extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: _buildAnimeCategoryPreview(
-                AnimeCategory.currentSeason, currentSeasonState),
+                context, AnimeCategory.currentSeason, currentSeasonState),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(height: 12),
           ),
           SliverToBoxAdapter(
             child: _buildAnimeCategoryPreview(
-                AnimeCategory.nextSeason, nextSeasonState),
+                context, AnimeCategory.nextSeason, nextSeasonState),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(height: 12),
           ),
           SliverToBoxAdapter(
             child: _buildAnimeCategoryPreview(
-                AnimeCategory.trending, trendingState),
+                context, AnimeCategory.trending, trendingState),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(height: 24),
@@ -78,7 +79,8 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAnimeCategoryPreview(AnimeCategory category, PagingState state) {
+  Widget _buildAnimeCategoryPreview(
+      BuildContext context, AnimeCategory category, PagingState state) {
     final animeModels = state.data;
     switch (state) {
       case PageReady():
@@ -86,7 +88,10 @@ class DiscoverScreen extends StatelessWidget {
           category: category,
           animeModels: animeModels,
           isLoading: false,
-          onMoreClick: () {},
+          onMoreClick: () {
+            AnimeTrackerRouterDelegate.of(context)
+                .navigateToAnimeList(category);
+          },
         );
       default:
         return _AnimeCategoryPreview(
@@ -127,6 +132,7 @@ class _AnimeCategoryPreview extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return AnimePreviewItem(
                         width: 160,
+                        textStyle: Theme.of(context).textTheme.titleSmall,
                         model: animeModels[index],
                         onClick: () =>
                             onAnimeClick?.call(animeModels[index].id),

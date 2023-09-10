@@ -189,9 +189,6 @@ class AniListRepositoryImpl extends AniListRepository {
       switch (type) {
         case LoadType.refresh:
 
-          /// clear the dao when refresh.
-          await animeDao.clearAll(fromTable);
-
           /// get data from network datasource.
           final networkRes = await aniListDataSource.getNetworkAnimePage(
               animeListParam: animeListParam);
@@ -200,12 +197,17 @@ class AniListRepositoryImpl extends AniListRepository {
           final dbAnimeList = networkRes
               .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
               .toList();
+
+          /// clear and re-insert data when refresh.
+          await animeDao.clearAll(fromTable);
           await animeDao.upsertAll(fromTable, animeList: dbAnimeList);
 
           /// load success, return result.
-          return LoadSuccess(dbAnimeList
-              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
-              .toList());
+          return LoadSuccess(
+              data: dbAnimeList
+                  .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                  .toList(),
+              page: 1);
         case LoadType.append:
           final dbResult = await animeDao.getAnimeByPage(fromTable,
               page: animeListParam.page, perPage: animeListParam.perPage);
@@ -221,14 +223,20 @@ class AniListRepositoryImpl extends AniListRepository {
             await animeDao.upsertAll(fromTable, animeList: dbAnimeList);
 
             /// load success, return result.
-            return LoadSuccess(dbAnimeList
-                .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
-                .toList());
+            final newResult = await animeDao.getAnimeByPage(fromTable,
+                page: animeListParam.page, perPage: animeListParam.perPage);
+            return LoadSuccess(
+                data: newResult
+                    .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                    .toList(),
+                page: animeListParam.page);
           } else {
             /// we have catch in db, return the result.
-            return LoadSuccess(dbResult
-                .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
-                .toList());
+            return LoadSuccess(
+                data: dbResult
+                    .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                    .toList(),
+                page: animeListParam.page);
           }
       }
     } on DioException catch (e) {
