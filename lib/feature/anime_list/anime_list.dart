@@ -1,5 +1,4 @@
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
-import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
@@ -11,21 +10,27 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../core/data/model/page_loading_state.dart';
 
-class AnimeListPage extends StatefulWidget {
-  const AnimeListPage({super.key, required this.category});
-
+class AnimeListPage extends Page {
   final AnimeCategory category;
 
+  const AnimeListPage({super.key, required this.category});
+
   @override
-  State<AnimeListPage> createState() => _AnimeListPageState();
+  Route createRoute(BuildContext context) {
+    return AnimeListRoute(settings: this, category: category);
+  }
 }
 
-class _AnimeListPageState extends State<AnimeListPage> {
+class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
+  final AnimeCategory category;
+
+  AnimeListRoute({super.settings, required this.category});
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildContent(BuildContext context) {
     return BlocProvider(
       create: (context) => AnimeListBloc(
-        category: widget.category,
+        category: category,
         aniListRepository: context.read<AniListRepository>(),
       ),
       child: const Scaffold(
@@ -33,6 +38,30 @@ class _AnimeListPageState extends State<AnimeListPage> {
       ),
     );
   }
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(
+      opacity: animation,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).chain(CurveTween(curve: Curves.easeIn)).animate(animation),
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset.zero,
+            end: const Offset(0.0, 1.0),
+          ).animate(secondaryAnimation),
+          child: child,
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool get maintainState => false;
 }
 
 class _AnimeListPageContent extends StatelessWidget {
@@ -46,8 +75,9 @@ class _AnimeListPageContent extends StatelessWidget {
       final animeList = pagingState.data;
       final itemCount = pagingState.data.length;
       final isLoading = pagingState is PageLoading;
+
+      /// Need load new page only when PageReady state.
       final needDetectNewPageRequest = pagingState is PageReady;
-      logger.d("needDetectNewPageRequest $needDetectNewPageRequest");
       return CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -78,23 +108,12 @@ class _AnimeListPageContent extends StatelessWidget {
           ),
           SliverVisibility(
             visible: needDetectNewPageRequest,
+            // show page loading detector widget.
             sliver: const SliverToBoxAdapter(
-              child: _RequestLoadingDetector(),
+              child: _RequestPageLoadingDetector(),
             ),
             replacementSliver: SliverToBoxAdapter(
-              child: isLoading
-                  ? const Align(
-                      alignment: Alignment.center,
-                      child: Wrap(
-                        children: [
-                          SizedBox.square(
-                            dimension: 64,
-                            child: CircularProgressIndicator(),
-                          )
-                        ],
-                      ),
-                    )
-                  : const SizedBox(),
+              child: _buildPageBottomBar(context, pagingState),
             ),
           ),
         ],
@@ -121,10 +140,46 @@ class _AnimeListPageContent extends StatelessWidget {
     }
     return title;
   }
+
+  Widget _buildPageBottomBar(BuildContext context, PagingState pagingState) {
+    if (pagingState is PageLoading) {
+      // Loading widget.
+      return const SizedBox.square(
+        dimension: 64,
+        child: Align(
+          alignment: Alignment.center,
+          child: SizedBox.square(
+            dimension: 36,
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    } else if (pagingState is PageLoadReachEnd) {
+      // All loaded widget.
+      return SizedBox(
+        height: 64,
+        child: Column(
+          children: [
+            const Divider(),
+            Opacity(
+              opacity: 0.5,
+              child: Text(
+                ATLocalizations.of(context).allPageLoaded,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Error widget.
+      return const SizedBox();
+    }
+  }
 }
 
-class _RequestLoadingDetector extends StatelessWidget {
-  const _RequestLoadingDetector({super.key});
+class _RequestPageLoadingDetector extends StatelessWidget {
+  const _RequestPageLoadingDetector({super.key});
 
   @override
   Widget build(BuildContext context) {

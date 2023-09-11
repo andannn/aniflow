@@ -34,6 +34,7 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
 
   @override
   Widget build(BuildContext context) {
+    print('JQN _backStack $_backStack');
     return Navigator(
       key: navigatorKey,
       pages: _backStack.map((path) => path.generatePage()).toList(),

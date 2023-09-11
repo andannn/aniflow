@@ -22,6 +22,8 @@ abstract class ATLocalizations {
 
   String get dataRefreshed;
 
+  String get allPageLoaded;
+
   static ATLocalizations of([BuildContext? context]) {
     return Localizations.of<ATLocalizations>(
         context ?? globalContext!, ATLocalizations)!;
@@ -58,6 +60,9 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get logoutSuccessMessage => 'Logout success!';
+
+  @override
+  String get allPageLoaded => 'All page is loaded';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -90,6 +95,9 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get logoutSuccessMessage => 'ログアウトしました';
+
+  @override
+  String get allPageLoaded => 'すべてのページがロードされました';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -122,4 +130,7 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get logoutSuccessMessage => '登出成功';
+
+  @override
+  String get allPageLoaded => '已加载所有的数据';
 }

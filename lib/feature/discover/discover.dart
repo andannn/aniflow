@@ -12,18 +12,40 @@ import '../../app/local/anime_tracker_localizations.dart';
 import '../../app/navigation/nia_router.dart';
 import '../auth/auth_dialog.dart';
 
-class DiscoverPage extends StatefulWidget {
+class DiscoverPage extends Page {
   const DiscoverPage({super.key});
 
   @override
-  State<DiscoverPage> createState() => _DiscoverPageState();
+  Route createRoute(BuildContext context) {
+    return DiscoverPageRoute(settings: this);
+  }
 }
 
-class _DiscoverPageState extends State<DiscoverPage> {
+class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
+  DiscoverPageRoute({super.settings});
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildContent(BuildContext context) {
     return const Scaffold(body: DiscoverScreen());
   }
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(
+      opacity: ReverseAnimation(secondaryAnimation),
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: Offset.zero,
+          end: const Offset(-1.0, 0.0),
+        ).chain(CurveTween(curve: Curves.easeIn)).animate(secondaryAnimation),
+        child: child,
+      ),
+    );
+  }
+
+  @override
+  bool get maintainState => true;
 }
 
 class DiscoverScreen extends StatelessWidget {

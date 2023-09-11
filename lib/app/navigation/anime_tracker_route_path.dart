@@ -28,16 +28,17 @@ class DiscoverRoutePath extends TopLevelRoutePath {
 
 class AnimeListRoutePath extends AnimeTrackerRoutePath {
   AnimeListRoutePath(this.category);
+
   final AnimeCategory category;
 }
 
 extension AnimeTrackerRoutePathEx on AnimeTrackerRoutePath {
   Page generatePage() {
-    switch(this) {
+    switch (this) {
       case DiscoverRoutePath(topLevel: final _):
-        return MaterialPage(key: UniqueKey(), child: const DiscoverPage());
+        return const DiscoverPage(key: ValueKey('DiscoverPage'));
       case AnimeListRoutePath(category: final category):
-        return MaterialPage(key: UniqueKey(), child: AnimeListPage(category: category));
+        return AnimeListPage(key: const ValueKey('AnimeListPage'), category: category);
       default:
         return const MaterialPage(child: SizedBox());
     }
