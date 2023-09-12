@@ -18,15 +18,15 @@ class AniListDio {
         });
 
     dio.interceptors.add(LogInterceptor());
-
-    /// Test code.
-    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.findProxy = (uri) {
-        return "PROXY 127.0.0.1:7890";
-      };
-      return null;
-    };
+    //
+    // /// Test code.
+    // (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+    //     (client) {
+    //   client.findProxy = (uri) {
+    //     return "PROXY 127.0.0.1:7890";
+    //   };
+    //   return null;
+    // };
   }
 
   final Dio dio = Dio();

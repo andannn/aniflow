@@ -35,6 +35,7 @@ class AniListDataSource {
       'seasonYear': animeListParam.seasonYear,
       'season': animeListParam.season?.sqlTypeString,
       'status': animeListParam.status?.sqlTypeString,
+      'sort' : animeListParam.animeSort.map((e) => e.sqlTypeString).toList()
     };
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         queryParameters: {'query': queryGraphQL, 'variables': variablesMap});

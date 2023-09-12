@@ -48,6 +48,16 @@ enum AnimeStatus {
   const AnimeStatus(this.sqlTypeString);
 }
 
+/// Bangumi sort.
+enum AnimeSort {
+  trending('TRENDING_DESC'),
+  latestUpdate('UPDATED_AT_DESC');
+
+  final String sqlTypeString;
+
+  const AnimeSort(this.sqlTypeString);
+}
+
 /// parameter present to anime season.
 class AnimeSeasonParam extends Equatable {
   final int seasonYear;
@@ -110,46 +120,58 @@ class AniListRepositoryImpl extends AniListRepository {
       {required AnimeCategory category,
       required int page,
       int perPage = defaultPerPageCount}) {
-    AnimeStatus? status;
-    AnimeSeasonParam? seasonParam;
     String table;
 
-    AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
-      seasonYear: preferences.getCurrentSeasonYear(),
-      season: preferences.getCurrentSeason(),
-    );
     switch (category) {
       case AnimeCategory.currentSeason:
-        status = AnimeStatus.releasing;
-        seasonParam = currentSeasonParam;
         table = Tables.currentSeasonAnimeTable;
       case AnimeCategory.nextSeason:
-        status = AnimeStatus.notYetReleased;
-        seasonParam = getNextSeasonParam(currentSeasonParam);
         table = Tables.nextSeasonAnimeTable;
       case AnimeCategory.trending:
-        status = null;
-        seasonParam = null;
         table = Tables.trendingSeasonAnimeTable;
     }
     return _loadAnimePage(
         fromTable: table,
         type: LoadType.append,
-        animeListParam: (
-          page: page,
-          perPage: perPage,
-          seasonYear: seasonParam?.seasonYear,
-          season: seasonParam?.season,
-          status: status
+        animeListParam: _createAnimePageQueryParam(
+          category,
+          page,
+          perPage,
+          preferences.getCurrentSeason(),
+          preferences.getCurrentSeasonYear(),
         ));
   }
 
   @override
   Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory(
       {required AnimeCategory category}) {
+    String table;
+
+    switch (category) {
+      case AnimeCategory.currentSeason:
+        table = Tables.currentSeasonAnimeTable;
+      case AnimeCategory.nextSeason:
+        table = Tables.nextSeasonAnimeTable;
+      case AnimeCategory.trending:
+        table = Tables.trendingSeasonAnimeTable;
+    }
+    return _loadAnimePage(
+        fromTable: table,
+        type: LoadType.refresh,
+        animeListParam: _createAnimePageQueryParam(
+          category,
+          1,
+          defaultPerPageCount,
+          preferences.getCurrentSeason(),
+          preferences.getCurrentSeasonYear(),
+        ));
+  }
+
+  AnimePageQueryParam _createAnimePageQueryParam(AnimeCategory category,
+      int page, int perPage, AnimeSeason currentSeason, int currentSeasonYear) {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
-    String table;
+    List<AnimeSort> sorts = [];
 
     AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
@@ -159,26 +181,24 @@ class AniListRepositoryImpl extends AniListRepository {
       case AnimeCategory.currentSeason:
         status = AnimeStatus.releasing;
         seasonParam = currentSeasonParam;
-        table = Tables.currentSeasonAnimeTable;
+        sorts = [AnimeSort.latestUpdate];
       case AnimeCategory.nextSeason:
         status = AnimeStatus.notYetReleased;
         seasonParam = getNextSeasonParam(currentSeasonParam);
-        table = Tables.nextSeasonAnimeTable;
       case AnimeCategory.trending:
         status = null;
         seasonParam = null;
-        table = Tables.trendingSeasonAnimeTable;
+        sorts = [AnimeSort.trending];
     }
-    return _loadAnimePage(
-        fromTable: table,
-        type: LoadType.refresh,
-        animeListParam: (
-          page: 1,
-          perPage: defaultPerPageCount,
-          seasonYear: seasonParam?.seasonYear,
-          season: seasonParam?.season,
-          status: status
-        ));
+
+    return AnimePageQueryParam(
+      page: page,
+      perPage: perPage,
+      seasonYear: seasonParam?.seasonYear,
+      season: seasonParam?.season,
+      status: status,
+      animeSort: sorts,
+    );
   }
 
   Future<LoadResult<ShortcutAnimeModel>> _loadAnimePage(

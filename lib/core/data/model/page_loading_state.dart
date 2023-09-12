@@ -8,6 +8,8 @@ sealed class PagingState<T> extends Equatable {
 
   @override
   List<Object?> get props => [data, page];
+
+  PageLoading<T> toLoading() => PageLoading(data: data, page: page);
 }
 
 /// page is loading.

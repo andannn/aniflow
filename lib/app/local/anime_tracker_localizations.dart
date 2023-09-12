@@ -21,6 +21,7 @@ abstract class ATLocalizations {
   String get loginFailedMessage;
 
   String get dataRefreshed;
+  String get dataRefreshFailed;
 
   String get allPageLoaded;
 
@@ -63,6 +64,9 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get allPageLoaded => 'All page is loaded';
+
+  @override
+  String get dataRefreshFailed => 'Data refresh failed';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -98,6 +102,9 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get allPageLoaded => 'すべてのページがロードされました';
+
+  @override
+  String get dataRefreshFailed => '同期失敗しました';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -133,4 +140,7 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get allPageLoaded => '已加载所有的数据';
+
+  @override
+  String get dataRefreshFailed => '刷新失败';
 }

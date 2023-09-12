@@ -116,21 +116,29 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     if (lastSyncTime != null &&
         DateTime.now().difference(lastSyncTime).inMinutes >
             Config.refreshIntervalInMinutes) {
-      /// Refresh the data.
-      final result = await Future.wait([
-        _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
-        _createLoadAnimePageTask(AnimeCategory.nextSeason, isRefresh: true),
-        _createLoadAnimePageTask(AnimeCategory.trending, isRefresh: true),
-      ]);
-      if (!result.any((e) => e == false)) {
-        logger.d('AimeTracker refresh success');
+      /// Refresh all data.
+      await refreshAnime();
+    }
+  }
 
-        /// data sync success snack bar message.
-        showSnackBarMessage(label: ATLocalizations.of().dataRefreshed);
+  Future<void> refreshAnime() async {
+    /// wait refresh tasks.
+    final result = await Future.wait([
+      _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
+      _createLoadAnimePageTask(AnimeCategory.nextSeason, isRefresh: true),
+      _createLoadAnimePageTask(AnimeCategory.trending, isRefresh: true),
+    ]);
+    if (!result.any((e) => e == false)) {
+      logger.d('AimeTracker refresh success');
 
-        /// refresh success, update sync time.
-        await _userDataRepository.setLastSuccessSync(DateTime.now());
-      }
+      /// data sync success and show snack bar message.
+      showSnackBarMessage(label: ATLocalizations.of().dataRefreshed);
+
+      /// refresh success, update sync time.
+      await _userDataRepository.setLastSuccessSync(DateTime.now());
+    } else {
+      /// data sync failed and show snack bar message.
+      showSnackBarMessage(label: ATLocalizations.of().dataRefreshFailed);
     }
   }
 

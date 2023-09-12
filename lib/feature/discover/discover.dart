@@ -55,43 +55,48 @@ class DiscoverScreen extends StatelessWidget {
         final trendingState = state.trendingAnimePagingState;
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
-        return CustomScrollView(slivers: [
-          SliverAppBar(
-            title: Text(ATLocalizations.of(context).discover),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: IconButton(
-                  onPressed: () => showAuthDialog(context),
-                  icon: isLoggedIn
-                      ? buildAvatarIcon(context, userData!.avatar)
-                      : const Icon(Icons.person_outline),
-                ),
-              )
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: _buildAnimeCategoryPreview(
-                context, AnimeCategory.currentSeason, currentSeasonState),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 12),
-          ),
-          SliverToBoxAdapter(
-            child: _buildAnimeCategoryPreview(
-                context, AnimeCategory.nextSeason, nextSeasonState),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 12),
-          ),
-          SliverToBoxAdapter(
-            child: _buildAnimeCategoryPreview(
-                context, AnimeCategory.trending, trendingState),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 24),
-          ),
-        ]);
+        return RefreshIndicator(
+          onRefresh: () async {
+            await context.read<DiscoverBloc>().refreshAnime();
+          },
+          child: CustomScrollView(slivers: [
+            SliverAppBar(
+              title: Text(ATLocalizations.of(context).discover),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: IconButton(
+                    onPressed: () => showAuthDialog(context),
+                    icon: isLoggedIn
+                        ? buildAvatarIcon(context, userData!.avatar)
+                        : const Icon(Icons.person_outline),
+                  ),
+                )
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: _buildAnimeCategoryPreview(
+                  context, AnimeCategory.currentSeason, currentSeasonState),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 12),
+            ),
+            SliverToBoxAdapter(
+              child: _buildAnimeCategoryPreview(
+                  context, AnimeCategory.nextSeason, nextSeasonState),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 12),
+            ),
+            SliverToBoxAdapter(
+              child: _buildAnimeCategoryPreview(
+                  context, AnimeCategory.trending, trendingState),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 24),
+            ),
+          ]),
+        );
       },
     );
   }
