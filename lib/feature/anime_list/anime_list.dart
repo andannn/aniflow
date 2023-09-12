@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../core/data/model/page_loading_state.dart';
+import '../../core/designsystem/animetion/page_transaction_animetion.dart';
 
 class AnimeListPage extends Page {
   final AnimeCategory category;
@@ -42,20 +43,11 @@ class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(1.0, 0.0),
-          end: Offset.zero,
-        ).chain(CurveTween(curve: Curves.easeIn)).animate(animation),
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: Offset.zero,
-            end: const Offset(0.0, 1.0),
-          ).animate(secondaryAnimation),
-          child: child,
-        ),
+    return getFistPageTransaction(
+      animation: animation,
+      child: getSecondaryPageTransaction(
+        animation: secondaryAnimation,
+        child: child,
       ),
     );
   }

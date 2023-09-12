@@ -40,12 +40,16 @@ class AnimePreviewItem extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Center(
-                child: Text(
-                  getLocalTitle(context, model.title!),
-                  style: textStyle?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant),
-                  maxLines: 2,
-                  softWrap: true,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Text(
+                    getLocalTitle(context, model.title!),
+                    textAlign: TextAlign.center,
+                    style: textStyle?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    maxLines: 2,
+                    softWrap: true,
+                  ),
                 ),
               ),
             ),

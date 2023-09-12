@@ -1,6 +1,7 @@
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
 import 'package:anime_tracker/core/designsystem/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
@@ -32,15 +33,9 @@ class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(
-      opacity: ReverseAnimation(secondaryAnimation),
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset.zero,
-          end: const Offset(-1.0, 0.0),
-        ).chain(CurveTween(curve: Curves.easeIn)).animate(secondaryAnimation),
-        child: child,
-      ),
+    return getSecondaryPageTransaction(
+      animation: secondaryAnimation,
+      child: child,
     );
   }
 
