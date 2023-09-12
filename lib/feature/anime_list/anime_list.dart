@@ -165,7 +165,19 @@ class _AnimeListPageContent extends StatelessWidget {
       );
     } else {
       // Error widget.
-      return const SizedBox();
+      return SizedBox(
+        height: 64,
+        width: double.infinity,
+        child: Center(
+          child: TextButton.icon(
+            onPressed: () {
+              context.read<AnimeListBloc>().add(OnRetryLoadPageEvent());
+            },
+            icon: const Icon(Icons.refresh),
+            label: Text(ATLocalizations.of(context).retry),
+          ),
+        ),
+      );
     }
   }
 }

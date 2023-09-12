@@ -58,6 +58,17 @@ enum AnimeSort {
   const AnimeSort(this.sqlTypeString);
 }
 
+/// Anime format
+enum AnimeFormat {
+  tv(['TV', 'TV_SHORT']),
+  movie(['MOVIE']),
+  ova(['OVA', 'SPECIAL', 'ONA']);
+
+  final List<String> sqlTypeString;
+
+  const AnimeFormat(this.sqlTypeString);
+}
+
 /// parameter present to anime season.
 class AnimeSeasonParam extends Equatable {
   final int seasonYear;
@@ -172,6 +183,7 @@ class AniListRepositoryImpl extends AniListRepository {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
     List<AnimeSort> sorts = [];
+    AnimeFormat? format;
 
     AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
@@ -181,10 +193,12 @@ class AniListRepositoryImpl extends AniListRepository {
       case AnimeCategory.currentSeason:
         status = AnimeStatus.releasing;
         seasonParam = currentSeasonParam;
-        sorts = [AnimeSort.latestUpdate];
+        // sorts = [AnimeSort.latestUpdate];
+        format = AnimeFormat.tv;
       case AnimeCategory.nextSeason:
         status = AnimeStatus.notYetReleased;
         seasonParam = getNextSeasonParam(currentSeasonParam);
+        format = AnimeFormat.tv;
       case AnimeCategory.trending:
         status = null;
         seasonParam = null;
@@ -198,6 +212,7 @@ class AniListRepositoryImpl extends AniListRepository {
       season: seasonParam?.season,
       status: status,
       animeSort: sorts,
+      animeFormat: format,
     );
   }
 

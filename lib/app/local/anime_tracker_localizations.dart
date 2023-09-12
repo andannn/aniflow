@@ -21,9 +21,12 @@ abstract class ATLocalizations {
   String get loginFailedMessage;
 
   String get dataRefreshed;
+
   String get dataRefreshFailed;
 
   String get allPageLoaded;
+
+  String get retry;
 
   static ATLocalizations of([BuildContext? context]) {
     return Localizations.of<ATLocalizations>(
@@ -67,6 +70,9 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get dataRefreshFailed => 'Data refresh failed';
+
+  @override
+  String get retry => 'Retry';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -105,6 +111,9 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get dataRefreshFailed => '同期失敗しました';
+
+  @override
+  String get retry => 'Retry';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -143,4 +152,7 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get dataRefreshFailed => '刷新失败';
+
+  @override
+  String get retry => '重试';
 }

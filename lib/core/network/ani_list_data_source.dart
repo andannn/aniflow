@@ -35,10 +35,11 @@ class AniListDataSource {
       'seasonYear': animeListParam.seasonYear,
       'season': animeListParam.season?.sqlTypeString,
       'status': animeListParam.status?.sqlTypeString,
-      'sort' : animeListParam.animeSort.map((e) => e.sqlTypeString).toList()
+      'sort' : animeListParam.animeSort.map((e) => e.sqlTypeString).toList(),
+      'format_in' : animeListParam.animeFormat?.sqlTypeString.toList(),
     };
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
-        queryParameters: {'query': queryGraphQL, 'variables': variablesMap});
+        data: {'query': queryGraphQL, 'variables': variablesMap});
 
     final List resultJson = response.data['data']['Page']['media'];
     final List<ShortcutAnimeDto> animeList =
