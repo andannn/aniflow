@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'anime_tracker_route_path.dart';
+import 'package:anime_tracker/app/navigation/anime_tracker_route_path.dart';
 
 enum TopLevelNavigation {
   discover(

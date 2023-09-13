@@ -9,9 +9,9 @@ import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../app/local/anime_tracker_localizations.dart';
-import '../../app/navigation/nia_router.dart';
-import '../auth/auth_dialog.dart';
+import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/navigation/nia_router.dart';
+import 'package:anime_tracker/feature/auth/auth_dialog.dart';
 
 class DiscoverPage extends Page {
   const DiscoverPage({super.key});
@@ -110,8 +110,7 @@ class DiscoverScreen extends StatelessWidget {
       animeModels: animeModels,
       isLoading: isLoading,
       onMoreClick: () {
-        AnimeTrackerRouterDelegate.of(context)
-            .navigateToAnimeList(category);
+        AnimeTrackerRouterDelegate.of(context).navigateToAnimeList(category);
       },
       onAnimeClick: (id) {},
     );

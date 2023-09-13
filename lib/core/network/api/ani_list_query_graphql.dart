@@ -1,4 +1,4 @@
-import '../../data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 class AnimePageQueryParam {
   final int page;

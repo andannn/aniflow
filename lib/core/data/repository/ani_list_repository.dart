@@ -6,8 +6,7 @@ import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../database/anime_database.dart';
+import 'package:anime_tracker/core/database/anime_database.dart';
 
 part 'load_type.dart';
 

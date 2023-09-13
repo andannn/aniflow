@@ -1,9 +1,8 @@
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:dio/dio.dart';
-
-import 'api/ani_list_query_graphql.dart';
-import 'model/short_anime_dto.dart';
+import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
+import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 
 /// Anime list data source get from AniList.
 class AniListDataSource {

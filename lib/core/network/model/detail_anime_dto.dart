@@ -1,2 +1,29 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class DetailAnimeDto {}
+import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
+import 'package:anime_tracker/core/network/model/character_connection.dart';
+
+part 'detail_anime_dto.freezed.dart';
+
+part 'detail_anime_dto.g.dart';
+
+@freezed
+class DetailAnimeDto with _$DetailAnimeDto {
+  factory DetailAnimeDto({
+    @Default(-1) @JsonKey(name: 'id') int id,
+    @JsonKey(name: 'title') AnimeTitle? title,
+    @Default({}) @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
+    @Default('') @JsonKey(name: 'description') String description,
+    @Default('') @JsonKey(name: 'source') String source,
+    @Default('') @JsonKey(name: 'hashtag') String hashtag,
+    @Default('') @JsonKey(name: 'bannerImage') String bannerImage,
+    @Default(-1) @JsonKey(name: 'averageScore') int averageScore,
+    @Default(-1) @JsonKey(name: 'trending') int trending,
+    @Default(-1) @JsonKey(name: 'favourites') int favourites,
+    @Default(false) @JsonKey(name: 'isFavourite') bool isFavourite,
+    @JsonKey(name: 'characters') CharacterConnection? characters,
+  }) = _DetailAnimeDto;
+
+  factory DetailAnimeDto.fromJson(Map<String, dynamic> json) =>
+      _$$_DetailAnimeDtoFromJson(json);
+}

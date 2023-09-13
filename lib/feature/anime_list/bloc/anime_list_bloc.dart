@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:bloc/bloc.dart';
-
-import '../../../core/data/logger/logger.dart';
-import '../../../core/data/model/shortcut_anime_model.dart';
-import 'anime_list_state.dart';
+import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 
 sealed class AnimeListEvent {}
 

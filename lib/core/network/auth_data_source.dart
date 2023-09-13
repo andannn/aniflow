@@ -2,10 +2,9 @@ import 'package:anime_tracker/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
-
-import '../common/global_static_constants.dart';
-import '../data/logger/logger.dart';
-import 'model/user_data_dto.dart';
+import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/network/model/user_data_dto.dart' show UserDataDto;
 
 class UnauthorizedException implements Exception {
   const UnauthorizedException();

@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'anime_dao.dart';
+import 'package:anime_tracker/core/database/anime_dao.dart';
 
 const databaseFileName = "anime_data_base.db";
 
