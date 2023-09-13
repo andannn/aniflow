@@ -7,15 +7,16 @@ mixin StreamUtil {
       ChangeNotifier changeSource, Future<T> Function() getEventData) {
     late StreamController<T> controller;
 
-    _listener() async {
+    void listener() async {
       controller.add(await getEventData());
     }
 
     controller = StreamController(onListen: () {
-      _listener();
-      changeSource.addListener(_listener);
+      listener();
+      changeSource.addListener(listener);
     }, onCancel: () {
-      changeSource.removeListener(_listener);
+      changeSource.removeListener(listener);
+      controller.close();
     });
     return controller.stream;
   }

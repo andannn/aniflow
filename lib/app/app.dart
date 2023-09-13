@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../core/data/repository/userDataRepository.dart';
+import '../core/data/repository/user_data_repository.dart';
 import 'local/anime_tracker_localizations_delegate.dart';
 import 'navigation/nia_router.dart';
 import 'navigation/top_level_navigation.dart';

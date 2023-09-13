@@ -7,9 +7,9 @@ import 'image_load_error_widget.dart';
 
 class AnimePreviewItem extends StatelessWidget {
   const AnimePreviewItem(
-      {super.key,
-      required this.model,
+      {required this.model,
       required this.onClick,
+      super.key,
       this.width,
       this.textStyle});
 

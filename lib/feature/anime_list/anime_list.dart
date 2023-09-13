@@ -14,7 +14,7 @@ import '../../core/designsystem/animetion/page_transaction_animetion.dart';
 class AnimeListPage extends Page {
   final AnimeCategory category;
 
-  const AnimeListPage({super.key, required this.category});
+  const AnimeListPage({required this.category, super.key});
 
   @override
   Route createRoute(BuildContext context) {
@@ -25,7 +25,7 @@ class AnimeListPage extends Page {
 class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   final AnimeCategory category;
 
-  AnimeListRoute({super.settings, required this.category});
+  AnimeListRoute({required this.category, super.settings});
 
   @override
   Widget buildContent(BuildContext context) {
@@ -57,7 +57,7 @@ class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _AnimeListPageContent extends StatelessWidget {
-  const _AnimeListPageContent({super.key});
+  const _AnimeListPageContent();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _AnimeListPageContent extends StatelessWidget {
       final pagingState = state.animePagingState;
       final animeList = pagingState.data;
       final itemCount = pagingState.data.length;
-      final isLoading = pagingState is PageLoading;
+      // final isLoading = pagingState is PageLoading;
 
       /// Need load new page only when PageReady state.
       final needDetectNewPageRequest = pagingState is PageReady;
@@ -183,7 +183,7 @@ class _AnimeListPageContent extends StatelessWidget {
 }
 
 class _RequestPageLoadingDetector extends StatelessWidget {
-  const _RequestPageLoadingDetector({super.key});
+  const _RequestPageLoadingDetector();
 
   @override
   Widget build(BuildContext context) {
