@@ -44,6 +44,13 @@ void main() {
       await animeDatabase.initDatabase(isTest: true);
     });
 
+    tearDown(() async {
+      await animeDatabase.animeDB.delete(Tables.currentSeasonAnimeTable);
+      await animeDatabase.animeDB.delete(Tables.nextSeasonAnimeTable);
+      await animeDatabase.animeDB.delete(Tables.trendingSeasonAnimeTable);
+      await animeDatabase.animeDB.delete(Tables.userDataTable);
+    });
+
     test('anime_dao_clear_all', () async {
       final animeDao = animeDatabase.getAnimeDao();
       await animeDao.clearAll(Tables.currentSeasonAnimeTable);
