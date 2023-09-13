@@ -104,28 +104,23 @@ class DiscoverScreen extends StatelessWidget {
   Widget _buildAnimeCategoryPreview(
       BuildContext context, AnimeCategory category, PagingState state) {
     final animeModels = state.data;
-    switch (state) {
-      case PageReady():
-        return _AnimeCategoryPreview(
-          category: category,
-          animeModels: animeModels,
-          isLoading: false,
-          onMoreClick: () {
-            AnimeTrackerRouterDelegate.of(context)
-                .navigateToAnimeList(category);
-          },
-        );
-      default:
-        return _AnimeCategoryPreview(
-            category: category, animeModels: animeModels, isLoading: true);
-    }
+    final isLoading = state is PageLoading;
+    return _AnimeCategoryPreview(
+      category: category,
+      animeModels: animeModels,
+      isLoading: isLoading,
+      onMoreClick: () {
+        AnimeTrackerRouterDelegate.of(context)
+            .navigateToAnimeList(category);
+      },
+      onAnimeClick: (id) {},
+    );
   }
 }
 
 class _AnimeCategoryPreview extends StatelessWidget {
   const _AnimeCategoryPreview(
-      {super.key,
-      required this.category,
+      {required this.category,
       required this.animeModels,
       required this.isLoading,
       this.onMoreClick,

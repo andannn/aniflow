@@ -22,7 +22,7 @@ class AnimeTrackerPreferences {
 
   late SharedPreferences _preference;
 
-  init() async {
+  Future init() async {
     _preference = await SharedPreferences.getInstance();
   }
 

@@ -9,6 +9,13 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - test/**
+  errors:
+    invalid_annotation_target: ignore
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
@@ -21,8 +28,37 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+    - always_declare_return_types
+    - cancel_subscriptions
+    - close_sinks
+    - collection_methods_unrelated_type
+    - combinators_ordering
+    - comment_references
+    - dangling_library_doc_comments
+    - implicit_call_tearoffs
+    - invalid_case_patterns
+    - prefer_void_to_null
+    - always_put_required_named_parameters_first
+    - avoid_init_to_null
+    - avoid_renaming_method_parameters
+    - avoid_shadowing_type_parameters
+    - avoid_single_cascade_in_expression_statements
+    - camel_case_extensions
+    - camel_case_types
+    - empty_constructor_bodies
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_for_elements_to_map_fromIterable
+    - prefer_function_declarations_over_variables
+    - prefer_generic_function_type_aliases
+    - prefer_if_null_operators
+    - prefer_initializing_formals
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_is_not_operator
+    - prefer_iterable_whereType
+    - prefer_null_aware_operators
+    - prefer_spread_collections
+    - prefer_typing_uninitialized_variables
+    - sized_box_for_whitespace
+    - package_names

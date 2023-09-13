@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 
 class AniListDio {
   static AniListDio? _instance;

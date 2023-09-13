@@ -55,6 +55,7 @@ dependencies:
   logger: ^2.0.2
   url_launcher: ^6.1.14
   visibility_detector: ^0.4.0+2
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:

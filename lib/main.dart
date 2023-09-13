@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/userDataRepository.dart';
+import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,4 @@
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
-
 import 'ani_list_repository.dart';
 
 abstract class UserDataRepository {

@@ -20,7 +20,7 @@ class AuthDataSource {
 
   String _testToken = '';
 
-  setTestToken(String token) {
+  void setTestToken(String token) {
     _testToken = token;
   }
 

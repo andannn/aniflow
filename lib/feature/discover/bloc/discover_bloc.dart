@@ -12,7 +12,7 @@ import 'package:bloc/bloc.dart';
 import '../../../core/common/global_static_constants.dart';
 import '../../../core/data/model/user_data_model.dart';
 import '../../../core/data/repository/auth_repository.dart';
-import '../../../core/data/repository/userDataRepository.dart';
+import '../../../core/data/repository/user_data_repository.dart';
 import '../../../util/anime_season_util.dart';
 
 sealed class DiscoverEvent {}
@@ -48,7 +48,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       required aniListRepository})
       : _userDataRepository = userDataRepository,
         _aniListRepository = aniListRepository,
-        _authRepository = authRepository,
         super(DiscoverUiState()) {
     on<_OnAnimeLoaded>(_onAnimeLoaded);
     on<_OnAnimeLoadError>(_onAnimeLoadError);
@@ -64,7 +63,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   final UserDataRepository _userDataRepository;
   final AniListRepository _aniListRepository;
-  final AuthRepository _authRepository;
 
   StreamSubscription? _userDataSub;
 

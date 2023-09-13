@@ -2,10 +2,8 @@ import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/avatar_icon.dart';
-import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_bloc.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_ui_state.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +28,7 @@ class AuthDialog extends StatelessWidget {
 }
 
 class _AuthDialogContent extends StatelessWidget {
-  const _AuthDialogContent({super.key});
+  const _AuthDialogContent();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class _AuthDialogContent extends StatelessWidget {
   Widget _buildUserInfoWidget(
       BuildContext context, UserData? userData, bool isLoggedIn) {
     final avatarUrl = userData?.avatar;
-    final bannerUrl = userData?.bannerImage;
+    // final bannerUrl = userData?.bannerImage;
     final userName = userData?.name;
 
     if (isLoggedIn) {
