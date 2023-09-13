@@ -7,9 +7,8 @@ import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import '../../core/data/model/page_loading_state.dart';
-import '../../core/designsystem/animetion/page_transaction_animetion.dart';
+import 'package:anime_tracker/core/data/model/page_loading_state.dart';
+import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
 
 class AnimeListPage extends Page {
   final AnimeCategory category;

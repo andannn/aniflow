@@ -1,8 +1,7 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 mixin AnimeTableColumns {
   static const String id = 'id';

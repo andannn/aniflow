@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../data/model/anime_title_modle.dart';
+import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 
 part 'short_anime_dto.freezed.dart';
 

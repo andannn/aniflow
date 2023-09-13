@@ -6,11 +6,10 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import '../core/data/repository/user_data_repository.dart';
-import 'local/anime_tracker_localizations_delegate.dart';
-import 'navigation/nia_router.dart';
-import 'navigation/top_level_navigation.dart';
+import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
+import 'package:anime_tracker/app/local/anime_tracker_localizations_delegate.dart';
+import 'package:anime_tracker/app/navigation/nia_router.dart';
+import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 
 /// context of app root.
 BuildContext? globalContext;

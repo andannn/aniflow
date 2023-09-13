@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AnimeListState {
-  AnimeCategory get category => throw _privateConstructorUsedError;
   PagingState<List<ShortcutAnimeModel>> get animePagingState =>
       throw _privateConstructorUsedError;
 
@@ -31,9 +30,7 @@ abstract class $AnimeListStateCopyWith<$Res> {
           AnimeListState value, $Res Function(AnimeListState) then) =
       _$AnimeListStateCopyWithImpl<$Res, AnimeListState>;
   @useResult
-  $Res call(
-      {AnimeCategory category,
-      PagingState<List<ShortcutAnimeModel>> animePagingState});
+  $Res call({PagingState<List<ShortcutAnimeModel>> animePagingState});
 }
 
 /// @nodoc
@@ -49,14 +46,9 @@ class _$AnimeListStateCopyWithImpl<$Res, $Val extends AnimeListState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? category = null,
     Object? animePagingState = null,
   }) {
     return _then(_value.copyWith(
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as AnimeCategory,
       animePagingState: null == animePagingState
           ? _value.animePagingState
           : animePagingState // ignore: cast_nullable_to_non_nullable
@@ -73,9 +65,7 @@ abstract class _$$_AnimeListStateCopyWith<$Res>
       __$$_AnimeListStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {AnimeCategory category,
-      PagingState<List<ShortcutAnimeModel>> animePagingState});
+  $Res call({PagingState<List<ShortcutAnimeModel>> animePagingState});
 }
 
 /// @nodoc
@@ -89,14 +79,9 @@ class __$$_AnimeListStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? category = null,
     Object? animePagingState = null,
   }) {
     return _then(_$_AnimeListState(
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as AnimeCategory,
       animePagingState: null == animePagingState
           ? _value.animePagingState
           : animePagingState // ignore: cast_nullable_to_non_nullable
@@ -109,19 +94,15 @@ class __$$_AnimeListStateCopyWithImpl<$Res>
 
 class _$_AnimeListState implements _AnimeListState {
   _$_AnimeListState(
-      {this.category = AnimeCategory.currentSeason,
-      this.animePagingState = const PageLoading(data: [], page: 1)});
+      {this.animePagingState = const PageLoading(data: [], page: 1)});
 
-  @override
-  @JsonKey()
-  final AnimeCategory category;
   @override
   @JsonKey()
   final PagingState<List<ShortcutAnimeModel>> animePagingState;
 
   @override
   String toString() {
-    return 'AnimeListState(category: $category, animePagingState: $animePagingState)';
+    return 'AnimeListState(animePagingState: $animePagingState)';
   }
 
   @override
@@ -129,14 +110,12 @@ class _$_AnimeListState implements _AnimeListState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AnimeListState &&
-            (identical(other.category, category) ||
-                other.category == category) &&
             (identical(other.animePagingState, animePagingState) ||
                 other.animePagingState == animePagingState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, category, animePagingState);
+  int get hashCode => Object.hash(runtimeType, animePagingState);
 
   @JsonKey(ignore: true)
   @override
@@ -147,12 +126,9 @@ class _$_AnimeListState implements _AnimeListState {
 
 abstract class _AnimeListState implements AnimeListState {
   factory _AnimeListState(
-          {final AnimeCategory category,
-          final PagingState<List<ShortcutAnimeModel>> animePagingState}) =
+          {final PagingState<List<ShortcutAnimeModel>> animePagingState}) =
       _$_AnimeListState;
 
-  @override
-  AnimeCategory get category;
   @override
   PagingState<List<ShortcutAnimeModel>> get animePagingState;
   @override

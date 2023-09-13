@@ -7,9 +7,8 @@ import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_tracker_snackbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-
-import '../../../core/data/logger/logger.dart';
-import 'auth_ui_state.dart';
+import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/feature/auth/bloc/auth_ui_state.dart';
 
 sealed class AuthEvent {}
 

@@ -9,11 +9,11 @@ import 'package:anime_tracker/core/designsystem/widget/anime_tracker_snackbar.da
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
-import '../../../core/common/global_static_constants.dart';
-import '../../../core/data/model/user_data_model.dart';
-import '../../../core/data/repository/auth_repository.dart';
-import '../../../core/data/repository/user_data_repository.dart';
-import '../../../util/anime_season_util.dart';
+import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/data/model/user_data_model.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
+import 'package:anime_tracker/util/anime_season_util.dart';
 
 sealed class DiscoverEvent {}
 

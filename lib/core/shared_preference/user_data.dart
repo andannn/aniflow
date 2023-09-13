@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 mixin UserDataKey {
   static const currentSeasonYear = "current_season_year";
