@@ -1,6 +1,8 @@
+import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:dio/dio.dart';
+
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 
@@ -12,20 +14,22 @@ class AniListDataSource {
 
   AniListDataSource._();
 
-  /// throw [DioException]
-  Future<DetailAnimeDto> getNetworkAnime({required int id}) {
-    throw UnimplementedError();
+  Future<DetailAnimeDto> getNetworkAnime({required int id}) async {
+    final queryGraphQL = createDetailAnimeQueryGraphQLString();
+    final variablesMap = {
+      'id': id,
+    };
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+
+    final resultJson = response.data['data']['Media'];
+    final DetailAnimeDto detailAnimeDto = DetailAnimeDto.fromJson(resultJson);
+
+    return detailAnimeDto;
   }
 
   Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
     required AnimePageQueryParam animeListParam,
-  }) async {
-    return _getAnimeList(animeListParam: animeListParam);
-  }
-
-  Future<List<ShortcutAnimeDto>> _getAnimeList<T>({
-    required AnimePageQueryParam animeListParam,
-    CancelToken? cancelToken,
   }) async {
     final queryGraphQL = createAnimeListQueryGraphQLString(animeListParam);
     final variablesMap = {
@@ -42,7 +46,7 @@ class AniListDataSource {
 
     final List resultJson = response.data['data']['Page']['media'];
     final List<ShortcutAnimeDto> animeList =
-        resultJson.map((e) => ShortcutAnimeDto.fromJson(e)).toList();
+    resultJson.map((e) => ShortcutAnimeDto.fromJson(e)).toList();
 
     return animeList;
   }

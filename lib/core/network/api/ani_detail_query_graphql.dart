@@ -1,7 +1,7 @@
-String createAnimeListQueryGraphQLString(int id) {
+String createDetailAnimeQueryGraphQLString() {
   return '''
-query ($id: Int) {
-  Media(id: $id, type: ANIME) {
+query (\$id: Int) {
+  Media(id: \$id, type: ANIME) {
     id
     title {
       romaji

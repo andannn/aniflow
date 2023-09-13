@@ -19,5 +19,8 @@ void main() {
           rest.map((e) => ShortcutAnimeEntity.fromNetworkModel(e)).toList();
       print(dbList);
     });
+    test('get_detail_anime', () async {
+      final rest = await AniListDataSource().getNetworkAnime(id: 1);
+    });
   });
 }
