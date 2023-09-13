@@ -25,6 +25,8 @@ class _OnAnimePageErrorEvent extends AnimeListEvent {
 
 class OnRequestLoadPageEvent extends AnimeListEvent {}
 
+class OnRetryLoadPageEvent extends AnimeListEvent {}
+
 class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   AnimeListBloc(
       {required this.category, required AniListRepository aniListRepository})
@@ -33,6 +35,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     on<_OnAnimePageLoadedEvent>(_onAnimePageLoadedEvent);
     on<_OnAnimePageErrorEvent>(_onAnimePageErrorEvent);
     on<OnRequestLoadPageEvent>(_onRequestLoadPageEvent);
+    on<OnRetryLoadPageEvent>(_onRetryLoadPageEvent);
 
     _init();
   }
@@ -43,7 +46,8 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   @override
   void onChange(Change<AnimeListState> change) {
     super.onChange(change);
-    logger.d('print ${change.nextState.animePagingState.runtimeType} ${change.nextState.animePagingState.page} ${change.nextState.animePagingState.data.length}');
+    logger.d(
+        'print ${change.nextState.animePagingState.runtimeType} ${change.nextState.animePagingState.page} ${change.nextState.animePagingState.data.length}');
   }
 
   void _init() async {
@@ -96,8 +100,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     final currentData = pagingState.data;
     final PagingState<List<ShortcutAnimeModel>> newPagingState;
     if (event.data.isEmpty) {
-      newPagingState = PageLoadReachEnd(
-          data: currentData, page: event.page);
+      newPagingState = PageLoadReachEnd(data: currentData, page: event.page);
     } else {
       newPagingState =
           PageReady(data: currentData + event.data, page: event.page);
@@ -106,5 +109,25 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   }
 
   FutureOr<void> _onAnimePageErrorEvent(
-      _OnAnimePageErrorEvent event, Emitter<AnimeListState> emit) {}
+      _OnAnimePageErrorEvent event, Emitter<AnimeListState> emit) {
+    final pagingState = state.animePagingState;
+    final page = pagingState.page;
+    final currentData = pagingState.data;
+    final PagingState<List<ShortcutAnimeModel>> newPagingState =
+        PageLoadingError(event.exception, data: currentData, page: page);
+    emit(state.copyWith(animePagingState: newPagingState));
+  }
+
+  FutureOr<void> _onRetryLoadPageEvent(
+      OnRetryLoadPageEvent event, Emitter<AnimeListState> emit) {
+    if (state.animePagingState is! PageLoadingError) {
+      return null;
+    }
+
+    /// change state to loading.
+    emit(state.copyWith(animePagingState: state.animePagingState.toLoading()));
+
+    /// post task to load anime.
+    _createLoadAnimePageTask(page: state.animePagingState.page + 1);
+  }
 }
