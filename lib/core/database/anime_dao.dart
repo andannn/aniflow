@@ -12,13 +12,41 @@ mixin AnimeTableColumns {
   static const String coverImageColor = 'cover_image_color';
 }
 
+mixin CategoryColumns {
+  static const String category = 'category';
+}
+
+mixin CategoryColumnsValues {
+  static const String trending = 'trending';
+  static const String currentSeason = 'currentSeason';
+  static const String nextSeason = 'nextSeason';
+}
+
+extension on AnimeCategory {
+  String getContentValue() {
+    switch (this) {
+      case AnimeCategory.trending:
+        return CategoryColumnsValues.trending;
+      case AnimeCategory.currentSeason:
+        return CategoryColumnsValues.currentSeason;
+      case AnimeCategory.nextSeason:
+        return CategoryColumnsValues.nextSeason;
+    }
+  }
+}
+
+mixin AnimeCategoryCrossRefColumns {
+  static const String animeId = 'anime_id';
+  static const String categoryId = 'category_id';
+}
+
 abstract class AnimeListDao {
-  Future<List<ShortcutAnimeEntity>> getAnimeByPage(String fromTable,
+  Future<List<ShortcutAnimeEntity>> getAnimeByPage(AnimeCategory category,
       {required int page, int perPage = defaultPerPageCount});
 
-  Future clearAll(String fromTable);
+  Future clearAll();
 
-  Future upsertAll(String fromTable,
+  Future upsertByAnimeCategory(AnimeCategory category,
       {required List<ShortcutAnimeEntity> animeList});
 }
 
@@ -28,30 +56,55 @@ class AnimeDaoImpl extends AnimeListDao {
   AnimeDaoImpl(this.database);
 
   @override
-  Future clearAll(String fromTable) async {
-    await database.animeDB.delete(fromTable);
+  Future clearAll() async {
+    await database.animeDB.delete(Tables.animeTable);
+    await database.animeDB.delete(Tables.categoryTable);
+    await database.animeDB.delete(Tables.animeCategoryTable);
   }
 
   @override
-  Future upsertAll(String fromTable,
+  Future upsertByAnimeCategory(AnimeCategory category,
       {required List<ShortcutAnimeEntity> animeList}) async {
     final batch = database.animeDB.batch();
 
+    batch.insert(Tables.categoryTable,
+        {CategoryColumns.category: category.getContentValue()},
+        conflictAlgorithm: ConflictAlgorithm.ignore);
+
     for (var anime in animeList) {
-      batch.insert(fromTable, anime.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert(
+        Tables.animeTable,
+        anime.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.animeCategoryTable,
+        {
+          AnimeCategoryCrossRefColumns.categoryId: category.getContentValue(),
+          AnimeCategoryCrossRefColumns.animeId: anime.id,
+        },
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
     }
     return await batch.commit(noResult: true);
   }
 
   @override
-  Future<List<ShortcutAnimeEntity>> getAnimeByPage(String fromTable,
+  Future<List<ShortcutAnimeEntity>> getAnimeByPage(AnimeCategory category,
       {required int page, int perPage = defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
-    final List<Map<String, dynamic>> result = await database.animeDB
-        .query(fromTable, limit: limit, offset: offset);
+    String sql = '''
+      select * from ${Tables.animeTable} as a
+      join ${Tables.animeCategoryTable} as ac
+      on a.${AnimeTableColumns.id} = ac.${AnimeCategoryCrossRefColumns.animeId}
+      where ac.${AnimeCategoryCrossRefColumns.categoryId} = '${category.getContentValue()}'
+      limit $limit
+      offset $offset
+    ''';
+    final List<Map<String, dynamic>> result =
+        await database.animeDB.rawQuery(sql);
     return result.map((e) => ShortcutAnimeEntity.fromJson(e)).toList();
   }
 }

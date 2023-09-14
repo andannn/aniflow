@@ -8,7 +8,9 @@ import 'package:anime_tracker/core/database/anime_dao.dart';
 const databaseFileName = "anime_data_base.db";
 
 mixin Tables {
-  static const String currentSeasonAnimeTable = 'current_season_anime_table';
+  static const String animeTable = 'anime_table';
+  static const String categoryTable = 'category_table';
+  static const String animeCategoryTable = 'anime_category_table';
   static const String nextSeasonAnimeTable = 'next_season_anime_table';
   static const String trendingSeasonAnimeTable = 'trending_season_anime_table';
   static const String userDataTable = 'user_data_table';
@@ -45,35 +47,31 @@ class AnimeDatabase {
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
   Future _createTables() async {
-    await _animeDB!.execute(
-        'CREATE TABLE IF NOT EXISTS ${Tables.currentSeasonAnimeTable} ('
-        '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
-        '${AnimeTableColumns.englishTitle} TEXT, '
-        '${AnimeTableColumns.romajiTitle} TEXT, '
-        '${AnimeTableColumns.nativeTitle} TEXT, '
-        '${AnimeTableColumns.coverImage} TEXT, '
-        '${AnimeTableColumns.coverImageColor} TEXT)');
+    await _animeDB!.execute('create table if not exists ${Tables.animeTable} ('
+        '${AnimeTableColumns.id} text primary key, '
+        '${AnimeTableColumns.englishTitle} text, '
+        '${AnimeTableColumns.romajiTitle} text, '
+        '${AnimeTableColumns.nativeTitle} text, '
+        '${AnimeTableColumns.coverImage} text, '
+        '${AnimeTableColumns.coverImageColor} text'
+        ')');
 
     await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.nextSeasonAnimeTable} ('
-            '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
-            '${AnimeTableColumns.englishTitle} TEXT, '
-            '${AnimeTableColumns.romajiTitle} TEXT, '
-            '${AnimeTableColumns.nativeTitle} TEXT, '
-            '${AnimeTableColumns.coverImage} TEXT, '
-            '${AnimeTableColumns.coverImageColor} TEXT)');
+        .execute('create table if not exists ${Tables.categoryTable} ('
+            '${CategoryColumns.category} text primary key'
+            ')');
 
     await _animeDB!.execute(
-        'CREATE TABLE IF NOT EXISTS ${Tables.trendingSeasonAnimeTable} ('
-        '${AnimeTableColumns.id} TEXT PRIMARY KEY, '
-        '${AnimeTableColumns.englishTitle} TEXT, '
-        '${AnimeTableColumns.romajiTitle} TEXT, '
-        '${AnimeTableColumns.nativeTitle} TEXT, '
-        '${AnimeTableColumns.coverImage} TEXT, '
-        '${AnimeTableColumns.coverImageColor} TEXT)');
+        'create table if not exists ${Tables.animeCategoryTable} ('
+        '${AnimeCategoryCrossRefColumns.animeId} text, '
+        '${AnimeCategoryCrossRefColumns.categoryId} text, '
+        'primary key (${AnimeCategoryCrossRefColumns.animeId}, ${AnimeCategoryCrossRefColumns.categoryId}), '
+        'foreign key (${AnimeCategoryCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
+        'foreign key (${AnimeCategoryCrossRefColumns.categoryId}) references ${Tables.categoryTable} (${CategoryColumns.category})'
+        ')');
 
-    await _animeDB!.execute(
-        'CREATE TABLE IF NOT EXISTS ${Tables.userDataTable} ('
+    await _animeDB!
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.userDataTable} ('
             '${UserDataTableColumns.id} TEXT PRIMARY KEY, '
             '${UserDataTableColumns.name} TEXT, '
             '${UserDataTableColumns.avatarImage} TEXT, '

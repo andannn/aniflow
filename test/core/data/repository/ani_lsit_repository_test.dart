@@ -26,9 +26,9 @@ void main() {
     });
 
     tearDown(() async {
-      await animeDatabase.animeDB.delete(Tables.currentSeasonAnimeTable);
-      await animeDatabase.animeDB.delete(Tables.nextSeasonAnimeTable);
-      await animeDatabase.animeDB.delete(Tables.trendingSeasonAnimeTable);
+      await animeDatabase.animeDB.delete(Tables.animeTable);
+      await animeDatabase.animeDB.delete(Tables.animeCategoryTable);
+      await animeDatabase.animeDB.delete(Tables.categoryTable);
       await animeDatabase.animeDB.delete(Tables.userDataTable);
     });
 
@@ -38,7 +38,7 @@ void main() {
       final result = await aniListRepository.getAnimePageByCategory(
           category: AnimeCategory.currentSeason, page: 1);
       final dbResult = await animeDao
-          .getAnimeByPage(Tables.currentSeasonAnimeTable, page: 1);
+          .getAnimeByPage(AnimeCategory.currentSeason, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
@@ -52,7 +52,7 @@ void main() {
       final result = await aniListRepository.refreshAnimeByCategory(
           category: AnimeCategory.currentSeason);
       final dbResult = await animeDao
-          .getAnimeByPage(Tables.currentSeasonAnimeTable, page: 1);
+          .getAnimeByPage(AnimeCategory.currentSeason, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
@@ -66,7 +66,7 @@ void main() {
       final result = await aniListRepository.getAnimePageByCategory(
           category: AnimeCategory.nextSeason, page: 1);
       final dbResult = await animeDao
-          .getAnimeByPage(Tables.nextSeasonAnimeTable, page: 1);
+          .getAnimeByPage(AnimeCategory.nextSeason, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
@@ -80,7 +80,7 @@ void main() {
       final result = await aniListRepository.refreshAnimeByCategory(
           category: AnimeCategory.nextSeason);
       final dbResult = await animeDao
-          .getAnimeByPage(Tables.nextSeasonAnimeTable, page: 1);
+          .getAnimeByPage(AnimeCategory.nextSeason, page: 1);
       expect(
           (result as LoadSuccess<ShortcutAnimeModel>).data.map((e) => e.id),
           equals(dbResult

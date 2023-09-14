@@ -6,7 +6,6 @@ import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:anime_tracker/core/database/anime_database.dart';
 
 part 'load_type.dart';
 
@@ -130,18 +129,8 @@ class AniListRepositoryImpl extends AniListRepository {
       {required AnimeCategory category,
       required int page,
       int perPage = defaultPerPageCount}) {
-    String table;
-
-    switch (category) {
-      case AnimeCategory.currentSeason:
-        table = Tables.currentSeasonAnimeTable;
-      case AnimeCategory.nextSeason:
-        table = Tables.nextSeasonAnimeTable;
-      case AnimeCategory.trending:
-        table = Tables.trendingSeasonAnimeTable;
-    }
     return _loadAnimePage(
-        fromTable: table,
+        category: category,
         type: LoadType.append,
         animeListParam: _createAnimePageQueryParam(
           category,
@@ -155,18 +144,8 @@ class AniListRepositoryImpl extends AniListRepository {
   @override
   Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory(
       {required AnimeCategory category}) {
-    String table;
-
-    switch (category) {
-      case AnimeCategory.currentSeason:
-        table = Tables.currentSeasonAnimeTable;
-      case AnimeCategory.nextSeason:
-        table = Tables.nextSeasonAnimeTable;
-      case AnimeCategory.trending:
-        table = Tables.trendingSeasonAnimeTable;
-    }
     return _loadAnimePage(
-        fromTable: table,
+        category: category,
         type: LoadType.refresh,
         animeListParam: _createAnimePageQueryParam(
           category,
@@ -216,7 +195,7 @@ class AniListRepositoryImpl extends AniListRepository {
   }
 
   Future<LoadResult<ShortcutAnimeModel>> _loadAnimePage(
-      {required String fromTable,
+      {required AnimeCategory category,
       required LoadType type,
       required AnimePageQueryParam animeListParam}) async {
     try {
@@ -233,8 +212,8 @@ class AniListRepositoryImpl extends AniListRepository {
               .toList();
 
           /// clear and re-insert data when refresh.
-          await animeDao.clearAll(fromTable);
-          await animeDao.upsertAll(fromTable, animeList: dbAnimeList);
+          await animeDao.clearAll();
+          await animeDao.upsertByAnimeCategory(category, animeList: dbAnimeList);
 
           /// load success, return result.
           return LoadSuccess(
@@ -243,7 +222,7 @@ class AniListRepositoryImpl extends AniListRepository {
                   .toList(),
               page: 1);
         case LoadType.append:
-          final dbResult = await animeDao.getAnimeByPage(fromTable,
+          final dbResult = await animeDao.getAnimeByPage(category,
               page: animeListParam.page, perPage: animeListParam.perPage);
           if (dbResult.length < animeListParam.perPage) {
             /// the data in database is not enough for one page. try to get data from network.
@@ -254,10 +233,10 @@ class AniListRepositoryImpl extends AniListRepository {
             final dbAnimeList = networkRes
                 .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
                 .toList();
-            await animeDao.upsertAll(fromTable, animeList: dbAnimeList);
+            await animeDao.upsertByAnimeCategory(category, animeList: dbAnimeList);
 
             /// load success, return result.
-            final newResult = await animeDao.getAnimeByPage(fromTable,
+            final newResult = await animeDao.getAnimeByPage(category,
                 page: animeListParam.page, perPage: animeListParam.perPage);
             return LoadSuccess(
                 data: newResult
