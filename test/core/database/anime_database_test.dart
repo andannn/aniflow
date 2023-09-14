@@ -47,9 +47,9 @@ void main() {
 
     tearDown(() async {
       await animeDatabase.animeDB.delete(Tables.animeTable);
-      // await animeDatabase.animeDB.delete(Tables.nextSeasonAnimeTable);
-      // await animeDatabase.animeDB.delete(Tables.trendingSeasonAnimeTable);
-      // await animeDatabase.animeDB.delete(Tables.userDataTable);
+      await animeDatabase.animeDB.delete(Tables.categoryTable);
+      await animeDatabase.animeDB.delete(Tables.animeCategoryTable);
+      await animeDatabase.animeDB.delete(Tables.userDataTable);
     });
 
     test('anime_dao_clear_all', () async {
