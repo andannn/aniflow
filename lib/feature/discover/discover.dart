@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
@@ -127,7 +127,7 @@ class _AnimeCategoryPreview extends StatelessWidget {
 
   final AnimeCategory category;
   final bool isLoading;
-  final List<ShortcutAnimeModel> animeModels;
+  final List<ShortAnimeModel> animeModels;
   final VoidCallback? onMoreClick;
   final Function(String animeId)? onAnimeClick;
 

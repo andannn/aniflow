@@ -11,8 +11,6 @@ mixin Tables {
   static const String animeTable = 'anime_table';
   static const String categoryTable = 'category_table';
   static const String animeCategoryTable = 'anime_category_table';
-  static const String nextSeasonAnimeTable = 'next_season_anime_table';
-  static const String trendingSeasonAnimeTable = 'trending_season_anime_table';
   static const String userDataTable = 'user_data_table';
 }
 
@@ -49,11 +47,17 @@ class AnimeDatabase {
   Future _createTables() async {
     await _animeDB!.execute('create table if not exists ${Tables.animeTable} ('
         '${AnimeTableColumns.id} text primary key, '
-        '${AnimeTableColumns.englishTitle} text, '
-        '${AnimeTableColumns.romajiTitle} text, '
-        '${AnimeTableColumns.nativeTitle} text, '
-        '${AnimeTableColumns.coverImage} text, '
-        '${AnimeTableColumns.coverImageColor} text'
+        '${AnimeTableColumns.englishTitle} text,'
+        '${AnimeTableColumns.romajiTitle} text,'
+        '${AnimeTableColumns.nativeTitle} text,'
+        '${AnimeTableColumns.coverImage} text,'
+        '${AnimeTableColumns.coverImageColor} text,'
+        '${AnimeTableColumns.description} text,'
+        '${AnimeTableColumns.source} text,'
+        '${AnimeTableColumns.bannerImage} text,'
+        '${AnimeTableColumns.averageScore} integer,'
+        '${AnimeTableColumns.trending} integer,'
+        '${AnimeTableColumns.favourites} integer'
         ')');
 
     await _animeDB!

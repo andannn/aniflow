@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
-import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
+import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
@@ -106,11 +106,11 @@ AnimeSeasonParam getNextSeasonParam(AnimeSeasonParam current) {
 abstract class AniListRepository {
   /// refresh the category anime table, which will deleted the table and get
   /// data from network data source.
-  Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory(
+  Future<LoadResult<ShortAnimeModel>> refreshAnimeByCategory(
       {required AnimeCategory category});
 
   /// get data from database or network if database have no data.
-  Future<LoadResult<ShortcutAnimeModel>> getAnimePageByCategory(
+  Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory(
       {required AnimeCategory category,
       required int page,
       int perPage = defaultPerPageCount});
@@ -125,7 +125,7 @@ class AniListRepositoryImpl extends AniListRepository {
   final AnimeTrackerPreferences preferences;
 
   @override
-  Future<LoadResult<ShortcutAnimeModel>> getAnimePageByCategory(
+  Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory(
       {required AnimeCategory category,
       required int page,
       int perPage = defaultPerPageCount}) {
@@ -142,7 +142,7 @@ class AniListRepositoryImpl extends AniListRepository {
   }
 
   @override
-  Future<LoadResult<ShortcutAnimeModel>> refreshAnimeByCategory(
+  Future<LoadResult<ShortAnimeModel>> refreshAnimeByCategory(
       {required AnimeCategory category}) {
     return _loadAnimePage(
         category: category,
@@ -194,7 +194,7 @@ class AniListRepositoryImpl extends AniListRepository {
     );
   }
 
-  Future<LoadResult<ShortcutAnimeModel>> _loadAnimePage(
+  Future<LoadResult<ShortAnimeModel>> _loadAnimePage(
       {required AnimeCategory category,
       required LoadType type,
       required AnimePageQueryParam animeListParam}) async {
@@ -208,7 +208,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
           /// insert the anime to db.
           final dbAnimeList = networkRes
-              .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
+              .map((e) => AnimeEntity.fromShortNetworkModel(e))
               .toList();
 
           /// clear and re-insert data when refresh.
@@ -218,7 +218,7 @@ class AniListRepositoryImpl extends AniListRepository {
           /// load success, return result.
           return LoadSuccess(
               data: dbAnimeList
-                  .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                  .map((e) => ShortAnimeModel.fromDatabaseModel(e))
                   .toList(),
               page: 1);
         case LoadType.append:
@@ -231,7 +231,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
             /// insert the network data to db.
             final dbAnimeList = networkRes
-                .map((e) => ShortcutAnimeEntity.fromNetworkModel(e))
+                .map((e) => AnimeEntity.fromShortNetworkModel(e))
                 .toList();
             await animeDao.upsertByAnimeCategory(category, animeList: dbAnimeList);
 
@@ -240,14 +240,14 @@ class AniListRepositoryImpl extends AniListRepository {
                 page: animeListParam.page, perPage: animeListParam.perPage);
             return LoadSuccess(
                 data: newResult
-                    .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                    .map((e) => ShortAnimeModel.fromDatabaseModel(e))
                     .toList(),
                 page: animeListParam.page);
           } else {
             /// we have catch in db, return the result.
             return LoadSuccess(
                 data: dbResult
-                    .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+                    .map((e) => ShortAnimeModel.fromDatabaseModel(e))
                     .toList(),
                 page: animeListParam.page);
           }

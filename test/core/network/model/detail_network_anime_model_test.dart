@@ -1,5 +1,3 @@
-import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -175,7 +173,7 @@ void main() {
       }
     };
     test('detail_anime', () async {
-      final res = DetailAnimeDto.fromJson(dummyData);
+      DetailAnimeDto.fromJson(dummyData);
     });
   });
 }

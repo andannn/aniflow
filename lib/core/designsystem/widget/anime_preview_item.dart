@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
@@ -12,7 +12,7 @@ class AnimePreviewItem extends StatelessWidget {
       this.width,
       this.textStyle});
 
-  final ShortcutAnimeModel model;
+  final ShortAnimeModel model;
   final VoidCallback onClick;
   final double? width;
   final TextStyle? textStyle;

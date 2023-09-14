@@ -1,19 +1,19 @@
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
+import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'shortcut_anime_model.freezed.dart';
+part 'short_anime_model.freezed.dart';
 
 @freezed
-class ShortcutAnimeModel with _$ShortcutAnimeModel {
-  factory ShortcutAnimeModel({
+class ShortAnimeModel with _$ShortAnimeModel {
+  factory ShortAnimeModel({
     @Default('') String id,
     AnimeTitle? title,
     @Default('') String coverImage,
     @Default('') String coverImageColor,
-  }) = _ShortcutAnimeModel;
+  }) = _ShortAnimeModel;
 
-  static ShortcutAnimeModel fromDatabaseModel(ShortcutAnimeEntity model) => ShortcutAnimeModel(
+  static ShortAnimeModel fromDatabaseModel(AnimeEntity model) => ShortAnimeModel(
     id: model.id,
     title: AnimeTitle(
       english: model.englishTitle,

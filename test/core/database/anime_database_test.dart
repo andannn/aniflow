@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
+import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -10,7 +10,7 @@ void main() {
     final animeDatabase = AnimeDatabase();
 
     final dummyAnimeData = [
-      ShortcutAnimeEntity(
+      AnimeEntity(
           id: '5784',
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
@@ -18,7 +18,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
           coverImageColor: '#6b351a'),
-      ShortcutAnimeEntity(
+      AnimeEntity(
           id: '8917',
           englishTitle: 'Bodacious Space Pirates',
           romajiTitle: 'Mouretsu Pirates',
@@ -26,7 +26,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
           coverImageColor: '#50aee4'),
-      ShortcutAnimeEntity(
+      AnimeEntity(
           id: '9523',
           englishTitle: '',
           romajiTitle: 'Minori Scramble!',
@@ -68,7 +68,8 @@ void main() {
       await animeDao.upsertByAnimeCategory(AnimeCategory.trending,
           animeList: dummyAnimeData);
 
-      final res = await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
+      final res =
+          await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
       expect(res, equals(dummyAnimeData));
     });
 
@@ -78,11 +79,22 @@ void main() {
           animeList: dummyAnimeData.sublist(0, 2));
       await animeDao.upsertByAnimeCategory(AnimeCategory.currentSeason,
           animeList: dummyAnimeData.sublist(1, 3));
-      final res = await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
+      final res =
+          await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
       expect(res, equals(dummyAnimeData.sublist(0, 2)));
-      final res1 = await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
+      final res1 =
+          await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
       expect(res1, equals(dummyAnimeData.sublist(1, 3)));
     });
+
+    test('upsert_detail_anime_data', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertDetailAnimeInfo(dummyAnimeData[0]);
+      final res = await animeDatabase.animeDB.query(Tables.animeTable);
+      expect(AnimeEntity.fromJson(res.first), equals(dummyAnimeData[0]));
+    });
+
+    /// user test.
     test('get_user_data_stream_test', () async {
       final userDataDao = animeDatabase.getUserDataDao();
 

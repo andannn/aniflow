@@ -17,11 +17,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DiscoverUiState {
   String get isShowSuggestionBoard => throw _privateConstructorUsedError;
-  PagingState<List<ShortcutAnimeModel>> get currentSeasonAnimePagingState =>
+  PagingState<List<ShortAnimeModel>> get currentSeasonAnimePagingState =>
       throw _privateConstructorUsedError;
-  PagingState<List<ShortcutAnimeModel>> get nextSeasonAnimePagingState =>
+  PagingState<List<ShortAnimeModel>> get nextSeasonAnimePagingState =>
       throw _privateConstructorUsedError;
-  PagingState<List<ShortcutAnimeModel>> get trendingAnimePagingState =>
+  PagingState<List<ShortAnimeModel>> get trendingAnimePagingState =>
       throw _privateConstructorUsedError;
   UserData? get userData => throw _privateConstructorUsedError;
 
@@ -38,9 +38,9 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String isShowSuggestionBoard,
-      PagingState<List<ShortcutAnimeModel>> currentSeasonAnimePagingState,
-      PagingState<List<ShortcutAnimeModel>> nextSeasonAnimePagingState,
-      PagingState<List<ShortcutAnimeModel>> trendingAnimePagingState,
+      PagingState<List<ShortAnimeModel>> currentSeasonAnimePagingState,
+      PagingState<List<ShortAnimeModel>> nextSeasonAnimePagingState,
+      PagingState<List<ShortAnimeModel>> trendingAnimePagingState,
       UserData? userData});
 
   $UserDataCopyWith<$Res>? get userData;
@@ -73,15 +73,15 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
       currentSeasonAnimePagingState: null == currentSeasonAnimePagingState
           ? _value.currentSeasonAnimePagingState
           : currentSeasonAnimePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
       nextSeasonAnimePagingState: null == nextSeasonAnimePagingState
           ? _value.nextSeasonAnimePagingState
           : nextSeasonAnimePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
       trendingAnimePagingState: null == trendingAnimePagingState
           ? _value.trendingAnimePagingState
           : trendingAnimePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -112,9 +112,9 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
   @useResult
   $Res call(
       {String isShowSuggestionBoard,
-      PagingState<List<ShortcutAnimeModel>> currentSeasonAnimePagingState,
-      PagingState<List<ShortcutAnimeModel>> nextSeasonAnimePagingState,
-      PagingState<List<ShortcutAnimeModel>> trendingAnimePagingState,
+      PagingState<List<ShortAnimeModel>> currentSeasonAnimePagingState,
+      PagingState<List<ShortAnimeModel>> nextSeasonAnimePagingState,
+      PagingState<List<ShortAnimeModel>> trendingAnimePagingState,
       UserData? userData});
 
   @override
@@ -146,15 +146,15 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
       currentSeasonAnimePagingState: null == currentSeasonAnimePagingState
           ? _value.currentSeasonAnimePagingState
           : currentSeasonAnimePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
       nextSeasonAnimePagingState: null == nextSeasonAnimePagingState
           ? _value.nextSeasonAnimePagingState
           : nextSeasonAnimePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
       trendingAnimePagingState: null == trendingAnimePagingState
           ? _value.trendingAnimePagingState
           : trendingAnimePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -178,13 +178,13 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   final String isShowSuggestionBoard;
   @override
   @JsonKey()
-  final PagingState<List<ShortcutAnimeModel>> currentSeasonAnimePagingState;
+  final PagingState<List<ShortAnimeModel>> currentSeasonAnimePagingState;
   @override
   @JsonKey()
-  final PagingState<List<ShortcutAnimeModel>> nextSeasonAnimePagingState;
+  final PagingState<List<ShortAnimeModel>> nextSeasonAnimePagingState;
   @override
   @JsonKey()
-  final PagingState<List<ShortcutAnimeModel>> trendingAnimePagingState;
+  final PagingState<List<ShortAnimeModel>> trendingAnimePagingState;
   @override
   final UserData? userData;
 
@@ -234,19 +234,19 @@ class _$_DiscoverUiState implements _DiscoverUiState {
 abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
       {final String isShowSuggestionBoard,
-      final PagingState<List<ShortcutAnimeModel>> currentSeasonAnimePagingState,
-      final PagingState<List<ShortcutAnimeModel>> nextSeasonAnimePagingState,
-      final PagingState<List<ShortcutAnimeModel>> trendingAnimePagingState,
+      final PagingState<List<ShortAnimeModel>> currentSeasonAnimePagingState,
+      final PagingState<List<ShortAnimeModel>> nextSeasonAnimePagingState,
+      final PagingState<List<ShortAnimeModel>> trendingAnimePagingState,
       final UserData? userData}) = _$_DiscoverUiState;
 
   @override
   String get isShowSuggestionBoard;
   @override
-  PagingState<List<ShortcutAnimeModel>> get currentSeasonAnimePagingState;
+  PagingState<List<ShortAnimeModel>> get currentSeasonAnimePagingState;
   @override
-  PagingState<List<ShortcutAnimeModel>> get nextSeasonAnimePagingState;
+  PagingState<List<ShortAnimeModel>> get nextSeasonAnimePagingState;
   @override
-  PagingState<List<ShortcutAnimeModel>> get trendingAnimePagingState;
+  PagingState<List<ShortAnimeModel>> get trendingAnimePagingState;
   @override
   UserData? get userData;
   @override

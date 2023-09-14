@@ -16,8 +16,7 @@ void main() {
     });
 
     test('get_auth_data', () async {
-      final result = await authDataSource.getUserDataDto();
-      print(result);
+      await authDataSource.getUserDataDto();
     });
   });
 }
