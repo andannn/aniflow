@@ -1,11 +1,17 @@
+import 'package:anime_tracker/core/database/model/character_entity.dart';
+import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
+import 'package:anime_tracker/core/network/model/character_edge.dart';
+import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
+import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
+
+import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
-import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 
 part 'load_type.dart';
 
@@ -110,10 +116,15 @@ abstract class AniListRepository {
       {required AnimeCategory category});
 
   /// get data from database or network if database have no data.
-  Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory(
-      {required AnimeCategory category,
-      required int page,
-      int perPage = defaultPerPageCount});
+  Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory({
+    required AnimeCategory category,
+    required int page,
+    int perPage = defaultPerPageCount,
+  });
+
+  Stream<DetailAnimeModel> getDetailAnimeInfoStream(String id);
+
+  Future<LoadResult<void>> startFetchDetailAnimeInfo(String id);
 }
 
 class AniListRepositoryImpl extends AniListRepository {
@@ -213,7 +224,8 @@ class AniListRepositoryImpl extends AniListRepository {
 
           /// clear and re-insert data when refresh.
           await animeDao.clearAll();
-          await animeDao.upsertByAnimeCategory(category, animeList: dbAnimeList);
+          await animeDao.upsertByAnimeCategory(category,
+              animeList: dbAnimeList);
 
           /// load success, return result.
           return LoadSuccess(
@@ -233,7 +245,8 @@ class AniListRepositoryImpl extends AniListRepository {
             final dbAnimeList = networkRes
                 .map((e) => AnimeEntity.fromShortNetworkModel(e))
                 .toList();
-            await animeDao.upsertByAnimeCategory(category, animeList: dbAnimeList);
+            await animeDao.upsertByAnimeCategory(category,
+                animeList: dbAnimeList);
 
             /// load success, return result.
             final newResult = await animeDao.getAnimeByPage(category,
@@ -252,6 +265,64 @@ class AniListRepositoryImpl extends AniListRepository {
                 page: animeListParam.page);
           }
       }
+    } on DioException catch (e) {
+      return LoadError(e);
+    }
+  }
+
+  @override
+  Stream<DetailAnimeModel> getDetailAnimeInfoStream(String id) {
+    return animeDao.getDetailAnimeInfoStream(id).map(
+          (entity) =>
+              DetailAnimeModel.fromAnimeCharactersAndVoiceActors(entity),
+        );
+  }
+
+  @override
+  Future<LoadResult<void>> startFetchDetailAnimeInfo(String id) async {
+    try {
+      DetailAnimeDto networkResult = await aniListDataSource.getNetworkAnime(
+        id: int.parse(id),
+      );
+
+      /// fetch anime info from network.
+      await animeDao.upsertDetailAnimeInfo(
+        [AnimeEntity.fromDetailNetworkModel(networkResult)],
+      );
+
+      final List<CharacterEdge> characters =
+          networkResult.characters?.edges ?? [];
+      if (characters.isEmpty) {
+        return LoadSuccess(data: [], page: 1);
+      }
+
+      /// inset character entities to db.
+      final List<CharacterEntity> characterEntities = characters
+          .map(
+            (e) => CharacterEntity.fromNetworkModel(e),
+          )
+          .toList();
+      await animeDao.upsertCharacterInfo(characterEntities);
+
+      /// inset voice actor entities to db.
+      final List<VoiceActorEntity> voiceActorEntities = characters
+          .map(
+            (e) => VoiceActorEntity.fromNetworkModel(e),
+          )
+          .toList();
+      await animeDao.upsertVoiceActorInfo(voiceActorEntities);
+
+      /// Set crossRefs to anime and characters.
+      await animeDao.upsertAnimeCharacterCrossRef(
+        crossRefs: characters.map((e) => AnimeCharacterCrossRef(
+          animeId: id.toString(),
+          characterId: e.characterEdge!.id.toString(),
+        ),).toList(),
+      );
+
+      /// notify data base has been changed an trigger the streams.
+      animeDao.notifyAnimeDetailInfoChanged();
+      return LoadSuccess(data: [], page: 1);
     } on DioException catch (e) {
       return LoadError(e);
     }

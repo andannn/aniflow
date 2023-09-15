@@ -26,6 +26,8 @@ mixin _$DetailAnimeModel {
   int get averageScore => throw _privateConstructorUsedError;
   int get trending => throw _privateConstructorUsedError;
   int get favourites => throw _privateConstructorUsedError;
+  List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailAnimeModelCopyWith<DetailAnimeModel> get copyWith =>
@@ -48,7 +50,8 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
       String bannerImage,
       int averageScore,
       int trending,
-      int favourites});
+      int favourites,
+      List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
   $AnimeTitleCopyWith<$Res>? get title;
 }
@@ -76,6 +79,7 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
     Object? averageScore = null,
     Object? trending = null,
     Object? favourites = null,
+    Object? characterAndVoiceActors = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -118,6 +122,10 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as int,
+      characterAndVoiceActors: null == characterAndVoiceActors
+          ? _value.characterAndVoiceActors
+          : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
+              as List<CharacterAndVoiceActorModel>,
     ) as $Val);
   }
 
@@ -152,7 +160,8 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       String bannerImage,
       int averageScore,
       int trending,
-      int favourites});
+      int favourites,
+      List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
@@ -179,6 +188,7 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? averageScore = null,
     Object? trending = null,
     Object? favourites = null,
+    Object? characterAndVoiceActors = null,
   }) {
     return _then(_$_DetailAnimeModel(
       id: null == id
@@ -221,6 +231,10 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as int,
+      characterAndVoiceActors: null == characterAndVoiceActors
+          ? _value._characterAndVoiceActors
+          : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
+              as List<CharacterAndVoiceActorModel>,
     ));
   }
 }
@@ -238,7 +252,10 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.bannerImage = '',
       this.averageScore = -1,
       this.trending = -1,
-      this.favourites = -1});
+      this.favourites = -1,
+      final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
+          const []})
+      : _characterAndVoiceActors = characterAndVoiceActors;
 
   @override
   @JsonKey()
@@ -269,10 +286,19 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
   @override
   @JsonKey()
   final int favourites;
+  final List<CharacterAndVoiceActorModel> _characterAndVoiceActors;
+  @override
+  @JsonKey()
+  List<CharacterAndVoiceActorModel> get characterAndVoiceActors {
+    if (_characterAndVoiceActors is EqualUnmodifiableListView)
+      return _characterAndVoiceActors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_characterAndVoiceActors);
+  }
 
   @override
   String toString() {
-    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites)';
+    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, characterAndVoiceActors: $characterAndVoiceActors)';
   }
 
   @override
@@ -296,7 +322,9 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
             (identical(other.trending, trending) ||
                 other.trending == trending) &&
             (identical(other.favourites, favourites) ||
-                other.favourites == favourites));
+                other.favourites == favourites) &&
+            const DeepCollectionEquality().equals(
+                other._characterAndVoiceActors, _characterAndVoiceActors));
   }
 
   @override
@@ -311,7 +339,8 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       bannerImage,
       averageScore,
       trending,
-      favourites);
+      favourites,
+      const DeepCollectionEquality().hash(_characterAndVoiceActors));
 
   @JsonKey(ignore: true)
   @override
@@ -322,16 +351,18 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
 abstract class _DetailAnimeModel implements DetailAnimeModel {
   factory _DetailAnimeModel(
-      {final String id,
-      final AnimeTitle? title,
-      final String coverImage,
-      final String coverImageColor,
-      final String description,
-      final String source,
-      final String bannerImage,
-      final int averageScore,
-      final int trending,
-      final int favourites}) = _$_DetailAnimeModel;
+          {final String id,
+          final AnimeTitle? title,
+          final String coverImage,
+          final String coverImageColor,
+          final String description,
+          final String source,
+          final String bannerImage,
+          final int averageScore,
+          final int trending,
+          final int favourites,
+          final List<CharacterAndVoiceActorModel> characterAndVoiceActors}) =
+      _$_DetailAnimeModel;
 
   @override
   String get id;
@@ -353,6 +384,8 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   int get trending;
   @override
   int get favourites;
+  @override
+  List<CharacterAndVoiceActorModel> get characterAndVoiceActors;
   @override
   @JsonKey(ignore: true)
   _$$_DetailAnimeModelCopyWith<_$_DetailAnimeModel> get copyWith =>

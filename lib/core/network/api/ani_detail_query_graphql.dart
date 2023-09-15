@@ -32,7 +32,7 @@ query (\$id: Int) {
       episode
       timeUntilAiring
     }
-    characters(page: 5, perPage: 5, sort: FAVOURITES_DESC) {
+    characters(page: 1, perPage: 9, sort: FAVOURITES_DESC) {
       pageInfo {
         total
         perPage
@@ -46,6 +46,7 @@ query (\$id: Int) {
           id
           image {
             large
+            medium
           }
           name {
             full

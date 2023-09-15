@@ -10,7 +10,10 @@ const databaseFileName = "anime_data_base.db";
 mixin Tables {
   static const String animeTable = 'anime_table';
   static const String categoryTable = 'category_table';
-  static const String animeCategoryTable = 'anime_category_table';
+  static const String animeCategoryCrossRefTable = 'anime_category_cross_ref_table';
+  static const String characterTable = 'character_table';
+  static const String animeCharacterCrossRefTable = 'anime_character_cross_ref_table';
+  static const String voiceActorTable = 'voice_actor_table';
   static const String userDataTable = 'user_data_table';
 }
 
@@ -66,7 +69,7 @@ class AnimeDatabase {
             ')');
 
     await _animeDB!.execute(
-        'create table if not exists ${Tables.animeCategoryTable} ('
+        'create table if not exists ${Tables.animeCategoryCrossRefTable} ('
         '${AnimeCategoryCrossRefColumns.animeId} text, '
         '${AnimeCategoryCrossRefColumns.categoryId} text, '
         'primary key (${AnimeCategoryCrossRefColumns.animeId}, ${AnimeCategoryCrossRefColumns.categoryId}), '
@@ -80,5 +83,29 @@ class AnimeDatabase {
             '${UserDataTableColumns.name} TEXT, '
             '${UserDataTableColumns.avatarImage} TEXT, '
             '${UserDataTableColumns.bannerImage} TEXT)');
+
+    await _animeDB!
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.characterTable} ('
+            '${CharacterColumns.id} TEXT PRIMARY KEY, '
+            '${CharacterColumns.voiceActorId} TEXT, '
+            '${CharacterColumns.image} TEXT, '
+            '${CharacterColumns.nameEnglish} TEXT, '
+            '${CharacterColumns.nameNative} TEXT)');
+
+    await _animeDB!
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.voiceActorTable} ('
+            '${VoiceActorColumns.id} TEXT PRIMARY KEY, '
+            '${VoiceActorColumns.image} TEXT, '
+            '${VoiceActorColumns.nameEnglish} TEXT, '
+            '${VoiceActorColumns.nameNative} TEXT)');
+
+    await _animeDB!.execute(
+        'create table if not exists ${Tables.animeCharacterCrossRefTable} ('
+        '${AnimeCharacterCrossRefColumns.animeId} text, '
+        '${AnimeCharacterCrossRefColumns.characterId} text, '
+        'primary key (${AnimeCharacterCrossRefColumns.animeId}, ${AnimeCharacterCrossRefColumns.characterId}), '
+        'foreign key (${AnimeCharacterCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
+        'foreign key (${AnimeCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        ')');
   }
 }
