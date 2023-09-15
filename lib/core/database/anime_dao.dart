@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/model/short_cut_anime_entity.dart';
+import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
@@ -10,6 +10,12 @@ mixin AnimeTableColumns {
   static const String nativeTitle = 'native_title';
   static const String coverImage = 'cover_image';
   static const String coverImageColor = 'cover_image_color';
+  static const String description = 'description';
+  static const String source = 'source';
+  static const String bannerImage = 'banner_image';
+  static const String averageScore = 'average_score';
+  static const String trending = 'trending';
+  static const String favourites = 'favourites';
 }
 
 mixin CategoryColumns {
@@ -41,13 +47,15 @@ mixin AnimeCategoryCrossRefColumns {
 }
 
 abstract class AnimeListDao {
-  Future<List<ShortcutAnimeEntity>> getAnimeByPage(AnimeCategory category,
+  Future<List<AnimeEntity>> getAnimeByPage(AnimeCategory category,
       {required int page, int perPage = defaultPerPageCount});
 
   Future clearAll();
 
   Future upsertByAnimeCategory(AnimeCategory category,
-      {required List<ShortcutAnimeEntity> animeList});
+      {required List<AnimeEntity> animeList});
+
+  Future upsertDetailAnimeInfo(AnimeEntity entity);
 }
 
 class AnimeDaoImpl extends AnimeListDao {
@@ -64,7 +72,7 @@ class AnimeDaoImpl extends AnimeListDao {
 
   @override
   Future upsertByAnimeCategory(AnimeCategory category,
-      {required List<ShortcutAnimeEntity> animeList}) async {
+      {required List<AnimeEntity> animeList}) async {
     final batch = database.animeDB.batch();
 
     batch.insert(Tables.categoryTable,
@@ -90,7 +98,7 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
-  Future<List<ShortcutAnimeEntity>> getAnimeByPage(AnimeCategory category,
+  Future<List<AnimeEntity>> getAnimeByPage(AnimeCategory category,
       {required int page, int perPage = defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
@@ -105,6 +113,17 @@ class AnimeDaoImpl extends AnimeListDao {
     ''';
     final List<Map<String, dynamic>> result =
         await database.animeDB.rawQuery(sql);
-    return result.map((e) => ShortcutAnimeEntity.fromJson(e)).toList();
+    return result.map((e) => AnimeEntity.fromJson(e)).toList();
+  }
+
+  @override
+  Future upsertDetailAnimeInfo(AnimeEntity entity) async {
+    final batch = database.animeDB.batch();
+    batch.insert(
+      Tables.animeTable,
+      entity.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    return await batch.commit(noResult: true);
   }
 }

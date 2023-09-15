@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
@@ -42,7 +42,7 @@ void main() {
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
-              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
               .toList()));
     });
 
@@ -56,7 +56,7 @@ void main() {
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
-              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
               .toList()));
     });
 
@@ -70,7 +70,7 @@ void main() {
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
-              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
               .toList()));
     });
 
@@ -82,9 +82,9 @@ void main() {
       final dbResult = await animeDao
           .getAnimeByPage(AnimeCategory.nextSeason, page: 1);
       expect(
-          (result as LoadSuccess<ShortcutAnimeModel>).data.map((e) => e.id),
+          (result as LoadSuccess<ShortAnimeModel>).data.map((e) => e.id),
           equals(dbResult
-              .map((e) => ShortcutAnimeModel.fromDatabaseModel(e))
+              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
               .map((e) => e.id)
               .toList()));
     });

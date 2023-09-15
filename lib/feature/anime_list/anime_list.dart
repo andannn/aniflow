@@ -1,5 +1,5 @@
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
-import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_bloc.dart';
@@ -112,7 +112,7 @@ class _AnimeListPageContent extends StatelessWidget {
     });
   }
 
-  Widget _buildGridItems(BuildContext context, ShortcutAnimeModel model) {
+  Widget _buildGridItems(BuildContext context, ShortAnimeModel model) {
     return AnimePreviewItem(
         model: model,
         textStyle: Theme.of(context).textTheme.labelMedium,

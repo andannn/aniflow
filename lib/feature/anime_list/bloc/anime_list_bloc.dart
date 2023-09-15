@@ -4,13 +4,13 @@ import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
-import 'package:anime_tracker/core/data/model/shortcut_anime_model.dart';
+import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 
 sealed class AnimeListEvent {}
 
 class _OnAnimePageLoadedEvent extends AnimeListEvent {
-  final List<ShortcutAnimeModel> data;
+  final List<ShortAnimeModel> data;
   final int page;
 
   _OnAnimePageLoadedEvent(this.data, this.page);
@@ -82,10 +82,10 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     final LoadResult result = await _aniListRepository.getAnimePageByCategory(
         category: category, page: page, perPage: 9);
     switch (result) {
-      case LoadSuccess<ShortcutAnimeModel>(data: final data):
+      case LoadSuccess<ShortAnimeModel>(data: final data):
         add(_OnAnimePageLoadedEvent(data, result.page));
         return true;
-      case LoadError<ShortcutAnimeModel>(exception: final exception):
+      case LoadError<ShortAnimeModel>(exception: final exception):
         add(_OnAnimePageErrorEvent(exception));
         return false;
       default:
@@ -97,7 +97,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
       _OnAnimePageLoadedEvent event, Emitter<AnimeListState> emit) {
     final pagingState = state.animePagingState;
     final currentData = pagingState.data;
-    final PagingState<List<ShortcutAnimeModel>> newPagingState;
+    final PagingState<List<ShortAnimeModel>> newPagingState;
     if (event.data.isEmpty) {
       newPagingState = PageLoadReachEnd(data: currentData, page: event.page);
     } else {
@@ -112,7 +112,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     final pagingState = state.animePagingState;
     final page = pagingState.page;
     final currentData = pagingState.data;
-    final PagingState<List<ShortcutAnimeModel>> newPagingState =
+    final PagingState<List<ShortAnimeModel>> newPagingState =
         PageLoadingError(event.exception, data: currentData, page: page);
     emit(state.copyWith(animePagingState: newPagingState));
   }

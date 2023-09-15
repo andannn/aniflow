@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AnimeListState {
-  PagingState<List<ShortcutAnimeModel>> get animePagingState =>
+  PagingState<List<ShortAnimeModel>> get animePagingState =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $AnimeListStateCopyWith<$Res> {
           AnimeListState value, $Res Function(AnimeListState) then) =
       _$AnimeListStateCopyWithImpl<$Res, AnimeListState>;
   @useResult
-  $Res call({PagingState<List<ShortcutAnimeModel>> animePagingState});
+  $Res call({PagingState<List<ShortAnimeModel>> animePagingState});
 }
 
 /// @nodoc
@@ -52,7 +52,7 @@ class _$AnimeListStateCopyWithImpl<$Res, $Val extends AnimeListState>
       animePagingState: null == animePagingState
           ? _value.animePagingState
           : animePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
     ) as $Val);
   }
 }
@@ -65,7 +65,7 @@ abstract class _$$_AnimeListStateCopyWith<$Res>
       __$$_AnimeListStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({PagingState<List<ShortcutAnimeModel>> animePagingState});
+  $Res call({PagingState<List<ShortAnimeModel>> animePagingState});
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class __$$_AnimeListStateCopyWithImpl<$Res>
       animePagingState: null == animePagingState
           ? _value.animePagingState
           : animePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<ShortcutAnimeModel>>,
+              as PagingState<List<ShortAnimeModel>>,
     ));
   }
 }
@@ -98,7 +98,7 @@ class _$_AnimeListState implements _AnimeListState {
 
   @override
   @JsonKey()
-  final PagingState<List<ShortcutAnimeModel>> animePagingState;
+  final PagingState<List<ShortAnimeModel>> animePagingState;
 
   @override
   String toString() {
@@ -126,11 +126,11 @@ class _$_AnimeListState implements _AnimeListState {
 
 abstract class _AnimeListState implements AnimeListState {
   factory _AnimeListState(
-          {final PagingState<List<ShortcutAnimeModel>> animePagingState}) =
+          {final PagingState<List<ShortAnimeModel>> animePagingState}) =
       _$_AnimeListState;
 
   @override
-  PagingState<List<ShortcutAnimeModel>> get animePagingState;
+  PagingState<List<ShortAnimeModel>> get animePagingState;
   @override
   @JsonKey(ignore: true)
   _$$_AnimeListStateCopyWith<_$_AnimeListState> get copyWith =>
