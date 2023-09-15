@@ -1,7 +1,10 @@
+import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
+import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
+import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -36,6 +39,41 @@ void main() {
           coverImageColor: '#f10000')
     ];
 
+    final dummyCharacterData = [
+      CharacterEntity(
+        id: '2736',
+        voiceActorId: '95084',
+        image:
+            'https://s4.anilist.co/file/anilistcdn/character/large/b2736-0Eoluq9UxXu4.png',
+        nameEnglish: 'Grencia Mars Elijah Guo Eckener',
+        nameNative: 'グレン',
+      ),
+      CharacterEntity(
+        id: '6694',
+        voiceActorId: '95262',
+        image:
+            'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
+        nameEnglish: 'Judy',
+        nameNative: 'ジュディ',
+      ),
+    ];
+
+    final dummyVoiceActorData = [
+      VoiceActorEntity(
+        id: '95084',
+        image:
+            'https://s4.anilist.co/file/anilistcdn/staff/large/n95084-RTrZSU38POPF.png',
+        nameNative: '若本規夫',
+        nameEnglish: 'Norio Wakamoto',
+      ),
+      VoiceActorEntity(
+        id: '95262',
+        image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+        nameNative: '堀内賢雄',
+        nameEnglish: 'Kenyuu Horiuchi',
+      ),
+    ];
+
     final dummyUserData = UserDataEntity(id: 'aa', avatar: "bb");
 
     setUp(() async {
@@ -48,8 +86,10 @@ void main() {
     tearDown(() async {
       await animeDatabase.animeDB.delete(Tables.animeTable);
       await animeDatabase.animeDB.delete(Tables.categoryTable);
-      await animeDatabase.animeDB.delete(Tables.animeCategoryTable);
+      await animeDatabase.animeDB.delete(Tables.animeCategoryCrossRefTable);
       await animeDatabase.animeDB.delete(Tables.userDataTable);
+      await animeDatabase.animeDB.delete(Tables.animeCharacterCrossRefTable);
+      await animeDatabase.animeDB.delete(Tables.characterTable);
     });
 
     test('anime_dao_clear_all', () async {
@@ -89,9 +129,55 @@ void main() {
 
     test('upsert_detail_anime_data', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertDetailAnimeInfo(dummyAnimeData[0]);
+      await animeDao.upsertDetailAnimeInfo([dummyAnimeData[0]]);
       final res = await animeDatabase.animeDB.query(Tables.animeTable);
       expect(AnimeEntity.fromJson(res.first), equals(dummyAnimeData[0]));
+    });
+
+    test('upsert_detail_character_data', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertCharacterInfo(dummyCharacterData);
+    });
+
+    test('upsert_voice_actor_data', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertVoiceActorInfo(dummyVoiceActorData);
+    });
+
+    test('upsert_anime_character_cross_ref_data', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertAnimeCharacterCrossRef(
+        crossRefs: [
+          AnimeCharacterCrossRef('5784', '2736'),
+        ],
+      );
+    });
+
+    test('upsert_and_get_detail_anime_data', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertDetailAnimeInfo(dummyAnimeData);
+
+      await animeDao.upsertCharacterInfo(dummyCharacterData);
+
+      await animeDao.upsertVoiceActorInfo(dummyVoiceActorData);
+
+      await animeDao.upsertAnimeCharacterCrossRef(
+        crossRefs: [
+          AnimeCharacterCrossRef('5784', '2736'),
+          AnimeCharacterCrossRef('5784', '6694'),
+        ],
+      );
+
+      final result = await animeDao.getDetailAnimeInfo('5784');
+      expect(result.animeEntity, equals(dummyAnimeData[0]));
+      expect(
+        result.characterAndVoiceActors.map((e) => e.voiceActorEntity).toList(),
+        equals(dummyVoiceActorData),
+      );
+      expect(
+        result.characterAndVoiceActors.map((e) => e.characterEntity).toList(),
+        equals(dummyCharacterData),
+      );
     });
 
     /// user test.

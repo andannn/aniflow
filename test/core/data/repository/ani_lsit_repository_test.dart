@@ -27,7 +27,7 @@ void main() {
 
     tearDown(() async {
       await animeDatabase.animeDB.delete(Tables.animeTable);
-      await animeDatabase.animeDB.delete(Tables.animeCategoryTable);
+      await animeDatabase.animeDB.delete(Tables.animeCategoryCrossRefTable);
       await animeDatabase.animeDB.delete(Tables.categoryTable);
       await animeDatabase.animeDB.delete(Tables.userDataTable);
     });
