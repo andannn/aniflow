@@ -148,7 +148,7 @@ void main() {
       final animeDao = animeDatabase.getAnimeDao();
       await animeDao.upsertAnimeCharacterCrossRef(
         crossRefs: [
-          AnimeCharacterCrossRef('5784', '2736'),
+          AnimeCharacterCrossRef(animeId: '5784', characterId: '2736'),
         ],
       );
     });
@@ -163,8 +163,8 @@ void main() {
 
       await animeDao.upsertAnimeCharacterCrossRef(
         crossRefs: [
-          AnimeCharacterCrossRef('5784', '2736'),
-          AnimeCharacterCrossRef('5784', '6694'),
+          AnimeCharacterCrossRef(animeId: '5784', characterId: '2736'),
+          AnimeCharacterCrossRef(animeId: '5784', characterId: '6694'),
         ],
       );
 

@@ -88,5 +88,9 @@ void main() {
               .map((e) => e.id)
               .toList()));
     });
+
+    test('ani_list_fetch_anime_detail_data', () async {
+      await aniListRepository.startFetchDetailAnimeInfo('122');
+    });
   });
 }

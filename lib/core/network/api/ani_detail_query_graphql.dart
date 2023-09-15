@@ -46,6 +46,7 @@ query (\$id: Int) {
           id
           image {
             large
+            medium
           }
           name {
             full

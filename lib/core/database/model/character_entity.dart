@@ -1,4 +1,5 @@
 import 'package:anime_tracker/core/database/anime_dao.dart';
+import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_entity.freezed.dart';
@@ -21,4 +22,14 @@ class CharacterEntity with _$CharacterEntity {
 
   factory CharacterEntity.fromJson(Map<String, dynamic> json) =>
       _$$_CharacterEntityFromJson(json);
+
+  static CharacterEntity fromNetworkModel(CharacterEdge e) {
+    return CharacterEntity(
+      id: e.characterEdge!.id.toString(),
+      voiceActorId: e.voiceActors[0].id.toString(),
+      image: e.characterEdge!.image['medium']!,
+      nameNative: e.characterEdge!.name['native']!,
+      nameEnglish: e.characterEdge!.name['full']!,
+    );
+  }
 }

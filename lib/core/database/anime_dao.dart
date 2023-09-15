@@ -1,8 +1,10 @@
+import 'package:anime_tracker/core/common/stream_util.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_charaters_and_voice_actors.dart';
 import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
@@ -76,7 +78,7 @@ mixin AnimeCharacterCrossRefColumns {
 }
 
 class AnimeCharacterCrossRef {
-  AnimeCharacterCrossRef(this.animeId, this.characterId);
+  AnimeCharacterCrossRef({required this.animeId, required this.characterId});
 
   final String animeId;
   final String characterId;
@@ -90,6 +92,8 @@ abstract class AnimeListDao {
 
   Future<AnimeCharactersAndVoiceActors> getDetailAnimeInfo(String id);
 
+  Stream<AnimeCharactersAndVoiceActors> getDetailAnimeInfoStream(String id);
+
   Future upsertByAnimeCategory(AnimeCategory category,
       {required List<AnimeEntity> animeList});
 
@@ -101,12 +105,16 @@ abstract class AnimeListDao {
 
   Future upsertAnimeCharacterCrossRef(
       {required List<AnimeCharacterCrossRef> crossRefs});
+
+  void notifyAnimeDetailInfoChanged();
 }
 
 class AnimeDaoImpl extends AnimeListDao {
   final AnimeDatabase database;
 
   AnimeDaoImpl(this.database);
+
+  final detailListChangeSource = ValueNotifier(0);
 
   @override
   Future clearAll() async {
@@ -162,6 +170,38 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
+  Future<AnimeCharactersAndVoiceActors> getDetailAnimeInfo(String id) async {
+    final animeJson = await database.animeDB.query(
+      Tables.animeTable,
+      where: '${AnimeTableColumns.id}=$id',
+      limit: 1,
+    );
+    final animeEntity = AnimeEntity.fromJson(animeJson.first);
+
+    final sql = '''
+      select * from ${Tables.characterTable} as c
+      join ${Tables.animeCharacterCrossRefTable} as ac
+      on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId}
+      join ${Tables.voiceActorTable} as v
+      on c.${CharacterColumns.voiceActorId} = v.${VoiceActorColumns.id}
+      where ac.${AnimeCharacterCrossRefColumns.animeId} = '$id'
+    ''';
+
+    List results = await database.animeDB.rawQuery(sql);
+    return AnimeCharactersAndVoiceActors(
+      animeEntity: animeEntity,
+      characterAndVoiceActors: results
+          .map(
+            (e) => CharacterAndVoiceActor(
+              characterEntity: CharacterEntity.fromJson(e),
+              voiceActorEntity: VoiceActorEntity.fromJson(e),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  @override
   Future upsertDetailAnimeInfo(List<AnimeEntity> entities) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
@@ -201,8 +241,9 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
-  Future upsertAnimeCharacterCrossRef(
-      {required List<AnimeCharacterCrossRef> crossRefs}) async {
+  Future upsertAnimeCharacterCrossRef({
+    required List<AnimeCharacterCrossRef> crossRefs,
+  }) async {
     final batch = database.animeDB.batch();
     for (final crossRef in crossRefs) {
       batch.insert(
@@ -218,33 +259,15 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
-  Future<AnimeCharactersAndVoiceActors> getDetailAnimeInfo(String id) async {
-    final animeJson = await database.animeDB.query(
-      Tables.animeTable,
-      where: '${AnimeTableColumns.id}=$id',
-      limit: 1,
+  Stream<AnimeCharactersAndVoiceActors> getDetailAnimeInfoStream(String id) {
+    return StreamUtil.createStream(
+      detailListChangeSource,
+      () => getDetailAnimeInfo(id),
     );
-    final animeEntity = AnimeEntity.fromJson(animeJson.first);
+  }
 
-    final sql = '''
-      select * from ${Tables.characterTable} as c
-      join ${Tables.animeCharacterCrossRefTable} as ac
-      on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId}
-      join ${Tables.voiceActorTable} as v
-      on c.${CharacterColumns.voiceActorId} = v.${VoiceActorColumns.id}
-      where ac.${AnimeCharacterCrossRefColumns.animeId} = '$id'
-    ''';
-
-    List results = await database.animeDB.rawQuery(sql);
-    return AnimeCharactersAndVoiceActors(
-        animeEntity: animeEntity,
-        characterAndVoiceActors: results
-            .map(
-              (e) => CharacterAndVoiceActor(
-                characterEntity: CharacterEntity.fromJson(e),
-                voiceActorEntity: VoiceActorEntity.fromJson(e),
-              ),
-            )
-            .toList());
+  @override
+  void notifyAnimeDetailInfoChanged() {
+    detailListChangeSource.value = detailListChangeSource.value++;
   }
 }
