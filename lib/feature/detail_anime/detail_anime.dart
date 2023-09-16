@@ -102,7 +102,10 @@ class _DetailAnimePageContent extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               sliver: SliverToBoxAdapter(
-                child: _buildAnimeBasicInfoBar(model: model),
+                child: _buildAnimeBasicInfoBar(
+                  context: context,
+                  model: model,
+                ),
               ),
             ),
           ],
@@ -111,7 +114,8 @@ class _DetailAnimePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildAnimeBasicInfoBar({required DetailAnimeModel model}) {
+  Widget _buildAnimeBasicInfoBar(
+      {required BuildContext context, required DetailAnimeModel model}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -133,9 +137,71 @@ class _DetailAnimePageContent extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           flex: 1,
-          child: CachedNetworkImage(imageUrl: model.coverImage),
+          child: Wrap(
+            spacing: 12,
+            children: [
+              const _InfoItem(
+                label: 'RATED',
+                content: Text('#32'),
+              ),
+              const _InfoItem(
+                label: 'POPULAR',
+                content: Text('#65'),
+              ),
+              _InfoItem(
+                label: 'SCORE',
+                content: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.star_purple500_sharp,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                    const SizedBox(width: 12),
+                    Text('${model.averageScore / 10.0}'),
+                  ],
+                ),
+              ),
+              _InfoItem(
+                label: 'FAVOURITE',
+                content: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.favorite,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(model.favourites.toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ],
+    );
+  }
+}
+
+class _InfoItem extends StatelessWidget {
+  const _InfoItem({required this.label, this.content});
+
+  final String label;
+  final Widget? content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, style: Theme.of(context).textTheme.labelLarge),
+          const SizedBox(height: 4),
+          content ?? const SizedBox(),
+        ],
+      ),
     );
   }
 }
