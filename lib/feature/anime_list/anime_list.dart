@@ -1,4 +1,5 @@
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/navigation/nia_router.dart';
 import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
@@ -114,9 +115,14 @@ class _AnimeListPageContent extends StatelessWidget {
 
   Widget _buildGridItems(BuildContext context, ShortAnimeModel model) {
     return AnimePreviewItem(
-        model: model,
-        textStyle: Theme.of(context).textTheme.labelMedium,
-        onClick: () {});
+      model: model,
+      textStyle: Theme.of(context).textTheme.labelMedium,
+      onClick: () {
+        AnimeTrackerRouterDelegate.of(context).navigateToDetailAnime(
+          model.id,
+        );
+      },
+    );
   }
 
   String _getAppBarTitle(BuildContext context, AnimeCategory category) {

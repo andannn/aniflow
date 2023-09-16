@@ -42,7 +42,7 @@ class AnimePreviewItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Text(
-                    getLocalTitle(context, model.title!),
+                    model.title!.getLocalTitle(context),
                     textAlign: TextAlign.center,
                     style: textStyle?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant),
@@ -56,17 +56,5 @@ class AnimePreviewItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getLocalTitle(BuildContext context, AnimeTitle title) {
-    final appLocale = Localizations.localeOf(context);
-    switch (appLocale.languageCode) {
-      case 'Jpan':
-      case 'ja':
-      case 'zh':
-        return title.native;
-      default:
-        return title.english.isNotEmpty ? title.english : title.romaji;
-    }
   }
 }

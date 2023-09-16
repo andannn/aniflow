@@ -309,15 +309,20 @@ class AniListRepositoryImpl extends AniListRepository {
           .map(
             (e) => VoiceActorEntity.fromNetworkModel(e),
           )
+          .whereType<VoiceActorEntity>()
           .toList();
       await animeDao.upsertVoiceActorInfo(voiceActorEntities);
 
       /// Set crossRefs to anime and characters.
       await animeDao.upsertAnimeCharacterCrossRef(
-        crossRefs: characters.map((e) => AnimeCharacterCrossRef(
-          animeId: id.toString(),
-          characterId: e.characterEdge!.id.toString(),
-        ),).toList(),
+        crossRefs: characters
+            .map(
+              (e) => AnimeCharacterCrossRef(
+                animeId: id.toString(),
+                characterId: e.characterEdge!.id.toString(),
+              ),
+            )
+            .toList(),
       );
 
       /// notify data base has been changed an trigger the streams.

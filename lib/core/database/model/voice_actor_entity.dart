@@ -10,22 +10,26 @@ part 'voice_actor_entity.g.dart';
 class VoiceActorEntity with _$VoiceActorEntity {
   factory VoiceActorEntity({
     @Default('') @JsonKey(name: VoiceActorColumns.id) String id,
-    @Default('') @JsonKey(name: VoiceActorColumns.image) String image,
-    @Default('') @JsonKey(name: VoiceActorColumns.nameEnglish) String nameEnglish,
-    @Default('') @JsonKey(name: VoiceActorColumns.nameNative) String nameNative,
+    @JsonKey(name: VoiceActorColumns.image) String? image,
+    @JsonKey(name: VoiceActorColumns.nameEnglish) String? nameEnglish,
+    @JsonKey(name: VoiceActorColumns.nameNative) String? nameNative,
   }) = _VoiceActorEntity;
 
   factory VoiceActorEntity.fromJson(Map<String, dynamic> json) =>
       _$$_VoiceActorEntityFromJson(json);
 
 
-  static VoiceActorEntity fromNetworkModel(
+  static VoiceActorEntity? fromNetworkModel(
       CharacterEdge e) {
+    if (e.voiceActors.isEmpty) {
+      return null;
+    }
+
     return VoiceActorEntity(
-      id: e.characterEdge!.id.toString(),
-      image: e.characterEdge!.image['medium']!,
-      nameNative: e.characterEdge!.name['native']!,
-      nameEnglish: e.characterEdge!.name['full']!,
+      id: e.voiceActors[0].id.toString(),
+      image: e.voiceActors[0].image['medium'],
+      nameNative: e.voiceActors[0].name['native'],
+      nameEnglish: e.voiceActors[0].name['full']!,
     );
   }
 }

@@ -112,7 +112,9 @@ class DiscoverScreen extends StatelessWidget {
       onMoreClick: () {
         AnimeTrackerRouterDelegate.of(context).navigateToAnimeList(category);
       },
-      onAnimeClick: (id) {},
+      onAnimeClick: (id) {
+        AnimeTrackerRouterDelegate.of(context).navigateToDetailAnime(id);
+      },
     );
   }
 }

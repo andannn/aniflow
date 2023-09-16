@@ -82,4 +82,10 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
 
     notifyListeners();
   }
+
+  void navigateToDetailAnime(String animeId) {
+    _backStack += [DetailAnimeRoutePath(animeId)];
+
+    notifyListeners();
+  }
 }

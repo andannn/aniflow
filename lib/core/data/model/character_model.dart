@@ -15,9 +15,9 @@ class CharacterModel with _$CharacterModel {
   static CharacterModel fromDatabaseEntity(CharacterEntity entity) {
     return CharacterModel(
       id: entity.id,
-      image: entity.image,
-      nameEnglish: entity.nameEnglish,
-      nameNative: entity.nameNative,
+      image: entity.image ?? '',
+      nameEnglish: entity.nameEnglish ?? '',
+      nameNative: entity.nameNative ?? '',
     );
   }
 }

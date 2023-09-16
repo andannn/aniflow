@@ -23,11 +23,11 @@ mixin _$VoiceActorEntity {
   @JsonKey(name: VoiceActorColumns.id)
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: VoiceActorColumns.image)
-  String get image => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: VoiceActorColumns.nameEnglish)
-  String get nameEnglish => throw _privateConstructorUsedError;
+  String? get nameEnglish => throw _privateConstructorUsedError;
   @JsonKey(name: VoiceActorColumns.nameNative)
-  String get nameNative => throw _privateConstructorUsedError;
+  String? get nameNative => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,9 +43,9 @@ abstract class $VoiceActorEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: VoiceActorColumns.id) String id,
-      @JsonKey(name: VoiceActorColumns.image) String image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) String nameEnglish,
-      @JsonKey(name: VoiceActorColumns.nameNative) String nameNative});
+      @JsonKey(name: VoiceActorColumns.image) String? image,
+      @JsonKey(name: VoiceActorColumns.nameEnglish) String? nameEnglish,
+      @JsonKey(name: VoiceActorColumns.nameNative) String? nameNative});
 }
 
 /// @nodoc
@@ -62,27 +62,27 @@ class _$VoiceActorEntityCopyWithImpl<$Res, $Val extends VoiceActorEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? image = freezed,
+    Object? nameEnglish = freezed,
+    Object? nameNative = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      image: null == image
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameEnglish: null == nameEnglish
+              as String?,
+      nameEnglish: freezed == nameEnglish
           ? _value.nameEnglish
           : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
+              as String?,
+      nameNative: freezed == nameNative
           ? _value.nameNative
           : nameNative // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -97,9 +97,9 @@ abstract class _$$_VoiceActorEntityCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: VoiceActorColumns.id) String id,
-      @JsonKey(name: VoiceActorColumns.image) String image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) String nameEnglish,
-      @JsonKey(name: VoiceActorColumns.nameNative) String nameNative});
+      @JsonKey(name: VoiceActorColumns.image) String? image,
+      @JsonKey(name: VoiceActorColumns.nameEnglish) String? nameEnglish,
+      @JsonKey(name: VoiceActorColumns.nameNative) String? nameNative});
 }
 
 /// @nodoc
@@ -114,27 +114,27 @@ class __$$_VoiceActorEntityCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? image = freezed,
+    Object? nameEnglish = freezed,
+    Object? nameNative = freezed,
   }) {
     return _then(_$_VoiceActorEntity(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      image: null == image
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameEnglish: null == nameEnglish
+              as String?,
+      nameEnglish: freezed == nameEnglish
           ? _value.nameEnglish
           : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
+              as String?,
+      nameNative: freezed == nameNative
           ? _value.nameNative
           : nameNative // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -144,9 +144,9 @@ class __$$_VoiceActorEntityCopyWithImpl<$Res>
 class _$_VoiceActorEntity implements _VoiceActorEntity {
   _$_VoiceActorEntity(
       {@JsonKey(name: VoiceActorColumns.id) this.id = '',
-      @JsonKey(name: VoiceActorColumns.image) this.image = '',
-      @JsonKey(name: VoiceActorColumns.nameEnglish) this.nameEnglish = '',
-      @JsonKey(name: VoiceActorColumns.nameNative) this.nameNative = ''});
+      @JsonKey(name: VoiceActorColumns.image) this.image,
+      @JsonKey(name: VoiceActorColumns.nameEnglish) this.nameEnglish,
+      @JsonKey(name: VoiceActorColumns.nameNative) this.nameNative});
 
   factory _$_VoiceActorEntity.fromJson(Map<String, dynamic> json) =>
       _$$_VoiceActorEntityFromJson(json);
@@ -156,13 +156,13 @@ class _$_VoiceActorEntity implements _VoiceActorEntity {
   final String id;
   @override
   @JsonKey(name: VoiceActorColumns.image)
-  final String image;
+  final String? image;
   @override
   @JsonKey(name: VoiceActorColumns.nameEnglish)
-  final String nameEnglish;
+  final String? nameEnglish;
   @override
   @JsonKey(name: VoiceActorColumns.nameNative)
-  final String nameNative;
+  final String? nameNative;
 
   @override
   String toString() {
@@ -204,10 +204,10 @@ class _$_VoiceActorEntity implements _VoiceActorEntity {
 abstract class _VoiceActorEntity implements VoiceActorEntity {
   factory _VoiceActorEntity(
       {@JsonKey(name: VoiceActorColumns.id) final String id,
-      @JsonKey(name: VoiceActorColumns.image) final String image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) final String nameEnglish,
+      @JsonKey(name: VoiceActorColumns.image) final String? image,
+      @JsonKey(name: VoiceActorColumns.nameEnglish) final String? nameEnglish,
       @JsonKey(name: VoiceActorColumns.nameNative)
-      final String nameNative}) = _$_VoiceActorEntity;
+      final String? nameNative}) = _$_VoiceActorEntity;
 
   factory _VoiceActorEntity.fromJson(Map<String, dynamic> json) =
       _$_VoiceActorEntity.fromJson;
@@ -217,13 +217,13 @@ abstract class _VoiceActorEntity implements VoiceActorEntity {
   String get id;
   @override
   @JsonKey(name: VoiceActorColumns.image)
-  String get image;
+  String? get image;
   @override
   @JsonKey(name: VoiceActorColumns.nameEnglish)
-  String get nameEnglish;
+  String? get nameEnglish;
   @override
   @JsonKey(name: VoiceActorColumns.nameNative)
-  String get nameNative;
+  String? get nameNative;
   @override
   @JsonKey(ignore: true)
   _$$_VoiceActorEntityCopyWith<_$_VoiceActorEntity> get copyWith =>

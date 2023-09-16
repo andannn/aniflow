@@ -10,11 +10,11 @@ _$_CharacterNode _$$_CharacterNodeFromJson(Map<String, dynamic> json) =>
     _$_CharacterNode(
       id: json['id'] as int? ?? -1,
       image: (json['image'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
+            (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
       name: (json['name'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
+            (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
     );
