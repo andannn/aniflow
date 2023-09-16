@@ -1,6 +1,8 @@
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
+import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/designsystem/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
@@ -8,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class DetailAnimePage extends Page {
   final String animeId;
@@ -61,7 +64,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _DetailAnimePageContent extends StatelessWidget {
-  const _DetailAnimePageContent({super.key});
+  const _DetailAnimePageContent();
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +111,26 @@ class _DetailAnimePageContent extends StatelessWidget {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: SliverToBoxAdapter(
+                child: _buildAnimeDescription(
+                  context: context,
+                  description: model.description,
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: SliverToBoxAdapter(
+                child: _buildCharacterSection(
+                  context,
+                  model.characterAndVoiceActors,
+                ),
+              ),
+            ),
           ],
         );
       },
@@ -137,49 +160,148 @@ class _DetailAnimePageContent extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           flex: 1,
-          child: Wrap(
-            spacing: 12,
+          child: Column(
             children: [
-              const _InfoItem(
-                label: 'RATED',
-                content: Text('#32'),
-              ),
-              const _InfoItem(
-                label: 'POPULAR',
-                content: Text('#65'),
-              ),
-              _InfoItem(
-                label: 'SCORE',
-                content: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.star_purple500_sharp,
-                      color: Theme.of(context).colorScheme.inversePrimary,
+              Wrap(
+                spacing: 12,
+                children: [
+                  const _InfoItem(
+                    label: 'RATED',
+                    content: Text('#32'),
+                  ),
+                  const _InfoItem(
+                    label: 'POPULAR',
+                    content: Text('#65'),
+                  ),
+                  _InfoItem(
+                    label: 'SCORE',
+                    content: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.star_purple500_sharp,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text('${model.averageScore / 10.0}'),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Text('${model.averageScore / 10.0}'),
-                  ],
+                  ),
+                  _InfoItem(
+                    label: 'FAVOURITE',
+                    content: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.favorite_sharp,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(model.favourites.toString()),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  children: _buildGenreItems(
+                    context,
+                    ["Action", "Adventure", "Drama", "Sci-Fi"],
+                  ),
                 ),
               ),
-              _InfoItem(
-                label: 'FAVOURITE',
-                content: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.favorite,
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(model.favourites.toString()),
-                  ],
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  '2023·Spring·TV·12 episodes',
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
-              ),
+              )
             ],
           ),
         ),
       ],
+    );
+  }
+
+  List<Widget> _buildGenreItems(BuildContext context, List<String> list) {
+    final widgets = <Widget>[];
+    for (final item in list) {
+      widgets.add(_GenreItem(label: item));
+      if (list.lastOrNull != item) {
+        widgets.add(
+          Text(
+            '·',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        );
+      }
+    }
+    return widgets;
+  }
+
+  Widget _buildAnimeDescription(
+      {required BuildContext context, required String description}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'About this anime',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+        Html(data: description),
+      ],
+    );
+  }
+
+  Widget _buildCharacterSection(
+      BuildContext context, List<CharacterAndVoiceActorModel> models) {
+    return SizedBox(
+      height: 350,
+      child: CustomScrollView(
+        scrollDirection: Axis.horizontal,
+        slivers: [
+          SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) =>
+                  _buildCharacterAndVoiceActorItem(context, models[index]),
+              childCount: models.length,
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: 300,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              crossAxisCount: 3,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCharacterAndVoiceActorItem(
+      BuildContext context, CharacterAndVoiceActorModel model) {
+    return CharacterAndVoiceActor(model: model);
+  }
+}
+
+class _GenreItem extends StatelessWidget {
+  const _GenreItem({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label.toUpperCase(),
+      style: Theme.of(context).textTheme.labelLarge,
     );
   }
 }
@@ -196,6 +318,7 @@ class _InfoItem extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: Theme.of(context).textTheme.labelLarge),
           const SizedBox(height: 4),

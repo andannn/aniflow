@@ -8,7 +8,7 @@ query (\$id: Int) {
       english
       native
     }
-    description(asHtml: false)
+    description(asHtml: true)
     episodes
     source
     trailer {
