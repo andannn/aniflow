@@ -14,12 +14,12 @@ _$_AnimeEntity _$$_AnimeEntityFromJson(Map<String, dynamic> json) =>
       nativeTitle: json['native_title'] as String? ?? '',
       coverImage: json['cover_image'] as String? ?? '',
       coverImageColor: json['cover_image_color'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      source: json['source'] as String? ?? '',
-      bannerImage: json['banner_image'] as String? ?? '',
-      averageScore: json['average_score'] as int? ?? -1,
-      trending: json['trending'] as int? ?? -1,
-      favourites: json['favourites'] as int? ?? -1,
+      description: json['description'] as String?,
+      source: json['source'] as String?,
+      bannerImage: json['banner_image'] as String?,
+      averageScore: json['average_score'] as int?,
+      trending: json['trending'] as int?,
+      favourites: json['favourites'] as int?,
     );
 
 Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>

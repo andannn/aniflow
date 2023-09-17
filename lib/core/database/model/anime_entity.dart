@@ -24,18 +24,14 @@ class AnimeEntity with _$AnimeEntity {
     @Default('')
     @JsonKey(name: AnimeTableColumns.coverImageColor)
     String coverImageColor,
-    @Default('')
     @JsonKey(name: AnimeTableColumns.description)
-    String description,
-    @Default('') @JsonKey(name: AnimeTableColumns.source) String source,
-    @Default('')
+    String? description,
+    @JsonKey(name: AnimeTableColumns.source) String? source,
     @JsonKey(name: AnimeTableColumns.bannerImage)
-    String bannerImage,
-    @Default(-1)
-    @JsonKey(name: AnimeTableColumns.averageScore)
-    int averageScore,
-    @Default(-1) @JsonKey(name: AnimeTableColumns.trending) int trending,
-    @Default(-1) @JsonKey(name: AnimeTableColumns.favourites) int favourites,
+    String? bannerImage,
+    @JsonKey(name: AnimeTableColumns.averageScore) int? averageScore,
+    @JsonKey(name: AnimeTableColumns.trending) int? trending,
+    @JsonKey(name: AnimeTableColumns.favourites) int? favourites,
   }) = _AnimeEntity;
 
   factory AnimeEntity.fromJson(Map<String, dynamic> json) =>

@@ -95,7 +95,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   child: CachedNetworkImage(
                     height: 128,
-                    imageUrl: model.bannerImage,
+                    imageUrl: model.bannerImage ?? '',
                     placeholder: buildImageInitialWidget,
                     errorWidget: buildErrorWidget,
                     fit: BoxFit.cover,
@@ -119,7 +119,7 @@ class _DetailAnimePageContent extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: _buildAnimeDescription(
                   context: context,
-                  description: model.description,
+                  description: model.description ?? '',
                 ),
               ),
             ),
@@ -187,7 +187,9 @@ class _DetailAnimePageContent extends StatelessWidget {
                           color: Theme.of(context).colorScheme.inversePrimary,
                         ),
                         const SizedBox(width: 8),
-                        Text('${model.averageScore / 10.0}'),
+                        Text(
+                          '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
+                        ),
                       ],
                     ),
                   ),
@@ -201,7 +203,9 @@ class _DetailAnimePageContent extends StatelessWidget {
                           color: Theme.of(context).colorScheme.inversePrimary,
                         ),
                         const SizedBox(width: 8),
-                        Text(model.favourites.toString()),
+                        Text(
+                          '${model.favourites != null ? (model.favourites) : '--'}',
+                        ),
                       ],
                     ),
                   ),

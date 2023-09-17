@@ -16,11 +16,10 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @Default('') @JsonKey(name: 'description') String description,
     @Default('') @JsonKey(name: 'source') String source,
     @Default('') @JsonKey(name: 'hashtag') String hashtag,
-    @Default('') @JsonKey(name: 'bannerImage') String bannerImage,
-    @Default(-1) @JsonKey(name: 'averageScore') int averageScore,
-    @Default(-1) @JsonKey(name: 'trending') int trending,
-    @Default(-1) @JsonKey(name: 'favourites') int favourites,
-    @Default(false) @JsonKey(name: 'isFavourite') bool isFavourite,
+    @JsonKey(name: 'bannerImage') String? bannerImage,
+    @JsonKey(name: 'averageScore') int? averageScore,
+    @JsonKey(name: 'trending') int? trending,
+    @JsonKey(name: 'favourites') int? favourites,
     @JsonKey(name: 'characters') CharacterConnection? characters,
   }) = _DetailAnimeDto;
 

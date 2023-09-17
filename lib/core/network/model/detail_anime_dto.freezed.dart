@@ -33,15 +33,13 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'hashtag')
   String get hashtag => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
-  String get bannerImage => throw _privateConstructorUsedError;
+  String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'averageScore')
-  int get averageScore => throw _privateConstructorUsedError;
+  int? get averageScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'trending')
-  int get trending => throw _privateConstructorUsedError;
+  int? get trending => throw _privateConstructorUsedError;
   @JsonKey(name: 'favourites')
-  int get favourites => throw _privateConstructorUsedError;
-  @JsonKey(name: 'isFavourite')
-  bool get isFavourite => throw _privateConstructorUsedError;
+  int? get favourites => throw _privateConstructorUsedError;
   @JsonKey(name: 'characters')
   CharacterConnection? get characters => throw _privateConstructorUsedError;
 
@@ -64,11 +62,10 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'description') String description,
       @JsonKey(name: 'source') String source,
       @JsonKey(name: 'hashtag') String hashtag,
-      @JsonKey(name: 'bannerImage') String bannerImage,
-      @JsonKey(name: 'averageScore') int averageScore,
-      @JsonKey(name: 'trending') int trending,
-      @JsonKey(name: 'favourites') int favourites,
-      @JsonKey(name: 'isFavourite') bool isFavourite,
+      @JsonKey(name: 'bannerImage') String? bannerImage,
+      @JsonKey(name: 'averageScore') int? averageScore,
+      @JsonKey(name: 'trending') int? trending,
+      @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
   $AnimeTitleCopyWith<$Res>? get title;
@@ -94,11 +91,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? description = null,
     Object? source = null,
     Object? hashtag = null,
-    Object? bannerImage = null,
-    Object? averageScore = null,
-    Object? trending = null,
-    Object? favourites = null,
-    Object? isFavourite = null,
+    Object? bannerImage = freezed,
+    Object? averageScore = freezed,
+    Object? trending = freezed,
+    Object? favourites = freezed,
     Object? characters = freezed,
   }) {
     return _then(_value.copyWith(
@@ -126,26 +122,22 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
               as String,
-      bannerImage: null == bannerImage
+      bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      averageScore: null == averageScore
+              as String?,
+      averageScore: freezed == averageScore
           ? _value.averageScore
           : averageScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      trending: null == trending
+              as int?,
+      trending: freezed == trending
           ? _value.trending
           : trending // ignore: cast_nullable_to_non_nullable
-              as int,
-      favourites: null == favourites
+              as int?,
+      favourites: freezed == favourites
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as int,
-      isFavourite: null == isFavourite
-          ? _value.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int?,
       characters: freezed == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
@@ -193,11 +185,10 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'description') String description,
       @JsonKey(name: 'source') String source,
       @JsonKey(name: 'hashtag') String hashtag,
-      @JsonKey(name: 'bannerImage') String bannerImage,
-      @JsonKey(name: 'averageScore') int averageScore,
-      @JsonKey(name: 'trending') int trending,
-      @JsonKey(name: 'favourites') int favourites,
-      @JsonKey(name: 'isFavourite') bool isFavourite,
+      @JsonKey(name: 'bannerImage') String? bannerImage,
+      @JsonKey(name: 'averageScore') int? averageScore,
+      @JsonKey(name: 'trending') int? trending,
+      @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
   @override
@@ -223,11 +214,10 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? description = null,
     Object? source = null,
     Object? hashtag = null,
-    Object? bannerImage = null,
-    Object? averageScore = null,
-    Object? trending = null,
-    Object? favourites = null,
-    Object? isFavourite = null,
+    Object? bannerImage = freezed,
+    Object? averageScore = freezed,
+    Object? trending = freezed,
+    Object? favourites = freezed,
     Object? characters = freezed,
   }) {
     return _then(_$_DetailAnimeDto(
@@ -255,26 +245,22 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
               as String,
-      bannerImage: null == bannerImage
+      bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      averageScore: null == averageScore
+              as String?,
+      averageScore: freezed == averageScore
           ? _value.averageScore
           : averageScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      trending: null == trending
+              as int?,
+      trending: freezed == trending
           ? _value.trending
           : trending // ignore: cast_nullable_to_non_nullable
-              as int,
-      favourites: null == favourites
+              as int?,
+      favourites: freezed == favourites
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as int,
-      isFavourite: null == isFavourite
-          ? _value.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int?,
       characters: freezed == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
@@ -294,11 +280,10 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'description') this.description = '',
       @JsonKey(name: 'source') this.source = '',
       @JsonKey(name: 'hashtag') this.hashtag = '',
-      @JsonKey(name: 'bannerImage') this.bannerImage = '',
-      @JsonKey(name: 'averageScore') this.averageScore = -1,
-      @JsonKey(name: 'trending') this.trending = -1,
-      @JsonKey(name: 'favourites') this.favourites = -1,
-      @JsonKey(name: 'isFavourite') this.isFavourite = false,
+      @JsonKey(name: 'bannerImage') this.bannerImage,
+      @JsonKey(name: 'averageScore') this.averageScore,
+      @JsonKey(name: 'trending') this.trending,
+      @JsonKey(name: 'favourites') this.favourites,
       @JsonKey(name: 'characters') this.characters})
       : _coverImage = coverImage;
 
@@ -331,26 +316,23 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   final String hashtag;
   @override
   @JsonKey(name: 'bannerImage')
-  final String bannerImage;
+  final String? bannerImage;
   @override
   @JsonKey(name: 'averageScore')
-  final int averageScore;
+  final int? averageScore;
   @override
   @JsonKey(name: 'trending')
-  final int trending;
+  final int? trending;
   @override
   @JsonKey(name: 'favourites')
-  final int favourites;
-  @override
-  @JsonKey(name: 'isFavourite')
-  final bool isFavourite;
+  final int? favourites;
   @override
   @JsonKey(name: 'characters')
   final CharacterConnection? characters;
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, isFavourite: $isFavourite, characters: $characters)';
+    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, characters: $characters)';
   }
 
   @override
@@ -374,8 +356,6 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
                 other.trending == trending) &&
             (identical(other.favourites, favourites) ||
                 other.favourites == favourites) &&
-            (identical(other.isFavourite, isFavourite) ||
-                other.isFavourite == isFavourite) &&
             (identical(other.characters, characters) ||
                 other.characters == characters));
   }
@@ -394,7 +374,6 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       averageScore,
       trending,
       favourites,
-      isFavourite,
       characters);
 
   @JsonKey(ignore: true)
@@ -419,11 +398,10 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'description') final String description,
           @JsonKey(name: 'source') final String source,
           @JsonKey(name: 'hashtag') final String hashtag,
-          @JsonKey(name: 'bannerImage') final String bannerImage,
-          @JsonKey(name: 'averageScore') final int averageScore,
-          @JsonKey(name: 'trending') final int trending,
-          @JsonKey(name: 'favourites') final int favourites,
-          @JsonKey(name: 'isFavourite') final bool isFavourite,
+          @JsonKey(name: 'bannerImage') final String? bannerImage,
+          @JsonKey(name: 'averageScore') final int? averageScore,
+          @JsonKey(name: 'trending') final int? trending,
+          @JsonKey(name: 'favourites') final int? favourites,
           @JsonKey(name: 'characters') final CharacterConnection? characters}) =
       _$_DetailAnimeDto;
 
@@ -450,19 +428,16 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   String get hashtag;
   @override
   @JsonKey(name: 'bannerImage')
-  String get bannerImage;
+  String? get bannerImage;
   @override
   @JsonKey(name: 'averageScore')
-  int get averageScore;
+  int? get averageScore;
   @override
   @JsonKey(name: 'trending')
-  int get trending;
+  int? get trending;
   @override
   @JsonKey(name: 'favourites')
-  int get favourites;
-  @override
-  @JsonKey(name: 'isFavourite')
-  bool get isFavourite;
+  int? get favourites;
   @override
   @JsonKey(name: 'characters')
   CharacterConnection? get characters;

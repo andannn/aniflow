@@ -19,11 +19,10 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String? ?? '',
       source: json['source'] as String? ?? '',
       hashtag: json['hashtag'] as String? ?? '',
-      bannerImage: json['bannerImage'] as String? ?? '',
-      averageScore: json['averageScore'] as int? ?? -1,
-      trending: json['trending'] as int? ?? -1,
-      favourites: json['favourites'] as int? ?? -1,
-      isFavourite: json['isFavourite'] as bool? ?? false,
+      bannerImage: json['bannerImage'] as String?,
+      averageScore: json['averageScore'] as int?,
+      trending: json['trending'] as int?,
+      favourites: json['favourites'] as int?,
       characters: json['characters'] == null
           ? null
           : CharacterConnection.fromJson(
@@ -42,6 +41,5 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'averageScore': instance.averageScore,
       'trending': instance.trending,
       'favourites': instance.favourites,
-      'isFavourite': instance.isFavourite,
       'characters': instance.characters,
     };

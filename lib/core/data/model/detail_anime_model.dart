@@ -14,12 +14,12 @@ class DetailAnimeModel with _$DetailAnimeModel {
     AnimeTitle? title,
     @Default('') String coverImage,
     @Default('') String coverImageColor,
-    @Default('') String description,
-    @Default('') String source,
-    @Default('') String bannerImage,
-    @Default(-1) int averageScore,
-    @Default(-1) int trending,
-    @Default(-1) int favourites,
+    String? description,
+    String? source,
+    String? bannerImage,
+    int? averageScore,
+    int? trending,
+    int? favourites,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
   }) = _DetailAnimeModel;
 
