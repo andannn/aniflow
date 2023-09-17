@@ -10,6 +10,7 @@ import 'package:anime_tracker/core/designsystem/widget/trailer_preview.dart';
 import 'package:anime_tracker/core/designsystem/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
+import 'package:anime_tracker/feature/detail_anime/util/detail_anime_info_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -234,7 +235,7 @@ class _DetailAnimePageContent extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  '2023·Spring·TV·12 episodes',
+                  model.getAnimeInfoString(Localizations.localeOf(context)),
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               )
@@ -252,7 +253,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       if (list.lastOrNull != item) {
         widgets.add(
           Text(
-            '·',
+            ' · ',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         );
