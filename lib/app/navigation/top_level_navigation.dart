@@ -4,19 +4,23 @@ import 'package:anime_tracker/app/navigation/anime_tracker_route_path.dart';
 
 enum TopLevelNavigation {
   discover(
-    selectedIcon: Icons.home_filled,
-    unSelectedIcon: Icons.home_outlined,
-    iconTextId: 'Discover'
+      selectedIcon: Icons.home_filled,
+      unSelectedIcon: Icons.home_outlined,
+      iconTextId: 'Home'),
+  track(
+    selectedIcon: Icons.collections_bookmark,
+    unSelectedIcon: Icons.collections_bookmark_outlined,
+    iconTextId: 'Track',
   ),
-  bookMark(
-      selectedIcon: Icons.bookmark,
-      unSelectedIcon: Icons.bookmark_add_outlined,
-      iconTextId: 'Saved',
+  search(
+    selectedIcon: Icons.search,
+    unSelectedIcon: Icons.search,
+    iconTextId: 'Search',
   ),
-  interests(
-      selectedIcon: Icons.interests,
-      unSelectedIcon: Icons.interests_outlined,
-      iconTextId: 'interests',
+  profile(
+    selectedIcon: Icons.person,
+    unSelectedIcon: Icons.person_outline,
+    iconTextId: 'profile',
   );
 
   const TopLevelNavigation({
@@ -44,10 +48,12 @@ extension TopLevelNavigationEx on TopLevelNavigation {
     switch (this) {
       case TopLevelNavigation.discover:
         return DiscoverRoutePath();
-      case TopLevelNavigation.bookMark:
-        return DiscoverRoutePath();
-      case TopLevelNavigation.interests:
-        return DiscoverRoutePath();
+      case TopLevelNavigation.track:
+        return TrackRoutePath();
+      case TopLevelNavigation.search:
+        return SearchRoutePath();
+      case TopLevelNavigation.profile:
+        return ProfileRoutePath();
     }
   }
 }
