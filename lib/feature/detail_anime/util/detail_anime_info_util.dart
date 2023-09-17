@@ -1,10 +1,11 @@
-import 'dart:ui';
-
+import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/core/data/model/anime_source.dart';
 import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:flutter/material.dart';
 
 extension AnimeSourceEx on AnimeSource {
-  String getAnimeSourceString(Locale locale) {
+  String getAnimeSourceString(BuildContext context) {
     switch (this) {
       case AnimeSource.original:
         return 'Original';
@@ -22,12 +23,27 @@ extension AnimeSourceEx on AnimeSource {
   }
 }
 
+extension AnimeSeasonEx on AnimeSeason {
+  String getAnimeSeasonString(BuildContext context) {
+    switch (this) {
+      case AnimeSeason.winter:
+        return ATLocalizations.of(context).winter;
+      case AnimeSeason.spring:
+        return ATLocalizations.of(context).spring;
+      case AnimeSeason.summer:
+        return ATLocalizations.of(context).summer;
+      case AnimeSeason.fall:
+        return ATLocalizations.of(context).fail;
+    }
+  }
+}
+
 extension DetailAnimeModelEx on DetailAnimeModel {
-  String getAnimeInfoString(Locale locale) {
+  String getAnimeInfoString(BuildContext context) {
     if (seasonYear == null || season == null || episodes == null) {
       return '';
     }
 
-    return '$seasonYear · $season · ${source.getAnimeSourceString(locale)} · $episodes-episodes';
+    return '$seasonYear${season!.getAnimeSeasonString(context)} · ${source.getAnimeSourceString(context)} · $episodes-episodes';
   }
 }

@@ -12,8 +12,11 @@ import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'load_type.dart';
+
+part '../model/anime_season.dart';
 
 /// default page count of anime.
 const int defaultPerPageCount = 9;
@@ -27,18 +30,6 @@ enum AnimeCategory {
 
   /// now trending anime.
   trending,
-}
-
-/// Bangumi releasing season.
-enum AnimeSeason {
-  winter('WINTER'),
-  spring('SPRING'),
-  summer('SUMMER'),
-  fall('FALL');
-
-  final String sqlTypeString;
-
-  const AnimeSeason(this.sqlTypeString);
 }
 
 /// Bangumi status.

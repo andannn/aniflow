@@ -10,7 +10,7 @@ class VerticalScaleSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      switchInCurve: Curves.easeInExpo,
+      switchInCurve: Curves.ease,
       transitionBuilder: buildSizeTransition,
       child: child,
     );

@@ -1,4 +1,5 @@
 import 'package:anime_tracker/core/data/model/anime_source.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -19,12 +20,13 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @Default(AnimeSource.other) @JsonKey(name: 'source') AnimeSource source,
     @JsonKey(name: 'episodes') int? episodes,
     @JsonKey(name: 'seasonYear') int? seasonYear,
-    @JsonKey(name: 'season') String? season,
+    @JsonKey(name: 'season') AnimeSeason? season,
     @Default('') @JsonKey(name: 'hashtag') String hashtag,
     @JsonKey(name: 'bannerImage') String? bannerImage,
     @JsonKey(name: 'averageScore') int? averageScore,
     @JsonKey(name: 'trending') int? trending,
     @JsonKey(name: 'favourites') int? favourites,
+    @Default([]) @JsonKey(name: 'genres') List genres,
     @JsonKey(name: 'trailer') TrailerDto? trailer,
     @JsonKey(name: 'characters') CharacterConnection? characters,
   }) = _DetailAnimeDto;

@@ -108,7 +108,14 @@ class _DetailAnimePageContent extends StatelessWidget {
                 ),
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: SliverToBoxAdapter(
+                child: _buildAnimeInfoSection(context, model),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               sliver: SliverToBoxAdapter(
@@ -174,71 +181,66 @@ class _DetailAnimePageContent extends StatelessWidget {
           flex: 1,
           child: Column(
             children: [
-              Wrap(
-                spacing: 12,
-                children: [
-                  const _InfoItem(
-                    label: 'RATED',
-                    content: Text('#32'),
-                  ),
-                  const _InfoItem(
-                    label: 'POPULAR',
-                    content: Text('#65'),
-                  ),
-                  _InfoItem(
-                    label: 'SCORE',
-                    content: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.star_purple500_sharp,
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
-                        ),
-                      ],
-                    ),
-                  ),
-                  _InfoItem(
-                    label: 'FAVOURITE',
-                    content: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.favorite_sharp,
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${model.favourites != null ? (model.favourites) : '--'}',
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+              SizedBox(
+                width: double.infinity,
                 child: Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
-                  children: _buildGenreItems(
-                    context,
-                    ["Action", "Adventure", "Drama", "Sci-Fi"],
-                  ),
+                  spacing: 12,
+                  children: [
+                    const _InfoItem(
+                      label: 'RATED',
+                      content: Text('#32'),
+                    ),
+                    const _InfoItem(
+                      label: 'POPULAR',
+                      content: Text('#65'),
+                    ),
+                    _InfoItem(
+                      label: 'SCORE',
+                      content: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.star_purple500_sharp,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
+                          ),
+                        ],
+                      ),
+                    ),
+                    _InfoItem(
+                      label: 'FAVOURITE',
+                      content: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.favorite_sharp,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${model.favourites != null ? (model.favourites) : '--'}',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  model.getAnimeInfoString(Localizations.localeOf(context)),
-                  style: Theme.of(context).textTheme.labelLarge,
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: _buildGenreItems(context, model.genres),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -250,14 +252,6 @@ class _DetailAnimePageContent extends StatelessWidget {
     final widgets = <Widget>[];
     for (final item in list) {
       widgets.add(_GenreItem(label: item));
-      if (list.lastOrNull != item) {
-        widgets.add(
-          Text(
-            ' · ',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        );
-      }
     }
     return widgets;
   }
@@ -369,6 +363,16 @@ class _DetailAnimePageContent extends StatelessWidget {
           : const SizedBox(),
     );
   }
+
+  Widget _buildAnimeInfoSection(BuildContext context, DetailAnimeModel model) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(
+        model.getAnimeInfoString(context),
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+  }
 }
 
 class _GenreItem extends StatelessWidget {
@@ -378,9 +382,16 @@ class _GenreItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      label.toUpperCase(),
-      style: Theme.of(context).textTheme.labelLarge,
+    return Card(
+      shape: const StadiumBorder(),
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4.0),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+      ),
     );
   }
 }

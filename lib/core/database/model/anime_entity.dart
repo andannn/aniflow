@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:anime_tracker/core/data/model/anime_source.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
@@ -37,7 +40,8 @@ class AnimeEntity with _$AnimeEntity {
     @JsonKey(name: AnimeTableColumns.trailerSite) String? trailerSite,
     @JsonKey(name: AnimeTableColumns.episodes) int? episodes,
     @JsonKey(name: AnimeTableColumns.seasonYear) int? seasonYear,
-    @JsonKey(name: AnimeTableColumns.season) String? season,
+    @JsonKey(name: AnimeTableColumns.season) AnimeSeason? season,
+    @JsonKey(name: AnimeTableColumns.genres) String? genres,
     @JsonKey(name: AnimeTableColumns.trailerThumbnail) String? trailerThumbnail,
   }) = _AnimeEntity;
 
@@ -74,5 +78,6 @@ class AnimeEntity with _$AnimeEntity {
         episodes: model.episodes,
         season: model.season,
         seasonYear: model.seasonYear,
+        genres: jsonEncode(model.genres),
       );
 }

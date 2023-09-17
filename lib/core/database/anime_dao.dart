@@ -28,6 +28,7 @@ mixin AnimeTableColumns {
   static const String trailerId = 'trailer_id';
   static const String trailerSite = 'trailer_site';
   static const String trailerThumbnail = 'trailer_thumbnail';
+  static const String genres = 'genres';
 }
 
 mixin CategoryColumns {

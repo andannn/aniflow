@@ -35,7 +35,7 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'seasonYear')
   int? get seasonYear => throw _privateConstructorUsedError;
   @JsonKey(name: 'season')
-  String? get season => throw _privateConstructorUsedError;
+  AnimeSeason? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'hashtag')
   String get hashtag => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
@@ -46,6 +46,8 @@ mixin _$DetailAnimeDto {
   int? get trending => throw _privateConstructorUsedError;
   @JsonKey(name: 'favourites')
   int? get favourites => throw _privateConstructorUsedError;
+  @JsonKey(name: 'genres')
+  List<dynamic> get genres => throw _privateConstructorUsedError;
   @JsonKey(name: 'trailer')
   TrailerDto? get trailer => throw _privateConstructorUsedError;
   @JsonKey(name: 'characters')
@@ -71,12 +73,13 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'source') AnimeSource source,
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
-      @JsonKey(name: 'season') String? season,
+      @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String hashtag,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
       @JsonKey(name: 'favourites') int? favourites,
+      @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
@@ -111,6 +114,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? averageScore = freezed,
     Object? trending = freezed,
     Object? favourites = freezed,
+    Object? genres = null,
     Object? trailer = freezed,
     Object? characters = freezed,
   }) {
@@ -146,7 +150,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
       season: freezed == season
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as AnimeSeason?,
       hashtag: null == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
@@ -167,6 +171,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as int?,
+      genres: null == genres
+          ? _value.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       trailer: freezed == trailer
           ? _value.trailer
           : trailer // ignore: cast_nullable_to_non_nullable
@@ -231,12 +239,13 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'source') AnimeSource source,
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
-      @JsonKey(name: 'season') String? season,
+      @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String hashtag,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
       @JsonKey(name: 'favourites') int? favourites,
+      @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
@@ -272,6 +281,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? averageScore = freezed,
     Object? trending = freezed,
     Object? favourites = freezed,
+    Object? genres = null,
     Object? trailer = freezed,
     Object? characters = freezed,
   }) {
@@ -307,7 +317,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
       season: freezed == season
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as AnimeSeason?,
       hashtag: null == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
@@ -328,6 +338,10 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as int?,
+      genres: null == genres
+          ? _value._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       trailer: freezed == trailer
           ? _value.trailer
           : trailer // ignore: cast_nullable_to_non_nullable
@@ -358,9 +372,11 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'averageScore') this.averageScore,
       @JsonKey(name: 'trending') this.trending,
       @JsonKey(name: 'favourites') this.favourites,
+      @JsonKey(name: 'genres') final List<dynamic> genres = const [],
       @JsonKey(name: 'trailer') this.trailer,
       @JsonKey(name: 'characters') this.characters})
-      : _coverImage = coverImage;
+      : _coverImage = coverImage,
+        _genres = genres;
 
   factory _$_DetailAnimeDto.fromJson(Map<String, dynamic> json) =>
       _$$_DetailAnimeDtoFromJson(json);
@@ -394,7 +410,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   final int? seasonYear;
   @override
   @JsonKey(name: 'season')
-  final String? season;
+  final AnimeSeason? season;
   @override
   @JsonKey(name: 'hashtag')
   final String hashtag;
@@ -410,6 +426,15 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   @override
   @JsonKey(name: 'favourites')
   final int? favourites;
+  final List<dynamic> _genres;
+  @override
+  @JsonKey(name: 'genres')
+  List<dynamic> get genres {
+    if (_genres is EqualUnmodifiableListView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_genres);
+  }
+
   @override
   @JsonKey(name: 'trailer')
   final TrailerDto? trailer;
@@ -419,7 +444,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailer: $trailer, characters: $characters)';
+    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, characters: $characters)';
   }
 
   @override
@@ -448,6 +473,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
                 other.trending == trending) &&
             (identical(other.favourites, favourites) ||
                 other.favourites == favourites) &&
+            const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.trailer, trailer) || other.trailer == trailer) &&
             (identical(other.characters, characters) ||
                 other.characters == characters));
@@ -470,6 +496,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       averageScore,
       trending,
       favourites,
+      const DeepCollectionEquality().hash(_genres),
       trailer,
       characters);
 
@@ -496,12 +523,13 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'source') final AnimeSource source,
           @JsonKey(name: 'episodes') final int? episodes,
           @JsonKey(name: 'seasonYear') final int? seasonYear,
-          @JsonKey(name: 'season') final String? season,
+          @JsonKey(name: 'season') final AnimeSeason? season,
           @JsonKey(name: 'hashtag') final String hashtag,
           @JsonKey(name: 'bannerImage') final String? bannerImage,
           @JsonKey(name: 'averageScore') final int? averageScore,
           @JsonKey(name: 'trending') final int? trending,
           @JsonKey(name: 'favourites') final int? favourites,
+          @JsonKey(name: 'genres') final List<dynamic> genres,
           @JsonKey(name: 'trailer') final TrailerDto? trailer,
           @JsonKey(name: 'characters') final CharacterConnection? characters}) =
       _$_DetailAnimeDto;
@@ -532,7 +560,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   int? get seasonYear;
   @override
   @JsonKey(name: 'season')
-  String? get season;
+  AnimeSeason? get season;
   @override
   @JsonKey(name: 'hashtag')
   String get hashtag;
@@ -548,6 +576,9 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   @override
   @JsonKey(name: 'favourites')
   int? get favourites;
+  @override
+  @JsonKey(name: 'genres')
+  List<dynamic> get genres;
   @override
   @JsonKey(name: 'trailer')
   TrailerDto? get trailer;

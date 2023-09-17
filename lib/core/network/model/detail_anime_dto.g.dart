@@ -21,12 +21,13 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
           AnimeSource.other,
       episodes: json['episodes'] as int?,
       seasonYear: json['seasonYear'] as int?,
-      season: json['season'] as String?,
+      season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
       hashtag: json['hashtag'] as String? ?? '',
       bannerImage: json['bannerImage'] as String?,
       averageScore: json['averageScore'] as int?,
       trending: json['trending'] as int?,
       favourites: json['favourites'] as int?,
+      genres: json['genres'] as List<dynamic>? ?? const [],
       trailer: json['trailer'] == null
           ? null
           : TrailerDto.fromJson(json['trailer'] as Map<String, dynamic>),
@@ -45,12 +46,13 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'source': _$AnimeSourceEnumMap[instance.source]!,
       'episodes': instance.episodes,
       'seasonYear': instance.seasonYear,
-      'season': instance.season,
+      'season': _$AnimeSeasonEnumMap[instance.season],
       'hashtag': instance.hashtag,
       'bannerImage': instance.bannerImage,
       'averageScore': instance.averageScore,
       'trending': instance.trending,
       'favourites': instance.favourites,
+      'genres': instance.genres,
       'trailer': instance.trailer,
       'characters': instance.characters,
     };
@@ -62,4 +64,11 @@ const _$AnimeSourceEnumMap = {
   AnimeSource.visualNovel: 'VISUAL_NOVEL',
   AnimeSource.videoGame: 'VIDEO_GAME',
   AnimeSource.other: 'OTHER',
+};
+
+const _$AnimeSeasonEnumMap = {
+  AnimeSeason.winter: 'WINTER',
+  AnimeSeason.spring: 'SPRING',
+  AnimeSeason.summer: 'SUMMER',
+  AnimeSeason.fall: 'FALL',
 };

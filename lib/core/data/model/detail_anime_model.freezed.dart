@@ -27,7 +27,8 @@ mixin _$DetailAnimeModel {
   int? get favourites => throw _privateConstructorUsedError;
   TrailerModel? get trailerModel => throw _privateConstructorUsedError;
   int? get seasonYear => throw _privateConstructorUsedError;
-  String? get season => throw _privateConstructorUsedError;
+  AnimeSeason? get season => throw _privateConstructorUsedError;
+  List<String> get genres => throw _privateConstructorUsedError;
   int? get episodes => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
       throw _privateConstructorUsedError;
@@ -55,7 +56,8 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
       int? favourites,
       TrailerModel? trailerModel,
       int? seasonYear,
-      String? season,
+      AnimeSeason? season,
+      List<String> genres,
       int? episodes,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
@@ -88,6 +90,7 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
     Object? trailerModel = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
+    Object? genres = null,
     Object? episodes = freezed,
     Object? characterAndVoiceActors = null,
   }) {
@@ -139,7 +142,11 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
       season: freezed == season
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as AnimeSeason?,
+      genres: null == genres
+          ? _value.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       episodes: freezed == episodes
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
@@ -196,7 +203,8 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       int? favourites,
       TrailerModel? trailerModel,
       int? seasonYear,
-      String? season,
+      AnimeSeason? season,
+      List<String> genres,
       int? episodes,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
@@ -229,6 +237,7 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? trailerModel = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
+    Object? genres = null,
     Object? episodes = freezed,
     Object? characterAndVoiceActors = null,
   }) {
@@ -280,7 +289,11 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
       season: freezed == season
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as AnimeSeason?,
+      genres: null == genres
+          ? _value._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       episodes: freezed == episodes
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
@@ -309,10 +322,12 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.trailerModel,
       this.seasonYear,
       this.season,
+      final List<String> genres = const [],
       this.episodes,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
           const []})
-      : _characterAndVoiceActors = characterAndVoiceActors;
+      : _genres = genres,
+        _characterAndVoiceActors = characterAndVoiceActors;
 
   @override
   @JsonKey()
@@ -341,7 +356,16 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
   @override
   final int? seasonYear;
   @override
-  final String? season;
+  final AnimeSeason? season;
+  final List<String> _genres;
+  @override
+  @JsonKey()
+  List<String> get genres {
+    if (_genres is EqualUnmodifiableListView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_genres);
+  }
+
   @override
   final int? episodes;
   final List<CharacterAndVoiceActorModel> _characterAndVoiceActors;
@@ -356,7 +380,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
   @override
   String toString() {
-    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, episodes: $episodes, characterAndVoiceActors: $characterAndVoiceActors)';
+    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, genres: $genres, episodes: $episodes, characterAndVoiceActors: $characterAndVoiceActors)';
   }
 
   @override
@@ -384,6 +408,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
             (identical(other.seasonYear, seasonYear) ||
                 other.seasonYear == seasonYear) &&
             (identical(other.season, season) || other.season == season) &&
+            const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.episodes, episodes) ||
                 other.episodes == episodes) &&
             const DeepCollectionEquality().equals(
@@ -405,6 +430,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       trailerModel,
       seasonYear,
       season,
+      const DeepCollectionEquality().hash(_genres),
       episodes,
       const DeepCollectionEquality().hash(_characterAndVoiceActors));
 
@@ -428,7 +454,8 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
           final int? favourites,
           final TrailerModel? trailerModel,
           final int? seasonYear,
-          final String? season,
+          final AnimeSeason? season,
+          final List<String> genres,
           final int? episodes,
           final List<CharacterAndVoiceActorModel> characterAndVoiceActors}) =
       _$_DetailAnimeModel;
@@ -456,7 +483,9 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   @override
   int? get seasonYear;
   @override
-  String? get season;
+  AnimeSeason? get season;
+  @override
+  List<String> get genres;
   @override
   int? get episodes;
   @override

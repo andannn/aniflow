@@ -66,6 +66,7 @@ class AnimeDatabase {
         '${AnimeTableColumns.trailerThumbnail} text,'
         '${AnimeTableColumns.episodes} integer,'
         '${AnimeTableColumns.seasonYear} integer,'
+        '${AnimeTableColumns.genres} text,'
         '${AnimeTableColumns.season} text'
         ')');
 

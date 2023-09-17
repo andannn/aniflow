@@ -13,6 +13,7 @@ query (\$id: Int) {
     seasonYear
     season
     source
+    genres
     trailer {
       id
       site
