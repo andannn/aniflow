@@ -4,6 +4,7 @@ import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
+import 'package:anime_tracker/core/designsystem/widget/image_load_initial_widget.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -95,6 +96,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   child: CachedNetworkImage(
                     height: 128,
                     imageUrl: model.bannerImage,
+                    placeholder: buildImageInitialWidget,
                     errorWidget: buildErrorWidget,
                     fit: BoxFit.cover,
                   ),
@@ -131,6 +133,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
           ],
         );
       },
@@ -152,6 +155,7 @@ class _DetailAnimePageContent extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: model.coverImage,
                 fit: BoxFit.cover,
+                placeholder: buildImageInitialWidget,
                 errorWidget: buildErrorWidget,
               ),
             ),
@@ -263,32 +267,45 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildCharacterSection(
       BuildContext context, List<CharacterAndVoiceActorModel> models) {
-    return SizedBox(
-      height: 350,
-      child: CustomScrollView(
-        scrollDirection: Axis.horizontal,
-        slivers: [
-          SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) =>
-                  _buildCharacterAndVoiceActorItem(context, models[index]),
-              childCount: models.length,
-            ),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 300,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              crossAxisCount: 3,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Characters',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 400,
+          child: CustomScrollView(
+            scrollDirection: Axis.horizontal,
+            slivers: [
+              SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) =>
+                      _buildCharacterAndVoiceActorItem(context, models[index]),
+                  childCount: models.length,
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisExtent: 400,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  crossAxisCount: 3,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildCharacterAndVoiceActorItem(
       BuildContext context, CharacterAndVoiceActorModel model) {
-    return CharacterAndVoiceActor(model: model);
+    return CharacterAndVoiceActor(
+      model: model,
+      textStyle: Theme.of(context).textTheme.bodyMedium,
+    );
   }
 }
 

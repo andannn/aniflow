@@ -53,7 +53,7 @@ class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   }
 
   @override
-  bool get maintainState => false;
+  bool get maintainState => true;
 }
 
 class _AnimeListPageContent extends StatelessWidget {
@@ -66,7 +66,6 @@ class _AnimeListPageContent extends StatelessWidget {
       final pagingState = state.animePagingState;
       final animeList = pagingState.data;
       final itemCount = pagingState.data.length;
-      // final isLoading = pagingState is PageLoading;
 
       /// Need load new page only when PageReady state.
       final needDetectNewPageRequest = pagingState is PageReady;
