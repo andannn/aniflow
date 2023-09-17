@@ -27,9 +27,9 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'coverImage')
   Map<String, String?> get coverImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'source')
-  String get source => throw _privateConstructorUsedError;
+  String? get source => throw _privateConstructorUsedError;
   @JsonKey(name: 'hashtag')
   String get hashtag => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
@@ -59,8 +59,8 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') AnimeTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'source') String source,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'source') String? source,
       @JsonKey(name: 'hashtag') String hashtag,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
@@ -88,8 +88,8 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? id = null,
     Object? title = freezed,
     Object? coverImage = null,
-    Object? description = null,
-    Object? source = null,
+    Object? description = freezed,
+    Object? source = freezed,
     Object? hashtag = null,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
@@ -110,14 +110,14 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      source: null == source
+              as String?,
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hashtag: null == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
@@ -182,8 +182,8 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') AnimeTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'source') String source,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'source') String? source,
       @JsonKey(name: 'hashtag') String hashtag,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
@@ -211,8 +211,8 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? id = null,
     Object? title = freezed,
     Object? coverImage = null,
-    Object? description = null,
-    Object? source = null,
+    Object? description = freezed,
+    Object? source = freezed,
     Object? hashtag = null,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
@@ -233,14 +233,14 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value._coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      source: null == source
+              as String?,
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       hashtag: null == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
@@ -277,8 +277,8 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'coverImage')
       final Map<String, String?> coverImage = const {},
-      @JsonKey(name: 'description') this.description = '',
-      @JsonKey(name: 'source') this.source = '',
+      @JsonKey(name: 'description') this.description,
+      @JsonKey(name: 'source') this.source,
       @JsonKey(name: 'hashtag') this.hashtag = '',
       @JsonKey(name: 'bannerImage') this.bannerImage,
       @JsonKey(name: 'averageScore') this.averageScore,
@@ -307,10 +307,10 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
 
   @override
   @JsonKey(name: 'description')
-  final String description;
+  final String? description;
   @override
   @JsonKey(name: 'source')
-  final String source;
+  final String? source;
   @override
   @JsonKey(name: 'hashtag')
   final String hashtag;
@@ -395,8 +395,8 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           {@JsonKey(name: 'id') final int id,
           @JsonKey(name: 'title') final AnimeTitle? title,
           @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
-          @JsonKey(name: 'description') final String description,
-          @JsonKey(name: 'source') final String source,
+          @JsonKey(name: 'description') final String? description,
+          @JsonKey(name: 'source') final String? source,
           @JsonKey(name: 'hashtag') final String hashtag,
           @JsonKey(name: 'bannerImage') final String? bannerImage,
           @JsonKey(name: 'averageScore') final int? averageScore,
@@ -419,10 +419,10 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   Map<String, String?> get coverImage;
   @override
   @JsonKey(name: 'description')
-  String get description;
+  String? get description;
   @override
   @JsonKey(name: 'source')
-  String get source;
+  String? get source;
   @override
   @JsonKey(name: 'hashtag')
   String get hashtag;

@@ -118,8 +118,6 @@ class AnimeDaoImpl extends AnimeListDao {
 
   @override
   Future clearAll() async {
-    await database.animeDB.delete(Tables.animeTable);
-    await database.animeDB.delete(Tables.categoryTable);
     await database.animeDB.delete(Tables.animeCategoryCrossRefTable);
   }
 

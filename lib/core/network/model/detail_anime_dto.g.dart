@@ -16,8 +16,8 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
             (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
-      description: json['description'] as String? ?? '',
-      source: json['source'] as String? ?? '',
+      description: json['description'] as String?,
+      source: json['source'] as String?,
       hashtag: json['hashtag'] as String? ?? '',
       bannerImage: json['bannerImage'] as String?,
       averageScore: json['averageScore'] as int?,

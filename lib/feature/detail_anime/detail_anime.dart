@@ -2,9 +2,11 @@ import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/designsystem/animetion/scale_transaction_animetion.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
 import 'package:anime_tracker/core/designsystem/widget/image_load_initial_widget.dart';
+import 'package:anime_tracker/core/designsystem/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -90,17 +92,7 @@ class _DetailAnimePageContent extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               sliver: SliverToBoxAdapter(
-                child: Card(
-                  elevation: 0,
-                  clipBehavior: Clip.hardEdge,
-                  child: CachedNetworkImage(
-                    height: 128,
-                    imageUrl: model.bannerImage ?? '',
-                    placeholder: buildImageInitialWidget,
-                    errorWidget: buildErrorWidget,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                child: _buildBannerSectionSection(context, model.bannerImage),
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
@@ -119,7 +111,7 @@ class _DetailAnimePageContent extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: _buildAnimeDescription(
                   context: context,
-                  description: model.description ?? '',
+                  description: model.description,
                 ),
               ),
             ),
@@ -255,52 +247,61 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildAnimeDescription(
-      {required BuildContext context, required String description}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'About this anime',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Html(data: description),
-      ],
+      {required BuildContext context, required String? description}) {
+    return VerticalScaleSwitcher(
+      child: description != null
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'About this anime',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Html(data: description),
+              ],
+            )
+          : const SizedBox(),
     );
   }
 
   Widget _buildCharacterSection(
       BuildContext context, List<CharacterAndVoiceActorModel> models) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Characters',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 400,
-          child: CustomScrollView(
-            scrollDirection: Axis.horizontal,
-            slivers: [
-              SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) =>
-                      _buildCharacterAndVoiceActorItem(context, models[index]),
-                  childCount: models.length,
+    return VerticalScaleSwitcher(
+      child: models.isNotEmpty
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Characters',
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisExtent: 400,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  crossAxisCount: 3,
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 400,
+                  child: CustomScrollView(
+                    scrollDirection: Axis.horizontal,
+                    slivers: [
+                      SliverGrid(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => _buildCharacterAndVoiceActorItem(
+                              context, models[index]),
+                          childCount: models.length,
+                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisExtent: 400,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          crossAxisCount: 3,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ],
+              ],
+            )
+          : const SizedBox(),
     );
   }
 
@@ -309,6 +310,24 @@ class _DetailAnimePageContent extends StatelessWidget {
     return CharacterAndVoiceActor(
       model: model,
       textStyle: Theme.of(context).textTheme.bodyMedium,
+    );
+  }
+
+  Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
+    return VerticalScaleSwitcher(
+      child: bannerImage != null
+          ? Card(
+              elevation: 0,
+              clipBehavior: Clip.hardEdge,
+              child: CachedNetworkImage(
+                height: 128,
+                imageUrl: bannerImage,
+                placeholder: buildImageInitialWidget,
+                errorWidget: buildErrorWidget,
+                fit: BoxFit.cover,
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

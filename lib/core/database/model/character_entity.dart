@@ -1,5 +1,7 @@
 import 'package:anime_tracker/core/database/anime_dao.dart';
+import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
+import 'package:anime_tracker/core/network/model/short_info_node.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_entity.freezed.dart';
@@ -10,9 +12,8 @@ part 'character_entity.g.dart';
 class CharacterEntity with _$CharacterEntity {
   factory CharacterEntity({
     @Default('') @JsonKey(name: CharacterColumns.id) String id,
-    @Default('')
     @JsonKey(name: CharacterColumns.voiceActorId)
-    String voiceActorId,
+    String? voiceActorId,
     @Default('') @JsonKey(name: CharacterColumns.image) String? image,
     @JsonKey(name: CharacterColumns.nameEnglish)
     String? nameEnglish,
@@ -23,9 +24,14 @@ class CharacterEntity with _$CharacterEntity {
       _$$_CharacterEntityFromJson(json);
 
   static CharacterEntity fromNetworkModel(CharacterEdge e) {
+    ShortInfoNode? voiceActor;
+    if (e.voiceActors.isNotEmpty) {
+      voiceActor = e.voiceActors[0];
+    }
+
     return CharacterEntity(
       id: e.characterEdge!.id.toString(),
-      voiceActorId: e.voiceActors[0].id.toString(),
+      voiceActorId: voiceActor?.id.toString(),
       image: e.characterEdge!.image['medium'],
       nameNative: e.characterEdge!.name['native'],
       nameEnglish: e.characterEdge!.name['full'],
