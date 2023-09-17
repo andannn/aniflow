@@ -27,21 +27,29 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'coverImage')
   Map<String, String?> get coverImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'source')
-  String get source => throw _privateConstructorUsedError;
+  AnimeSource get source => throw _privateConstructorUsedError;
+  @JsonKey(name: 'episodes')
+  int? get episodes => throw _privateConstructorUsedError;
+  @JsonKey(name: 'seasonYear')
+  int? get seasonYear => throw _privateConstructorUsedError;
+  @JsonKey(name: 'season')
+  AnimeSeason? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'hashtag')
   String get hashtag => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
-  String get bannerImage => throw _privateConstructorUsedError;
+  String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'averageScore')
-  int get averageScore => throw _privateConstructorUsedError;
+  int? get averageScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'trending')
-  int get trending => throw _privateConstructorUsedError;
+  int? get trending => throw _privateConstructorUsedError;
   @JsonKey(name: 'favourites')
-  int get favourites => throw _privateConstructorUsedError;
-  @JsonKey(name: 'isFavourite')
-  bool get isFavourite => throw _privateConstructorUsedError;
+  int? get favourites => throw _privateConstructorUsedError;
+  @JsonKey(name: 'genres')
+  List<dynamic> get genres => throw _privateConstructorUsedError;
+  @JsonKey(name: 'trailer')
+  TrailerDto? get trailer => throw _privateConstructorUsedError;
   @JsonKey(name: 'characters')
   CharacterConnection? get characters => throw _privateConstructorUsedError;
 
@@ -61,17 +69,22 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') AnimeTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'source') String source,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'source') AnimeSource source,
+      @JsonKey(name: 'episodes') int? episodes,
+      @JsonKey(name: 'seasonYear') int? seasonYear,
+      @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String hashtag,
-      @JsonKey(name: 'bannerImage') String bannerImage,
-      @JsonKey(name: 'averageScore') int averageScore,
-      @JsonKey(name: 'trending') int trending,
-      @JsonKey(name: 'favourites') int favourites,
-      @JsonKey(name: 'isFavourite') bool isFavourite,
+      @JsonKey(name: 'bannerImage') String? bannerImage,
+      @JsonKey(name: 'averageScore') int? averageScore,
+      @JsonKey(name: 'trending') int? trending,
+      @JsonKey(name: 'favourites') int? favourites,
+      @JsonKey(name: 'genres') List<dynamic> genres,
+      @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
   $AnimeTitleCopyWith<$Res>? get title;
+  $TrailerDtoCopyWith<$Res>? get trailer;
   $CharacterConnectionCopyWith<$Res>? get characters;
 }
 
@@ -91,14 +104,18 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? id = null,
     Object? title = freezed,
     Object? coverImage = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? source = null,
+    Object? episodes = freezed,
+    Object? seasonYear = freezed,
+    Object? season = freezed,
     Object? hashtag = null,
-    Object? bannerImage = null,
-    Object? averageScore = null,
-    Object? trending = null,
-    Object? favourites = null,
-    Object? isFavourite = null,
+    Object? bannerImage = freezed,
+    Object? averageScore = freezed,
+    Object? trending = freezed,
+    Object? favourites = freezed,
+    Object? genres = null,
+    Object? trailer = freezed,
     Object? characters = freezed,
   }) {
     return _then(_value.copyWith(
@@ -114,38 +131,54 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AnimeSource,
+      episodes: freezed == episodes
+          ? _value.episodes
+          : episodes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      seasonYear: freezed == seasonYear
+          ? _value.seasonYear
+          : seasonYear // ignore: cast_nullable_to_non_nullable
+              as int?,
+      season: freezed == season
+          ? _value.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as AnimeSeason?,
       hashtag: null == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
               as String,
-      bannerImage: null == bannerImage
+      bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      averageScore: null == averageScore
+              as String?,
+      averageScore: freezed == averageScore
           ? _value.averageScore
           : averageScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      trending: null == trending
+              as int?,
+      trending: freezed == trending
           ? _value.trending
           : trending // ignore: cast_nullable_to_non_nullable
-              as int,
-      favourites: null == favourites
+              as int?,
+      favourites: freezed == favourites
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as int,
-      isFavourite: null == isFavourite
-          ? _value.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int?,
+      genres: null == genres
+          ? _value.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      trailer: freezed == trailer
+          ? _value.trailer
+          : trailer // ignore: cast_nullable_to_non_nullable
+              as TrailerDto?,
       characters: freezed == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
@@ -162,6 +195,18 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
 
     return $AnimeTitleCopyWith<$Res>(_value.title!, (value) {
       return _then(_value.copyWith(title: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TrailerDtoCopyWith<$Res>? get trailer {
+    if (_value.trailer == null) {
+      return null;
+    }
+
+    return $TrailerDtoCopyWith<$Res>(_value.trailer!, (value) {
+      return _then(_value.copyWith(trailer: value) as $Val);
     });
   }
 
@@ -190,18 +235,24 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') AnimeTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'source') String source,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'source') AnimeSource source,
+      @JsonKey(name: 'episodes') int? episodes,
+      @JsonKey(name: 'seasonYear') int? seasonYear,
+      @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String hashtag,
-      @JsonKey(name: 'bannerImage') String bannerImage,
-      @JsonKey(name: 'averageScore') int averageScore,
-      @JsonKey(name: 'trending') int trending,
-      @JsonKey(name: 'favourites') int favourites,
-      @JsonKey(name: 'isFavourite') bool isFavourite,
+      @JsonKey(name: 'bannerImage') String? bannerImage,
+      @JsonKey(name: 'averageScore') int? averageScore,
+      @JsonKey(name: 'trending') int? trending,
+      @JsonKey(name: 'favourites') int? favourites,
+      @JsonKey(name: 'genres') List<dynamic> genres,
+      @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
+  @override
+  $TrailerDtoCopyWith<$Res>? get trailer;
   @override
   $CharacterConnectionCopyWith<$Res>? get characters;
 }
@@ -220,14 +271,18 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? id = null,
     Object? title = freezed,
     Object? coverImage = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? source = null,
+    Object? episodes = freezed,
+    Object? seasonYear = freezed,
+    Object? season = freezed,
     Object? hashtag = null,
-    Object? bannerImage = null,
-    Object? averageScore = null,
-    Object? trending = null,
-    Object? favourites = null,
-    Object? isFavourite = null,
+    Object? bannerImage = freezed,
+    Object? averageScore = freezed,
+    Object? trending = freezed,
+    Object? favourites = freezed,
+    Object? genres = null,
+    Object? trailer = freezed,
     Object? characters = freezed,
   }) {
     return _then(_$_DetailAnimeDto(
@@ -243,38 +298,54 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value._coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AnimeSource,
+      episodes: freezed == episodes
+          ? _value.episodes
+          : episodes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      seasonYear: freezed == seasonYear
+          ? _value.seasonYear
+          : seasonYear // ignore: cast_nullable_to_non_nullable
+              as int?,
+      season: freezed == season
+          ? _value.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as AnimeSeason?,
       hashtag: null == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
               as String,
-      bannerImage: null == bannerImage
+      bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      averageScore: null == averageScore
+              as String?,
+      averageScore: freezed == averageScore
           ? _value.averageScore
           : averageScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      trending: null == trending
+              as int?,
+      trending: freezed == trending
           ? _value.trending
           : trending // ignore: cast_nullable_to_non_nullable
-              as int,
-      favourites: null == favourites
+              as int?,
+      favourites: freezed == favourites
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as int,
-      isFavourite: null == isFavourite
-          ? _value.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int?,
+      genres: null == genres
+          ? _value._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      trailer: freezed == trailer
+          ? _value.trailer
+          : trailer // ignore: cast_nullable_to_non_nullable
+              as TrailerDto?,
       characters: freezed == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
@@ -291,16 +362,21 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'coverImage')
       final Map<String, String?> coverImage = const {},
-      @JsonKey(name: 'description') this.description = '',
-      @JsonKey(name: 'source') this.source = '',
+      @JsonKey(name: 'description') this.description,
+      @JsonKey(name: 'source') this.source = AnimeSource.other,
+      @JsonKey(name: 'episodes') this.episodes,
+      @JsonKey(name: 'seasonYear') this.seasonYear,
+      @JsonKey(name: 'season') this.season,
       @JsonKey(name: 'hashtag') this.hashtag = '',
-      @JsonKey(name: 'bannerImage') this.bannerImage = '',
-      @JsonKey(name: 'averageScore') this.averageScore = -1,
-      @JsonKey(name: 'trending') this.trending = -1,
-      @JsonKey(name: 'favourites') this.favourites = -1,
-      @JsonKey(name: 'isFavourite') this.isFavourite = false,
+      @JsonKey(name: 'bannerImage') this.bannerImage,
+      @JsonKey(name: 'averageScore') this.averageScore,
+      @JsonKey(name: 'trending') this.trending,
+      @JsonKey(name: 'favourites') this.favourites,
+      @JsonKey(name: 'genres') final List<dynamic> genres = const [],
+      @JsonKey(name: 'trailer') this.trailer,
       @JsonKey(name: 'characters') this.characters})
-      : _coverImage = coverImage;
+      : _coverImage = coverImage,
+        _genres = genres;
 
   factory _$_DetailAnimeDto.fromJson(Map<String, dynamic> json) =>
       _$$_DetailAnimeDtoFromJson(json);
@@ -322,35 +398,53 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
 
   @override
   @JsonKey(name: 'description')
-  final String description;
+  final String? description;
   @override
   @JsonKey(name: 'source')
-  final String source;
+  final AnimeSource source;
+  @override
+  @JsonKey(name: 'episodes')
+  final int? episodes;
+  @override
+  @JsonKey(name: 'seasonYear')
+  final int? seasonYear;
+  @override
+  @JsonKey(name: 'season')
+  final AnimeSeason? season;
   @override
   @JsonKey(name: 'hashtag')
   final String hashtag;
   @override
   @JsonKey(name: 'bannerImage')
-  final String bannerImage;
+  final String? bannerImage;
   @override
   @JsonKey(name: 'averageScore')
-  final int averageScore;
+  final int? averageScore;
   @override
   @JsonKey(name: 'trending')
-  final int trending;
+  final int? trending;
   @override
   @JsonKey(name: 'favourites')
-  final int favourites;
+  final int? favourites;
+  final List<dynamic> _genres;
   @override
-  @JsonKey(name: 'isFavourite')
-  final bool isFavourite;
+  @JsonKey(name: 'genres')
+  List<dynamic> get genres {
+    if (_genres is EqualUnmodifiableListView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_genres);
+  }
+
+  @override
+  @JsonKey(name: 'trailer')
+  final TrailerDto? trailer;
   @override
   @JsonKey(name: 'characters')
   final CharacterConnection? characters;
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, isFavourite: $isFavourite, characters: $characters)';
+    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, characters: $characters)';
   }
 
   @override
@@ -365,6 +459,11 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.source, source) || other.source == source) &&
+            (identical(other.episodes, episodes) ||
+                other.episodes == episodes) &&
+            (identical(other.seasonYear, seasonYear) ||
+                other.seasonYear == seasonYear) &&
+            (identical(other.season, season) || other.season == season) &&
             (identical(other.hashtag, hashtag) || other.hashtag == hashtag) &&
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
@@ -374,8 +473,8 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
                 other.trending == trending) &&
             (identical(other.favourites, favourites) ||
                 other.favourites == favourites) &&
-            (identical(other.isFavourite, isFavourite) ||
-                other.isFavourite == isFavourite) &&
+            const DeepCollectionEquality().equals(other._genres, _genres) &&
+            (identical(other.trailer, trailer) || other.trailer == trailer) &&
             (identical(other.characters, characters) ||
                 other.characters == characters));
   }
@@ -389,12 +488,16 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       const DeepCollectionEquality().hash(_coverImage),
       description,
       source,
+      episodes,
+      seasonYear,
+      season,
       hashtag,
       bannerImage,
       averageScore,
       trending,
       favourites,
-      isFavourite,
+      const DeepCollectionEquality().hash(_genres),
+      trailer,
       characters);
 
   @JsonKey(ignore: true)
@@ -416,14 +519,18 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           {@JsonKey(name: 'id') final int id,
           @JsonKey(name: 'title') final AnimeTitle? title,
           @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
-          @JsonKey(name: 'description') final String description,
-          @JsonKey(name: 'source') final String source,
+          @JsonKey(name: 'description') final String? description,
+          @JsonKey(name: 'source') final AnimeSource source,
+          @JsonKey(name: 'episodes') final int? episodes,
+          @JsonKey(name: 'seasonYear') final int? seasonYear,
+          @JsonKey(name: 'season') final AnimeSeason? season,
           @JsonKey(name: 'hashtag') final String hashtag,
-          @JsonKey(name: 'bannerImage') final String bannerImage,
-          @JsonKey(name: 'averageScore') final int averageScore,
-          @JsonKey(name: 'trending') final int trending,
-          @JsonKey(name: 'favourites') final int favourites,
-          @JsonKey(name: 'isFavourite') final bool isFavourite,
+          @JsonKey(name: 'bannerImage') final String? bannerImage,
+          @JsonKey(name: 'averageScore') final int? averageScore,
+          @JsonKey(name: 'trending') final int? trending,
+          @JsonKey(name: 'favourites') final int? favourites,
+          @JsonKey(name: 'genres') final List<dynamic> genres,
+          @JsonKey(name: 'trailer') final TrailerDto? trailer,
           @JsonKey(name: 'characters') final CharacterConnection? characters}) =
       _$_DetailAnimeDto;
 
@@ -441,28 +548,40 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   Map<String, String?> get coverImage;
   @override
   @JsonKey(name: 'description')
-  String get description;
+  String? get description;
   @override
   @JsonKey(name: 'source')
-  String get source;
+  AnimeSource get source;
+  @override
+  @JsonKey(name: 'episodes')
+  int? get episodes;
+  @override
+  @JsonKey(name: 'seasonYear')
+  int? get seasonYear;
+  @override
+  @JsonKey(name: 'season')
+  AnimeSeason? get season;
   @override
   @JsonKey(name: 'hashtag')
   String get hashtag;
   @override
   @JsonKey(name: 'bannerImage')
-  String get bannerImage;
+  String? get bannerImage;
   @override
   @JsonKey(name: 'averageScore')
-  int get averageScore;
+  int? get averageScore;
   @override
   @JsonKey(name: 'trending')
-  int get trending;
+  int? get trending;
   @override
   @JsonKey(name: 'favourites')
-  int get favourites;
+  int? get favourites;
   @override
-  @JsonKey(name: 'isFavourite')
-  bool get isFavourite;
+  @JsonKey(name: 'genres')
+  List<dynamic> get genres;
+  @override
+  @JsonKey(name: 'trailer')
+  TrailerDto? get trailer;
   @override
   @JsonKey(name: 'characters')
   CharacterConnection? get characters;

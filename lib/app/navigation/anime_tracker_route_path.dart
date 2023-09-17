@@ -1,6 +1,7 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/feature/anime_list/anime_list.dart';
+import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';
 import 'package:anime_tracker/feature/discover/discover.dart';
 import 'package:flutter/material.dart';
 
@@ -32,13 +33,27 @@ class AnimeListRoutePath extends AnimeTrackerRoutePath {
   final AnimeCategory category;
 }
 
+class DetailAnimeRoutePath extends TopLevelRoutePath {
+  DetailAnimeRoutePath(this.animeId) : super(TopLevelNavigation.discover);
+
+  final String animeId;
+}
+
 extension AnimeTrackerRoutePathEx on AnimeTrackerRoutePath {
   Page generatePage() {
     switch (this) {
       case DiscoverRoutePath(topLevel: final _):
         return const DiscoverPage(key: ValueKey('DiscoverPage'));
       case AnimeListRoutePath(category: final category):
-        return AnimeListPage(key: const ValueKey('AnimeListPage'), category: category);
+        return AnimeListPage(
+          key: ValueKey('AnimeListPage_$category'),
+          category: category,
+        );
+      case DetailAnimeRoutePath(animeId: final animeId):
+        return DetailAnimePage(
+          key: ValueKey('DetailAnimeRoute_$animeId'),
+          animeId: animeId,
+        );
       default:
         return const MaterialPage(child: SizedBox());
     }

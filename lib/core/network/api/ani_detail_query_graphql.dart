@@ -8,9 +8,12 @@ query (\$id: Int) {
       english
       native
     }
-    description(asHtml: false)
+    description(asHtml: true)
     episodes
+    seasonYear
+    season
     source
+    genres
     trailer {
       id
       site

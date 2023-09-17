@@ -16,9 +16,9 @@ class StaffModel with _$StaffModel {
   static StaffModel fromDatabaseEntity(VoiceActorEntity entity) {
     return StaffModel(
       id: entity.id,
-      image: entity.image,
-      nameEnglish: entity.nameEnglish,
-      nameNative: entity.nameNative,
+      image: entity.image ?? '',
+      nameEnglish: entity.nameEnglish ?? '',
+      nameNative: entity.nameNative ?? '',
     );
   }
 }

@@ -16,14 +16,21 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
             (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
-      description: json['description'] as String? ?? '',
-      source: json['source'] as String? ?? '',
+      description: json['description'] as String?,
+      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']) ??
+          AnimeSource.other,
+      episodes: json['episodes'] as int?,
+      seasonYear: json['seasonYear'] as int?,
+      season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
       hashtag: json['hashtag'] as String? ?? '',
-      bannerImage: json['bannerImage'] as String? ?? '',
-      averageScore: json['averageScore'] as int? ?? -1,
-      trending: json['trending'] as int? ?? -1,
-      favourites: json['favourites'] as int? ?? -1,
-      isFavourite: json['isFavourite'] as bool? ?? false,
+      bannerImage: json['bannerImage'] as String?,
+      averageScore: json['averageScore'] as int?,
+      trending: json['trending'] as int?,
+      favourites: json['favourites'] as int?,
+      genres: json['genres'] as List<dynamic>? ?? const [],
+      trailer: json['trailer'] == null
+          ? null
+          : TrailerDto.fromJson(json['trailer'] as Map<String, dynamic>),
       characters: json['characters'] == null
           ? null
           : CharacterConnection.fromJson(
@@ -36,12 +43,32 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'title': instance.title,
       'coverImage': instance.coverImage,
       'description': instance.description,
-      'source': instance.source,
+      'source': _$AnimeSourceEnumMap[instance.source]!,
+      'episodes': instance.episodes,
+      'seasonYear': instance.seasonYear,
+      'season': _$AnimeSeasonEnumMap[instance.season],
       'hashtag': instance.hashtag,
       'bannerImage': instance.bannerImage,
       'averageScore': instance.averageScore,
       'trending': instance.trending,
       'favourites': instance.favourites,
-      'isFavourite': instance.isFavourite,
+      'genres': instance.genres,
+      'trailer': instance.trailer,
       'characters': instance.characters,
     };
+
+const _$AnimeSourceEnumMap = {
+  AnimeSource.original: 'ORIGINAL',
+  AnimeSource.manga: 'MANGA',
+  AnimeSource.lightNovel: 'LIGHT_NOVEL',
+  AnimeSource.visualNovel: 'VISUAL_NOVEL',
+  AnimeSource.videoGame: 'VIDEO_GAME',
+  AnimeSource.other: 'OTHER',
+};
+
+const _$AnimeSeasonEnumMap = {
+  AnimeSeason.winter: 'WINTER',
+  AnimeSeason.spring: 'SPRING',
+  AnimeSeason.summer: 'SUMMER',
+  AnimeSeason.fall: 'FALL',
+};

@@ -9,10 +9,10 @@ part of 'character_entity.dart';
 _$_CharacterEntity _$$_CharacterEntityFromJson(Map<String, dynamic> json) =>
     _$_CharacterEntity(
       id: json['character_id'] as String? ?? '',
-      voiceActorId: json['character_voice_actor_id'] as String? ?? '',
+      voiceActorId: json['character_voice_actor_id'] as String?,
       image: json['character_image'] as String? ?? '',
-      nameEnglish: json['character_name_english'] as String? ?? '',
-      nameNative: json['character_name_native'] as String? ?? '',
+      nameEnglish: json['character_name_english'] as String?,
+      nameNative: json['character_name_native'] as String?,
     );
 
 Map<String, dynamic> _$$_CharacterEntityToJson(_$_CharacterEntity instance) =>

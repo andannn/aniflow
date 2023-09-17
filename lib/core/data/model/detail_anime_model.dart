@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:anime_tracker/core/data/model/anime_source.dart';
+import 'package:anime_tracker/core/data/model/trailter_model.dart';
+import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
@@ -14,32 +19,51 @@ class DetailAnimeModel with _$DetailAnimeModel {
     AnimeTitle? title,
     @Default('') String coverImage,
     @Default('') String coverImageColor,
-    @Default('') String description,
-    @Default('') String source,
-    @Default('') String bannerImage,
-    @Default(-1) int averageScore,
-    @Default(-1) int trending,
-    @Default(-1) int favourites,
+    String? description,
+    @Default(AnimeSource.other) AnimeSource source,
+    String? bannerImage,
+    int? averageScore,
+    int? favourites,
+    TrailerModel? trailerModel,
+    int? seasonYear,
+    AnimeSeason? season,
+    @Default([]) List<String> genres,
+    int? episodes,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
   }) = _DetailAnimeModel;
 
-  static DetailAnimeModel fromDatabaseModel(AnimeEntity model) =>
-      DetailAnimeModel(
-        id: model.id,
-        title: AnimeTitle(
-          english: model.englishTitle,
-          romaji: model.romajiTitle,
-          native: model.nativeTitle,
-        ),
-        coverImage: model.coverImage,
-        coverImageColor: model.coverImageColor,
-        description: model.description,
-        source: model.source,
-        bannerImage: model.bannerImage,
-        averageScore: model.averageScore,
-        trending: model.trending,
-        favourites: model.favourites,
-      );
+  static DetailAnimeModel fromDatabaseModel(AnimeEntity model) {
+    return DetailAnimeModel(
+      id: model.id,
+      title: AnimeTitle(
+        english: model.englishTitle,
+        romaji: model.romajiTitle,
+        native: model.nativeTitle,
+      ),
+      coverImage: model.coverImage,
+      coverImageColor: model.coverImageColor,
+      description: model.description,
+      source: model.source,
+      bannerImage: model.bannerImage,
+      averageScore: model.averageScore,
+      favourites: model.favourites,
+      season: model.season,
+      seasonYear: model.seasonYear,
+      episodes: model.episodes,
+      genres: model.genres != null
+          ? (jsonDecode(model.genres!) as List<dynamic>?)
+                  ?.map((e) => e)
+                  .whereType<String>()
+                  .toList() ??
+              const []
+          : const [],
+      trailerModel: TrailerModel(
+        id: model.trailerId,
+        site: model.trailerSite,
+        thumbnail: model.trailerThumbnail,
+      ),
+    );
+  }
 
   static DetailAnimeModel fromAnimeCharactersAndVoiceActors(
     AnimeCharactersAndVoiceActors model,

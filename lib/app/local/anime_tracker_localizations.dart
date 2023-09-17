@@ -28,6 +28,14 @@ abstract class ATLocalizations {
 
   String get retry;
 
+  String get spring;
+
+  String get summer;
+
+  String get fail;
+
+  String get winter;
+
   static ATLocalizations of([BuildContext? context]) {
     return Localizations.of<ATLocalizations>(
         context ?? globalContext!, ATLocalizations)!;
@@ -73,6 +81,18 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get retry => 'Retry';
+
+  @override
+  String get fail => 'fail';
+
+  @override
+  String get spring => 'spring';
+
+  @override
+  String get summer => 'summer';
+
+  @override
+  String get winter => 'winter';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -114,6 +134,18 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get retry => 'Retry';
+
+  @override
+  String get fail => '秋';
+
+  @override
+  String get spring => '春';
+
+  @override
+  String get summer => '夏';
+
+  @override
+  String get winter => '冬';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -155,4 +187,16 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get retry => '重试';
+
+  @override
+  String get fail => '秋';
+
+  @override
+  String get spring => '春';
+
+  @override
+  String get summer => '夏';
+
+  @override
+  String get winter => '冬';
 }

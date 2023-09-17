@@ -90,7 +90,15 @@ void main() {
     });
 
     test('ani_list_fetch_anime_detail_data', () async {
-      await aniListRepository.startFetchDetailAnimeInfo('122');
+      await aniListRepository.startFetchDetailAnimeInfo('789');
+    });
+
+    test('ani_list_fetch_anime_detail_data_and_get_result', () async {
+      await aniListRepository.startFetchDetailAnimeInfo('789');
+      final res = await aniListRepository
+          .getDetailAnimeInfoStream('789')
+          .first;
+      expect(res.id, equals('789'));
     });
   });
 }

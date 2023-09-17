@@ -20,12 +20,16 @@ mixin _$DetailAnimeModel {
   AnimeTitle? get title => throw _privateConstructorUsedError;
   String get coverImage => throw _privateConstructorUsedError;
   String get coverImageColor => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get source => throw _privateConstructorUsedError;
-  String get bannerImage => throw _privateConstructorUsedError;
-  int get averageScore => throw _privateConstructorUsedError;
-  int get trending => throw _privateConstructorUsedError;
-  int get favourites => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  AnimeSource get source => throw _privateConstructorUsedError;
+  String? get bannerImage => throw _privateConstructorUsedError;
+  int? get averageScore => throw _privateConstructorUsedError;
+  int? get favourites => throw _privateConstructorUsedError;
+  TrailerModel? get trailerModel => throw _privateConstructorUsedError;
+  int? get seasonYear => throw _privateConstructorUsedError;
+  AnimeSeason? get season => throw _privateConstructorUsedError;
+  List<String> get genres => throw _privateConstructorUsedError;
+  int? get episodes => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
       throw _privateConstructorUsedError;
 
@@ -45,15 +49,20 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
       AnimeTitle? title,
       String coverImage,
       String coverImageColor,
-      String description,
-      String source,
-      String bannerImage,
-      int averageScore,
-      int trending,
-      int favourites,
+      String? description,
+      AnimeSource source,
+      String? bannerImage,
+      int? averageScore,
+      int? favourites,
+      TrailerModel? trailerModel,
+      int? seasonYear,
+      AnimeSeason? season,
+      List<String> genres,
+      int? episodes,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
   $AnimeTitleCopyWith<$Res>? get title;
+  $TrailerModelCopyWith<$Res>? get trailerModel;
 }
 
 /// @nodoc
@@ -73,12 +82,16 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
     Object? title = freezed,
     Object? coverImage = null,
     Object? coverImageColor = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? source = null,
-    Object? bannerImage = null,
-    Object? averageScore = null,
-    Object? trending = null,
-    Object? favourites = null,
+    Object? bannerImage = freezed,
+    Object? averageScore = freezed,
+    Object? favourites = freezed,
+    Object? trailerModel = freezed,
+    Object? seasonYear = freezed,
+    Object? season = freezed,
+    Object? genres = null,
+    Object? episodes = freezed,
     Object? characterAndVoiceActors = null,
   }) {
     return _then(_value.copyWith(
@@ -98,30 +111,46 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
           ? _value.coverImageColor
           : coverImageColor // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      bannerImage: null == bannerImage
+              as AnimeSource,
+      bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      averageScore: null == averageScore
+              as String?,
+      averageScore: freezed == averageScore
           ? _value.averageScore
           : averageScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      trending: null == trending
-          ? _value.trending
-          : trending // ignore: cast_nullable_to_non_nullable
-              as int,
-      favourites: null == favourites
+              as int?,
+      favourites: freezed == favourites
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      trailerModel: freezed == trailerModel
+          ? _value.trailerModel
+          : trailerModel // ignore: cast_nullable_to_non_nullable
+              as TrailerModel?,
+      seasonYear: freezed == seasonYear
+          ? _value.seasonYear
+          : seasonYear // ignore: cast_nullable_to_non_nullable
+              as int?,
+      season: freezed == season
+          ? _value.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as AnimeSeason?,
+      genres: null == genres
+          ? _value.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      episodes: freezed == episodes
+          ? _value.episodes
+          : episodes // ignore: cast_nullable_to_non_nullable
+              as int?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value.characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -140,6 +169,18 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
       return _then(_value.copyWith(title: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TrailerModelCopyWith<$Res>? get trailerModel {
+    if (_value.trailerModel == null) {
+      return null;
+    }
+
+    return $TrailerModelCopyWith<$Res>(_value.trailerModel!, (value) {
+      return _then(_value.copyWith(trailerModel: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -155,16 +196,22 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       AnimeTitle? title,
       String coverImage,
       String coverImageColor,
-      String description,
-      String source,
-      String bannerImage,
-      int averageScore,
-      int trending,
-      int favourites,
+      String? description,
+      AnimeSource source,
+      String? bannerImage,
+      int? averageScore,
+      int? favourites,
+      TrailerModel? trailerModel,
+      int? seasonYear,
+      AnimeSeason? season,
+      List<String> genres,
+      int? episodes,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
+  @override
+  $TrailerModelCopyWith<$Res>? get trailerModel;
 }
 
 /// @nodoc
@@ -182,12 +229,16 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? title = freezed,
     Object? coverImage = null,
     Object? coverImageColor = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? source = null,
-    Object? bannerImage = null,
-    Object? averageScore = null,
-    Object? trending = null,
-    Object? favourites = null,
+    Object? bannerImage = freezed,
+    Object? averageScore = freezed,
+    Object? favourites = freezed,
+    Object? trailerModel = freezed,
+    Object? seasonYear = freezed,
+    Object? season = freezed,
+    Object? genres = null,
+    Object? episodes = freezed,
     Object? characterAndVoiceActors = null,
   }) {
     return _then(_$_DetailAnimeModel(
@@ -207,30 +258,46 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value.coverImageColor
           : coverImageColor // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      bannerImage: null == bannerImage
+              as AnimeSource,
+      bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      averageScore: null == averageScore
+              as String?,
+      averageScore: freezed == averageScore
           ? _value.averageScore
           : averageScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      trending: null == trending
-          ? _value.trending
-          : trending // ignore: cast_nullable_to_non_nullable
-              as int,
-      favourites: null == favourites
+              as int?,
+      favourites: freezed == favourites
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      trailerModel: freezed == trailerModel
+          ? _value.trailerModel
+          : trailerModel // ignore: cast_nullable_to_non_nullable
+              as TrailerModel?,
+      seasonYear: freezed == seasonYear
+          ? _value.seasonYear
+          : seasonYear // ignore: cast_nullable_to_non_nullable
+              as int?,
+      season: freezed == season
+          ? _value.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as AnimeSeason?,
+      genres: null == genres
+          ? _value._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      episodes: freezed == episodes
+          ? _value.episodes
+          : episodes // ignore: cast_nullable_to_non_nullable
+              as int?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value._characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -247,15 +314,20 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.title,
       this.coverImage = '',
       this.coverImageColor = '',
-      this.description = '',
-      this.source = '',
-      this.bannerImage = '',
-      this.averageScore = -1,
-      this.trending = -1,
-      this.favourites = -1,
+      this.description,
+      this.source = AnimeSource.other,
+      this.bannerImage,
+      this.averageScore,
+      this.favourites,
+      this.trailerModel,
+      this.seasonYear,
+      this.season,
+      final List<String> genres = const [],
+      this.episodes,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
           const []})
-      : _characterAndVoiceActors = characterAndVoiceActors;
+      : _genres = genres,
+        _characterAndVoiceActors = characterAndVoiceActors;
 
   @override
   @JsonKey()
@@ -269,23 +341,33 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
   @JsonKey()
   final String coverImageColor;
   @override
-  @JsonKey()
-  final String description;
+  final String? description;
   @override
   @JsonKey()
-  final String source;
+  final AnimeSource source;
+  @override
+  final String? bannerImage;
+  @override
+  final int? averageScore;
+  @override
+  final int? favourites;
+  @override
+  final TrailerModel? trailerModel;
+  @override
+  final int? seasonYear;
+  @override
+  final AnimeSeason? season;
+  final List<String> _genres;
   @override
   @JsonKey()
-  final String bannerImage;
+  List<String> get genres {
+    if (_genres is EqualUnmodifiableListView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_genres);
+  }
+
   @override
-  @JsonKey()
-  final int averageScore;
-  @override
-  @JsonKey()
-  final int trending;
-  @override
-  @JsonKey()
-  final int favourites;
+  final int? episodes;
   final List<CharacterAndVoiceActorModel> _characterAndVoiceActors;
   @override
   @JsonKey()
@@ -298,7 +380,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
   @override
   String toString() {
-    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, characterAndVoiceActors: $characterAndVoiceActors)';
+    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, genres: $genres, episodes: $episodes, characterAndVoiceActors: $characterAndVoiceActors)';
   }
 
   @override
@@ -319,10 +401,16 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
                 other.bannerImage == bannerImage) &&
             (identical(other.averageScore, averageScore) ||
                 other.averageScore == averageScore) &&
-            (identical(other.trending, trending) ||
-                other.trending == trending) &&
             (identical(other.favourites, favourites) ||
                 other.favourites == favourites) &&
+            (identical(other.trailerModel, trailerModel) ||
+                other.trailerModel == trailerModel) &&
+            (identical(other.seasonYear, seasonYear) ||
+                other.seasonYear == seasonYear) &&
+            (identical(other.season, season) || other.season == season) &&
+            const DeepCollectionEquality().equals(other._genres, _genres) &&
+            (identical(other.episodes, episodes) ||
+                other.episodes == episodes) &&
             const DeepCollectionEquality().equals(
                 other._characterAndVoiceActors, _characterAndVoiceActors));
   }
@@ -338,8 +426,12 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       source,
       bannerImage,
       averageScore,
-      trending,
       favourites,
+      trailerModel,
+      seasonYear,
+      season,
+      const DeepCollectionEquality().hash(_genres),
+      episodes,
       const DeepCollectionEquality().hash(_characterAndVoiceActors));
 
   @JsonKey(ignore: true)
@@ -355,12 +447,16 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
           final AnimeTitle? title,
           final String coverImage,
           final String coverImageColor,
-          final String description,
-          final String source,
-          final String bannerImage,
-          final int averageScore,
-          final int trending,
-          final int favourites,
+          final String? description,
+          final AnimeSource source,
+          final String? bannerImage,
+          final int? averageScore,
+          final int? favourites,
+          final TrailerModel? trailerModel,
+          final int? seasonYear,
+          final AnimeSeason? season,
+          final List<String> genres,
+          final int? episodes,
           final List<CharacterAndVoiceActorModel> characterAndVoiceActors}) =
       _$_DetailAnimeModel;
 
@@ -373,17 +469,25 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   @override
   String get coverImageColor;
   @override
-  String get description;
+  String? get description;
   @override
-  String get source;
+  AnimeSource get source;
   @override
-  String get bannerImage;
+  String? get bannerImage;
   @override
-  int get averageScore;
+  int? get averageScore;
   @override
-  int get trending;
+  int? get favourites;
   @override
-  int get favourites;
+  TrailerModel? get trailerModel;
+  @override
+  int? get seasonYear;
+  @override
+  AnimeSeason? get season;
+  @override
+  List<String> get genres;
+  @override
+  int? get episodes;
   @override
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors;
   @override

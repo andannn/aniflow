@@ -23,9 +23,9 @@ mixin _$ShortInfoNode {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'image')
-  Map<String, String> get image => throw _privateConstructorUsedError;
+  Map<String, String?> get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
-  Map<String, String> get name => throw _privateConstructorUsedError;
+  Map<String, String?> get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,8 +41,8 @@ abstract class $ShortInfoNodeCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'image') Map<String, String> image,
-      @JsonKey(name: 'name') Map<String, String> name});
+      @JsonKey(name: 'image') Map<String, String?> image,
+      @JsonKey(name: 'name') Map<String, String?> name});
 }
 
 /// @nodoc
@@ -70,11 +70,11 @@ class _$ShortInfoNodeCopyWithImpl<$Res, $Val extends ShortInfoNode>
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
     ) as $Val);
   }
 }
@@ -89,8 +89,8 @@ abstract class _$$_CharacterNodeCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'image') Map<String, String> image,
-      @JsonKey(name: 'name') Map<String, String> name});
+      @JsonKey(name: 'image') Map<String, String?> image,
+      @JsonKey(name: 'name') Map<String, String?> name});
 }
 
 /// @nodoc
@@ -116,11 +116,11 @@ class __$$_CharacterNodeCopyWithImpl<$Res>
       image: null == image
           ? _value._image
           : image // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
       name: null == name
           ? _value._name
           : name // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
     ));
   }
 }
@@ -130,8 +130,8 @@ class __$$_CharacterNodeCopyWithImpl<$Res>
 class _$_CharacterNode implements _CharacterNode {
   _$_CharacterNode(
       {@JsonKey(name: 'id') this.id = -1,
-      @JsonKey(name: 'image') final Map<String, String> image = const {},
-      @JsonKey(name: 'name') final Map<String, String> name = const {}})
+      @JsonKey(name: 'image') final Map<String, String?> image = const {},
+      @JsonKey(name: 'name') final Map<String, String?> name = const {}})
       : _image = image,
         _name = name;
 
@@ -141,19 +141,19 @@ class _$_CharacterNode implements _CharacterNode {
   @override
   @JsonKey(name: 'id')
   final int id;
-  final Map<String, String> _image;
+  final Map<String, String?> _image;
   @override
   @JsonKey(name: 'image')
-  Map<String, String> get image {
+  Map<String, String?> get image {
     if (_image is EqualUnmodifiableMapView) return _image;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_image);
   }
 
-  final Map<String, String> _name;
+  final Map<String, String?> _name;
   @override
   @JsonKey(name: 'name')
-  Map<String, String> get name {
+  Map<String, String?> get name {
     if (_name is EqualUnmodifiableMapView) return _name;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_name);
@@ -199,8 +199,8 @@ class _$_CharacterNode implements _CharacterNode {
 abstract class _CharacterNode implements ShortInfoNode {
   factory _CharacterNode(
           {@JsonKey(name: 'id') final int id,
-          @JsonKey(name: 'image') final Map<String, String> image,
-          @JsonKey(name: 'name') final Map<String, String> name}) =
+          @JsonKey(name: 'image') final Map<String, String?> image,
+          @JsonKey(name: 'name') final Map<String, String?> name}) =
       _$_CharacterNode;
 
   factory _CharacterNode.fromJson(Map<String, dynamic> json) =
@@ -211,10 +211,10 @@ abstract class _CharacterNode implements ShortInfoNode {
   int get id;
   @override
   @JsonKey(name: 'image')
-  Map<String, String> get image;
+  Map<String, String?> get image;
   @override
   @JsonKey(name: 'name')
-  Map<String, String> get name;
+  Map<String, String?> get name;
   @override
   @JsonKey(ignore: true)
   _$$_CharacterNodeCopyWith<_$_CharacterNode> get copyWith =>
