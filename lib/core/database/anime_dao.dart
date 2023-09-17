@@ -17,11 +17,17 @@ mixin AnimeTableColumns {
   static const String coverImage = 'cover_image';
   static const String coverImageColor = 'cover_image_color';
   static const String description = 'description';
+  static const String episodes = 'episodes';
+  static const String seasonYear = 'season_year';
+  static const String season = 'season';
   static const String source = 'source';
   static const String bannerImage = 'banner_image';
   static const String averageScore = 'average_score';
   static const String trending = 'trending';
   static const String favourites = 'favourites';
+  static const String trailerId = 'trailer_id';
+  static const String trailerSite = 'trailer_site';
+  static const String trailerThumbnail = 'trailer_thumbnail';
 }
 
 mixin CategoryColumns {

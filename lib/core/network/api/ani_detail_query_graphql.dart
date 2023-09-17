@@ -10,6 +10,8 @@ query (\$id: Int) {
     }
     description(asHtml: true)
     episodes
+    seasonYear
+    season
     source
     trailer {
       id

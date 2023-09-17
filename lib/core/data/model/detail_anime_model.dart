@@ -1,3 +1,5 @@
+import 'package:anime_tracker/core/data/model/anime_source.dart';
+import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
@@ -15,11 +17,14 @@ class DetailAnimeModel with _$DetailAnimeModel {
     @Default('') String coverImage,
     @Default('') String coverImageColor,
     String? description,
-    String? source,
+    @Default(AnimeSource.other) AnimeSource source,
     String? bannerImage,
     int? averageScore,
-    int? trending,
     int? favourites,
+    TrailerModel? trailerModel,
+    int? seasonYear,
+    String? season,
+    int? episodes,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
   }) = _DetailAnimeModel;
 
@@ -37,8 +42,15 @@ class DetailAnimeModel with _$DetailAnimeModel {
         source: model.source,
         bannerImage: model.bannerImage,
         averageScore: model.averageScore,
-        trending: model.trending,
         favourites: model.favourites,
+        season: model.season,
+        seasonYear: model.seasonYear,
+        episodes: model.episodes,
+        trailerModel: TrailerModel(
+          id: model.trailerId,
+          site: model.trailerSite,
+          thumbnail: model.trailerThumbnail,
+        ),
       );
 
   static DetailAnimeModel fromAnimeCharactersAndVoiceActors(

@@ -17,12 +17,19 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
           ) ??
           const {},
       description: json['description'] as String?,
-      source: json['source'] as String?,
+      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']) ??
+          AnimeSource.other,
+      episodes: json['episodes'] as int?,
+      seasonYear: json['seasonYear'] as int?,
+      season: json['season'] as String?,
       hashtag: json['hashtag'] as String? ?? '',
       bannerImage: json['bannerImage'] as String?,
       averageScore: json['averageScore'] as int?,
       trending: json['trending'] as int?,
       favourites: json['favourites'] as int?,
+      trailer: json['trailer'] == null
+          ? null
+          : TrailerDto.fromJson(json['trailer'] as Map<String, dynamic>),
       characters: json['characters'] == null
           ? null
           : CharacterConnection.fromJson(
@@ -35,11 +42,24 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'title': instance.title,
       'coverImage': instance.coverImage,
       'description': instance.description,
-      'source': instance.source,
+      'source': _$AnimeSourceEnumMap[instance.source]!,
+      'episodes': instance.episodes,
+      'seasonYear': instance.seasonYear,
+      'season': instance.season,
       'hashtag': instance.hashtag,
       'bannerImage': instance.bannerImage,
       'averageScore': instance.averageScore,
       'trending': instance.trending,
       'favourites': instance.favourites,
+      'trailer': instance.trailer,
       'characters': instance.characters,
     };
+
+const _$AnimeSourceEnumMap = {
+  AnimeSource.original: 'ORIGINAL',
+  AnimeSource.manga: 'MANGA',
+  AnimeSource.lightNovel: 'LIGHT_NOVEL',
+  AnimeSource.visualNovel: 'VISUAL_NOVEL',
+  AnimeSource.videoGame: 'VIDEO_GAME',
+  AnimeSource.other: 'OTHER',
+};

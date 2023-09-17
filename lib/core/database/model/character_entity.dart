@@ -1,5 +1,4 @@
 import 'package:anime_tracker/core/database/anime_dao.dart';
-import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/short_info_node.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

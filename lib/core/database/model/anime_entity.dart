@@ -1,3 +1,4 @@
+import 'package:anime_tracker/core/data/model/anime_source.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
@@ -24,14 +25,20 @@ class AnimeEntity with _$AnimeEntity {
     @Default('')
     @JsonKey(name: AnimeTableColumns.coverImageColor)
     String coverImageColor,
-    @JsonKey(name: AnimeTableColumns.description)
-    String? description,
-    @JsonKey(name: AnimeTableColumns.source) String? source,
-    @JsonKey(name: AnimeTableColumns.bannerImage)
-    String? bannerImage,
+    @JsonKey(name: AnimeTableColumns.description) String? description,
+    @Default(AnimeSource.other)
+    @JsonKey(name: AnimeTableColumns.source)
+    AnimeSource source,
+    @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
     @JsonKey(name: AnimeTableColumns.averageScore) int? averageScore,
     @JsonKey(name: AnimeTableColumns.trending) int? trending,
     @JsonKey(name: AnimeTableColumns.favourites) int? favourites,
+    @JsonKey(name: AnimeTableColumns.trailerId) String? trailerId,
+    @JsonKey(name: AnimeTableColumns.trailerSite) String? trailerSite,
+    @JsonKey(name: AnimeTableColumns.episodes) int? episodes,
+    @JsonKey(name: AnimeTableColumns.seasonYear) int? seasonYear,
+    @JsonKey(name: AnimeTableColumns.season) String? season,
+    @JsonKey(name: AnimeTableColumns.trailerThumbnail) String? trailerThumbnail,
   }) = _AnimeEntity;
 
   factory AnimeEntity.fromJson(Map<String, dynamic> json) =>
@@ -61,5 +68,11 @@ class AnimeEntity with _$AnimeEntity {
         averageScore: model.averageScore,
         trending: model.trending,
         favourites: model.favourites,
+        trailerId: model.trailer?.id.toString(),
+        trailerSite: model.trailer?.site.toString(),
+        trailerThumbnail: model.trailer?.thumbnail.toString(),
+        episodes: model.episodes,
+        season: model.season,
+        seasonYear: model.seasonYear,
       );
 }
