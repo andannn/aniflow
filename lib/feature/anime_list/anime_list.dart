@@ -1,5 +1,6 @@
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/app/navigation/nia_router.dart';
+import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
@@ -70,6 +71,7 @@ class _AnimeListPageContent extends StatelessWidget {
       /// Need load new page only when PageReady state.
       final needDetectNewPageRequest = pagingState is PageReady;
       return CustomScrollView(
+        cacheExtent: Config.defaultCatchExtend,
         slivers: [
           SliverAppBar(
             title: Text(

@@ -1,8 +1,7 @@
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
-import 'package:anime_tracker/core/designsystem/widget/image_load_initial_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:anime_tracker/core/designsystem/widget/af_network_image.dart';
 
 class CharacterAndVoiceActor extends StatelessWidget {
   const CharacterAndVoiceActor(
@@ -32,11 +31,8 @@ class CharacterAndVoiceActor extends StatelessWidget {
             onTap: onCharacterTap,
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
-              child: CachedNetworkImage(
+              child: AFNetworkImage(
                 imageUrl: model.characterModel.image,
-                fit: BoxFit.cover,
-                placeholder: buildImageInitialWidget,
-                errorWidget: buildErrorWidget,
               ),
             ),
           ),
@@ -77,11 +73,8 @@ class CharacterAndVoiceActor extends StatelessWidget {
             onTap: onVoiceActorTop,
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
-              child: CachedNetworkImage(
+              child: AFNetworkImage(
                 imageUrl: model.voiceActorModel.image,
-                fit: BoxFit.cover,
-                placeholder: buildImageInitialWidget,
-                errorWidget: buildErrorWidget,
               ),
             ),
           ),

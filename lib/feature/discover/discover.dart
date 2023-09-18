@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/app/navigation/nia_router.dart';
 import 'package:anime_tracker/feature/auth/auth_dialog.dart';
+import 'package:anime_tracker/core/common/global_static_constants.dart';
 
 class DiscoverPage extends Page {
   const DiscoverPage({super.key});
@@ -59,43 +60,46 @@ class DiscoverScreen extends StatelessWidget {
           onRefresh: () async {
             await context.read<DiscoverBloc>().refreshAnime();
           },
-          child: CustomScrollView(slivers: [
-            SliverAppBar(
-              title: Text(ATLocalizations.of(context).discover),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: IconButton(
-                    onPressed: () => showAuthDialog(context),
-                    icon: isLoggedIn
-                        ? buildAvatarIcon(context, userData!.avatar)
-                        : const Icon(Icons.person_outline),
-                  ),
-                )
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: _buildAnimeCategoryPreview(
-                  context, AnimeCategory.currentSeason, currentSeasonState),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 12),
-            ),
-            SliverToBoxAdapter(
-              child: _buildAnimeCategoryPreview(
-                  context, AnimeCategory.nextSeason, nextSeasonState),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 12),
-            ),
-            SliverToBoxAdapter(
-              child: _buildAnimeCategoryPreview(
-                  context, AnimeCategory.trending, trendingState),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 24),
-            ),
-          ]),
+          child: CustomScrollView(
+            cacheExtent: Config.defaultCatchExtend,
+            slivers: [
+              SliverAppBar(
+                title: Text(ATLocalizations.of(context).discover),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: IconButton(
+                      onPressed: () => showAuthDialog(context),
+                      icon: isLoggedIn
+                          ? buildAvatarIcon(context, userData!.avatar)
+                          : const Icon(Icons.person_outline),
+                    ),
+                  )
+                ],
+              ),
+              SliverToBoxAdapter(
+                child: _buildAnimeCategoryPreview(
+                    context, AnimeCategory.currentSeason, currentSeasonState),
+              ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 12),
+              ),
+              SliverToBoxAdapter(
+                child: _buildAnimeCategoryPreview(
+                    context, AnimeCategory.nextSeason, nextSeasonState),
+              ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 12),
+              ),
+              SliverToBoxAdapter(
+                child: _buildAnimeCategoryPreview(
+                    context, AnimeCategory.trending, trendingState),
+              ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 24),
+              ),
+            ],
+          ),
         );
       },
     );
