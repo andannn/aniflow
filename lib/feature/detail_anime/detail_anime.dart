@@ -186,45 +186,27 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: Wrap(
                   spacing: 12,
                   children: [
-                    const _InfoItem(
+                    _InfoItem(
                       label: 'RATED',
-                      content: Text('#32'),
+                      iconData: Icons.hotel_class_sharp,
+                      contentText: '#${model.ratedRank ?? '--'}',
                     ),
-                    const _InfoItem(
+                    _InfoItem(
                       label: 'POPULAR',
-                      content: Text('#65'),
+                      iconData: Icons.favorite_sharp,
+                      contentText: '#${model.popularRank ?? '--'}',
                     ),
                     _InfoItem(
                       label: 'SCORE',
-                      content: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.star_purple500_sharp,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
-                          ),
-                        ],
-                      ),
+                      iconData: Icons.star_purple500_sharp,
+                      contentText:
+                          '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
                     ),
                     _InfoItem(
                       label: 'FAVOURITE',
-                      content: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.favorite_sharp,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            '${model.favourites != null ? (model.favourites) : '--'}',
-                          ),
-                        ],
-                      ),
+                      iconData: Icons.thumb_up,
+                      contentText:
+                          '${model.favourites != null ? (model.favourites) : '--'}',
                     ),
                   ],
                 ),
@@ -397,10 +379,12 @@ class _GenreItem extends StatelessWidget {
 }
 
 class _InfoItem extends StatelessWidget {
-  const _InfoItem({required this.label, this.content});
+  const _InfoItem(
+      {required this.label, required this.iconData, required this.contentText});
 
   final String label;
-  final Widget? content;
+  final String contentText;
+  final IconData iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -412,7 +396,20 @@ class _InfoItem extends StatelessWidget {
         children: [
           Text(label, style: Theme.of(context).textTheme.labelLarge),
           const SizedBox(height: 4),
-          content ?? const SizedBox(),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                iconData,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                contentText,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ],
+          ),
         ],
       ),
     );

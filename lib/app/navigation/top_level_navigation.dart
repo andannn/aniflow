@@ -4,8 +4,8 @@ import 'package:anime_tracker/app/navigation/anime_tracker_route_path.dart';
 
 enum TopLevelNavigation {
   discover(
-      selectedIcon: Icons.home_filled,
-      unSelectedIcon: Icons.home_outlined,
+      selectedIcon: Icons.explore,
+      unSelectedIcon: Icons.explore_outlined,
       iconTextId: 'Home'),
   track(
     selectedIcon: Icons.collections_bookmark,

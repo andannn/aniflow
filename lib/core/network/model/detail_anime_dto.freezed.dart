@@ -50,6 +50,8 @@ mixin _$DetailAnimeDto {
   List<dynamic> get genres => throw _privateConstructorUsedError;
   @JsonKey(name: 'trailer')
   TrailerDto? get trailer => throw _privateConstructorUsedError;
+  @JsonKey(name: 'rankings')
+  List<AnimeRank?> get rankings => throw _privateConstructorUsedError;
   @JsonKey(name: 'characters')
   CharacterConnection? get characters => throw _privateConstructorUsedError;
 
@@ -81,6 +83,7 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
+      @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
   $AnimeTitleCopyWith<$Res>? get title;
@@ -116,6 +119,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? favourites = freezed,
     Object? genres = null,
     Object? trailer = freezed,
+    Object? rankings = null,
     Object? characters = freezed,
   }) {
     return _then(_value.copyWith(
@@ -179,6 +183,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.trailer
           : trailer // ignore: cast_nullable_to_non_nullable
               as TrailerDto?,
+      rankings: null == rankings
+          ? _value.rankings
+          : rankings // ignore: cast_nullable_to_non_nullable
+              as List<AnimeRank?>,
       characters: freezed == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
@@ -247,6 +255,7 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
+      @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters});
 
   @override
@@ -283,6 +292,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? favourites = freezed,
     Object? genres = null,
     Object? trailer = freezed,
+    Object? rankings = null,
     Object? characters = freezed,
   }) {
     return _then(_$_DetailAnimeDto(
@@ -346,6 +356,10 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.trailer
           : trailer // ignore: cast_nullable_to_non_nullable
               as TrailerDto?,
+      rankings: null == rankings
+          ? _value._rankings
+          : rankings // ignore: cast_nullable_to_non_nullable
+              as List<AnimeRank?>,
       characters: freezed == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
@@ -374,9 +388,11 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'favourites') this.favourites,
       @JsonKey(name: 'genres') final List<dynamic> genres = const [],
       @JsonKey(name: 'trailer') this.trailer,
+      @JsonKey(name: 'rankings') final List<AnimeRank?> rankings = const [],
       @JsonKey(name: 'characters') this.characters})
       : _coverImage = coverImage,
-        _genres = genres;
+        _genres = genres,
+        _rankings = rankings;
 
   factory _$_DetailAnimeDto.fromJson(Map<String, dynamic> json) =>
       _$$_DetailAnimeDtoFromJson(json);
@@ -438,13 +454,22 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   @override
   @JsonKey(name: 'trailer')
   final TrailerDto? trailer;
+  final List<AnimeRank?> _rankings;
+  @override
+  @JsonKey(name: 'rankings')
+  List<AnimeRank?> get rankings {
+    if (_rankings is EqualUnmodifiableListView) return _rankings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rankings);
+  }
+
   @override
   @JsonKey(name: 'characters')
   final CharacterConnection? characters;
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, characters: $characters)';
+    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, rankings: $rankings, characters: $characters)';
   }
 
   @override
@@ -475,6 +500,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
                 other.favourites == favourites) &&
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.trailer, trailer) || other.trailer == trailer) &&
+            const DeepCollectionEquality().equals(other._rankings, _rankings) &&
             (identical(other.characters, characters) ||
                 other.characters == characters));
   }
@@ -498,6 +524,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       favourites,
       const DeepCollectionEquality().hash(_genres),
       trailer,
+      const DeepCollectionEquality().hash(_rankings),
       characters);
 
   @JsonKey(ignore: true)
@@ -531,6 +558,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'favourites') final int? favourites,
           @JsonKey(name: 'genres') final List<dynamic> genres,
           @JsonKey(name: 'trailer') final TrailerDto? trailer,
+          @JsonKey(name: 'rankings') final List<AnimeRank?> rankings,
           @JsonKey(name: 'characters') final CharacterConnection? characters}) =
       _$_DetailAnimeDto;
 
@@ -582,6 +610,9 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   @override
   @JsonKey(name: 'trailer')
   TrailerDto? get trailer;
+  @override
+  @JsonKey(name: 'rankings')
+  List<AnimeRank?> get rankings;
   @override
   @JsonKey(name: 'characters')
   CharacterConnection? get characters;

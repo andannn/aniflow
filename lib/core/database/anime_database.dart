@@ -67,7 +67,9 @@ class AnimeDatabase {
         '${AnimeTableColumns.episodes} integer,'
         '${AnimeTableColumns.seasonYear} integer,'
         '${AnimeTableColumns.genres} text,'
-        '${AnimeTableColumns.season} text'
+        '${AnimeTableColumns.season} text,'
+        '${AnimeTableColumns.popularRanking} integer,'
+        '${AnimeTableColumns.ratedRanking} integer'
         ')');
 
     await _animeDB!
