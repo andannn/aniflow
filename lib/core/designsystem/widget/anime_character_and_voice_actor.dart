@@ -1,4 +1,5 @@
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
+import 'package:anime_tracker/feature/detail_anime/util/detail_anime_info_util.dart';
 import 'package:flutter/material.dart';
 
 import 'package:anime_tracker/core/designsystem/widget/af_network_image.dart';
@@ -47,7 +48,10 @@ class CharacterAndVoiceActor extends StatelessWidget {
                 children: [
                   Text(model.characterModel.nameNative, style: style),
                   const Expanded(flex: 1, child: SizedBox()),
-                  Text('Main', style: style),
+                  Text(
+                    model.characterModel.role.getCharacterRoleString(context),
+                    style: style,
+                  ),
                 ],
               ),
             ),

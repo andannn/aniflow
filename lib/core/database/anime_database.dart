@@ -97,6 +97,7 @@ class AnimeDatabase {
         .execute('CREATE TABLE IF NOT EXISTS ${Tables.characterTable} ('
             '${CharacterColumns.id} TEXT PRIMARY KEY, '
             '${CharacterColumns.voiceActorId} TEXT, '
+            '${CharacterColumns.role} TEXT, '
             '${CharacterColumns.image} TEXT, '
             '${CharacterColumns.nameEnglish} TEXT, '
             '${CharacterColumns.nameNative} TEXT)');

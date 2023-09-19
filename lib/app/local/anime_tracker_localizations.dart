@@ -35,6 +35,9 @@ abstract class ATLocalizations {
   String get fail;
 
   String get winter;
+  String get mainCharacter;
+  String get supportingCharacter;
+  String get backgroundCharacter;
 
   static ATLocalizations of([BuildContext? context]) {
     return Localizations.of<ATLocalizations>(
@@ -93,6 +96,15 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get winter => 'winter';
+
+  @override
+  String get backgroundCharacter => 'Background';
+
+  @override
+  String get mainCharacter => 'Main';
+
+  @override
+  String get supportingCharacter => 'Supporting';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -146,6 +158,15 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get winter => '冬';
+
+  @override
+  String get backgroundCharacter => '';
+
+  @override
+  String get mainCharacter => '主役';
+
+  @override
+  String get supportingCharacter => '脇役';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -199,4 +220,13 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get winter => '冬';
+
+  @override
+  String get backgroundCharacter => '配角';
+
+  @override
+  String get mainCharacter => '主角';
+
+  @override
+  String get supportingCharacter => '配角';
 }

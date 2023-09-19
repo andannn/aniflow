@@ -21,7 +21,7 @@ CharacterEdge _$CharacterEdgeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CharacterEdge {
   @JsonKey(name: 'role')
-  String get role => throw _privateConstructorUsedError;
+  CharacterRole? get role => throw _privateConstructorUsedError;
   @JsonKey(name: 'node')
   ShortInfoNode? get characterEdge => throw _privateConstructorUsedError;
   @JsonKey(name: 'voiceActors')
@@ -40,7 +40,7 @@ abstract class $CharacterEdgeCopyWith<$Res> {
       _$CharacterEdgeCopyWithImpl<$Res, CharacterEdge>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'role') String role,
+      {@JsonKey(name: 'role') CharacterRole? role,
       @JsonKey(name: 'node') ShortInfoNode? characterEdge,
       @JsonKey(name: 'voiceActors') List<ShortInfoNode> voiceActors});
 
@@ -60,15 +60,15 @@ class _$CharacterEdgeCopyWithImpl<$Res, $Val extends CharacterEdge>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? role = null,
+    Object? role = freezed,
     Object? characterEdge = freezed,
     Object? voiceActors = null,
   }) {
     return _then(_value.copyWith(
-      role: null == role
+      role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CharacterRole?,
       characterEdge: freezed == characterEdge
           ? _value.characterEdge
           : characterEdge // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$$_CharacterEdgeCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'role') String role,
+      {@JsonKey(name: 'role') CharacterRole? role,
       @JsonKey(name: 'node') ShortInfoNode? characterEdge,
       @JsonKey(name: 'voiceActors') List<ShortInfoNode> voiceActors});
 
@@ -121,15 +121,15 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? role = null,
+    Object? role = freezed,
     Object? characterEdge = freezed,
     Object? voiceActors = null,
   }) {
     return _then(_$_CharacterEdge(
-      role: null == role
+      role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String,
+              as CharacterRole?,
       characterEdge: freezed == characterEdge
           ? _value.characterEdge
           : characterEdge // ignore: cast_nullable_to_non_nullable
@@ -146,7 +146,7 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CharacterEdge implements _CharacterEdge {
   _$_CharacterEdge(
-      {@JsonKey(name: 'role') this.role = '',
+      {@JsonKey(name: 'role') this.role,
       @JsonKey(name: 'node') this.characterEdge,
       @JsonKey(name: 'voiceActors')
       final List<ShortInfoNode> voiceActors = const []})
@@ -157,7 +157,7 @@ class _$_CharacterEdge implements _CharacterEdge {
 
   @override
   @JsonKey(name: 'role')
-  final String role;
+  final CharacterRole? role;
   @override
   @JsonKey(name: 'node')
   final ShortInfoNode? characterEdge;
@@ -208,7 +208,7 @@ class _$_CharacterEdge implements _CharacterEdge {
 
 abstract class _CharacterEdge implements CharacterEdge {
   factory _CharacterEdge(
-      {@JsonKey(name: 'role') final String role,
+      {@JsonKey(name: 'role') final CharacterRole? role,
       @JsonKey(name: 'node') final ShortInfoNode? characterEdge,
       @JsonKey(name: 'voiceActors')
       final List<ShortInfoNode> voiceActors}) = _$_CharacterEdge;
@@ -218,7 +218,7 @@ abstract class _CharacterEdge implements CharacterEdge {
 
   @override
   @JsonKey(name: 'role')
-  String get role;
+  CharacterRole? get role;
   @override
   @JsonKey(name: 'node')
   ShortInfoNode? get characterEdge;
