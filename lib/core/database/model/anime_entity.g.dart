@@ -30,6 +30,8 @@ _$_AnimeEntity _$$_AnimeEntityFromJson(Map<String, dynamic> json) =>
       trailerThumbnail: json['trailer_thumbnail'] as String?,
       popularRanking: json['popular_ranking'] as int?,
       ratedRanking: json['rated_ranking'] as int?,
+      timeUntilAiring: json['timeUntilAiring'] as int?,
+      nextAiringEpisode: json['nextAiringEpisode'] as int?,
     );
 
 Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>
@@ -56,6 +58,8 @@ Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>
       'trailer_thumbnail': instance.trailerThumbnail,
       'popular_ranking': instance.popularRanking,
       'rated_ranking': instance.ratedRanking,
+      'timeUntilAiring': instance.timeUntilAiring,
+      'nextAiringEpisode': instance.nextAiringEpisode,
     };
 
 const _$AnimeSourceEnumMap = {

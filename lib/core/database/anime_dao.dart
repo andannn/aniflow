@@ -32,6 +32,8 @@ mixin AnimeTableColumns {
   static const String genres = 'genres';
   static const String popularRanking = 'popular_ranking';
   static const String ratedRanking = 'rated_ranking';
+  static const String nextAiringEpisode = 'nextAiringEpisode';
+  static const String timeUntilAiring = 'timeUntilAiring';
 }
 
 mixin CategoryColumns {

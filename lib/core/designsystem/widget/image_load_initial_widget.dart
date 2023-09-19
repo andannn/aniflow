@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget buildImageInitialWidget(BuildContext context) {
-  return Card(
-    elevation: 0,
+  return Container(
     color: Theme.of(context).colorScheme.surfaceVariant,
   );
 }

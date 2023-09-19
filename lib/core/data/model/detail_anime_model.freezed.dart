@@ -33,6 +33,8 @@ mixin _$DetailAnimeModel {
   int? get popularRank => throw _privateConstructorUsedError;
   List<String> get genres => throw _privateConstructorUsedError;
   int? get episodes => throw _privateConstructorUsedError;
+  int? get timeUntilAiring => throw _privateConstructorUsedError;
+  int? get nextAiringEpisode => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
       throw _privateConstructorUsedError;
 
@@ -65,6 +67,8 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
       int? popularRank,
       List<String> genres,
       int? episodes,
+      int? timeUntilAiring,
+      int? nextAiringEpisode,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
   $AnimeTitleCopyWith<$Res>? get title;
@@ -101,6 +105,8 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
     Object? popularRank = freezed,
     Object? genres = null,
     Object? episodes = freezed,
+    Object? timeUntilAiring = freezed,
+    Object? nextAiringEpisode = freezed,
     Object? characterAndVoiceActors = null,
   }) {
     return _then(_value.copyWith(
@@ -172,6 +178,14 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
               as int?,
+      timeUntilAiring: freezed == timeUntilAiring
+          ? _value.timeUntilAiring
+          : timeUntilAiring // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nextAiringEpisode: freezed == nextAiringEpisode
+          ? _value.nextAiringEpisode
+          : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
+              as int?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value.characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -230,6 +244,8 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       int? popularRank,
       List<String> genres,
       int? episodes,
+      int? timeUntilAiring,
+      int? nextAiringEpisode,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors});
 
   @override
@@ -266,6 +282,8 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? popularRank = freezed,
     Object? genres = null,
     Object? episodes = freezed,
+    Object? timeUntilAiring = freezed,
+    Object? nextAiringEpisode = freezed,
     Object? characterAndVoiceActors = null,
   }) {
     return _then(_$_DetailAnimeModel(
@@ -337,6 +355,14 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
               as int?,
+      timeUntilAiring: freezed == timeUntilAiring
+          ? _value.timeUntilAiring
+          : timeUntilAiring // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nextAiringEpisode: freezed == nextAiringEpisode
+          ? _value.nextAiringEpisode
+          : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
+              as int?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value._characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -366,6 +392,8 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.popularRank,
       final List<String> genres = const [],
       this.episodes,
+      this.timeUntilAiring,
+      this.nextAiringEpisode,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
           const []})
       : _genres = genres,
@@ -415,6 +443,10 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
   @override
   final int? episodes;
+  @override
+  final int? timeUntilAiring;
+  @override
+  final int? nextAiringEpisode;
   final List<CharacterAndVoiceActorModel> _characterAndVoiceActors;
   @override
   @JsonKey()
@@ -427,7 +459,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
   @override
   String toString() {
-    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, characterAndVoiceActors: $characterAndVoiceActors)';
+    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, characterAndVoiceActors: $characterAndVoiceActors)';
   }
 
   @override
@@ -463,31 +495,38 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.episodes, episodes) ||
                 other.episodes == episodes) &&
+            (identical(other.timeUntilAiring, timeUntilAiring) ||
+                other.timeUntilAiring == timeUntilAiring) &&
+            (identical(other.nextAiringEpisode, nextAiringEpisode) ||
+                other.nextAiringEpisode == nextAiringEpisode) &&
             const DeepCollectionEquality().equals(
                 other._characterAndVoiceActors, _characterAndVoiceActors));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      coverImage,
-      coverImageColor,
-      description,
-      source,
-      bannerImage,
-      averageScore,
-      favourites,
-      trailerModel,
-      seasonYear,
-      season,
-      status,
-      ratedRank,
-      popularRank,
-      const DeepCollectionEquality().hash(_genres),
-      episodes,
-      const DeepCollectionEquality().hash(_characterAndVoiceActors));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        title,
+        coverImage,
+        coverImageColor,
+        description,
+        source,
+        bannerImage,
+        averageScore,
+        favourites,
+        trailerModel,
+        seasonYear,
+        season,
+        status,
+        ratedRank,
+        popularRank,
+        const DeepCollectionEquality().hash(_genres),
+        episodes,
+        timeUntilAiring,
+        nextAiringEpisode,
+        const DeepCollectionEquality().hash(_characterAndVoiceActors)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -515,6 +554,8 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
           final int? popularRank,
           final List<String> genres,
           final int? episodes,
+          final int? timeUntilAiring,
+          final int? nextAiringEpisode,
           final List<CharacterAndVoiceActorModel> characterAndVoiceActors}) =
       _$_DetailAnimeModel;
 
@@ -552,6 +593,10 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   List<String> get genres;
   @override
   int? get episodes;
+  @override
+  int? get timeUntilAiring;
+  @override
+  int? get nextAiringEpisode;
   @override
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors;
   @override
