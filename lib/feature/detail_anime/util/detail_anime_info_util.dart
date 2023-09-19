@@ -8,17 +8,17 @@ extension AnimeSourceEx on AnimeSource {
   String getAnimeSourceString(BuildContext context) {
     switch (this) {
       case AnimeSource.original:
-        return 'Original';
+        return ATLocalizations.of(context).originalAnimation;
       case AnimeSource.manga:
-        return 'Manga';
+        return ATLocalizations.of(context).mangaAnimation;
       case AnimeSource.lightNovel:
-        return 'Light novel';
+        return ATLocalizations.of(context).lightNovelAnimation;
       case AnimeSource.visualNovel:
-        return 'Visual Novel';
+        return ATLocalizations.of(context).visualNovelAnimation;
       case AnimeSource.videoGame:
-        return 'Video game';
+        return ATLocalizations.of(context).videoGameAnimation;
       case AnimeSource.other:
-        return 'Other';
+        return ATLocalizations.of(context).otherAnimation;
     }
   }
 }
@@ -57,6 +57,6 @@ extension DetailAnimeModelEx on DetailAnimeModel {
       return '';
     }
 
-    return '$seasonYear${season!.getAnimeSeasonString(context)} · ${source.getAnimeSourceString(context)} · $episodes-episodes';
+    return '$seasonYear${season!.getAnimeSeasonString(context)} · ${source.getAnimeSourceString(context)} · $episodes${ATLocalizations.of(context).episodes}';
   }
 }

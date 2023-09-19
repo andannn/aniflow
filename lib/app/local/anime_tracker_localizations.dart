@@ -35,9 +35,32 @@ abstract class ATLocalizations {
   String get fail;
 
   String get winter;
+
   String get mainCharacter;
+
   String get supportingCharacter;
+
   String get backgroundCharacter;
+
+  String get animeDescription;
+
+  String get characters;
+
+  String get trailer;
+
+  String get originalAnimation;
+
+  String get mangaAnimation;
+
+  String get lightNovelAnimation;
+
+  String get visualNovelAnimation;
+
+  String get videoGameAnimation;
+
+  String get otherAnimation;
+
+  String get episodes;
 
   static ATLocalizations of([BuildContext? context]) {
     return Localizations.of<ATLocalizations>(
@@ -105,6 +128,36 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get supportingCharacter => 'Supporting';
+
+  @override
+  String get animeDescription => 'About this anime';
+
+  @override
+  String get characters => 'Characters';
+
+  @override
+  String get trailer => 'Trailer';
+
+  @override
+  String get originalAnimation => 'Original';
+
+  @override
+  String get mangaAnimation => 'Manga';
+
+  @override
+  String get lightNovelAnimation => 'Light novel';
+
+  @override
+  String get otherAnimation => 'Other';
+
+  @override
+  String get videoGameAnimation => 'Video game';
+
+  @override
+  String get visualNovelAnimation => 'Visual Novel';
+
+  @override
+  String get episodes => 'episodes';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -167,6 +220,36 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get supportingCharacter => '脇役';
+
+  @override
+  String get animeDescription => 'このアニメについて';
+
+  @override
+  String get characters => 'キャラクター';
+
+  @override
+  String get trailer => 'トレーラー';
+
+  @override
+  String get lightNovelAnimation => 'ライトノベル';
+
+  @override
+  String get mangaAnimation => '漫画';
+
+  @override
+  String get originalAnimation => 'オリジナル';
+
+  @override
+  String get otherAnimation => 'そのほか';
+
+  @override
+  String get videoGameAnimation => 'ゲーム';
+
+  @override
+  String get visualNovelAnimation => 'ビジュアルノベル';
+
+  @override
+  String get episodes => '話';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -229,4 +312,34 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get supportingCharacter => '配角';
+
+  @override
+  String get animeDescription => '关于这个动画';
+
+  @override
+  String get characters => '角色';
+
+  @override
+  String get trailer => '预告片';
+
+  @override
+  String get lightNovelAnimation => '轻小说';
+
+  @override
+  String get mangaAnimation => '漫画';
+
+  @override
+  String get originalAnimation => '原创';
+
+  @override
+  String get otherAnimation => '其他';
+
+  @override
+  String get videoGameAnimation => '游戏';
+
+  @override
+  String get visualNovelAnimation => '可视小说';
+
+  @override
+  String get episodes => '集';
 }
