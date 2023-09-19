@@ -21,6 +21,7 @@ mixin AnimeTableColumns {
   static const String seasonYear = 'season_year';
   static const String season = 'season';
   static const String source = 'source';
+  static const String status = 'status';
   static const String bannerImage = 'banner_image';
   static const String averageScore = 'average_score';
   static const String trending = 'trending';

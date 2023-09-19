@@ -18,6 +18,7 @@ part 'load_type.dart';
 
 part '../model/anime_season.dart';
 part '../model/character_role.dart';
+part '../model/anime_status.dart';
 
 /// default page count of anime.
 const int defaultPerPageCount = 9;
@@ -31,17 +32,6 @@ enum AnimeCategory {
 
   /// now trending anime.
   trending,
-}
-
-/// Bangumi status.
-enum AnimeStatus {
-  releasing('RELEASING'),
-  finished('FINISHED'),
-  notYetReleased('NOT_YET_RELEASED');
-
-  final String sqlTypeString;
-
-  const AnimeStatus(this.sqlTypeString);
 }
 
 /// Bangumi sort.

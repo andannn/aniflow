@@ -15,8 +15,7 @@ _$_AnimeEntity _$$_AnimeEntityFromJson(Map<String, dynamic> json) =>
       coverImage: json['cover_image'] as String? ?? '',
       coverImageColor: json['cover_image_color'] as String? ?? '',
       description: json['description'] as String?,
-      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']) ??
-          AnimeSource.other,
+      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']),
       bannerImage: json['banner_image'] as String?,
       averageScore: json['average_score'] as int?,
       trending: json['trending'] as int?,
@@ -26,6 +25,7 @@ _$_AnimeEntity _$$_AnimeEntityFromJson(Map<String, dynamic> json) =>
       episodes: json['episodes'] as int?,
       seasonYear: json['season_year'] as int?,
       season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
+      status: $enumDecodeNullable(_$AnimeStatusEnumMap, json['status']),
       genres: json['genres'] as String?,
       trailerThumbnail: json['trailer_thumbnail'] as String?,
       popularRanking: json['popular_ranking'] as int?,
@@ -41,7 +41,7 @@ Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>
       'cover_image': instance.coverImage,
       'cover_image_color': instance.coverImageColor,
       'description': instance.description,
-      'source': _$AnimeSourceEnumMap[instance.source]!,
+      'source': _$AnimeSourceEnumMap[instance.source],
       'banner_image': instance.bannerImage,
       'average_score': instance.averageScore,
       'trending': instance.trending,
@@ -51,6 +51,7 @@ Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>
       'episodes': instance.episodes,
       'season_year': instance.seasonYear,
       'season': _$AnimeSeasonEnumMap[instance.season],
+      'status': _$AnimeStatusEnumMap[instance.status],
       'genres': instance.genres,
       'trailer_thumbnail': instance.trailerThumbnail,
       'popular_ranking': instance.popularRanking,
@@ -71,4 +72,10 @@ const _$AnimeSeasonEnumMap = {
   AnimeSeason.spring: 'SPRING',
   AnimeSeason.summer: 'SUMMER',
   AnimeSeason.fall: 'FALL',
+};
+
+const _$AnimeStatusEnumMap = {
+  AnimeStatus.releasing: 'RELEASING',
+  AnimeStatus.finished: 'FINISHED',
+  AnimeStatus.notYetReleased: 'NOT_YET_RELEASED',
 };

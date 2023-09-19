@@ -14,6 +14,7 @@ query (\$id: Int) {
     season
     source
     genres
+    status
     rankings {
       rank
       type

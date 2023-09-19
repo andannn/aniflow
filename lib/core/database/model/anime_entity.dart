@@ -29,9 +29,7 @@ class AnimeEntity with _$AnimeEntity {
     @JsonKey(name: AnimeTableColumns.coverImageColor)
     String coverImageColor,
     @JsonKey(name: AnimeTableColumns.description) String? description,
-    @Default(AnimeSource.other)
-    @JsonKey(name: AnimeTableColumns.source)
-    AnimeSource source,
+    @JsonKey(name: AnimeTableColumns.source) AnimeSource? source,
     @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
     @JsonKey(name: AnimeTableColumns.averageScore) int? averageScore,
     @JsonKey(name: AnimeTableColumns.trending) int? trending,
@@ -41,6 +39,7 @@ class AnimeEntity with _$AnimeEntity {
     @JsonKey(name: AnimeTableColumns.episodes) int? episodes,
     @JsonKey(name: AnimeTableColumns.seasonYear) int? seasonYear,
     @JsonKey(name: AnimeTableColumns.season) AnimeSeason? season,
+    @JsonKey(name: AnimeTableColumns.status) AnimeStatus? status,
     @JsonKey(name: AnimeTableColumns.genres) String? genres,
     @JsonKey(name: AnimeTableColumns.trailerThumbnail) String? trailerThumbnail,
     @JsonKey(name: AnimeTableColumns.popularRanking) int? popularRanking,
@@ -80,6 +79,7 @@ class AnimeEntity with _$AnimeEntity {
         episodes: model.episodes,
         season: model.season,
         seasonYear: model.seasonYear,
+        status: model.status,
         genres: jsonEncode(model.genres),
         popularRanking: model.rankings
             .firstWhere(

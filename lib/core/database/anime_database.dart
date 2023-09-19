@@ -68,6 +68,7 @@ class AnimeDatabase {
         '${AnimeTableColumns.seasonYear} integer,'
         '${AnimeTableColumns.genres} text,'
         '${AnimeTableColumns.season} text,'
+        '${AnimeTableColumns.status} text,'
         '${AnimeTableColumns.popularRanking} integer,'
         '${AnimeTableColumns.ratedRanking} integer'
         ')');

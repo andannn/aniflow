@@ -8,17 +8,17 @@ extension AnimeSourceEx on AnimeSource {
   String getAnimeSourceString(BuildContext context) {
     switch (this) {
       case AnimeSource.original:
-        return 'Original';
+        return ATLocalizations.of(context).originalAnimation;
       case AnimeSource.manga:
-        return 'Manga';
+        return ATLocalizations.of(context).mangaAnimation;
       case AnimeSource.lightNovel:
-        return 'Light novel';
+        return ATLocalizations.of(context).lightNovelAnimation;
       case AnimeSource.visualNovel:
-        return 'Visual Novel';
+        return ATLocalizations.of(context).visualNovelAnimation;
       case AnimeSource.videoGame:
-        return 'Video game';
+        return ATLocalizations.of(context).videoGameAnimation;
       case AnimeSource.other:
-        return 'Other';
+        return ATLocalizations.of(context).otherAnimation;
     }
   }
 }
@@ -38,6 +38,19 @@ extension AnimeSeasonEx on AnimeSeason {
   }
 }
 
+extension AnimeStatusEx on AnimeStatus {
+  String getAnimeStatusString(BuildContext context) {
+    switch (this) {
+      case AnimeStatus.releasing:
+        return ATLocalizations.of(context).animeReleasing;
+      case AnimeStatus.finished:
+        return ATLocalizations.of(context).animeFinished;
+      case AnimeStatus.notYetReleased:
+        return ATLocalizations.of(context).animeNotYetReleased;
+    }
+  }
+}
+
 extension CharacterRoleEx on CharacterRole {
   String getCharacterRoleString(BuildContext context) {
     switch (this) {
@@ -53,10 +66,23 @@ extension CharacterRoleEx on CharacterRole {
 
 extension DetailAnimeModelEx on DetailAnimeModel {
   String getAnimeInfoString(BuildContext context) {
-    if (seasonYear == null || season == null || episodes == null) {
-      return '';
+    final itemList = <String>[];
+    if (seasonYear != null && season != null) {
+      itemList.add('$seasonYear${season!.getAnimeSeasonString(context)}');
     }
 
-    return '$seasonYear${season!.getAnimeSeasonString(context)} · ${source.getAnimeSourceString(context)} · $episodes-episodes';
+    if (episodes != null) {
+      itemList.add('$episodes${ATLocalizations.of(context).episodes}');
+    }
+
+    if (source != null) {
+      itemList.add(source!.getAnimeSourceString(context));
+    }
+
+    if (status != null) {
+      itemList.add(status!.getAnimeStatusString(context));
+    }
+
+    return itemList.join(' · ');
   }
 }

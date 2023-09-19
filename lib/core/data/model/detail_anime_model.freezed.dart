@@ -21,13 +21,14 @@ mixin _$DetailAnimeModel {
   String get coverImage => throw _privateConstructorUsedError;
   String get coverImageColor => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  AnimeSource get source => throw _privateConstructorUsedError;
+  AnimeSource? get source => throw _privateConstructorUsedError;
   String? get bannerImage => throw _privateConstructorUsedError;
   int? get averageScore => throw _privateConstructorUsedError;
   int? get favourites => throw _privateConstructorUsedError;
   TrailerModel? get trailerModel => throw _privateConstructorUsedError;
   int? get seasonYear => throw _privateConstructorUsedError;
   AnimeSeason? get season => throw _privateConstructorUsedError;
+  AnimeStatus? get status => throw _privateConstructorUsedError;
   int? get ratedRank => throw _privateConstructorUsedError;
   int? get popularRank => throw _privateConstructorUsedError;
   List<String> get genres => throw _privateConstructorUsedError;
@@ -52,13 +53,14 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
       String coverImage,
       String coverImageColor,
       String? description,
-      AnimeSource source,
+      AnimeSource? source,
       String? bannerImage,
       int? averageScore,
       int? favourites,
       TrailerModel? trailerModel,
       int? seasonYear,
       AnimeSeason? season,
+      AnimeStatus? status,
       int? ratedRank,
       int? popularRank,
       List<String> genres,
@@ -87,13 +89,14 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? favourites = freezed,
     Object? trailerModel = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
+    Object? status = freezed,
     Object? ratedRank = freezed,
     Object? popularRank = freezed,
     Object? genres = null,
@@ -121,10 +124,10 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -149,6 +152,10 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
               as AnimeSeason?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as AnimeStatus?,
       ratedRank: freezed == ratedRank
           ? _value.ratedRank
           : ratedRank // ignore: cast_nullable_to_non_nullable
@@ -211,13 +218,14 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       String coverImage,
       String coverImageColor,
       String? description,
-      AnimeSource source,
+      AnimeSource? source,
       String? bannerImage,
       int? averageScore,
       int? favourites,
       TrailerModel? trailerModel,
       int? seasonYear,
       AnimeSeason? season,
+      AnimeStatus? status,
       int? ratedRank,
       int? popularRank,
       List<String> genres,
@@ -246,13 +254,14 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? favourites = freezed,
     Object? trailerModel = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
+    Object? status = freezed,
     Object? ratedRank = freezed,
     Object? popularRank = freezed,
     Object? genres = null,
@@ -280,10 +289,10 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -308,6 +317,10 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
               as AnimeSeason?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as AnimeStatus?,
       ratedRank: freezed == ratedRank
           ? _value.ratedRank
           : ratedRank // ignore: cast_nullable_to_non_nullable
@@ -341,13 +354,14 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.coverImage = '',
       this.coverImageColor = '',
       this.description,
-      this.source = AnimeSource.other,
+      this.source,
       this.bannerImage,
       this.averageScore,
       this.favourites,
       this.trailerModel,
       this.seasonYear,
       this.season,
+      this.status,
       this.ratedRank,
       this.popularRank,
       final List<String> genres = const [],
@@ -371,8 +385,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
   @override
   final String? description;
   @override
-  @JsonKey()
-  final AnimeSource source;
+  final AnimeSource? source;
   @override
   final String? bannerImage;
   @override
@@ -385,6 +398,8 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
   final int? seasonYear;
   @override
   final AnimeSeason? season;
+  @override
+  final AnimeStatus? status;
   @override
   final int? ratedRank;
   @override
@@ -412,7 +427,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
   @override
   String toString() {
-    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, characterAndVoiceActors: $characterAndVoiceActors)';
+    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, characterAndVoiceActors: $characterAndVoiceActors)';
   }
 
   @override
@@ -440,6 +455,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
             (identical(other.seasonYear, seasonYear) ||
                 other.seasonYear == seasonYear) &&
             (identical(other.season, season) || other.season == season) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.ratedRank, ratedRank) ||
                 other.ratedRank == ratedRank) &&
             (identical(other.popularRank, popularRank) ||
@@ -466,6 +482,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       trailerModel,
       seasonYear,
       season,
+      status,
       ratedRank,
       popularRank,
       const DeepCollectionEquality().hash(_genres),
@@ -486,13 +503,14 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
           final String coverImage,
           final String coverImageColor,
           final String? description,
-          final AnimeSource source,
+          final AnimeSource? source,
           final String? bannerImage,
           final int? averageScore,
           final int? favourites,
           final TrailerModel? trailerModel,
           final int? seasonYear,
           final AnimeSeason? season,
+          final AnimeStatus? status,
           final int? ratedRank,
           final int? popularRank,
           final List<String> genres,
@@ -511,7 +529,7 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   @override
   String? get description;
   @override
-  AnimeSource get source;
+  AnimeSource? get source;
   @override
   String? get bannerImage;
   @override
@@ -524,6 +542,8 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   int? get seasonYear;
   @override
   AnimeSeason? get season;
+  @override
+  AnimeStatus? get status;
   @override
   int? get ratedRank;
   @override
