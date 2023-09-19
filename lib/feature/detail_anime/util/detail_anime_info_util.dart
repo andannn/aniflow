@@ -53,10 +53,19 @@ extension CharacterRoleEx on CharacterRole {
 
 extension DetailAnimeModelEx on DetailAnimeModel {
   String getAnimeInfoString(BuildContext context) {
-    if (seasonYear == null || season == null || episodes == null) {
-      return '';
+    final itemList = <String>[];
+    if (seasonYear != null && season != null) {
+      itemList.add('$seasonYear${season!.getAnimeSeasonString(context)}');
     }
 
-    return '$seasonYear${season!.getAnimeSeasonString(context)} · ${source.getAnimeSourceString(context)} · $episodes${ATLocalizations.of(context).episodes}';
+    if (episodes != null) {
+      itemList.add('$episodes${ATLocalizations.of(context).episodes}');
+    }
+
+    if (source != null) {
+      itemList.add(source!.getAnimeSourceString(context));
+    }
+
+    return itemList.join(' · ');
   }
 }

@@ -15,8 +15,7 @@ _$_AnimeEntity _$$_AnimeEntityFromJson(Map<String, dynamic> json) =>
       coverImage: json['cover_image'] as String? ?? '',
       coverImageColor: json['cover_image_color'] as String? ?? '',
       description: json['description'] as String?,
-      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']) ??
-          AnimeSource.other,
+      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']),
       bannerImage: json['banner_image'] as String?,
       averageScore: json['average_score'] as int?,
       trending: json['trending'] as int?,
@@ -41,7 +40,7 @@ Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>
       'cover_image': instance.coverImage,
       'cover_image_color': instance.coverImageColor,
       'description': instance.description,
-      'source': _$AnimeSourceEnumMap[instance.source]!,
+      'source': _$AnimeSourceEnumMap[instance.source],
       'banner_image': instance.bannerImage,
       'average_score': instance.averageScore,
       'trending': instance.trending,

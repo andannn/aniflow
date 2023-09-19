@@ -29,9 +29,8 @@ class AnimeEntity with _$AnimeEntity {
     @JsonKey(name: AnimeTableColumns.coverImageColor)
     String coverImageColor,
     @JsonKey(name: AnimeTableColumns.description) String? description,
-    @Default(AnimeSource.other)
     @JsonKey(name: AnimeTableColumns.source)
-    AnimeSource source,
+    AnimeSource? source,
     @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
     @JsonKey(name: AnimeTableColumns.averageScore) int? averageScore,
     @JsonKey(name: AnimeTableColumns.trending) int? trending,

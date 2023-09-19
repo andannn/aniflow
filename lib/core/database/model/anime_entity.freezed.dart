@@ -35,7 +35,7 @@ mixin _$AnimeEntity {
   @JsonKey(name: AnimeTableColumns.description)
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.source)
-  AnimeSource get source => throw _privateConstructorUsedError;
+  AnimeSource? get source => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.bannerImage)
   String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.averageScore)
@@ -83,7 +83,7 @@ abstract class $AnimeEntityCopyWith<$Res> {
       @JsonKey(name: AnimeTableColumns.coverImage) String coverImage,
       @JsonKey(name: AnimeTableColumns.coverImageColor) String coverImageColor,
       @JsonKey(name: AnimeTableColumns.description) String? description,
-      @JsonKey(name: AnimeTableColumns.source) AnimeSource source,
+      @JsonKey(name: AnimeTableColumns.source) AnimeSource? source,
       @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
       @JsonKey(name: AnimeTableColumns.averageScore) int? averageScore,
       @JsonKey(name: AnimeTableColumns.trending) int? trending,
@@ -120,7 +120,7 @@ class _$AnimeEntityCopyWithImpl<$Res, $Val extends AnimeEntity>
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
@@ -164,10 +164,10 @@ class _$AnimeEntityCopyWithImpl<$Res, $Val extends AnimeEntity>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -240,7 +240,7 @@ abstract class _$$_AnimeEntityCopyWith<$Res>
       @JsonKey(name: AnimeTableColumns.coverImage) String coverImage,
       @JsonKey(name: AnimeTableColumns.coverImageColor) String coverImageColor,
       @JsonKey(name: AnimeTableColumns.description) String? description,
-      @JsonKey(name: AnimeTableColumns.source) AnimeSource source,
+      @JsonKey(name: AnimeTableColumns.source) AnimeSource? source,
       @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
       @JsonKey(name: AnimeTableColumns.averageScore) int? averageScore,
       @JsonKey(name: AnimeTableColumns.trending) int? trending,
@@ -275,7 +275,7 @@ class __$$_AnimeEntityCopyWithImpl<$Res>
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
@@ -319,10 +319,10 @@ class __$$_AnimeEntityCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -391,7 +391,7 @@ class _$_AnimeEntity implements _AnimeEntity {
       @JsonKey(name: AnimeTableColumns.coverImageColor)
       this.coverImageColor = '',
       @JsonKey(name: AnimeTableColumns.description) this.description,
-      @JsonKey(name: AnimeTableColumns.source) this.source = AnimeSource.other,
+      @JsonKey(name: AnimeTableColumns.source) this.source,
       @JsonKey(name: AnimeTableColumns.bannerImage) this.bannerImage,
       @JsonKey(name: AnimeTableColumns.averageScore) this.averageScore,
       @JsonKey(name: AnimeTableColumns.trending) this.trending,
@@ -432,7 +432,7 @@ class _$_AnimeEntity implements _AnimeEntity {
   final String? description;
   @override
   @JsonKey(name: AnimeTableColumns.source)
-  final AnimeSource source;
+  final AnimeSource? source;
   @override
   @JsonKey(name: AnimeTableColumns.bannerImage)
   final String? bannerImage;
@@ -574,7 +574,7 @@ abstract class _AnimeEntity implements AnimeEntity {
       @JsonKey(name: AnimeTableColumns.coverImageColor)
       final String coverImageColor,
       @JsonKey(name: AnimeTableColumns.description) final String? description,
-      @JsonKey(name: AnimeTableColumns.source) final AnimeSource source,
+      @JsonKey(name: AnimeTableColumns.source) final AnimeSource? source,
       @JsonKey(name: AnimeTableColumns.bannerImage) final String? bannerImage,
       @JsonKey(name: AnimeTableColumns.averageScore) final int? averageScore,
       @JsonKey(name: AnimeTableColumns.trending) final int? trending,
@@ -618,7 +618,7 @@ abstract class _AnimeEntity implements AnimeEntity {
   String? get description;
   @override
   @JsonKey(name: AnimeTableColumns.source)
-  AnimeSource get source;
+  AnimeSource? get source;
   @override
   @JsonKey(name: AnimeTableColumns.bannerImage)
   String? get bannerImage;

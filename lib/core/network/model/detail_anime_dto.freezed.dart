@@ -29,7 +29,7 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'source')
-  AnimeSource get source => throw _privateConstructorUsedError;
+  AnimeSource? get source => throw _privateConstructorUsedError;
   @JsonKey(name: 'episodes')
   int? get episodes => throw _privateConstructorUsedError;
   @JsonKey(name: 'seasonYear')
@@ -72,7 +72,7 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'title') AnimeTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'source') AnimeSource source,
+      @JsonKey(name: 'source') AnimeSource? source,
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
@@ -108,7 +108,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? title = freezed,
     Object? coverImage = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? episodes = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
@@ -139,10 +139,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       episodes: freezed == episodes
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
@@ -244,7 +244,7 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'title') AnimeTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'source') AnimeSource source,
+      @JsonKey(name: 'source') AnimeSource? source,
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
@@ -281,7 +281,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? title = freezed,
     Object? coverImage = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? episodes = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
@@ -312,10 +312,10 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       episodes: freezed == episodes
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
@@ -377,7 +377,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'coverImage')
       final Map<String, String?> coverImage = const {},
       @JsonKey(name: 'description') this.description,
-      @JsonKey(name: 'source') this.source = AnimeSource.other,
+      @JsonKey(name: 'source') this.source,
       @JsonKey(name: 'episodes') this.episodes,
       @JsonKey(name: 'seasonYear') this.seasonYear,
       @JsonKey(name: 'season') this.season,
@@ -417,7 +417,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   final String? description;
   @override
   @JsonKey(name: 'source')
-  final AnimeSource source;
+  final AnimeSource? source;
   @override
   @JsonKey(name: 'episodes')
   final int? episodes;
@@ -547,7 +547,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'title') final AnimeTitle? title,
           @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
           @JsonKey(name: 'description') final String? description,
-          @JsonKey(name: 'source') final AnimeSource source,
+          @JsonKey(name: 'source') final AnimeSource? source,
           @JsonKey(name: 'episodes') final int? episodes,
           @JsonKey(name: 'seasonYear') final int? seasonYear,
           @JsonKey(name: 'season') final AnimeSeason? season,
@@ -579,7 +579,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   String? get description;
   @override
   @JsonKey(name: 'source')
-  AnimeSource get source;
+  AnimeSource? get source;
   @override
   @JsonKey(name: 'episodes')
   int? get episodes;

@@ -21,7 +21,7 @@ mixin _$DetailAnimeModel {
   String get coverImage => throw _privateConstructorUsedError;
   String get coverImageColor => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  AnimeSource get source => throw _privateConstructorUsedError;
+  AnimeSource? get source => throw _privateConstructorUsedError;
   String? get bannerImage => throw _privateConstructorUsedError;
   int? get averageScore => throw _privateConstructorUsedError;
   int? get favourites => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
       String coverImage,
       String coverImageColor,
       String? description,
-      AnimeSource source,
+      AnimeSource? source,
       String? bannerImage,
       int? averageScore,
       int? favourites,
@@ -87,7 +87,7 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? favourites = freezed,
@@ -121,10 +121,10 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -211,7 +211,7 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       String coverImage,
       String coverImageColor,
       String? description,
-      AnimeSource source,
+      AnimeSource? source,
       String? bannerImage,
       int? averageScore,
       int? favourites,
@@ -246,7 +246,7 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
-    Object? source = null,
+    Object? source = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? favourites = freezed,
@@ -280,10 +280,10 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      source: null == source
+      source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
-              as AnimeSource,
+              as AnimeSource?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -341,7 +341,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.coverImage = '',
       this.coverImageColor = '',
       this.description,
-      this.source = AnimeSource.other,
+      this.source,
       this.bannerImage,
       this.averageScore,
       this.favourites,
@@ -371,8 +371,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
   @override
   final String? description;
   @override
-  @JsonKey()
-  final AnimeSource source;
+  final AnimeSource? source;
   @override
   final String? bannerImage;
   @override
@@ -486,7 +485,7 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
           final String coverImage,
           final String coverImageColor,
           final String? description,
-          final AnimeSource source,
+          final AnimeSource? source,
           final String? bannerImage,
           final int? averageScore,
           final int? favourites,
@@ -511,7 +510,7 @@ abstract class _DetailAnimeModel implements DetailAnimeModel {
   @override
   String? get description;
   @override
-  AnimeSource get source;
+  AnimeSource? get source;
   @override
   String? get bannerImage;
   @override

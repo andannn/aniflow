@@ -20,7 +20,7 @@ class DetailAnimeModel with _$DetailAnimeModel {
     @Default('') String coverImage,
     @Default('') String coverImageColor,
     String? description,
-    @Default(AnimeSource.other) AnimeSource source,
+    AnimeSource? source,
     String? bannerImage,
     int? averageScore,
     int? favourites,

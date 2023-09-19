@@ -17,8 +17,7 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
           ) ??
           const {},
       description: json['description'] as String?,
-      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']) ??
-          AnimeSource.other,
+      source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']),
       episodes: json['episodes'] as int?,
       seasonYear: json['seasonYear'] as int?,
       season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
@@ -49,7 +48,7 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'title': instance.title,
       'coverImage': instance.coverImage,
       'description': instance.description,
-      'source': _$AnimeSourceEnumMap[instance.source]!,
+      'source': _$AnimeSourceEnumMap[instance.source],
       'episodes': instance.episodes,
       'seasonYear': instance.seasonYear,
       'season': _$AnimeSeasonEnumMap[instance.season],
