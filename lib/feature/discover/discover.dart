@@ -54,6 +54,7 @@ class DiscoverScreen extends StatelessWidget {
         final currentSeasonState = state.currentSeasonAnimePagingState;
         final nextSeasonState = state.nextSeasonAnimePagingState;
         final trendingState = state.trendingAnimePagingState;
+        final movieState = state.movieAnimePagingState;
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
         return RefreshIndicator(
@@ -79,24 +80,37 @@ class DiscoverScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
-                    context, AnimeCategory.currentSeason, currentSeasonState),
+                  context,
+                  AnimeCategory.currentSeason,
+                  currentSeasonState,
+                ),
               ),
               const SliverToBoxAdapter(
                 child: SizedBox(height: 12),
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
-                    context, AnimeCategory.nextSeason, nextSeasonState),
+                  context,
+                  AnimeCategory.nextSeason,
+                  nextSeasonState,
+                ),
               ),
               const SliverToBoxAdapter(
                 child: SizedBox(height: 12),
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
-                    context, AnimeCategory.trending, trendingState),
+                  context,
+                  AnimeCategory.trending,
+                  trendingState,
+                ),
               ),
               const SliverToBoxAdapter(
                 child: SizedBox(height: 24),
+              ),
+              SliverToBoxAdapter(
+                child: _buildAnimeCategoryPreview(
+                    context, AnimeCategory.movie, movieState),
               ),
             ],
           ),
@@ -176,6 +190,8 @@ class _AnimeCategoryPreview extends StatelessWidget {
         title = ATLocalizations.of(context).upComingNextSeasonLabel;
       case AnimeCategory.trending:
         title = ATLocalizations.of(context).trendingNowLabel;
+      case AnimeCategory.movie:
+        title = ATLocalizations.of(context).movieLabel;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),

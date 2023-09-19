@@ -43,6 +43,7 @@ mixin CategoryColumnsValues {
   static const String trending = 'trending';
   static const String currentSeason = 'currentSeason';
   static const String nextSeason = 'nextSeason';
+  static const String movie = 'movie';
 }
 
 extension on AnimeCategory {
@@ -54,6 +55,8 @@ extension on AnimeCategory {
         return CategoryColumnsValues.currentSeason;
       case AnimeCategory.nextSeason:
         return CategoryColumnsValues.nextSeason;
+      case AnimeCategory.movie:
+        return CategoryColumnsValues.movie;
     }
   }
 }

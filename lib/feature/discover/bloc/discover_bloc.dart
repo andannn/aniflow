@@ -125,6 +125,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
       _createLoadAnimePageTask(AnimeCategory.nextSeason, isRefresh: true),
       _createLoadAnimePageTask(AnimeCategory.trending, isRefresh: true),
+      _createLoadAnimePageTask(AnimeCategory.movie, isRefresh: true),
     ]);
     if (!result.any((e) => e == false)) {
       logger.d('AimeTracker refresh success');
@@ -172,6 +173,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
         emit(state.copyWith(currentSeasonAnimePagingState: result));
       case AnimeCategory.trending:
         emit(state.copyWith(trendingAnimePagingState: result));
+      case AnimeCategory.movie:
+        emit(state.copyWith(movieAnimePagingState: result));
     }
   }
 

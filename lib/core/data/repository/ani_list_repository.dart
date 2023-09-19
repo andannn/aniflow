@@ -32,6 +32,9 @@ enum AnimeCategory {
 
   /// now trending anime.
   trending,
+
+  /// popular movie.
+  movie,
 }
 
 /// Bangumi sort.
@@ -173,6 +176,11 @@ class AniListRepositoryImpl extends AniListRepository {
       case AnimeCategory.trending:
         status = null;
         seasonParam = null;
+        sorts = [AnimeSort.trending];
+      case AnimeCategory.movie:
+        status = null;
+        seasonParam = null;
+        format = AnimeFormat.movie;
         sorts = [AnimeSort.trending];
     }
 

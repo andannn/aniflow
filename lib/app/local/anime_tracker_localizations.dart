@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 abstract class ATLocalizations {
   String get trendingNowLabel;
 
+  String get movieLabel;
+
   String get popularThisSeasonLabel;
 
   String get upComingNextSeasonLabel;
@@ -173,6 +175,9 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get animeReleasing => 'Releasing';
+
+  @override
+  String get movieLabel => 'Movie';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -274,6 +279,9 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get animeReleasing => '放送中';
+
+  @override
+  String get movieLabel => '映画';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -375,4 +383,7 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get animeReleasing => '放送中';
+
+  @override
+  String get movieLabel => '动画电影';
 }

@@ -135,6 +135,8 @@ class _AnimeListPageContent extends StatelessWidget {
         title = ATLocalizations.of(context).upComingNextSeasonLabel;
       case AnimeCategory.trending:
         title = ATLocalizations.of(context).trendingNowLabel;
+      case AnimeCategory.movie:
+        title = ATLocalizations.of(context).movieLabel;
     }
     return title;
   }
