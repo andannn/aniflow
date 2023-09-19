@@ -58,6 +58,10 @@ mixin _$AnimeEntity {
   String? get genres => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.trailerThumbnail)
   String? get trailerThumbnail => throw _privateConstructorUsedError;
+  @JsonKey(name: AnimeTableColumns.popularRanking)
+  int? get popularRanking => throw _privateConstructorUsedError;
+  @JsonKey(name: AnimeTableColumns.ratedRanking)
+  int? get ratedRanking => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -91,7 +95,9 @@ abstract class $AnimeEntityCopyWith<$Res> {
       @JsonKey(name: AnimeTableColumns.season) AnimeSeason? season,
       @JsonKey(name: AnimeTableColumns.genres) String? genres,
       @JsonKey(name: AnimeTableColumns.trailerThumbnail)
-      String? trailerThumbnail});
+      String? trailerThumbnail,
+      @JsonKey(name: AnimeTableColumns.popularRanking) int? popularRanking,
+      @JsonKey(name: AnimeTableColumns.ratedRanking) int? ratedRanking});
 }
 
 /// @nodoc
@@ -126,6 +132,8 @@ class _$AnimeEntityCopyWithImpl<$Res, $Val extends AnimeEntity>
     Object? season = freezed,
     Object? genres = freezed,
     Object? trailerThumbnail = freezed,
+    Object? popularRanking = freezed,
+    Object? ratedRanking = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -204,6 +212,14 @@ class _$AnimeEntityCopyWithImpl<$Res, $Val extends AnimeEntity>
           ? _value.trailerThumbnail
           : trailerThumbnail // ignore: cast_nullable_to_non_nullable
               as String?,
+      popularRanking: freezed == popularRanking
+          ? _value.popularRanking
+          : popularRanking // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ratedRanking: freezed == ratedRanking
+          ? _value.ratedRanking
+          : ratedRanking // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -236,7 +252,9 @@ abstract class _$$_AnimeEntityCopyWith<$Res>
       @JsonKey(name: AnimeTableColumns.season) AnimeSeason? season,
       @JsonKey(name: AnimeTableColumns.genres) String? genres,
       @JsonKey(name: AnimeTableColumns.trailerThumbnail)
-      String? trailerThumbnail});
+      String? trailerThumbnail,
+      @JsonKey(name: AnimeTableColumns.popularRanking) int? popularRanking,
+      @JsonKey(name: AnimeTableColumns.ratedRanking) int? ratedRanking});
 }
 
 /// @nodoc
@@ -269,6 +287,8 @@ class __$$_AnimeEntityCopyWithImpl<$Res>
     Object? season = freezed,
     Object? genres = freezed,
     Object? trailerThumbnail = freezed,
+    Object? popularRanking = freezed,
+    Object? ratedRanking = freezed,
   }) {
     return _then(_$_AnimeEntity(
       id: null == id
@@ -347,6 +367,14 @@ class __$$_AnimeEntityCopyWithImpl<$Res>
           ? _value.trailerThumbnail
           : trailerThumbnail // ignore: cast_nullable_to_non_nullable
               as String?,
+      popularRanking: freezed == popularRanking
+          ? _value.popularRanking
+          : popularRanking // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ratedRanking: freezed == ratedRanking
+          ? _value.ratedRanking
+          : ratedRanking // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -374,8 +402,9 @@ class _$_AnimeEntity implements _AnimeEntity {
       @JsonKey(name: AnimeTableColumns.seasonYear) this.seasonYear,
       @JsonKey(name: AnimeTableColumns.season) this.season,
       @JsonKey(name: AnimeTableColumns.genres) this.genres,
-      @JsonKey(name: AnimeTableColumns.trailerThumbnail)
-      this.trailerThumbnail});
+      @JsonKey(name: AnimeTableColumns.trailerThumbnail) this.trailerThumbnail,
+      @JsonKey(name: AnimeTableColumns.popularRanking) this.popularRanking,
+      @JsonKey(name: AnimeTableColumns.ratedRanking) this.ratedRanking});
 
   factory _$_AnimeEntity.fromJson(Map<String, dynamic> json) =>
       _$$_AnimeEntityFromJson(json);
@@ -437,10 +466,16 @@ class _$_AnimeEntity implements _AnimeEntity {
   @override
   @JsonKey(name: AnimeTableColumns.trailerThumbnail)
   final String? trailerThumbnail;
+  @override
+  @JsonKey(name: AnimeTableColumns.popularRanking)
+  final int? popularRanking;
+  @override
+  @JsonKey(name: AnimeTableColumns.ratedRanking)
+  final int? ratedRanking;
 
   @override
   String toString() {
-    return 'AnimeEntity(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, genres: $genres, trailerThumbnail: $trailerThumbnail)';
+    return 'AnimeEntity(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, genres: $genres, trailerThumbnail: $trailerThumbnail, popularRanking: $popularRanking, ratedRanking: $ratedRanking)';
   }
 
   @override
@@ -481,7 +516,11 @@ class _$_AnimeEntity implements _AnimeEntity {
             (identical(other.season, season) || other.season == season) &&
             (identical(other.genres, genres) || other.genres == genres) &&
             (identical(other.trailerThumbnail, trailerThumbnail) ||
-                other.trailerThumbnail == trailerThumbnail));
+                other.trailerThumbnail == trailerThumbnail) &&
+            (identical(other.popularRanking, popularRanking) ||
+                other.popularRanking == popularRanking) &&
+            (identical(other.ratedRanking, ratedRanking) ||
+                other.ratedRanking == ratedRanking));
   }
 
   @JsonKey(ignore: true)
@@ -506,7 +545,9 @@ class _$_AnimeEntity implements _AnimeEntity {
         seasonYear,
         season,
         genres,
-        trailerThumbnail
+        trailerThumbnail,
+        popularRanking,
+        ratedRanking
       ]);
 
   @JsonKey(ignore: true)
@@ -545,7 +586,11 @@ abstract class _AnimeEntity implements AnimeEntity {
       @JsonKey(name: AnimeTableColumns.season) final AnimeSeason? season,
       @JsonKey(name: AnimeTableColumns.genres) final String? genres,
       @JsonKey(name: AnimeTableColumns.trailerThumbnail)
-      final String? trailerThumbnail}) = _$_AnimeEntity;
+      final String? trailerThumbnail,
+      @JsonKey(name: AnimeTableColumns.popularRanking)
+      final int? popularRanking,
+      @JsonKey(name: AnimeTableColumns.ratedRanking)
+      final int? ratedRanking}) = _$_AnimeEntity;
 
   factory _AnimeEntity.fromJson(Map<String, dynamic> json) =
       _$_AnimeEntity.fromJson;
@@ -607,6 +652,12 @@ abstract class _AnimeEntity implements AnimeEntity {
   @override
   @JsonKey(name: AnimeTableColumns.trailerThumbnail)
   String? get trailerThumbnail;
+  @override
+  @JsonKey(name: AnimeTableColumns.popularRanking)
+  int? get popularRanking;
+  @override
+  @JsonKey(name: AnimeTableColumns.ratedRanking)
+  int? get ratedRanking;
   @override
   @JsonKey(ignore: true)
   _$$_AnimeEntityCopyWith<_$_AnimeEntity> get copyWith =>

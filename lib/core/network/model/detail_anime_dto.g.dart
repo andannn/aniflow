@@ -31,6 +31,12 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
       trailer: json['trailer'] == null
           ? null
           : TrailerDto.fromJson(json['trailer'] as Map<String, dynamic>),
+      rankings: (json['rankings'] as List<dynamic>?)
+              ?.map((e) => e == null
+                  ? null
+                  : AnimeRank.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       characters: json['characters'] == null
           ? null
           : CharacterConnection.fromJson(
@@ -54,6 +60,7 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'favourites': instance.favourites,
       'genres': instance.genres,
       'trailer': instance.trailer,
+      'rankings': instance.rankings,
       'characters': instance.characters,
     };
 

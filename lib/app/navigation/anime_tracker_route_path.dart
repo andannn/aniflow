@@ -27,6 +27,18 @@ class DiscoverRoutePath extends TopLevelRoutePath {
   DiscoverRoutePath() : super(TopLevelNavigation.discover);
 }
 
+class TrackRoutePath extends TopLevelRoutePath {
+  TrackRoutePath() : super(TopLevelNavigation.track);
+}
+
+class SearchRoutePath extends TopLevelRoutePath {
+  SearchRoutePath() : super(TopLevelNavigation.search);
+}
+
+class ProfileRoutePath extends TopLevelRoutePath {
+  ProfileRoutePath() : super(TopLevelNavigation.profile);
+}
+
 class AnimeListRoutePath extends AnimeTrackerRoutePath {
   AnimeListRoutePath(this.category);
 

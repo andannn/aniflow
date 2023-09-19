@@ -43,6 +43,8 @@ class AnimeEntity with _$AnimeEntity {
     @JsonKey(name: AnimeTableColumns.season) AnimeSeason? season,
     @JsonKey(name: AnimeTableColumns.genres) String? genres,
     @JsonKey(name: AnimeTableColumns.trailerThumbnail) String? trailerThumbnail,
+    @JsonKey(name: AnimeTableColumns.popularRanking) int? popularRanking,
+    @JsonKey(name: AnimeTableColumns.ratedRanking) int? ratedRanking,
   }) = _AnimeEntity;
 
   factory AnimeEntity.fromJson(Map<String, dynamic> json) =>
@@ -79,5 +81,17 @@ class AnimeEntity with _$AnimeEntity {
         season: model.season,
         seasonYear: model.seasonYear,
         genres: jsonEncode(model.genres),
+        popularRanking: model.rankings
+            .firstWhere(
+              (e) => e?.type == 'POPULAR' && e?.allTime == false,
+              orElse: () => null,
+            )
+            ?.rank,
+        ratedRanking: model.rankings
+            .firstWhere(
+              (e) => e?.type == 'RATED' && e?.allTime == false,
+              orElse: () => null,
+            )
+            ?.rank,
       );
 }

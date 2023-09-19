@@ -14,6 +14,11 @@ query (\$id: Int) {
     season
     source
     genres
+    rankings {
+      rank
+      type
+      allTime
+    }
     trailer {
       id
       site

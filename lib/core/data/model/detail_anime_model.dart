@@ -27,6 +27,8 @@ class DetailAnimeModel with _$DetailAnimeModel {
     TrailerModel? trailerModel,
     int? seasonYear,
     AnimeSeason? season,
+    int? ratedRank,
+    int? popularRank,
     @Default([]) List<String> genres,
     int? episodes,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
@@ -50,6 +52,8 @@ class DetailAnimeModel with _$DetailAnimeModel {
       season: model.season,
       seasonYear: model.seasonYear,
       episodes: model.episodes,
+      ratedRank: model.ratedRanking,
+      popularRank: model.popularRanking,
       genres: model.genres != null
           ? (jsonDecode(model.genres!) as List<dynamic>?)
                   ?.map((e) => e)
