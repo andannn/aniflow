@@ -18,6 +18,7 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @JsonKey(name: 'title') AnimeTitle? title,
     @Default({}) @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
     @JsonKey(name: 'description') String? description,
+    @JsonKey(name: 'status') AnimeStatus? status,
     @JsonKey(name: 'source') AnimeSource? source,
     @JsonKey(name: 'episodes') int? episodes,
     @JsonKey(name: 'seasonYear') int? seasonYear,

@@ -25,6 +25,7 @@ _$_AnimeEntity _$$_AnimeEntityFromJson(Map<String, dynamic> json) =>
       episodes: json['episodes'] as int?,
       seasonYear: json['season_year'] as int?,
       season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
+      status: $enumDecodeNullable(_$AnimeStatusEnumMap, json['status']),
       genres: json['genres'] as String?,
       trailerThumbnail: json['trailer_thumbnail'] as String?,
       popularRanking: json['popular_ranking'] as int?,
@@ -50,6 +51,7 @@ Map<String, dynamic> _$$_AnimeEntityToJson(_$_AnimeEntity instance) =>
       'episodes': instance.episodes,
       'season_year': instance.seasonYear,
       'season': _$AnimeSeasonEnumMap[instance.season],
+      'status': _$AnimeStatusEnumMap[instance.status],
       'genres': instance.genres,
       'trailer_thumbnail': instance.trailerThumbnail,
       'popular_ranking': instance.popularRanking,
@@ -70,4 +72,10 @@ const _$AnimeSeasonEnumMap = {
   AnimeSeason.spring: 'SPRING',
   AnimeSeason.summer: 'SUMMER',
   AnimeSeason.fall: 'FALL',
+};
+
+const _$AnimeStatusEnumMap = {
+  AnimeStatus.releasing: 'RELEASING',
+  AnimeStatus.finished: 'FINISHED',
+  AnimeStatus.notYetReleased: 'NOT_YET_RELEASED',
 };

@@ -38,6 +38,19 @@ extension AnimeSeasonEx on AnimeSeason {
   }
 }
 
+extension AnimeStatusEx on AnimeStatus {
+  String getAnimeStatusString(BuildContext context) {
+    switch (this) {
+      case AnimeStatus.releasing:
+        return ATLocalizations.of(context).animeReleasing;
+      case AnimeStatus.finished:
+        return ATLocalizations.of(context).animeFinished;
+      case AnimeStatus.notYetReleased:
+        return ATLocalizations.of(context).animeNotYetReleased;
+    }
+  }
+}
+
 extension CharacterRoleEx on CharacterRole {
   String getCharacterRoleString(BuildContext context) {
     switch (this) {
@@ -64,6 +77,10 @@ extension DetailAnimeModelEx on DetailAnimeModel {
 
     if (source != null) {
       itemList.add(source!.getAnimeSourceString(context));
+    }
+
+    if (status != null) {
+      itemList.add(status!.getAnimeStatusString(context));
     }
 
     return itemList.join(' · ');

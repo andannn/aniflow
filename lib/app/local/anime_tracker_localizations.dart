@@ -62,6 +62,12 @@ abstract class ATLocalizations {
 
   String get episodes;
 
+  String get animeReleasing;
+
+  String get animeFinished;
+
+  String get animeNotYetReleased;
+
   static ATLocalizations of([BuildContext? context]) {
     return Localizations.of<ATLocalizations>(
         context ?? globalContext!, ATLocalizations)!;
@@ -158,6 +164,15 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get episodes => 'episodes';
+
+  @override
+  String get animeFinished => 'Finished';
+
+  @override
+  String get animeNotYetReleased => 'Coming soon..';
+
+  @override
+  String get animeReleasing => 'Releasing';
 }
 
 class JaAnimeTrackerLocalizations extends ATLocalizations {
@@ -250,6 +265,15 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get episodes => '話';
+
+  @override
+  String get animeFinished => '放送終了';
+
+  @override
+  String get animeNotYetReleased => 'まもなく公開!';
+
+  @override
+  String get animeReleasing => '放送中';
 }
 
 class CNAnimeTrackerLocalizations extends ATLocalizations {
@@ -342,4 +366,13 @@ class CNAnimeTrackerLocalizations extends ATLocalizations {
 
   @override
   String get episodes => '集';
+
+  @override
+  String get animeFinished => '已完结';
+
+  @override
+  String get animeNotYetReleased => '将要上映';
+
+  @override
+  String get animeReleasing => '放送中';
 }
