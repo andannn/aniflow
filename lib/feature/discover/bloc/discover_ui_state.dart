@@ -15,6 +15,8 @@ class DiscoverUiState with _$DiscoverUiState {
     PagingState<List<ShortAnimeModel>> nextSeasonAnimePagingState,
     @Default(PageLoading(data: [], page: 1))
     PagingState<List<ShortAnimeModel>> trendingAnimePagingState,
+    @Default(PageLoading(data: [], page: 1))
+    PagingState<List<ShortAnimeModel>> movieAnimePagingState,
     UserData? userData,
   }) = _DiscoverUiState;
 }
