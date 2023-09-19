@@ -1,10 +1,8 @@
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/designsystem/icons/icons.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:anime_tracker/core/designsystem/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
-import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
-import 'package:anime_tracker/core/designsystem/widget/image_load_initial_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TrailerPreview extends StatelessWidget {
@@ -29,11 +27,8 @@ class TrailerPreview extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              CachedNetworkImage(
+              AFNetworkImage(
                 imageUrl: model.thumbnail ?? '',
-                fit: BoxFit.cover,
-                placeholder: buildImageInitialWidget,
-                errorWidget: buildErrorWidget,
               ),
               Center(
                 child: SvgPicture.asset(ATIcons.icYoutube),

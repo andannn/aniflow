@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
+
+import 'package:anime_tracker/core/designsystem/widget/af_network_image.dart';
 
 Widget buildAvatarIcon(BuildContext context, String avatarUrl) {
   return Container(
@@ -10,9 +10,8 @@ Widget buildAvatarIcon(BuildContext context, String avatarUrl) {
       shape: BoxShape.circle,
     ),
     clipBehavior: Clip.hardEdge,
-    child: CachedNetworkImage(
+    child: AFNetworkImage(
       imageUrl: avatarUrl,
-      errorWidget: buildErrorWidget,
     ),
   );
 }

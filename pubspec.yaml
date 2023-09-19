@@ -59,6 +59,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   flutter_svg: ^2.0.7
   flutter_native_splash: ^2.3.2
+  extended_image: ^8.0.2
 
 dev_dependencies:
   flutter_test:
