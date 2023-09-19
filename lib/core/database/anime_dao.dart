@@ -67,6 +67,7 @@ mixin AnimeCategoryCrossRefColumns {
 mixin CharacterColumns {
   static const String id = 'character_id';
   static const String voiceActorId = 'character_voice_actor_id';
+  static const String role = 'character_role';
   static const String image = 'character_image';
   static const String nameEnglish = 'character_name_english';
   static const String nameNative = 'character_name_native';

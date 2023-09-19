@@ -38,6 +38,19 @@ extension AnimeSeasonEx on AnimeSeason {
   }
 }
 
+extension CharacterRoleEx on CharacterRole {
+  String getCharacterRoleString(BuildContext context) {
+    switch (this) {
+      case CharacterRole.main:
+        return ATLocalizations.of(context).mainCharacter;
+      case CharacterRole.supporting:
+        return ATLocalizations.of(context).supportingCharacter;
+      case CharacterRole.background:
+        return ATLocalizations.of(context).backgroundCharacter;
+    }
+  }
+}
+
 extension DetailAnimeModelEx on DetailAnimeModel {
   String getAnimeInfoString(BuildContext context) {
     if (seasonYear == null || season == null || episodes == null) {
