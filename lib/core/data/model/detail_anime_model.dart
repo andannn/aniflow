@@ -32,6 +32,8 @@ class DetailAnimeModel with _$DetailAnimeModel {
     int? popularRank,
     @Default([]) List<String> genres,
     int? episodes,
+    int? timeUntilAiring,
+    int? nextAiringEpisode,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
   }) = _DetailAnimeModel;
 
@@ -56,6 +58,8 @@ class DetailAnimeModel with _$DetailAnimeModel {
       episodes: model.episodes,
       ratedRank: model.ratedRanking,
       popularRank: model.popularRanking,
+      nextAiringEpisode: model.nextAiringEpisode,
+      timeUntilAiring: model.timeUntilAiring,
       genres: model.genres != null
           ? (jsonDecode(model.genres!) as List<dynamic>?)
                   ?.map((e) => e)
@@ -63,11 +67,13 @@ class DetailAnimeModel with _$DetailAnimeModel {
                   .toList() ??
               const []
           : const [],
-      trailerModel: TrailerModel(
-        id: model.trailerId,
-        site: model.trailerSite,
-        thumbnail: model.trailerThumbnail,
-      ),
+      trailerModel: model.trailerId != null
+          ? TrailerModel(
+              id: model.trailerId,
+              site: model.trailerSite,
+              thumbnail: model.trailerThumbnail,
+            )
+          : null,
     );
   }
 

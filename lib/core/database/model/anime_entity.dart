@@ -44,6 +44,8 @@ class AnimeEntity with _$AnimeEntity {
     @JsonKey(name: AnimeTableColumns.trailerThumbnail) String? trailerThumbnail,
     @JsonKey(name: AnimeTableColumns.popularRanking) int? popularRanking,
     @JsonKey(name: AnimeTableColumns.ratedRanking) int? ratedRanking,
+    @JsonKey(name: AnimeTableColumns.timeUntilAiring) int? timeUntilAiring,
+    @JsonKey(name: AnimeTableColumns.nextAiringEpisode) int? nextAiringEpisode,
   }) = _AnimeEntity;
 
   factory AnimeEntity.fromJson(Map<String, dynamic> json) =>
@@ -80,6 +82,8 @@ class AnimeEntity with _$AnimeEntity {
         season: model.season,
         seasonYear: model.seasonYear,
         status: model.status,
+        timeUntilAiring: model.nextAiringEpisode?.airingAt,
+        nextAiringEpisode: model.nextAiringEpisode?.episode,
         genres: jsonEncode(model.genres),
         popularRanking: model.rankings
             .firstWhere(

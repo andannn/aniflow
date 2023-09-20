@@ -38,6 +38,7 @@ query (\$id: Int) {
     isFavourite
     nextAiringEpisode {
       id
+      airingAt
       episode
       timeUntilAiring
     }

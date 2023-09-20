@@ -1,5 +1,6 @@
 import 'package:anime_tracker/core/data/model/anime_source.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/network/model/airing_schedule.dart';
 import 'package:anime_tracker/core/network/model/anime_rank.dart';
 import 'package:anime_tracker/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -30,6 +31,7 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @JsonKey(name: 'favourites') int? favourites,
     @Default([]) @JsonKey(name: 'genres') List genres,
     @JsonKey(name: 'trailer') TrailerDto? trailer,
+    @JsonKey(name: 'nextAiringEpisode') AiringSchedule? nextAiringEpisode,
     @Default([]) @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
     @JsonKey(name: 'characters') CharacterConnection? characters,
   }) = _DetailAnimeDto;
