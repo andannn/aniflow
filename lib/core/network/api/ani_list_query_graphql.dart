@@ -35,6 +35,7 @@ query (\$page: Int, \$perPage: Int${hasSeasonYear ? ', \$seasonYear: Int' : ''}$
       status
       season
       coverImage {
+        extraLarge
         large
         medium
         color
