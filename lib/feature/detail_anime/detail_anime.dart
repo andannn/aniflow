@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
@@ -260,33 +262,20 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const SizedBox(height: 8),
                 SizedBox(
                   height: 400,
-                  child: CustomScrollView(
-                    scrollDirection: Axis.horizontal,
-                    slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        sliver: SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            (
-                              context,
-                              index,
-                            ) =>
-                                _buildCharacterAndVoiceActorItem(
-                              context,
-                              models[index],
-                            ),
-                            childCount: models.length,
-                          ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisExtent: 400,
-                            mainAxisSpacing: 12,
-                            crossAxisSpacing: 12,
-                            crossAxisCount: 3,
+                  child: PageView.builder(
+                    itemCount: (models.length / 3).ceil(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: _createCharacterAndVoiceActorPage(
+                          context,
+                          models.sublist(
+                            index * 3,
+                            min(index * 3 + 3, models.length),
                           ),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ],
@@ -295,18 +284,38 @@ class _DetailAnimePageContent extends StatelessWidget {
     );
   }
 
+  List<Widget> _createCharacterAndVoiceActorPage(
+      BuildContext context, List<CharacterAndVoiceActorModel> models) {
+    final widgets = <Widget>[];
+    widgets.addAll(
+      models.map((model) => _buildCharacterAndVoiceActorItem(context, model)),
+    );
+
+    /// when column count is less than 3, add empty SizeBox to take the space.
+    while (widgets.length < 3) {
+      widgets.add(const Expanded(flex: 1, child: SizedBox()));
+    }
+    return widgets;
+  }
+
   Widget _buildCharacterAndVoiceActorItem(
       BuildContext context, CharacterAndVoiceActorModel model) {
-    return CharacterAndVoiceActor(
-      model: model,
-      textStyle: Theme.of(context).textTheme.bodyMedium,
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: CharacterAndVoiceActor(
+          model: model,
+          textStyle: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
     );
   }
 
   Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child:Card(
+      child: Card(
         elevation: 0,
         clipBehavior: Clip.hardEdge,
         child: AFNetworkImage(
