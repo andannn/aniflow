@@ -82,7 +82,7 @@ class AnimeEntity with _$AnimeEntity {
         season: model.season,
         seasonYear: model.seasonYear,
         status: model.status,
-        timeUntilAiring: model.nextAiringEpisode?.airingAt,
+        timeUntilAiring: model.nextAiringEpisode?.timeUntilAiring,
         nextAiringEpisode: model.nextAiringEpisode?.episode,
         genres: jsonEncode(model.genres),
         popularRanking: model.rankings
