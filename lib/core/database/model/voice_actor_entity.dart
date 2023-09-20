@@ -27,7 +27,7 @@ class VoiceActorEntity with _$VoiceActorEntity {
 
     return VoiceActorEntity(
       id: e.voiceActors[0].id.toString(),
-      image: e.voiceActors[0].image['medium'],
+      image: e.voiceActors[0].image['large'],
       nameNative: e.voiceActors[0].name['native'],
       nameEnglish: e.voiceActors[0].name['full']!,
     );

@@ -38,27 +38,43 @@ class _AFNetworkImageState extends State<AFNetworkImage>
 
   @override
   Widget build(BuildContext context) {
-    return ExtendedImage.network(
-      widget.imageUrl,
-      width: widget.width,
-      height: widget.height,
-      fit: BoxFit.cover,
-      clearMemoryCacheWhenDispose: true,
-      loadStateChanged: (ExtendedImageState state) {
-        switch (state.extendedImageLoadState) {
-          case LoadState.loading:
-            _controller.reset();
-            return buildImageInitialWidget(context);
-          case LoadState.completed:
-            _controller.forward();
-            return FadeTransition(
-              opacity: _controller,
-              child: state.completedWidget,
-            );
-          case LoadState.failed:
-            _controller.reset();
-            return buildErrorWidget(context);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        int? cacheWidthInPixel;
+        int? cacheHeightInPixel;
+        final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+        if (constraints.hasBoundedWidth) {
+          cacheWidthInPixel = (constraints.maxWidth * devicePixelRatio).toInt();
         }
+        if (constraints.hasBoundedHeight) {
+          cacheHeightInPixel =
+              (constraints.maxHeight * devicePixelRatio).toInt();
+        }
+        return ExtendedImage.network(
+          widget.imageUrl,
+          width: widget.width,
+          height: widget.height,
+          cacheWidth: cacheWidthInPixel,
+          cacheHeight: cacheHeightInPixel,
+          fit: BoxFit.cover,
+          clearMemoryCacheWhenDispose: true,
+          loadStateChanged: (ExtendedImageState state) {
+            switch (state.extendedImageLoadState) {
+              case LoadState.loading:
+                _controller.reset();
+                return buildImageInitialWidget(context);
+              case LoadState.completed:
+                _controller.forward();
+                return FadeTransition(
+                  opacity: _controller,
+                  child: state.completedWidget,
+                );
+              case LoadState.failed:
+                _controller.reset();
+                return buildErrorWidget(context);
+            }
+          },
+        );
       },
     );
   }

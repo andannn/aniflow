@@ -34,7 +34,7 @@ class CharacterEntity with _$CharacterEntity {
       id: e.characterEdge!.id.toString(),
       voiceActorId: voiceActor?.id.toString(),
       role: e.role,
-      image: e.characterEdge!.image['medium'],
+      image: e.characterEdge!.image['large'],
       nameNative: e.characterEdge!.name['native'],
       nameEnglish: e.characterEdge!.name['full'],
     );

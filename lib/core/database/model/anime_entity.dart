@@ -67,7 +67,7 @@ class AnimeEntity with _$AnimeEntity {
         englishTitle: model.title?.english ?? '',
         romajiTitle: model.title?.romaji ?? '',
         nativeTitle: model.title?.native ?? '',
-        coverImage: model.coverImage['large'] ?? '',
+        coverImage: model.coverImage['extraLarge'] ?? '',
         coverImageColor: model.coverImage['color'] ?? '',
         description: model.description,
         source: model.source,

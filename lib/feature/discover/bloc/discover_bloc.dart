@@ -97,6 +97,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _createLoadAnimePageTask(AnimeCategory.currentSeason),
       _createLoadAnimePageTask(AnimeCategory.nextSeason),
       _createLoadAnimePageTask(AnimeCategory.trending),
+      _createLoadAnimePageTask(AnimeCategory.movie),
     ]);
 
     if (lastSyncTime == null) {
