@@ -1,3 +1,4 @@
+import 'package:anime_tracker/core/designsystem/widget/comming_soon.dart';
 import 'package:flutter/material.dart';
 import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
 
@@ -41,6 +42,6 @@ class _AnimeTrackPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const ComingSoonPage();
   }
 }

@@ -1,8 +1,11 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/feature/anime_list/anime_list.dart';
+import 'package:anime_tracker/feature/anime_search/anime_search.dart';
+import 'package:anime_tracker/feature/anime_track/anime_track.dart';
 import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';
 import 'package:anime_tracker/feature/discover/discover.dart';
+import 'package:anime_tracker/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 sealed class AnimeTrackerRoutePath {}
@@ -66,6 +69,12 @@ extension AnimeTrackerRoutePathEx on AnimeTrackerRoutePath {
           key: ValueKey('DetailAnimeRoute_$animeId'),
           animeId: animeId,
         );
+      case TrackRoutePath(topLevel: final _):
+        return const AnimeTrackPage(key: ValueKey('AnimeTrackPage'));
+      case SearchRoutePath(topLevel: final _):
+        return const AnimeSearchPage(key: ValueKey('AnimeSearchPage'));
+      case ProfileRoutePath(topLevel: final _):
+        return const ProfilePage(key: ValueKey('ProfilePage'));
       default:
         return const MaterialPage(child: SizedBox());
     }
