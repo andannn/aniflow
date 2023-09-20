@@ -14,10 +14,12 @@ import 'package:anime_tracker/core/designsystem/widget/vertical_animated_scale_s
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 import 'package:anime_tracker/feature/detail_anime/util/detail_anime_info_util.dart';
+import 'package:anime_tracker/util/time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailAnimePage extends Page {
@@ -236,7 +238,6 @@ class _DetailAnimePageContent extends StatelessWidget {
                     ATLocalizations.of(context).animeDescription,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 8),
                   Html(data: description),
                 ],
               ),
@@ -358,12 +359,42 @@ class _DetailAnimePageContent extends StatelessWidget {
       child: infoString.isNotEmpty
           ? Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                model.getAnimeInfoString(context),
-                style: Theme.of(context).textTheme.titleMedium,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.getAnimeInfoString(context),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  _buildAiringInfo(context, model)
+                ],
               ),
             )
           : const SizedBox(),
+    );
+  }
+
+  Widget _buildAiringInfo(BuildContext context, DetailAnimeModel model) {
+    final nextAiringEpisode = model.nextAiringEpisode;
+    final timeUntilAiring = model.timeUntilAiring;
+    if (nextAiringEpisode == null || timeUntilAiring == null) {
+      return const SizedBox();
+    }
+    final airingTimeString = TimeUtil.getFormattedDuration(
+        TimeUtil.durationFromSeconds(timeUntilAiring));
+    if (airingTimeString == null) {
+      return const SizedBox();
+    }
+    const stringRes = 'Next airing schedule is EP.%s in %s';
+    return VerticalScaleSwitcher(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          sprintf(stringRes, [nextAiringEpisode, airingTimeString]),
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
     );
   }
 }
