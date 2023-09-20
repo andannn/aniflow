@@ -34,6 +34,6 @@ jobs:
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          artifacts: "build/app/outputs/apk/release/*"
+          files: "build/app/outputs/apk/release/*"
           repo_token: "${{ secrets.TOKEN }}"
           prerelease: true
