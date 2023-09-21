@@ -1,16 +1,18 @@
-# anime_tracker
+# AniFlow
 
-A simple app to track new anime release in current season.
+A simple app to track new released anime.
 
-## Getting Started
+## Installation
 
-This project is a starting point for a Flutter application.
+1. [Install Flutter environment](https://docs.flutter.dev/get-started/install)
+2. Run app with command:
+```
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Stack
+ - Network: [Dio](https://pub.dev/packages/dio)
+ - Database: [Sqflite](https://pub.dev/packages/sqflite)
+ - State Managment: [Bloc](https://pub.dev/packages/bloc)
+ - Dynamic theme: [dynamic_color](https://pub.dev/packages/dynamic_color)
+ - Architecter: MVVM
