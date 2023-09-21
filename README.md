@@ -15,4 +15,4 @@ flutter run
  - Database: [Sqflite](https://pub.dev/packages/sqflite)
  - State Managment: [Bloc](https://pub.dev/packages/bloc)
  - Dynamic theme: [dynamic_color](https://pub.dev/packages/dynamic_color)
- - Architecter: MVVM
+ - Architecture: MVVM
