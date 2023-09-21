@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
-import 'package:anime_tracker/app/local/anime_tracker_localizations_delegate.dart';
-import 'package:anime_tracker/app/navigation/nia_router.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations_delegate.dart';
+import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 
 /// context of app root.

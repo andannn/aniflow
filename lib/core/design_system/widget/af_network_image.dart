@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/designsystem/widget/image_load_error_widget.dart';
-import 'package:anime_tracker/core/designsystem/widget/image_load_initial_widget.dart';
+import 'package:anime_tracker/core/design_system/widget/image_load_error_widget.dart';
+import 'package:anime_tracker/core/design_system/widget/image_load_initial_widget.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 

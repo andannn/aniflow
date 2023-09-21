@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/designsystem/widget/comming_soon.dart';
+import 'package:anime_tracker/core/design_system/widget/comming_soon.dart';
 import 'package:flutter/material.dart';
-import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 
 class ProfilePage extends Page {
   const ProfilePage({super.key});

@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="anime_tracker"
+        android:label="AniFlow"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

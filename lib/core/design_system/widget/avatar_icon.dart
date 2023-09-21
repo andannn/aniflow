@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'package:anime_tracker/core/designsystem/widget/af_network_image.dart';
+import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 
 Widget buildAvatarIcon(BuildContext context, String avatarUrl) {
   return Container(
