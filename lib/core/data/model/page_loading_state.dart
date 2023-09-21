@@ -10,6 +10,11 @@ sealed class PagingState<T> extends Equatable {
   List<Object?> get props => [data, page];
 
   PageLoading<T> toLoading() => PageLoading(data: data, page: page);
+
+  PageLoadReachEnd<T> toReachEnd() => PageLoadReachEnd(data: data, page: page);
+
+  PageLoadingError<T> toError(Exception e) =>
+      PageLoadingError(e, data: data, page: page);
 }
 
 /// page is loading.
@@ -29,7 +34,8 @@ class PageLoadReachEnd<T> extends PagingState<T> {
 
 /// having error when load page.
 class PageLoadingError<T> extends PagingState<T> {
-  const PageLoadingError(this.exception, {required super.data, required super.page});
+  const PageLoadingError(this.exception,
+      {required super.data, required super.page});
 
   final Exception exception;
 

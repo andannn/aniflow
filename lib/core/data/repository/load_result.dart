@@ -11,8 +11,7 @@ class LoadError<T> extends LoadResult<T> {
 }
 
 class LoadSuccess<T> extends LoadResult<T> {
-  LoadSuccess({required this.data, required this.page});
+  LoadSuccess({required this.data});
 
   final List<T> data;
-  final int page;
 }

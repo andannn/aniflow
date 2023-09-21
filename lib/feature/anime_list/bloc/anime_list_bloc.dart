@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
+import 'package:anime_tracker/core/common/global_static_constants.dart';
 
 sealed class AnimeListEvent {}
 
@@ -64,15 +65,9 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     }
 
     final currentPage = pagingState.page;
-    final currentData = pagingState.data;
 
     /// change state to loading.
-    emit(
-      state.copyWith(
-        animePagingState: PageLoading(data: currentData, page: currentPage),
-      ),
-    );
-    logger.d('JQN request load anime data');
+    emit(state.copyWith(animePagingState: pagingState.toLoading()));
 
     /// load new page.
     _createLoadAnimePageTask(page: currentPage + 1);
@@ -80,10 +75,10 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
 
   Future<bool> _createLoadAnimePageTask({required int page}) async {
     final LoadResult result = await _aniListRepository.getAnimePageByCategory(
-        category: category, page: page, perPage: 9);
+        category: category, page: page, perPage: Config.defaultPerPageCount);
     switch (result) {
       case LoadSuccess<ShortAnimeModel>(data: final data):
-        add(_OnAnimePageLoadedEvent(data, result.page));
+        add(_OnAnimePageLoadedEvent(data, page));
         return true;
       case LoadError<ShortAnimeModel>(exception: final exception):
         add(_OnAnimePageErrorEvent(exception));
@@ -99,7 +94,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     final currentData = pagingState.data;
     final PagingState<List<ShortAnimeModel>> newPagingState;
     if (event.data.isEmpty) {
-      newPagingState = PageLoadReachEnd(data: currentData, page: event.page);
+      newPagingState = pagingState.toReachEnd();
     } else {
       newPagingState =
           PageReady(data: currentData + event.data, page: event.page);
@@ -110,11 +105,9 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   FutureOr<void> _onAnimePageErrorEvent(
       _OnAnimePageErrorEvent event, Emitter<AnimeListState> emit) {
     final pagingState = state.animePagingState;
-    final page = pagingState.page;
-    final currentData = pagingState.data;
-    final PagingState<List<ShortAnimeModel>> newPagingState =
-        PageLoadingError(event.exception, data: currentData, page: page);
-    emit(state.copyWith(animePagingState: newPagingState));
+    emit(
+      state.copyWith(animePagingState: pagingState.toError(event.exception)),
+    );
   }
 
   FutureOr<void> _onRetryLoadPageEvent(
