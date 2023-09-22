@@ -18,7 +18,7 @@ part '../model/anime_list_status.dart';
 abstract class UserAnimeListRepository {
   Future<List<AnimeListItemModel>> getUserAnimeList(
       {required List<AnimeListStatus> status,
-      required int page,
+      int page = 1,
       int? userId,
       int perPage = Config.defaultPerPageCount});
 
@@ -36,7 +36,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   @override
   Future<List<AnimeListItemModel>> getUserAnimeList(
       {required List<AnimeListStatus> status,
-      required int page,
+      int page = 1,
       int? userId,
       int perPage = Config.defaultPerPageCount}) async {
     final targetUserId = userId ?? (await userDataDao.getUserData())?.id;

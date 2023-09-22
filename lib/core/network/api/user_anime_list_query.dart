@@ -26,6 +26,7 @@ query(\$page: Int${hasPerPage ? ', \$perPage: Int' : ''}, \$userId: Int${hasAnim
       progress
       priority
       notes
+      userId
       updatedAt
       media {
         id

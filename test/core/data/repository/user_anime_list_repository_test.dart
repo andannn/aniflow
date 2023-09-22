@@ -1,8 +1,6 @@
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,9 +31,19 @@ void main() {
       await animeDatabase.animeDB.delete(Tables.userAnimeListTable);
     });
 
-    test('ani_list_get_current_season_anime', () async {
+    test('get_user_anime_list_from_data_source', () async {
       final res = await repository.syncUserAnimeList(1);
       expect(res.runtimeType, equals(LoadSuccess<void>));
+    });
+
+    test('ani_list_get_from_database', () async {
+      final res = await repository.syncUserAnimeList(1);
+      expect(res.runtimeType, equals(LoadSuccess<void>));
+
+      final res2 = await repository.getUserAnimeList(
+          userId: 1,
+          status: [AnimeListStatus.current, AnimeListStatus.planning]);
+      expect(res2.isNotEmpty, equals(true));
     });
   });
 }
