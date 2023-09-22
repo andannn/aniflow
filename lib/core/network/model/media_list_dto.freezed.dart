@@ -22,6 +22,10 @@ MediaListDto _$MediaListDtoFromJson(Map<String, dynamic> json) {
 mixin _$MediaListDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'userId')
+  int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'score')
+  int? get score => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
   AnimeListStatus? get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'progress')
@@ -45,6 +49,8 @@ abstract class $MediaListDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'userId') int userId,
+      @JsonKey(name: 'score') int? score,
       @JsonKey(name: 'status') AnimeListStatus? status,
       @JsonKey(name: 'progress') int progress,
       @JsonKey(name: 'updatedAt') int updatedAt,
@@ -67,6 +73,8 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
+    Object? score = freezed,
     Object? status = freezed,
     Object? progress = null,
     Object? updatedAt = null,
@@ -77,6 +85,14 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      score: freezed == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as int?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -119,6 +135,8 @@ abstract class _$$_MediaListDtoCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'userId') int userId,
+      @JsonKey(name: 'score') int? score,
       @JsonKey(name: 'status') AnimeListStatus? status,
       @JsonKey(name: 'progress') int progress,
       @JsonKey(name: 'updatedAt') int updatedAt,
@@ -140,6 +158,8 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
+    Object? score = freezed,
     Object? status = freezed,
     Object? progress = null,
     Object? updatedAt = null,
@@ -150,6 +170,14 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      score: freezed == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as int?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -175,6 +203,8 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
 class _$_MediaListDto implements _MediaListDto {
   _$_MediaListDto(
       {@JsonKey(name: 'id') this.id = -1,
+      @JsonKey(name: 'userId') this.userId = -1,
+      @JsonKey(name: 'score') this.score,
       @JsonKey(name: 'status') this.status,
       @JsonKey(name: 'progress') this.progress = -1,
       @JsonKey(name: 'updatedAt') this.updatedAt = -1,
@@ -186,6 +216,12 @@ class _$_MediaListDto implements _MediaListDto {
   @override
   @JsonKey(name: 'id')
   final int id;
+  @override
+  @JsonKey(name: 'userId')
+  final int userId;
+  @override
+  @JsonKey(name: 'score')
+  final int? score;
   @override
   @JsonKey(name: 'status')
   final AnimeListStatus? status;
@@ -201,7 +237,7 @@ class _$_MediaListDto implements _MediaListDto {
 
   @override
   String toString() {
-    return 'MediaListDto(id: $id, status: $status, progress: $progress, updatedAt: $updatedAt, media: $media)';
+    return 'MediaListDto(id: $id, userId: $userId, score: $score, status: $status, progress: $progress, updatedAt: $updatedAt, media: $media)';
   }
 
   @override
@@ -210,6 +246,8 @@ class _$_MediaListDto implements _MediaListDto {
         (other.runtimeType == runtimeType &&
             other is _$_MediaListDto &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.score, score) || other.score == score) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
@@ -220,8 +258,8 @@ class _$_MediaListDto implements _MediaListDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, status, progress, updatedAt, media);
+  int get hashCode => Object.hash(
+      runtimeType, id, userId, score, status, progress, updatedAt, media);
 
   @JsonKey(ignore: true)
   @override
@@ -240,6 +278,8 @@ class _$_MediaListDto implements _MediaListDto {
 abstract class _MediaListDto implements MediaListDto {
   factory _MediaListDto(
       {@JsonKey(name: 'id') final int id,
+      @JsonKey(name: 'userId') final int userId,
+      @JsonKey(name: 'score') final int? score,
       @JsonKey(name: 'status') final AnimeListStatus? status,
       @JsonKey(name: 'progress') final int progress,
       @JsonKey(name: 'updatedAt') final int updatedAt,
@@ -251,6 +291,12 @@ abstract class _MediaListDto implements MediaListDto {
   @override
   @JsonKey(name: 'id')
   int get id;
+  @override
+  @JsonKey(name: 'userId')
+  int get userId;
+  @override
+  @JsonKey(name: 'score')
+  int? get score;
   @override
   @JsonKey(name: 'status')
   AnimeListStatus? get status;

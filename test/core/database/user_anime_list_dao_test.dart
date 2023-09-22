@@ -53,7 +53,7 @@ void main() {
       await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
 
       final res = await dao
-          .getUserAnimeListByPage('22', AnimeListStatus.current, page: 1);
+          .getUserAnimeListByPage('22', [AnimeListStatus.current], page: 1);
       expect(res[0].userAnimeListEntity, equals(dummyUserAnimeListEntity[0]));
     });
 
@@ -66,8 +66,27 @@ void main() {
           animeList: dummyAnimeData);
 
       final res = await dao
-          .getUserAnimeListByPage('22', AnimeListStatus.current, page: 1);
+          .getUserAnimeListByPage('22', [AnimeListStatus.current], page: 1);
       expect(res[0].animeEntity, equals(dummyAnimeData[0]));
+    });
+
+
+    test('get_list_by_multi_status', () async {
+      final dao = animeDatabase.getUserAnimeListDao();
+      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+
+      final res = await dao
+          .getUserAnimeListByPage('22', [AnimeListStatus.current, AnimeListStatus.dropped], page: 1);
+      expect(res.length, equals(2));
+    });
+
+    test('get_list_no_limit', () async {
+      final dao = animeDatabase.getUserAnimeListDao();
+      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+
+      final res = await dao
+          .getUserAnimeListByPage('22', [AnimeListStatus.current, AnimeListStatus.dropped], page: 1, perPage: null);
+      expect(res.length, equals(2));
     });
   });
 }

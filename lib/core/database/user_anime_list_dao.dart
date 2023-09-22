@@ -14,6 +14,7 @@ mixin UserAnimeListTableColumns {
   static const String userId = 'user_id';
   static const String animeId = 'anime_id';
   static const String status = 'anime_list_status';
+  static const String progress = 'anime_list_progress';
   static const String score = 'score';
   static const String updatedAt = 'updatedAt';
 }
@@ -22,10 +23,8 @@ abstract class UserAnimeListDao {
   Future removeUserAnimeListByUserId(int userId);
 
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
-      String userId,
-      AnimeListStatus status,
-      {required int page,
-      int perPage = Config.defaultPerPageCount});
+      String userId, List<AnimeListStatus> status,
+      {required int page, int? perPage = Config.defaultPerPageCount});
 
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
 }
@@ -45,21 +44,31 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
 
   @override
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
-      String userId,
-      AnimeListStatus status,
-      {required int page,
-      int perPage = Config.defaultPerPageCount}) async {
-    final int limit = perPage;
-    final int offset = (page - 1) * perPage;
+      String userId, List<AnimeListStatus> status,
+      {required int page, int? perPage}) async {
+    final int? limit = perPage;
+    final int offset = (page - 1) * (perPage ?? 0);
+    String statusParam = '';
+    for (var e in status) {
+      statusParam += '\'${e.sqlTypeString}\'';
+      if (status.last != e) {
+        statusParam += ',';
+      }
+    }
 
     String sql = '''
       select * from ${Tables.userAnimeListTable} as ua
       left join ${Tables.animeTable} as a
       on ua.${UserAnimeListTableColumns.animeId}=a.${AnimeTableColumns.id}
-      where ${UserAnimeListTableColumns.status} = '${status.sqlTypeString}' and ${UserAnimeListTableColumns.userId}='$userId'
+      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId' 
+      ''';
+    if (limit != null) {
+      sql += '''
       limit $limit
       offset $offset
-    ''';
+      ''';
+    }
+
     final List<Map<String, dynamic>> result =
         await database.animeDB.rawQuery(sql);
     return result

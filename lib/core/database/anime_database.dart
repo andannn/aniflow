@@ -136,6 +136,7 @@ class AnimeDatabase {
             '${UserAnimeListTableColumns.userId} text,'
             '${UserAnimeListTableColumns.animeId} text,'
             '${UserAnimeListTableColumns.status} text,'
+            '${UserAnimeListTableColumns.progress} integer,'
             '${UserAnimeListTableColumns.score} integer,'
             '${UserAnimeListTableColumns.updatedAt} integer)');
   }
