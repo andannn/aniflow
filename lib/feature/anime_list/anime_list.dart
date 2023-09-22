@@ -74,6 +74,7 @@ class _AnimeListPageContent extends StatelessWidget {
         cacheExtent: Config.defaultCatchExtend,
         slivers: [
           SliverAppBar(
+            pinned: true,
             title: Text(
               _getAppBarTitle(context, context.read<AnimeListBloc>().category),
             ),

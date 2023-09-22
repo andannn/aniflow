@@ -7,6 +7,7 @@ import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
@@ -66,6 +67,7 @@ class DiscoverScreen extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 title: Text(AFLocalizations.of(context).discover),
+                pinned: true,
                 actions: [
                   Padding(
                     padding: const EdgeInsets.only(right: 12.0),

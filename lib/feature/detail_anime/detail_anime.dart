@@ -89,6 +89,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           cacheExtent: Config.defaultCatchExtend,
           slivers: [
             SliverAppBar(
+              pinned: true,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
