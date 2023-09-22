@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/designsystem/animetion/scale_transaction_animetion.dart';
+import 'package:anime_tracker/core/design_system/animetion/scale_transaction_animetion.dart';
 import 'package:flutter/material.dart';
 
 class VerticalScaleSwitcher extends StatelessWidget {

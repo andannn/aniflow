@@ -1,16 +1,16 @@
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
-import 'package:anime_tracker/core/designsystem/widget/anime_preview_item.dart';
-import 'package:anime_tracker/core/designsystem/widget/avatar_icon.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
+import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
-import 'package:anime_tracker/app/navigation/nia_router.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/feature/auth/auth_dialog.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 
@@ -65,7 +65,7 @@ class DiscoverScreen extends StatelessWidget {
             cacheExtent: Config.defaultCatchExtend,
             slivers: [
               SliverAppBar(
-                title: Text(ATLocalizations.of(context).discover),
+                title: Text(AFLocalizations.of(context).discover),
                 actions: [
                   Padding(
                     padding: const EdgeInsets.only(right: 12.0),
@@ -185,13 +185,13 @@ class _AnimeCategoryPreview extends StatelessWidget {
     String title;
     switch (category) {
       case AnimeCategory.currentSeason:
-        title = ATLocalizations.of(context).popularThisSeasonLabel;
+        title = AFLocalizations.of(context).popularThisSeasonLabel;
       case AnimeCategory.nextSeason:
-        title = ATLocalizations.of(context).upComingNextSeasonLabel;
+        title = AFLocalizations.of(context).upComingNextSeasonLabel;
       case AnimeCategory.trending:
-        title = ATLocalizations.of(context).trendingNowLabel;
+        title = AFLocalizations.of(context).trendingNowLabel;
       case AnimeCategory.movie:
-        title = ATLocalizations.of(context).movieLabel;
+        title = AFLocalizations.of(context).movieLabel;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),

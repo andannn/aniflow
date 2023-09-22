@@ -1,4 +1,4 @@
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/model/anime_source.dart';
 import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
@@ -8,17 +8,17 @@ extension AnimeSourceEx on AnimeSource {
   String getAnimeSourceString(BuildContext context) {
     switch (this) {
       case AnimeSource.original:
-        return ATLocalizations.of(context).originalAnimation;
+        return AFLocalizations.of(context).originalAnimation;
       case AnimeSource.manga:
-        return ATLocalizations.of(context).mangaAnimation;
+        return AFLocalizations.of(context).mangaAnimation;
       case AnimeSource.lightNovel:
-        return ATLocalizations.of(context).lightNovelAnimation;
+        return AFLocalizations.of(context).lightNovelAnimation;
       case AnimeSource.visualNovel:
-        return ATLocalizations.of(context).visualNovelAnimation;
+        return AFLocalizations.of(context).visualNovelAnimation;
       case AnimeSource.videoGame:
-        return ATLocalizations.of(context).videoGameAnimation;
+        return AFLocalizations.of(context).videoGameAnimation;
       case AnimeSource.other:
-        return ATLocalizations.of(context).otherAnimation;
+        return AFLocalizations.of(context).otherAnimation;
     }
   }
 }
@@ -27,13 +27,13 @@ extension AnimeSeasonEx on AnimeSeason {
   String getAnimeSeasonString(BuildContext context) {
     switch (this) {
       case AnimeSeason.winter:
-        return ATLocalizations.of(context).winter;
+        return AFLocalizations.of(context).winter;
       case AnimeSeason.spring:
-        return ATLocalizations.of(context).spring;
+        return AFLocalizations.of(context).spring;
       case AnimeSeason.summer:
-        return ATLocalizations.of(context).summer;
+        return AFLocalizations.of(context).summer;
       case AnimeSeason.fall:
-        return ATLocalizations.of(context).fail;
+        return AFLocalizations.of(context).fail;
     }
   }
 }
@@ -42,11 +42,11 @@ extension AnimeStatusEx on AnimeStatus {
   String getAnimeStatusString(BuildContext context) {
     switch (this) {
       case AnimeStatus.releasing:
-        return ATLocalizations.of(context).animeReleasing;
+        return AFLocalizations.of(context).animeReleasing;
       case AnimeStatus.finished:
-        return ATLocalizations.of(context).animeFinished;
+        return AFLocalizations.of(context).animeFinished;
       case AnimeStatus.notYetReleased:
-        return ATLocalizations.of(context).animeNotYetReleased;
+        return AFLocalizations.of(context).animeNotYetReleased;
     }
   }
 }
@@ -55,11 +55,11 @@ extension CharacterRoleEx on CharacterRole {
   String getCharacterRoleString(BuildContext context) {
     switch (this) {
       case CharacterRole.main:
-        return ATLocalizations.of(context).mainCharacter;
+        return AFLocalizations.of(context).mainCharacter;
       case CharacterRole.supporting:
-        return ATLocalizations.of(context).supportingCharacter;
+        return AFLocalizations.of(context).supportingCharacter;
       case CharacterRole.background:
-        return ATLocalizations.of(context).backgroundCharacter;
+        return AFLocalizations.of(context).backgroundCharacter;
     }
   }
 }
@@ -72,7 +72,7 @@ extension DetailAnimeModelEx on DetailAnimeModel {
     }
 
     if (episodes != null) {
-      itemList.add('$episodes${ATLocalizations.of(context).episodes}');
+      itemList.add('$episodes${AFLocalizations.of(context).episodes}');
     }
 
     if (source != null) {

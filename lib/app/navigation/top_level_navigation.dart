@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:anime_tracker/app/navigation/anime_tracker_route_path.dart';
+import 'package:anime_tracker/app/navigation/ani_flow_route_path.dart';
 
 enum TopLevelNavigation {
   discover(
@@ -44,7 +44,7 @@ extension TopLevelNavigationEx on TopLevelNavigation {
     );
   }
 
-  AnimeTrackerRoutePath toRoutePath() {
+  AniFlowRoutePath toRoutePath() {
     switch (this) {
       case TopLevelNavigation.discover:
         return DiscoverRoutePath();

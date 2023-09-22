@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:anime_tracker/app/app.dart';
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/designsystem/widget/anime_tracker_snackbar.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
@@ -56,9 +56,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final isSuccess = await _authRepository.awaitAuthLogin();
     if (isSuccess) {
       logger.d('login success');
-      showSnackBarMessage(label: ATLocalizations.of().loginSuccessMessage);
+      showSnackBarMessage(label: AFLocalizations.of().loginSuccessMessage);
     } else {
-      showSnackBarMessage(label: ATLocalizations.of().loginFailedMessage);
+      showSnackBarMessage(label: AFLocalizations.of().loginFailedMessage);
     }
   }
 
@@ -66,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       OnLogoutButtonTapped event, Emitter<AuthState> emit) async {
     await _authRepository.logout();
     Navigator.pop(globalContext!);
-    showSnackBarMessage(label: ATLocalizations.of().logoutSuccessMessage);
+    showSnackBarMessage(label: AFLocalizations.of().logoutSuccessMessage);
   }
 
   FutureOr<void> _onUserDataChanged(

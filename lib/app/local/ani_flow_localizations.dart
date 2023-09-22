@@ -1,7 +1,7 @@
 import 'package:anime_tracker/app/app.dart';
 import 'package:flutter/material.dart';
 
-abstract class ATLocalizations {
+abstract class AFLocalizations {
   String get trendingNowLabel;
 
   String get movieLabel;
@@ -70,13 +70,13 @@ abstract class ATLocalizations {
 
   String get animeNotYetReleased;
 
-  static ATLocalizations of([BuildContext? context]) {
-    return Localizations.of<ATLocalizations>(
-        context ?? globalContext!, ATLocalizations)!;
+  static AFLocalizations of([BuildContext? context]) {
+    return Localizations.of<AFLocalizations>(
+        context ?? globalContext!, AFLocalizations)!;
   }
 }
 
-class EnAnimeTrackerLocalizations extends ATLocalizations {
+class EnAniFlowLocalizations extends AFLocalizations {
   @override
   String get trendingNowLabel => 'Trending now';
 
@@ -180,7 +180,7 @@ class EnAnimeTrackerLocalizations extends ATLocalizations {
   String get movieLabel => 'Movie';
 }
 
-class JaAnimeTrackerLocalizations extends ATLocalizations {
+class JaAniFLowLocalizations extends AFLocalizations {
   @override
   String get trendingNowLabel => 'トレンド';
 
@@ -284,7 +284,7 @@ class JaAnimeTrackerLocalizations extends ATLocalizations {
   String get movieLabel => '映画';
 }
 
-class CNAnimeTrackerLocalizations extends ATLocalizations {
+class CNAniFlowLocalizations extends AFLocalizations {
   @override
   String get trendingNowLabel => '趋势';
 

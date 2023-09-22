@@ -28,7 +28,20 @@ query(\$page: Int, \$perPage: Int, \$userId: Int${hasAnimeSort ? ', \$status_in:
       notes
       updatedAt
       media {
+        id
+        type
+        format
+        status
+        season
+        coverImage {
+          extraLarge
+          large
+          medium
+          color
+        }
         title {
+          romaji
+          english
           native
         }
       }

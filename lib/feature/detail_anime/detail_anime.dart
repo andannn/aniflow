@@ -1,23 +1,23 @@
 import 'dart:math';
 
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/designsystem/widget/af_network_image.dart';
-import 'package:anime_tracker/core/designsystem/widget/anime_character_and_voice_actor.dart';
-import 'package:anime_tracker/core/designsystem/widget/trailer_preview.dart';
-import 'package:anime_tracker/core/designsystem/widget/vertical_animated_scale_switcher.dart';
+import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
+import 'package:anime_tracker/core/design_system/widget/trailer_preview.dart';
+import 'package:anime_tracker/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 import 'package:anime_tracker/feature/detail_anime/util/detail_anime_info_util.dart';
 import 'package:anime_tracker/util/time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:anime_tracker/core/designsystem/animetion/page_transaction_animetion.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -235,7 +235,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ATLocalizations.of(context).animeDescription,
+                    AFLocalizations.of(context).animeDescription,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Html(data: description),
@@ -256,7 +256,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    ATLocalizations.of(context).characters,
+                    AFLocalizations.of(context).characters,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -338,7 +338,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ATLocalizations.of(context).trailer,
+                    AFLocalizations.of(context).trailer,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
