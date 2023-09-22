@@ -13,8 +13,7 @@ mixin UserAnimeListTableColumns {
   static const String id = 'media_list_id';
   static const String userId = 'user_id';
   static const String animeId = 'anime_id';
-  static const String status = 'status';
-
+  static const String status = 'anime_list_status';
   static const String score = 'score';
   static const String updatedAt = 'updatedAt';
 }

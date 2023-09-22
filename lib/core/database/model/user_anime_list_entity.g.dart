@@ -12,7 +12,8 @@ _$_UserAnimeListEntity _$$_UserAnimeListEntityFromJson(
       id: json['media_list_id'] as String? ?? '',
       userId: json['user_id'] as String?,
       animeId: json['anime_id'] as String?,
-      status: $enumDecodeNullable(_$AnimeListStatusEnumMap, json['status']),
+      status: $enumDecodeNullable(
+          _$AnimeListStatusEnumMap, json['anime_list_status']),
       score: json['score'] as int?,
       updatedAt: json['updatedAt'] as int?,
     );
@@ -23,7 +24,7 @@ Map<String, dynamic> _$$_UserAnimeListEntityToJson(
       'media_list_id': instance.id,
       'user_id': instance.userId,
       'anime_id': instance.animeId,
-      'status': _$AnimeListStatusEnumMap[instance.status],
+      'anime_list_status': _$AnimeListStatusEnumMap[instance.status],
       'score': instance.score,
       'updatedAt': instance.updatedAt,
     };
