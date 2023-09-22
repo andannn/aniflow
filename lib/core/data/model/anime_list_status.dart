@@ -8,7 +8,11 @@ enum AnimeListStatus {
   @JsonValue('COMPLETED')
   completed('COMPLETED'),
   @JsonValue('DROPPED')
-  dropped('DROPPED');
+  dropped('DROPPED'),
+  @JsonValue('PAUSED')
+  paused('PAUSED'),
+  @JsonValue('PLANNING')
+  planning('PLANNING');
 
   final String sqlTypeString;
 

@@ -35,4 +35,6 @@ const _$AnimeListStatusEnumMap = {
   AnimeListStatus.current: 'CURRENT',
   AnimeListStatus.completed: 'COMPLETED',
   AnimeListStatus.dropped: 'DROPPED',
+  AnimeListStatus.paused: 'PAUSED',
+  AnimeListStatus.planning: 'PLANNING',
 };
