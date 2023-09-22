@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
+import 'package:anime_tracker/core/common/global_static_constants.dart';
+
 /// [Tables.animeTable]
 mixin AnimeTableColumns {
   static const String id = 'id';
@@ -104,7 +106,7 @@ abstract class AnimeListDao {
   Future clearAll();
 
   Future<List<AnimeEntity>> getAnimeByPage(AnimeCategory category,
-      {required int page, int perPage = defaultPerPageCount});
+      {required int page, int perPage = Config.defaultPerPageCount});
 
   Future<AnimeCharactersAndVoiceActors> getDetailAnimeInfo(String id);
 
@@ -166,7 +168,7 @@ class AnimeDaoImpl extends AnimeListDao {
 
   @override
   Future<List<AnimeEntity>> getAnimeByPage(AnimeCategory category,
-      {required int page, int perPage = defaultPerPageCount}) async {
+      {required int page, int perPage = Config.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 

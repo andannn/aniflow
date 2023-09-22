@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/database/user_anime_list_dao.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -15,6 +16,7 @@ mixin Tables {
   static const String animeCharacterCrossRefTable = 'anime_character_cross_ref_table';
   static const String voiceActorTable = 'voice_actor_table';
   static const String userDataTable = 'user_data_table';
+  static const String userAnimeListTable = 'usr_anime_list_table';
 }
 
 class AnimeDatabase {
@@ -91,26 +93,26 @@ class AnimeDatabase {
 
     await _animeDB!
         .execute('CREATE TABLE IF NOT EXISTS ${Tables.userDataTable} ('
-            '${UserDataTableColumns.id} TEXT PRIMARY KEY, '
-            '${UserDataTableColumns.name} TEXT, '
-            '${UserDataTableColumns.avatarImage} TEXT, '
-            '${UserDataTableColumns.bannerImage} TEXT)');
+            '${UserDataTableColumns.id} text primary key, '
+            '${UserDataTableColumns.name} text, '
+            '${UserDataTableColumns.avatarImage} text, '
+            '${UserDataTableColumns.bannerImage} text)');
 
     await _animeDB!
         .execute('CREATE TABLE IF NOT EXISTS ${Tables.characterTable} ('
-            '${CharacterColumns.id} TEXT PRIMARY KEY, '
-            '${CharacterColumns.voiceActorId} TEXT, '
-            '${CharacterColumns.role} TEXT, '
-            '${CharacterColumns.image} TEXT, '
-            '${CharacterColumns.nameEnglish} TEXT, '
-            '${CharacterColumns.nameNative} TEXT)');
+            '${CharacterColumns.id} text primary key, '
+            '${CharacterColumns.voiceActorId} text, '
+            '${CharacterColumns.role} text, '
+            '${CharacterColumns.image} text, '
+            '${CharacterColumns.nameEnglish} text, '
+            '${CharacterColumns.nameNative} text)');
 
     await _animeDB!
         .execute('CREATE TABLE IF NOT EXISTS ${Tables.voiceActorTable} ('
-            '${VoiceActorColumns.id} TEXT PRIMARY KEY, '
-            '${VoiceActorColumns.image} TEXT, '
-            '${VoiceActorColumns.nameEnglish} TEXT, '
-            '${VoiceActorColumns.nameNative} TEXT)');
+            '${VoiceActorColumns.id} text primary key, '
+            '${VoiceActorColumns.image} text, '
+            '${VoiceActorColumns.nameEnglish} text, '
+            '${VoiceActorColumns.nameNative} text)');
 
     await _animeDB!.execute(
         'create table if not exists ${Tables.animeCharacterCrossRefTable} ('
@@ -120,5 +122,14 @@ class AnimeDatabase {
         'foreign key (${AnimeCharacterCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
         'foreign key (${AnimeCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
         ')');
+
+    await _animeDB!
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.userAnimeListTable} ('
+        '${UserAnimeListTableColumns.id} text primary key,'
+        '${UserAnimeListTableColumns.userId} text,'
+        '${UserAnimeListTableColumns.animeId} text,'
+        '${UserAnimeListTableColumns.status} text,'
+        '${UserAnimeListTableColumns.score} integer,'
+        '${UserAnimeListTableColumns.updatedAt} integer)');
   }
 }

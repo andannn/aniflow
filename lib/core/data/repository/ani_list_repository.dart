@@ -14,14 +14,15 @@ import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'load_type.dart';
+import 'package:anime_tracker/core/common/global_static_constants.dart';
+
+part 'load_result.dart';
 
 part '../model/anime_season.dart';
-part '../model/character_role.dart';
-part '../model/anime_status.dart';
 
-/// default page count of anime.
-const int defaultPerPageCount = 9;
+part '../model/character_role.dart';
+
+part '../model/anime_status.dart';
 
 enum AnimeCategory {
   /// current season releasing anime.
@@ -104,7 +105,7 @@ abstract class AniListRepository {
   Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory({
     required AnimeCategory category,
     required int page,
-    int perPage = defaultPerPageCount,
+    int perPage = Config.defaultPerPageCount,
   });
 
   Stream<DetailAnimeModel> getDetailAnimeInfoStream(String id);
@@ -124,17 +125,18 @@ class AniListRepositoryImpl extends AniListRepository {
   Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory(
       {required AnimeCategory category,
       required int page,
-      int perPage = defaultPerPageCount}) {
+      int perPage = Config.defaultPerPageCount}) {
     return _loadAnimePage(
-        category: category,
-        type: LoadType.append,
-        animeListParam: _createAnimePageQueryParam(
-          category,
-          page,
-          perPage,
-          preferences.getCurrentSeason(),
-          preferences.getCurrentSeasonYear(),
-        ));
+      category: category,
+      type: LoadType.append,
+      animeListParam: _createAnimePageQueryParam(
+        category,
+        page,
+        perPage,
+        preferences.getCurrentSeason(),
+        preferences.getCurrentSeasonYear(),
+      ),
+    );
   }
 
   @override
@@ -146,7 +148,7 @@ class AniListRepositoryImpl extends AniListRepository {
         animeListParam: _createAnimePageQueryParam(
           category,
           1,
-          defaultPerPageCount,
+          Config.defaultPerPageCount,
           preferences.getCurrentSeason(),
           preferences.getCurrentSeasonYear(),
         ));
@@ -221,8 +223,7 @@ class AniListRepositoryImpl extends AniListRepository {
           return LoadSuccess(
               data: dbAnimeList
                   .map((e) => ShortAnimeModel.fromDatabaseModel(e))
-                  .toList(),
-              page: 1);
+                  .toList());
         case LoadType.append:
           final dbResult = await animeDao.getAnimeByPage(category,
               page: animeListParam.page, perPage: animeListParam.perPage);
@@ -242,17 +243,16 @@ class AniListRepositoryImpl extends AniListRepository {
             final newResult = await animeDao.getAnimeByPage(category,
                 page: animeListParam.page, perPage: animeListParam.perPage);
             return LoadSuccess(
-                data: newResult
-                    .map((e) => ShortAnimeModel.fromDatabaseModel(e))
-                    .toList(),
-                page: animeListParam.page);
+              data: newResult
+                  .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+                  .toList()
+            );
           } else {
             /// we have catch in db, return the result.
             return LoadSuccess(
                 data: dbResult
                     .map((e) => ShortAnimeModel.fromDatabaseModel(e))
-                    .toList(),
-                page: animeListParam.page);
+                    .toList());
           }
       }
     } on DioException catch (e) {
@@ -271,11 +271,12 @@ class AniListRepositoryImpl extends AniListRepository {
   @override
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id) async {
     try {
+      /// fetch anime info from network.
       DetailAnimeDto networkResult = await aniListDataSource.getNetworkAnime(
         id: int.parse(id),
       );
 
-      /// fetch anime info from network.
+      /// insert anime info to db.
       await animeDao.upsertDetailAnimeInfo(
         [AnimeEntity.fromDetailNetworkModel(networkResult)],
       );
@@ -283,7 +284,8 @@ class AniListRepositoryImpl extends AniListRepository {
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];
       if (characters.isEmpty) {
-        return LoadSuccess(data: [], page: 1);
+        /// no character, return success immediately.
+        return LoadSuccess(data: []);
       }
 
       /// inset character entities to db.
@@ -317,7 +319,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
       /// notify data base has been changed an trigger the streams.
       animeDao.notifyAnimeDetailInfoChanged();
-      return LoadSuccess(data: [], page: 1);
+      return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
     }
