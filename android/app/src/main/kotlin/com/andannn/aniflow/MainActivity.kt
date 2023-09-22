@@ -1,4 +1,4 @@
-package com.andannn.animetracker.anime_tracker
+package com.andannn.aniflow
 
 import android.content.Intent
 import android.util.Log

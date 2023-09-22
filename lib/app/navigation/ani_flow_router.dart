@@ -1,9 +1,9 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:anime_tracker/app/navigation/anime_tracker_route_path.dart';
+import 'package:anime_tracker/app/navigation/ani_flow_route_path.dart';
 
-class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
+class AnimeTrackerRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     with ChangeNotifier {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
@@ -13,10 +13,10 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AnimeTrackerRoutePath>
 
   RouteObserver routeObserver = RouteObserver();
 
-  List<AnimeTrackerRoutePath> _backStack = [DiscoverRoutePath()];
+  List<AniFlowRoutePath> _backStack = [DiscoverRoutePath()];
 
   /// get current path.
-  AnimeTrackerRoutePath get currentPath => _backStack.last;
+  AniFlowRoutePath get currentPath => _backStack.last;
 
   /// get current top level.
   TopLevelNavigation get currentTopLevelNavigation =>

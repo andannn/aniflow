@@ -8,9 +8,9 @@ import 'package:anime_tracker/feature/discover/discover.dart';
 import 'package:anime_tracker/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
 
-sealed class AnimeTrackerRoutePath {}
+sealed class AniFlowRoutePath {}
 
-abstract class TopLevelRoutePath extends AnimeTrackerRoutePath {
+abstract class TopLevelRoutePath extends AniFlowRoutePath {
   final TopLevelNavigation topLevel;
 
   TopLevelRoutePath(this.topLevel);
@@ -42,7 +42,7 @@ class ProfileRoutePath extends TopLevelRoutePath {
   ProfileRoutePath() : super(TopLevelNavigation.profile);
 }
 
-class AnimeListRoutePath extends AnimeTrackerRoutePath {
+class AnimeListRoutePath extends AniFlowRoutePath {
   AnimeListRoutePath(this.category);
 
   final AnimeCategory category;
@@ -54,7 +54,7 @@ class DetailAnimeRoutePath extends TopLevelRoutePath {
   final String animeId;
 }
 
-extension AnimeTrackerRoutePathEx on AnimeTrackerRoutePath {
+extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
       case DiscoverRoutePath(topLevel: final _):

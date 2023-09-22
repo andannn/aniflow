@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/designsystem/widget/anime_tracker_snackbar.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
@@ -107,7 +107,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
         /// first sync success.
         await _userDataRepository.setLastSuccessSync(DateTime.now());
 
-        showSnackBarMessage(label: ATLocalizations.of().dataRefreshed);
+        showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
         return;
       }
     }
@@ -132,13 +132,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       logger.d('AimeTracker refresh success');
 
       /// data sync success and show snack bar message.
-      showSnackBarMessage(label: ATLocalizations.of().dataRefreshed);
+      showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
 
       /// refresh success, update sync time.
       await _userDataRepository.setLastSuccessSync(DateTime.now());
     } else {
       /// data sync failed and show snack bar message.
-      showSnackBarMessage(label: ATLocalizations.of().dataRefreshFailed);
+      showSnackBarMessage(label: AFLocalizations.of().dataRefreshFailed);
     }
   }
 

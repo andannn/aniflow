@@ -1,7 +1,7 @@
-import 'package:anime_tracker/app/local/anime_tracker_localizations.dart';
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/designsystem/widget/avatar_icon.dart';
+import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_bloc.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_ui_state.dart';
 import 'package:flutter/material.dart';
@@ -87,13 +87,13 @@ class _AuthDialogContent extends StatelessWidget {
           onPressed: () {
             context.read<AuthBloc>().add(OnLogoutButtonTapped());
           },
-          child: Text(ATLocalizations.of(context).logout));
+          child: Text(AFLocalizations.of(context).logout));
     } else {
       return TextButton(
           onPressed: () {
             context.read<AuthBloc>().add(OnLoginButtonTapped());
           },
-          child: Text(ATLocalizations.of(context).login));
+          child: Text(AFLocalizations.of(context).login));
     }
   }
 }
