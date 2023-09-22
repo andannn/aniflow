@@ -2,15 +2,19 @@ import 'dart:async';
 
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/anime_dao.dart';
+import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
-import 'package:flutter/foundation.dart';
+import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
 
+/// [Tables.userAnimeListTable]
 mixin UserAnimeListTableColumns {
-  static const String id = 'id';
+  static const String id = 'media_list_id';
   static const String userId = 'user_id';
   static const String animeId = 'anime_id';
-  static const String status = 'status';
+  static const String status = 'anime_list_status';
+  static const String progress = 'anime_list_progress';
   static const String score = 'score';
   static const String updatedAt = 'updatedAt';
 }
@@ -18,13 +22,14 @@ mixin UserAnimeListTableColumns {
 abstract class UserAnimeListDao {
   Future removeUserAnimeListByUserId(int userId);
 
-  Future<List<UserAnimeListEntity>> getUserAnimeListByPage(
-      AnimeListStatus status,
-      {required int page,
-      int perPage = Config.defaultPerPageCount});
+  Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
+      String userId, List<AnimeListStatus> status,
+      {required int page, int? perPage = Config.defaultPerPageCount});
+
+  Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
 }
 
-class UserAnimeListDaoImpl extends UserAnimeListDao with ChangeNotifier {
+class UserAnimeListDaoImpl extends UserAnimeListDao {
   final AnimeDatabase database;
 
   UserAnimeListDaoImpl(this.database);
@@ -38,10 +43,48 @@ class UserAnimeListDaoImpl extends UserAnimeListDao with ChangeNotifier {
   }
 
   @override
-  Future<List<UserAnimeListEntity>> getUserAnimeListByPage(
-      AnimeListStatus status,
-      {required int page,
-      int perPage = Config.defaultPerPageCount}) {
-    throw UnimplementedError();
+  Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
+      String userId, List<AnimeListStatus> status,
+      {required int page, int? perPage}) async {
+    final int? limit = perPage;
+    final int offset = (page - 1) * (perPage ?? 0);
+    String statusParam = '';
+    for (var e in status) {
+      statusParam += '\'${e.sqlTypeString}\'';
+      if (status.last != e) {
+        statusParam += ',';
+      }
+    }
+
+    String sql = '''
+      select * from ${Tables.userAnimeListTable} as ua
+      left join ${Tables.animeTable} as a
+      on ua.${UserAnimeListTableColumns.animeId}=a.${AnimeTableColumns.id}
+      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId' 
+      ''';
+    if (limit != null) {
+      sql += '''
+      limit $limit
+      offset $offset
+      ''';
+    }
+
+    final List<Map<String, dynamic>> result =
+        await database.animeDB.rawQuery(sql);
+    return result
+        .map((e) => UserAnimeListAndAnime(
+              userAnimeListEntity: UserAnimeListEntity.fromJson(e),
+              animeEntity: AnimeEntity.fromJson(e),
+            ))
+        .toList();
+  }
+
+  @override
+  Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities) async {
+    final batch = database.animeDB.batch();
+    for (final entity in entities) {
+      batch.insert(Tables.userAnimeListTable, entity.toJson());
+    }
+    await batch.commit(noResult: true);
   }
 }

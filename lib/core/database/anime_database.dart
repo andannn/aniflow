@@ -11,9 +11,11 @@ const databaseFileName = "anime_data_base.db";
 mixin Tables {
   static const String animeTable = 'anime_table';
   static const String categoryTable = 'category_table';
-  static const String animeCategoryCrossRefTable = 'anime_category_cross_ref_table';
+  static const String animeCategoryCrossRefTable =
+      'anime_category_cross_ref_table';
   static const String characterTable = 'character_table';
-  static const String animeCharacterCrossRefTable = 'anime_character_cross_ref_table';
+  static const String animeCharacterCrossRefTable =
+      'anime_character_cross_ref_table';
   static const String voiceActorTable = 'voice_actor_table';
   static const String userDataTable = 'user_data_table';
   static const String userAnimeListTable = 'usr_anime_list_table';
@@ -32,6 +34,8 @@ class AnimeDatabase {
 
   UserDataDao? _userDataDao;
 
+  UserAnimeListDao? _userAnimeListDao;
+
   Database get animeDB => _animeDB!;
 
   Future<void> initDatabase({String? dbName, bool isTest = false}) async {
@@ -48,6 +52,9 @@ class AnimeDatabase {
   AnimeListDao getAnimeDao() => _animeDao ??= AnimeDaoImpl(this);
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
+
+  UserAnimeListDao getUserAnimeListDao() =>
+      _userAnimeListDao ??= UserAnimeListDaoImpl(this);
 
   Future _createTables() async {
     await _animeDB!.execute('create table if not exists ${Tables.animeTable} ('
@@ -125,11 +132,12 @@ class AnimeDatabase {
 
     await _animeDB!
         .execute('CREATE TABLE IF NOT EXISTS ${Tables.userAnimeListTable} ('
-        '${UserAnimeListTableColumns.id} text primary key,'
-        '${UserAnimeListTableColumns.userId} text,'
-        '${UserAnimeListTableColumns.animeId} text,'
-        '${UserAnimeListTableColumns.status} text,'
-        '${UserAnimeListTableColumns.score} integer,'
-        '${UserAnimeListTableColumns.updatedAt} integer)');
+            '${UserAnimeListTableColumns.id} text primary key,'
+            '${UserAnimeListTableColumns.userId} text,'
+            '${UserAnimeListTableColumns.animeId} text,'
+            '${UserAnimeListTableColumns.status} text,'
+            '${UserAnimeListTableColumns.progress} integer,'
+            '${UserAnimeListTableColumns.score} integer,'
+            '${UserAnimeListTableColumns.updatedAt} integer)');
   }
 }

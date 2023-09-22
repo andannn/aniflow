@@ -10,6 +10,8 @@ part 'media_list_dto.g.dart';
 class MediaListDto with _$MediaListDto {
   factory MediaListDto({
     @Default(-1) @JsonKey(name: 'id') int id,
+    @Default(-1) @JsonKey(name: 'userId') int userId,
+    @JsonKey(name: 'score') int? score,
     @JsonKey(name: 'status') AnimeListStatus? status,
     @Default(-1) @JsonKey(name: 'progress') int progress,
     @Default(-1) @JsonKey(name: 'updatedAt') int updatedAt,

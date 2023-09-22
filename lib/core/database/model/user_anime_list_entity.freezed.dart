@@ -28,6 +28,8 @@ mixin _$UserAnimeListEntity {
   String? get animeId => throw _privateConstructorUsedError;
   @JsonKey(name: UserAnimeListTableColumns.status)
   AnimeListStatus? get status => throw _privateConstructorUsedError;
+  @JsonKey(name: UserAnimeListTableColumns.progress)
+  int? get progress => throw _privateConstructorUsedError;
   @JsonKey(name: UserAnimeListTableColumns.score)
   int? get score => throw _privateConstructorUsedError;
   @JsonKey(name: UserAnimeListTableColumns.updatedAt)
@@ -50,6 +52,7 @@ abstract class $UserAnimeListEntityCopyWith<$Res> {
       @JsonKey(name: UserAnimeListTableColumns.userId) String? userId,
       @JsonKey(name: UserAnimeListTableColumns.animeId) String? animeId,
       @JsonKey(name: UserAnimeListTableColumns.status) AnimeListStatus? status,
+      @JsonKey(name: UserAnimeListTableColumns.progress) int? progress,
       @JsonKey(name: UserAnimeListTableColumns.score) int? score,
       @JsonKey(name: UserAnimeListTableColumns.updatedAt) int? updatedAt});
 }
@@ -71,6 +74,7 @@ class _$UserAnimeListEntityCopyWithImpl<$Res, $Val extends UserAnimeListEntity>
     Object? userId = freezed,
     Object? animeId = freezed,
     Object? status = freezed,
+    Object? progress = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -91,6 +95,10 @@ class _$UserAnimeListEntityCopyWithImpl<$Res, $Val extends UserAnimeListEntity>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as AnimeListStatus?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -116,6 +124,7 @@ abstract class _$$_UserAnimeListEntityCopyWith<$Res>
       @JsonKey(name: UserAnimeListTableColumns.userId) String? userId,
       @JsonKey(name: UserAnimeListTableColumns.animeId) String? animeId,
       @JsonKey(name: UserAnimeListTableColumns.status) AnimeListStatus? status,
+      @JsonKey(name: UserAnimeListTableColumns.progress) int? progress,
       @JsonKey(name: UserAnimeListTableColumns.score) int? score,
       @JsonKey(name: UserAnimeListTableColumns.updatedAt) int? updatedAt});
 }
@@ -135,6 +144,7 @@ class __$$_UserAnimeListEntityCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? animeId = freezed,
     Object? status = freezed,
+    Object? progress = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -155,6 +165,10 @@ class __$$_UserAnimeListEntityCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as AnimeListStatus?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -175,6 +189,7 @@ class _$_UserAnimeListEntity implements _UserAnimeListEntity {
       @JsonKey(name: UserAnimeListTableColumns.userId) this.userId,
       @JsonKey(name: UserAnimeListTableColumns.animeId) this.animeId,
       @JsonKey(name: UserAnimeListTableColumns.status) this.status,
+      @JsonKey(name: UserAnimeListTableColumns.progress) this.progress,
       @JsonKey(name: UserAnimeListTableColumns.score) this.score,
       @JsonKey(name: UserAnimeListTableColumns.updatedAt) this.updatedAt});
 
@@ -194,6 +209,9 @@ class _$_UserAnimeListEntity implements _UserAnimeListEntity {
   @JsonKey(name: UserAnimeListTableColumns.status)
   final AnimeListStatus? status;
   @override
+  @JsonKey(name: UserAnimeListTableColumns.progress)
+  final int? progress;
+  @override
   @JsonKey(name: UserAnimeListTableColumns.score)
   final int? score;
   @override
@@ -202,7 +220,7 @@ class _$_UserAnimeListEntity implements _UserAnimeListEntity {
 
   @override
   String toString() {
-    return 'UserAnimeListEntity(id: $id, userId: $userId, animeId: $animeId, status: $status, score: $score, updatedAt: $updatedAt)';
+    return 'UserAnimeListEntity(id: $id, userId: $userId, animeId: $animeId, status: $status, progress: $progress, score: $score, updatedAt: $updatedAt)';
   }
 
   @override
@@ -214,6 +232,8 @@ class _$_UserAnimeListEntity implements _UserAnimeListEntity {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.animeId, animeId) || other.animeId == animeId) &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt));
@@ -221,8 +241,8 @@ class _$_UserAnimeListEntity implements _UserAnimeListEntity {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, userId, animeId, status, score, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, userId, animeId, status, progress, score, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -246,6 +266,7 @@ abstract class _UserAnimeListEntity implements UserAnimeListEntity {
       @JsonKey(name: UserAnimeListTableColumns.animeId) final String? animeId,
       @JsonKey(name: UserAnimeListTableColumns.status)
       final AnimeListStatus? status,
+      @JsonKey(name: UserAnimeListTableColumns.progress) final int? progress,
       @JsonKey(name: UserAnimeListTableColumns.score) final int? score,
       @JsonKey(name: UserAnimeListTableColumns.updatedAt)
       final int? updatedAt}) = _$_UserAnimeListEntity;
@@ -265,6 +286,9 @@ abstract class _UserAnimeListEntity implements UserAnimeListEntity {
   @override
   @JsonKey(name: UserAnimeListTableColumns.status)
   AnimeListStatus? get status;
+  @override
+  @JsonKey(name: UserAnimeListTableColumns.progress)
+  int? get progress;
   @override
   @JsonKey(name: UserAnimeListTableColumns.score)
   int? get score;

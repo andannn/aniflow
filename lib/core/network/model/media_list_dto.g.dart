@@ -9,6 +9,8 @@ part of 'media_list_dto.dart';
 _$_MediaListDto _$$_MediaListDtoFromJson(Map<String, dynamic> json) =>
     _$_MediaListDto(
       id: json['id'] as int? ?? -1,
+      userId: json['userId'] as int? ?? -1,
+      score: json['score'] as int?,
       status: $enumDecodeNullable(_$AnimeListStatusEnumMap, json['status']),
       progress: json['progress'] as int? ?? -1,
       updatedAt: json['updatedAt'] as int? ?? -1,
@@ -20,6 +22,8 @@ _$_MediaListDto _$$_MediaListDtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_MediaListDtoToJson(_$_MediaListDto instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'userId': instance.userId,
+      'score': instance.score,
       'status': _$AnimeListStatusEnumMap[instance.status],
       'progress': instance.progress,
       'updatedAt': instance.updatedAt,
@@ -30,4 +34,6 @@ const _$AnimeListStatusEnumMap = {
   AnimeListStatus.current: 'CURRENT',
   AnimeListStatus.completed: 'COMPLETED',
   AnimeListStatus.dropped: 'DROPPED',
+  AnimeListStatus.paused: 'PAUSED',
+  AnimeListStatus.planning: 'PLANNING',
 };
