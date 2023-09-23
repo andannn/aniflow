@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/common/stream_util.dart';
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
@@ -7,6 +8,7 @@ import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
+import 'package:flutter/cupertino.dart';
 
 /// [Tables.userAnimeListTable]
 mixin UserAnimeListTableColumns {
@@ -26,13 +28,20 @@ abstract class UserAnimeListDao {
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
 
+  Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
+      String userId, List<AnimeListStatus> status);
+
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
+
+  void notifyUserAnimeContentChanged(String userId);
 }
 
 class UserAnimeListDaoImpl extends UserAnimeListDao {
   final AnimeDatabase database;
 
   UserAnimeListDaoImpl(this.database);
+
+  final Map<String, ValueNotifier> _notifiers = {};
 
   @override
   Future removeUserAnimeListByUserId(int userId) async {
@@ -86,5 +95,21 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
       batch.insert(Tables.userAnimeListTable, entity.toJson());
     }
     await batch.commit(noResult: true);
+  }
+
+  @override
+  Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
+      String userId, List<AnimeListStatus> status) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(changeSource,
+        () => getUserAnimeListByPage(userId, status, page: 1, perPage: null));
+  }
+
+  @override
+  void notifyUserAnimeContentChanged(String userId) {
+    final notifier = _notifiers[userId];
+    if (notifier != null) {
+      notifier.value = notifier.value++;
+    }
   }
 }

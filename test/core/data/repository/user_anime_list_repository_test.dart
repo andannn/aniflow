@@ -32,17 +32,28 @@ void main() {
     });
 
     test('get_user_anime_list_from_data_source', () async {
-      final res = await repository.syncUserAnimeList(1);
+      final res = await repository.syncUserAnimeList(userId: '1');
       expect(res.runtimeType, equals(LoadSuccess<void>));
     });
 
     test('ani_list_get_from_database', () async {
-      final res = await repository.syncUserAnimeList(1);
+      final res = await repository.syncUserAnimeList(userId: '1');
       expect(res.runtimeType, equals(LoadSuccess<void>));
 
       final res2 = await repository.getUserAnimeList(
           userId: 1,
           status: [AnimeListStatus.current, AnimeListStatus.planning]);
+      expect(res2.isNotEmpty, equals(true));
+    });
+
+    test('ani_list_get_stream_test', () async {
+      final res = await repository.syncUserAnimeList(userId: '1');
+      expect(res.runtimeType, equals(LoadSuccess<void>));
+
+      final stream = repository.getUserAnimeListStream(
+          userId: '1',
+          status: [AnimeListStatus.current, AnimeListStatus.planning]);
+      final res2 = await stream.first;
       expect(res2.isNotEmpty, equals(true));
     });
   });
