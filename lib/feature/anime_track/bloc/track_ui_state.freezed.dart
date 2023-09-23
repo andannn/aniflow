@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TrackUiState {
-  List<AnimeListItemModel> get watchingAnimeList =>
-      throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  UserAnimeLoadState get animeLoadState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TrackUiStateCopyWith<TrackUiState> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $TrackUiStateCopyWith<$Res> {
           TrackUiState value, $Res Function(TrackUiState) then) =
       _$TrackUiStateCopyWithImpl<$Res, TrackUiState>;
   @useResult
-  $Res call({List<AnimeListItemModel> watchingAnimeList});
+  $Res call({bool isLoading, UserAnimeLoadState animeLoadState});
 }
 
 /// @nodoc
@@ -46,13 +46,18 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? watchingAnimeList = null,
+    Object? isLoading = null,
+    Object? animeLoadState = null,
   }) {
     return _then(_value.copyWith(
-      watchingAnimeList: null == watchingAnimeList
-          ? _value.watchingAnimeList
-          : watchingAnimeList // ignore: cast_nullable_to_non_nullable
-              as List<AnimeListItemModel>,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      animeLoadState: null == animeLoadState
+          ? _value.animeLoadState
+          : animeLoadState // ignore: cast_nullable_to_non_nullable
+              as UserAnimeLoadState,
     ) as $Val);
   }
 }
@@ -65,7 +70,7 @@ abstract class _$$_TrackUiStateCopyWith<$Res>
       __$$_TrackUiStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<AnimeListItemModel> watchingAnimeList});
+  $Res call({bool isLoading, UserAnimeLoadState animeLoadState});
 }
 
 /// @nodoc
@@ -79,13 +84,18 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? watchingAnimeList = null,
+    Object? isLoading = null,
+    Object? animeLoadState = null,
   }) {
     return _then(_$_TrackUiState(
-      watchingAnimeList: null == watchingAnimeList
-          ? _value._watchingAnimeList
-          : watchingAnimeList // ignore: cast_nullable_to_non_nullable
-              as List<AnimeListItemModel>,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      animeLoadState: null == animeLoadState
+          ? _value.animeLoadState
+          : animeLoadState // ignore: cast_nullable_to_non_nullable
+              as UserAnimeLoadState,
     ));
   }
 }
@@ -93,22 +103,20 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_TrackUiState implements _TrackUiState {
-  _$_TrackUiState({final List<AnimeListItemModel> watchingAnimeList = const []})
-      : _watchingAnimeList = watchingAnimeList;
+  _$_TrackUiState(
+      {this.isLoading = false,
+      this.animeLoadState = const UserAnimeInitState()});
 
-  final List<AnimeListItemModel> _watchingAnimeList;
   @override
   @JsonKey()
-  List<AnimeListItemModel> get watchingAnimeList {
-    if (_watchingAnimeList is EqualUnmodifiableListView)
-      return _watchingAnimeList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_watchingAnimeList);
-  }
+  final bool isLoading;
+  @override
+  @JsonKey()
+  final UserAnimeLoadState animeLoadState;
 
   @override
   String toString() {
-    return 'TrackUiState(watchingAnimeList: $watchingAnimeList)';
+    return 'TrackUiState(isLoading: $isLoading, animeLoadState: $animeLoadState)';
   }
 
   @override
@@ -116,13 +124,14 @@ class _$_TrackUiState implements _TrackUiState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TrackUiState &&
-            const DeepCollectionEquality()
-                .equals(other._watchingAnimeList, _watchingAnimeList));
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.animeLoadState, animeLoadState) ||
+                other.animeLoadState == animeLoadState));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_watchingAnimeList));
+  int get hashCode => Object.hash(runtimeType, isLoading, animeLoadState);
 
   @JsonKey(ignore: true)
   @override
@@ -132,11 +141,14 @@ class _$_TrackUiState implements _TrackUiState {
 }
 
 abstract class _TrackUiState implements TrackUiState {
-  factory _TrackUiState({final List<AnimeListItemModel> watchingAnimeList}) =
-      _$_TrackUiState;
+  factory _TrackUiState(
+      {final bool isLoading,
+      final UserAnimeLoadState animeLoadState}) = _$_TrackUiState;
 
   @override
-  List<AnimeListItemModel> get watchingAnimeList;
+  bool get isLoading;
+  @override
+  UserAnimeLoadState get animeLoadState;
   @override
   @JsonKey(ignore: true)
   _$$_TrackUiStateCopyWith<_$_TrackUiState> get copyWith =>

@@ -15,9 +15,9 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
-      await AnimeTrackerPreferences().init();
-      await AnimeTrackerPreferences().setCurrentSeasonYear(2023);
-      await AnimeTrackerPreferences().setCurrentSeason(AnimeSeason.summer);
+      await AniFlowPreferences().init();
+      await AniFlowPreferences().setCurrentSeasonYear(2023);
+      await AniFlowPreferences().setCurrentSeason(AnimeSeason.summer);
       await animeDatabase.initDatabase(isTest: true);
 
       repository = UserAnimeListRepositoryImpl();

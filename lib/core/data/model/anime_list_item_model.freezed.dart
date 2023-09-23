@@ -20,6 +20,7 @@ mixin _$AnimeListItemModel {
   AnimeListStatus? get status => throw _privateConstructorUsedError;
   int? get score => throw _privateConstructorUsedError;
   int? get updatedAt => throw _privateConstructorUsedError;
+  int? get progress => throw _privateConstructorUsedError;
   ShortAnimeModel? get animeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,6 +39,7 @@ abstract class $AnimeListItemModelCopyWith<$Res> {
       AnimeListStatus? status,
       int? score,
       int? updatedAt,
+      int? progress,
       ShortAnimeModel? animeModel});
 
   $ShortAnimeModelCopyWith<$Res>? get animeModel;
@@ -60,6 +62,7 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
     Object? status = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
+    Object? progress = freezed,
     Object? animeModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +81,10 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
               as int?,
       animeModel: freezed == animeModel
           ? _value.animeModel
@@ -112,6 +119,7 @@ abstract class _$$_AnimeListItemModelCopyWith<$Res>
       AnimeListStatus? status,
       int? score,
       int? updatedAt,
+      int? progress,
       ShortAnimeModel? animeModel});
 
   @override
@@ -133,6 +141,7 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
     Object? status = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
+    Object? progress = freezed,
     Object? animeModel = freezed,
   }) {
     return _then(_$_AnimeListItemModel(
@@ -152,6 +161,10 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
@@ -164,7 +177,12 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
 
 class _$_AnimeListItemModel implements _AnimeListItemModel {
   _$_AnimeListItemModel(
-      {this.id = '', this.status, this.score, this.updatedAt, this.animeModel});
+      {this.id = '',
+      this.status,
+      this.score,
+      this.updatedAt,
+      this.progress,
+      this.animeModel});
 
   @override
   @JsonKey()
@@ -176,11 +194,13 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
   @override
   final int? updatedAt;
   @override
+  final int? progress;
+  @override
   final ShortAnimeModel? animeModel;
 
   @override
   String toString() {
-    return 'AnimeListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, animeModel: $animeModel)';
+    return 'AnimeListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, animeModel: $animeModel)';
   }
 
   @override
@@ -193,13 +213,15 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress) &&
             (identical(other.animeModel, animeModel) ||
                 other.animeModel == animeModel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, status, score, updatedAt, animeModel);
+  int get hashCode => Object.hash(
+      runtimeType, id, status, score, updatedAt, progress, animeModel);
 
   @JsonKey(ignore: true)
   @override
@@ -215,6 +237,7 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
       final AnimeListStatus? status,
       final int? score,
       final int? updatedAt,
+      final int? progress,
       final ShortAnimeModel? animeModel}) = _$_AnimeListItemModel;
 
   @override
@@ -225,6 +248,8 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
   int? get score;
   @override
   int? get updatedAt;
+  @override
+  int? get progress;
   @override
   ShortAnimeModel? get animeModel;
   @override

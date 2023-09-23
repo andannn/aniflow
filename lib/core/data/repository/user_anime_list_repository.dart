@@ -34,7 +34,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
   final AnimeListDao animeListDao = AnimeDatabase().getAnimeDao();
   final AniListDataSource dataSource = AniListDataSource();
-  final AnimeTrackerPreferences preferences = AnimeTrackerPreferences();
+  final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
   Future<List<AnimeListItemModel>> getUserAnimeList(
@@ -92,6 +92,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
           .toList();
       await animeListDao.upsertDetailAnimeInfo(animeEntity);
 
+      userAnimeListDao.notifyUserAnimeContentChanged(targetUserId);
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);

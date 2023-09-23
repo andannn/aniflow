@@ -24,7 +24,7 @@ class AuthDataSource {
   }
 
   String? get _token =>
-      isUnitTest ? _testToken : AnimeTrackerPreferences().getAuthToken();
+      isUnitTest ? _testToken : AniFlowPreferences().getAuthToken();
 
   Future<bool> isTokenValid() async {
     if (_token == null) {

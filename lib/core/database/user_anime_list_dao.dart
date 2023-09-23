@@ -9,6 +9,7 @@ import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sqflite/sqflite.dart';
 
 /// [Tables.userAnimeListTable]
 mixin UserAnimeListTableColumns {
@@ -92,7 +93,11 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
-      batch.insert(Tables.userAnimeListTable, entity.toJson());
+      batch.insert(
+        Tables.userAnimeListTable,
+        entity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
     await batch.commit(noResult: true);
   }

@@ -12,6 +12,7 @@ class AnimeListItemModel with _$AnimeListItemModel {
     AnimeListStatus? status,
     int? score,
     int? updatedAt,
+    int? progress,
     ShortAnimeModel? animeModel,
   }) = _AnimeListItemModel;
 
@@ -20,6 +21,7 @@ class AnimeListItemModel with _$AnimeListItemModel {
       id: model.userAnimeListEntity.id,
       status: model.userAnimeListEntity.status,
       score: model.userAnimeListEntity.score,
+      progress: model.userAnimeListEntity.progress,
       updatedAt: model.userAnimeListEntity.updatedAt,
       animeModel: ShortAnimeModel.fromDatabaseModel(model.animeEntity),
     );

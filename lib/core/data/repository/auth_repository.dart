@@ -27,7 +27,7 @@ abstract class AuthRepository {
 class AuthRepositoryImpl implements AuthRepository {
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
-  final AnimeTrackerPreferences preferences = AnimeTrackerPreferences();
+  final AniFlowPreferences preferences = AniFlowPreferences();
 
   final AuthDataSource authDataSource = AuthDataSource();
 

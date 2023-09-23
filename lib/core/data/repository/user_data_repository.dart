@@ -12,9 +12,7 @@ abstract class UserDataRepository {
 }
 
 class UserDataRepositoryImpl implements UserDataRepository {
-  final AnimeTrackerPreferences preferences;
-
-  UserDataRepositoryImpl(this.preferences);
+  final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
   AnimeSeasonParam getAnimeSeasonParam() {

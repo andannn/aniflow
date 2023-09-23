@@ -1,3 +1,4 @@
+import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
@@ -114,12 +115,10 @@ abstract class AniListRepository {
 }
 
 class AniListRepositoryImpl extends AniListRepository {
-  AniListRepositoryImpl(
-      this.aniListDataSource, this.animeDao, this.preferences);
 
-  final AniListDataSource aniListDataSource;
-  final AnimeListDao animeDao;
-  final AnimeTrackerPreferences preferences;
+  final AniListDataSource aniListDataSource = AniListDataSource();
+  final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
+  final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
   Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory(

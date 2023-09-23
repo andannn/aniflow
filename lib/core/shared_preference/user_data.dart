@@ -11,13 +11,13 @@ mixin UserDataKey {
   static const authExpiredTime = "auth_expired_time";
 }
 
-class AnimeTrackerPreferences {
-  static AnimeTrackerPreferences? _instance;
+class AniFlowPreferences {
+  static AniFlowPreferences? _instance;
 
-  factory AnimeTrackerPreferences() =>
-      _instance ??= AnimeTrackerPreferences._();
+  factory AniFlowPreferences() =>
+      _instance ??= AniFlowPreferences._();
 
-  AnimeTrackerPreferences._();
+  AniFlowPreferences._();
 
   late SharedPreferences _preference;
 
