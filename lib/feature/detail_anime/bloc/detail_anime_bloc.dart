@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
@@ -10,7 +10,7 @@ sealed class DetailAnimeEvent {}
 class _OnDetailAnimeModelChangedEvent extends DetailAnimeEvent {
   _OnDetailAnimeModelChangedEvent({required this.model});
 
-  final DetailAnimeModel model;
+  final AnimeModel model;
 }
 
 class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {

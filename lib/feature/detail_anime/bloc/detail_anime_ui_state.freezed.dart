@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DetailAnimeUiState {
-  DetailAnimeModel? get detailAnimeModel => throw _privateConstructorUsedError;
+  AnimeModel? get detailAnimeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailAnimeUiStateCopyWith<DetailAnimeUiState> get copyWith =>
@@ -29,9 +29,9 @@ abstract class $DetailAnimeUiStateCopyWith<$Res> {
           DetailAnimeUiState value, $Res Function(DetailAnimeUiState) then) =
       _$DetailAnimeUiStateCopyWithImpl<$Res, DetailAnimeUiState>;
   @useResult
-  $Res call({DetailAnimeModel? detailAnimeModel});
+  $Res call({AnimeModel? detailAnimeModel});
 
-  $DetailAnimeModelCopyWith<$Res>? get detailAnimeModel;
+  $AnimeModelCopyWith<$Res>? get detailAnimeModel;
 }
 
 /// @nodoc
@@ -53,18 +53,18 @@ class _$DetailAnimeUiStateCopyWithImpl<$Res, $Val extends DetailAnimeUiState>
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
-              as DetailAnimeModel?,
+              as AnimeModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DetailAnimeModelCopyWith<$Res>? get detailAnimeModel {
+  $AnimeModelCopyWith<$Res>? get detailAnimeModel {
     if (_value.detailAnimeModel == null) {
       return null;
     }
 
-    return $DetailAnimeModelCopyWith<$Res>(_value.detailAnimeModel!, (value) {
+    return $AnimeModelCopyWith<$Res>(_value.detailAnimeModel!, (value) {
       return _then(_value.copyWith(detailAnimeModel: value) as $Val);
     });
   }
@@ -78,10 +78,10 @@ abstract class _$$_DetailAnimeUiStateCopyWith<$Res>
       __$$_DetailAnimeUiStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DetailAnimeModel? detailAnimeModel});
+  $Res call({AnimeModel? detailAnimeModel});
 
   @override
-  $DetailAnimeModelCopyWith<$Res>? get detailAnimeModel;
+  $AnimeModelCopyWith<$Res>? get detailAnimeModel;
 }
 
 /// @nodoc
@@ -101,7 +101,7 @@ class __$$_DetailAnimeUiStateCopyWithImpl<$Res>
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
-              as DetailAnimeModel?,
+              as AnimeModel?,
     ));
   }
 }
@@ -112,7 +112,7 @@ class _$_DetailAnimeUiState implements _DetailAnimeUiState {
   _$_DetailAnimeUiState({this.detailAnimeModel});
 
   @override
-  final DetailAnimeModel? detailAnimeModel;
+  final AnimeModel? detailAnimeModel;
 
   @override
   String toString() {
@@ -140,11 +140,11 @@ class _$_DetailAnimeUiState implements _DetailAnimeUiState {
 }
 
 abstract class _DetailAnimeUiState implements DetailAnimeUiState {
-  factory _DetailAnimeUiState({final DetailAnimeModel? detailAnimeModel}) =
+  factory _DetailAnimeUiState({final AnimeModel? detailAnimeModel}) =
       _$_DetailAnimeUiState;
 
   @override
-  DetailAnimeModel? get detailAnimeModel;
+  AnimeModel? get detailAnimeModel;
   @override
   @JsonKey(ignore: true)
   _$$_DetailAnimeUiStateCopyWith<_$_DetailAnimeUiState> get copyWith =>

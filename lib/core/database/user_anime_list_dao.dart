@@ -70,7 +70,8 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
       select * from ${Tables.userAnimeListTable} as ua
       left join ${Tables.animeTable} as a
       on ua.${UserAnimeListTableColumns.animeId}=a.${AnimeTableColumns.id}
-      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId' 
+      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId'
+      order by ${UserAnimeListTableColumns.updatedAt} desc
       ''';
     if (limit != null) {
       sql += '''

@@ -21,7 +21,7 @@ mixin _$AnimeListItemModel {
   int? get score => throw _privateConstructorUsedError;
   int? get updatedAt => throw _privateConstructorUsedError;
   int? get progress => throw _privateConstructorUsedError;
-  ShortAnimeModel? get animeModel => throw _privateConstructorUsedError;
+  AnimeModel? get animeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnimeListItemModelCopyWith<AnimeListItemModel> get copyWith =>
@@ -40,9 +40,9 @@ abstract class $AnimeListItemModelCopyWith<$Res> {
       int? score,
       int? updatedAt,
       int? progress,
-      ShortAnimeModel? animeModel});
+      AnimeModel? animeModel});
 
-  $ShortAnimeModelCopyWith<$Res>? get animeModel;
+  $AnimeModelCopyWith<$Res>? get animeModel;
 }
 
 /// @nodoc
@@ -89,18 +89,18 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
-              as ShortAnimeModel?,
+              as AnimeModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ShortAnimeModelCopyWith<$Res>? get animeModel {
+  $AnimeModelCopyWith<$Res>? get animeModel {
     if (_value.animeModel == null) {
       return null;
     }
 
-    return $ShortAnimeModelCopyWith<$Res>(_value.animeModel!, (value) {
+    return $AnimeModelCopyWith<$Res>(_value.animeModel!, (value) {
       return _then(_value.copyWith(animeModel: value) as $Val);
     });
   }
@@ -120,10 +120,10 @@ abstract class _$$_AnimeListItemModelCopyWith<$Res>
       int? score,
       int? updatedAt,
       int? progress,
-      ShortAnimeModel? animeModel});
+      AnimeModel? animeModel});
 
   @override
-  $ShortAnimeModelCopyWith<$Res>? get animeModel;
+  $AnimeModelCopyWith<$Res>? get animeModel;
 }
 
 /// @nodoc
@@ -168,7 +168,7 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
-              as ShortAnimeModel?,
+              as AnimeModel?,
     ));
   }
 }
@@ -196,7 +196,7 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
   @override
   final int? progress;
   @override
-  final ShortAnimeModel? animeModel;
+  final AnimeModel? animeModel;
 
   @override
   String toString() {
@@ -238,7 +238,7 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
       final int? score,
       final int? updatedAt,
       final int? progress,
-      final ShortAnimeModel? animeModel}) = _$_AnimeListItemModel;
+      final AnimeModel? animeModel}) = _$_AnimeListItemModel;
 
   @override
   String get id;
@@ -251,7 +251,7 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
   @override
   int? get progress;
   @override
-  ShortAnimeModel? get animeModel;
+  AnimeModel? get animeModel;
   @override
   @JsonKey(ignore: true)
   _$$_AnimeListItemModelCopyWith<_$_AnimeListItemModel> get copyWith =>

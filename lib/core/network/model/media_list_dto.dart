@@ -1,5 +1,6 @@
 
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,7 +16,7 @@ class MediaListDto with _$MediaListDto {
     @JsonKey(name: 'status') AnimeListStatus? status,
     @Default(-1) @JsonKey(name: 'progress') int progress,
     @Default(-1) @JsonKey(name: 'updatedAt') int updatedAt,
-    @JsonKey(name: 'media') ShortcutAnimeDto? media,
+    @JsonKey(name: 'media') DetailAnimeDto? media,
   }) = _MediaListDto;
 
   factory MediaListDto.fromJson(Map<String, dynamic> json) =>

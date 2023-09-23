@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
 import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,7 +13,7 @@ class AnimeListItemModel with _$AnimeListItemModel {
     int? score,
     int? updatedAt,
     int? progress,
-    ShortAnimeModel? animeModel,
+    AnimeModel? animeModel,
   }) = _AnimeListItemModel;
 
   static AnimeListItemModel fromDataBaseModel(UserAnimeListAndAnime model) {
@@ -23,7 +23,7 @@ class AnimeListItemModel with _$AnimeListItemModel {
       score: model.userAnimeListEntity.score,
       progress: model.userAnimeListEntity.progress,
       updatedAt: model.userAnimeListEntity.updatedAt,
-      animeModel: ShortAnimeModel.fromDatabaseModel(model.animeEntity),
+      animeModel: AnimeModel.fromDatabaseModel(model.animeEntity),
     );
   }
 }

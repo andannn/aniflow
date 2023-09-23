@@ -48,8 +48,8 @@ class AnimeListRoutePath extends AniFlowRoutePath {
   final AnimeCategory category;
 }
 
-class DetailAnimeRoutePath extends TopLevelRoutePath {
-  DetailAnimeRoutePath(this.animeId) : super(TopLevelNavigation.discover);
+class DetailAnimeRoutePath extends AniFlowRoutePath {
+  DetailAnimeRoutePath(this.animeId);
 
   final String animeId;
 }

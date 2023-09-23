@@ -85,7 +85,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
       final animeEntity = networkAnimeList
           .map<AnimeEntity?>(
             (e) => e.media != null
-                ? AnimeEntity.fromShortNetworkModel(e.media!)
+                ? AnimeEntity.fromDetailNetworkModel(e.media!)
                 : null,
           )
           .whereType<AnimeEntity>()

@@ -1,17 +1,17 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 
 sealed class AnimeListEvent {}
 
 class _OnAnimePageLoadedEvent extends AnimeListEvent {
-  final List<ShortAnimeModel> data;
+  final List<AnimeModel> data;
   final int page;
 
   _OnAnimePageLoadedEvent(this.data, this.page);
@@ -77,10 +77,10 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     final LoadResult result = await _aniListRepository.getAnimePageByCategory(
         category: category, page: page, perPage: Config.defaultPerPageCount);
     switch (result) {
-      case LoadSuccess<ShortAnimeModel>(data: final data):
+      case LoadSuccess<AnimeModel>(data: final data):
         add(_OnAnimePageLoadedEvent(data, page));
         return true;
-      case LoadError<ShortAnimeModel>(exception: final exception):
+      case LoadError<AnimeModel>(exception: final exception):
         add(_OnAnimePageErrorEvent(exception));
         return false;
       default:
@@ -92,7 +92,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
       _OnAnimePageLoadedEvent event, Emitter<AnimeListState> emit) {
     final pagingState = state.animePagingState;
     final currentData = pagingState.data;
-    final PagingState<List<ShortAnimeModel>> newPagingState;
+    final PagingState<List<AnimeModel>> newPagingState;
     if (event.data.isEmpty) {
       newPagingState = pagingState.toReachEnd();
     } else {

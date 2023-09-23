@@ -1,3 +1,4 @@
+import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
@@ -98,14 +99,27 @@ class _AnimeTrackPageContent extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
         child: AnimeTrackItem(
           model: item,
-          onClick: () {},
+          onClick: () {
+            AnimeTrackerRouterDelegate.of(context).navigateToDetailAnime(
+              item.animeModel!.id,
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildAppBar() => const SliverAppBar(
-        title: Text('Track'),
+  Widget _buildAppBar() => SliverAppBar(
+        title: const Text('Track'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: IconButton(
+              icon: const Icon(Icons.schedule_rounded),
+              onPressed: () {},
+            ),
+          )
+        ],
         pinned: true,
         automaticallyImplyLeading: false,
       );
