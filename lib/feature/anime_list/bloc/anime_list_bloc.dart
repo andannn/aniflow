@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
@@ -59,6 +60,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   final AuthRepository _authRepository;
 
   StreamSubscription? _trackingIdsStream;
+  Set<String> _ids = {};
 
   void _init() async {
     final userData = await _authRepository.getUserDataStream().first;
@@ -68,6 +70,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
         userData.id,
         [AnimeListStatus.planning, AnimeListStatus.current],
       ).listen((ids) {
+        logger.d('JQN $ids');
         add(_OnTrackingAnimeIdsChanged(ids: ids));
       });
     }
@@ -127,7 +130,8 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
       newPagingState =
           PageReady(data: currentData + event.data, page: event.page);
     }
-    emit(state.copyWith(animePagingState: newPagingState));
+    final newState = state.copyWith(animePagingState: newPagingState);
+    emit(AnimeListState.copyWithTrackedIds(newState, _ids));
   }
 
   FutureOr<void> _onAnimePageErrorEvent(
@@ -153,6 +157,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
 
   FutureOr<void> _onTrackingAnimeIdsChanged(
       _OnTrackingAnimeIdsChanged event, Emitter<AnimeListState> emit) {
+    _ids = event.ids;
     emit(AnimeListState.copyWithTrackedIds(state, event.ids));
   }
 }

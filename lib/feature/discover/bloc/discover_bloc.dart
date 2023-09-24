@@ -78,6 +78,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   StreamSubscription? _userDataSub;
   StreamSubscription? _trackedAnimeIdsSub;
 
+  Set<String> _ids = {};
+
   @override
   void onChange(Change<DiscoverUiState> change) {
     super.onChange(change);
@@ -180,16 +182,18 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   FutureOr<void> _onAnimeLoaded(
       _OnAnimeLoaded event, Emitter<DiscoverUiState> emit) {
     final result = PageReady(data: event.animeList, page: 1);
+    final DiscoverUiState newState;
     switch (event.category) {
       case AnimeCategory.nextSeason:
-        emit(state.copyWith(nextSeasonPagingState: result));
+        newState = state.copyWith(nextSeasonPagingState: result);
       case AnimeCategory.currentSeason:
-        emit(state.copyWith(currentSeasonPagingState: result));
+        newState = state.copyWith(currentSeasonPagingState: result);
       case AnimeCategory.trending:
-        emit(state.copyWith(trendingPagingState: result));
+        newState = state.copyWith(trendingPagingState: result);
       case AnimeCategory.movie:
-        emit(state.copyWith(moviePagingState: result));
+        newState = state.copyWith(moviePagingState: result);
     }
+    emit(DiscoverUiState.copyWithTrackedIds(newState, _ids));
   }
 
   FutureOr<void> _onAnimeLoadError(
@@ -220,6 +224,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   FutureOr<void> _onTrackingAnimeIdsChanged(
       _OnTrackingAnimeIdsChanged event, Emitter<DiscoverUiState> emit) {
+    _ids = event.ids;
     emit(DiscoverUiState.copyWithTrackedIds(state, event.ids));
   }
 }
