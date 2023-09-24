@@ -1,7 +1,6 @@
 
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
-import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_list_dto.freezed.dart';
