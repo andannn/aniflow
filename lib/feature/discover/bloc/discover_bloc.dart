@@ -38,8 +38,8 @@ class _OnUserDataChanged extends DiscoverEvent {
   final UserData? userData;
 }
 
-class _OnTrackedAnimeIdsChanged extends DiscoverEvent {
-  _OnTrackedAnimeIdsChanged({required this.ids});
+class _OnTrackingAnimeIdsChanged extends DiscoverEvent {
+  _OnTrackingAnimeIdsChanged(this.ids);
 
   final Set<String> ids;
 }
@@ -61,7 +61,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     on<_OnAnimeLoaded>(_onAnimeLoaded);
     on<_OnAnimeLoadError>(_onAnimeLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
-    on<_OnTrackedAnimeIdsChanged>(_onTrackedAnimeIdsChanged);
+    on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
 
     _userDataSub ??=
         authRepository.getUserDataStream().listen((userDataNullable) {
@@ -182,13 +182,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     final result = PageReady(data: event.animeList, page: 1);
     switch (event.category) {
       case AnimeCategory.nextSeason:
-        emit(state.copyWith(nextSeasonAnimePagingState: result));
+        emit(state.copyWith(nextSeasonPagingState: result));
       case AnimeCategory.currentSeason:
-        emit(state.copyWith(currentSeasonAnimePagingState: result));
+        emit(state.copyWith(currentSeasonPagingState: result));
       case AnimeCategory.trending:
-        emit(state.copyWith(trendingAnimePagingState: result));
+        emit(state.copyWith(trendingPagingState: result));
       case AnimeCategory.movie:
-        emit(state.copyWith(movieAnimePagingState: result));
+        emit(state.copyWith(moviePagingState: result));
     }
   }
 
@@ -200,22 +200,26 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     emit(state.copyWith(userData: event.userData));
 
     if (event.userData != null) {
+      /// user login, start listen following anime changed.
       await _trackedAnimeIdsSub?.cancel();
       _trackedAnimeIdsSub =
           _animeTrackListRepository.getAnimeListAnimeIdsByUserStream(
         event.userData!.id,
         [AnimeListStatus.planning, AnimeListStatus.current],
       ).listen((ids) {
-        add(_OnTrackedAnimeIdsChanged(ids: ids));
+        add(_OnTrackingAnimeIdsChanged(ids));
       });
 
       /// post event to sync user anime list.
       _animeTrackListRepository.syncUserAnimeList(userId: event.userData!.id);
+    } else {
+      /// user logout, cancel following stream.
+      await _trackedAnimeIdsSub?.cancel();
     }
   }
 
-  FutureOr<void> _onTrackedAnimeIdsChanged(
-      _OnTrackedAnimeIdsChanged event, Emitter<DiscoverUiState> emit) {
-    emit(state.copyWith(trackedAnimeIds: event.ids));
+  FutureOr<void> _onTrackingAnimeIdsChanged(
+      _OnTrackingAnimeIdsChanged event, Emitter<DiscoverUiState> emit) {
+    emit(DiscoverUiState.copyWithTrackedIds(state, event.ids));
   }
 }

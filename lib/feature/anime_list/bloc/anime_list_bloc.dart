@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 
@@ -27,13 +28,25 @@ class OnRequestLoadPageEvent extends AnimeListEvent {}
 
 class OnRetryLoadPageEvent extends AnimeListEvent {}
 
+class _OnTrackingAnimeIdsChanged extends AnimeListEvent {
+  final Set<String> ids;
+
+  _OnTrackingAnimeIdsChanged({required this.ids});
+}
+
 class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
-  AnimeListBloc(
-      {required this.category, required AniListRepository aniListRepository})
-      : _aniListRepository = aniListRepository,
+  AnimeListBloc({
+    required this.category,
+    required AuthRepository authRepository,
+    required AniListRepository aniListRepository,
+    required AnimeTrackListRepository animeTrackListRepository,
+  })  : _aniListRepository = aniListRepository,
+        _authRepository = authRepository,
+        _animeTrackListRepository = animeTrackListRepository,
         super(AnimeListState()) {
     on<_OnAnimePageLoadedEvent>(_onAnimePageLoadedEvent);
     on<_OnAnimePageErrorEvent>(_onAnimePageErrorEvent);
+    on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
     on<OnRequestLoadPageEvent>(_onRequestLoadPageEvent);
     on<OnRetryLoadPageEvent>(_onRetryLoadPageEvent);
 
@@ -42,17 +55,32 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
 
   final AnimeCategory category;
   final AniListRepository _aniListRepository;
+  final AnimeTrackListRepository _animeTrackListRepository;
+  final AuthRepository _authRepository;
 
-  @override
-  void onChange(Change<AnimeListState> change) {
-    super.onChange(change);
-    logger.d(
-        'print ${change.nextState.animePagingState.runtimeType} ${change.nextState.animePagingState.page} ${change.nextState.animePagingState.data.length}');
-  }
+  StreamSubscription? _trackingIdsStream;
 
   void _init() async {
+    final userData = await _authRepository.getUserDataStream().first;
+    if (userData != null) {
+      _trackingIdsStream =
+          _animeTrackListRepository.getAnimeListAnimeIdsByUserStream(
+        userData.id,
+        [AnimeListStatus.planning, AnimeListStatus.current],
+      ).listen((ids) {
+        add(_OnTrackingAnimeIdsChanged(ids: ids));
+      });
+    }
+
     /// launch event to get first page data.
     _createLoadAnimePageTask(page: 1);
+  }
+
+  @override
+  Future<void> close() {
+    _trackingIdsStream?.cancel();
+
+    return super.close();
   }
 
   FutureOr<void> _onRequestLoadPageEvent(
@@ -121,5 +149,10 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
 
     /// post task to load anime.
     _createLoadAnimePageTask(page: state.animePagingState.page + 1);
+  }
+
+  FutureOr<void> _onTrackingAnimeIdsChanged(
+      _OnTrackingAnimeIdsChanged event, Emitter<AnimeListState> emit) {
+    emit(AnimeListState.copyWithTrackedIds(state, event.ids));
   }
 }

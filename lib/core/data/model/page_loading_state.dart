@@ -6,6 +6,21 @@ sealed class PagingState<T> extends Equatable {
 
   const PagingState({required this.data, required this.page});
 
+  PagingState<T> updateWith(T Function(T) updater) {
+    final newData = updater.call(data);
+
+    if (this is PageLoading) {
+      return PageLoading(data: newData, page: page);
+    } else if (this is PageReady) {
+      return PageReady(data: newData, page: page);
+    } else if (this is PageLoadReachEnd) {
+      return PageLoadReachEnd(data: newData, page: page);
+    } else {
+      final state = (this as PageLoadingError);
+      return PageLoadingError(state.exception, data: newData, page: page);
+    }
+  }
+
   @override
   List<Object?> get props => [data, page];
 
@@ -34,7 +49,7 @@ class PageLoadReachEnd<T> extends PagingState<T> {
 
 /// having error when load page.
 class PageLoadingError<T> extends PagingState<T> {
-  const PageLoadingError(this.exception,
+  const  PageLoadingError(this.exception,
       {required super.data, required super.page});
 
   final Exception exception;

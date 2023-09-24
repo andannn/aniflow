@@ -51,11 +51,10 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DiscoverBloc, DiscoverUiState>(
       builder: (BuildContext context, state) {
-        final currentSeasonState = state.currentSeasonAnimePagingState;
-        final nextSeasonState = state.nextSeasonAnimePagingState;
-        final trendingState = state.trendingAnimePagingState;
-        final movieState = state.movieAnimePagingState;
-        final trackedAnimeIds = state.trackedAnimeIds;
+        final currentSeasonState = state.currentSeasonPagingState;
+        final nextSeasonState = state.nextSeasonPagingState;
+        final trendingState = state.trendingPagingState;
+        final movieState = state.moviePagingState;
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
         return RefreshIndicator(
@@ -85,7 +84,6 @@ class DiscoverScreen extends StatelessWidget {
                   context,
                   AnimeCategory.currentSeason,
                   currentSeasonState,
-                  trackedAnimeIds,
                 ),
               ),
               const SliverToBoxAdapter(
@@ -96,7 +94,6 @@ class DiscoverScreen extends StatelessWidget {
                   context,
                   AnimeCategory.nextSeason,
                   nextSeasonState,
-                  trackedAnimeIds,
                 ),
               ),
               const SliverToBoxAdapter(
@@ -107,7 +104,6 @@ class DiscoverScreen extends StatelessWidget {
                   context,
                   AnimeCategory.trending,
                   trendingState,
-                  trackedAnimeIds,
                 ),
               ),
               const SliverToBoxAdapter(
@@ -118,7 +114,6 @@ class DiscoverScreen extends StatelessWidget {
                   context,
                   AnimeCategory.movie,
                   movieState,
-                  trackedAnimeIds,
                 ),
               ),
             ],
@@ -132,7 +127,6 @@ class DiscoverScreen extends StatelessWidget {
     BuildContext context,
     AnimeCategory category,
     PagingState state,
-    Set<String> trackedAnimeIds,
   ) {
     final animeModels = state.data;
     final isLoading = state is PageLoading;
@@ -140,7 +134,6 @@ class DiscoverScreen extends StatelessWidget {
       category: category,
       animeModels: animeModels,
       isLoading: isLoading,
-      trackedAnimeIds: trackedAnimeIds,
       onMoreClick: () {
         AnimeTrackerRouterDelegate.of(context).navigateToAnimeList(category);
       },
@@ -156,7 +149,6 @@ class _AnimeCategoryPreview extends StatelessWidget {
       {required this.category,
       required this.animeModels,
       required this.isLoading,
-      required this.trackedAnimeIds,
       this.onMoreClick,
       this.onAnimeClick});
 
@@ -165,7 +157,6 @@ class _AnimeCategoryPreview extends StatelessWidget {
   final List<AnimeModel> animeModels;
   final VoidCallback? onMoreClick;
   final Function(String animeId)? onAnimeClick;
-  final Set<String> trackedAnimeIds;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +177,6 @@ class _AnimeCategoryPreview extends StatelessWidget {
                         width: 160,
                         textStyle: Theme.of(context).textTheme.titleSmall,
                         model: animeModels[index],
-                        isTracking: trackedAnimeIds.contains(animeModels[index].id),
                         onClick: () =>
                             onAnimeClick?.call(animeModels[index].id),
                       );

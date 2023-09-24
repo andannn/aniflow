@@ -8,13 +8,11 @@ class AnimePreviewItem extends StatelessWidget {
   const AnimePreviewItem(
       {required this.model,
       required this.onClick,
-      this.isTracking = false,
       super.key,
       this.width,
       this.textStyle});
 
   final AnimeModel model;
-  final bool isTracking;
   final VoidCallback onClick;
   final double? width;
   final TextStyle? textStyle;
@@ -60,7 +58,7 @@ class AnimePreviewItem extends StatelessWidget {
                 ]),
               ),
             ),
-            isTracking
+            model.isFollowing
                 ? Align(
                     alignment: Alignment.topRight,
                     child: Transform.translate(

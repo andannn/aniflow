@@ -3,6 +3,8 @@ import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_bloc.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
@@ -34,6 +36,8 @@ class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
       create: (context) => AnimeListBloc(
         category: category,
         aniListRepository: context.read<AniListRepository>(),
+        authRepository: context.read<AuthRepository>(),
+        animeTrackListRepository: context.read<AnimeTrackListRepository>(),
       ),
       child: const Scaffold(
         body: _AnimeListPageContent(),

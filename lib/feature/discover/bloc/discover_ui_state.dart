@@ -9,15 +9,40 @@ part 'discover_ui_state.freezed.dart';
 class DiscoverUiState with _$DiscoverUiState {
   factory DiscoverUiState({
     @Default('') String isShowSuggestionBoard,
-    @Default({}) Set<String> trackedAnimeIds,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> currentSeasonAnimePagingState,
+    PagingState<List<AnimeModel>> currentSeasonPagingState,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> nextSeasonAnimePagingState,
+    PagingState<List<AnimeModel>> nextSeasonPagingState,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> trendingAnimePagingState,
+    PagingState<List<AnimeModel>> trendingPagingState,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> movieAnimePagingState,
+    PagingState<List<AnimeModel>> moviePagingState,
     UserData? userData,
   }) = _DiscoverUiState;
+
+  static DiscoverUiState copyWithTrackedIds(
+      DiscoverUiState state, Set<String> ids) {
+    return state.copyWith(
+      currentSeasonPagingState: state.currentSeasonPagingState.updateWith(
+        (animeList) => animeList
+            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+            .toList(),
+      ),
+      nextSeasonPagingState: state.nextSeasonPagingState.updateWith(
+        (animeList) => animeList
+            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+            .toList(),
+      ),
+      trendingPagingState: state.trendingPagingState.updateWith(
+        (animeList) => animeList
+            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+            .toList(),
+      ),
+      moviePagingState: state.moviePagingState.updateWith(
+        (animeList) => animeList
+            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+            .toList(),
+      ),
+    );
+  }
 }

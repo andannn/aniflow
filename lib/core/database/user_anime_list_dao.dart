@@ -23,7 +23,7 @@ mixin UserAnimeListTableColumns {
 }
 
 abstract class AnimeTrackListDao {
-  Future removeUserAnimeListByUserId(int userId);
+  Future removeUserAnimeListByUserId(String userId);
 
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
       String userId, List<AnimeListStatus> status,
@@ -51,7 +51,7 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   final Map<String, ValueNotifier> _notifiers = {};
 
   @override
-  Future removeUserAnimeListByUserId(int userId) async {
+  Future removeUserAnimeListByUserId(String userId) async {
     await database.animeDB.delete(
       Tables.userAnimeListTable,
       where: '${UserAnimeListTableColumns.userId}=$userId',
