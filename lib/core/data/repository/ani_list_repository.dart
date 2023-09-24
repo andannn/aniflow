@@ -1,3 +1,4 @@
+import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
@@ -5,8 +6,7 @@ import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
@@ -98,31 +98,29 @@ AnimeSeasonParam getNextSeasonParam(AnimeSeasonParam current) {
 abstract class AniListRepository {
   /// refresh the category anime table, which will deleted the table and get
   /// data from network data source.
-  Future<LoadResult<ShortAnimeModel>> refreshAnimeByCategory(
+  Future<LoadResult<AnimeModel>> refreshAnimeByCategory(
       {required AnimeCategory category});
 
   /// get data from database or network if database have no data.
-  Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory({
+  Future<LoadResult<AnimeModel>> getAnimePageByCategory({
     required AnimeCategory category,
     required int page,
     int perPage = Config.defaultPerPageCount,
   });
 
-  Stream<DetailAnimeModel> getDetailAnimeInfoStream(String id);
+  Stream<AnimeModel> getDetailAnimeInfoStream(String id);
 
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id);
 }
 
 class AniListRepositoryImpl extends AniListRepository {
-  AniListRepositoryImpl(
-      this.aniListDataSource, this.animeDao, this.preferences);
 
-  final AniListDataSource aniListDataSource;
-  final AnimeListDao animeDao;
-  final AnimeTrackerPreferences preferences;
+  final AniListDataSource aniListDataSource = AniListDataSource();
+  final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
+  final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<LoadResult<ShortAnimeModel>> getAnimePageByCategory(
+  Future<LoadResult<AnimeModel>> getAnimePageByCategory(
       {required AnimeCategory category,
       required int page,
       int perPage = Config.defaultPerPageCount}) {
@@ -140,7 +138,7 @@ class AniListRepositoryImpl extends AniListRepository {
   }
 
   @override
-  Future<LoadResult<ShortAnimeModel>> refreshAnimeByCategory(
+  Future<LoadResult<AnimeModel>> refreshAnimeByCategory(
       {required AnimeCategory category}) {
     return _loadAnimePage(
         category: category,
@@ -197,7 +195,7 @@ class AniListRepositoryImpl extends AniListRepository {
     );
   }
 
-  Future<LoadResult<ShortAnimeModel>> _loadAnimePage(
+  Future<LoadResult<AnimeModel>> _loadAnimePage(
       {required AnimeCategory category,
       required LoadType type,
       required AnimePageQueryParam animeListParam}) async {
@@ -222,7 +220,7 @@ class AniListRepositoryImpl extends AniListRepository {
           /// load success, return result.
           return LoadSuccess(
               data: dbAnimeList
-                  .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+                  .map((e) => AnimeModel.fromDatabaseModel(e))
                   .toList());
         case LoadType.append:
           final dbResult = await animeDao.getAnimeByPage(category,
@@ -244,14 +242,14 @@ class AniListRepositoryImpl extends AniListRepository {
                 page: animeListParam.page, perPage: animeListParam.perPage);
             return LoadSuccess(
               data: newResult
-                  .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+                  .map((e) => AnimeModel.fromDatabaseModel(e))
                   .toList()
             );
           } else {
             /// we have catch in db, return the result.
             return LoadSuccess(
                 data: dbResult
-                    .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+                    .map((e) => AnimeModel.fromDatabaseModel(e))
                     .toList());
           }
       }
@@ -261,10 +259,10 @@ class AniListRepositoryImpl extends AniListRepository {
   }
 
   @override
-  Stream<DetailAnimeModel> getDetailAnimeInfoStream(String id) {
+  Stream<AnimeModel> getDetailAnimeInfoStream(String id) {
     return animeDao.getDetailAnimeInfoStream(id).map(
           (entity) =>
-              DetailAnimeModel.fromAnimeCharactersAndVoiceActors(entity),
+              AnimeModel.fromAnimeCharactersAndVoiceActors(entity),
         );
   }
 

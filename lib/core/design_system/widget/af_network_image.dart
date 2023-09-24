@@ -41,21 +41,15 @@ class _AFNetworkImageState extends State<AFNetworkImage>
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         int? cacheWidthInPixel;
-        int? cacheHeightInPixel;
         final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
         if (constraints.hasBoundedWidth) {
           cacheWidthInPixel = (constraints.maxWidth * devicePixelRatio).toInt();
-        }
-        if (constraints.hasBoundedHeight) {
-          cacheHeightInPixel =
-              (constraints.maxHeight * devicePixelRatio).toInt();
         }
         return ExtendedImage.network(
           widget.imageUrl,
           width: widget.width,
           height: widget.height,
           cacheWidth: cacheWidthInPixel,
-          cacheHeight: cacheHeightInPixel,
           fit: BoxFit.cover,
           clearMemoryCacheWhenDispose: true,
           loadStateChanged: (ExtendedImageState state) {

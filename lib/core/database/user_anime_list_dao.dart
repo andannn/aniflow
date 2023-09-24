@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/common/stream_util.dart';
 import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
@@ -7,6 +8,8 @@ import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:sqflite/sqflite.dart';
 
 /// [Tables.userAnimeListTable]
 mixin UserAnimeListTableColumns {
@@ -26,13 +29,20 @@ abstract class UserAnimeListDao {
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
 
+  Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
+      String userId, List<AnimeListStatus> status);
+
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
+
+  void notifyUserAnimeContentChanged(String userId);
 }
 
 class UserAnimeListDaoImpl extends UserAnimeListDao {
   final AnimeDatabase database;
 
   UserAnimeListDaoImpl(this.database);
+
+  final Map<String, ValueNotifier> _notifiers = {};
 
   @override
   Future removeUserAnimeListByUserId(int userId) async {
@@ -60,7 +70,8 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
       select * from ${Tables.userAnimeListTable} as ua
       left join ${Tables.animeTable} as a
       on ua.${UserAnimeListTableColumns.animeId}=a.${AnimeTableColumns.id}
-      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId' 
+      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId'
+      order by ${UserAnimeListTableColumns.updatedAt} desc
       ''';
     if (limit != null) {
       sql += '''
@@ -83,8 +94,28 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
-      batch.insert(Tables.userAnimeListTable, entity.toJson());
+      batch.insert(
+        Tables.userAnimeListTable,
+        entity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
     await batch.commit(noResult: true);
+  }
+
+  @override
+  Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
+      String userId, List<AnimeListStatus> status) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(changeSource,
+        () => getUserAnimeListByPage(userId, status, page: 1, perPage: null));
+  }
+
+  @override
+  void notifyUserAnimeContentChanged(String userId) {
+    final notifier = _notifiers[userId];
+    if (notifier != null) {
+      notifier.value = notifier.value++;
+    }
   }
 }

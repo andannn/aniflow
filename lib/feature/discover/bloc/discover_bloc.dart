@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
@@ -20,7 +20,7 @@ sealed class DiscoverEvent {}
 class _OnAnimeLoaded extends DiscoverEvent {
   _OnAnimeLoaded(this.animeList, this.category);
 
-  final List<ShortAnimeModel> animeList;
+  final List<AnimeModel> animeList;
   final AnimeCategory category;
 }
 
@@ -153,10 +153,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
           category: category, page: 1);
     }
     switch (result) {
-      case LoadSuccess<ShortAnimeModel>(data: final data):
+      case LoadSuccess<AnimeModel>(data: final data):
         add(_OnAnimeLoaded(data, category));
         return true;
-      case LoadError<ShortAnimeModel>(exception: final exception):
+      case LoadError<AnimeModel>(exception: final exception):
         add(_OnAnimeLoadError(exception, category));
         return false;
       default:

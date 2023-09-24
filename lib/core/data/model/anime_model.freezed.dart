@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'detail_anime_model.dart';
+part of 'anime_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$DetailAnimeModel {
+mixin _$AnimeModel {
   String get id => throw _privateConstructorUsedError;
   AnimeTitle? get title => throw _privateConstructorUsedError;
   String get coverImage => throw _privateConstructorUsedError;
@@ -39,15 +39,15 @@ mixin _$DetailAnimeModel {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DetailAnimeModelCopyWith<DetailAnimeModel> get copyWith =>
+  $AnimeModelCopyWith<AnimeModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DetailAnimeModelCopyWith<$Res> {
-  factory $DetailAnimeModelCopyWith(
-          DetailAnimeModel value, $Res Function(DetailAnimeModel) then) =
-      _$DetailAnimeModelCopyWithImpl<$Res, DetailAnimeModel>;
+abstract class $AnimeModelCopyWith<$Res> {
+  factory $AnimeModelCopyWith(
+          AnimeModel value, $Res Function(AnimeModel) then) =
+      _$AnimeModelCopyWithImpl<$Res, AnimeModel>;
   @useResult
   $Res call(
       {String id,
@@ -76,9 +76,9 @@ abstract class $DetailAnimeModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
-    implements $DetailAnimeModelCopyWith<$Res> {
-  _$DetailAnimeModelCopyWithImpl(this._value, this._then);
+class _$AnimeModelCopyWithImpl<$Res, $Val extends AnimeModel>
+    implements $AnimeModelCopyWith<$Res> {
+  _$AnimeModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -220,7 +220,7 @@ class _$DetailAnimeModelCopyWithImpl<$Res, $Val extends DetailAnimeModel>
 
 /// @nodoc
 abstract class _$$_DetailAnimeModelCopyWith<$Res>
-    implements $DetailAnimeModelCopyWith<$Res> {
+    implements $AnimeModelCopyWith<$Res> {
   factory _$$_DetailAnimeModelCopyWith(
           _$_DetailAnimeModel value, $Res Function(_$_DetailAnimeModel) then) =
       __$$_DetailAnimeModelCopyWithImpl<$Res>;
@@ -256,7 +256,7 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
 
 /// @nodoc
 class __$$_DetailAnimeModelCopyWithImpl<$Res>
-    extends _$DetailAnimeModelCopyWithImpl<$Res, _$_DetailAnimeModel>
+    extends _$AnimeModelCopyWithImpl<$Res, _$_DetailAnimeModel>
     implements _$$_DetailAnimeModelCopyWith<$Res> {
   __$$_DetailAnimeModelCopyWithImpl(
       _$_DetailAnimeModel _value, $Res Function(_$_DetailAnimeModel) _then)
@@ -459,7 +459,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
   @override
   String toString() {
-    return 'DetailAnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, characterAndVoiceActors: $characterAndVoiceActors)';
+    return 'AnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, characterAndVoiceActors: $characterAndVoiceActors)';
   }
 
   @override
@@ -535,7 +535,7 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       __$$_DetailAnimeModelCopyWithImpl<_$_DetailAnimeModel>(this, _$identity);
 }
 
-abstract class _DetailAnimeModel implements DetailAnimeModel {
+abstract class _DetailAnimeModel implements AnimeModel {
   factory _DetailAnimeModel(
           {final String id,
           final AnimeTitle? title,

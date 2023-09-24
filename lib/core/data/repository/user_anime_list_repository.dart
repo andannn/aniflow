@@ -22,7 +22,10 @@ abstract class UserAnimeListRepository {
       int? userId,
       int perPage = Config.defaultPerPageCount});
 
-  Future<LoadResult<void>> syncUserAnimeList(int? userId);
+  Stream<List<AnimeListItemModel>> getUserAnimeListStream(
+      {required List<AnimeListStatus> status, required String userId});
+
+  Future<LoadResult<void>> syncUserAnimeList({String? userId});
 }
 
 class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
@@ -31,7 +34,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
   final AnimeListDao animeListDao = AnimeDatabase().getAnimeDao();
   final AniListDataSource dataSource = AniListDataSource();
-  final AnimeTrackerPreferences preferences = AnimeTrackerPreferences();
+  final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
   Future<List<AnimeListItemModel>> getUserAnimeList(
@@ -55,7 +58,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   }
 
   @override
-  Future<LoadResult<void>> syncUserAnimeList(int? userId) async {
+  Future<LoadResult<void>> syncUserAnimeList({String? userId}) async {
     try {
       final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
       if (targetUserId == null) {
@@ -82,16 +85,27 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
       final animeEntity = networkAnimeList
           .map<AnimeEntity?>(
             (e) => e.media != null
-                ? AnimeEntity.fromShortNetworkModel(e.media!)
+                ? AnimeEntity.fromDetailNetworkModel(e.media!)
                 : null,
           )
           .whereType<AnimeEntity>()
           .toList();
       await animeListDao.upsertDetailAnimeInfo(animeEntity);
 
+      userAnimeListDao.notifyUserAnimeContentChanged(targetUserId);
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
     }
+  }
+
+  @override
+  Stream<List<AnimeListItemModel>> getUserAnimeListStream(
+      {required List<AnimeListStatus> status, required String userId}) {
+    return userAnimeListDao.getUserAnimeListStream(userId, status).map(
+          (models) => models
+              .map((e) => AnimeListItemModel.fromDataBaseModel(e))
+              .toList(),
+        );
   }
 }

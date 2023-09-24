@@ -30,20 +30,31 @@ query(\$page: Int${hasPerPage ? ', \$perPage: Int' : ''}, \$userId: Int${hasAnim
       updatedAt
       media {
         id
-        type
-        format
-        status
+        title {
+          romaji
+          english
+          native
+        }
+        description(asHtml: true)
+        episodes
+        seasonYear
         season
+        source
+        status
         coverImage {
           extraLarge
           large
           medium
           color
         }
-        title {
-          romaji
-          english
-          native
+        averageScore
+        favourites
+        trending
+        nextAiringEpisode {
+          id
+          airingAt
+          episode
+          timeUntilAiring
         }
       }
     }

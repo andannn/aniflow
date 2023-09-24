@@ -1,5 +1,5 @@
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
@@ -7,7 +7,6 @@ import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
@@ -149,7 +148,7 @@ class _AnimeCategoryPreview extends StatelessWidget {
 
   final AnimeCategory category;
   final bool isLoading;
-  final List<ShortAnimeModel> animeModels;
+  final List<AnimeModel> animeModels;
   final VoidCallback? onMoreClick;
   final Function(String animeId)? onAnimeClick;
 

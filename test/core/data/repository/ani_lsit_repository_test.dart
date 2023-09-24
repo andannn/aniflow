@@ -1,7 +1,6 @@
-import 'package:anime_tracker/core/data/model/short_anime_model.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,13 +15,12 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
-      await AnimeTrackerPreferences().init();
-      await AnimeTrackerPreferences().setCurrentSeasonYear(2023);
-      await AnimeTrackerPreferences().setCurrentSeason(AnimeSeason.summer);
+      await AniFlowPreferences().init();
+      await AniFlowPreferences().setCurrentSeasonYear(2023);
+      await AniFlowPreferences().setCurrentSeason(AnimeSeason.summer);
       await animeDatabase.initDatabase(isTest: true);
 
-      aniListRepository = AniListRepositoryImpl(AniListDataSource(),
-          animeDatabase.getAnimeDao(), AnimeTrackerPreferences());
+      aniListRepository = AniListRepositoryImpl();
     });
 
     tearDown(() async {
@@ -42,7 +40,7 @@ void main() {
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
-              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+              .map((e) => AnimeModel.fromDatabaseModel(e))
               .toList()));
     });
 
@@ -56,7 +54,7 @@ void main() {
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
-              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+              .map((e) => AnimeModel.fromDatabaseModel(e))
               .toList()));
     });
 
@@ -70,7 +68,7 @@ void main() {
       expect(
           (result as LoadSuccess).data,
           equals(dbResult
-              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+              .map((e) => AnimeModel.fromDatabaseModel(e))
               .toList()));
     });
 
@@ -82,9 +80,9 @@ void main() {
       final dbResult = await animeDao
           .getAnimeByPage(AnimeCategory.nextSeason, page: 1);
       expect(
-          (result as LoadSuccess<ShortAnimeModel>).data.map((e) => e.id),
+          (result as LoadSuccess<AnimeModel>).data.map((e) => e.id),
           equals(dbResult
-              .map((e) => ShortAnimeModel.fromDatabaseModel(e))
+              .map((e) => AnimeModel.fromDatabaseModel(e))
               .map((e) => e.id)
               .toList()));
     });

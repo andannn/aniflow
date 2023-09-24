@@ -20,7 +20,8 @@ mixin _$AnimeListItemModel {
   AnimeListStatus? get status => throw _privateConstructorUsedError;
   int? get score => throw _privateConstructorUsedError;
   int? get updatedAt => throw _privateConstructorUsedError;
-  ShortAnimeModel? get animeModel => throw _privateConstructorUsedError;
+  int? get progress => throw _privateConstructorUsedError;
+  AnimeModel? get animeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnimeListItemModelCopyWith<AnimeListItemModel> get copyWith =>
@@ -38,9 +39,10 @@ abstract class $AnimeListItemModelCopyWith<$Res> {
       AnimeListStatus? status,
       int? score,
       int? updatedAt,
-      ShortAnimeModel? animeModel});
+      int? progress,
+      AnimeModel? animeModel});
 
-  $ShortAnimeModelCopyWith<$Res>? get animeModel;
+  $AnimeModelCopyWith<$Res>? get animeModel;
 }
 
 /// @nodoc
@@ -60,6 +62,7 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
     Object? status = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
+    Object? progress = freezed,
     Object? animeModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -79,21 +82,25 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
-              as ShortAnimeModel?,
+              as AnimeModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ShortAnimeModelCopyWith<$Res>? get animeModel {
+  $AnimeModelCopyWith<$Res>? get animeModel {
     if (_value.animeModel == null) {
       return null;
     }
 
-    return $ShortAnimeModelCopyWith<$Res>(_value.animeModel!, (value) {
+    return $AnimeModelCopyWith<$Res>(_value.animeModel!, (value) {
       return _then(_value.copyWith(animeModel: value) as $Val);
     });
   }
@@ -112,10 +119,11 @@ abstract class _$$_AnimeListItemModelCopyWith<$Res>
       AnimeListStatus? status,
       int? score,
       int? updatedAt,
-      ShortAnimeModel? animeModel});
+      int? progress,
+      AnimeModel? animeModel});
 
   @override
-  $ShortAnimeModelCopyWith<$Res>? get animeModel;
+  $AnimeModelCopyWith<$Res>? get animeModel;
 }
 
 /// @nodoc
@@ -133,6 +141,7 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
     Object? status = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
+    Object? progress = freezed,
     Object? animeModel = freezed,
   }) {
     return _then(_$_AnimeListItemModel(
@@ -152,10 +161,14 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
-              as ShortAnimeModel?,
+              as AnimeModel?,
     ));
   }
 }
@@ -164,7 +177,12 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
 
 class _$_AnimeListItemModel implements _AnimeListItemModel {
   _$_AnimeListItemModel(
-      {this.id = '', this.status, this.score, this.updatedAt, this.animeModel});
+      {this.id = '',
+      this.status,
+      this.score,
+      this.updatedAt,
+      this.progress,
+      this.animeModel});
 
   @override
   @JsonKey()
@@ -176,11 +194,13 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
   @override
   final int? updatedAt;
   @override
-  final ShortAnimeModel? animeModel;
+  final int? progress;
+  @override
+  final AnimeModel? animeModel;
 
   @override
   String toString() {
-    return 'AnimeListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, animeModel: $animeModel)';
+    return 'AnimeListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, animeModel: $animeModel)';
   }
 
   @override
@@ -193,13 +213,15 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress) &&
             (identical(other.animeModel, animeModel) ||
                 other.animeModel == animeModel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, status, score, updatedAt, animeModel);
+  int get hashCode => Object.hash(
+      runtimeType, id, status, score, updatedAt, progress, animeModel);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +237,8 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
       final AnimeListStatus? status,
       final int? score,
       final int? updatedAt,
-      final ShortAnimeModel? animeModel}) = _$_AnimeListItemModel;
+      final int? progress,
+      final AnimeModel? animeModel}) = _$_AnimeListItemModel;
 
   @override
   String get id;
@@ -226,7 +249,9 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
   @override
   int? get updatedAt;
   @override
-  ShortAnimeModel? get animeModel;
+  int? get progress;
+  @override
+  AnimeModel? get animeModel;
   @override
   @JsonKey(ignore: true)
   _$$_AnimeListItemModelCopyWith<_$_AnimeListItemModel> get copyWith =>

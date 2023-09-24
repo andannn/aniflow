@@ -1,7 +1,8 @@
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_source.dart';
-import 'package:anime_tracker/core/data/model/detail_anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/util/time_util.dart';
 import 'package:flutter/material.dart';
 
 extension AnimeSourceEx on AnimeSource {
@@ -64,7 +65,7 @@ extension CharacterRoleEx on CharacterRole {
   }
 }
 
-extension DetailAnimeModelEx on DetailAnimeModel {
+extension AnimeModelEx on AnimeModel {
   String getAnimeInfoString(BuildContext context) {
     final itemList = <String>[];
     if (seasonYear != null && season != null) {
@@ -84,5 +85,17 @@ extension DetailAnimeModelEx on DetailAnimeModel {
     }
 
     return itemList.join(' · ');
+  }
+
+  String getReleasingTimeString(BuildContext context) {
+    if (nextAiringEpisode == null || timeUntilAiring == null) {
+      return '';
+    }
+    final airingTimeString = TimeUtil.getFormattedDuration(
+        TimeUtil.durationFromSeconds(timeUntilAiring!));
+    if (airingTimeString == null) {
+      return '';
+    }
+    return airingTimeString;
   }
 }
