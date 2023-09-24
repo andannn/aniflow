@@ -91,8 +91,6 @@ class _AnimeListPageContent extends StatelessWidget {
               itemCount: itemCount,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: 2,
-                crossAxisSpacing: 2,
                 childAspectRatio: 3.0 / 5.0,
               ),
               itemBuilder: (context, index) {

@@ -29,10 +29,10 @@ abstract class AnimeTrackListDao {
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
 
-  Future<Set<int>> getAnimeListAnimeIdsByUser(
+  Future<Set<String>> getAnimeListAnimeIdsByUser(
       String userId, List<AnimeListStatus> status);
 
-  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
       String userId, List<AnimeListStatus> status);
 
   Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
@@ -97,7 +97,7 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   }
 
   @override
-  Future<Set<int>> getAnimeListAnimeIdsByUser(
+  Future<Set<String>> getAnimeListAnimeIdsByUser(
       String userId, List<AnimeListStatus> status) async {
     String statusParam = '';
     for (var e in status) {
@@ -115,12 +115,12 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
     final List<Map<String, dynamic>> result =
         await database.animeDB.rawQuery(sql);
     return result
-        .map((e) => int.parse(e[UserAnimeListTableColumns.animeId]))
+        .map((e) => (e[UserAnimeListTableColumns.animeId]).toString())
         .toSet();
   }
 
   @override
-  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
       String userId, List<AnimeListStatus> status) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(

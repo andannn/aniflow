@@ -27,7 +27,7 @@ abstract class AnimeTrackListRepository {
 
   Future<LoadResult<void>> syncUserAnimeList({String? userId});
 
-  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
       String userId, List<AnimeListStatus> status);
 }
 
@@ -113,7 +113,7 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
   }
 
   @override
-  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
       String userId, List<AnimeListStatus> status) {
     return animeTrackListDao.getAnimeListAnimeIdsByUserStream(userId, status);
   }

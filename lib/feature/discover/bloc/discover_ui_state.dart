@@ -9,7 +9,7 @@ part 'discover_ui_state.freezed.dart';
 class DiscoverUiState with _$DiscoverUiState {
   factory DiscoverUiState({
     @Default('') String isShowSuggestionBoard,
-    @Default({}) Set<int> trackedAnimeIds,
+    @Default({}) Set<String> trackedAnimeIds,
     @Default(PageLoading(data: [], page: 1))
     PagingState<List<AnimeModel>> currentSeasonAnimePagingState,
     @Default(PageLoading(data: [], page: 1))

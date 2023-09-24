@@ -41,7 +41,7 @@ class _OnUserDataChanged extends DiscoverEvent {
 class _OnTrackedAnimeIdsChanged extends DiscoverEvent {
   _OnTrackedAnimeIdsChanged({required this.ids});
 
-  final Set<int> ids;
+  final Set<String> ids;
 }
 
 extension DiscoverUiStateEx on DiscoverUiState {
