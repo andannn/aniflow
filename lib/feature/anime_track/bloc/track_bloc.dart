@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/util/anime_list_item_model_util.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_ui_state.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/user_anime_list_load_state.dart';
 import 'package:bloc/bloc.dart';
@@ -30,43 +30,35 @@ class _OnWatchingAnimeListChanged extends TrackEvent {
   _OnWatchingAnimeListChanged({required this.animeList});
 }
 
+class OnToggleShowFollowOnly extends TrackEvent {
+  OnToggleShowFollowOnly();
+}
+
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
-      {required UserAnimeListRepository userAnimeListRepository,
+      {required AnimeTrackListRepository animeTrackListRepository,
       required AuthRepository authRepository})
-      : _userAnimeListRepository = userAnimeListRepository,
+      : _animeTrackListRepository = animeTrackListRepository,
         _authRepository = authRepository,
         super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
     on<_OnWatchingAnimeListChanged>(_onWatchingAnimeListChanged);
+    on<OnToggleShowFollowOnly>(_onToggleShowReleasedOnly);
 
     _init();
   }
 
   StreamSubscription? _userContentSub;
   StreamSubscription? _userStateSub;
-  final UserAnimeListRepository _userAnimeListRepository;
+  final AnimeTrackListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
 
+  var _watchingAnimeList = <AnimeListItemModel>[];
+
   void _init() async {
-    final userData = await _authRepository.getUserDataStream().first;
-    if (userData == null) {
-      /// no login user, return.
-      add(_OnUserStateChanged(userData: null));
-      return;
-    }
-
-    _userContentSub = _userAnimeListRepository.getUserAnimeListStream(
-      status: [AnimeListStatus.planning, AnimeListStatus.current],
-      userId: userData.id,
-    ).listen((animeList) {
-      logger.d('JQN stream data $animeList');
-
-      add(_OnWatchingAnimeListChanged(animeList: animeList));
-    });
-
-    _userStateSub = _authRepository.getUserDataStream().listen((userData) {
+    /// start listen user changed event.
+    _userStateSub ??= _authRepository.getUserDataStream().listen((userData) {
       add(_OnUserStateChanged(userData: userData));
     });
   }
@@ -78,31 +70,36 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     return super.close();
   }
 
-  @override
-  void onChange(Change<TrackUiState> change) {
-    super.onChange(change);
-    logger.d('JQN ${change.nextState.animeLoadState.runtimeType}');
-  }
-
   Future _syncUserAnimeList({required String userId}) async {
     add(_OnLoadStateChanged(isLoading: true));
     final result =
-        await _userAnimeListRepository.syncUserAnimeList(userId: userId);
+        await _animeTrackListRepository.syncUserAnimeList(userId: userId);
     if (result is LoadError) {
       /// load error, show snack bar msg.
     }
     add(_OnLoadStateChanged(isLoading: false));
   }
 
-  FutureOr<void> _onUserStateChanged(
-      _OnUserStateChanged event,
-      Emitter<TrackUiState> emit,
-      ) {
+  Future<void> _onUserStateChanged(
+    _OnUserStateChanged event,
+    Emitter<TrackUiState> emit,
+  ) async {
     if (event.userData == null) {
       emit(state.copyWith(animeLoadState: const UserAnimeNoUser()));
     } else {
-      /// post event to sync user anime list.
-      _syncUserAnimeList(userId: event.userData!.id);
+      if (state.animeLoadState is UserAnimeNoUser) {
+        emit(state.copyWith(animeLoadState: const UserAnimeInitState()));
+      }
+
+      /// start listening streams if needed.
+      final userData = event.userData!;
+      await _userContentSub?.cancel();
+      _userContentSub = _animeTrackListRepository.getUserAnimeListStream(
+          status: [AnimeListStatus.planning, AnimeListStatus.current],
+          userId: userData.id,
+        ).listen((animeList) {
+          add(_OnWatchingAnimeListChanged(animeList: animeList));
+        });
     }
   }
 
@@ -119,8 +116,47 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       return null;
     }
 
+    _watchingAnimeList = event.animeList;
+
+    final needShowReleasedOnly = state.showReleasedOnly;
+
+    /// trim anime list if needed.
+    List<AnimeListItemModel> animeList;
+    if (needShowReleasedOnly) {
+      animeList =
+          _watchingAnimeList.where((e) => e.hasNextReleasingEpisode).toList();
+    } else {
+      animeList = _watchingAnimeList;
+    }
+
     emit(state.copyWith(
-      animeLoadState: UserAnimeLoaded(watchingAnimeList: event.animeList),
+      animeLoadState: UserAnimeLoaded(watchingAnimeList: animeList),
     ));
+  }
+
+  FutureOr<void> _onToggleShowReleasedOnly(
+      OnToggleShowFollowOnly event, Emitter<TrackUiState> emit) {
+    final loadState = state.animeLoadState;
+    if (loadState is UserAnimeNoUser || loadState is UserAnimeInitState) {
+      /// no login, or not loaded, just return.
+      return null;
+    }
+
+    final needShowReleasedOnly = !state.showReleasedOnly;
+    emit(state.copyWith(showReleasedOnly: needShowReleasedOnly));
+
+    /// trim anime list if needed.
+    List<AnimeListItemModel> animeList;
+    if (needShowReleasedOnly) {
+      animeList =
+          _watchingAnimeList.where((e) => e.hasNextReleasingEpisode).toList();
+    } else {
+      animeList = _watchingAnimeList;
+    }
+    emit(
+      state.copyWith(
+        animeLoadState: UserAnimeLoaded(watchingAnimeList: animeList),
+      ),
+    );
   }
 }

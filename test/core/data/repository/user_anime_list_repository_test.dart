@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +9,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('anime_database_test', () {
     final animeDatabase = AnimeDatabase();
-    late UserAnimeListRepository repository;
+    late AnimeTrackListRepository repository;
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});
@@ -20,7 +20,7 @@ void main() {
       await AniFlowPreferences().setCurrentSeason(AnimeSeason.summer);
       await animeDatabase.initDatabase(isTest: true);
 
-      repository = UserAnimeListRepositoryImpl();
+      repository = AnimeTrackListRepositoryImpl();
     });
 
     tearDown(() async {

@@ -34,7 +34,7 @@ class AnimeDatabase {
 
   UserDataDao? _userDataDao;
 
-  UserAnimeListDao? _userAnimeListDao;
+  AnimeTrackListDao? _userAnimeListDao;
 
   Database get animeDB => _animeDB!;
 
@@ -53,7 +53,7 @@ class AnimeDatabase {
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
-  UserAnimeListDao getUserAnimeListDao() =>
+  AnimeTrackListDao getUserAnimeListDao() =>
       _userAnimeListDao ??= UserAnimeListDaoImpl(this);
 
   Future _createTables() async {

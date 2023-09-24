@@ -15,7 +15,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part '../model/anime_list_status.dart';
 
-abstract class UserAnimeListRepository {
+abstract class AnimeTrackListRepository {
   Future<List<AnimeListItemModel>> getUserAnimeList(
       {required List<AnimeListStatus> status,
       int page = 1,
@@ -26,10 +26,13 @@ abstract class UserAnimeListRepository {
       {required List<AnimeListStatus> status, required String userId});
 
   Future<LoadResult<void>> syncUserAnimeList({String? userId});
+
+  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+      String userId, List<AnimeListStatus> status);
 }
 
-class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
-  final UserAnimeListDao userAnimeListDao =
+class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
+  final AnimeTrackListDao animeTrackListDao =
       AnimeDatabase().getUserAnimeListDao();
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
   final AnimeListDao animeListDao = AnimeDatabase().getAnimeDao();
@@ -48,7 +51,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
       return [];
     }
 
-    final animeList = await userAnimeListDao.getUserAnimeListByPage(
+    final animeList = await animeTrackListDao.getUserAnimeListByPage(
         targetUserId.toString(), status,
         page: 1, perPage: null);
 
@@ -79,7 +82,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
       final animeListEntity = networkAnimeList
           .map((e) => UserAnimeListEntity.fromNetworkModel(e))
           .toList();
-      await userAnimeListDao.insertUserAnimeListEntities(animeListEntity);
+      await animeTrackListDao.insertUserAnimeListEntities(animeListEntity);
 
       /// insert anime to database.
       final animeEntity = networkAnimeList
@@ -92,7 +95,7 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
           .toList();
       await animeListDao.upsertDetailAnimeInfo(animeEntity);
 
-      userAnimeListDao.notifyUserAnimeContentChanged(targetUserId);
+      animeTrackListDao.notifyUserAnimeContentChanged(targetUserId);
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
@@ -102,10 +105,16 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   @override
   Stream<List<AnimeListItemModel>> getUserAnimeListStream(
       {required List<AnimeListStatus> status, required String userId}) {
-    return userAnimeListDao.getUserAnimeListStream(userId, status).map(
+    return animeTrackListDao.getUserAnimeListStream(userId, status).map(
           (models) => models
               .map((e) => AnimeListItemModel.fromDataBaseModel(e))
               .toList(),
         );
+  }
+
+  @override
+  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+      String userId, List<AnimeListStatus> status) {
+    return animeTrackListDao.getAnimeListAnimeIdsByUserStream(userId, status);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/design_system/widget/af_toogle_button.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_track_item.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_bloc.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_ui_state.dart';
@@ -24,14 +23,8 @@ class AnimeTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TrackBloc(
-        userAnimeListRepository: context.read<UserAnimeListRepository>(),
-        authRepository: context.read<AuthRepository>(),
-      ),
-      child: const Scaffold(
-        body: _AnimeTrackPageContent(),
-      ),
+    return const Scaffold(
+      body: _AnimeTrackPageContent(),
     );
   }
 
@@ -58,19 +51,19 @@ class _AnimeTrackPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TrackBloc, TrackUiState>(builder: (context, state) {
       // final isLoading = state.isLoading;
-      final animeLoadState = state.animeLoadState;
 
       return CustomScrollView(
         slivers: [
           _buildAppBar(),
-          ..._buildTrackSectionContents(context, animeLoadState),
+          ..._buildTrackSectionContents(context, state),
         ],
       );
     });
   }
 
   List<Widget> _buildTrackSectionContents(
-      BuildContext context, UserAnimeLoadState animeLoadState) {
+      BuildContext context, TrackUiState state) {
+    final animeLoadState = state.animeLoadState;
     if (animeLoadState is UserAnimeNoUser) {
       return [
         _buildNoUserHint(),
@@ -81,7 +74,11 @@ class _AnimeTrackPageContent extends StatelessWidget {
       ];
     } else {
       final animeList = (animeLoadState as UserAnimeLoaded).watchingAnimeList;
+      final showReleasedOnly = state.showReleasedOnly;
       return [
+        SliverToBoxAdapter(
+          child: _buildFilterBarSection(context, showReleasedOnly),
+        ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) => _buildAnimeListItem(context, animeList[index]),
@@ -106,6 +103,22 @@ class _AnimeTrackPageContent extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildFilterBarSection(BuildContext context, bool showReleasedOnly) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(width: 12),
+        AniFlowToggleButton(
+          label: 'Released only',
+          selected: showReleasedOnly,
+          onClick: () {
+            context.read<TrackBloc>().add(OnToggleShowFollowOnly());
+          },
+        ),
+      ],
     );
   }
 

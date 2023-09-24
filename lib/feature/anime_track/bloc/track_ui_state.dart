@@ -8,6 +8,7 @@ part 'track_ui_state.freezed.dart';
 class TrackUiState with _$TrackUiState {
   factory TrackUiState({
     @Default(false) bool isLoading,
+    @Default(false) bool showReleasedOnly,
     @Default(UserAnimeInitState()) UserAnimeLoadState animeLoadState,
   }) = _TrackUiState;
 }

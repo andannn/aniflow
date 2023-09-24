@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:anime_tracker/core/common/stream_util.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
@@ -22,12 +22,18 @@ mixin UserAnimeListTableColumns {
   static const String updatedAt = 'updatedAt';
 }
 
-abstract class UserAnimeListDao {
+abstract class AnimeTrackListDao {
   Future removeUserAnimeListByUserId(int userId);
 
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
+
+  Future<Set<int>> getAnimeListAnimeIdsByUser(
+      String userId, List<AnimeListStatus> status);
+
+  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+      String userId, List<AnimeListStatus> status);
 
   Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
       String userId, List<AnimeListStatus> status);
@@ -37,7 +43,7 @@ abstract class UserAnimeListDao {
   void notifyUserAnimeContentChanged(String userId);
 }
 
-class UserAnimeListDaoImpl extends UserAnimeListDao {
+class UserAnimeListDaoImpl extends AnimeTrackListDao {
   final AnimeDatabase database;
 
   UserAnimeListDaoImpl(this.database);
@@ -88,6 +94,37 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
               animeEntity: AnimeEntity.fromJson(e),
             ))
         .toList();
+  }
+
+  @override
+  Future<Set<int>> getAnimeListAnimeIdsByUser(
+      String userId, List<AnimeListStatus> status) async {
+    String statusParam = '';
+    for (var e in status) {
+      statusParam += '\'${e.sqlTypeString}\'';
+      if (status.last != e) {
+        statusParam += ',';
+      }
+    }
+
+    String sql = '''
+      select ${UserAnimeListTableColumns.animeId} from ${Tables.userAnimeListTable}
+      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId'
+      ''';
+
+    final List<Map<String, dynamic>> result =
+        await database.animeDB.rawQuery(sql);
+    return result
+        .map((e) => int.parse(e[UserAnimeListTableColumns.animeId]))
+        .toSet();
+  }
+
+  @override
+  Stream<Set<int>> getAnimeListAnimeIdsByUserStream(
+      String userId, List<AnimeListStatus> status) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(
+        changeSource, () => getAnimeListAnimeIdsByUser(userId, status));
   }
 
   @override

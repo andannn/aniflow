@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
@@ -70,7 +70,6 @@ void main() {
       expect(res[0].animeEntity, equals(dummyAnimeData[0]));
     });
 
-
     test('get_list_by_multi_status', () async {
       final dao = animeDatabase.getUserAnimeListDao();
       await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
@@ -87,6 +86,17 @@ void main() {
       final res = await dao
           .getUserAnimeListByPage('22', [AnimeListStatus.current, AnimeListStatus.dropped], page: 1, perPage: null);
       expect(res.length, equals(2));
+    });
+
+
+    test('get_list_ids_stream', () async {
+      final dao = animeDatabase.getUserAnimeListDao();
+      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+
+      final stream = dao
+          .getAnimeListAnimeIdsByUserStream('22', [AnimeListStatus.current, AnimeListStatus.dropped]);
+      final res = await stream.first;
+      expect(res, equals([33, 55]));
     });
   });
 }

@@ -1,6 +1,8 @@
 import 'package:anime_tracker/app/ui/colors.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/feature/anime_track/bloc/track_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -126,8 +128,15 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
             userDataRepository: context.read<UserDataRepository>(),
             aniListRepository: context.read<AniListRepository>(),
             authRepository: context.read<AuthRepository>(),
+            animeTrackListRepository: context.read<AnimeTrackListRepository>(),
           ),
-        )
+        ),
+        BlocProvider(
+          create: (context) => TrackBloc(
+            animeTrackListRepository: context.read<AnimeTrackListRepository>(),
+            authRepository: context.read<AuthRepository>(),
+          ),
+        ),
       ],
       child: Scaffold(
         body: Router(

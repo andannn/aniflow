@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DiscoverUiState {
   String get isShowSuggestionBoard => throw _privateConstructorUsedError;
+  Set<int> get trackedAnimeIds => throw _privateConstructorUsedError;
   PagingState<List<AnimeModel>> get currentSeasonAnimePagingState =>
       throw _privateConstructorUsedError;
   PagingState<List<AnimeModel>> get nextSeasonAnimePagingState =>
@@ -40,6 +41,7 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String isShowSuggestionBoard,
+      Set<int> trackedAnimeIds,
       PagingState<List<AnimeModel>> currentSeasonAnimePagingState,
       PagingState<List<AnimeModel>> nextSeasonAnimePagingState,
       PagingState<List<AnimeModel>> trendingAnimePagingState,
@@ -63,6 +65,7 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
   @override
   $Res call({
     Object? isShowSuggestionBoard = null,
+    Object? trackedAnimeIds = null,
     Object? currentSeasonAnimePagingState = null,
     Object? nextSeasonAnimePagingState = null,
     Object? trendingAnimePagingState = null,
@@ -74,6 +77,10 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
           ? _value.isShowSuggestionBoard
           : isShowSuggestionBoard // ignore: cast_nullable_to_non_nullable
               as String,
+      trackedAnimeIds: null == trackedAnimeIds
+          ? _value.trackedAnimeIds
+          : trackedAnimeIds // ignore: cast_nullable_to_non_nullable
+              as Set<int>,
       currentSeasonAnimePagingState: null == currentSeasonAnimePagingState
           ? _value.currentSeasonAnimePagingState
           : currentSeasonAnimePagingState // ignore: cast_nullable_to_non_nullable
@@ -120,6 +127,7 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
   @useResult
   $Res call(
       {String isShowSuggestionBoard,
+      Set<int> trackedAnimeIds,
       PagingState<List<AnimeModel>> currentSeasonAnimePagingState,
       PagingState<List<AnimeModel>> nextSeasonAnimePagingState,
       PagingState<List<AnimeModel>> trendingAnimePagingState,
@@ -142,6 +150,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isShowSuggestionBoard = null,
+    Object? trackedAnimeIds = null,
     Object? currentSeasonAnimePagingState = null,
     Object? nextSeasonAnimePagingState = null,
     Object? trendingAnimePagingState = null,
@@ -153,6 +162,10 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
           ? _value.isShowSuggestionBoard
           : isShowSuggestionBoard // ignore: cast_nullable_to_non_nullable
               as String,
+      trackedAnimeIds: null == trackedAnimeIds
+          ? _value._trackedAnimeIds
+          : trackedAnimeIds // ignore: cast_nullable_to_non_nullable
+              as Set<int>,
       currentSeasonAnimePagingState: null == currentSeasonAnimePagingState
           ? _value.currentSeasonAnimePagingState
           : currentSeasonAnimePagingState // ignore: cast_nullable_to_non_nullable
@@ -182,15 +195,26 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
 class _$_DiscoverUiState implements _DiscoverUiState {
   _$_DiscoverUiState(
       {this.isShowSuggestionBoard = '',
+      final Set<int> trackedAnimeIds = const {},
       this.currentSeasonAnimePagingState = const PageLoading(data: [], page: 1),
       this.nextSeasonAnimePagingState = const PageLoading(data: [], page: 1),
       this.trendingAnimePagingState = const PageLoading(data: [], page: 1),
       this.movieAnimePagingState = const PageLoading(data: [], page: 1),
-      this.userData});
+      this.userData})
+      : _trackedAnimeIds = trackedAnimeIds;
 
   @override
   @JsonKey()
   final String isShowSuggestionBoard;
+  final Set<int> _trackedAnimeIds;
+  @override
+  @JsonKey()
+  Set<int> get trackedAnimeIds {
+    if (_trackedAnimeIds is EqualUnmodifiableSetView) return _trackedAnimeIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_trackedAnimeIds);
+  }
+
   @override
   @JsonKey()
   final PagingState<List<AnimeModel>> currentSeasonAnimePagingState;
@@ -208,7 +232,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
 
   @override
   String toString() {
-    return 'DiscoverUiState(isShowSuggestionBoard: $isShowSuggestionBoard, currentSeasonAnimePagingState: $currentSeasonAnimePagingState, nextSeasonAnimePagingState: $nextSeasonAnimePagingState, trendingAnimePagingState: $trendingAnimePagingState, movieAnimePagingState: $movieAnimePagingState, userData: $userData)';
+    return 'DiscoverUiState(isShowSuggestionBoard: $isShowSuggestionBoard, trackedAnimeIds: $trackedAnimeIds, currentSeasonAnimePagingState: $currentSeasonAnimePagingState, nextSeasonAnimePagingState: $nextSeasonAnimePagingState, trendingAnimePagingState: $trendingAnimePagingState, movieAnimePagingState: $movieAnimePagingState, userData: $userData)';
   }
 
   @override
@@ -218,6 +242,8 @@ class _$_DiscoverUiState implements _DiscoverUiState {
             other is _$_DiscoverUiState &&
             (identical(other.isShowSuggestionBoard, isShowSuggestionBoard) ||
                 other.isShowSuggestionBoard == isShowSuggestionBoard) &&
+            const DeepCollectionEquality()
+                .equals(other._trackedAnimeIds, _trackedAnimeIds) &&
             (identical(other.currentSeasonAnimePagingState,
                     currentSeasonAnimePagingState) ||
                 other.currentSeasonAnimePagingState ==
@@ -239,6 +265,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   int get hashCode => Object.hash(
       runtimeType,
       isShowSuggestionBoard,
+      const DeepCollectionEquality().hash(_trackedAnimeIds),
       currentSeasonAnimePagingState,
       nextSeasonAnimePagingState,
       trendingAnimePagingState,
@@ -255,6 +282,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
 abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
       {final String isShowSuggestionBoard,
+      final Set<int> trackedAnimeIds,
       final PagingState<List<AnimeModel>> currentSeasonAnimePagingState,
       final PagingState<List<AnimeModel>> nextSeasonAnimePagingState,
       final PagingState<List<AnimeModel>> trendingAnimePagingState,
@@ -263,6 +291,8 @@ abstract class _DiscoverUiState implements DiscoverUiState {
 
   @override
   String get isShowSuggestionBoard;
+  @override
+  Set<int> get trackedAnimeIds;
   @override
   PagingState<List<AnimeModel>> get currentSeasonAnimePagingState;
   @override
