@@ -10,4 +10,14 @@ class AnimeListState with _$AnimeListState {
     @Default(PageLoading(data: [], page: 1))
     PagingState<List<AnimeModel>> animePagingState,
   }) = _AnimeListState;
+
+  static AnimeListState copyWithTrackedIds(
+      AnimeListState state, Set<String> ids) {
+    return state.copyWith(
+        animePagingState: state.animePagingState.updateWith(
+      (animeList) => animeList
+          .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+          .toList(),
+    ));
+  }
 }

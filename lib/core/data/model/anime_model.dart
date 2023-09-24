@@ -34,6 +34,7 @@ class AnimeModel with _$AnimeModel {
     int? episodes,
     int? timeUntilAiring,
     int? nextAiringEpisode,
+    @Default(false) bool isFollowing,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
   }) = _DetailAnimeModel;
 

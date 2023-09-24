@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 
 class UserAnimeListPageQueryParam {
   final int page;

@@ -1,4 +1,4 @@
-part of '../repository/user_anime_list_repository.dart';
+part of '../repository/anime_track_list_repository.dart';
 
 /// User anime list status.
 @JsonEnum()

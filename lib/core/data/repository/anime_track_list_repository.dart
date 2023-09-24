@@ -5,7 +5,7 @@ import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
-import 'package:anime_tracker/core/database/user_anime_list_dao.dart';
+import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query.dart';
@@ -15,22 +15,28 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part '../model/anime_list_status.dart';
 
-abstract class UserAnimeListRepository {
+abstract class AnimeTrackListRepository {
   Future<List<AnimeListItemModel>> getUserAnimeList(
       {required List<AnimeListStatus> status,
-      int page = 1,
-      int? userId,
-      int perPage = Config.defaultPerPageCount});
+        int page = 1,
+        int? userId,
+        int perPage = Config.defaultPerPageCount});
 
   Stream<List<AnimeListItemModel>> getUserAnimeListStream(
       {required List<AnimeListStatus> status, required String userId});
 
   Future<LoadResult<void>> syncUserAnimeList({String? userId});
+
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(String userId,
+      List<AnimeListStatus> status);
+
+  Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String animeId});
 }
 
-class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
-  final UserAnimeListDao userAnimeListDao =
-      AnimeDatabase().getUserAnimeListDao();
+class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
+  final AnimeTrackListDao animeTrackListDao =
+  AnimeDatabase().getUserAnimeListDao();
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
   final AnimeListDao animeListDao = AnimeDatabase().getAnimeDao();
   final AniListDataSource dataSource = AniListDataSource();
@@ -39,16 +45,16 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   @override
   Future<List<AnimeListItemModel>> getUserAnimeList(
       {required List<AnimeListStatus> status,
-      int page = 1,
-      int? userId,
-      int perPage = Config.defaultPerPageCount}) async {
+        int page = 1,
+        int? userId,
+        int perPage = Config.defaultPerPageCount}) async {
     final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
     if (targetUserId == null) {
       /// No user.
       return [];
     }
 
-    final animeList = await userAnimeListDao.getUserAnimeListByPage(
+    final animeList = await animeTrackListDao.getUserAnimeListByPage(
         targetUserId.toString(), status,
         page: 1, perPage: null);
 
@@ -79,20 +85,21 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
       final animeListEntity = networkAnimeList
           .map((e) => UserAnimeListEntity.fromNetworkModel(e))
           .toList();
-      await userAnimeListDao.insertUserAnimeListEntities(animeListEntity);
+      await animeTrackListDao.insertUserAnimeListEntities(animeListEntity);
 
       /// insert anime to database.
       final animeEntity = networkAnimeList
           .map<AnimeEntity?>(
-            (e) => e.media != null
-                ? AnimeEntity.fromDetailNetworkModel(e.media!)
-                : null,
-          )
+            (e) =>
+        e.media != null
+            ? AnimeEntity.fromDetailNetworkModel(e.media!)
+            : null,
+      )
           .whereType<AnimeEntity>()
           .toList();
       await animeListDao.upsertDetailAnimeInfo(animeEntity);
 
-      userAnimeListDao.notifyUserAnimeContentChanged(targetUserId);
+      animeTrackListDao.notifyUserAnimeContentChanged(targetUserId);
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
@@ -102,10 +109,24 @@ class UserAnimeListRepositoryImpl extends UserAnimeListRepository {
   @override
   Stream<List<AnimeListItemModel>> getUserAnimeListStream(
       {required List<AnimeListStatus> status, required String userId}) {
-    return userAnimeListDao.getUserAnimeListStream(userId, status).map(
-          (models) => models
+    return animeTrackListDao.getUserAnimeListStream(userId, status).map(
+          (models) =>
+          models
               .map((e) => AnimeListItemModel.fromDataBaseModel(e))
               .toList(),
-        );
+    );
+  }
+
+  @override
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(String userId,
+      List<AnimeListStatus> status) {
+    return animeTrackListDao.getAnimeListAnimeIdsByUserStream(userId, status);
+  }
+
+  @override
+  Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String animeId}) {
+    return animeTrackListDao.getIsTrackingByUserAndIdStream(
+        userId: userId, animeId: animeId);
   }
 }

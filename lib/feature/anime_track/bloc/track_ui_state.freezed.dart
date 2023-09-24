@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TrackUiState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get showReleasedOnly => throw _privateConstructorUsedError;
   UserAnimeLoadState get animeLoadState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,10 @@ abstract class $TrackUiStateCopyWith<$Res> {
           TrackUiState value, $Res Function(TrackUiState) then) =
       _$TrackUiStateCopyWithImpl<$Res, TrackUiState>;
   @useResult
-  $Res call({bool isLoading, UserAnimeLoadState animeLoadState});
+  $Res call(
+      {bool isLoading,
+      bool showReleasedOnly,
+      UserAnimeLoadState animeLoadState});
 }
 
 /// @nodoc
@@ -47,12 +51,17 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? showReleasedOnly = null,
     Object? animeLoadState = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showReleasedOnly: null == showReleasedOnly
+          ? _value.showReleasedOnly
+          : showReleasedOnly // ignore: cast_nullable_to_non_nullable
               as bool,
       animeLoadState: null == animeLoadState
           ? _value.animeLoadState
@@ -70,7 +79,10 @@ abstract class _$$_TrackUiStateCopyWith<$Res>
       __$$_TrackUiStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, UserAnimeLoadState animeLoadState});
+  $Res call(
+      {bool isLoading,
+      bool showReleasedOnly,
+      UserAnimeLoadState animeLoadState});
 }
 
 /// @nodoc
@@ -85,12 +97,17 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? showReleasedOnly = null,
     Object? animeLoadState = null,
   }) {
     return _then(_$_TrackUiState(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showReleasedOnly: null == showReleasedOnly
+          ? _value.showReleasedOnly
+          : showReleasedOnly // ignore: cast_nullable_to_non_nullable
               as bool,
       animeLoadState: null == animeLoadState
           ? _value.animeLoadState
@@ -105,6 +122,7 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
 class _$_TrackUiState implements _TrackUiState {
   _$_TrackUiState(
       {this.isLoading = false,
+      this.showReleasedOnly = false,
       this.animeLoadState = const UserAnimeInitState()});
 
   @override
@@ -112,11 +130,14 @@ class _$_TrackUiState implements _TrackUiState {
   final bool isLoading;
   @override
   @JsonKey()
+  final bool showReleasedOnly;
+  @override
+  @JsonKey()
   final UserAnimeLoadState animeLoadState;
 
   @override
   String toString() {
-    return 'TrackUiState(isLoading: $isLoading, animeLoadState: $animeLoadState)';
+    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, animeLoadState: $animeLoadState)';
   }
 
   @override
@@ -126,12 +147,15 @@ class _$_TrackUiState implements _TrackUiState {
             other is _$_TrackUiState &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.showReleasedOnly, showReleasedOnly) ||
+                other.showReleasedOnly == showReleasedOnly) &&
             (identical(other.animeLoadState, animeLoadState) ||
                 other.animeLoadState == animeLoadState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, animeLoadState);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, showReleasedOnly, animeLoadState);
 
   @JsonKey(ignore: true)
   @override
@@ -143,10 +167,13 @@ class _$_TrackUiState implements _TrackUiState {
 abstract class _TrackUiState implements TrackUiState {
   factory _TrackUiState(
       {final bool isLoading,
+      final bool showReleasedOnly,
       final UserAnimeLoadState animeLoadState}) = _$_TrackUiState;
 
   @override
   bool get isLoading;
+  @override
+  bool get showReleasedOnly;
   @override
   UserAnimeLoadState get animeLoadState;
   @override

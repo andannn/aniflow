@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/database/user_anime_list_dao.dart';
+import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -34,7 +34,7 @@ class AnimeDatabase {
 
   UserDataDao? _userDataDao;
 
-  UserAnimeListDao? _userAnimeListDao;
+  AnimeTrackListDao? _userAnimeListDao;
 
   Database get animeDB => _animeDB!;
 
@@ -53,7 +53,7 @@ class AnimeDatabase {
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
-  UserAnimeListDao getUserAnimeListDao() =>
+  AnimeTrackListDao getUserAnimeListDao() =>
       _userAnimeListDao ??= UserAnimeListDaoImpl(this);
 
   Future _createTables() async {

@@ -3,7 +3,7 @@ import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 extension AnimeListItemModelEx on AnimeListItemModel {
   bool get hasNextReleasingEpisode {
-    final status = animeModel!.status!;
+    final status = animeModel!.status;
     switch (status) {
       case AnimeStatus.releasing:
         final nextAiringEpisode = animeModel!.nextAiringEpisode ?? 0;
@@ -11,6 +11,7 @@ extension AnimeListItemModelEx on AnimeListItemModel {
       case AnimeStatus.finished:
         return progress! < animeModel!.episodes!;
       case AnimeStatus.notYetReleased:
+      case null:
         return false;
     }
   }

@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
@@ -28,8 +28,8 @@ void main() async {
     RepositoryProvider<AuthRepository>(
       create: (context) => AuthRepositoryImpl(),
     ),
-    RepositoryProvider<UserAnimeListRepository>(
-      create: (context) => UserAnimeListRepositoryImpl(),
+    RepositoryProvider<AnimeTrackListRepository>(
+      create: (context) => AnimeTrackListRepositoryImpl(),
     ),
   ], child: const AnimeTrackerApp()));
 }

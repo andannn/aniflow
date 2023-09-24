@@ -7,6 +7,8 @@ import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.da
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/util/anime_model_extension.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
@@ -43,16 +45,10 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
       create: (context) => DetailAnimeBloc(
         animeId: animeId,
         aniListRepository: context.read<AniListRepository>(),
+        authRepository: context.read<AuthRepository>(),
+        animeTrackListRepository: context.read<AnimeTrackListRepository>(),
       ),
-      child: Scaffold(
-        body: const _DetailAnimePageContent(),
-        floatingActionButton: FloatingActionButton.extended(
-          icon: const Icon(Icons.favorite_border),
-          label: const Text('Follow'),
-          isExtended: false,
-          onPressed: () {},
-        ),
-      ),
+      child: const _DetailAnimePageContent(),
     );
   }
 
@@ -83,60 +79,70 @@ class _DetailAnimePageContent extends StatelessWidget {
         if (model == null) {
           return const SizedBox();
         }
-
-        return CustomScrollView(
-          cacheExtent: Config.defaultCatchExtend,
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.maybePop(context);
-                },
+        final isFollowing = model.isFollowing;
+        return Scaffold(
+          floatingActionButton: FloatingActionButton.extended(
+            icon: Icon(
+              isFollowing ? Icons.favorite_outlined : Icons.favorite_border,
+            ),
+            label: const Text('Follow'),
+            isExtended: false,
+            onPressed: () {},
+          ),
+          body: CustomScrollView(
+            cacheExtent: Config.defaultCatchExtend,
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.maybePop(context);
+                  },
+                ),
+                title: Text(model.title!.getLocalTitle(context)),
               ),
-              title: Text(model.title!.getLocalTitle(context)),
-            ),
-            SliverToBoxAdapter(
-              child: _buildBannerSectionSection(context, model.bannerImage),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: _buildAnimeBasicInfoBar(
-                context: context,
-                model: model,
+              SliverToBoxAdapter(
+                child: _buildBannerSectionSection(context, model.bannerImage),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: _buildAnimeInfoSection(context, model),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: _buildAnimeDescription(
-                context: context,
-                description: model.description,
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildAnimeBasicInfoBar(
+                  context: context,
+                  model: model,
+                ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: _buildCharacterSection(
-                context,
-                model.characterAndVoiceActors,
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildAnimeInfoSection(context, model),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(
-              child: _buildTrailerSection(
-                context,
-                trailerModel: model.trailerModel,
-                onTrailerClick: () {
-                  launchUrl(TrailerModel.getLaunchUri(model.trailerModel));
-                },
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildAnimeDescription(
+                  context: context,
+                  description: model.description,
+                ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-          ],
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildCharacterSection(
+                  context,
+                  model.characterAndVoiceActors,
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildTrailerSection(
+                  context,
+                  trailerModel: model.trailerModel,
+                  onTrailerClick: () {
+                    launchUrl(TrailerModel.getLaunchUri(model.trailerModel));
+                  },
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            ],
+          ),
         );
       },
     );

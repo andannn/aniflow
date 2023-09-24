@@ -51,10 +51,10 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DiscoverBloc, DiscoverUiState>(
       builder: (BuildContext context, state) {
-        final currentSeasonState = state.currentSeasonAnimePagingState;
-        final nextSeasonState = state.nextSeasonAnimePagingState;
-        final trendingState = state.trendingAnimePagingState;
-        final movieState = state.movieAnimePagingState;
+        final currentSeasonState = state.currentSeasonPagingState;
+        final nextSeasonState = state.nextSeasonPagingState;
+        final trendingState = state.trendingPagingState;
+        final movieState = state.moviePagingState;
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
         return RefreshIndicator(
@@ -111,7 +111,10 @@ class DiscoverScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
-                    context, AnimeCategory.movie, movieState),
+                  context,
+                  AnimeCategory.movie,
+                  movieState,
+                ),
               ),
             ],
           ),
@@ -121,7 +124,10 @@ class DiscoverScreen extends StatelessWidget {
   }
 
   Widget _buildAnimeCategoryPreview(
-      BuildContext context, AnimeCategory category, PagingState state) {
+    BuildContext context,
+    AnimeCategory category,
+    PagingState state,
+  ) {
     final animeModels = state.data;
     final isLoading = state is PageLoading;
     return _AnimeCategoryPreview(

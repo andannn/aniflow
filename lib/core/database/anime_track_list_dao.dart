@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:anime_tracker/core/common/stream_util.dart';
-import 'package:anime_tracker/core/data/repository/user_anime_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
@@ -22,22 +22,34 @@ mixin UserAnimeListTableColumns {
   static const String updatedAt = 'updatedAt';
 }
 
-abstract class UserAnimeListDao {
-  Future removeUserAnimeListByUserId(int userId);
+abstract class AnimeTrackListDao {
+  Future removeUserAnimeListByUserId(String userId);
 
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
 
+  Future<Set<String>> getAnimeListAnimeIdsByUser(
+      String userId, List<AnimeListStatus> status);
+
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
+      String userId, List<AnimeListStatus> status);
+
   Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
       String userId, List<AnimeListStatus> status);
+
+  Future<bool> getIsTrackingByUserAndId(
+      {required String userId, required String animeId});
+
+  Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String animeId});
 
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
 
   void notifyUserAnimeContentChanged(String userId);
 }
 
-class UserAnimeListDaoImpl extends UserAnimeListDao {
+class UserAnimeListDaoImpl extends AnimeTrackListDao {
   final AnimeDatabase database;
 
   UserAnimeListDaoImpl(this.database);
@@ -45,7 +57,7 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
   final Map<String, ValueNotifier> _notifiers = {};
 
   @override
-  Future removeUserAnimeListByUserId(int userId) async {
+  Future removeUserAnimeListByUserId(String userId) async {
     await database.animeDB.delete(
       Tables.userAnimeListTable,
       where: '${UserAnimeListTableColumns.userId}=$userId',
@@ -91,6 +103,61 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
   }
 
   @override
+  Future<Set<String>> getAnimeListAnimeIdsByUser(
+      String userId, List<AnimeListStatus> status) async {
+    String statusParam = '';
+    for (var e in status) {
+      statusParam += '\'${e.sqlTypeString}\'';
+      if (status.last != e) {
+        statusParam += ',';
+      }
+    }
+
+    String sql = '''
+      select ${UserAnimeListTableColumns.animeId} from ${Tables.userAnimeListTable}
+      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId'
+      ''';
+
+    final List<Map<String, dynamic>> result =
+        await database.animeDB.rawQuery(sql);
+    return result
+        .map((e) => (e[UserAnimeListTableColumns.animeId]).toString())
+        .toSet();
+  }
+
+  @override
+  Future<bool> getIsTrackingByUserAndId(
+      {required String userId, required String animeId}) async {
+    final status = [AnimeListStatus.planning, AnimeListStatus.current];
+    String statusParam = '';
+    for (var e in status) {
+      statusParam += '\'${e.sqlTypeString}\'';
+      if (status.last != e) {
+        statusParam += ',';
+      }
+    }
+
+    String sql = '''
+      select ${UserAnimeListTableColumns.id} from ${Tables.userAnimeListTable}
+      where ${UserAnimeListTableColumns.animeId}='$animeId' 
+        and ${UserAnimeListTableColumns.userId}='$userId' 
+        and ${UserAnimeListTableColumns.status} in ($statusParam)
+      limit 1  
+      ''';
+    final List<Map<String, dynamic>> result =
+        await database.animeDB.rawQuery(sql);
+    return result.isNotEmpty;
+  }
+
+  @override
+  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
+      String userId, List<AnimeListStatus> status) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(
+        changeSource, () => getAnimeListAnimeIdsByUser(userId, status));
+  }
+
+  @override
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
@@ -101,6 +168,14 @@ class UserAnimeListDaoImpl extends UserAnimeListDao {
       );
     }
     await batch.commit(noResult: true);
+  }
+
+  @override
+  Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String animeId}) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(changeSource,
+        () => getIsTrackingByUserAndId(userId: userId, animeId: animeId));
   }
 
   @override

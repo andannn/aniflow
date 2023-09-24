@@ -5,6 +5,7 @@ import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
@@ -37,6 +38,12 @@ class _OnUserDataChanged extends DiscoverEvent {
   final UserData? userData;
 }
 
+class _OnTrackingAnimeIdsChanged extends DiscoverEvent {
+  _OnTrackingAnimeIdsChanged(this.ids);
+
+  final Set<String> ids;
+}
+
 extension DiscoverUiStateEx on DiscoverUiState {
   bool get isLoggedIn => userData != null;
 }
@@ -45,15 +52,18 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   DiscoverBloc(
       {required AuthRepository authRepository,
       required userDataRepository,
-      required aniListRepository})
+      required aniListRepository,
+      required AnimeTrackListRepository animeTrackListRepository})
       : _userDataRepository = userDataRepository,
         _aniListRepository = aniListRepository,
+        _animeTrackListRepository = animeTrackListRepository,
         super(DiscoverUiState()) {
     on<_OnAnimeLoaded>(_onAnimeLoaded);
     on<_OnAnimeLoadError>(_onAnimeLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
+    on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
 
-    _userDataSub =
+    _userDataSub ??=
         authRepository.getUserDataStream().listen((userDataNullable) {
       add(_OnUserDataChanged(userDataNullable));
     });
@@ -63,8 +73,12 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   final UserDataRepository _userDataRepository;
   final AniListRepository _aniListRepository;
+  final AnimeTrackListRepository _animeTrackListRepository;
 
   StreamSubscription? _userDataSub;
+  StreamSubscription? _trackedAnimeIdsSub;
+
+  Set<String> _ids = {};
 
   @override
   void onChange(Change<DiscoverUiState> change) {
@@ -74,6 +88,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   @override
   Future<void> close() {
     _userDataSub?.cancel();
+    _trackedAnimeIdsSub?.cancel();
 
     return super.close();
   }
@@ -167,23 +182,49 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   FutureOr<void> _onAnimeLoaded(
       _OnAnimeLoaded event, Emitter<DiscoverUiState> emit) {
     final result = PageReady(data: event.animeList, page: 1);
+    final DiscoverUiState newState;
     switch (event.category) {
       case AnimeCategory.nextSeason:
-        emit(state.copyWith(nextSeasonAnimePagingState: result));
+        newState = state.copyWith(nextSeasonPagingState: result);
       case AnimeCategory.currentSeason:
-        emit(state.copyWith(currentSeasonAnimePagingState: result));
+        newState = state.copyWith(currentSeasonPagingState: result);
       case AnimeCategory.trending:
-        emit(state.copyWith(trendingAnimePagingState: result));
+        newState = state.copyWith(trendingPagingState: result);
       case AnimeCategory.movie:
-        emit(state.copyWith(movieAnimePagingState: result));
+        newState = state.copyWith(moviePagingState: result);
     }
+    emit(DiscoverUiState.copyWithTrackedIds(newState, _ids));
   }
 
   FutureOr<void> _onAnimeLoadError(
       _OnAnimeLoadError event, Emitter<DiscoverUiState> emit) {}
 
-  FutureOr<void> _onUserDataChanged(
-      _OnUserDataChanged event, Emitter<DiscoverUiState> emit) {
+  Future<void> _onUserDataChanged(
+      _OnUserDataChanged event, Emitter<DiscoverUiState> emit) async {
     emit(state.copyWith(userData: event.userData));
+
+    if (event.userData != null) {
+      /// user login, start listen following anime changed.
+      await _trackedAnimeIdsSub?.cancel();
+      _trackedAnimeIdsSub =
+          _animeTrackListRepository.getAnimeListAnimeIdsByUserStream(
+        event.userData!.id,
+        [AnimeListStatus.planning, AnimeListStatus.current],
+      ).listen((ids) {
+        add(_OnTrackingAnimeIdsChanged(ids));
+      });
+
+      /// post event to sync user anime list.
+      _animeTrackListRepository.syncUserAnimeList(userId: event.userData!.id);
+    } else {
+      /// user logout, cancel following stream.
+      await _trackedAnimeIdsSub?.cancel();
+    }
+  }
+
+  FutureOr<void> _onTrackingAnimeIdsChanged(
+      _OnTrackingAnimeIdsChanged event, Emitter<DiscoverUiState> emit) {
+    _ids = event.ids;
+    emit(DiscoverUiState.copyWithTrackedIds(state, event.ids));
   }
 }
