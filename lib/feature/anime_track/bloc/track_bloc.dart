@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/data/util/anime_list_item_model_util.dart';
@@ -69,16 +68,16 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     _userStateSub?.cancel();
     return super.close();
   }
-
-  Future _syncUserAnimeList({required String userId}) async {
-    add(_OnLoadStateChanged(isLoading: true));
-    final result =
-        await _animeTrackListRepository.syncUserAnimeList(userId: userId);
-    if (result is LoadError) {
-      /// load error, show snack bar msg.
-    }
-    add(_OnLoadStateChanged(isLoading: false));
-  }
+  //
+  // Future _syncUserAnimeList({required String userId}) async {
+  //   add(_OnLoadStateChanged(isLoading: true));
+  //   final result =
+  //       await _animeTrackListRepository.syncUserAnimeList(userId: userId);
+  //   if (result is LoadError) {
+  //     /// load error, show snack bar msg.
+  //   }
+  //   add(_OnLoadStateChanged(isLoading: false));
+  // }
 
   Future<void> _onUserStateChanged(
     _OnUserStateChanged event,

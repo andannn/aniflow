@@ -38,6 +38,12 @@ abstract class AnimeTrackListDao {
   Stream<List<UserAnimeListAndAnime>> getUserAnimeListStream(
       String userId, List<AnimeListStatus> status);
 
+  Future<bool> getIsTrackingByUserAndId(
+      {required String userId, required String animeId});
+
+  Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String animeId});
+
   Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
 
   void notifyUserAnimeContentChanged(String userId);
@@ -120,6 +126,30 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   }
 
   @override
+  Future<bool> getIsTrackingByUserAndId(
+      {required String userId, required String animeId}) async {
+    final status = [AnimeListStatus.planning, AnimeListStatus.current];
+    String statusParam = '';
+    for (var e in status) {
+      statusParam += '\'${e.sqlTypeString}\'';
+      if (status.last != e) {
+        statusParam += ',';
+      }
+    }
+
+    String sql = '''
+      select ${UserAnimeListTableColumns.id} from ${Tables.userAnimeListTable}
+      where ${UserAnimeListTableColumns.animeId}='$animeId' 
+        and ${UserAnimeListTableColumns.userId}='$userId' 
+        and ${UserAnimeListTableColumns.status} in ($statusParam)
+      limit 1  
+      ''';
+    final List<Map<String, dynamic>> result =
+        await database.animeDB.rawQuery(sql);
+    return result.isNotEmpty;
+  }
+
+  @override
   Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
       String userId, List<AnimeListStatus> status) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
@@ -138,6 +168,14 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
       );
     }
     await batch.commit(noResult: true);
+  }
+
+  @override
+  Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String animeId}) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(changeSource,
+        () => getIsTrackingByUserAndId(userId: userId, animeId: animeId));
   }
 
   @override

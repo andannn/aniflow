@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 
@@ -13,29 +15,67 @@ class _OnDetailAnimeModelChangedEvent extends DetailAnimeEvent {
   final AnimeModel model;
 }
 
-class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
-  DetailAnimeBloc(
-      {required String animeId, required AniListRepository aniListRepository})
-      : super(DetailAnimeUiState()) {
-    on<_OnDetailAnimeModelChangedEvent>(_onDetailAnimeModelChangedEvent);
+class _OnTrackingStateChanged extends DetailAnimeEvent {
+  _OnTrackingStateChanged({required this.isTracking});
 
+  final bool isTracking;
+}
+
+class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
+  DetailAnimeBloc({
+    required String animeId,
+    required AniListRepository aniListRepository,
+    required AuthRepository authRepository,
+    required AnimeTrackListRepository animeTrackListRepository,
+  })  : _animeId = animeId,
+        _aniListRepository = aniListRepository,
+        _animeTrackListRepository = animeTrackListRepository,
+        _authRepository = authRepository,
+        super(DetailAnimeUiState()) {
+    on<_OnDetailAnimeModelChangedEvent>(_onDetailAnimeModelChangedEvent);
+    on<_OnTrackingStateChanged>(_onTrackingStateChanged);
+
+    _init();
+  }
+
+  final String _animeId;
+  final AniListRepository _aniListRepository;
+  final AnimeTrackListRepository _animeTrackListRepository;
+  final AuthRepository _authRepository;
+
+  StreamSubscription? _detailAnimeSub;
+  StreamSubscription? _isTrackingSub;
+  bool _isTracking = false;
+
+  void _init() async {
     _detailAnimeSub =
-        aniListRepository.getDetailAnimeInfoStream(animeId).listen(
+        _aniListRepository.getDetailAnimeInfoStream(_animeId).listen(
       (animeModel) {
         add(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },
     );
 
+    final userData = await _authRepository.getUserDataStream().first;
+    if (userData != null) {
+      _isTrackingSub = _animeTrackListRepository
+          .getIsTrackingByUserAndIdStream(
+              userId: userData.id, animeId: _animeId)
+          .listen(
+        (isTracking) {
+          add(_OnTrackingStateChanged(isTracking: isTracking));
+        },
+      );
+    }
+
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
-    aniListRepository.startFetchDetailAnimeInfo(animeId);
+    _aniListRepository.startFetchDetailAnimeInfo(_animeId);
   }
-
-  StreamSubscription? _detailAnimeSub;
 
   @override
   Future<void> close() {
     _detailAnimeSub?.cancel();
+    _isTrackingSub?.cancel();
 
     return super.close();
   }
@@ -50,5 +90,23 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
     Emitter<DetailAnimeUiState> emit,
   ) {
     emit(state.copyWith(detailAnimeModel: event.model));
+
+    emit(
+      state.copyWith(
+        detailAnimeModel:
+        event.model.copyWith(isFollowing: _isTracking),
+      ),
+    );
+  }
+
+  FutureOr<void> _onTrackingStateChanged(
+      _OnTrackingStateChanged event, Emitter<DetailAnimeUiState> emit) {
+    _isTracking = event.isTracking;
+    emit(
+      state.copyWith(
+        detailAnimeModel:
+            state.detailAnimeModel?.copyWith(isFollowing: event.isTracking),
+      ),
+    );
   }
 }
