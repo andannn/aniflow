@@ -8,7 +8,7 @@ import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
 import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
-import 'package:anime_tracker/core/network/api/user_anime_list_query.dart';
+import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

@@ -1,14 +1,13 @@
 import 'package:anime_tracker/core/network/api/ani_auth_mution_graphql.dart';
+import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
+import 'package:anime_tracker/core/network/util/http_status_code.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/logger/logger.dart';
-import 'package:anime_tracker/core/network/model/user_data_dto.dart' show UserDataDto;
-
-class UnauthorizedException implements Exception {
-  const UnauthorizedException();
-}
+import 'package:anime_tracker/core/network/model/user_data_dto.dart'
+    show UserDataDto;
 
 class AuthDataSource {
   static AuthDataSource? _instance;
@@ -44,7 +43,7 @@ class AuthDataSource {
             ),
           );
     } on DioException catch (e) {
-      if (e.response?.statusCode == 401) {
+      if (e.response?.statusCode == StatusCode.unauthorized) {
         logger.d('token is expired');
       }
       return false;
@@ -57,16 +56,39 @@ class AuthDataSource {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
           queryParameters: {'query': createUserInfoMotionGraphQLString()},
-          options: Options(
-            headers: {
-              'Authorization': 'Bearer $_token',
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-          ),
+          options: _createQueryOptions(),
         );
 
     final resultJson = response.data['data']['UpdateUser'];
     return UserDataDto.fromJson(resultJson);
+  }
+
+  Future saveAnimeToAnimeList(MediaListMutationParam param) async {
+    final variablesMap = {
+      'id': param.entryId,
+      'mediaId': param.mediaId,
+      'progress': param.progress,
+      'status': param.status.sqlTypeString,
+      'score': param.score,
+    };
+
+    await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          queryParameters: {
+            'query': createSaveMediaListMotionGraphQLString(),
+            'variables': variablesMap,
+          },
+          options: _createQueryOptions(),
+        );
+  }
+
+  Options _createQueryOptions() {
+    return Options(
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
   }
 }

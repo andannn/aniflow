@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
-import 'package:anime_tracker/core/network/api/user_anime_list_query.dart';
+import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 
