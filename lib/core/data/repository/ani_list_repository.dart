@@ -165,12 +165,12 @@ class AniListRepositoryImpl extends AniListRepository {
     );
     switch (category) {
       case AnimeCategory.currentSeason:
-        status = AnimeStatus.releasing;
+        status = null;
         seasonParam = currentSeasonParam;
         // sorts = [AnimeSort.latestUpdate];
         format = AnimeFormat.tv;
       case AnimeCategory.nextSeason:
-        status = AnimeStatus.notYetReleased;
+        status = null;
         seasonParam = getNextSeasonParam(currentSeasonParam);
         format = AnimeFormat.tv;
       case AnimeCategory.trending:
@@ -205,7 +205,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
           /// get data from network datasource.
           final networkRes = await aniListDataSource.getNetworkAnimePage(
-              animeListParam: animeListParam);
+              param: animeListParam);
 
           /// insert the anime to db.
           final dbAnimeList = networkRes
@@ -228,7 +228,7 @@ class AniListRepositoryImpl extends AniListRepository {
           if (dbResult.length < animeListParam.perPage) {
             /// the data in database is not enough for one page. try to get data from network.
             final networkRes = await aniListDataSource.getNetworkAnimePage(
-                animeListParam: animeListParam);
+                param: animeListParam);
 
             /// insert the network data to db.
             final dbAnimeList = networkRes

@@ -87,7 +87,11 @@ class _DetailAnimePageContent extends StatelessWidget {
             ),
             label: const Text('Follow'),
             isExtended: false,
-            onPressed: () {},
+            onPressed: () {
+              context
+                  .read<DetailAnimeBloc>()
+                  .add(OnToggleFollowState(isFollow: !isFollowing));
+            },
           ),
           body: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,

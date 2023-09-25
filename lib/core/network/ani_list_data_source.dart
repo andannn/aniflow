@@ -30,18 +30,36 @@ class AniListDataSource {
   }
 
   Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
-    required AnimePageQueryParam animeListParam,
+    required AnimePageQueryParam param,
   }) async {
-    final queryGraphQL = createAnimeListQueryGraphQLString(animeListParam);
-    final variablesMap = {
-      'page': animeListParam.page,
-      'perPage': animeListParam.perPage,
-      'seasonYear': animeListParam.seasonYear,
-      'season': animeListParam.season?.sqlTypeString,
-      'status': animeListParam.status?.sqlTypeString,
-      'sort': animeListParam.animeSort.map((e) => e.sqlTypeString).toList(),
-      'format_in': animeListParam.animeFormat?.sqlTypeString.toList(),
+    final queryGraphQL = createAnimeListQueryGraphQLString();
+    final hasSeasonYear = param.seasonYear != null;
+    final hasSeason = param.season != null;
+    final hasStatus = param.status != null;
+    final hasAnimeSort = param.animeSort.isNotEmpty;
+    final hasAnimeFormat = param.animeFormat != null;
+    final variablesMap = <String, dynamic>{
+      'page': param.page,
+      'perPage': param.perPage,
     };
+
+    if (hasSeasonYear) {
+      variablesMap['seasonYear'] = param.seasonYear;
+    }
+    if (hasSeason) {
+      variablesMap['season'] = param.season?.sqlTypeString;
+    }
+    if (hasStatus) {
+      variablesMap['status'] = param.status?.sqlTypeString;
+    }
+    if (hasAnimeSort) {
+      variablesMap['sort'] =
+          param.animeSort.map((e) => e.sqlTypeString).toList();
+    }
+    if (hasAnimeFormat) {
+      variablesMap['format_in'] = param.animeFormat?.sqlTypeString.toList();
+    }
+
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
 
@@ -55,13 +73,21 @@ class AniListDataSource {
   Future<List<MediaListDto>> getUserMediaListPage({
     required UserAnimeListPageQueryParam param,
   }) async {
-    final queryGraphQL = createUserAnimeListGraphQLString(param);
-    final variablesMap = {
+    final queryGraphQL = createUserAnimeListGraphQLString();
+    final hasStatus = param.status.isNotEmpty;
+    final hasPerPage = param.perPage != null;
+    final variablesMap = <String, dynamic>{
       'page': param.page,
-      'perPage': param.perPage,
       'userId': param.userId,
-      'status_in': param.status.map((e) => e.sqlTypeString).toList(),
     };
+    if (hasStatus) {
+      variablesMap['status_in'] =
+          param.status.map((e) => e.sqlTypeString).toList();
+    }
+    if (hasPerPage) {
+      variablesMap['perPage'] = param.perPage;
+    }
+
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
 

@@ -64,19 +64,27 @@ class AuthDataSource {
   }
 
   Future saveAnimeToAnimeList(MediaListMutationParam param) async {
-    final variablesMap = {
-      'id': param.entryId,
+    final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,
-      'progress': param.progress,
-      'status': param.status.sqlTypeString,
-      'score': param.score,
     };
+    if (param.entryId != null) {
+      variablesMap['id'] = param.entryId;
+    }
+    if (param.progress != null) {
+      variablesMap['progress'] = param.progress;
+    }
+    if (param.status != null) {
+      variablesMap['status'] = param.status!.sqlTypeString;
+    }
+    if (param.status != null) {
+      variablesMap['score'] = param.score;
+    }
 
     try {
       await AniListDio().dio.post(
         AniListDio.aniListUrl,
         data: {
-          'query': createSaveMediaListMotionGraphQLString(param),
+          'query': createSaveMediaListMotionGraphQLString(),
           'variables': variablesMap,
         },
         options: _createQueryOptions(),

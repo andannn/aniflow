@@ -43,6 +43,10 @@ extension DioErrorEx on DioException {
     if (response?.statusCode == StatusCode.unauthorized) {
       return const UnauthorizedException();
     } else if (response?.statusCode == StatusCode.badRequest) {
+      List errors = response?.data['errors'];
+      if (errors.any((error) => error['message'] == 'Invalid token')) {
+        return const UnauthorizedException();
+      }
       return const BadRequestException();
     } else if (response?.statusCode == StatusCode.notFound) {
       return const NotFoundException();

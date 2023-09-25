@@ -9,7 +9,7 @@ void main() {
   group('short_network_anime_model_from_json', () {
     test('get_topics_convert_to_db_model', () async {
       await AniListDataSource().getNetworkAnimePage(
-          animeListParam: AnimePageQueryParam(
+          param: AnimePageQueryParam(
               page: 1,
               perPage: 10,
               seasonYear: 2023,
