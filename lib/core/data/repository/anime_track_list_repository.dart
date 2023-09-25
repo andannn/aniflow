@@ -8,7 +8,9 @@ import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
 import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
+import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
+import 'package:anime_tracker/core/network/auth_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -32,6 +34,13 @@ abstract class AnimeTrackListRepository {
 
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
+
+  /// save anime to anime tracking list.
+  /// when [entryId] is not provided, this function will create a new entry in anime list.
+  Future saveAnimeToAnimeTrackList({required int animeId,
+    int? entryId,
+    int? progress,
+    AnimeListStatus status = AnimeListStatus.planning});
 }
 
 class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
@@ -39,7 +48,8 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
   AnimeDatabase().getUserAnimeListDao();
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
   final AnimeListDao animeListDao = AnimeDatabase().getAnimeDao();
-  final AniListDataSource dataSource = AniListDataSource();
+  final AniListDataSource aniListDataSource = AniListDataSource();
+  final AuthDataSource authDataSource = AuthDataSource();
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
@@ -73,7 +83,7 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
       }
 
       /// get all anime list items from network.
-      final networkAnimeList = await dataSource.getUserMediaListPage(
+      final networkAnimeList = await aniListDataSource.getUserMediaListPage(
         param: UserAnimeListPageQueryParam(
           page: 1,
           perPage: null,
@@ -128,5 +138,17 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
       {required String userId, required String animeId}) {
     return animeTrackListDao.getIsTrackingByUserAndIdStream(
         userId: userId, animeId: animeId);
+  }
+
+  @override
+  Future saveAnimeToAnimeTrackList({required int animeId,
+    int? entryId,
+    int? progress,
+    AnimeListStatus status = AnimeListStatus.planning}) async {
+    await authDataSource.saveAnimeToAnimeList(MediaListMutationParam(entryId: entryId,
+        mediaId: animeId,
+        progress: progress ?? 0,
+        status: status,
+        score: 0));
   }
 }

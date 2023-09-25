@@ -76,7 +76,7 @@ class AuthDataSource {
       await AniListDio().dio.post(
         AniListDio.aniListUrl,
         data: {
-          'query': createSaveMediaListMotionGraphQLString(),
+          'query': createSaveMediaListMotionGraphQLString(param),
           'variables': variablesMap,
         },
         options: _createQueryOptions(),

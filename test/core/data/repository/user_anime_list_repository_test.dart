@@ -56,5 +56,9 @@ void main() {
       final res2 = await stream.first;
       expect(res2.isNotEmpty, equals(true));
     });
+
+    test('save_anime_to_anime_track_list', () async {
+      await repository.saveAnimeToAnimeTrackList(animeId: 30);
+    });
   });
 }
