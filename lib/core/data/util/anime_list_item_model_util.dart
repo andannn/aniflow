@@ -6,8 +6,14 @@ extension AnimeListItemModelEx on AnimeListItemModel {
     final status = animeModel!.status;
     switch (status) {
       case AnimeStatus.releasing:
-        final nextAiringEpisode = animeModel!.nextAiringEpisode ?? 0;
-        return progress! < nextAiringEpisode - 1;
+        final nextAiringEpisode = animeModel!.nextAiringEpisode;
+        if (nextAiringEpisode == null) {
+          /// sometimes, there is no nextAiringEpisode in server but status is still releasing.
+          /// just return true if have next episode to watch.
+          return progress! < animeModel!.episodes!;
+        } else {
+          return progress! < nextAiringEpisode - 1;
+        }
       case AnimeStatus.finished:
         return progress! < animeModel!.episodes!;
       case AnimeStatus.notYetReleased:

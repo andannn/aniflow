@@ -52,11 +52,14 @@ class _AnimeTrackPageContent extends StatelessWidget {
     return BlocBuilder<TrackBloc, TrackUiState>(builder: (context, state) {
       // final isLoading = state.isLoading;
 
-      return CustomScrollView(
-        slivers: [
-          _buildAppBar(),
-          ..._buildTrackSectionContents(context, state),
-        ],
+      return RefreshIndicator(
+        onRefresh: () async { return Future.value(true);  },
+        child: CustomScrollView(
+          slivers: [
+            _buildAppBar(),
+            ..._buildTrackSectionContents(context, state),
+          ],
+        ),
       );
     });
   }
