@@ -1,7 +1,7 @@
 import 'package:anime_tracker/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
-import 'package:anime_tracker/core/network/util/http_status_code.dart';
+import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
@@ -72,14 +72,18 @@ class AuthDataSource {
       'score': param.score,
     };
 
-    await AniListDio().dio.post(
-          AniListDio.aniListUrl,
-          queryParameters: {
-            'query': createSaveMediaListMotionGraphQLString(),
-            'variables': variablesMap,
-          },
-          options: _createQueryOptions(),
-        );
+    try {
+      await AniListDio().dio.post(
+        AniListDio.aniListUrl,
+        data: {
+          'query': createSaveMediaListMotionGraphQLString(),
+          'variables': variablesMap,
+        },
+        options: _createQueryOptions(),
+      );
+    } on DioException catch (e) {
+      throw e.covertToNetWorkException();
+    }
   }
 
   Options _createQueryOptions() {
