@@ -63,3 +63,4 @@ linter:
     - sized_box_for_whitespace
     - package_names
     - always_use_package_imports
+    - unawaited_futures
