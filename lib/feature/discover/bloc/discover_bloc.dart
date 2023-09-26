@@ -111,30 +111,34 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       // season changed.
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
-    //
-    // /// request first page of Anime to show in home.
-    // final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
-    // final initialLoadResult = await Future.wait([
-    //   _createLoadAnimePageTask(AnimeCategory.currentSeason),
-    //   _createLoadAnimePageTask(AnimeCategory.nextSeason),
-    //   _createLoadAnimePageTask(AnimeCategory.trending),
-    //   _createLoadAnimePageTask(AnimeCategory.movie),
-    // ]);
-    //
-    // if (lastSyncTime == null) {
-    //   if (!initialLoadResult.any((e) => e == false)) {
-    //     logger.d('AimeTracker first sync success');
-    //
-    //     /// first sync success.
-    //     await _userDataRepository.setLastSuccessSync(DateTime.now());
-    //
-    //     showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
-    //     return;
-    //   }
-    // }
 
-    /// Refresh all data.
-    await refreshAnime();
+    /// request first page of Anime to show in home.
+    final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
+    add(_OnLoadStateChanged(true));
+    final initialLoadResult = await Future.wait([
+      _createLoadAnimePageTask(AnimeCategory.currentSeason),
+      _createLoadAnimePageTask(AnimeCategory.nextSeason),
+      _createLoadAnimePageTask(AnimeCategory.trending),
+      _createLoadAnimePageTask(AnimeCategory.movie),
+    ]);
+    add(_OnLoadStateChanged(false));
+
+    if (lastSyncTime == null) {
+      if (!initialLoadResult.any((e) => e == false)) {
+        logger.d('AimeTracker first sync success');
+
+        /// first sync success.
+        await _userDataRepository.setLastSuccessSync(DateTime.now());
+
+        showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
+        return;
+      }
+    }
+
+    if (lastSyncTime != null) {
+      /// Refresh all data.
+      await refreshAnime();
+    }
   }
 
   Future<void> refreshAnime() async {
