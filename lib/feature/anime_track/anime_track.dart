@@ -102,6 +102,9 @@ class _AnimeTrackPageContent extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
         child: AnimeTrackItem(
           model: item,
+          onMarkWatchedClick: () {
+            // mark watch
+          },
           onClick: () {
             AnimeTrackerRouterDelegate.of(context).navigateToDetailAnime(
               item.animeModel!.id,

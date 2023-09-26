@@ -61,6 +61,7 @@ dependencies:
   flutter_native_splash: ^2.3.2
   extended_image: ^8.0.2
   sprintf: ^7.0.0
+  flutter_slidable: ^3.0.0
 
 dev_dependencies:
   flutter_test:
