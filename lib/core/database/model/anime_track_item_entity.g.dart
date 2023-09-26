@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_anime_list_entity.dart';
+part of 'anime_track_item_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UserAnimeListEntity _$$_UserAnimeListEntityFromJson(
+_$_AnimeTrackItemEntity _$$_AnimeTrackItemEntityFromJson(
         Map<String, dynamic> json) =>
-    _$_UserAnimeListEntity(
+    _$_AnimeTrackItemEntity(
       id: json['media_list_id'] as String? ?? '',
       userId: json['user_id'] as String?,
       animeId: json['anime_id'] as String?,
@@ -19,8 +19,8 @@ _$_UserAnimeListEntity _$$_UserAnimeListEntityFromJson(
       updatedAt: json['updatedAt'] as int?,
     );
 
-Map<String, dynamic> _$$_UserAnimeListEntityToJson(
-        _$_UserAnimeListEntity instance) =>
+Map<String, dynamic> _$$_AnimeTrackItemEntityToJson(
+        _$_AnimeTrackItemEntity instance) =>
     <String, dynamic>{
       'media_list_id': instance.id,
       'user_id': instance.userId,

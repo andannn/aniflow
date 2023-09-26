@@ -18,7 +18,7 @@ mixin Tables {
       'anime_character_cross_ref_table';
   static const String voiceActorTable = 'voice_actor_table';
   static const String userDataTable = 'user_data_table';
-  static const String userAnimeListTable = 'usr_anime_list_table';
+  static const String animeTrackListTable = 'usr_anime_list_table';
 }
 
 class AnimeDatabase {
@@ -53,7 +53,7 @@ class AnimeDatabase {
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
-  AnimeTrackListDao getUserAnimeListDao() =>
+  AnimeTrackListDao getAnimeTrackListDao() =>
       _userAnimeListDao ??= UserAnimeListDaoImpl(this);
 
   Future _createTables() async {
@@ -131,13 +131,13 @@ class AnimeDatabase {
         ')');
 
     await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.userAnimeListTable} ('
-            '${UserAnimeListTableColumns.id} text primary key,'
-            '${UserAnimeListTableColumns.userId} text,'
-            '${UserAnimeListTableColumns.animeId} text,'
-            '${UserAnimeListTableColumns.status} text,'
-            '${UserAnimeListTableColumns.progress} integer,'
-            '${UserAnimeListTableColumns.score} integer,'
-            '${UserAnimeListTableColumns.updatedAt} integer)');
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.animeTrackListTable} ('
+            '${AnimeTrackItemTableColumns.id} text primary key,'
+            '${AnimeTrackItemTableColumns.userId} text,'
+            '${AnimeTrackItemTableColumns.animeId} text,'
+            '${AnimeTrackItemTableColumns.status} text,'
+            '${AnimeTrackItemTableColumns.progress} integer,'
+            '${AnimeTrackItemTableColumns.score} integer,'
+            '${AnimeTrackItemTableColumns.updatedAt} integer)');
   }
 }

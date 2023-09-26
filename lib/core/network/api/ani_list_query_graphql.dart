@@ -19,16 +19,11 @@ class AnimePageQueryParam {
       this.animeFormat});
 }
 
-String createAnimeListQueryGraphQLString(AnimePageQueryParam param) {
-  final hasSeasonYear = param.seasonYear != null;
-  final hasSeason = param.season != null;
-  final hasStatus = param.status != null;
-  final hasAnimeSort = param.animeSort.isNotEmpty;
-  final hasAnimeFormat = param.animeFormat != null;
+String createAnimeListQueryGraphQLString() {
   return '''
-query (\$page: Int, \$perPage: Int${hasSeasonYear ? ', \$seasonYear: Int' : ''}${hasSeason ? ', \$season: MediaSeason' : ''}${hasStatus ? ', \$status: MediaStatus' : ''}${hasAnimeSort ? ', \$sort: [MediaSort]' : ''}${hasAnimeFormat ? ', \$format_in: [MediaFormat]' : ''}) {
+query (\$page: Int, \$perPage: Int, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
   Page(page: \$page, perPage: \$perPage) {
-    media: media(type: ANIME${hasSeasonYear ? ', seasonYear: \$seasonYear' : ''}${hasSeason ? ', season: \$season' : ''}${hasStatus ? ', status: \$status' : ''}${hasAnimeSort ? ', sort: \$sort' : ''}${hasAnimeFormat ? ', format_in: \$format_in' : ''}) {
+    media: media(type: ANIME, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
       id
       type
       format

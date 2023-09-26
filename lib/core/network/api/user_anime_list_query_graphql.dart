@@ -12,14 +12,11 @@ class UserAnimeListPageQueryParam {
       this.status = const []});
 }
 
-String createUserAnimeListGraphQLString(UserAnimeListPageQueryParam param) {
-  final hasAnimeSort = param.status.isNotEmpty;
-  final hasPerPage = param.perPage != null;
-
+String createUserAnimeListGraphQLString() {
   return '''
-query(\$page: Int${hasPerPage ? ', \$perPage: Int' : ''}, \$userId: Int${hasAnimeSort ? ', \$status_in: [MediaListStatus]' : ''}){
-  Page(page: \$page${hasPerPage ? ', perPage: \$perPage' : ''}) {
-    mediaList(userId: \$userId, type: ANIME${hasAnimeSort ? ', status_in: \$status_in' : ''}) {
+query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]){
+  Page(page: \$page, perPage: \$perPage) {
+    mediaList(userId: \$userId, type: ANIME, status_in: \$status_in) {
       id
       status
       score

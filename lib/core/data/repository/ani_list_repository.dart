@@ -15,6 +15,7 @@ import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:sqflite/sqflite.dart';
 
 part 'load_result.dart';
 
@@ -114,7 +115,6 @@ abstract class AniListRepository {
 }
 
 class AniListRepositoryImpl extends AniListRepository {
-
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -165,12 +165,12 @@ class AniListRepositoryImpl extends AniListRepository {
     );
     switch (category) {
       case AnimeCategory.currentSeason:
-        status = AnimeStatus.releasing;
+        status = null;
         seasonParam = currentSeasonParam;
         // sorts = [AnimeSort.latestUpdate];
         format = AnimeFormat.tv;
       case AnimeCategory.nextSeason:
-        status = AnimeStatus.notYetReleased;
+        status = null;
         seasonParam = getNextSeasonParam(currentSeasonParam);
         format = AnimeFormat.tv;
       case AnimeCategory.trending:
@@ -205,7 +205,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
           /// get data from network datasource.
           final networkRes = await aniListDataSource.getNetworkAnimePage(
-              animeListParam: animeListParam);
+              param: animeListParam);
 
           /// insert the anime to db.
           final dbAnimeList = networkRes
@@ -214,7 +214,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
           /// clear and re-insert data when refresh.
           await animeDao.clearAll();
-          await animeDao.upsertByAnimeCategory(category,
+          await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
               animeList: dbAnimeList);
 
           /// load success, return result.
@@ -228,23 +228,22 @@ class AniListRepositoryImpl extends AniListRepository {
           if (dbResult.length < animeListParam.perPage) {
             /// the data in database is not enough for one page. try to get data from network.
             final networkRes = await aniListDataSource.getNetworkAnimePage(
-                animeListParam: animeListParam);
+                param: animeListParam);
 
             /// insert the network data to db.
             final dbAnimeList = networkRes
                 .map((e) => AnimeEntity.fromShortNetworkModel(e))
                 .toList();
-            await animeDao.upsertByAnimeCategory(category,
+            await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
                 animeList: dbAnimeList);
 
             /// load success, return result.
             final newResult = await animeDao.getAnimeByPage(category,
                 page: animeListParam.page, perPage: animeListParam.perPage);
             return LoadSuccess(
-              data: newResult
-                  .map((e) => AnimeModel.fromDatabaseModel(e))
-                  .toList()
-            );
+                data: newResult
+                    .map((e) => AnimeModel.fromDatabaseModel(e))
+                    .toList());
           } else {
             /// we have catch in db, return the result.
             return LoadSuccess(
@@ -261,8 +260,7 @@ class AniListRepositoryImpl extends AniListRepository {
   @override
   Stream<AnimeModel> getDetailAnimeInfoStream(String id) {
     return animeDao.getDetailAnimeInfoStream(id).map(
-          (entity) =>
-              AnimeModel.fromAnimeCharactersAndVoiceActors(entity),
+          (entity) => AnimeModel.fromAnimeCharactersAndVoiceActors(entity),
         );
   }
 
@@ -275,9 +273,9 @@ class AniListRepositoryImpl extends AniListRepository {
       );
 
       /// insert anime info to db.
-      await animeDao.upsertDetailAnimeInfo(
-        [AnimeEntity.fromDetailNetworkModel(networkResult)],
-      );
+      await animeDao.upsertAnimeInformation(
+          [AnimeEntity.fromDetailNetworkModel(networkResult)],
+          conflictAlgorithm: ConflictAlgorithm.replace);
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];

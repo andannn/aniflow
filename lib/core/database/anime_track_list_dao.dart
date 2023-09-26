@@ -5,14 +5,14 @@ import 'package:anime_tracker/core/data/repository/anime_track_list_repository.d
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
-import 'package:anime_tracker/core/database/model/user_anime_list_entity.dart';
+import 'package:anime_tracker/core/database/model/anime_track_item_entity.dart';
 import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
-/// [Tables.userAnimeListTable]
-mixin UserAnimeListTableColumns {
+/// [Tables.animeTrackListTable]
+mixin AnimeTrackItemTableColumns {
   static const String id = 'media_list_id';
   static const String userId = 'user_id';
   static const String animeId = 'anime_id';
@@ -25,6 +25,9 @@ mixin UserAnimeListTableColumns {
 abstract class AnimeTrackListDao {
   Future removeUserAnimeListByUserId(String userId);
 
+  Future<AnimeTrackItemEntity?> getAnimeTrackItem(
+      {required String animeId, String? entryId});
+  
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
@@ -44,7 +47,7 @@ abstract class AnimeTrackListDao {
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
 
-  Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities);
+  Future insertUserAnimeListEntities(List<AnimeTrackItemEntity> entities);
 
   void notifyUserAnimeContentChanged(String userId);
 }
@@ -59,8 +62,8 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   @override
   Future removeUserAnimeListByUserId(String userId) async {
     await database.animeDB.delete(
-      Tables.userAnimeListTable,
-      where: '${UserAnimeListTableColumns.userId}=$userId',
+      Tables.animeTrackListTable,
+      where: '${AnimeTrackItemTableColumns.userId}=$userId',
     );
   }
 
@@ -79,11 +82,11 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
     }
 
     String sql = '''
-      select * from ${Tables.userAnimeListTable} as ua
+      select * from ${Tables.animeTrackListTable} as ua
       left join ${Tables.animeTable} as a
-      on ua.${UserAnimeListTableColumns.animeId}=a.${AnimeTableColumns.id}
-      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId'
-      order by ${UserAnimeListTableColumns.updatedAt} desc
+      on ua.${AnimeTrackItemTableColumns.animeId}=a.${AnimeTableColumns.id}
+      where ${AnimeTrackItemTableColumns.status} in ($statusParam) and ${AnimeTrackItemTableColumns.userId}='$userId'
+      order by ${AnimeTrackItemTableColumns.updatedAt} desc
       ''';
     if (limit != null) {
       sql += '''
@@ -96,7 +99,7 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
         await database.animeDB.rawQuery(sql);
     return result
         .map((e) => UserAnimeListAndAnime(
-              userAnimeListEntity: UserAnimeListEntity.fromJson(e),
+              userAnimeListEntity: AnimeTrackItemEntity.fromJson(e),
               animeEntity: AnimeEntity.fromJson(e),
             ))
         .toList();
@@ -114,15 +117,34 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
     }
 
     String sql = '''
-      select ${UserAnimeListTableColumns.animeId} from ${Tables.userAnimeListTable}
-      where ${UserAnimeListTableColumns.status} in ($statusParam) and ${UserAnimeListTableColumns.userId}='$userId'
+      select ${AnimeTrackItemTableColumns.animeId} from ${Tables.animeTrackListTable}
+      where ${AnimeTrackItemTableColumns.status} in ($statusParam) and ${AnimeTrackItemTableColumns.userId}='$userId'
       ''';
 
     final List<Map<String, dynamic>> result =
         await database.animeDB.rawQuery(sql);
     return result
-        .map((e) => (e[UserAnimeListTableColumns.animeId]).toString())
+        .map((e) => (e[AnimeTrackItemTableColumns.animeId]).toString())
         .toSet();
+  }
+
+  @override
+  Future<AnimeTrackItemEntity?> getAnimeTrackItem(
+      {required String animeId, String? entryId}) async {
+    String sql =
+        'select * from ${Tables.animeTrackListTable} '
+        'where ${AnimeTrackItemTableColumns.animeId}=\'$animeId\' ';
+    if (entryId != null) {
+      sql += 'and ${AnimeTrackItemTableColumns.id}=\'$entryId\'';
+    }
+    sql += 'limit 1';
+
+    List<Map<String, dynamic>>  jsonResult = await database.animeDB.rawQuery(sql);
+    if (jsonResult.isNotEmpty) {
+      return AnimeTrackItemEntity.fromJson(jsonResult[0]);
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -138,10 +160,10 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
     }
 
     String sql = '''
-      select ${UserAnimeListTableColumns.id} from ${Tables.userAnimeListTable}
-      where ${UserAnimeListTableColumns.animeId}='$animeId' 
-        and ${UserAnimeListTableColumns.userId}='$userId' 
-        and ${UserAnimeListTableColumns.status} in ($statusParam)
+      select ${AnimeTrackItemTableColumns.id} from ${Tables.animeTrackListTable}
+      where ${AnimeTrackItemTableColumns.animeId}='$animeId' 
+        and ${AnimeTrackItemTableColumns.userId}='$userId' 
+        and ${AnimeTrackItemTableColumns.status} in ($statusParam)
       limit 1  
       ''';
     final List<Map<String, dynamic>> result =
@@ -158,11 +180,12 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   }
 
   @override
-  Future insertUserAnimeListEntities(List<UserAnimeListEntity> entities) async {
+  Future insertUserAnimeListEntities(
+      List<AnimeTrackItemEntity> entities) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
       batch.insert(
-        Tables.userAnimeListTable,
+        Tables.animeTrackListTable,
         entity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );

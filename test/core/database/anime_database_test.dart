@@ -99,13 +99,13 @@ void main() {
 
     test('anime_dao_insert', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertByAnimeCategory(AnimeCategory.trending,
+      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
           animeList: dummyAnimeData);
     });
 
     test('anime_dao_insert_and_get', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertByAnimeCategory(AnimeCategory.trending,
+      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
           animeList: dummyAnimeData);
 
       final res =
@@ -115,9 +115,9 @@ void main() {
 
     test('user_data_insert_and_get_cross_ref', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertByAnimeCategory(AnimeCategory.trending,
+      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
           animeList: dummyAnimeData.sublist(0, 2));
-      await animeDao.upsertByAnimeCategory(AnimeCategory.currentSeason,
+      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.currentSeason,
           animeList: dummyAnimeData.sublist(1, 3));
       final res =
           await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
@@ -129,7 +129,7 @@ void main() {
 
     test('upsert_detail_anime_data', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertDetailAnimeInfo([dummyAnimeData[0]]);
+      await animeDao.upsertAnimeInformation([dummyAnimeData[0]]);
       final res = await animeDatabase.animeDB.query(Tables.animeTable);
       expect(AnimeEntity.fromJson(res.first), equals(dummyAnimeData[0]));
     });
@@ -155,7 +155,7 @@ void main() {
 
     test('upsert_and_get_detail_anime_data', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertDetailAnimeInfo(dummyAnimeData);
+      await animeDao.upsertAnimeInformation(dummyAnimeData);
 
       await animeDao.upsertCharacterInfo(dummyCharacterData);
 

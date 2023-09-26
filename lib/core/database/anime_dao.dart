@@ -112,10 +112,11 @@ abstract class AnimeListDao {
 
   Stream<AnimeCharactersAndVoiceActors> getDetailAnimeInfoStream(String id);
 
-  Future upsertByAnimeCategory(AnimeCategory category,
+  Future insertOrIgnoreAnimeByAnimeCategory(AnimeCategory category,
       {required List<AnimeEntity> animeList});
 
-  Future upsertDetailAnimeInfo(List<AnimeEntity> entities);
+  Future upsertAnimeInformation(List<AnimeEntity> entities,
+      {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore});
 
   Future upsertCharacterInfo(List<CharacterEntity> entities);
 
@@ -140,7 +141,7 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
-  Future upsertByAnimeCategory(AnimeCategory category,
+  Future insertOrIgnoreAnimeByAnimeCategory(AnimeCategory category,
       {required List<AnimeEntity> animeList}) async {
     final batch = database.animeDB.batch();
 
@@ -152,7 +153,7 @@ class AnimeDaoImpl extends AnimeListDao {
       batch.insert(
         Tables.animeTable,
         anime.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        conflictAlgorithm: ConflictAlgorithm.ignore,
       );
       batch.insert(
         Tables.animeCategoryCrossRefTable,
@@ -218,13 +219,14 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
-  Future upsertDetailAnimeInfo(List<AnimeEntity> entities) async {
+  Future upsertAnimeInformation(List<AnimeEntity> entities,
+      {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
       batch.insert(
         Tables.animeTable,
         entity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        conflictAlgorithm: conflictAlgorithm,
       );
     }
     return await batch.commit(noResult: true);

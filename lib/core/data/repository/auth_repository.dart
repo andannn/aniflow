@@ -35,7 +35,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
 
   final AnimeTrackListDao animeTrackListDao =
-      AnimeDatabase().getUserAnimeListDao();
+      AnimeDatabase().getAnimeTrackListDao();
 
   @override
   Future<bool> awaitAuthLogin() async {

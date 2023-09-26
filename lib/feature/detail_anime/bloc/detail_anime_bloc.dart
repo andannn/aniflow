@@ -21,19 +21,27 @@ class _OnTrackingStateChanged extends DetailAnimeEvent {
   final bool isTracking;
 }
 
+class OnToggleFollowState extends DetailAnimeEvent {
+  OnToggleFollowState({required this.isFollow});
+
+  final bool isFollow;
+}
+
 class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
   DetailAnimeBloc({
     required String animeId,
     required AniListRepository aniListRepository,
     required AuthRepository authRepository,
     required AnimeTrackListRepository animeTrackListRepository,
-  })  : _animeId = animeId,
+  })
+      : _animeId = animeId,
         _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
         _authRepository = authRepository,
         super(DetailAnimeUiState()) {
     on<_OnDetailAnimeModelChangedEvent>(_onDetailAnimeModelChangedEvent);
     on<_OnTrackingStateChanged>(_onTrackingStateChanged);
+    on<OnToggleFollowState>(_onToggleFollowState);
 
     _init();
   }
@@ -50,18 +58,20 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
   void _init() async {
     _detailAnimeSub =
         _aniListRepository.getDetailAnimeInfoStream(_animeId).listen(
-      (animeModel) {
-        add(_OnDetailAnimeModelChangedEvent(model: animeModel));
-      },
-    );
+              (animeModel) {
+            add(_OnDetailAnimeModelChangedEvent(model: animeModel));
+          },
+        );
 
-    final userData = await _authRepository.getUserDataStream().first;
+    final userData = await _authRepository
+        .getUserDataStream()
+        .first;
     if (userData != null) {
       _isTrackingSub = _animeTrackListRepository
           .getIsTrackingByUserAndIdStream(
-              userId: userData.id, animeId: _animeId)
+          userId: userData.id, animeId: _animeId)
           .listen(
-        (isTracking) {
+            (isTracking) {
           add(_OnTrackingStateChanged(isTracking: isTracking));
         },
       );
@@ -86,27 +96,33 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
   }
 
   FutureOr<void> _onDetailAnimeModelChangedEvent(
-    _OnDetailAnimeModelChangedEvent event,
-    Emitter<DetailAnimeUiState> emit,
-  ) {
+      _OnDetailAnimeModelChangedEvent event,
+      Emitter<DetailAnimeUiState> emit,) {
     emit(state.copyWith(detailAnimeModel: event.model));
 
     emit(
       state.copyWith(
-        detailAnimeModel:
-        event.model.copyWith(isFollowing: _isTracking),
+        detailAnimeModel: event.model.copyWith(isFollowing: _isTracking),
       ),
     );
   }
 
-  FutureOr<void> _onTrackingStateChanged(
-      _OnTrackingStateChanged event, Emitter<DetailAnimeUiState> emit) {
+  FutureOr<void> _onTrackingStateChanged(_OnTrackingStateChanged event,
+      Emitter<DetailAnimeUiState> emit) {
     _isTracking = event.isTracking;
     emit(
       state.copyWith(
         detailAnimeModel:
-            state.detailAnimeModel?.copyWith(isFollowing: event.isTracking),
+        state.detailAnimeModel?.copyWith(isFollowing: event.isTracking),
       ),
     );
+  }
+
+  FutureOr<void> _onToggleFollowState(OnToggleFollowState event,
+      Emitter<DetailAnimeUiState> emit) {
+    final status = event.isFollow ? AnimeListStatus.current : AnimeListStatus
+        .dropped;
+    _animeTrackListRepository.updateAnimeInTrackList(
+        animeId: _animeId, status: status);
   }
 }
