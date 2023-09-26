@@ -53,7 +53,9 @@ class _AnimeTrackPageContent extends StatelessWidget {
       // final isLoading = state.isLoading;
 
       return RefreshIndicator(
-        onRefresh: () async { return Future.value();  },
+        onRefresh: () async {
+          return context.read<TrackBloc>().syncUserAnimeList();
+        },
         child: CustomScrollView(
           slivers: [
             _buildAppBar(),

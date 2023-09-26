@@ -165,8 +165,8 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
     if (entity != null) {
       final updatedEntity = entity.copyWith(
         status: status,
-        progress: progress,
-        score: score,
+        progress: progress ?? entity.progress,
+        score: score ?? entity.progress,
         updatedAt: DateTime.now().millisecondsSinceEpoch,
       );
       await animeTrackListDao.insertUserAnimeListEntities([updatedEntity]);
