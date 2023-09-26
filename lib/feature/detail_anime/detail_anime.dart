@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -80,6 +81,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           return const SizedBox();
         }
         final isFollowing = model.isFollowing;
+        final isLoading = state.isLoading;
         return Scaffold(
           floatingActionButton: FloatingActionButton.extended(
             icon: Icon(
@@ -105,6 +107,17 @@ class _DetailAnimePageContent extends StatelessWidget {
                   },
                 ),
                 title: Text(model.title!.getLocalTitle(context)),
+                actions: [
+                  AnimatedOpacity(
+                    opacity: isLoading ? 1.0 : 0.0,
+                    duration: Config.defaultAnimationDuration,
+                    child: LoadingAnimationWidget.fourRotatingDots(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      size: 33.0,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
               ),
               SliverToBoxAdapter(
                 child: _buildBannerSectionSection(context, model.bannerImage),

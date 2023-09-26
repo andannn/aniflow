@@ -10,6 +10,7 @@ import 'package:anime_tracker/feature/anime_list/bloc/anime_list_bloc.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
@@ -147,13 +148,16 @@ class _AnimeListPageContent extends StatelessWidget {
   Widget _buildPageBottomBar(BuildContext context, PagingState pagingState) {
     if (pagingState is PageLoading) {
       // Loading widget.
-      return const SizedBox.square(
+      return SizedBox.square(
         dimension: 64,
         child: Align(
           alignment: Alignment.center,
           child: SizedBox.square(
             dimension: 36,
-            child: CircularProgressIndicator(),
+            child: LoadingAnimationWidget.fourRotatingDots(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              size: 33.0,
+            ),
           ),
         ),
       );

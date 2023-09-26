@@ -6,6 +6,7 @@ part 'detail_anime_ui_state.freezed.dart';
 @freezed
 class DetailAnimeUiState with _$DetailAnimeUiState {
   factory DetailAnimeUiState({
+    @Default(false) isLoading,
     AnimeModel? detailAnimeModel,
   }) = _DetailAnimeUiState;
 }

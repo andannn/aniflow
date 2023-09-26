@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DiscoverUiState {
+  bool get isLoading => throw _privateConstructorUsedError;
   String get isShowSuggestionBoard => throw _privateConstructorUsedError;
   PagingState<List<AnimeModel>> get currentSeasonPagingState =>
       throw _privateConstructorUsedError;
@@ -39,7 +40,8 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
       _$DiscoverUiStateCopyWithImpl<$Res, DiscoverUiState>;
   @useResult
   $Res call(
-      {String isShowSuggestionBoard,
+      {bool isLoading,
+      String isShowSuggestionBoard,
       PagingState<List<AnimeModel>> currentSeasonPagingState,
       PagingState<List<AnimeModel>> nextSeasonPagingState,
       PagingState<List<AnimeModel>> trendingPagingState,
@@ -62,6 +64,7 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = null,
     Object? isShowSuggestionBoard = null,
     Object? currentSeasonPagingState = null,
     Object? nextSeasonPagingState = null,
@@ -70,6 +73,10 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
     Object? userData = freezed,
   }) {
     return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       isShowSuggestionBoard: null == isShowSuggestionBoard
           ? _value.isShowSuggestionBoard
           : isShowSuggestionBoard // ignore: cast_nullable_to_non_nullable
@@ -119,7 +126,8 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String isShowSuggestionBoard,
+      {bool isLoading,
+      String isShowSuggestionBoard,
       PagingState<List<AnimeModel>> currentSeasonPagingState,
       PagingState<List<AnimeModel>> nextSeasonPagingState,
       PagingState<List<AnimeModel>> trendingPagingState,
@@ -141,6 +149,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = null,
     Object? isShowSuggestionBoard = null,
     Object? currentSeasonPagingState = null,
     Object? nextSeasonPagingState = null,
@@ -149,6 +158,10 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
     Object? userData = freezed,
   }) {
     return _then(_$_DiscoverUiState(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       isShowSuggestionBoard: null == isShowSuggestionBoard
           ? _value.isShowSuggestionBoard
           : isShowSuggestionBoard // ignore: cast_nullable_to_non_nullable
@@ -181,13 +194,17 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
 
 class _$_DiscoverUiState implements _DiscoverUiState {
   _$_DiscoverUiState(
-      {this.isShowSuggestionBoard = '',
+      {this.isLoading = false,
+      this.isShowSuggestionBoard = '',
       this.currentSeasonPagingState = const PageLoading(data: [], page: 1),
       this.nextSeasonPagingState = const PageLoading(data: [], page: 1),
       this.trendingPagingState = const PageLoading(data: [], page: 1),
       this.moviePagingState = const PageLoading(data: [], page: 1),
       this.userData});
 
+  @override
+  @JsonKey()
+  final bool isLoading;
   @override
   @JsonKey()
   final String isShowSuggestionBoard;
@@ -208,7 +225,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
 
   @override
   String toString() {
-    return 'DiscoverUiState(isShowSuggestionBoard: $isShowSuggestionBoard, currentSeasonPagingState: $currentSeasonPagingState, nextSeasonPagingState: $nextSeasonPagingState, trendingPagingState: $trendingPagingState, moviePagingState: $moviePagingState, userData: $userData)';
+    return 'DiscoverUiState(isLoading: $isLoading, isShowSuggestionBoard: $isShowSuggestionBoard, currentSeasonPagingState: $currentSeasonPagingState, nextSeasonPagingState: $nextSeasonPagingState, trendingPagingState: $trendingPagingState, moviePagingState: $moviePagingState, userData: $userData)';
   }
 
   @override
@@ -216,6 +233,8 @@ class _$_DiscoverUiState implements _DiscoverUiState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DiscoverUiState &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.isShowSuggestionBoard, isShowSuggestionBoard) ||
                 other.isShowSuggestionBoard == isShowSuggestionBoard) &&
             (identical(
@@ -234,6 +253,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      isLoading,
       isShowSuggestionBoard,
       currentSeasonPagingState,
       nextSeasonPagingState,
@@ -250,13 +270,16 @@ class _$_DiscoverUiState implements _DiscoverUiState {
 
 abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
-      {final String isShowSuggestionBoard,
+      {final bool isLoading,
+      final String isShowSuggestionBoard,
       final PagingState<List<AnimeModel>> currentSeasonPagingState,
       final PagingState<List<AnimeModel>> nextSeasonPagingState,
       final PagingState<List<AnimeModel>> trendingPagingState,
       final PagingState<List<AnimeModel>> moviePagingState,
       final UserData? userData}) = _$_DiscoverUiState;
 
+  @override
+  bool get isLoading;
   @override
   String get isShowSuggestionBoard;
   @override

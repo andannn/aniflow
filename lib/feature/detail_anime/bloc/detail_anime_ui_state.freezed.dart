@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DetailAnimeUiState {
+  dynamic get isLoading => throw _privateConstructorUsedError;
   AnimeModel? get detailAnimeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +30,7 @@ abstract class $DetailAnimeUiStateCopyWith<$Res> {
           DetailAnimeUiState value, $Res Function(DetailAnimeUiState) then) =
       _$DetailAnimeUiStateCopyWithImpl<$Res, DetailAnimeUiState>;
   @useResult
-  $Res call({AnimeModel? detailAnimeModel});
+  $Res call({dynamic isLoading, AnimeModel? detailAnimeModel});
 
   $AnimeModelCopyWith<$Res>? get detailAnimeModel;
 }
@@ -47,9 +48,14 @@ class _$DetailAnimeUiStateCopyWithImpl<$Res, $Val extends DetailAnimeUiState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = freezed,
     Object? detailAnimeModel = freezed,
   }) {
     return _then(_value.copyWith(
+      isLoading: freezed == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
@@ -78,7 +84,7 @@ abstract class _$$_DetailAnimeUiStateCopyWith<$Res>
       __$$_DetailAnimeUiStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AnimeModel? detailAnimeModel});
+  $Res call({dynamic isLoading, AnimeModel? detailAnimeModel});
 
   @override
   $AnimeModelCopyWith<$Res>? get detailAnimeModel;
@@ -95,9 +101,11 @@ class __$$_DetailAnimeUiStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = freezed,
     Object? detailAnimeModel = freezed,
   }) {
     return _then(_$_DetailAnimeUiState(
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
@@ -109,14 +117,17 @@ class __$$_DetailAnimeUiStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_DetailAnimeUiState implements _DetailAnimeUiState {
-  _$_DetailAnimeUiState({this.detailAnimeModel});
+  _$_DetailAnimeUiState({this.isLoading = false, this.detailAnimeModel});
 
+  @override
+  @JsonKey()
+  final dynamic isLoading;
   @override
   final AnimeModel? detailAnimeModel;
 
   @override
   String toString() {
-    return 'DetailAnimeUiState(detailAnimeModel: $detailAnimeModel)';
+    return 'DetailAnimeUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel)';
   }
 
   @override
@@ -124,12 +135,14 @@ class _$_DetailAnimeUiState implements _DetailAnimeUiState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DetailAnimeUiState &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             (identical(other.detailAnimeModel, detailAnimeModel) ||
                 other.detailAnimeModel == detailAnimeModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, detailAnimeModel);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(isLoading), detailAnimeModel);
 
   @JsonKey(ignore: true)
   @override
@@ -140,9 +153,12 @@ class _$_DetailAnimeUiState implements _DetailAnimeUiState {
 }
 
 abstract class _DetailAnimeUiState implements DetailAnimeUiState {
-  factory _DetailAnimeUiState({final AnimeModel? detailAnimeModel}) =
-      _$_DetailAnimeUiState;
+  factory _DetailAnimeUiState(
+      {final dynamic isLoading,
+      final AnimeModel? detailAnimeModel}) = _$_DetailAnimeUiState;
 
+  @override
+  dynamic get isLoading;
   @override
   AnimeModel? get detailAnimeModel;
   @override
