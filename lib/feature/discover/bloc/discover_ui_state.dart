@@ -8,6 +8,7 @@ part 'discover_ui_state.freezed.dart';
 @freezed
 class DiscoverUiState with _$DiscoverUiState {
   factory DiscoverUiState({
+    @Default(false) bool isLoading,
     @Default('') String isShowSuggestionBoard,
     @Default(PageLoading(data: [], page: 1))
     PagingState<List<AnimeModel>> currentSeasonPagingState,

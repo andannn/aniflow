@@ -10,7 +10,6 @@ import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.d
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
-import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
@@ -44,6 +43,12 @@ class _OnTrackingAnimeIdsChanged extends DiscoverEvent {
   final Set<String> ids;
 }
 
+class _OnLoadStateChanged extends DiscoverEvent {
+  _OnLoadStateChanged(this.isLoading);
+
+  final bool isLoading;
+}
+
 extension DiscoverUiStateEx on DiscoverUiState {
   bool get isLoggedIn => userData != null;
 }
@@ -62,6 +67,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     on<_OnAnimeLoadError>(_onAnimeLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
     on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
+    on<_OnLoadStateChanged>(_onLoadStateChanged);
 
     _userDataSub ??=
         authRepository.getUserDataStream().listen((userDataNullable) {
@@ -105,37 +111,34 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       // season changed.
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
+    //
+    // /// request first page of Anime to show in home.
+    // final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
+    // final initialLoadResult = await Future.wait([
+    //   _createLoadAnimePageTask(AnimeCategory.currentSeason),
+    //   _createLoadAnimePageTask(AnimeCategory.nextSeason),
+    //   _createLoadAnimePageTask(AnimeCategory.trending),
+    //   _createLoadAnimePageTask(AnimeCategory.movie),
+    // ]);
+    //
+    // if (lastSyncTime == null) {
+    //   if (!initialLoadResult.any((e) => e == false)) {
+    //     logger.d('AimeTracker first sync success');
+    //
+    //     /// first sync success.
+    //     await _userDataRepository.setLastSuccessSync(DateTime.now());
+    //
+    //     showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
+    //     return;
+    //   }
+    // }
 
-    /// request first page of Anime to show in home.
-    final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
-    final initialLoadResult = await Future.wait([
-      _createLoadAnimePageTask(AnimeCategory.currentSeason),
-      _createLoadAnimePageTask(AnimeCategory.nextSeason),
-      _createLoadAnimePageTask(AnimeCategory.trending),
-      _createLoadAnimePageTask(AnimeCategory.movie),
-    ]);
-
-    if (lastSyncTime == null) {
-      if (!initialLoadResult.any((e) => e == false)) {
-        logger.d('AimeTracker first sync success');
-
-        /// first sync success.
-        await _userDataRepository.setLastSuccessSync(DateTime.now());
-
-        showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
-        return;
-      }
-    }
-
-    if (lastSyncTime != null &&
-        DateTime.now().difference(lastSyncTime).inMinutes >
-            Config.refreshIntervalInMinutes) {
-      /// Refresh all data.
-      await refreshAnime();
-    }
+    /// Refresh all data.
+    await refreshAnime();
   }
 
   Future<void> refreshAnime() async {
+    add(_OnLoadStateChanged(true));
     /// wait refresh tasks.
     final result = await Future.wait([
       _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
@@ -155,6 +158,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       /// data sync failed and show snack bar message.
       showSnackBarMessage(label: AFLocalizations.of().dataRefreshFailed);
     }
+
+    add(_OnLoadStateChanged(false));
   }
 
   Future<bool> _createLoadAnimePageTask(AnimeCategory category,
@@ -215,7 +220,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       });
 
       /// post event to sync user anime list.
-      unawaited(_animeTrackListRepository.syncUserAnimeList(userId: event.userData!.id));
+      unawaited(_animeTrackListRepository.syncUserAnimeList(
+          userId: event.userData!.id));
     } else {
       /// user logout, cancel following stream.
       await _trackedAnimeIdsSub?.cancel();
@@ -226,5 +232,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _OnTrackingAnimeIdsChanged event, Emitter<DiscoverUiState> emit) {
     _ids = event.ids;
     emit(DiscoverUiState.copyWithTrackedIds(state, event.ids));
+  }
+
+  FutureOr<void> _onLoadStateChanged(
+      _OnLoadStateChanged event, Emitter<DiscoverUiState> emit) {
+    emit(state.copyWith(isLoading: event.isLoading));
   }
 }
