@@ -15,6 +15,7 @@ import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sqflite/sqflite.dart';
 
 part '../model/anime_list_status.dart';
 
@@ -102,7 +103,7 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
       await animeTrackListDao.insertUserAnimeListEntities(animeListEntity);
 
       /// insert anime to database.
-      final animeEntity = networkAnimeList
+      final animeEntities = networkAnimeList
           .map<AnimeEntity?>(
             (e) => e.media != null
                 ? AnimeEntity.fromDetailNetworkModel(e.media!)
@@ -110,7 +111,8 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
           )
           .whereType<AnimeEntity>()
           .toList();
-      await animeListDao.upsertDetailAnimeInfo(animeEntity);
+      await animeListDao.upsertAnimeInformation(animeEntities,
+          conflictAlgorithm: ConflictAlgorithm.replace);
 
       animeTrackListDao.notifyUserAnimeContentChanged(targetUserId);
       return LoadSuccess(data: []);

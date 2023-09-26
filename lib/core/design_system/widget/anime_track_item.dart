@@ -1,4 +1,3 @@
-import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/util/anime_list_item_model_util.dart';
@@ -18,7 +17,6 @@ class AnimeTrackItem extends StatelessWidget {
     final textColor = Theme.of(context).colorScheme.onSurfaceVariant;
     final textTheme = Theme.of(context).textTheme;
     final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
-    logger.d(model.animeModel!);
     return Opacity(
       opacity: hasNextReleasingEpisode ? 1.0 : 0.5,
       child: Card(

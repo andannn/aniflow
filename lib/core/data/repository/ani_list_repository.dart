@@ -15,6 +15,7 @@ import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:sqflite/sqflite.dart';
 
 part 'load_result.dart';
 
@@ -114,7 +115,6 @@ abstract class AniListRepository {
 }
 
 class AniListRepositoryImpl extends AniListRepository {
-
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -214,7 +214,7 @@ class AniListRepositoryImpl extends AniListRepository {
 
           /// clear and re-insert data when refresh.
           await animeDao.clearAll();
-          await animeDao.upsertByAnimeCategory(category,
+          await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
               animeList: dbAnimeList);
 
           /// load success, return result.
@@ -234,17 +234,16 @@ class AniListRepositoryImpl extends AniListRepository {
             final dbAnimeList = networkRes
                 .map((e) => AnimeEntity.fromShortNetworkModel(e))
                 .toList();
-            await animeDao.upsertByAnimeCategory(category,
+            await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
                 animeList: dbAnimeList);
 
             /// load success, return result.
             final newResult = await animeDao.getAnimeByPage(category,
                 page: animeListParam.page, perPage: animeListParam.perPage);
             return LoadSuccess(
-              data: newResult
-                  .map((e) => AnimeModel.fromDatabaseModel(e))
-                  .toList()
-            );
+                data: newResult
+                    .map((e) => AnimeModel.fromDatabaseModel(e))
+                    .toList());
           } else {
             /// we have catch in db, return the result.
             return LoadSuccess(
@@ -261,8 +260,7 @@ class AniListRepositoryImpl extends AniListRepository {
   @override
   Stream<AnimeModel> getDetailAnimeInfoStream(String id) {
     return animeDao.getDetailAnimeInfoStream(id).map(
-          (entity) =>
-              AnimeModel.fromAnimeCharactersAndVoiceActors(entity),
+          (entity) => AnimeModel.fromAnimeCharactersAndVoiceActors(entity),
         );
   }
 
@@ -275,9 +273,9 @@ class AniListRepositoryImpl extends AniListRepository {
       );
 
       /// insert anime info to db.
-      await animeDao.upsertDetailAnimeInfo(
-        [AnimeEntity.fromDetailNetworkModel(networkResult)],
-      );
+      await animeDao.upsertAnimeInformation(
+          [AnimeEntity.fromDetailNetworkModel(networkResult)],
+          conflictAlgorithm: ConflictAlgorithm.replace);
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];

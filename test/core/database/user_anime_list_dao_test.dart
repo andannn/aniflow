@@ -61,7 +61,7 @@ void main() {
       final dao = animeDatabase.getAnimeTrackListDao();
       await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
 
-      await animeDatabase.getAnimeDao().upsertByAnimeCategory(
+      await animeDatabase.getAnimeDao().insertOrIgnoreAnimeByAnimeCategory(
           AnimeCategory.movie,
           animeList: dummyAnimeData);
 
