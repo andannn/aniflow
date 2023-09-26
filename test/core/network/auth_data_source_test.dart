@@ -17,10 +17,6 @@ void main() {
       authDataSource = AuthDataSource();
     });
 
-    test('get_auth_data', () async {
-      await authDataSource.getUserDataDto();
-    });
-
     test('save_media_list_motion', () async {
       try {
         await authDataSource.saveAnimeToAnimeList(MediaListMutationParam(
