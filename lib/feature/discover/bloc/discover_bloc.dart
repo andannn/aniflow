@@ -215,7 +215,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       });
 
       /// post event to sync user anime list.
-      _animeTrackListRepository.syncUserAnimeList(userId: event.userData!.id);
+      unawaited(_animeTrackListRepository.syncUserAnimeList(userId: event.userData!.id));
     } else {
       /// user logout, cancel following stream.
       await _trackedAnimeIdsSub?.cancel();

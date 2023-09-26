@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
@@ -70,13 +69,12 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
         userData.id,
         [AnimeListStatus.planning, AnimeListStatus.current],
       ).listen((ids) {
-        logger.d('JQN $ids');
         add(_OnTrackingAnimeIdsChanged(ids: ids));
       });
     }
 
     /// launch event to get first page data.
-    _createLoadAnimePageTask(page: 1);
+    unawaited(_createLoadAnimePageTask(page: 1));
   }
 
   @override

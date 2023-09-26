@@ -79,7 +79,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
 
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
-    _aniListRepository.startFetchDetailAnimeInfo(_animeId);
+    unawaited(_aniListRepository.startFetchDetailAnimeInfo(_animeId));
   }
 
   @override

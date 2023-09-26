@@ -96,6 +96,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
 
   Widget? _buildAnimeListItem(BuildContext context, AnimeListItemModel item) {
     return SizedBox(
+      key: ValueKey('anime_track_list_item_${item.id}'),
       height: 120,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
