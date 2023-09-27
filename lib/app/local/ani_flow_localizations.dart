@@ -70,6 +70,9 @@ abstract class AFLocalizations {
 
   String get animeNotYetReleased;
 
+  String get followNewAnimation;
+  String get dropAnimation;
+
   static AFLocalizations of([BuildContext? context]) {
     return Localizations.of<AFLocalizations>(
         context ?? globalContext!, AFLocalizations)!;
@@ -178,6 +181,12 @@ class EnAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get movieLabel => 'Movie';
+
+  @override
+  String get followNewAnimation => 'Follow new animation';
+
+  @override
+  String get dropAnimation => 'drop the animation';
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -282,6 +291,12 @@ class JaAniFLowLocalizations extends AFLocalizations {
 
   @override
   String get movieLabel => '映画';
+
+  @override
+  String get followNewAnimation => 'Follow new animation';
+
+  @override
+  String get dropAnimation => 'drop the animation';
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -386,4 +401,10 @@ class CNAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get movieLabel => '动画电影';
+
+  @override
+  String get followNewAnimation => 'Follow new animation';
+
+  @override
+  String get dropAnimation => 'drop the animation';
 }

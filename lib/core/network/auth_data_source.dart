@@ -1,6 +1,7 @@
 import 'package:anime_tracker/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
+import 'package:anime_tracker/core/network/model/media_list_dto.dart';
 import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
@@ -63,7 +64,7 @@ class AuthDataSource {
     return UserDataDto.fromJson(resultJson);
   }
 
-  Future saveAnimeToAnimeList(MediaListMutationParam param) async {
+  Future<MediaListDto> saveAnimeToAnimeList(MediaListMutationParam param) async {
     final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,
     };
@@ -81,14 +82,18 @@ class AuthDataSource {
     }
 
     try {
-      await AniListDio().dio.post(
-        AniListDio.aniListUrl,
-        data: {
-          'query': createSaveMediaListMotionGraphQLString(),
-          'variables': variablesMap,
-        },
-        options: _createQueryOptions(),
-      );
+      final response = await AniListDio().dio.post(
+            AniListDio.aniListUrl,
+            data: {
+              'query': createSaveMediaListMotionGraphQLString(),
+              'variables': variablesMap,
+            },
+            options: _createQueryOptions(),
+          );
+
+      Map<String, dynamic> resultJson =
+          response.data['data']['SaveMediaListEntry'];
+      return MediaListDto.fromJson(resultJson);
     } on DioException catch (e) {
       throw e.covertToNetWorkException();
     }

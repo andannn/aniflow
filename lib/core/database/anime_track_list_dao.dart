@@ -47,9 +47,9 @@ abstract class AnimeTrackListDao {
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
 
-  Future insertUserAnimeListEntities(List<AnimeTrackItemEntity> entities);
+  Future insertTrackingAnimeListEntities(List<AnimeTrackItemEntity> entities);
 
-  void notifyUserAnimeContentChanged(String userId);
+  void notifyTrackingAnimeContentChanged(String userId);
 }
 
 class UserAnimeListDaoImpl extends AnimeTrackListDao {
@@ -180,7 +180,7 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   }
 
   @override
-  Future insertUserAnimeListEntities(
+  Future insertTrackingAnimeListEntities(
       List<AnimeTrackItemEntity> entities) async {
     final batch = database.animeDB.batch();
     for (final entity in entities) {
@@ -210,7 +210,7 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   }
 
   @override
-  void notifyUserAnimeContentChanged(String userId) {
+  void notifyTrackingAnimeContentChanged(String userId) {
     final notifier = _notifiers[userId];
     if (notifier != null) {
       notifier.value = notifier.value++;

@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/core/data/logger/logger.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 
@@ -129,12 +132,33 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
     );
   }
 
-  FutureOr<void> _onToggleFollowState(
-      OnToggleFollowState event, Emitter<DetailAnimeUiState> emit) {
+  Future<void> _onToggleFollowState(
+      OnToggleFollowState event, Emitter<DetailAnimeUiState> emit) async {
     final status =
         event.isFollow ? AnimeListStatus.current : AnimeListStatus.dropped;
-    _animeTrackListRepository.updateAnimeInTrackList(
+
+    add(_OnLoadingStateChanged(isLoading: true));
+    final result = await _animeTrackListRepository.updateAnimeInTrackList(
         animeId: _animeId, status: status);
+    add(_OnLoadingStateChanged(isLoading: false));
+
+    if (result is LoadError) {
+      logger.d('toggle follow state failed');
+
+      /// show snackBar msg.
+    } else {
+      if (event.isFollow) {
+        showSnackBarMessage(
+          label: AFLocalizations.of().followNewAnimation,
+          duration: SnackBarDuration.short,
+        );
+      } else {
+        showSnackBarMessage(
+          label: AFLocalizations.of().dropAnimation,
+          duration: SnackBarDuration.short,
+        );
+      }
+    }
   }
 
   FutureOr<void> _onLoadingStateChanged(

@@ -38,14 +38,12 @@ abstract class AnimeTrackListRepository {
       {required String userId, required String animeId});
 
   /// update anime in anime tracking list.
-  Future updateAnimeInTrackList(
+  Future<LoadResult<void>> updateAnimeInTrackList(
       {required String animeId,
       required AnimeListStatus status,
       String? entryId,
       int? progress,
       int? score});
-
-  Future followNewAnimeToAnimeTrackList({required int animeId});
 }
 
 class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
@@ -100,7 +98,7 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
       final animeListEntity = networkAnimeList
           .map((e) => AnimeTrackItemEntity.fromNetworkModel(e))
           .toList();
-      await animeTrackListDao.insertUserAnimeListEntities(animeListEntity);
+      await animeTrackListDao.insertTrackingAnimeListEntities(animeListEntity);
 
       /// insert anime to database.
       final animeEntities = networkAnimeList
@@ -114,7 +112,7 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
       await animeListDao.upsertAnimeInformation(animeEntities,
           conflictAlgorithm: ConflictAlgorithm.replace);
 
-      animeTrackListDao.notifyUserAnimeContentChanged(targetUserId);
+      animeTrackListDao.notifyTrackingAnimeContentChanged(targetUserId);
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
@@ -145,12 +143,7 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
   }
 
   @override
-  Future followNewAnimeToAnimeTrackList({required int animeId}) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future updateAnimeInTrackList(
+  Future<LoadResult<void>> updateAnimeInTrackList(
       {required String animeId,
       required AnimeListStatus status,
       String? entryId,
@@ -161,27 +154,44 @@ class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
     final targetUserId = (await userDataDao.getUserData())?.id;
 
     if (targetUserId == null) {
-      return;
+      /// no login, return with error.
+      return LoadError(const UnauthorizedException());
     }
 
     if (entity != null) {
+      /// the tracking anime is already cached in database.
+      /// change the local database and notify the to ui without waiting network result.
       final updatedEntity = entity.copyWith(
         status: status,
         progress: progress ?? entity.progress,
         score: score ?? entity.progress,
         updatedAt: DateTime.now().millisecondsSinceEpoch,
       );
-      await animeTrackListDao.insertUserAnimeListEntities([updatedEntity]);
-      animeTrackListDao.notifyUserAnimeContentChanged(targetUserId);
+      await animeTrackListDao.insertTrackingAnimeListEntities([updatedEntity]);
+      animeTrackListDao.notifyTrackingAnimeContentChanged(targetUserId);
     }
 
     try {
-      await authDataSource.saveAnimeToAnimeList(MediaListMutationParam(
-          entryId: int.tryParse(entryId ?? ''),
-          mediaId: int.parse(animeId),
-          progress: progress,
-          status: status,
-          score: 0));
-    } on NetworkException catch (_) {}
+      /// post mutation to network and insert result to database.
+      final result = await authDataSource.saveAnimeToAnimeList(
+          MediaListMutationParam(
+              entryId: int.tryParse(entryId ?? ''),
+              mediaId: int.parse(animeId),
+              progress: progress,
+              status: status,
+              score: 0));
+      final updateEntity = AnimeTrackItemEntity.fromNetworkModel(result);
+      await animeTrackListDao.insertTrackingAnimeListEntities([updateEntity]);
+      animeTrackListDao.notifyTrackingAnimeContentChanged(targetUserId);
+      return LoadSuccess(data: []);
+    } on NetworkException catch (exception) {
+      /// network error happened.
+      /// revert the changes in database.
+      if (entity != null) {
+        await animeTrackListDao.insertTrackingAnimeListEntities([entity]);
+      }
+      animeTrackListDao.notifyTrackingAnimeContentChanged(targetUserId);
+      return LoadError(exception);
+    }
   }
 }
