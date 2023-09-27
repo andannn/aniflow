@@ -37,7 +37,7 @@ class AniListDataSource {
     final hasSeason = param.season != null;
     final hasStatus = param.status != null;
     final hasAnimeSort = param.animeSort.isNotEmpty;
-    final hasAnimeFormat = param.animeFormat != null;
+    final hasAnimeFormat = param.animeFormat.isNotEmpty;
     final variablesMap = <String, dynamic>{
       'page': param.page,
       'perPage': param.perPage,
@@ -57,7 +57,8 @@ class AniListDataSource {
           param.animeSort.map((e) => e.sqlTypeString).toList();
     }
     if (hasAnimeFormat) {
-      variablesMap['format_in'] = param.animeFormat?.sqlTypeString.toList();
+      variablesMap['format_in'] =
+          param.animeFormat.expand((list) => list.sqlTypeString).toList();
     }
 
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,

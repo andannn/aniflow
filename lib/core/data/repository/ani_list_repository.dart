@@ -157,7 +157,7 @@ class AniListRepositoryImpl extends AniListRepository {
     AnimeStatus? status;
     AnimeSeasonParam? seasonParam;
     List<AnimeSort> sorts = [];
-    AnimeFormat? format;
+    List<AnimeFormat> format = [];
 
     AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
       seasonYear: preferences.getCurrentSeasonYear(),
@@ -168,11 +168,11 @@ class AniListRepositoryImpl extends AniListRepository {
         status = null;
         seasonParam = currentSeasonParam;
         // sorts = [AnimeSort.latestUpdate];
-        format = AnimeFormat.tv;
+        format = [AnimeFormat.tv, AnimeFormat.ova];
       case AnimeCategory.nextSeason:
         status = null;
         seasonParam = getNextSeasonParam(currentSeasonParam);
-        format = AnimeFormat.tv;
+        format = [AnimeFormat.tv, AnimeFormat.ova];
       case AnimeCategory.trending:
         status = null;
         seasonParam = null;
@@ -180,7 +180,7 @@ class AniListRepositoryImpl extends AniListRepository {
       case AnimeCategory.movie:
         status = null;
         seasonParam = null;
-        format = AnimeFormat.movie;
+        format = [AnimeFormat.movie];
         sorts = [AnimeSort.trending];
     }
 

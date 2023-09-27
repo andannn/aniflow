@@ -8,11 +8,10 @@ import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class AnimeTrackItem extends StatelessWidget {
-  const AnimeTrackItem(
-      {required this.model,
-      required this.onMarkWatchedClick,
-      required this.onClick,
-      super.key});
+  const AnimeTrackItem({required this.model,
+    required this.onMarkWatchedClick,
+    required this.onClick,
+    super.key});
 
   final AnimeListItemModel model;
   final VoidCallback onClick;
@@ -20,14 +19,22 @@ class AnimeTrackItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSurfaceVariant;
-    final textTheme = Theme.of(context).textTheme;
+    final textColor = Theme
+        .of(context)
+        .colorScheme
+        .onSurfaceVariant;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
     final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
     return Opacity(
       opacity: hasNextReleasingEpisode ? 1.0 : 0.5,
       child: Card(
         elevation: 0,
-        color: Theme.of(context).colorScheme.surfaceVariant,
+        color: Theme
+            .of(context)
+            .colorScheme
+            .surfaceVariant,
         clipBehavior: Clip.antiAlias,
         child: MarkWatchSlideWidget(
           onWatchedClick: onMarkWatchedClick,
@@ -54,7 +61,7 @@ class AnimeTrackItem extends StatelessWidget {
                         Text(
                           model.animeModel!.title!.getLocalTitle(context),
                           style:
-                              textTheme.titleMedium?.copyWith(color: textColor),
+                          textTheme.titleMedium?.copyWith(color: textColor),
                           maxLines: 2,
                           softWrap: true,
                         ),
@@ -64,7 +71,7 @@ class AnimeTrackItem extends StatelessWidget {
                         Text(
                           model.animeModel!.getAnimeInfoString(context),
                           style:
-                              textTheme.bodySmall?.copyWith(color: textColor),
+                          textTheme.bodySmall?.copyWith(color: textColor),
                         ),
                         const SizedBox(height: 4),
                       ],
@@ -79,29 +86,32 @@ class AnimeTrackItem extends StatelessWidget {
     );
   }
 
-  Widget _buildWatchingInfoLabel(
-      BuildContext context, AnimeListItemModel model) {
+  Widget _buildWatchingInfoLabel(BuildContext context,
+      AnimeListItemModel model) {
     final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
     String label;
     if (hasNextReleasingEpisode) {
       label = 'Next Episode: EP.${model.progress! + 1}';
     } else {
       label =
-          'Next Episode: EP.${model.animeModel!.nextAiringEpisode} in ${model.animeModel!.getReleasingTimeString(context)}';
+      'Next Episode: EP.${model.animeModel!.nextAiringEpisode} in ${model
+          .animeModel!.getReleasingTimeString(context)}';
     }
     return Text(
       label,
-      style: Theme.of(context).textTheme.labelLarge,
+      style: Theme
+          .of(context)
+          .textTheme
+          .labelLarge,
     );
   }
 }
 
 class MarkWatchSlideWidget extends StatelessWidget {
-  const MarkWatchSlideWidget(
-      {required this.onWatchedClick,
-      required this.canSlide,
-      required this.child,
-      super.key});
+  const MarkWatchSlideWidget({required this.onWatchedClick,
+    required this.canSlide,
+    required this.child,
+    super.key});
 
   final VoidCallback onWatchedClick;
   final bool canSlide;
@@ -115,11 +125,19 @@ class MarkWatchSlideWidget extends StatelessWidget {
         motion: const DrawerMotion(),
         children: [
           SlidableAction(
-            onPressed: (_) {},
+            onPressed: (_) {
+              onWatchedClick.call();
+            },
             icon: Icons.remove_red_eye_outlined,
             label: 'Mark watched',
-            backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-            foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
+            backgroundColor: Theme
+                .of(context)
+                .colorScheme
+                .inverseSurface,
+            foregroundColor: Theme
+                .of(context)
+                .colorScheme
+                .onInverseSurface,
           ),
         ],
       ),

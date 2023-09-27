@@ -178,7 +178,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       OnAnimeMarkWatched event, Emitter<TrackUiState> emit) async {
     final isFinished = event.progress == event.totalEpisode;
     final AnimeListStatus status =
-        isFinished ? AnimeListStatus.completed : AnimeListStatus.completed;
+        isFinished ? AnimeListStatus.completed : AnimeListStatus.current;
 
     add(_OnLoadStateChanged(isLoading: true));
     final result = await _animeTrackListRepository.updateAnimeInTrackList(
