@@ -7,7 +7,7 @@ class AnimePageQueryParam {
   final AnimeSeason? season;
   final AnimeStatus? status;
   final List<AnimeSort> animeSort;
-  final AnimeFormat? animeFormat;
+  final List<AnimeFormat> animeFormat;
 
   AnimePageQueryParam(
       {required this.page,
@@ -16,7 +16,7 @@ class AnimePageQueryParam {
       this.season,
       this.status,
       this.animeSort = const [],
-      this.animeFormat});
+      this.animeFormat = const []});
 }
 
 String createAnimeListQueryGraphQLString() {

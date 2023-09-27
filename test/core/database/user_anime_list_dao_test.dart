@@ -45,12 +45,12 @@ void main() {
 
     test('insert_test', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
     });
 
     test('get_list_by_user_test', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final res = await dao
           .getUserAnimeListByPage('22', [AnimeListStatus.current], page: 1);
@@ -59,7 +59,7 @@ void main() {
 
     test('get_list_and_anime_by_user_test', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       await animeDatabase.getAnimeDao().insertOrIgnoreAnimeByAnimeCategory(
           AnimeCategory.movie,
@@ -72,7 +72,7 @@ void main() {
 
     test('get_list_by_multi_status', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final res = await dao.getUserAnimeListByPage(
           '22', [AnimeListStatus.current, AnimeListStatus.dropped],
@@ -82,7 +82,7 @@ void main() {
 
     test('get_list_no_limit', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final res = await dao.getUserAnimeListByPage(
           '22', [AnimeListStatus.current, AnimeListStatus.dropped],
@@ -92,7 +92,7 @@ void main() {
 
     test('get_list_ids_stream', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final stream = dao.getAnimeListAnimeIdsByUserStream(
           '22', [AnimeListStatus.current, AnimeListStatus.dropped]);
@@ -102,7 +102,7 @@ void main() {
 
     test('get_list_ids_stream', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final isTracking =
           await dao.getIsTrackingByUserAndId(userId: '22', animeId: '33');
@@ -115,7 +115,7 @@ void main() {
 
     test('get_track_item', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final item = await dao.getAnimeTrackItem(animeId: '55');
       expect(item, equals(dummyUserAnimeListEntity[1]));
@@ -123,7 +123,7 @@ void main() {
 
     test('get_track_item', () async {
       final dao = animeDatabase.getAnimeTrackListDao();
-      await dao.insertUserAnimeListEntities(dummyUserAnimeListEntity);
+      await dao.insertTrackingAnimeListEntities(dummyUserAnimeListEntity);
 
       final item = await dao.getAnimeTrackItem(animeId: '55');
       expect(item, equals(dummyUserAnimeListEntity[1]));

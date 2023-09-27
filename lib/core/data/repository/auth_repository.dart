@@ -80,7 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
     final userId = (await userDataDao.getUserData())?.id;
     if (userId != null) {
       await animeTrackListDao.removeUserAnimeListByUserId(userId);
-      animeTrackListDao.notifyUserAnimeContentChanged(userId);
+      animeTrackListDao.notifyTrackingAnimeContentChanged(userId);
     }
     await userDataDao.removeUserData();
     await preferences.setAuthExpiredTime(null);

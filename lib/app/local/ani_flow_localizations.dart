@@ -70,6 +70,13 @@ abstract class AFLocalizations {
 
   String get animeNotYetReleased;
 
+  String get followNewAnimation;
+
+  String get dropAnimation;
+
+  String get animeCompleted;
+  String get animeMarkWatched;
+
   static AFLocalizations of([BuildContext? context]) {
     return Localizations.of<AFLocalizations>(
         context ?? globalContext!, AFLocalizations)!;
@@ -178,6 +185,18 @@ class EnAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get movieLabel => 'Movie';
+
+  @override
+  String get followNewAnimation => 'Follow new animation';
+
+  @override
+  String get dropAnimation => 'drop the animation';
+
+  @override
+  String get animeCompleted => 'anime completed';
+
+  @override
+  String get animeMarkWatched => 'Anime mark watched';
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -282,6 +301,18 @@ class JaAniFLowLocalizations extends AFLocalizations {
 
   @override
   String get movieLabel => '映画';
+
+  @override
+  String get followNewAnimation => 'Follow new animation';
+
+  @override
+  String get dropAnimation => 'drop the animation';
+
+  @override
+  String get animeCompleted => 'anime completed';
+
+  @override
+  String get animeMarkWatched => 'Anime mark watched';
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -386,4 +417,16 @@ class CNAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get movieLabel => '动画电影';
+
+  @override
+  String get followNewAnimation => 'Follow new animation';
+
+  @override
+  String get dropAnimation => 'drop the animation';
+
+  @override
+  String get animeCompleted => 'anime completed';
+
+  @override
+  String get animeMarkWatched => 'Anime mark watched';
 }
