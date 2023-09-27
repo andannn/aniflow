@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/util/anime_list_item_model_util.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_ui_state.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/user_anime_list_load_state.dart';
 import 'package:bloc/bloc.dart';
@@ -34,6 +36,17 @@ class OnToggleShowFollowOnly extends TrackEvent {
   OnToggleShowFollowOnly();
 }
 
+class OnAnimeMarkWatched extends TrackEvent {
+  final String animeId;
+  final int progress;
+  final int? totalEpisode;
+
+  OnAnimeMarkWatched(
+      {required this.animeId,
+      required this.progress,
+      required this.totalEpisode});
+}
+
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
       {required AnimeTrackListRepository animeTrackListRepository,
@@ -45,6 +58,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<_OnLoadStateChanged>(_onLoadStateChanged);
     on<_OnWatchingAnimeListChanged>(_onWatchingAnimeListChanged);
     on<OnToggleShowFollowOnly>(_onToggleShowReleasedOnly);
+    on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
 
     _init();
   }
@@ -95,11 +109,11 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       final userData = event.userData!;
       await _userContentSub?.cancel();
       _userContentSub = _animeTrackListRepository.getUserAnimeListStream(
-          status: [AnimeListStatus.planning, AnimeListStatus.current],
-          userId: userData.id,
-        ).listen((animeList) {
-          add(_OnWatchingAnimeListChanged(animeList: animeList));
-        });
+        status: [AnimeListStatus.planning, AnimeListStatus.current],
+        userId: userData.id,
+      ).listen((animeList) {
+        add(_OnWatchingAnimeListChanged(animeList: animeList));
+      });
     }
   }
 
@@ -158,5 +172,34 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         animeLoadState: UserAnimeLoaded(watchingAnimeList: animeList),
       ),
     );
+  }
+
+  Future<void> _onAnimeMarkWatched(
+      OnAnimeMarkWatched event, Emitter<TrackUiState> emit) async {
+    final isFinished = event.progress == event.totalEpisode;
+    final AnimeListStatus status =
+        isFinished ? AnimeListStatus.completed : AnimeListStatus.completed;
+
+    add(_OnLoadStateChanged(isLoading: true));
+    final result = await _animeTrackListRepository.updateAnimeInTrackList(
+        animeId: event.animeId, status: status, progress: event.progress);
+    add(_OnLoadStateChanged(isLoading: false));
+
+    if (result is LoadSuccess) {
+      if (isFinished) {
+//TODO: change to score dialog.
+        showSnackBarMessage(
+          label: AFLocalizations.of().animeCompleted,
+          duration: SnackBarDuration.short,
+        );
+      } else {
+        showSnackBarMessage(
+          label: AFLocalizations.of().animeMarkWatched,
+          duration: SnackBarDuration.short,
+        );
+      }
+    } else {
+//TODO: show error msg.
+    }
   }
 }

@@ -105,6 +105,10 @@ class _AnimeTrackPageContent extends StatelessWidget {
         child: AnimeTrackItem(
           model: item,
           onMarkWatchedClick: () {
+            context.read<TrackBloc>().add(OnAnimeMarkWatched(
+                animeId: item.animeModel!.id,
+                progress: item.progress! + 1,
+                totalEpisode: item.animeModel!.episodes));
             // mark watch
           },
           onClick: () {

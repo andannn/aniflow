@@ -145,7 +145,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
     if (result is LoadError) {
       logger.d('toggle follow state failed');
 
-      /// show snackBar msg.
+//TODO: show dialog.
     } else {
       if (event.isFollow) {
         showSnackBarMessage(
