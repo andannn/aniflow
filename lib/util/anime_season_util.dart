@@ -14,7 +14,7 @@ mixin AnimeSeasonUtil {
         season = AnimeSeason.spring;
       case >= 7 && < 10:
         season = AnimeSeason.summer;
-      case >= 10 && < 1:
+      case >= 10:
         season = AnimeSeason.fall;
       default:
         throw 'impossible';
