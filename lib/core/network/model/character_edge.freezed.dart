@@ -23,9 +23,9 @@ mixin _$CharacterEdge {
   @JsonKey(name: 'role')
   CharacterRole? get role => throw _privateConstructorUsedError;
   @JsonKey(name: 'node')
-  ShortInfoNode? get characterEdge => throw _privateConstructorUsedError;
+  CharacterDto? get characterNode => throw _privateConstructorUsedError;
   @JsonKey(name: 'voiceActors')
-  List<ShortInfoNode> get voiceActors => throw _privateConstructorUsedError;
+  List<StaffDto> get voiceActors => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,10 +41,10 @@ abstract class $CharacterEdgeCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'role') CharacterRole? role,
-      @JsonKey(name: 'node') ShortInfoNode? characterEdge,
-      @JsonKey(name: 'voiceActors') List<ShortInfoNode> voiceActors});
+      @JsonKey(name: 'node') CharacterDto? characterNode,
+      @JsonKey(name: 'voiceActors') List<StaffDto> voiceActors});
 
-  $ShortInfoNodeCopyWith<$Res>? get characterEdge;
+  $CharacterDtoCopyWith<$Res>? get characterNode;
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$CharacterEdgeCopyWithImpl<$Res, $Val extends CharacterEdge>
   @override
   $Res call({
     Object? role = freezed,
-    Object? characterEdge = freezed,
+    Object? characterNode = freezed,
     Object? voiceActors = null,
   }) {
     return _then(_value.copyWith(
@@ -69,26 +69,26 @@ class _$CharacterEdgeCopyWithImpl<$Res, $Val extends CharacterEdge>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as CharacterRole?,
-      characterEdge: freezed == characterEdge
-          ? _value.characterEdge
-          : characterEdge // ignore: cast_nullable_to_non_nullable
-              as ShortInfoNode?,
+      characterNode: freezed == characterNode
+          ? _value.characterNode
+          : characterNode // ignore: cast_nullable_to_non_nullable
+              as CharacterDto?,
       voiceActors: null == voiceActors
           ? _value.voiceActors
           : voiceActors // ignore: cast_nullable_to_non_nullable
-              as List<ShortInfoNode>,
+              as List<StaffDto>,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ShortInfoNodeCopyWith<$Res>? get characterEdge {
-    if (_value.characterEdge == null) {
+  $CharacterDtoCopyWith<$Res>? get characterNode {
+    if (_value.characterNode == null) {
       return null;
     }
 
-    return $ShortInfoNodeCopyWith<$Res>(_value.characterEdge!, (value) {
-      return _then(_value.copyWith(characterEdge: value) as $Val);
+    return $CharacterDtoCopyWith<$Res>(_value.characterNode!, (value) {
+      return _then(_value.copyWith(characterNode: value) as $Val);
     });
   }
 }
@@ -103,11 +103,11 @@ abstract class _$$_CharacterEdgeCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'role') CharacterRole? role,
-      @JsonKey(name: 'node') ShortInfoNode? characterEdge,
-      @JsonKey(name: 'voiceActors') List<ShortInfoNode> voiceActors});
+      @JsonKey(name: 'node') CharacterDto? characterNode,
+      @JsonKey(name: 'voiceActors') List<StaffDto> voiceActors});
 
   @override
-  $ShortInfoNodeCopyWith<$Res>? get characterEdge;
+  $CharacterDtoCopyWith<$Res>? get characterNode;
 }
 
 /// @nodoc
@@ -122,7 +122,7 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
   @override
   $Res call({
     Object? role = freezed,
-    Object? characterEdge = freezed,
+    Object? characterNode = freezed,
     Object? voiceActors = null,
   }) {
     return _then(_$_CharacterEdge(
@@ -130,14 +130,14 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as CharacterRole?,
-      characterEdge: freezed == characterEdge
-          ? _value.characterEdge
-          : characterEdge // ignore: cast_nullable_to_non_nullable
-              as ShortInfoNode?,
+      characterNode: freezed == characterNode
+          ? _value.characterNode
+          : characterNode // ignore: cast_nullable_to_non_nullable
+              as CharacterDto?,
       voiceActors: null == voiceActors
           ? _value._voiceActors
           : voiceActors // ignore: cast_nullable_to_non_nullable
-              as List<ShortInfoNode>,
+              as List<StaffDto>,
     ));
   }
 }
@@ -147,9 +147,9 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
 class _$_CharacterEdge implements _CharacterEdge {
   _$_CharacterEdge(
       {@JsonKey(name: 'role') this.role,
-      @JsonKey(name: 'node') this.characterEdge,
+      @JsonKey(name: 'node') this.characterNode,
       @JsonKey(name: 'voiceActors')
-      final List<ShortInfoNode> voiceActors = const []})
+      final List<StaffDto> voiceActors = const []})
       : _voiceActors = voiceActors;
 
   factory _$_CharacterEdge.fromJson(Map<String, dynamic> json) =>
@@ -160,11 +160,11 @@ class _$_CharacterEdge implements _CharacterEdge {
   final CharacterRole? role;
   @override
   @JsonKey(name: 'node')
-  final ShortInfoNode? characterEdge;
-  final List<ShortInfoNode> _voiceActors;
+  final CharacterDto? characterNode;
+  final List<StaffDto> _voiceActors;
   @override
   @JsonKey(name: 'voiceActors')
-  List<ShortInfoNode> get voiceActors {
+  List<StaffDto> get voiceActors {
     if (_voiceActors is EqualUnmodifiableListView) return _voiceActors;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_voiceActors);
@@ -172,7 +172,7 @@ class _$_CharacterEdge implements _CharacterEdge {
 
   @override
   String toString() {
-    return 'CharacterEdge(role: $role, characterEdge: $characterEdge, voiceActors: $voiceActors)';
+    return 'CharacterEdge(role: $role, characterNode: $characterNode, voiceActors: $voiceActors)';
   }
 
   @override
@@ -181,15 +181,15 @@ class _$_CharacterEdge implements _CharacterEdge {
         (other.runtimeType == runtimeType &&
             other is _$_CharacterEdge &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.characterEdge, characterEdge) ||
-                other.characterEdge == characterEdge) &&
+            (identical(other.characterNode, characterNode) ||
+                other.characterNode == characterNode) &&
             const DeepCollectionEquality()
                 .equals(other._voiceActors, _voiceActors));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, role, characterEdge,
+  int get hashCode => Object.hash(runtimeType, role, characterNode,
       const DeepCollectionEquality().hash(_voiceActors));
 
   @JsonKey(ignore: true)
@@ -208,10 +208,10 @@ class _$_CharacterEdge implements _CharacterEdge {
 
 abstract class _CharacterEdge implements CharacterEdge {
   factory _CharacterEdge(
-      {@JsonKey(name: 'role') final CharacterRole? role,
-      @JsonKey(name: 'node') final ShortInfoNode? characterEdge,
-      @JsonKey(name: 'voiceActors')
-      final List<ShortInfoNode> voiceActors}) = _$_CharacterEdge;
+          {@JsonKey(name: 'role') final CharacterRole? role,
+          @JsonKey(name: 'node') final CharacterDto? characterNode,
+          @JsonKey(name: 'voiceActors') final List<StaffDto> voiceActors}) =
+      _$_CharacterEdge;
 
   factory _CharacterEdge.fromJson(Map<String, dynamic> json) =
       _$_CharacterEdge.fromJson;
@@ -221,10 +221,10 @@ abstract class _CharacterEdge implements CharacterEdge {
   CharacterRole? get role;
   @override
   @JsonKey(name: 'node')
-  ShortInfoNode? get characterEdge;
+  CharacterDto? get characterNode;
   @override
   @JsonKey(name: 'voiceActors')
-  List<ShortInfoNode> get voiceActors;
+  List<StaffDto> get voiceActors;
   @override
   @JsonKey(ignore: true)
   _$$_CharacterEdgeCopyWith<_$_CharacterEdge> get copyWith =>

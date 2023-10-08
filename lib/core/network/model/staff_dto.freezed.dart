@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'short_info_node.dart';
+part of 'staff_dto.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ShortInfoNode _$ShortInfoNodeFromJson(Map<String, dynamic> json) {
-  return _CharacterNode.fromJson(json);
+StaffDto _$StaffDtoFromJson(Map<String, dynamic> json) {
+  return _StaffDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ShortInfoNode {
+mixin _$StaffDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'image')
@@ -29,15 +29,14 @@ mixin _$ShortInfoNode {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ShortInfoNodeCopyWith<ShortInfoNode> get copyWith =>
+  $StaffDtoCopyWith<StaffDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ShortInfoNodeCopyWith<$Res> {
-  factory $ShortInfoNodeCopyWith(
-          ShortInfoNode value, $Res Function(ShortInfoNode) then) =
-      _$ShortInfoNodeCopyWithImpl<$Res, ShortInfoNode>;
+abstract class $StaffDtoCopyWith<$Res> {
+  factory $StaffDtoCopyWith(StaffDto value, $Res Function(StaffDto) then) =
+      _$StaffDtoCopyWithImpl<$Res, StaffDto>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
@@ -46,9 +45,9 @@ abstract class $ShortInfoNodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ShortInfoNodeCopyWithImpl<$Res, $Val extends ShortInfoNode>
-    implements $ShortInfoNodeCopyWith<$Res> {
-  _$ShortInfoNodeCopyWithImpl(this._value, this._then);
+class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
+    implements $StaffDtoCopyWith<$Res> {
+  _$StaffDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -80,11 +79,10 @@ class _$ShortInfoNodeCopyWithImpl<$Res, $Val extends ShortInfoNode>
 }
 
 /// @nodoc
-abstract class _$$_CharacterNodeCopyWith<$Res>
-    implements $ShortInfoNodeCopyWith<$Res> {
-  factory _$$_CharacterNodeCopyWith(
-          _$_CharacterNode value, $Res Function(_$_CharacterNode) then) =
-      __$$_CharacterNodeCopyWithImpl<$Res>;
+abstract class _$$_StaffDtoCopyWith<$Res> implements $StaffDtoCopyWith<$Res> {
+  factory _$$_StaffDtoCopyWith(
+          _$_StaffDto value, $Res Function(_$_StaffDto) then) =
+      __$$_StaffDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +92,11 @@ abstract class _$$_CharacterNodeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CharacterNodeCopyWithImpl<$Res>
-    extends _$ShortInfoNodeCopyWithImpl<$Res, _$_CharacterNode>
-    implements _$$_CharacterNodeCopyWith<$Res> {
-  __$$_CharacterNodeCopyWithImpl(
-      _$_CharacterNode _value, $Res Function(_$_CharacterNode) _then)
+class __$$_StaffDtoCopyWithImpl<$Res>
+    extends _$StaffDtoCopyWithImpl<$Res, _$_StaffDto>
+    implements _$$_StaffDtoCopyWith<$Res> {
+  __$$_StaffDtoCopyWithImpl(
+      _$_StaffDto _value, $Res Function(_$_StaffDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +106,7 @@ class __$$_CharacterNodeCopyWithImpl<$Res>
     Object? image = null,
     Object? name = null,
   }) {
-    return _then(_$_CharacterNode(
+    return _then(_$_StaffDto(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -127,16 +125,16 @@ class __$$_CharacterNodeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CharacterNode implements _CharacterNode {
-  _$_CharacterNode(
+class _$_StaffDto implements _StaffDto {
+  _$_StaffDto(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'image') final Map<String, String?> image = const {},
       @JsonKey(name: 'name') final Map<String, String?> name = const {}})
       : _image = image,
         _name = name;
 
-  factory _$_CharacterNode.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterNodeFromJson(json);
+  factory _$_StaffDto.fromJson(Map<String, dynamic> json) =>
+      _$$_StaffDtoFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -161,14 +159,14 @@ class _$_CharacterNode implements _CharacterNode {
 
   @override
   String toString() {
-    return 'ShortInfoNode(id: $id, image: $image, name: $name)';
+    return 'StaffDto(id: $id, image: $image, name: $name)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterNode &&
+            other is _$_StaffDto &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._image, _image) &&
             const DeepCollectionEquality().equals(other._name, _name));
@@ -185,26 +183,24 @@ class _$_CharacterNode implements _CharacterNode {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterNodeCopyWith<_$_CharacterNode> get copyWith =>
-      __$$_CharacterNodeCopyWithImpl<_$_CharacterNode>(this, _$identity);
+  _$$_StaffDtoCopyWith<_$_StaffDto> get copyWith =>
+      __$$_StaffDtoCopyWithImpl<_$_StaffDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CharacterNodeToJson(
+    return _$$_StaffDtoToJson(
       this,
     );
   }
 }
 
-abstract class _CharacterNode implements ShortInfoNode {
-  factory _CharacterNode(
-          {@JsonKey(name: 'id') final int id,
-          @JsonKey(name: 'image') final Map<String, String?> image,
-          @JsonKey(name: 'name') final Map<String, String?> name}) =
-      _$_CharacterNode;
+abstract class _StaffDto implements StaffDto {
+  factory _StaffDto(
+      {@JsonKey(name: 'id') final int id,
+      @JsonKey(name: 'image') final Map<String, String?> image,
+      @JsonKey(name: 'name') final Map<String, String?> name}) = _$_StaffDto;
 
-  factory _CharacterNode.fromJson(Map<String, dynamic> json) =
-      _$_CharacterNode.fromJson;
+  factory _StaffDto.fromJson(Map<String, dynamic> json) = _$_StaffDto.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -217,6 +213,6 @@ abstract class _CharacterNode implements ShortInfoNode {
   Map<String, String?> get name;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterNodeCopyWith<_$_CharacterNode> get copyWith =>
+  _$$_StaffDtoCopyWith<_$_StaffDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

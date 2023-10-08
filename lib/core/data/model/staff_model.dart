@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
+import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'staff_model.freezed.dart';
@@ -13,7 +13,7 @@ class StaffModel with _$StaffModel {
     @Default('') String nameNative,
   }) = _StaffModel;
 
-  static StaffModel fromDatabaseEntity(VoiceActorEntity entity) {
+  static StaffModel fromDatabaseEntity(StaffEntity entity) {
     return StaffModel(
       id: entity.id,
       image: entity.image ?? '',

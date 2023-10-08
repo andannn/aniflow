@@ -5,6 +5,7 @@ import 'package:anime_tracker/core/common/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
+import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
@@ -145,6 +146,13 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: _buildCharacterSection(
                   context,
                   model.characterAndVoiceActors,
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildStaffsSection(
+                  context,
+                  model.staffs,
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
@@ -333,6 +341,39 @@ class _DetailAnimePageContent extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
+    );
+  }
+
+  Widget _buildStaffsSection(
+      BuildContext context, List<StaffAndRoleModel> staffs) {
+    return VerticalScaleSwitcher(
+      child: staffs.isNotEmpty
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    'Staff',
+                    // AFLocalizations.of(context).characters,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 400,
+                  child: PageView.builder(
+                    itemCount: (staffs.length).ceil(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Text(
+                        staffs[index].staff.nameNative,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          : const SizedBox(),
     );
   }
 

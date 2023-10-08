@@ -1,7 +1,7 @@
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
-import 'package:anime_tracker/core/network/model/short_info_node.dart';
+import 'package:anime_tracker/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_entity.freezed.dart';
@@ -25,18 +25,18 @@ class CharacterEntity with _$CharacterEntity {
       _$$_CharacterEntityFromJson(json);
 
   static CharacterEntity fromNetworkModel(CharacterEdge e) {
-    ShortInfoNode? voiceActor;
+    StaffDto? voiceActor;
     if (e.voiceActors.isNotEmpty) {
       voiceActor = e.voiceActors[0];
     }
 
     return CharacterEntity(
-      id: e.characterEdge!.id.toString(),
+      id: e.characterNode!.id.toString(),
       voiceActorId: voiceActor?.id.toString(),
       role: e.role,
-      image: e.characterEdge!.image['large'],
-      nameNative: e.characterEdge!.name['native'],
-      nameEnglish: e.characterEdge!.name['full'],
+      image: e.characterNode!.image['large'],
+      nameNative: e.characterNode!.name['native'],
+      nameEnglish: e.characterNode!.name['full'],
     );
   }
 }

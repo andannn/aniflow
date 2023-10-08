@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:anime_tracker/core/shared_preference/model/user_setting_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
@@ -9,13 +10,15 @@ mixin UserDataKey {
   static const lastSuccessSync = "last_success_sync";
   static const authToken = "auth_token";
   static const authExpiredTime = "auth_expired_time";
+
+  /// user settings.
+  static const displayAdultContent = "display_adult_content";
 }
 
 class AniFlowPreferences {
   static AniFlowPreferences? _instance;
 
-  factory AniFlowPreferences() =>
-      _instance ??= AniFlowPreferences._();
+  factory AniFlowPreferences() => _instance ??= AniFlowPreferences._();
 
   AniFlowPreferences._();
 
@@ -52,7 +55,8 @@ class AniFlowPreferences {
   }
 
   Future setLastSuccessSync(DateTime dateTime) {
-    return _preference.setString(UserDataKey.lastSuccessSync, dateTime.toIso8601String());
+    return _preference.setString(
+        UserDataKey.lastSuccessSync, dateTime.toIso8601String());
   }
 
   DateTime? getLastSuccessSync() {
@@ -74,7 +78,8 @@ class AniFlowPreferences {
 
   Future setAuthExpiredTime(DateTime? dateTime) {
     if (dateTime != null) {
-      return _preference.setString(UserDataKey.authExpiredTime, dateTime.toIso8601String());
+      return _preference.setString(
+          UserDataKey.authExpiredTime, dateTime.toIso8601String());
     } else {
       return _preference.remove(UserDataKey.authExpiredTime);
     }
@@ -83,5 +88,17 @@ class AniFlowPreferences {
   DateTime? getAuthExpiredTime() {
     final result = _preference.getString(UserDataKey.authExpiredTime) ?? '';
     return DateTime.tryParse(result);
+  }
+
+  UserSettingModel getUserSettingModel() {
+    return UserSettingModel(
+      displayAdultContent:
+          _preference.getBool(UserDataKey.displayAdultContent) ?? false,
+    );
+  }
+
+  Future setIsDisplayAdultContent(bool isDisplayAdultContent) {
+    return _preference.setBool(
+        UserDataKey.displayAdultContent, isDisplayAdultContent);
   }
 }

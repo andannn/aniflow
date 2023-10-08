@@ -9,11 +9,11 @@ part of 'character_edge.dart';
 _$_CharacterEdge _$$_CharacterEdgeFromJson(Map<String, dynamic> json) =>
     _$_CharacterEdge(
       role: $enumDecodeNullable(_$CharacterRoleEnumMap, json['role']),
-      characterEdge: json['node'] == null
+      characterNode: json['node'] == null
           ? null
-          : ShortInfoNode.fromJson(json['node'] as Map<String, dynamic>),
+          : CharacterDto.fromJson(json['node'] as Map<String, dynamic>),
       voiceActors: (json['voiceActors'] as List<dynamic>?)
-              ?.map((e) => ShortInfoNode.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => StaffDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -21,7 +21,7 @@ _$_CharacterEdge _$$_CharacterEdgeFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_CharacterEdgeToJson(_$_CharacterEdge instance) =>
     <String, dynamic>{
       'role': _$CharacterRoleEnumMap[instance.role],
-      'node': instance.characterEdge,
+      'node': instance.characterNode,
       'voiceActors': instance.voiceActors,
     };
 

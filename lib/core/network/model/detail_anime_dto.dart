@@ -2,6 +2,7 @@ import 'package:anime_tracker/core/data/model/anime_source.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule.dart';
 import 'package:anime_tracker/core/network/model/anime_rank.dart';
+import 'package:anime_tracker/core/network/model/staff_connection.dart';
 import 'package:anime_tracker/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -34,6 +35,7 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @JsonKey(name: 'nextAiringEpisode') AiringSchedule? nextAiringEpisode,
     @Default([]) @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
     @JsonKey(name: 'characters') CharacterConnection? characters,
+    @JsonKey(name: 'staff') StaffConnection? staff,
   }) = _DetailAnimeDto;
 
   factory DetailAnimeDto.fromJson(Map<String, dynamic> json) =>

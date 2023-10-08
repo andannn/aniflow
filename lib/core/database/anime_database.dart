@@ -16,7 +16,8 @@ mixin Tables {
   static const String characterTable = 'character_table';
   static const String animeCharacterCrossRefTable =
       'anime_character_cross_ref_table';
-  static const String voiceActorTable = 'voice_actor_table';
+  static const String animeStaffCrossRefTable = 'anime_staff_cross_ref_table';
+  static const String staffTable = 'voice_actor_table';
   static const String userDataTable = 'user_data_table';
   static const String animeTrackListTable = 'usr_anime_list_table';
 }
@@ -114,12 +115,11 @@ class AnimeDatabase {
             '${CharacterColumns.nameEnglish} text, '
             '${CharacterColumns.nameNative} text)');
 
-    await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.voiceActorTable} ('
-            '${VoiceActorColumns.id} text primary key, '
-            '${VoiceActorColumns.image} text, '
-            '${VoiceActorColumns.nameEnglish} text, '
-            '${VoiceActorColumns.nameNative} text)');
+    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.staffTable} ('
+        '${StaffColumns.id} text primary key, '
+        '${StaffColumns.image} text, '
+        '${StaffColumns.nameEnglish} text, '
+        '${StaffColumns.nameNative} text)');
 
     await _animeDB!.execute(
         'create table if not exists ${Tables.animeCharacterCrossRefTable} ('
@@ -128,6 +128,16 @@ class AnimeDatabase {
         'primary key (${AnimeCharacterCrossRefColumns.animeId}, ${AnimeCharacterCrossRefColumns.characterId}), '
         'foreign key (${AnimeCharacterCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
         'foreign key (${AnimeCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        ')');
+
+    await _animeDB!.execute(
+        'create table if not exists ${Tables.animeStaffCrossRefTable} ('
+        '${AnimeStaffCrossRefColumns.animeId} text, '
+        '${AnimeStaffCrossRefColumns.staffId} text, '
+        '${AnimeStaffCrossRefColumns.staffRole} text, '
+        'primary key (${AnimeStaffCrossRefColumns.animeId}, ${AnimeStaffCrossRefColumns.staffRole}), '
+        'foreign key (${AnimeStaffCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
+        'foreign key (${AnimeStaffCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
         ')');
 
     await _animeDB!

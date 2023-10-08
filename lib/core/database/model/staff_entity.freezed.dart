@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'voice_actor_entity.dart';
+part of 'staff_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,44 +14,44 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-VoiceActorEntity _$VoiceActorEntityFromJson(Map<String, dynamic> json) {
-  return _VoiceActorEntity.fromJson(json);
+StaffEntity _$StaffEntityFromJson(Map<String, dynamic> json) {
+  return _StaffEntity.fromJson(json);
 }
 
 /// @nodoc
-mixin _$VoiceActorEntity {
-  @JsonKey(name: VoiceActorColumns.id)
+mixin _$StaffEntity {
+  @JsonKey(name: StaffColumns.id)
   String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: VoiceActorColumns.image)
+  @JsonKey(name: StaffColumns.image)
   String? get image => throw _privateConstructorUsedError;
-  @JsonKey(name: VoiceActorColumns.nameEnglish)
+  @JsonKey(name: StaffColumns.nameEnglish)
   String? get nameEnglish => throw _privateConstructorUsedError;
-  @JsonKey(name: VoiceActorColumns.nameNative)
+  @JsonKey(name: StaffColumns.nameNative)
   String? get nameNative => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $VoiceActorEntityCopyWith<VoiceActorEntity> get copyWith =>
+  $StaffEntityCopyWith<StaffEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $VoiceActorEntityCopyWith<$Res> {
-  factory $VoiceActorEntityCopyWith(
-          VoiceActorEntity value, $Res Function(VoiceActorEntity) then) =
-      _$VoiceActorEntityCopyWithImpl<$Res, VoiceActorEntity>;
+abstract class $StaffEntityCopyWith<$Res> {
+  factory $StaffEntityCopyWith(
+          StaffEntity value, $Res Function(StaffEntity) then) =
+      _$StaffEntityCopyWithImpl<$Res, StaffEntity>;
   @useResult
   $Res call(
-      {@JsonKey(name: VoiceActorColumns.id) String id,
-      @JsonKey(name: VoiceActorColumns.image) String? image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) String? nameEnglish,
-      @JsonKey(name: VoiceActorColumns.nameNative) String? nameNative});
+      {@JsonKey(name: StaffColumns.id) String id,
+      @JsonKey(name: StaffColumns.image) String? image,
+      @JsonKey(name: StaffColumns.nameEnglish) String? nameEnglish,
+      @JsonKey(name: StaffColumns.nameNative) String? nameNative});
 }
 
 /// @nodoc
-class _$VoiceActorEntityCopyWithImpl<$Res, $Val extends VoiceActorEntity>
-    implements $VoiceActorEntityCopyWith<$Res> {
-  _$VoiceActorEntityCopyWithImpl(this._value, this._then);
+class _$StaffEntityCopyWithImpl<$Res, $Val extends StaffEntity>
+    implements $StaffEntityCopyWith<$Res> {
+  _$StaffEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -88,26 +88,26 @@ class _$VoiceActorEntityCopyWithImpl<$Res, $Val extends VoiceActorEntity>
 }
 
 /// @nodoc
-abstract class _$$_VoiceActorEntityCopyWith<$Res>
-    implements $VoiceActorEntityCopyWith<$Res> {
-  factory _$$_VoiceActorEntityCopyWith(
-          _$_VoiceActorEntity value, $Res Function(_$_VoiceActorEntity) then) =
-      __$$_VoiceActorEntityCopyWithImpl<$Res>;
+abstract class _$$_StaffEntityCopyWith<$Res>
+    implements $StaffEntityCopyWith<$Res> {
+  factory _$$_StaffEntityCopyWith(
+          _$_StaffEntity value, $Res Function(_$_StaffEntity) then) =
+      __$$_StaffEntityCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: VoiceActorColumns.id) String id,
-      @JsonKey(name: VoiceActorColumns.image) String? image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) String? nameEnglish,
-      @JsonKey(name: VoiceActorColumns.nameNative) String? nameNative});
+      {@JsonKey(name: StaffColumns.id) String id,
+      @JsonKey(name: StaffColumns.image) String? image,
+      @JsonKey(name: StaffColumns.nameEnglish) String? nameEnglish,
+      @JsonKey(name: StaffColumns.nameNative) String? nameNative});
 }
 
 /// @nodoc
-class __$$_VoiceActorEntityCopyWithImpl<$Res>
-    extends _$VoiceActorEntityCopyWithImpl<$Res, _$_VoiceActorEntity>
-    implements _$$_VoiceActorEntityCopyWith<$Res> {
-  __$$_VoiceActorEntityCopyWithImpl(
-      _$_VoiceActorEntity _value, $Res Function(_$_VoiceActorEntity) _then)
+class __$$_StaffEntityCopyWithImpl<$Res>
+    extends _$StaffEntityCopyWithImpl<$Res, _$_StaffEntity>
+    implements _$$_StaffEntityCopyWith<$Res> {
+  __$$_StaffEntityCopyWithImpl(
+      _$_StaffEntity _value, $Res Function(_$_StaffEntity) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_VoiceActorEntityCopyWithImpl<$Res>
     Object? nameEnglish = freezed,
     Object? nameNative = freezed,
   }) {
-    return _then(_$_VoiceActorEntity(
+    return _then(_$_StaffEntity(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -141,39 +141,39 @@ class __$$_VoiceActorEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_VoiceActorEntity implements _VoiceActorEntity {
-  _$_VoiceActorEntity(
-      {@JsonKey(name: VoiceActorColumns.id) this.id = '',
-      @JsonKey(name: VoiceActorColumns.image) this.image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) this.nameEnglish,
-      @JsonKey(name: VoiceActorColumns.nameNative) this.nameNative});
+class _$_StaffEntity implements _StaffEntity {
+  _$_StaffEntity(
+      {@JsonKey(name: StaffColumns.id) this.id = '',
+      @JsonKey(name: StaffColumns.image) this.image,
+      @JsonKey(name: StaffColumns.nameEnglish) this.nameEnglish,
+      @JsonKey(name: StaffColumns.nameNative) this.nameNative});
 
-  factory _$_VoiceActorEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_VoiceActorEntityFromJson(json);
+  factory _$_StaffEntity.fromJson(Map<String, dynamic> json) =>
+      _$$_StaffEntityFromJson(json);
 
   @override
-  @JsonKey(name: VoiceActorColumns.id)
+  @JsonKey(name: StaffColumns.id)
   final String id;
   @override
-  @JsonKey(name: VoiceActorColumns.image)
+  @JsonKey(name: StaffColumns.image)
   final String? image;
   @override
-  @JsonKey(name: VoiceActorColumns.nameEnglish)
+  @JsonKey(name: StaffColumns.nameEnglish)
   final String? nameEnglish;
   @override
-  @JsonKey(name: VoiceActorColumns.nameNative)
+  @JsonKey(name: StaffColumns.nameNative)
   final String? nameNative;
 
   @override
   String toString() {
-    return 'VoiceActorEntity(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'StaffEntity(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_VoiceActorEntity &&
+            other is _$_StaffEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.nameEnglish, nameEnglish) ||
@@ -190,42 +190,42 @@ class _$_VoiceActorEntity implements _VoiceActorEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_VoiceActorEntityCopyWith<_$_VoiceActorEntity> get copyWith =>
-      __$$_VoiceActorEntityCopyWithImpl<_$_VoiceActorEntity>(this, _$identity);
+  _$$_StaffEntityCopyWith<_$_StaffEntity> get copyWith =>
+      __$$_StaffEntityCopyWithImpl<_$_StaffEntity>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_VoiceActorEntityToJson(
+    return _$$_StaffEntityToJson(
       this,
     );
   }
 }
 
-abstract class _VoiceActorEntity implements VoiceActorEntity {
-  factory _VoiceActorEntity(
-      {@JsonKey(name: VoiceActorColumns.id) final String id,
-      @JsonKey(name: VoiceActorColumns.image) final String? image,
-      @JsonKey(name: VoiceActorColumns.nameEnglish) final String? nameEnglish,
-      @JsonKey(name: VoiceActorColumns.nameNative)
-      final String? nameNative}) = _$_VoiceActorEntity;
+abstract class _StaffEntity implements StaffEntity {
+  factory _StaffEntity(
+          {@JsonKey(name: StaffColumns.id) final String id,
+          @JsonKey(name: StaffColumns.image) final String? image,
+          @JsonKey(name: StaffColumns.nameEnglish) final String? nameEnglish,
+          @JsonKey(name: StaffColumns.nameNative) final String? nameNative}) =
+      _$_StaffEntity;
 
-  factory _VoiceActorEntity.fromJson(Map<String, dynamic> json) =
-      _$_VoiceActorEntity.fromJson;
+  factory _StaffEntity.fromJson(Map<String, dynamic> json) =
+      _$_StaffEntity.fromJson;
 
   @override
-  @JsonKey(name: VoiceActorColumns.id)
+  @JsonKey(name: StaffColumns.id)
   String get id;
   @override
-  @JsonKey(name: VoiceActorColumns.image)
+  @JsonKey(name: StaffColumns.image)
   String? get image;
   @override
-  @JsonKey(name: VoiceActorColumns.nameEnglish)
+  @JsonKey(name: StaffColumns.nameEnglish)
   String? get nameEnglish;
   @override
-  @JsonKey(name: VoiceActorColumns.nameNative)
+  @JsonKey(name: StaffColumns.nameNative)
   String? get nameNative;
   @override
   @JsonKey(ignore: true)
-  _$$_VoiceActorEntityCopyWith<_$_VoiceActorEntity> get copyWith =>
+  _$$_StaffEntityCopyWith<_$_StaffEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }

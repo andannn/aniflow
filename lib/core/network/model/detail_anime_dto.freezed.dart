@@ -58,6 +58,8 @@ mixin _$DetailAnimeDto {
   List<AnimeRank?> get rankings => throw _privateConstructorUsedError;
   @JsonKey(name: 'characters')
   CharacterConnection? get characters => throw _privateConstructorUsedError;
+  @JsonKey(name: 'staff')
+  StaffConnection? get staff => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -90,12 +92,14 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'nextAiringEpisode') AiringSchedule? nextAiringEpisode,
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
-      @JsonKey(name: 'characters') CharacterConnection? characters});
+      @JsonKey(name: 'characters') CharacterConnection? characters,
+      @JsonKey(name: 'staff') StaffConnection? staff});
 
   $AnimeTitleCopyWith<$Res>? get title;
   $TrailerDtoCopyWith<$Res>? get trailer;
   $AiringScheduleCopyWith<$Res>? get nextAiringEpisode;
   $CharacterConnectionCopyWith<$Res>? get characters;
+  $StaffConnectionCopyWith<$Res>? get staff;
 }
 
 /// @nodoc
@@ -130,6 +134,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? nextAiringEpisode = freezed,
     Object? rankings = null,
     Object? characters = freezed,
+    Object? staff = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -208,6 +213,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
               as CharacterConnection?,
+      staff: freezed == staff
+          ? _value.staff
+          : staff // ignore: cast_nullable_to_non_nullable
+              as StaffConnection?,
     ) as $Val);
   }
 
@@ -258,6 +267,18 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
       return _then(_value.copyWith(characters: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaffConnectionCopyWith<$Res>? get staff {
+    if (_value.staff == null) {
+      return null;
+    }
+
+    return $StaffConnectionCopyWith<$Res>(_value.staff!, (value) {
+      return _then(_value.copyWith(staff: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -287,7 +308,8 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'nextAiringEpisode') AiringSchedule? nextAiringEpisode,
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
-      @JsonKey(name: 'characters') CharacterConnection? characters});
+      @JsonKey(name: 'characters') CharacterConnection? characters,
+      @JsonKey(name: 'staff') StaffConnection? staff});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
@@ -297,6 +319,8 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
   $AiringScheduleCopyWith<$Res>? get nextAiringEpisode;
   @override
   $CharacterConnectionCopyWith<$Res>? get characters;
+  @override
+  $StaffConnectionCopyWith<$Res>? get staff;
 }
 
 /// @nodoc
@@ -329,6 +353,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? nextAiringEpisode = freezed,
     Object? rankings = null,
     Object? characters = freezed,
+    Object? staff = freezed,
   }) {
     return _then(_$_DetailAnimeDto(
       id: null == id
@@ -407,6 +432,10 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
               as CharacterConnection?,
+      staff: freezed == staff
+          ? _value.staff
+          : staff // ignore: cast_nullable_to_non_nullable
+              as StaffConnection?,
     ));
   }
 }
@@ -434,7 +463,8 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'trailer') this.trailer,
       @JsonKey(name: 'nextAiringEpisode') this.nextAiringEpisode,
       @JsonKey(name: 'rankings') final List<AnimeRank?> rankings = const [],
-      @JsonKey(name: 'characters') this.characters})
+      @JsonKey(name: 'characters') this.characters,
+      @JsonKey(name: 'staff') this.staff})
       : _coverImage = coverImage,
         _genres = genres,
         _rankings = rankings;
@@ -517,10 +547,13 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   @override
   @JsonKey(name: 'characters')
   final CharacterConnection? characters;
+  @override
+  @JsonKey(name: 'staff')
+  final StaffConnection? staff;
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters)';
+    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff)';
   }
 
   @override
@@ -556,7 +589,8 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
                 other.nextAiringEpisode == nextAiringEpisode) &&
             const DeepCollectionEquality().equals(other._rankings, _rankings) &&
             (identical(other.characters, characters) ||
-                other.characters == characters));
+                other.characters == characters) &&
+            (identical(other.staff, staff) || other.staff == staff));
   }
 
   @JsonKey(ignore: true)
@@ -581,7 +615,8 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
         trailer,
         nextAiringEpisode,
         const DeepCollectionEquality().hash(_rankings),
-        characters
+        characters,
+        staff
       ]);
 
   @JsonKey(ignore: true)
@@ -619,7 +654,8 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'nextAiringEpisode')
           final AiringSchedule? nextAiringEpisode,
           @JsonKey(name: 'rankings') final List<AnimeRank?> rankings,
-          @JsonKey(name: 'characters') final CharacterConnection? characters}) =
+          @JsonKey(name: 'characters') final CharacterConnection? characters,
+          @JsonKey(name: 'staff') final StaffConnection? staff}) =
       _$_DetailAnimeDto;
 
   factory _DetailAnimeDto.fromJson(Map<String, dynamic> json) =
@@ -682,6 +718,9 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   @override
   @JsonKey(name: 'characters')
   CharacterConnection? get characters;
+  @override
+  @JsonKey(name: 'staff')
+  StaffConnection? get staff;
   @override
   @JsonKey(ignore: true)
   _$$_DetailAnimeDtoCopyWith<_$_DetailAnimeDto> get copyWith =>

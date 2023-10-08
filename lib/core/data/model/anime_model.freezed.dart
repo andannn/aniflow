@@ -38,6 +38,7 @@ mixin _$AnimeModel {
   bool get isFollowing => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
       throw _privateConstructorUsedError;
+  List<StaffAndRoleModel> get staffs => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnimeModelCopyWith<AnimeModel> get copyWith =>
@@ -71,7 +72,8 @@ abstract class $AnimeModelCopyWith<$Res> {
       int? timeUntilAiring,
       int? nextAiringEpisode,
       bool isFollowing,
-      List<CharacterAndVoiceActorModel> characterAndVoiceActors});
+      List<CharacterAndVoiceActorModel> characterAndVoiceActors,
+      List<StaffAndRoleModel> staffs});
 
   $AnimeTitleCopyWith<$Res>? get title;
   $TrailerModelCopyWith<$Res>? get trailerModel;
@@ -111,6 +113,7 @@ class _$AnimeModelCopyWithImpl<$Res, $Val extends AnimeModel>
     Object? nextAiringEpisode = freezed,
     Object? isFollowing = null,
     Object? characterAndVoiceActors = null,
+    Object? staffs = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -197,6 +200,10 @@ class _$AnimeModelCopyWithImpl<$Res, $Val extends AnimeModel>
           ? _value.characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
               as List<CharacterAndVoiceActorModel>,
+      staffs: null == staffs
+          ? _value.staffs
+          : staffs // ignore: cast_nullable_to_non_nullable
+              as List<StaffAndRoleModel>,
     ) as $Val);
   }
 
@@ -254,7 +261,8 @@ abstract class _$$_DetailAnimeModelCopyWith<$Res>
       int? timeUntilAiring,
       int? nextAiringEpisode,
       bool isFollowing,
-      List<CharacterAndVoiceActorModel> characterAndVoiceActors});
+      List<CharacterAndVoiceActorModel> characterAndVoiceActors,
+      List<StaffAndRoleModel> staffs});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
@@ -294,6 +302,7 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
     Object? nextAiringEpisode = freezed,
     Object? isFollowing = null,
     Object? characterAndVoiceActors = null,
+    Object? staffs = null,
   }) {
     return _then(_$_DetailAnimeModel(
       id: null == id
@@ -380,6 +389,10 @@ class __$$_DetailAnimeModelCopyWithImpl<$Res>
           ? _value._characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
               as List<CharacterAndVoiceActorModel>,
+      staffs: null == staffs
+          ? _value._staffs
+          : staffs // ignore: cast_nullable_to_non_nullable
+              as List<StaffAndRoleModel>,
     ));
   }
 }
@@ -409,9 +422,11 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
       this.nextAiringEpisode,
       this.isFollowing = false,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
-          const []})
+          const [],
+      final List<StaffAndRoleModel> staffs = const []})
       : _genres = genres,
-        _characterAndVoiceActors = characterAndVoiceActors;
+        _characterAndVoiceActors = characterAndVoiceActors,
+        _staffs = staffs;
 
   @override
   @JsonKey()
@@ -474,9 +489,18 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
     return EqualUnmodifiableListView(_characterAndVoiceActors);
   }
 
+  final List<StaffAndRoleModel> _staffs;
+  @override
+  @JsonKey()
+  List<StaffAndRoleModel> get staffs {
+    if (_staffs is EqualUnmodifiableListView) return _staffs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_staffs);
+  }
+
   @override
   String toString() {
-    return 'AnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors)';
+    return 'AnimeModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs)';
   }
 
   @override
@@ -519,7 +543,8 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
             (identical(other.isFollowing, isFollowing) ||
                 other.isFollowing == isFollowing) &&
             const DeepCollectionEquality().equals(
-                other._characterAndVoiceActors, _characterAndVoiceActors));
+                other._characterAndVoiceActors, _characterAndVoiceActors) &&
+            const DeepCollectionEquality().equals(other._staffs, _staffs));
   }
 
   @override
@@ -545,7 +570,8 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
         timeUntilAiring,
         nextAiringEpisode,
         isFollowing,
-        const DeepCollectionEquality().hash(_characterAndVoiceActors)
+        const DeepCollectionEquality().hash(_characterAndVoiceActors),
+        const DeepCollectionEquality().hash(_staffs)
       ]);
 
   @JsonKey(ignore: true)
@@ -557,28 +583,28 @@ class _$_DetailAnimeModel implements _DetailAnimeModel {
 
 abstract class _DetailAnimeModel implements AnimeModel {
   factory _DetailAnimeModel(
-          {final String id,
-          final AnimeTitle? title,
-          final String coverImage,
-          final String coverImageColor,
-          final String? description,
-          final AnimeSource? source,
-          final String? bannerImage,
-          final int? averageScore,
-          final int? favourites,
-          final TrailerModel? trailerModel,
-          final int? seasonYear,
-          final AnimeSeason? season,
-          final AnimeStatus? status,
-          final int? ratedRank,
-          final int? popularRank,
-          final List<String> genres,
-          final int? episodes,
-          final int? timeUntilAiring,
-          final int? nextAiringEpisode,
-          final bool isFollowing,
-          final List<CharacterAndVoiceActorModel> characterAndVoiceActors}) =
-      _$_DetailAnimeModel;
+      {final String id,
+      final AnimeTitle? title,
+      final String coverImage,
+      final String coverImageColor,
+      final String? description,
+      final AnimeSource? source,
+      final String? bannerImage,
+      final int? averageScore,
+      final int? favourites,
+      final TrailerModel? trailerModel,
+      final int? seasonYear,
+      final AnimeSeason? season,
+      final AnimeStatus? status,
+      final int? ratedRank,
+      final int? popularRank,
+      final List<String> genres,
+      final int? episodes,
+      final int? timeUntilAiring,
+      final int? nextAiringEpisode,
+      final bool isFollowing,
+      final List<CharacterAndVoiceActorModel> characterAndVoiceActors,
+      final List<StaffAndRoleModel> staffs}) = _$_DetailAnimeModel;
 
   @override
   String get id;
@@ -622,6 +648,8 @@ abstract class _DetailAnimeModel implements AnimeModel {
   bool get isFollowing;
   @override
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors;
+  @override
+  List<StaffAndRoleModel> get staffs;
   @override
   @JsonKey(ignore: true)
   _$$_DetailAnimeModelCopyWith<_$_DetailAnimeModel> get copyWith =>

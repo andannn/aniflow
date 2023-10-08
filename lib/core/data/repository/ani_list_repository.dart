@@ -1,8 +1,9 @@
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
+import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
+import 'package:anime_tracker/core/network/model/staff_edge.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
@@ -260,7 +261,7 @@ class AniListRepositoryImpl extends AniListRepository {
   @override
   Stream<AnimeModel> getDetailAnimeInfoStream(String id) {
     return animeDao.getDetailAnimeInfoStream(id).map(
-          (entity) => AnimeModel.fromAnimeCharactersAndVoiceActors(entity),
+          (entity) => AnimeModel.fromAnimeDetailInfo(entity),
         );
   }
 
@@ -279,39 +280,60 @@ class AniListRepositoryImpl extends AniListRepository {
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];
-      if (characters.isEmpty) {
-        /// no character, return success immediately.
-        return LoadSuccess(data: []);
+      if (characters.isNotEmpty) {
+        /// inset character entities to db.
+        final List<CharacterEntity> characterEntities = characters
+            .map(
+              (e) => CharacterEntity.fromNetworkModel(e),
+            )
+            .toList();
+        await animeDao.upsertCharacterInfo(characterEntities);
+
+        /// inset voice actor entities to db.
+        final List<StaffEntity> voiceActorEntities = characters
+            .map(
+              (e) => StaffEntity.fromVoiceActorDto(e),
+            )
+            .whereType<StaffEntity>()
+            .toList();
+        await animeDao.upsertStaffInfo(voiceActorEntities);
+
+        /// Set crossRefs to anime and characters.
+        await animeDao.upsertAnimeCharacterCrossRef(
+          crossRefs: characters
+              .map(
+                (e) => AnimeCharacterCrossRef(
+                  animeId: id.toString(),
+                  characterId: e.characterNode!.id.toString(),
+                ),
+              )
+              .toList(),
+        );
       }
 
-      /// inset character entities to db.
-      final List<CharacterEntity> characterEntities = characters
-          .map(
-            (e) => CharacterEntity.fromNetworkModel(e),
-          )
-          .toList();
-      await animeDao.upsertCharacterInfo(characterEntities);
-
-      /// inset voice actor entities to db.
-      final List<VoiceActorEntity> voiceActorEntities = characters
-          .map(
-            (e) => VoiceActorEntity.fromNetworkModel(e),
-          )
-          .whereType<VoiceActorEntity>()
-          .toList();
-      await animeDao.upsertVoiceActorInfo(voiceActorEntities);
-
-      /// Set crossRefs to anime and characters.
-      await animeDao.upsertAnimeCharacterCrossRef(
-        crossRefs: characters
+      final List<StaffEdge> staffs = networkResult.staff?.edges ?? [];
+      if (staffs.isNotEmpty) {
+        /// inset staff entities to db.
+        final List<StaffEntity> staffEntities = staffs
             .map(
-              (e) => AnimeCharacterCrossRef(
-                animeId: id.toString(),
-                characterId: e.characterEdge!.id.toString(),
-              ),
+              (e) => StaffEntity.fromStaffDto(e),
             )
-            .toList(),
-      );
+            .toList();
+        await animeDao.upsertStaffInfo(staffEntities);
+
+        /// Set crossRefs to anime and staff.
+        await animeDao.upsertAnimeStaffCrossRef(
+          crossRefs: staffs
+              .map(
+                (e) => AnimeStaffCrossRef(
+                  animeId: id.toString(),
+                  staffId: e.staffNode!.id.toString(),
+                  staffRole: e.role.toString(),
+                ),
+              )
+              .toList(),
+        );
+      }
 
       /// notify data base has been changed an trigger the streams.
       animeDao.notifyAnimeDetailInfoChanged();

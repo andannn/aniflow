@@ -4,7 +4,7 @@ import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
-import 'package:anime_tracker/core/database/model/voice_actor_entity.dart';
+import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -59,19 +59,24 @@ void main() {
     ];
 
     final dummyVoiceActorData = [
-      VoiceActorEntity(
+      StaffEntity(
         id: '95084',
         image:
             'https://s4.anilist.co/file/anilistcdn/staff/large/n95084-RTrZSU38POPF.png',
         nameNative: '若本規夫',
         nameEnglish: 'Norio Wakamoto',
       ),
-      VoiceActorEntity(
+      StaffEntity(
         id: '95262',
         image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
         nameNative: '堀内賢雄',
         nameEnglish: 'Kenyuu Horiuchi',
       ),
+    ];
+
+    final dummyStaff = [
+      StaffEntity(id: '1234', nameEnglish: 'nameA'),
+      StaffEntity(id: '4567', nameEnglish: 'nameB'),
     ];
 
     final dummyUserData = UserDataEntity(id: 'aa', avatar: "bb");
@@ -117,7 +122,8 @@ void main() {
       final animeDao = animeDatabase.getAnimeDao();
       await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
           animeList: dummyAnimeData.sublist(0, 2));
-      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.currentSeason,
+      await animeDao.insertOrIgnoreAnimeByAnimeCategory(
+          AnimeCategory.currentSeason,
           animeList: dummyAnimeData.sublist(1, 3));
       final res =
           await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
@@ -141,7 +147,7 @@ void main() {
 
     test('upsert_voice_actor_data', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertVoiceActorInfo(dummyVoiceActorData);
+      await animeDao.upsertStaffInfo(dummyVoiceActorData);
     });
 
     test('upsert_anime_character_cross_ref_data', () async {
@@ -159,12 +165,21 @@ void main() {
 
       await animeDao.upsertCharacterInfo(dummyCharacterData);
 
-      await animeDao.upsertVoiceActorInfo(dummyVoiceActorData);
+      await animeDao.upsertStaffInfo(dummyVoiceActorData);
+
+      await animeDao.upsertStaffInfo(dummyStaff);
 
       await animeDao.upsertAnimeCharacterCrossRef(
         crossRefs: [
           AnimeCharacterCrossRef(animeId: '5784', characterId: '2736'),
           AnimeCharacterCrossRef(animeId: '5784', characterId: '6694'),
+        ],
+      );
+
+      await animeDao.upsertAnimeStaffCrossRef(
+        crossRefs: [
+          AnimeStaffCrossRef(animeId: '5784', staffId: '1234', staffRole: 'job 1'),
+          AnimeStaffCrossRef(animeId: '5784', staffId: '4567', staffRole: 'job b'),
         ],
       );
 
@@ -177,6 +192,14 @@ void main() {
       expect(
         result.characterAndVoiceActors.map((e) => e.characterEntity).toList(),
         equals(dummyCharacterData),
+      );
+      expect(
+        result.staffs.map((e) => e.staff).toList(),
+        equals(dummyStaff),
+      );
+      expect(
+        result.staffs.map((e) => e.role).toList(),
+        equals(['job 1', 'job b']),
       );
     });
 

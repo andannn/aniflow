@@ -27,7 +27,7 @@ abstract class AnimeTrackListDao {
 
   Future<AnimeTrackItemEntity?> getAnimeTrackItem(
       {required String animeId, String? entryId});
-  
+
   Future<List<UserAnimeListAndAnime>> getUserAnimeListByPage(
       String userId, List<AnimeListStatus> status,
       {required int page, int? perPage = Config.defaultPerPageCount});
@@ -81,18 +81,14 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
       }
     }
 
-    String sql = '''
-      select * from ${Tables.animeTrackListTable} as ua
-      left join ${Tables.animeTable} as a
-      on ua.${AnimeTrackItemTableColumns.animeId}=a.${AnimeTableColumns.id}
-      where ${AnimeTrackItemTableColumns.status} in ($statusParam) and ${AnimeTrackItemTableColumns.userId}='$userId'
-      order by ${AnimeTrackItemTableColumns.updatedAt} desc
-      ''';
+    String sql = 'select * from ${Tables.animeTrackListTable} as ua '
+        'left join ${Tables.animeTable} as a '
+        'on ua.${AnimeTrackItemTableColumns.animeId}=a.${AnimeTableColumns.id} '
+        'where ${AnimeTrackItemTableColumns.status} in ($statusParam) and ${AnimeTrackItemTableColumns.userId}=\'$userId\' '
+        'order by ${AnimeTrackItemTableColumns.updatedAt} desc ';
     if (limit != null) {
-      sql += '''
-      limit $limit
-      offset $offset
-      ''';
+      sql += 'limit $limit '
+          'offset $offset ';
     }
 
     final List<Map<String, dynamic>> result =
@@ -116,10 +112,10 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
       }
     }
 
-    String sql = '''
-      select ${AnimeTrackItemTableColumns.animeId} from ${Tables.animeTrackListTable}
-      where ${AnimeTrackItemTableColumns.status} in ($statusParam) and ${AnimeTrackItemTableColumns.userId}='$userId'
-      ''';
+    String sql =
+        'select ${AnimeTrackItemTableColumns.animeId} from ${Tables.animeTrackListTable} '
+        'where ${AnimeTrackItemTableColumns.status} in ($statusParam) '
+        '  and ${AnimeTrackItemTableColumns.userId}=\'$userId\' ';
 
     final List<Map<String, dynamic>> result =
         await database.animeDB.rawQuery(sql);
@@ -131,15 +127,15 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
   @override
   Future<AnimeTrackItemEntity?> getAnimeTrackItem(
       {required String animeId, String? entryId}) async {
-    String sql =
-        'select * from ${Tables.animeTrackListTable} '
+    String sql = 'select * from ${Tables.animeTrackListTable} '
         'where ${AnimeTrackItemTableColumns.animeId}=\'$animeId\' ';
     if (entryId != null) {
       sql += 'and ${AnimeTrackItemTableColumns.id}=\'$entryId\'';
     }
     sql += 'limit 1';
 
-    List<Map<String, dynamic>>  jsonResult = await database.animeDB.rawQuery(sql);
+    List<Map<String, dynamic>> jsonResult =
+        await database.animeDB.rawQuery(sql);
     if (jsonResult.isNotEmpty) {
       return AnimeTrackItemEntity.fromJson(jsonResult[0]);
     } else {
@@ -159,13 +155,12 @@ class UserAnimeListDaoImpl extends AnimeTrackListDao {
       }
     }
 
-    String sql = '''
-      select ${AnimeTrackItemTableColumns.id} from ${Tables.animeTrackListTable}
-      where ${AnimeTrackItemTableColumns.animeId}='$animeId' 
-        and ${AnimeTrackItemTableColumns.userId}='$userId' 
-        and ${AnimeTrackItemTableColumns.status} in ($statusParam)
-      limit 1  
-      ''';
+    String sql =
+        'select ${AnimeTrackItemTableColumns.id} from ${Tables.animeTrackListTable} '
+        'where ${AnimeTrackItemTableColumns.animeId}=\'$animeId\' '
+        '  and ${AnimeTrackItemTableColumns.userId}=\'$userId\' '
+        '  and ${AnimeTrackItemTableColumns.status} in ($statusParam) '
+        'limit 1 ';
     final List<Map<String, dynamic>> result =
         await database.animeDB.rawQuery(sql);
     return result.isNotEmpty;

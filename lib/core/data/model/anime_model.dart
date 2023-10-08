@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:anime_tracker/core/data/model/anime_source.dart';
+import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -8,7 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/anime_and_charaters_and_voice_actors.dart';
+import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 
 part 'anime_model.freezed.dart';
 
@@ -36,6 +37,7 @@ class AnimeModel with _$AnimeModel {
     int? nextAiringEpisode,
     @Default(false) bool isFollowing,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
+    @Default([]) List<StaffAndRoleModel> staffs,
   }) = _DetailAnimeModel;
 
   static AnimeModel fromDatabaseModel(AnimeEntity model) {
@@ -78,16 +80,17 @@ class AnimeModel with _$AnimeModel {
     );
   }
 
-  static AnimeModel fromAnimeCharactersAndVoiceActors(
-    AnimeCharactersAndVoiceActors model,
+  static AnimeModel fromAnimeDetailInfo(
+    AnimeWithDetailInfo model,
   ) {
     return AnimeModel.fromDatabaseModel(
       model.animeEntity,
     ).copyWith(
       characterAndVoiceActors: model.characterAndVoiceActors
-          .map(
-            (e) => CharacterAndVoiceActorModel.fromDatabaseEntity(e),
-          )
+          .map((e) => CharacterAndVoiceActorModel.fromDatabaseEntity(e))
+          .toList(),
+      staffs: model.staffs
+          .map((e) => StaffAndRoleModel.fromDatabaseEntity(e))
           .toList(),
     );
   }
