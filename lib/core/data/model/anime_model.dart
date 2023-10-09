@@ -31,6 +31,7 @@ class AnimeModel with _$AnimeModel {
     AnimeStatus? status,
     int? ratedRank,
     int? popularRank,
+    @Default([]) List<String> hashtags,
     @Default([]) List<String> genres,
     int? episodes,
     int? timeUntilAiring,
@@ -70,6 +71,7 @@ class AnimeModel with _$AnimeModel {
                   .toList() ??
               const []
           : const [],
+      hashtags: model.hashtag?.split(' ') ?? [],
       trailerModel: model.trailerId != null
           ? TrailerModel(
               id: model.trailerId,

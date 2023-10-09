@@ -22,7 +22,7 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
       episodes: json['episodes'] as int?,
       seasonYear: json['seasonYear'] as int?,
       season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
-      hashtag: json['hashtag'] as String? ?? '',
+      hashtag: json['hashtag'] as String?,
       bannerImage: json['bannerImage'] as String?,
       averageScore: json['averageScore'] as int?,
       trending: json['trending'] as int?,

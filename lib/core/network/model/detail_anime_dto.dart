@@ -25,7 +25,7 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @JsonKey(name: 'episodes') int? episodes,
     @JsonKey(name: 'seasonYear') int? seasonYear,
     @JsonKey(name: 'season') AnimeSeason? season,
-    @Default('') @JsonKey(name: 'hashtag') String hashtag,
+    @JsonKey(name: 'hashtag') String? hashtag,
     @JsonKey(name: 'bannerImage') String? bannerImage,
     @JsonKey(name: 'averageScore') int? averageScore,
     @JsonKey(name: 'trending') int? trending,

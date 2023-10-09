@@ -1,4 +1,4 @@
-import 'package:anime_tracker/app/ui/colors.dart';
+import 'package:anime_tracker/core/design_system/theme/colors.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';

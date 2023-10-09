@@ -69,6 +69,7 @@ class AnimeDatabase {
         '${AnimeTableColumns.source} text, '
         '${AnimeTableColumns.bannerImage} text, '
         '${AnimeTableColumns.averageScore} integer, '
+        '${AnimeTableColumns.hashtag} text, '
         '${AnimeTableColumns.trending} integer, '
         '${AnimeTableColumns.favourites} integer, '
         '${AnimeTableColumns.trailerId} text, '

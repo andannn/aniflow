@@ -15,6 +15,7 @@ import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
 import 'package:anime_tracker/core/design_system/widget/trailer_preview.dart';
+import 'package:anime_tracker/core/design_system/widget/twitter_hashtag_widget.dart';
 import 'package:anime_tracker/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
@@ -132,6 +133,9 @@ class _DetailAnimePageContent extends StatelessWidget {
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: _buildTwitterHashTags(context, model),
+              ),
               SliverToBoxAdapter(
                 child: _buildAnimeInfoSection(context, model),
               ),
@@ -420,6 +424,23 @@ class _DetailAnimePageContent extends StatelessWidget {
                     onTrailerClick: onTrailerClick,
                   ),
                 ],
+              ),
+            )
+          : const SizedBox(),
+    );
+  }
+
+  Widget _buildTwitterHashTags(BuildContext context, AnimeModel model) {
+    final hashTags = model.hashtags;
+    return VerticalScaleSwitcher(
+      child: hashTags.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                spacing: 10,
+                children: hashTags
+                    .map((hashtag) => TwitterHashtagWidget(hashtag: hashtag))
+                    .toList(),
               ),
             )
           : const SizedBox(),

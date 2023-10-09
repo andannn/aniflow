@@ -15,6 +15,16 @@ query (\$id: Int) {
     source
     genres
     status
+    hashtag
+    externalLinks {
+      id
+      url
+      site
+      type
+      siteId
+      color
+      icon
+    }
     rankings {
       rank
       type

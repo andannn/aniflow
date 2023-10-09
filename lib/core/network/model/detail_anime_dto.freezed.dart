@@ -39,7 +39,7 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'season')
   AnimeSeason? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'hashtag')
-  String get hashtag => throw _privateConstructorUsedError;
+  String? get hashtag => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
   String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'averageScore')
@@ -83,7 +83,7 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
-      @JsonKey(name: 'hashtag') String hashtag,
+      @JsonKey(name: 'hashtag') String? hashtag,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
@@ -124,7 +124,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? episodes = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
-    Object? hashtag = null,
+    Object? hashtag = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
@@ -173,10 +173,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
               as AnimeSeason?,
-      hashtag: null == hashtag
+      hashtag: freezed == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -299,7 +299,7 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
-      @JsonKey(name: 'hashtag') String hashtag,
+      @JsonKey(name: 'hashtag') String? hashtag,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
@@ -343,7 +343,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? episodes = freezed,
     Object? seasonYear = freezed,
     Object? season = freezed,
-    Object? hashtag = null,
+    Object? hashtag = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
@@ -392,10 +392,10 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.season
           : season // ignore: cast_nullable_to_non_nullable
               as AnimeSeason?,
-      hashtag: null == hashtag
+      hashtag: freezed == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -454,7 +454,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'episodes') this.episodes,
       @JsonKey(name: 'seasonYear') this.seasonYear,
       @JsonKey(name: 'season') this.season,
-      @JsonKey(name: 'hashtag') this.hashtag = '',
+      @JsonKey(name: 'hashtag') this.hashtag,
       @JsonKey(name: 'bannerImage') this.bannerImage,
       @JsonKey(name: 'averageScore') this.averageScore,
       @JsonKey(name: 'trending') this.trending,
@@ -507,7 +507,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   final AnimeSeason? season;
   @override
   @JsonKey(name: 'hashtag')
-  final String hashtag;
+  final String? hashtag;
   @override
   @JsonKey(name: 'bannerImage')
   final String? bannerImage;
@@ -644,7 +644,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'episodes') final int? episodes,
           @JsonKey(name: 'seasonYear') final int? seasonYear,
           @JsonKey(name: 'season') final AnimeSeason? season,
-          @JsonKey(name: 'hashtag') final String hashtag,
+          @JsonKey(name: 'hashtag') final String? hashtag,
           @JsonKey(name: 'bannerImage') final String? bannerImage,
           @JsonKey(name: 'averageScore') final int? averageScore,
           @JsonKey(name: 'trending') final int? trending,
@@ -690,7 +690,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   AnimeSeason? get season;
   @override
   @JsonKey(name: 'hashtag')
-  String get hashtag;
+  String? get hashtag;
   @override
   @JsonKey(name: 'bannerImage')
   String? get bannerImage;

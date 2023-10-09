@@ -32,6 +32,8 @@ mixin _$AnimeEntity {
   String get coverImage => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.coverImageColor)
   String get coverImageColor => throw _privateConstructorUsedError;
+  @JsonKey(name: AnimeTableColumns.hashtag)
+  String? get hashtag => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.description)
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: AnimeTableColumns.source)
@@ -88,6 +90,7 @@ abstract class $AnimeEntityCopyWith<$Res> {
       @JsonKey(name: AnimeTableColumns.nativeTitle) String nativeTitle,
       @JsonKey(name: AnimeTableColumns.coverImage) String coverImage,
       @JsonKey(name: AnimeTableColumns.coverImageColor) String coverImageColor,
+      @JsonKey(name: AnimeTableColumns.hashtag) String? hashtag,
       @JsonKey(name: AnimeTableColumns.description) String? description,
       @JsonKey(name: AnimeTableColumns.source) AnimeSource? source,
       @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
@@ -129,6 +132,7 @@ class _$AnimeEntityCopyWithImpl<$Res, $Val extends AnimeEntity>
     Object? nativeTitle = null,
     Object? coverImage = null,
     Object? coverImageColor = null,
+    Object? hashtag = freezed,
     Object? description = freezed,
     Object? source = freezed,
     Object? bannerImage = freezed,
@@ -173,6 +177,10 @@ class _$AnimeEntityCopyWithImpl<$Res, $Val extends AnimeEntity>
           ? _value.coverImageColor
           : coverImageColor // ignore: cast_nullable_to_non_nullable
               as String,
+      hashtag: freezed == hashtag
+          ? _value.hashtag
+          : hashtag // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -264,6 +272,7 @@ abstract class _$$_AnimeEntityCopyWith<$Res>
       @JsonKey(name: AnimeTableColumns.nativeTitle) String nativeTitle,
       @JsonKey(name: AnimeTableColumns.coverImage) String coverImage,
       @JsonKey(name: AnimeTableColumns.coverImageColor) String coverImageColor,
+      @JsonKey(name: AnimeTableColumns.hashtag) String? hashtag,
       @JsonKey(name: AnimeTableColumns.description) String? description,
       @JsonKey(name: AnimeTableColumns.source) AnimeSource? source,
       @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
@@ -303,6 +312,7 @@ class __$$_AnimeEntityCopyWithImpl<$Res>
     Object? nativeTitle = null,
     Object? coverImage = null,
     Object? coverImageColor = null,
+    Object? hashtag = freezed,
     Object? description = freezed,
     Object? source = freezed,
     Object? bannerImage = freezed,
@@ -347,6 +357,10 @@ class __$$_AnimeEntityCopyWithImpl<$Res>
           ? _value.coverImageColor
           : coverImageColor // ignore: cast_nullable_to_non_nullable
               as String,
+      hashtag: freezed == hashtag
+          ? _value.hashtag
+          : hashtag // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -434,6 +448,7 @@ class _$_AnimeEntity implements _AnimeEntity {
       @JsonKey(name: AnimeTableColumns.coverImage) this.coverImage = '',
       @JsonKey(name: AnimeTableColumns.coverImageColor)
       this.coverImageColor = '',
+      @JsonKey(name: AnimeTableColumns.hashtag) this.hashtag,
       @JsonKey(name: AnimeTableColumns.description) this.description,
       @JsonKey(name: AnimeTableColumns.source) this.source,
       @JsonKey(name: AnimeTableColumns.bannerImage) this.bannerImage,
@@ -475,6 +490,9 @@ class _$_AnimeEntity implements _AnimeEntity {
   @override
   @JsonKey(name: AnimeTableColumns.coverImageColor)
   final String coverImageColor;
+  @override
+  @JsonKey(name: AnimeTableColumns.hashtag)
+  final String? hashtag;
   @override
   @JsonKey(name: AnimeTableColumns.description)
   final String? description;
@@ -532,7 +550,7 @@ class _$_AnimeEntity implements _AnimeEntity {
 
   @override
   String toString() {
-    return 'AnimeEntity(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
+    return 'AnimeEntity(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
   }
 
   @override
@@ -551,6 +569,7 @@ class _$_AnimeEntity implements _AnimeEntity {
                 other.coverImage == coverImage) &&
             (identical(other.coverImageColor, coverImageColor) ||
                 other.coverImageColor == coverImageColor) &&
+            (identical(other.hashtag, hashtag) || other.hashtag == hashtag) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.source, source) || other.source == source) &&
@@ -595,6 +614,7 @@ class _$_AnimeEntity implements _AnimeEntity {
         nativeTitle,
         coverImage,
         coverImageColor,
+        hashtag,
         description,
         source,
         bannerImage,
@@ -638,6 +658,7 @@ abstract class _AnimeEntity implements AnimeEntity {
       @JsonKey(name: AnimeTableColumns.coverImage) final String coverImage,
       @JsonKey(name: AnimeTableColumns.coverImageColor)
       final String coverImageColor,
+      @JsonKey(name: AnimeTableColumns.hashtag) final String? hashtag,
       @JsonKey(name: AnimeTableColumns.description) final String? description,
       @JsonKey(name: AnimeTableColumns.source) final AnimeSource? source,
       @JsonKey(name: AnimeTableColumns.bannerImage) final String? bannerImage,
@@ -682,6 +703,9 @@ abstract class _AnimeEntity implements AnimeEntity {
   @override
   @JsonKey(name: AnimeTableColumns.coverImageColor)
   String get coverImageColor;
+  @override
+  @JsonKey(name: AnimeTableColumns.hashtag)
+  String? get hashtag;
   @override
   @JsonKey(name: AnimeTableColumns.description)
   String? get description;

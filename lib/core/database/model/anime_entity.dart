@@ -28,6 +28,7 @@ class AnimeEntity with _$AnimeEntity {
     @Default('')
     @JsonKey(name: AnimeTableColumns.coverImageColor)
     String coverImageColor,
+    @JsonKey(name: AnimeTableColumns.hashtag) String? hashtag,
     @JsonKey(name: AnimeTableColumns.description) String? description,
     @JsonKey(name: AnimeTableColumns.source) AnimeSource? source,
     @JsonKey(name: AnimeTableColumns.bannerImage) String? bannerImage,
@@ -69,6 +70,7 @@ class AnimeEntity with _$AnimeEntity {
         nativeTitle: model.title?.native ?? '',
         coverImage: model.coverImage['extraLarge'] ?? '',
         coverImageColor: model.coverImage['color'] ?? '',
+        hashtag: model.hashtag,
         description: model.description,
         source: model.source,
         bannerImage: model.bannerImage,
