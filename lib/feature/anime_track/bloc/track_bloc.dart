@@ -99,6 +99,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     Emitter<TrackUiState> emit,
   ) async {
     if (event.userData == null) {
+      await _userContentSub?.cancel();
       emit(state.copyWith(animeLoadState: const UserAnimeNoUser()));
     } else {
       if (state.animeLoadState is UserAnimeNoUser) {
@@ -135,13 +136,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final needShowReleasedOnly = state.showReleasedOnly;
 
     /// trim anime list if needed.
-    List<AnimeListItemModel> animeList;
-    if (needShowReleasedOnly) {
-      animeList =
-          _watchingAnimeList.where((e) => e.hasNextReleasingEpisode).toList();
-    } else {
-      animeList = _watchingAnimeList;
-    }
+    final animeList = _getTrimmedAnimeList(needShowReleasedOnly);
 
     emit(state.copyWith(
       animeLoadState: UserAnimeLoaded(watchingAnimeList: animeList),
@@ -160,6 +155,16 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     emit(state.copyWith(showReleasedOnly: needShowReleasedOnly));
 
     /// trim anime list if needed.
+    final animeList = _getTrimmedAnimeList(needShowReleasedOnly);
+
+    emit(
+      state.copyWith(
+        animeLoadState: UserAnimeLoaded(watchingAnimeList: animeList),
+      ),
+    );
+  }
+
+  List<AnimeListItemModel> _getTrimmedAnimeList(bool needShowReleasedOnly) {
     List<AnimeListItemModel> animeList;
     if (needShowReleasedOnly) {
       animeList =
@@ -167,11 +172,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     } else {
       animeList = _watchingAnimeList;
     }
-    emit(
-      state.copyWith(
-        animeLoadState: UserAnimeLoaded(watchingAnimeList: animeList),
-      ),
-    );
+    return animeList;
   }
 
   Future<void> _onAnimeMarkWatched(
