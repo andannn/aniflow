@@ -13,6 +13,7 @@ import 'package:anime_tracker/core/data/repository/auth_repository.dart';
 import 'package:anime_tracker/core/data/util/anime_model_extension.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
+import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
 import 'package:anime_tracker/core/design_system/widget/trailer_preview.dart';
 import 'package:anime_tracker/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
@@ -299,13 +300,11 @@ class _DetailAnimePageContent extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: _createCharacterAndVoiceActorPage(
-                          context,
-                          models.sublist(
-                            index * 3,
-                            min(index * 3 + 3, models.length),
-                          ),
-                        ),
+                        children: _createColumItemsPage(context,
+                            models: models,
+                            pageCount: 3,
+                            pageIndex: index,
+                            onBuildWidget: _buildCharacterAndVoiceActorItem),
                       );
                     },
                   ),
@@ -314,20 +313,6 @@ class _DetailAnimePageContent extends StatelessWidget {
             )
           : const SizedBox(),
     );
-  }
-
-  List<Widget> _createCharacterAndVoiceActorPage(
-      BuildContext context, List<CharacterAndVoiceActorModel> models) {
-    final widgets = <Widget>[];
-    widgets.addAll(
-      models.map((model) => _buildCharacterAndVoiceActorItem(context, model)),
-    );
-
-    /// when column count is less than 3, add empty SizeBox to take the space.
-    while (widgets.length < 3) {
-      widgets.add(const Expanded(flex: 1, child: SizedBox()));
-    }
-    return widgets;
   }
 
   Widget _buildCharacterAndVoiceActorItem(
@@ -354,19 +339,30 @@ class _DetailAnimePageContent extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    'Staff',
-                    // AFLocalizations.of(context).characters,
+                    AFLocalizations.of(context).staff,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 const SizedBox(height: 8),
                 SizedBox(
-                  height: 400,
+                  height: 266,
                   child: PageView.builder(
                     itemCount: (staffs.length).ceil(),
                     itemBuilder: (BuildContext context, int index) {
-                      return Text(
-                        staffs[index].staff.nameNative,
+                      return PageView.builder(
+                        itemCount: (staffs.length / 2).ceil(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: _createColumItemsPage(
+                              context,
+                              models: staffs,
+                              pageCount: 2,
+                              pageIndex: index,
+                              onBuildWidget: _buildStaffItem,
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -374,6 +370,19 @@ class _DetailAnimePageContent extends StatelessWidget {
               ],
             )
           : const SizedBox(),
+    );
+  }
+
+  Widget _buildStaffItem(BuildContext context, StaffAndRoleModel model) {
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: StaffItem(
+          model: model,
+          textStyle: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
     );
   }
 
@@ -455,6 +464,29 @@ class _DetailAnimePageContent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _createColumItemsPage<T>(
+    BuildContext context, {
+    required List<T> models,
+    required int pageCount,
+    required int pageIndex,
+    required Widget Function(BuildContext, T model) onBuildWidget,
+  }) {
+    final modelList = models.sublist(
+      pageIndex * pageCount,
+      min((pageIndex + 1) * pageCount, models.length),
+    );
+    final widgets = <Widget>[];
+    widgets.addAll(
+      modelList.map((model) => onBuildWidget(context, model)),
+    );
+
+    /// when column count is less than pageCount, add empty SizeBox to take the space.
+    while (widgets.length < pageCount) {
+      widgets.add(const Expanded(flex: 1, child: SizedBox()));
+    }
+    return widgets;
   }
 }
 

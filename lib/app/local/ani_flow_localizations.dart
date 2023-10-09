@@ -75,7 +75,10 @@ abstract class AFLocalizations {
   String get dropAnimation;
 
   String get animeCompleted;
+
   String get animeMarkWatched;
+
+  String get staff;
 
   static AFLocalizations of([BuildContext? context]) {
     return Localizations.of<AFLocalizations>(
@@ -197,6 +200,9 @@ class EnAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get animeMarkWatched => 'Anime mark watched';
+
+  @override
+  String get staff => 'Staff';
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -313,6 +319,9 @@ class JaAniFLowLocalizations extends AFLocalizations {
 
   @override
   String get animeMarkWatched => 'Anime mark watched';
+
+  @override
+  String get staff => 'スタッフ';
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -429,4 +438,7 @@ class CNAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get animeMarkWatched => 'Anime mark watched';
+
+  @override
+  String get staff => '职员';
 }
