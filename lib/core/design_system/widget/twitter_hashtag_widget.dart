@@ -21,9 +21,13 @@ class TwitterHashtagWidget extends StatelessWidget {
           await launchUrl(url);
         }
       },
-      child: Text(
-        hashtag,
-        style: const TextStyle(color: hashtagColor, fontSize: 17),
+      child: Baseline(
+        baseline: 15,
+        baselineType: TextBaseline.alphabetic,
+        child: Text(
+          hashtag,
+          style: const TextStyle(color: hashtagColor, fontSize: 17),
+        ),
       ),
     );
   }
