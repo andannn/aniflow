@@ -3,6 +3,7 @@ import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
 import 'package:anime_tracker/core/network/model/anime_rank.dart';
+import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_connection.dart';
 import 'package:anime_tracker/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -37,6 +38,9 @@ class DetailAnimeDto with _$DetailAnimeDto {
     @Default([]) @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
     @JsonKey(name: 'characters') CharacterConnection? characters,
     @JsonKey(name: 'staff') StaffConnection? staff,
+    @Default([])
+    @JsonKey(name: 'externalLinks')
+    List<MediaExternalLinkDto> externalLinks,
   }) = _DetailAnimeDto;
 
   factory DetailAnimeDto.fromJson(Map<String, dynamic> json) =>

@@ -5,6 +5,7 @@ import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_anime.dart';
+import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,6 +131,18 @@ class AnimeStaffCrossRef {
   final String staffRole;
 }
 
+/// [Tables.mediaExternalLickTable]
+mixin MediaExternalLinkColumnValues {
+  static const id = 'external_link_id';
+  static const animeId = 'external_link_anime_id';
+  static const url = 'external_link_url';
+  static const site = 'external_link_site';
+  static const type = 'external_link_type';
+  static const siteId = 'external_link_siteId';
+  static const color = 'external_link_color';
+  static const icon = 'external_link_icon';
+}
+
 abstract class AnimeListDao {
   Future clearAll();
 
@@ -164,6 +177,9 @@ abstract class AnimeListDao {
       {required (int startMs, int endMs) timeRange});
 
   Future clearAiringSchedule();
+
+  Future upsertMediaExternalLinks(
+      {required List<MediaExternalLinkEntity> externalLinks});
 
   void notifyAnimeDetailInfoChanged();
 }
@@ -248,6 +264,11 @@ class AnimeDaoImpl extends AnimeListDao {
         'where animeStaff.${AnimeStaffCrossRefColumns.animeId} = \'$id\' ';
     List staffResults = await database.animeDB.rawQuery(staffSql);
 
+    String externalLinkSql =
+        'select * from ${Tables.mediaExternalLickTable} as media '
+        'where media.${MediaExternalLinkColumnValues.animeId} = \'$id\' ';
+    List externalLinkResults = await database.animeDB.rawQuery(externalLinkSql);
+
     return AnimeWithDetailInfo(
       animeEntity: animeEntity,
       characterAndVoiceActors: characterResults
@@ -262,6 +283,9 @@ class AnimeDaoImpl extends AnimeListDao {
           .map(
             (e) => StaffAndRoleEntity.fromJson(e),
           )
+          .toList(),
+      externalLinks: externalLinkResults
+          .map((e) => MediaExternalLinkEntity.fromJson(e))
           .toList(),
     );
   }
@@ -350,6 +374,20 @@ class AnimeDaoImpl extends AnimeListDao {
       batch.insert(
         Tables.airingSchedulesTable,
         schedule.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+      @override
+  Future upsertMediaExternalLinks(
+      {required List<MediaExternalLinkEntity> externalLinks}) async {
+    final batch = database.animeDB.batch();
+    for (final externalLink in externalLinks) {
+      batch.insert(
+        Tables.mediaExternalLickTable,
+        externalLink.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

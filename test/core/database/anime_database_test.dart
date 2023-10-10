@@ -4,6 +4,7 @@ import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
+import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -94,6 +95,18 @@ void main() {
       AiringSchedulesEntity(id: '132', mediaId: '8917', airingAt: 3),
       AiringSchedulesEntity(id: '142', mediaId: '4353', airingAt: 2),
       AiringSchedulesEntity(id: '152', mediaId: '9523', airingAt: 4),
+      ];
+    final dummyExternalLinks = [
+      MediaExternalLinkEntity(
+        id: '212',
+        animeId: '5784',
+        site: 'youtube',
+      ),
+      MediaExternalLinkEntity(
+        id: '124',
+        animeId: '9523',
+        site: 'bilibili',
+      ),
     ];
 
     setUp(() async {
@@ -111,6 +124,7 @@ void main() {
       await animeDatabase.animeDB.delete(Tables.animeCharacterCrossRefTable);
       await animeDatabase.animeDB.delete(Tables.characterTable);
       await animeDatabase.animeDB.delete(Tables.airingSchedulesTable);
+      await animeDatabase.animeDB.delete(Tables.mediaExternalLickTable);
     });
 
     test('anime_dao_clear_all', () async {
@@ -263,6 +277,16 @@ void main() {
           equals(dummyAiringSchedule
           .sublist(0, 3)
             ..sort((a, b) => a.airingAt!.compareTo(b.airingAt!))));
+    });
+
+    test('upsert_media_external_links_test', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+
+      await animeDao.upsertAnimeInformation(dummyAnimeData);
+      await animeDao.upsertMediaExternalLinks(externalLinks: dummyExternalLinks);
+
+      final result = await animeDao.getDetailAnimeInfo('5784');
+      expect(result.externalLinks, equals([dummyExternalLinks[0]]));
     });
   });
 }

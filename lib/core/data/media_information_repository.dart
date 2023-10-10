@@ -5,10 +5,12 @@ import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
+import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
+import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_edge.dart';
 import 'package:anime_tracker/core/common/util/time_util.dart';
 import 'package:dio/dio.dart';
@@ -228,6 +230,18 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
               )
               .toList(),
         );
+      }
+
+      final List<MediaExternalLinkDto> externalLinks =
+          networkResult.externalLinks;
+      /// insert external links to database.
+      if (externalLinks.isNotEmpty) {
+        final linkEntities = externalLinks
+            .map(
+              (e) => MediaExternalLinkEntity.fromDto(e, id),
+            )
+            .toList();
+        await animeDao.upsertMediaExternalLinks(externalLinks: linkEntities);
       }
 
       /// notify data base has been changed an trigger the streams.

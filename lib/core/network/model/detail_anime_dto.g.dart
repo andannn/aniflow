@@ -48,6 +48,11 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
       staff: json['staff'] == null
           ? null
           : StaffConnection.fromJson(json['staff'] as Map<String, dynamic>),
+      externalLinks: (json['externalLinks'] as List<dynamic>?)
+              ?.map((e) =>
+                  MediaExternalLinkDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
@@ -72,6 +77,7 @@ Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
       'rankings': instance.rankings,
       'characters': instance.characters,
       'staff': instance.staff,
+      'externalLinks': instance.externalLinks,
     };
 
 const _$AnimeStatusEnumMap = {

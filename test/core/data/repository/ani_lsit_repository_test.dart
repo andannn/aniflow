@@ -95,11 +95,11 @@ void main() {
     });
 
     test('ani_list_fetch_anime_detail_data_and_get_result', () async {
-      await aniListRepository.startFetchDetailAnimeInfo('789');
+      await aniListRepository.startFetchDetailAnimeInfo('161964');
       final res = await aniListRepository
-          .getDetailAnimeInfoStream('789')
+          .getDetailAnimeInfoStream('161964')
           .first;
-      expect(res.id, equals('789'));
+      expect(res.id, equals('161964'));
     });
 
     test('ani_list_refresh_airing_schedule', () async {
