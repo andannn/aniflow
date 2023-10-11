@@ -42,8 +42,7 @@ mixin TimeUtil {
         .millisecondsSinceEpoch;
     final rangeEnd =
         DateTime(timeAfter.year, timeAfter.month, timeAfter.day + 1)
-                .millisecondsSinceEpoch -
-            1;
+                .millisecondsSinceEpoch - 1;
 
     return (rangeStart, rangeEnd);
   }

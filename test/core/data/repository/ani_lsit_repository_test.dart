@@ -98,5 +98,15 @@ void main() {
           .first;
       expect(res.id, equals('789'));
     });
+
+    test('ani_list_refresh_airing_schedule', () async {
+      await aniListRepository.refreshAiringSchedule(DateTime.now(), dayAgo: 6, dayAfter: 6);
+    });
+
+    test('ani_list_refresh_and_get_airing_schedule', () async {
+      await aniListRepository.refreshAiringSchedule(DateTime.now(), dayAgo: 0, dayAfter: 2);
+      final res = await aniListRepository.getAiringScheduleAndAnimeByDateTime(DateTime.now());
+      expect(res, equals([]));
+    });
   });
 }

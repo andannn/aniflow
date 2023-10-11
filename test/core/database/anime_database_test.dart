@@ -1,6 +1,7 @@
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
@@ -36,6 +37,13 @@ void main() {
           nativeTitle: 'みのりスクランブル!',
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
+          coverImageColor: '#f10000'),
+      AnimeEntity(
+          id: '4353',
+          englishTitle: '',
+          romajiTitle: 'test test test!',
+          coverImage:
+              'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/91234123.jpg',
           coverImageColor: '#f10000')
     ];
 
@@ -81,6 +89,13 @@ void main() {
 
     final dummyUserData = UserDataEntity(id: 'aa', avatar: "bb");
 
+    final dummyAiringSchedule = [
+      AiringSchedulesEntity(id: '122', mediaId: '5784', airingAt: 1),
+      AiringSchedulesEntity(id: '132', mediaId: '8917', airingAt: 3),
+      AiringSchedulesEntity(id: '142', mediaId: '4353', airingAt: 2),
+      AiringSchedulesEntity(id: '152', mediaId: '9523', airingAt: 4),
+    ];
+
     setUp(() async {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
@@ -95,6 +110,7 @@ void main() {
       await animeDatabase.animeDB.delete(Tables.userDataTable);
       await animeDatabase.animeDB.delete(Tables.animeCharacterCrossRefTable);
       await animeDatabase.animeDB.delete(Tables.characterTable);
+      await animeDatabase.animeDB.delete(Tables.airingSchedulesTable);
     });
 
     test('anime_dao_clear_all', () async {
@@ -178,8 +194,10 @@ void main() {
 
       await animeDao.upsertAnimeStaffCrossRef(
         crossRefs: [
-          AnimeStaffCrossRef(animeId: '5784', staffId: '1234', staffRole: 'job 1'),
-          AnimeStaffCrossRef(animeId: '5784', staffId: '4567', staffRole: 'job b'),
+          AnimeStaffCrossRef(
+              animeId: '5784', staffId: '1234', staffRole: 'job 1'),
+          AnimeStaffCrossRef(
+              animeId: '5784', staffId: '4567', staffRole: 'job b'),
         ],
       );
 
@@ -203,7 +221,6 @@ void main() {
       );
     });
 
-    /// user test.
     test('get_user_data_stream_test', () async {
       final userDataDao = animeDatabase.getUserDataDao();
 
@@ -211,12 +228,14 @@ void main() {
       final res = await userDataDao.getUserDataStream().first;
       expect(res, equals(dummyUserData));
     });
+
     test('get_none_user_data_stream_test', () async {
       final userDataDao = animeDatabase.getUserDataDao();
 
       final res = await userDataDao.getUserDataStream().first;
       expect(res, equals(null));
     });
+
     test('remove_user_data_stream_test', () async {
       final userDataDao = animeDatabase.getUserDataDao();
       await userDataDao.updateUserData(dummyUserData);
@@ -224,6 +243,26 @@ void main() {
 
       final res = await userDataDao.getUserDataStream().first;
       expect(res, equals(null));
+    });
+
+    test('insert_airing_schedule', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
+    });
+
+    test('get_airing_schedule_by_range', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+      await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
+      await animeDao.upsertAnimeInformation(dummyAnimeData);
+
+      final result =
+          await animeDao.getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
+
+      expect(
+          result.map((e) => e.airingSchedule).toList(),
+          equals(dummyAiringSchedule
+          .sublist(0, 3)
+            ..sort((a, b) => a.airingAt!.compareTo(b.airingAt!))));
     });
   });
 }

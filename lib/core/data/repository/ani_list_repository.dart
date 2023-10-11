@@ -1,9 +1,14 @@
+import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
+import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_edge.dart';
+import 'package:anime_tracker/util/time_util.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,6 +21,7 @@ import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:sqflite/sqflite.dart';
 
 part 'load_result.dart';
@@ -113,6 +119,12 @@ abstract class AniListRepository {
   Stream<AnimeModel> getDetailAnimeInfoStream(String id);
 
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id);
+
+  Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
+      DateTime dateTime);
+
+  Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
+      {required int dayAgo, required int dayAfter});
 }
 
 class AniListRepositoryImpl extends AniListRepository {
@@ -340,6 +352,57 @@ class AniListRepositoryImpl extends AniListRepository {
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
+    }
+  }
+
+  @override
+  Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
+      DateTime dateTime) async {
+    final (startMs, endMs) = TimeUtil.getTimeRangeOfTheTargetDay(dateTime);
+    final entities =
+        await animeDao.getAiringSchedulesByTimeRange(timeRange: (startMs, endMs));
+
+    return entities
+        .map(
+          (e) => AiringScheduleAndAnimeModel(
+            airingSchedule: AiringScheduleModel.fromEntity(e.airingSchedule),
+            animeModel: AnimeModel.fromDatabaseModel(e.anime),
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
+      {required int dayAgo, required int dayAfter}) async {
+    /// Clear old airing schedule.
+    await animeDao.clearAiringSchedule();
+
+    try {
+      final (startMs, endMs) =
+          TimeUtil.getTimeRange(now, daysAgo: dayAgo, daysAfter: dayAfter);
+
+      /// Get all airing schedule from network source.
+      final networkResults = await aniListDataSource.getAiringSchedules(
+        AiringSchedulesQueryParam(
+            airingAtGreater: startMs ~/ 1000, airingAtLesser: endMs ~/ 1000),
+      );
+
+      /// insert airing schedule data to db.
+      final scheduleEntities =
+          networkResults.map((e) => AiringSchedulesEntity.fromDto(e)).toList();
+      await animeDao.upsertAiringSchedules(schedules: scheduleEntities);
+
+      /// insert anime data to db if not exist.
+      final animeEntities = networkResults
+          .map((e) => AnimeEntity.fromShortNetworkModel(e.media!))
+          .toList();
+      await animeDao.upsertAnimeInformation(animeEntities,
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+
+      return LoadSuccess(data: []);
+    } on NetworkException catch (exception) {
+      return LoadError(exception);
     }
   }
 }

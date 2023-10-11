@@ -2,7 +2,7 @@ import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.da
 import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
-import 'package:anime_tracker/core/network/model/airing_schedule.dart';
+import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
@@ -101,7 +101,7 @@ class AniListDataSource {
     return animeList;
   }
 
-  Future<List<AiringSchedule>> getAiringSchedules(
+  Future<List<AiringScheduleDto>> getAiringSchedules(
       AiringSchedulesQueryParam param) async {
     final queryGraphQL = airingSchedulesQueryGraphQLString;
     final variablesMap = <String, dynamic>{
@@ -113,7 +113,7 @@ class AniListDataSource {
         data: {'query': queryGraphQL, 'variables': variablesMap});
     final List resultJson = response.data['data']['Page']['airingSchedules'];
     final airingSchedules =
-        resultJson.map((e) => AiringSchedule.fromJson(e)).toList();
+        resultJson.map((e) => AiringScheduleDto.fromJson(e)).toList();
 
     return airingSchedules;
   }

@@ -15,6 +15,24 @@ query(\$airingAt_greater: Int, \$airingAt_lesser: Int){
       timeUntilAiring
       episode
       mediaId
+      media {
+        id
+        type
+        format
+        status
+        season
+        coverImage {
+          extraLarge
+          large
+          medium
+          color
+        }
+        title {
+          romaji
+          english
+          native
+        }
+      }
     }
   }
 }
