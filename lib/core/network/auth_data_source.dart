@@ -56,7 +56,7 @@ class AuthDataSource {
   Future<UserDataDto> getUserDataDto() async {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
-          queryParameters: {'query': createUserInfoMotionGraphQLString()},
+          queryParameters: {'query': userInfoMotionGraphQLString},
           options: _createQueryOptions(),
         );
 
@@ -85,7 +85,7 @@ class AuthDataSource {
       final response = await AniListDio().dio.post(
             AniListDio.aniListUrl,
             data: {
-              'query': createSaveMediaListMotionGraphQLString(),
+              'query': saveMediaListMotionGraphQLString,
               'variables': variablesMap,
             },
             options: _createQueryOptions(),

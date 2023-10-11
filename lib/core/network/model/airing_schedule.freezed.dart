@@ -22,6 +22,8 @@ AiringSchedule _$AiringScheduleFromJson(Map<String, dynamic> json) {
 mixin _$AiringSchedule {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'mediaId')
+  int? get mediaId => throw _privateConstructorUsedError;
   @JsonKey(name: 'airingAt')
   int? get airingAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'timeUntilAiring')
@@ -43,6 +45,7 @@ abstract class $AiringScheduleCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'mediaId') int? mediaId,
       @JsonKey(name: 'airingAt') int? airingAt,
       @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
       @JsonKey(name: 'episode') int? episode});
@@ -62,6 +65,7 @@ class _$AiringScheduleCopyWithImpl<$Res, $Val extends AiringSchedule>
   @override
   $Res call({
     Object? id = null,
+    Object? mediaId = freezed,
     Object? airingAt = freezed,
     Object? timeUntilAiring = freezed,
     Object? episode = freezed,
@@ -71,6 +75,10 @@ class _$AiringScheduleCopyWithImpl<$Res, $Val extends AiringSchedule>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      mediaId: freezed == mediaId
+          ? _value.mediaId
+          : mediaId // ignore: cast_nullable_to_non_nullable
+              as int?,
       airingAt: freezed == airingAt
           ? _value.airingAt
           : airingAt // ignore: cast_nullable_to_non_nullable
@@ -97,6 +105,7 @@ abstract class _$$_AiringScheduleCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'mediaId') int? mediaId,
       @JsonKey(name: 'airingAt') int? airingAt,
       @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
       @JsonKey(name: 'episode') int? episode});
@@ -114,6 +123,7 @@ class __$$_AiringScheduleCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? mediaId = freezed,
     Object? airingAt = freezed,
     Object? timeUntilAiring = freezed,
     Object? episode = freezed,
@@ -123,6 +133,10 @@ class __$$_AiringScheduleCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      mediaId: freezed == mediaId
+          ? _value.mediaId
+          : mediaId // ignore: cast_nullable_to_non_nullable
+              as int?,
       airingAt: freezed == airingAt
           ? _value.airingAt
           : airingAt // ignore: cast_nullable_to_non_nullable
@@ -144,6 +158,7 @@ class __$$_AiringScheduleCopyWithImpl<$Res>
 class _$_AiringSchedule implements _AiringSchedule {
   _$_AiringSchedule(
       {@JsonKey(name: 'id') this.id = -1,
+      @JsonKey(name: 'mediaId') this.mediaId,
       @JsonKey(name: 'airingAt') this.airingAt,
       @JsonKey(name: 'timeUntilAiring') this.timeUntilAiring,
       @JsonKey(name: 'episode') this.episode});
@@ -154,6 +169,9 @@ class _$_AiringSchedule implements _AiringSchedule {
   @override
   @JsonKey(name: 'id')
   final int id;
+  @override
+  @JsonKey(name: 'mediaId')
+  final int? mediaId;
   @override
   @JsonKey(name: 'airingAt')
   final int? airingAt;
@@ -166,7 +184,7 @@ class _$_AiringSchedule implements _AiringSchedule {
 
   @override
   String toString() {
-    return 'AiringSchedule(id: $id, airingAt: $airingAt, timeUntilAiring: $timeUntilAiring, episode: $episode)';
+    return 'AiringSchedule(id: $id, mediaId: $mediaId, airingAt: $airingAt, timeUntilAiring: $timeUntilAiring, episode: $episode)';
   }
 
   @override
@@ -175,6 +193,7 @@ class _$_AiringSchedule implements _AiringSchedule {
         (other.runtimeType == runtimeType &&
             other is _$_AiringSchedule &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
             (identical(other.airingAt, airingAt) ||
                 other.airingAt == airingAt) &&
             (identical(other.timeUntilAiring, timeUntilAiring) ||
@@ -185,7 +204,7 @@ class _$_AiringSchedule implements _AiringSchedule {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, airingAt, timeUntilAiring, episode);
+      Object.hash(runtimeType, id, mediaId, airingAt, timeUntilAiring, episode);
 
   @JsonKey(ignore: true)
   @override
@@ -204,6 +223,7 @@ class _$_AiringSchedule implements _AiringSchedule {
 abstract class _AiringSchedule implements AiringSchedule {
   factory _AiringSchedule(
       {@JsonKey(name: 'id') final int id,
+      @JsonKey(name: 'mediaId') final int? mediaId,
       @JsonKey(name: 'airingAt') final int? airingAt,
       @JsonKey(name: 'timeUntilAiring') final int? timeUntilAiring,
       @JsonKey(name: 'episode') final int? episode}) = _$_AiringSchedule;
@@ -214,6 +234,9 @@ abstract class _AiringSchedule implements AiringSchedule {
   @override
   @JsonKey(name: 'id')
   int get id;
+  @override
+  @JsonKey(name: 'mediaId')
+  int? get mediaId;
   @override
   @JsonKey(name: 'airingAt')
   int? get airingAt;

@@ -7,8 +7,8 @@ mutation MediaListQuery {
 ''';
 
 /// Graph ql to query user info.
-String createUserInfoMotionGraphQLString() {
-  return '''
+String get userInfoMotionGraphQLString =>
+'''
 mutation UpdateUserMutation {
   UpdateUser {
     id
@@ -20,5 +20,4 @@ mutation UpdateUserMutation {
     bannerImage
   }
 }
-  ''';
-}
+''';

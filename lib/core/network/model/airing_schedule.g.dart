@@ -9,6 +9,7 @@ part of 'airing_schedule.dart';
 _$_AiringSchedule _$$_AiringScheduleFromJson(Map<String, dynamic> json) =>
     _$_AiringSchedule(
       id: json['id'] as int? ?? -1,
+      mediaId: json['mediaId'] as int?,
       airingAt: json['airingAt'] as int?,
       timeUntilAiring: json['timeUntilAiring'] as int?,
       episode: json['episode'] as int?,
@@ -17,6 +18,7 @@ _$_AiringSchedule _$$_AiringScheduleFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_AiringScheduleToJson(_$_AiringSchedule instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'mediaId': instance.mediaId,
       'airingAt': instance.airingAt,
       'timeUntilAiring': instance.timeUntilAiring,
       'episode': instance.episode,

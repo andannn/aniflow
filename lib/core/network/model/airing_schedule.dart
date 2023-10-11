@@ -8,6 +8,7 @@ part 'airing_schedule.g.dart';
 class AiringSchedule with _$AiringSchedule {
   factory AiringSchedule({
     @Default(-1) @JsonKey(name: 'id') int id,
+    @JsonKey(name: 'mediaId') int? mediaId,
     @JsonKey(name: 'airingAt') int? airingAt,
     @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
     @JsonKey(name: 'episode') int? episode,

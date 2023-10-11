@@ -1,5 +1,5 @@
-String createDetailAnimeQueryGraphQLString() {
-  return '''
+String get detailAnimeQueryGraphQLString =>
+'''
 query (\$id: Int) {
   Media(id: \$id, type: ANIME) {
     id
@@ -114,4 +114,3 @@ query (\$id: Int) {
   }
 }
 ''';
-}

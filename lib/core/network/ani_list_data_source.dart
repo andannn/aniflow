@@ -1,6 +1,8 @@
+import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
+import 'package:anime_tracker/core/network/model/airing_schedule.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
@@ -16,7 +18,7 @@ class AniListDataSource {
   AniListDataSource._();
 
   Future<DetailAnimeDto> getNetworkAnime({required int id}) async {
-    final queryGraphQL = createDetailAnimeQueryGraphQLString();
+    final queryGraphQL = detailAnimeQueryGraphQLString;
     final variablesMap = {
       'id': id,
     };
@@ -32,7 +34,7 @@ class AniListDataSource {
   Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
     required AnimePageQueryParam param,
   }) async {
-    final queryGraphQL = createAnimeListQueryGraphQLString();
+    final queryGraphQL = animeListQueryGraphQLString;
     final hasSeasonYear = param.seasonYear != null;
     final hasSeason = param.season != null;
     final hasStatus = param.status != null;
@@ -74,7 +76,7 @@ class AniListDataSource {
   Future<List<MediaListDto>> getUserMediaListPage({
     required UserAnimeListPageQueryParam param,
   }) async {
-    final queryGraphQL = createUserAnimeListGraphQLString();
+    final queryGraphQL = userAnimeListGraphQLString;
     final hasStatus = param.status.isNotEmpty;
     final hasPerPage = param.perPage != null;
     final variablesMap = <String, dynamic>{
@@ -97,5 +99,22 @@ class AniListDataSource {
         resultJson.map((e) => MediaListDto.fromJson(e)).toList();
 
     return animeList;
+  }
+
+  Future<List<AiringSchedule>> getAiringSchedules(
+      AiringSchedulesQueryParam param) async {
+    final queryGraphQL = airingSchedulesQueryGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'airingAt_greater': param.airingAtGreater,
+      'airingAt_lesser': param.airingAtLesser,
+    };
+
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson = response.data['data']['Page']['airingSchedules'];
+    final airingSchedules =
+        resultJson.map((e) => AiringSchedule.fromJson(e)).toList();
+
+    return airingSchedules;
   }
 }

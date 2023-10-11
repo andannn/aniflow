@@ -12,8 +12,8 @@ class UserAnimeListPageQueryParam {
       this.status = const []});
 }
 
-String createUserAnimeListGraphQLString() {
-  return '''
+String get userAnimeListGraphQLString =>
+'''
 query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]){
   Page(page: \$page, perPage: \$perPage) {
     mediaList(userId: \$userId, type: ANIME, status_in: \$status_in) {
@@ -58,4 +58,3 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
   }
 }
 ''';
-}

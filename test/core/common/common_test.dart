@@ -1,3 +1,4 @@
+import 'package:anime_tracker/util/time_util.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -9,6 +10,9 @@ void main() {
       DateTime.fromMillisecondsSinceEpoch(60 * 60 * 1000)
           .difference(DateTime.fromMillisecondsSinceEpoch(0))
           .inMinutes;
+    });
+    test('today', () async {
+      TimeUtil.getTimeRange(DateTime.now(), daysAfter: 0, daysAgo: 0);
     });
   });
 }

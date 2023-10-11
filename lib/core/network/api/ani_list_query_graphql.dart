@@ -19,8 +19,8 @@ class AnimePageQueryParam {
       this.animeFormat = const []});
 }
 
-String createAnimeListQueryGraphQLString() {
-  return '''
+String get animeListQueryGraphQLString =>
+'''
 query (\$page: Int, \$perPage: Int, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
   Page(page: \$page, perPage: \$perPage) {
     media: media(type: ANIME, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
@@ -44,4 +44,3 @@ query (\$page: Int, \$perPage: Int, \$seasonYear: Int, \$season: MediaSeason, \$
   }
 }
 ''';
-}
