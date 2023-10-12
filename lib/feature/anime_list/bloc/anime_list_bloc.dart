@@ -42,7 +42,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     required AuthRepository authRepository,
     required MediaInformationRepository aniListRepository,
     required AniListRepository animeTrackListRepository,
-  })  : _aniListRepository = aniListRepository,
+  })  : _mediaInfoRepository = aniListRepository,
         _authRepository = authRepository,
         _animeTrackListRepository = animeTrackListRepository,
         super(AnimeListState()) {
@@ -56,7 +56,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   }
 
   final AnimeCategory category;
-  final MediaInformationRepository _aniListRepository;
+  final MediaInformationRepository _mediaInfoRepository;
   final AniListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
 
@@ -105,7 +105,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   }
 
   Future<bool> _createLoadAnimePageTask({required int page}) async {
-    final LoadResult result = await _aniListRepository.getAnimePageByCategory(
+    final LoadResult result = await _mediaInfoRepository.getAnimePageByCategory(
         category: category, page: page, perPage: Config.defaultPerPageCount);
     switch (result) {
       case LoadSuccess<AnimeModel>(data: final data):

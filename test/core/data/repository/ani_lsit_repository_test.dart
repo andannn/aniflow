@@ -23,7 +23,7 @@ void main() {
       await AniFlowPreferences().setCurrentSeason(AnimeSeason.summer);
       await animeDatabase.initDatabase(isTest: true);
 
-      aniListRepository = AniListRepositoryImpl();
+      aniListRepository = MediaInformationRepositoryImpl();
     });
 
     tearDown(() async {

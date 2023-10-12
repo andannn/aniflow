@@ -53,7 +53,7 @@ abstract class MediaInformationRepository {
       {int dayAgo = 0, int dayAfter = 0});
 }
 
-class AniListRepositoryImpl extends MediaInformationRepository {
+class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -258,9 +258,6 @@ class AniListRepositoryImpl extends MediaInformationRepository {
   @override
   Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
       {int dayAgo = 0, int dayAfter = 0}) async {
-    /// Clear old airing schedule.
-    await animeDao.clearAiringSchedule();
-
     try {
       final (startMs, endMs) =
           TimeUtil.getTimeRange(now, daysAgo: dayAgo, daysAfter: dayAfter);

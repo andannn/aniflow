@@ -20,7 +20,7 @@ void main() async {
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
     RepositoryProvider<MediaInformationRepository>(
-      create: (context) => AniListRepositoryImpl(),
+      create: (context) => MediaInformationRepositoryImpl(),
     ),
     RepositoryProvider<UserDataRepository>(
       create: (context) => UserDataRepositoryImpl(),

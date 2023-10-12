@@ -102,7 +102,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   @override
   void initState() {
     super.initState();
-
     animeTrackerRouterDelegate.addListener(() {
       setState(() {
         currentNavigation =

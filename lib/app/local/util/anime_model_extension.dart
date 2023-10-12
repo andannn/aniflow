@@ -86,7 +86,8 @@ extension AnimeModelEx on AnimeModel {
       itemList.add(status!.getAnimeStatusString(context));
     }
 
-    return itemList.join(' · ');
+    final result = itemList.join(' · ');
+    return result.isEmpty ? '----' : result;
   }
 
   String getReleasingTimeString(BuildContext context) {

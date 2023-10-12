@@ -1,15 +1,14 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/design_system/widget/af_toogle_button.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_track_item.dart';
+import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_bloc.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_ui_state.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/user_anime_list_load_state.dart';
 import 'package:flutter/material.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AnimeTrackPage extends Page {
   const AnimeTrackPage({super.key});
@@ -68,8 +67,8 @@ class _AnimeTrackPageContent extends StatelessWidget {
     });
   }
 
-  List<Widget> _buildTrackSectionContents(
-      BuildContext context, TrackUiState state) {
+  List<Widget> _buildTrackSectionContents(BuildContext context,
+      TrackUiState state) {
     final animeLoadState = state.animeLoadState;
     if (animeLoadState is UserAnimeNoUser) {
       return [
@@ -88,7 +87,8 @@ class _AnimeTrackPageContent extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => _buildAnimeListItem(context, animeList[index]),
+                (context, index) =>
+                _buildAnimeListItem(context, animeList[index]),
             childCount: animeList.length,
           ),
         )
@@ -137,23 +137,20 @@ class _AnimeTrackPageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, TrackUiState state) => SliverAppBar(
+  Widget _buildAppBar(BuildContext context, TrackUiState state) =>
+      SliverAppBar(
         title: const Text('Track'),
         actions: [
-          AnimatedOpacity(
-            opacity: state.isLoading ? 1.0 : 0.0,
-            duration: Config.defaultAnimationDuration,
-            child: LoadingAnimationWidget.fourRotatingDots(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              size: 33.0,
-            ),
-          ),
+          LoadingIndicator(isLoading: state.isLoading,),
           const SizedBox(width: 10),
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
-              icon: const Icon(Icons.schedule_rounded),
-              onPressed: () {},
+              icon: const Icon(Icons.calendar_month_rounded),
+              onPressed: () {
+                AnimeTrackerRouterDelegate.of(context)
+                    .navigateToAiringSchedule();
+              },
             ),
           ),
         ],

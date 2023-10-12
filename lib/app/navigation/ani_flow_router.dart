@@ -88,4 +88,10 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
     notifyListeners();
   }
+
+  void navigateToAiringSchedule() {
+    _backStack += [const AiringScheduleRoutePath()];
+
+    notifyListeners();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
 import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
+import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/feature/auth/auth_dialog.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class DiscoverPage extends Page {
   const DiscoverPage({super.key});
@@ -70,14 +70,7 @@ class DiscoverScreen extends StatelessWidget {
                 title: Text(AFLocalizations.of(context).discover),
                 pinned: true,
                 actions: [
-                  AnimatedOpacity(
-                    opacity: isLoading ? 1.0 : 0.0,
-                    duration: Config.defaultAnimationDuration,
-                    child: LoadingAnimationWidget.fourRotatingDots(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      size: 33.0,
-                    ),
-                  ),
+                  LoadingIndicator(isLoading: isLoading),
                   const SizedBox(width: 10),
                   Padding(
                     padding: const EdgeInsets.only(right: 12.0),
