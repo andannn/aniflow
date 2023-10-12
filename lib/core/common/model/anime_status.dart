@@ -1,4 +1,5 @@
-part of '../repository/ani_list_repository.dart';
+
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 /// Bangumi status.
 @JsonEnum()

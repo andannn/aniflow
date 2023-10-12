@@ -5,8 +5,8 @@ import 'package:anime_tracker/core/network/model/media_list_dto.dart';
 import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
-import 'package:anime_tracker/core/common/global_static_constants.dart';
-import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/network/model/user_data_dto.dart'
     show UserDataDto;
 

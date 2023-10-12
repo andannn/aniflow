@@ -1,5 +1,5 @@
+import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 extension AnimeListItemModelEx on AnimeListItemModel {
   bool get hasNextReleasingEpisode {

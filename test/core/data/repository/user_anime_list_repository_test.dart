@@ -1,6 +1,7 @@
-import 'package:anime_tracker/core/common/global_static_constants.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/network/auth_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
@@ -11,7 +12,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('anime_database_test', () {
     final animeDatabase = AnimeDatabase();
-    late AnimeTrackListRepository repository;
+    late AniListRepository repository;
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});

@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/util/anime_list_item_model_util.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/model/extension/anime_list_item_model_extension.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_ui_state.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/user_anime_list_load_state.dart';
@@ -49,7 +49,7 @@ class OnAnimeMarkWatched extends TrackEvent {
 
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
-      {required AnimeTrackListRepository animeTrackListRepository,
+      {required AniListRepository animeTrackListRepository,
       required AuthRepository authRepository})
       : _animeTrackListRepository = animeTrackListRepository,
         _authRepository = authRepository,
@@ -65,7 +65,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
 
   StreamSubscription? _userContentSub;
   StreamSubscription? _userStateSub;
-  final AnimeTrackListRepository _animeTrackListRepository;
+  final AniListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
 
   var _watchingAnimeList = <AnimeListItemModel>[];

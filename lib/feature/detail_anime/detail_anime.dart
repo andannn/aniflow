@@ -1,16 +1,16 @@
 import 'dart:math';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/util/anime_model_extension.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
@@ -48,9 +48,9 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
     return BlocProvider(
       create: (context) => DetailAnimeBloc(
         animeId: animeId,
-        aniListRepository: context.read<AniListRepository>(),
+        aniListRepository: context.read<MediaInformationRepository>(),
         authRepository: context.read<AuthRepository>(),
-        animeTrackListRepository: context.read<AnimeTrackListRepository>(),
+        animeTrackListRepository: context.read<AniListRepository>(),
       ),
       child: const _DetailAnimePageContent(),
     );

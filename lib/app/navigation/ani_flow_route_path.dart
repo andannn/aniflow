@@ -1,5 +1,5 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/feature/anime_list/anime_list.dart';
 import 'package:anime_tracker/feature/anime_search/anime_search.dart';
 import 'package:anime_tracker/feature/anime_track/anime_track.dart';

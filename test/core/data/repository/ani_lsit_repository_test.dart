@@ -1,5 +1,8 @@
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +12,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('anime_database_test', () {
     final animeDatabase = AnimeDatabase();
-    late AniListRepository aniListRepository;
+    late MediaInformationRepository aniListRepository;
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({});
@@ -106,7 +109,7 @@ void main() {
     test('ani_list_refresh_and_get_airing_schedule', () async {
       await aniListRepository.refreshAiringSchedule(DateTime.now(), dayAgo: 0, dayAfter: 2);
       final res = await aniListRepository.getAiringScheduleAndAnimeByDateTime(DateTime.now());
-      expect(res, equals([]));
+      expect(res.isNotEmpty, equals(true));
     });
   });
 }

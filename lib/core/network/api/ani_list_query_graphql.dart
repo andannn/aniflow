@@ -1,4 +1,8 @@
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/model/anime_format.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/model/anime_sort.dart';
+import 'package:anime_tracker/core/common/model/anime_status.dart';
 
 class AnimePageQueryParam {
   final int page;
@@ -17,6 +21,49 @@ class AnimePageQueryParam {
       this.status,
       this.animeSort = const [],
       this.animeFormat = const []});
+}
+
+AnimePageQueryParam createAnimePageQueryParam(AnimeCategory category,
+    int page, int perPage, AnimeSeason currentSeason, int currentSeasonYear) {
+  AnimeStatus? status;
+  AnimeSeasonParam? seasonParam;
+  List<AnimeSort> sorts = [];
+  List<AnimeFormat> format = [];
+
+  AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
+    seasonYear: currentSeasonYear,
+    season: currentSeason,
+  );
+  switch (category) {
+    case AnimeCategory.currentSeason:
+      status = null;
+      seasonParam = currentSeasonParam;
+      // sorts = [AnimeSort.latestUpdate];
+      format = [AnimeFormat.tv, AnimeFormat.ova];
+    case AnimeCategory.nextSeason:
+      status = null;
+      seasonParam = getNextSeasonParam(currentSeasonParam);
+      format = [AnimeFormat.tv, AnimeFormat.ova];
+    case AnimeCategory.trending:
+      status = null;
+      seasonParam = null;
+      sorts = [AnimeSort.trending];
+    case AnimeCategory.movie:
+      status = null;
+      seasonParam = null;
+      format = [AnimeFormat.movie];
+      sorts = [AnimeSort.trending];
+  }
+
+  return AnimePageQueryParam(
+    page: page,
+    perPage: perPage,
+    seasonYear: seasonParam?.seasonYear,
+    season: seasonParam?.season,
+    status: status,
+    animeSort: sorts,
+    animeFormat: format,
+  );
 }
 
 String get animeListQueryGraphQLString =>

@@ -1,5 +1,5 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/design_system/widget/af_toogle_button.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_track_item.dart';

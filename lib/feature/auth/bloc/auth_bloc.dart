@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:anime_tracker/app/app.dart';
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_ui_state.dart';
 
 sealed class AuthEvent {}

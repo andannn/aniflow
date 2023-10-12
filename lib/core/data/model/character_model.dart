@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/common/model/character_role.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

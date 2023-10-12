@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/common/global_static_constants.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/auth_data_source.dart';
 import 'package:anime_tracker/core/network/util/http_status_util.dart';

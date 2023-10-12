@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 
 sealed class AnimeListEvent {}
 
@@ -38,8 +40,8 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   AnimeListBloc({
     required this.category,
     required AuthRepository authRepository,
-    required AniListRepository aniListRepository,
-    required AnimeTrackListRepository animeTrackListRepository,
+    required MediaInformationRepository aniListRepository,
+    required AniListRepository animeTrackListRepository,
   })  : _aniListRepository = aniListRepository,
         _authRepository = authRepository,
         _animeTrackListRepository = animeTrackListRepository,
@@ -54,8 +56,8 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   }
 
   final AnimeCategory category;
-  final AniListRepository _aniListRepository;
-  final AnimeTrackListRepository _animeTrackListRepository;
+  final MediaInformationRepository _aniListRepository;
+  final AniListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
 
   StreamSubscription? _trackingIdsStream;

@@ -1,6 +1,6 @@
+import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';

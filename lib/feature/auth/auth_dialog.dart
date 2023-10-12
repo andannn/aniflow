@@ -1,6 +1,6 @@
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_bloc.dart';
 import 'package:anime_tracker/feature/auth/bloc/auth_ui_state.dart';

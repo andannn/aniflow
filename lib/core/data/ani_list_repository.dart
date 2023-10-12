@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
@@ -17,9 +17,9 @@ import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 
-part '../model/anime_list_status.dart';
+part 'model/anime_list_status.dart';
 
-abstract class AnimeTrackListRepository {
+abstract class AniListRepository {
   Future<List<AnimeListItemModel>> getUserAnimeList(
       {required List<AnimeListStatus> status,
       int page = 1,
@@ -46,7 +46,7 @@ abstract class AnimeTrackListRepository {
       int? score});
 }
 
-class AnimeTrackListRepositoryImpl extends AnimeTrackListRepository {
+class AnimeTrackListRepositoryImpl extends AniListRepository {
   final AnimeTrackListDao animeTrackListDao =
       AnimeDatabase().getAnimeTrackListDao();
   final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();

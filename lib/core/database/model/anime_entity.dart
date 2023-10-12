@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:anime_tracker/core/data/model/anime_source.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/model/anime_source.dart';
+import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/short_anime_dto.dart';

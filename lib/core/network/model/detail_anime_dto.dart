@@ -1,5 +1,6 @@
-import 'package:anime_tracker/core/data/model/anime_source.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/model/anime_source.dart';
+import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
 import 'package:anime_tracker/core/network/model/anime_rank.dart';
 import 'package:anime_tracker/core/network/model/staff_connection.dart';

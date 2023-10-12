@@ -3,7 +3,7 @@ import 'package:anime_tracker/core/design_system/widget/image_load_initial_widge
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 
 class AFNetworkImage extends StatefulWidget {
   const AFNetworkImage(

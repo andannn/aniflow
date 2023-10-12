@@ -1,4 +1,4 @@
-import 'package:anime_tracker/util/time_util.dart';
+import 'package:anime_tracker/core/common/util/time_util.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

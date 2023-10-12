@@ -1,4 +1,5 @@
-import 'package:anime_tracker/core/common/stream_util.dart';
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/util/stream_util.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
@@ -8,9 +9,8 @@ import 'package:anime_tracker/core/database/model/relations/anime_and_detail_inf
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 
 /// [Tables.animeTable]
 mixin AnimeTableColumns {
