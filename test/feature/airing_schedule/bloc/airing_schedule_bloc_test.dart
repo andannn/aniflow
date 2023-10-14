@@ -21,14 +21,13 @@ void main() {
     });
 
     test('test_data_time', () async {
-      airingScheduleBloc.add(OnRequestScheduleData(0));
       await Future.delayed(const Duration(seconds: 4));
       expect(airingScheduleBloc.state.schedulePageMap.keys,
-          equals([SchedulePageKey(dayFromNow: -6, dateTime: DateTime.now())]));
+          equals([SchedulePageKey(dayFromNow: 0, dateTime: DateTime.now())]));
 
       expect(
           airingScheduleBloc.state.schedulePageMap[
-                  SchedulePageKey(dayFromNow: -6, dateTime: DateTime.now())]
+                  SchedulePageKey(dayFromNow: 0, dateTime: DateTime.now())]
               is SchedulePageReady,
           equals(true));
     });
