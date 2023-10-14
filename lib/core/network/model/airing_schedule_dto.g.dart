@@ -15,7 +15,7 @@ _$_AiringScheduleDto _$$_AiringScheduleDtoFromJson(Map<String, dynamic> json) =>
       episode: json['episode'] as int?,
       media: json['media'] == null
           ? null
-          : ShortcutAnimeDto.fromJson(json['media'] as Map<String, dynamic>),
+          : AnimeDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_AiringScheduleDtoToJson(

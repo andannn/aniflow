@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'detail_anime_dto.dart';
+part of 'anime_dto.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-DetailAnimeDto _$DetailAnimeDtoFromJson(Map<String, dynamic> json) {
-  return _DetailAnimeDto.fromJson(json);
+AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) {
+  return _AnimeDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DetailAnimeDto {
+mixin _$AnimeDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
@@ -67,15 +67,14 @@ mixin _$DetailAnimeDto {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DetailAnimeDtoCopyWith<DetailAnimeDto> get copyWith =>
+  $AnimeDtoCopyWith<AnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DetailAnimeDtoCopyWith<$Res> {
-  factory $DetailAnimeDtoCopyWith(
-          DetailAnimeDto value, $Res Function(DetailAnimeDto) then) =
-      _$DetailAnimeDtoCopyWithImpl<$Res, DetailAnimeDto>;
+abstract class $AnimeDtoCopyWith<$Res> {
+  factory $AnimeDtoCopyWith(AnimeDto value, $Res Function(AnimeDto) then) =
+      _$AnimeDtoCopyWithImpl<$Res, AnimeDto>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
@@ -109,9 +108,9 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
-    implements $DetailAnimeDtoCopyWith<$Res> {
-  _$DetailAnimeDtoCopyWithImpl(this._value, this._then);
+class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
+    implements $AnimeDtoCopyWith<$Res> {
+  _$AnimeDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -293,11 +292,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
 }
 
 /// @nodoc
-abstract class _$$_DetailAnimeDtoCopyWith<$Res>
-    implements $DetailAnimeDtoCopyWith<$Res> {
-  factory _$$_DetailAnimeDtoCopyWith(
-          _$_DetailAnimeDto value, $Res Function(_$_DetailAnimeDto) then) =
-      __$$_DetailAnimeDtoCopyWithImpl<$Res>;
+abstract class _$$_AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res> {
+  factory _$$_AnimeDtoCopyWith(
+          _$_AnimeDto value, $Res Function(_$_AnimeDto) then) =
+      __$$_AnimeDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -337,11 +335,11 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DetailAnimeDtoCopyWithImpl<$Res>
-    extends _$DetailAnimeDtoCopyWithImpl<$Res, _$_DetailAnimeDto>
-    implements _$$_DetailAnimeDtoCopyWith<$Res> {
-  __$$_DetailAnimeDtoCopyWithImpl(
-      _$_DetailAnimeDto _value, $Res Function(_$_DetailAnimeDto) _then)
+class __$$_AnimeDtoCopyWithImpl<$Res>
+    extends _$AnimeDtoCopyWithImpl<$Res, _$_AnimeDto>
+    implements _$$_AnimeDtoCopyWith<$Res> {
+  __$$_AnimeDtoCopyWithImpl(
+      _$_AnimeDto _value, $Res Function(_$_AnimeDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -369,7 +367,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? staff = freezed,
     Object? externalLinks = null,
   }) {
-    return _then(_$_DetailAnimeDto(
+    return _then(_$_AnimeDto(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -460,8 +458,8 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DetailAnimeDto implements _DetailAnimeDto {
-  _$_DetailAnimeDto(
+class _$_AnimeDto implements _AnimeDto {
+  _$_AnimeDto(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'coverImage')
@@ -490,8 +488,8 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
         _rankings = rankings,
         _externalLinks = externalLinks;
 
-  factory _$_DetailAnimeDto.fromJson(Map<String, dynamic> json) =>
-      _$$_DetailAnimeDtoFromJson(json);
+  factory _$_AnimeDto.fromJson(Map<String, dynamic> json) =>
+      _$$_AnimeDtoFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -582,14 +580,14 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, externalLinks: $externalLinks)';
+    return 'AnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, externalLinks: $externalLinks)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DetailAnimeDto &&
+            other is _$_AnimeDto &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
@@ -654,19 +652,19 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DetailAnimeDtoCopyWith<_$_DetailAnimeDto> get copyWith =>
-      __$$_DetailAnimeDtoCopyWithImpl<_$_DetailAnimeDto>(this, _$identity);
+  _$$_AnimeDtoCopyWith<_$_AnimeDto> get copyWith =>
+      __$$_AnimeDtoCopyWithImpl<_$_AnimeDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DetailAnimeDtoToJson(
+    return _$$_AnimeDtoToJson(
       this,
     );
   }
 }
 
-abstract class _DetailAnimeDto implements DetailAnimeDto {
-  factory _DetailAnimeDto(
+abstract class _AnimeDto implements AnimeDto {
+  factory _AnimeDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'title') final AnimeTitle? title,
       @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
@@ -689,10 +687,9 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
       @JsonKey(name: 'characters') final CharacterConnection? characters,
       @JsonKey(name: 'staff') final StaffConnection? staff,
       @JsonKey(name: 'externalLinks')
-      final List<MediaExternalLinkDto> externalLinks}) = _$_DetailAnimeDto;
+      final List<MediaExternalLinkDto> externalLinks}) = _$_AnimeDto;
 
-  factory _DetailAnimeDto.fromJson(Map<String, dynamic> json) =
-      _$_DetailAnimeDto.fromJson;
+  factory _AnimeDto.fromJson(Map<String, dynamic> json) = _$_AnimeDto.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -759,6 +756,6 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   List<MediaExternalLinkDto> get externalLinks;
   @override
   @JsonKey(ignore: true)
-  _$$_DetailAnimeDtoCopyWith<_$_DetailAnimeDto> get copyWith =>
+  _$$_AnimeDtoCopyWith<_$_AnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

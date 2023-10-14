@@ -31,7 +31,7 @@ mixin _$AiringScheduleDto {
   @JsonKey(name: 'episode')
   int? get episode => throw _privateConstructorUsedError;
   @JsonKey(name: 'media')
-  ShortcutAnimeDto? get media => throw _privateConstructorUsedError;
+  AnimeDto? get media => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,9 +51,9 @@ abstract class $AiringScheduleDtoCopyWith<$Res> {
       @JsonKey(name: 'airingAt') int? airingAt,
       @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
       @JsonKey(name: 'episode') int? episode,
-      @JsonKey(name: 'media') ShortcutAnimeDto? media});
+      @JsonKey(name: 'media') AnimeDto? media});
 
-  $ShortcutAnimeDtoCopyWith<$Res>? get media;
+  $AnimeDtoCopyWith<$Res>? get media;
 }
 
 /// @nodoc
@@ -100,18 +100,18 @@ class _$AiringScheduleDtoCopyWithImpl<$Res, $Val extends AiringScheduleDto>
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
-              as ShortcutAnimeDto?,
+              as AnimeDto?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ShortcutAnimeDtoCopyWith<$Res>? get media {
+  $AnimeDtoCopyWith<$Res>? get media {
     if (_value.media == null) {
       return null;
     }
 
-    return $ShortcutAnimeDtoCopyWith<$Res>(_value.media!, (value) {
+    return $AnimeDtoCopyWith<$Res>(_value.media!, (value) {
       return _then(_value.copyWith(media: value) as $Val);
     });
   }
@@ -131,10 +131,10 @@ abstract class _$$_AiringScheduleDtoCopyWith<$Res>
       @JsonKey(name: 'airingAt') int? airingAt,
       @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
       @JsonKey(name: 'episode') int? episode,
-      @JsonKey(name: 'media') ShortcutAnimeDto? media});
+      @JsonKey(name: 'media') AnimeDto? media});
 
   @override
-  $ShortcutAnimeDtoCopyWith<$Res>? get media;
+  $AnimeDtoCopyWith<$Res>? get media;
 }
 
 /// @nodoc
@@ -179,7 +179,7 @@ class __$$_AiringScheduleDtoCopyWithImpl<$Res>
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
-              as ShortcutAnimeDto?,
+              as AnimeDto?,
     ));
   }
 }
@@ -215,7 +215,7 @@ class _$_AiringScheduleDto implements _AiringScheduleDto {
   final int? episode;
   @override
   @JsonKey(name: 'media')
-  final ShortcutAnimeDto? media;
+  final AnimeDto? media;
 
   @override
   String toString() {
@@ -259,13 +259,12 @@ class _$_AiringScheduleDto implements _AiringScheduleDto {
 
 abstract class _AiringScheduleDto implements AiringScheduleDto {
   factory _AiringScheduleDto(
-          {@JsonKey(name: 'id') final int id,
-          @JsonKey(name: 'mediaId') final int? mediaId,
-          @JsonKey(name: 'airingAt') final int? airingAt,
-          @JsonKey(name: 'timeUntilAiring') final int? timeUntilAiring,
-          @JsonKey(name: 'episode') final int? episode,
-          @JsonKey(name: 'media') final ShortcutAnimeDto? media}) =
-      _$_AiringScheduleDto;
+      {@JsonKey(name: 'id') final int id,
+      @JsonKey(name: 'mediaId') final int? mediaId,
+      @JsonKey(name: 'airingAt') final int? airingAt,
+      @JsonKey(name: 'timeUntilAiring') final int? timeUntilAiring,
+      @JsonKey(name: 'episode') final int? episode,
+      @JsonKey(name: 'media') final AnimeDto? media}) = _$_AiringScheduleDto;
 
   factory _AiringScheduleDto.fromJson(Map<String, dynamic> json) =
       _$_AiringScheduleDto.fromJson;
@@ -287,7 +286,7 @@ abstract class _AiringScheduleDto implements AiringScheduleDto {
   int? get episode;
   @override
   @JsonKey(name: 'media')
-  ShortcutAnimeDto? get media;
+  AnimeDto? get media;
   @override
   @JsonKey(ignore: true)
   _$$_AiringScheduleDtoCopyWith<_$_AiringScheduleDto> get copyWith =>

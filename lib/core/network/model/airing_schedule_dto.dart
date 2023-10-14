@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:anime_tracker/core/network/model/anime_dto.dart';
 
 part 'airing_schedule_dto.freezed.dart';
 
@@ -13,7 +13,7 @@ class AiringScheduleDto with _$AiringScheduleDto {
     @JsonKey(name: 'airingAt') int? airingAt,
     @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
     @JsonKey(name: 'episode') int? episode,
-    @JsonKey(name: 'media') ShortcutAnimeDto? media,
+    @JsonKey(name: 'media') AnimeDto? media,
   }) = _AiringScheduleDto;
 
   factory AiringScheduleDto.fromJson(Map<String, dynamic> json) =>

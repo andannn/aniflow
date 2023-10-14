@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'detail_anime_dto.dart';
+part of 'anime_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
-    _$_DetailAnimeDto(
+_$_AnimeDto _$$_AnimeDtoFromJson(Map<String, dynamic> json) => _$_AnimeDto(
       id: json['id'] as int? ?? -1,
       title: json['title'] == null
           ? null
@@ -55,7 +54,7 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$_DetailAnimeDtoToJson(_$_DetailAnimeDto instance) =>
+Map<String, dynamic> _$$_AnimeDtoToJson(_$_AnimeDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
