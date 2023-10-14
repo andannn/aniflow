@@ -20,6 +20,7 @@ mixin Tables {
   static const String staffTable = 'voice_actor_table';
   static const String userDataTable = 'user_data_table';
   static const String animeTrackListTable = 'usr_anime_list_table';
+  static const String airingSchedulesTable = 'airing_schedules_table';
 }
 
 class AnimeDatabase {
@@ -101,14 +102,14 @@ class AnimeDatabase {
         ')');
 
     await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.userDataTable} ('
+        .execute('create table if not exists ${Tables.userDataTable} ('
             '${UserDataTableColumns.id} text primary key, '
             '${UserDataTableColumns.name} text, '
             '${UserDataTableColumns.avatarImage} text, '
             '${UserDataTableColumns.bannerImage} text)');
 
     await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.characterTable} ('
+        .execute('create table if not exists ${Tables.characterTable} ('
             '${CharacterColumns.id} text primary key, '
             '${CharacterColumns.voiceActorId} text, '
             '${CharacterColumns.role} text, '
@@ -116,7 +117,7 @@ class AnimeDatabase {
             '${CharacterColumns.nameEnglish} text, '
             '${CharacterColumns.nameNative} text)');
 
-    await _animeDB!.execute('CREATE TABLE IF NOT EXISTS ${Tables.staffTable} ('
+    await _animeDB!.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key, '
         '${StaffColumns.image} text, '
         '${StaffColumns.nameEnglish} text, '
@@ -142,13 +143,23 @@ class AnimeDatabase {
         ')');
 
     await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.animeTrackListTable} ('
+        .execute('create table if not exists ${Tables.animeTrackListTable} ('
             '${AnimeTrackItemTableColumns.id} text primary key,'
             '${AnimeTrackItemTableColumns.userId} text,'
             '${AnimeTrackItemTableColumns.animeId} text,'
             '${AnimeTrackItemTableColumns.status} text,'
             '${AnimeTrackItemTableColumns.progress} integer,'
             '${AnimeTrackItemTableColumns.score} integer,'
-            '${AnimeTrackItemTableColumns.updatedAt} integer)');
+            '${AnimeTrackItemTableColumns.updatedAt} integer'
+            ')');
+
+    await _animeDB!
+        .execute('create table if not exists ${Tables.airingSchedulesTable} ('
+            '${AiringSchedulesColumns.id} text primary key,'
+            '${AiringSchedulesColumns.mediaId} text,'
+            '${AiringSchedulesColumns.airingAt} integer,'
+            '${AiringSchedulesColumns.timeUntilAiring} integer,'
+            '${AiringSchedulesColumns.episode} episode'
+            ')');
   }
 }

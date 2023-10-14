@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
 
 class UserAnimeListPageQueryParam {
   final int page;
@@ -12,8 +12,8 @@ class UserAnimeListPageQueryParam {
       this.status = const []});
 }
 
-String createUserAnimeListGraphQLString() {
-  return '''
+String get userAnimeListGraphQLString =>
+'''
 query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]){
   Page(page: \$page, perPage: \$perPage) {
     mediaList(userId: \$userId, type: ANIME, status_in: \$status_in) {
@@ -58,4 +58,3 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
   }
 }
 ''';
-}

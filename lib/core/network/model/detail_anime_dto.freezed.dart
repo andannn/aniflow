@@ -53,7 +53,8 @@ mixin _$DetailAnimeDto {
   @JsonKey(name: 'trailer')
   TrailerDto? get trailer => throw _privateConstructorUsedError;
   @JsonKey(name: 'nextAiringEpisode')
-  AiringSchedule? get nextAiringEpisode => throw _privateConstructorUsedError;
+  AiringScheduleDto? get nextAiringEpisode =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'rankings')
   List<AnimeRank?> get rankings => throw _privateConstructorUsedError;
   @JsonKey(name: 'characters')
@@ -90,14 +91,14 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
-      @JsonKey(name: 'nextAiringEpisode') AiringSchedule? nextAiringEpisode,
+      @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters,
       @JsonKey(name: 'staff') StaffConnection? staff});
 
   $AnimeTitleCopyWith<$Res>? get title;
   $TrailerDtoCopyWith<$Res>? get trailer;
-  $AiringScheduleCopyWith<$Res>? get nextAiringEpisode;
+  $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode;
   $CharacterConnectionCopyWith<$Res>? get characters;
   $StaffConnectionCopyWith<$Res>? get staff;
 }
@@ -204,7 +205,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
       nextAiringEpisode: freezed == nextAiringEpisode
           ? _value.nextAiringEpisode
           : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
-              as AiringSchedule?,
+              as AiringScheduleDto?,
       rankings: null == rankings
           ? _value.rankings
           : rankings // ignore: cast_nullable_to_non_nullable
@@ -246,12 +247,12 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
 
   @override
   @pragma('vm:prefer-inline')
-  $AiringScheduleCopyWith<$Res>? get nextAiringEpisode {
+  $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode {
     if (_value.nextAiringEpisode == null) {
       return null;
     }
 
-    return $AiringScheduleCopyWith<$Res>(_value.nextAiringEpisode!, (value) {
+    return $AiringScheduleDtoCopyWith<$Res>(_value.nextAiringEpisode!, (value) {
       return _then(_value.copyWith(nextAiringEpisode: value) as $Val);
     });
   }
@@ -306,7 +307,7 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
-      @JsonKey(name: 'nextAiringEpisode') AiringSchedule? nextAiringEpisode,
+      @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters,
       @JsonKey(name: 'staff') StaffConnection? staff});
@@ -316,7 +317,7 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
   @override
   $TrailerDtoCopyWith<$Res>? get trailer;
   @override
-  $AiringScheduleCopyWith<$Res>? get nextAiringEpisode;
+  $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode;
   @override
   $CharacterConnectionCopyWith<$Res>? get characters;
   @override
@@ -423,7 +424,7 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
       nextAiringEpisode: freezed == nextAiringEpisode
           ? _value.nextAiringEpisode
           : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
-              as AiringSchedule?,
+              as AiringScheduleDto?,
       rankings: null == rankings
           ? _value._rankings
           : rankings // ignore: cast_nullable_to_non_nullable
@@ -534,7 +535,7 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   final TrailerDto? trailer;
   @override
   @JsonKey(name: 'nextAiringEpisode')
-  final AiringSchedule? nextAiringEpisode;
+  final AiringScheduleDto? nextAiringEpisode;
   final List<AnimeRank?> _rankings;
   @override
   @JsonKey(name: 'rankings')
@@ -652,7 +653,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
           @JsonKey(name: 'genres') final List<dynamic> genres,
           @JsonKey(name: 'trailer') final TrailerDto? trailer,
           @JsonKey(name: 'nextAiringEpisode')
-          final AiringSchedule? nextAiringEpisode,
+          final AiringScheduleDto? nextAiringEpisode,
           @JsonKey(name: 'rankings') final List<AnimeRank?> rankings,
           @JsonKey(name: 'characters') final CharacterConnection? characters,
           @JsonKey(name: 'staff') final StaffConnection? staff}) =
@@ -711,7 +712,7 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   TrailerDto? get trailer;
   @override
   @JsonKey(name: 'nextAiringEpisode')
-  AiringSchedule? get nextAiringEpisode;
+  AiringScheduleDto? get nextAiringEpisode;
   @override
   @JsonKey(name: 'rankings')
   List<AnimeRank?> get rankings;

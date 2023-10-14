@@ -33,7 +33,7 @@ _$_DetailAnimeDto _$$_DetailAnimeDtoFromJson(Map<String, dynamic> json) =>
           : TrailerDto.fromJson(json['trailer'] as Map<String, dynamic>),
       nextAiringEpisode: json['nextAiringEpisode'] == null
           ? null
-          : AiringSchedule.fromJson(
+          : AiringScheduleDto.fromJson(
               json['nextAiringEpisode'] as Map<String, dynamic>),
       rankings: (json['rankings'] as List<dynamic>?)
               ?.map((e) => e == null

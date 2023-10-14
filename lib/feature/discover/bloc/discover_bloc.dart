@@ -1,19 +1,22 @@
 import 'dart:async';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/util/logger.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
-import 'package:anime_tracker/util/anime_season_util.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/user_data_repository.dart';
+import 'package:anime_tracker/core/common/util/anime_season_util.dart';
 
 sealed class DiscoverEvent {}
 
@@ -58,7 +61,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       {required AuthRepository authRepository,
       required userDataRepository,
       required aniListRepository,
-      required AnimeTrackListRepository animeTrackListRepository})
+      required AniListRepository animeTrackListRepository})
       : _userDataRepository = userDataRepository,
         _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
@@ -78,8 +81,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   }
 
   final UserDataRepository _userDataRepository;
-  final AniListRepository _aniListRepository;
-  final AnimeTrackListRepository _animeTrackListRepository;
+  final MediaInformationRepository _aniListRepository;
+  final AniListRepository _animeTrackListRepository;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _trackedAnimeIdsSub;

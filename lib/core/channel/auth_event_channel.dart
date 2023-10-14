@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:anime_tracker/core/data/logger/logger.dart';
+import 'package:anime_tracker/core/common/util/logger.dart';
 
 class AuthResult {
   AuthResult({required this.token, required this.expiresInTime});

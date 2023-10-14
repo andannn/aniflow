@@ -14,7 +14,7 @@ class AniListDio {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
-        });
+        },);
 
     dio.interceptors.add(LogInterceptor());
 

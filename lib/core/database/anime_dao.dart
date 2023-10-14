@@ -1,14 +1,16 @@
-import 'package:anime_tracker/core/common/stream_util.dart';
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/util/stream_util.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
+import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_anime.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 
 /// [Tables.animeTable]
 mixin AnimeTableColumns {
@@ -110,6 +112,15 @@ mixin AnimeStaffCrossRefColumns {
   static const String staffRole = 'anime_character_cross_staff_role';
 }
 
+/// [Tables.airingSchedulesTable]
+mixin AiringSchedulesColumns {
+  static const String id = 'airing_schedules_id';
+  static const String mediaId = 'airing_schedules_media_id';
+  static const String airingAt = 'airing_schedules_airing_at';
+  static const String timeUntilAiring = 'airing_schedules_time_until_airing';
+  static const String episode = 'airing_schedules_episode';
+}
+
 class AnimeStaffCrossRef {
   AnimeStaffCrossRef(
       {required this.animeId, required this.staffId, required this.staffRole});
@@ -144,6 +155,15 @@ abstract class AnimeListDao {
 
   Future upsertAnimeStaffCrossRef(
       {required List<AnimeStaffCrossRef> crossRefs});
+
+  Future upsertAiringSchedules(
+      {required List<AiringSchedulesEntity> schedules});
+
+  /// Get airing schedules in time range of [startMs, endMs]
+  Future<List<AiringScheduleAndAnime>> getAiringSchedulesByTimeRange(
+      {required (int startMs, int endMs) timeRange});
+
+  Future clearAiringSchedule();
 
   void notifyAnimeDetailInfoChanged();
 }
@@ -216,15 +236,15 @@ class AnimeDaoImpl extends AnimeListDao {
 
     final characterSql = 'select * from ${Tables.characterTable} as c '
         'join ${Tables.animeCharacterCrossRefTable} as ac '
-        'on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId} '
+        '  on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId} '
         'join ${Tables.staffTable} as v '
-        'on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
+        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
         'where ac.${AnimeCharacterCrossRefColumns.animeId} = \'$id\' ';
     List characterResults = await database.animeDB.rawQuery(characterSql);
 
     String staffSql = 'select * from ${Tables.staffTable} as s '
         'join ${Tables.animeStaffCrossRefTable} as animeStaff '
-        'on s.${StaffColumns.id} = animeStaff.${AnimeStaffCrossRefColumns.staffId} '
+        '  on s.${StaffColumns.id} = animeStaff.${AnimeStaffCrossRefColumns.staffId} '
         'where animeStaff.${AnimeStaffCrossRefColumns.animeId} = \'$id\' ';
     List staffResults = await database.animeDB.rawQuery(staffSql);
 
@@ -323,6 +343,45 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
+  Future upsertAiringSchedules(
+      {required List<AiringSchedulesEntity> schedules}) async {
+    final batch = database.animeDB.batch();
+    for (final schedule in schedules) {
+      batch.insert(
+        Tables.airingSchedulesTable,
+        schedule.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future<List<AiringScheduleAndAnime>> getAiringSchedulesByTimeRange(
+      {required (int startMs, int endMs) timeRange}) async {
+    final (startMs, endMs) = timeRange;
+    final (startSecond, endSecond) = (startMs ~/ 1000, endMs ~/ 1000);
+
+    final sql = 'select * from ${Tables.airingSchedulesTable} as air '
+        'join ${Tables.animeTable} as anime '
+        '  on air.${AiringSchedulesColumns.mediaId} = anime.${AnimeTableColumns.id} '
+        'where air.${AiringSchedulesColumns.airingAt} >= $startSecond '
+        '  and air.${AiringSchedulesColumns.airingAt} < $endSecond '
+        'order by air.${AiringSchedulesColumns.airingAt} asc ';
+
+    List results = await database.animeDB.rawQuery(sql);
+
+    return results
+        .map(
+          (e) => AiringScheduleAndAnime(
+            airingSchedule: AiringSchedulesEntity.fromJson(e),
+            anime: AnimeEntity.fromJson(e),
+          ),
+        )
+        .toList();
+  }
+
+  @override
   Stream<AnimeWithDetailInfo> getDetailAnimeInfoStream(String id) {
     return StreamUtil.createStream(
       detailListChangeSource,
@@ -333,5 +392,10 @@ class AnimeDaoImpl extends AnimeListDao {
   @override
   void notifyAnimeDetailInfoChanged() {
     detailListChangeSource.value = detailListChangeSource.value++;
+  }
+
+  @override
+  Future clearAiringSchedule() {
+    return database.animeDB.delete(Tables.airingSchedulesTable);
   }
 }

@@ -1,11 +1,17 @@
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
+import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
+import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_edge.dart';
+import 'package:anime_tracker/core/common/util/time_util.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
@@ -13,91 +19,13 @@ import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:anime_tracker/core/common/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:sqflite/sqflite.dart';
 
-part 'load_result.dart';
-
-part '../model/anime_season.dart';
-
-part '../model/character_role.dart';
-
-part '../model/anime_status.dart';
-
-enum AnimeCategory {
-  /// current season releasing anime.
-  currentSeason,
-
-  /// next season not yet released anime.
-  nextSeason,
-
-  /// now trending anime.
-  trending,
-
-  /// popular movie.
-  movie,
-}
-
-/// Bangumi sort.
-enum AnimeSort {
-  trending('TRENDING_DESC'),
-  latestUpdate('UPDATED_AT_DESC');
-
-  final String sqlTypeString;
-
-  const AnimeSort(this.sqlTypeString);
-}
-
-/// Anime format
-enum AnimeFormat {
-  tv(['TV', 'TV_SHORT']),
-  movie(['MOVIE']),
-  ova(['OVA', 'SPECIAL', 'ONA']);
-
-  final List<String> sqlTypeString;
-
-  const AnimeFormat(this.sqlTypeString);
-}
-
-/// parameter present to anime season.
-class AnimeSeasonParam extends Equatable {
-  final int seasonYear;
-  final AnimeSeason season;
-
-  const AnimeSeasonParam({required this.seasonYear, required this.season});
-
-  @override
-  List<Object?> get props => [seasonYear, season];
-}
-
-/// get next bangumi season.
-AnimeSeasonParam getNextSeasonParam(AnimeSeasonParam current) {
-  int nextSeasonYear;
-  AnimeSeason nextSeason;
-  switch (current.season) {
-    case AnimeSeason.winter:
-      nextSeasonYear = current.seasonYear;
-      nextSeason = AnimeSeason.spring;
-    case AnimeSeason.spring:
-      nextSeasonYear = current.seasonYear;
-      nextSeason = AnimeSeason.summer;
-    case AnimeSeason.summer:
-      nextSeasonYear = current.seasonYear;
-      nextSeason = AnimeSeason.fall;
-    case AnimeSeason.fall:
-      nextSeasonYear = current.seasonYear + 1;
-      nextSeason = AnimeSeason.winter;
-  }
-  return AnimeSeasonParam(
-    seasonYear: nextSeasonYear,
-    season: nextSeason,
-  );
-}
-
 /// repository for get anime list.
-abstract class AniListRepository {
+abstract class MediaInformationRepository {
   /// refresh the category anime table, which will deleted the table and get
   /// data from network data source.
   Future<LoadResult<AnimeModel>> refreshAnimeByCategory(
@@ -113,9 +41,19 @@ abstract class AniListRepository {
   Stream<AnimeModel> getDetailAnimeInfoStream(String id);
 
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id);
+
+  /// Get all the airing schedule of the day of [dateTime].
+  Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
+      DateTime dateTime);
+
+  /// Refresh airing schedule data in range of [now - dayAgo, not + dayAfter].
+  /// The ani list api restrict the count to 50. so maybe we can only get
+  /// one or two days airing schedule when using this method.
+  Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
+      {int dayAgo = 0, int dayAfter = 0});
 }
 
-class AniListRepositoryImpl extends AniListRepository {
+class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -128,7 +66,7 @@ class AniListRepositoryImpl extends AniListRepository {
     return _loadAnimePage(
       category: category,
       type: LoadType.append,
-      animeListParam: _createAnimePageQueryParam(
+      animeListParam: createAnimePageQueryParam(
         category,
         page,
         perPage,
@@ -144,56 +82,13 @@ class AniListRepositoryImpl extends AniListRepository {
     return _loadAnimePage(
         category: category,
         type: LoadType.refresh,
-        animeListParam: _createAnimePageQueryParam(
+        animeListParam: createAnimePageQueryParam(
           category,
           1,
           Config.defaultPerPageCount,
           preferences.getCurrentSeason(),
           preferences.getCurrentSeasonYear(),
         ));
-  }
-
-  AnimePageQueryParam _createAnimePageQueryParam(AnimeCategory category,
-      int page, int perPage, AnimeSeason currentSeason, int currentSeasonYear) {
-    AnimeStatus? status;
-    AnimeSeasonParam? seasonParam;
-    List<AnimeSort> sorts = [];
-    List<AnimeFormat> format = [];
-
-    AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
-      seasonYear: preferences.getCurrentSeasonYear(),
-      season: preferences.getCurrentSeason(),
-    );
-    switch (category) {
-      case AnimeCategory.currentSeason:
-        status = null;
-        seasonParam = currentSeasonParam;
-        // sorts = [AnimeSort.latestUpdate];
-        format = [AnimeFormat.tv, AnimeFormat.ova];
-      case AnimeCategory.nextSeason:
-        status = null;
-        seasonParam = getNextSeasonParam(currentSeasonParam);
-        format = [AnimeFormat.tv, AnimeFormat.ova];
-      case AnimeCategory.trending:
-        status = null;
-        seasonParam = null;
-        sorts = [AnimeSort.trending];
-      case AnimeCategory.movie:
-        status = null;
-        seasonParam = null;
-        format = [AnimeFormat.movie];
-        sorts = [AnimeSort.trending];
-    }
-
-    return AnimePageQueryParam(
-      page: page,
-      perPage: perPage,
-      seasonYear: seasonParam?.seasonYear,
-      season: seasonParam?.season,
-      status: status,
-      animeSort: sorts,
-      animeFormat: format,
-    );
   }
 
   Future<LoadResult<AnimeModel>> _loadAnimePage(
@@ -340,6 +235,54 @@ class AniListRepositoryImpl extends AniListRepository {
       return LoadSuccess(data: []);
     } on DioException catch (e) {
       return LoadError(e);
+    }
+  }
+
+  @override
+  Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
+      DateTime dateTime) async {
+    final (startMs, endMs) = TimeUtil.getTimeRangeOfTheTargetDay(dateTime);
+    final entities = await animeDao
+        .getAiringSchedulesByTimeRange(timeRange: (startMs, endMs));
+
+    return entities
+        .map(
+          (e) => AiringScheduleAndAnimeModel(
+            airingSchedule: AiringScheduleModel.fromEntity(e.airingSchedule),
+            animeModel: AnimeModel.fromDatabaseModel(e.anime),
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
+      {int dayAgo = 0, int dayAfter = 0}) async {
+    try {
+      final (startMs, endMs) =
+          TimeUtil.getTimeRange(now, daysAgo: dayAgo, daysAfter: dayAfter);
+
+      /// Get all airing schedule from network source.
+      final networkResults = await aniListDataSource.getAiringSchedules(
+        AiringSchedulesQueryParam(
+            airingAtGreater: startMs ~/ 1000, airingAtLesser: endMs ~/ 1000),
+      );
+
+      /// insert airing schedule data to db.
+      final scheduleEntities =
+          networkResults.map((e) => AiringSchedulesEntity.fromDto(e)).toList();
+      await animeDao.upsertAiringSchedules(schedules: scheduleEntities);
+
+      /// insert anime data to db if not exist.
+      final animeEntities = networkResults
+          .map((e) => AnimeEntity.fromShortNetworkModel(e.media!))
+          .toList();
+      await animeDao.upsertAnimeInformation(animeEntities,
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+
+      return LoadSuccess(data: []);
+    } on NetworkException catch (exception) {
+      return LoadError(exception);
     }
   }
 }

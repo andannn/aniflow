@@ -1,5 +1,5 @@
+import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
 
 abstract class UserDataRepository {
   AnimeSeasonParam getAnimeSeasonParam();

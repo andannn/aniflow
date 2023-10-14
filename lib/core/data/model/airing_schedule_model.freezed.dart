@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'airing_schedule.dart';
+part of 'airing_schedule_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,44 +14,31 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AiringSchedule _$AiringScheduleFromJson(Map<String, dynamic> json) {
-  return _AiringSchedule.fromJson(json);
-}
-
 /// @nodoc
-mixin _$AiringSchedule {
-  @JsonKey(name: 'id')
-  int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'airingAt')
+mixin _$AiringScheduleModel {
+  String get id => throw _privateConstructorUsedError;
   int? get airingAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'timeUntilAiring')
   int? get timeUntilAiring => throw _privateConstructorUsedError;
-  @JsonKey(name: 'episode')
   int? get episode => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AiringScheduleCopyWith<AiringSchedule> get copyWith =>
+  $AiringScheduleModelCopyWith<AiringScheduleModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AiringScheduleCopyWith<$Res> {
-  factory $AiringScheduleCopyWith(
-          AiringSchedule value, $Res Function(AiringSchedule) then) =
-      _$AiringScheduleCopyWithImpl<$Res, AiringSchedule>;
+abstract class $AiringScheduleModelCopyWith<$Res> {
+  factory $AiringScheduleModelCopyWith(
+          AiringScheduleModel value, $Res Function(AiringScheduleModel) then) =
+      _$AiringScheduleModelCopyWithImpl<$Res, AiringScheduleModel>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'airingAt') int? airingAt,
-      @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
-      @JsonKey(name: 'episode') int? episode});
+  $Res call({String id, int? airingAt, int? timeUntilAiring, int? episode});
 }
 
 /// @nodoc
-class _$AiringScheduleCopyWithImpl<$Res, $Val extends AiringSchedule>
-    implements $AiringScheduleCopyWith<$Res> {
-  _$AiringScheduleCopyWithImpl(this._value, this._then);
+class _$AiringScheduleModelCopyWithImpl<$Res, $Val extends AiringScheduleModel>
+    implements $AiringScheduleModelCopyWith<$Res> {
+  _$AiringScheduleModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -70,7 +57,7 @@ class _$AiringScheduleCopyWithImpl<$Res, $Val extends AiringSchedule>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       airingAt: freezed == airingAt
           ? _value.airingAt
           : airingAt // ignore: cast_nullable_to_non_nullable
@@ -88,26 +75,22 @@ class _$AiringScheduleCopyWithImpl<$Res, $Val extends AiringSchedule>
 }
 
 /// @nodoc
-abstract class _$$_AiringScheduleCopyWith<$Res>
-    implements $AiringScheduleCopyWith<$Res> {
-  factory _$$_AiringScheduleCopyWith(
-          _$_AiringSchedule value, $Res Function(_$_AiringSchedule) then) =
-      __$$_AiringScheduleCopyWithImpl<$Res>;
+abstract class _$$_AiringScheduleModelCopyWith<$Res>
+    implements $AiringScheduleModelCopyWith<$Res> {
+  factory _$$_AiringScheduleModelCopyWith(_$_AiringScheduleModel value,
+          $Res Function(_$_AiringScheduleModel) then) =
+      __$$_AiringScheduleModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'airingAt') int? airingAt,
-      @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
-      @JsonKey(name: 'episode') int? episode});
+  $Res call({String id, int? airingAt, int? timeUntilAiring, int? episode});
 }
 
 /// @nodoc
-class __$$_AiringScheduleCopyWithImpl<$Res>
-    extends _$AiringScheduleCopyWithImpl<$Res, _$_AiringSchedule>
-    implements _$$_AiringScheduleCopyWith<$Res> {
-  __$$_AiringScheduleCopyWithImpl(
-      _$_AiringSchedule _value, $Res Function(_$_AiringSchedule) _then)
+class __$$_AiringScheduleModelCopyWithImpl<$Res>
+    extends _$AiringScheduleModelCopyWithImpl<$Res, _$_AiringScheduleModel>
+    implements _$$_AiringScheduleModelCopyWith<$Res> {
+  __$$_AiringScheduleModelCopyWithImpl(_$_AiringScheduleModel _value,
+      $Res Function(_$_AiringScheduleModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,11 +101,11 @@ class __$$_AiringScheduleCopyWithImpl<$Res>
     Object? timeUntilAiring = freezed,
     Object? episode = freezed,
   }) {
-    return _then(_$_AiringSchedule(
+    return _then(_$_AiringScheduleModel(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       airingAt: freezed == airingAt
           ? _value.airingAt
           : airingAt // ignore: cast_nullable_to_non_nullable
@@ -140,40 +123,31 @@ class __$$_AiringScheduleCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$_AiringSchedule implements _AiringSchedule {
-  _$_AiringSchedule(
-      {@JsonKey(name: 'id') this.id = -1,
-      @JsonKey(name: 'airingAt') this.airingAt,
-      @JsonKey(name: 'timeUntilAiring') this.timeUntilAiring,
-      @JsonKey(name: 'episode') this.episode});
 
-  factory _$_AiringSchedule.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringScheduleFromJson(json);
+class _$_AiringScheduleModel implements _AiringScheduleModel {
+  _$_AiringScheduleModel(
+      {this.id = '', this.airingAt, this.timeUntilAiring, this.episode});
 
   @override
-  @JsonKey(name: 'id')
-  final int id;
+  @JsonKey()
+  final String id;
   @override
-  @JsonKey(name: 'airingAt')
   final int? airingAt;
   @override
-  @JsonKey(name: 'timeUntilAiring')
   final int? timeUntilAiring;
   @override
-  @JsonKey(name: 'episode')
   final int? episode;
 
   @override
   String toString() {
-    return 'AiringSchedule(id: $id, airingAt: $airingAt, timeUntilAiring: $timeUntilAiring, episode: $episode)';
+    return 'AiringScheduleModel(id: $id, airingAt: $airingAt, timeUntilAiring: $timeUntilAiring, episode: $episode)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AiringSchedule &&
+            other is _$_AiringScheduleModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.airingAt, airingAt) ||
                 other.airingAt == airingAt) &&
@@ -182,7 +156,6 @@ class _$_AiringSchedule implements _AiringSchedule {
             (identical(other.episode, episode) || other.episode == episode));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, airingAt, timeUntilAiring, episode);
@@ -190,41 +163,28 @@ class _$_AiringSchedule implements _AiringSchedule {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AiringScheduleCopyWith<_$_AiringSchedule> get copyWith =>
-      __$$_AiringScheduleCopyWithImpl<_$_AiringSchedule>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AiringScheduleToJson(
-      this,
-    );
-  }
+  _$$_AiringScheduleModelCopyWith<_$_AiringScheduleModel> get copyWith =>
+      __$$_AiringScheduleModelCopyWithImpl<_$_AiringScheduleModel>(
+          this, _$identity);
 }
 
-abstract class _AiringSchedule implements AiringSchedule {
-  factory _AiringSchedule(
-      {@JsonKey(name: 'id') final int id,
-      @JsonKey(name: 'airingAt') final int? airingAt,
-      @JsonKey(name: 'timeUntilAiring') final int? timeUntilAiring,
-      @JsonKey(name: 'episode') final int? episode}) = _$_AiringSchedule;
-
-  factory _AiringSchedule.fromJson(Map<String, dynamic> json) =
-      _$_AiringSchedule.fromJson;
+abstract class _AiringScheduleModel implements AiringScheduleModel {
+  factory _AiringScheduleModel(
+      {final String id,
+      final int? airingAt,
+      final int? timeUntilAiring,
+      final int? episode}) = _$_AiringScheduleModel;
 
   @override
-  @JsonKey(name: 'id')
-  int get id;
+  String get id;
   @override
-  @JsonKey(name: 'airingAt')
   int? get airingAt;
   @override
-  @JsonKey(name: 'timeUntilAiring')
   int? get timeUntilAiring;
   @override
-  @JsonKey(name: 'episode')
   int? get episode;
   @override
   @JsonKey(ignore: true)
-  _$$_AiringScheduleCopyWith<_$_AiringSchedule> get copyWith =>
+  _$$_AiringScheduleModelCopyWith<_$_AiringScheduleModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

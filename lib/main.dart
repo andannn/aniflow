@@ -1,7 +1,7 @@
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/user_data_repository.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +19,8 @@ void main() async {
 
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
-    RepositoryProvider<AniListRepository>(
-      create: (context) => AniListRepositoryImpl(),
+    RepositoryProvider<MediaInformationRepository>(
+      create: (context) => MediaInformationRepositoryImpl(),
     ),
     RepositoryProvider<UserDataRepository>(
       create: (context) => UserDataRepositoryImpl(),
@@ -28,7 +28,7 @@ void main() async {
     RepositoryProvider<AuthRepository>(
       create: (context) => AuthRepositoryImpl(),
     ),
-    RepositoryProvider<AnimeTrackListRepository>(
+    RepositoryProvider<AniListRepository>(
       create: (context) => AnimeTrackListRepositoryImpl(),
     ),
   ], child: const AnimeTrackerApp()));

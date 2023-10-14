@@ -1,17 +1,18 @@
 import 'package:anime_tracker/core/design_system/theme/colors.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/auth_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_bloc.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:anime_tracker/core/data/repository/user_data_repository.dart';
+import 'package:anime_tracker/core/data/user_data_repository.dart';
 import 'package:anime_tracker/app/local/ani_flow_localizations_delegate.dart';
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
+
 
 /// context of app root.
 BuildContext? globalContext;
@@ -101,7 +102,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   @override
   void initState() {
     super.initState();
-
     animeTrackerRouterDelegate.addListener(() {
       setState(() {
         currentNavigation =
@@ -126,14 +126,14 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         BlocProvider(
           create: (context) => DiscoverBloc(
             userDataRepository: context.read<UserDataRepository>(),
-            aniListRepository: context.read<AniListRepository>(),
+            aniListRepository: context.read<MediaInformationRepository>(),
             authRepository: context.read<AuthRepository>(),
-            animeTrackListRepository: context.read<AnimeTrackListRepository>(),
+            animeTrackListRepository: context.read<AniListRepository>(),
           ),
         ),
         BlocProvider(
           create: (context) => TrackBloc(
-            animeTrackListRepository: context.read<AnimeTrackListRepository>(),
+            animeTrackListRepository: context.read<AniListRepository>(),
             authRepository: context.read<AuthRepository>(),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/feature/airing_schedule/airing_schedule.dart';
 import 'package:anime_tracker/feature/anime_list/anime_list.dart';
 import 'package:anime_tracker/feature/anime_search/anime_search.dart';
 import 'package:anime_tracker/feature/anime_track/anime_track.dart';
@@ -8,12 +9,14 @@ import 'package:anime_tracker/feature/discover/discover.dart';
 import 'package:anime_tracker/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
 
-sealed class AniFlowRoutePath {}
+sealed class AniFlowRoutePath {
+  const AniFlowRoutePath();
+}
 
 abstract class TopLevelRoutePath extends AniFlowRoutePath {
   final TopLevelNavigation topLevel;
 
-  TopLevelRoutePath(this.topLevel);
+  const TopLevelRoutePath(this.topLevel);
 
   @override
   bool operator ==(Object other) =>
@@ -54,6 +57,10 @@ class DetailAnimeRoutePath extends AniFlowRoutePath {
   final String animeId;
 }
 
+class AiringScheduleRoutePath extends AniFlowRoutePath {
+  const AiringScheduleRoutePath();
+}
+
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
@@ -75,6 +82,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return const AnimeSearchPage(key: ValueKey('AnimeSearchPage'));
       case ProfileRoutePath(topLevel: final _):
         return const ProfilePage(key: ValueKey('ProfilePage'));
+      case AiringScheduleRoutePath():
+        return const AiringSchedule(key: ValueKey('AiringSchedule'));
       default:
         return const MaterialPage(child: SizedBox());
     }

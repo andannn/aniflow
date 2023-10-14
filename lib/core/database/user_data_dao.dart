@@ -4,7 +4,7 @@ import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:anime_tracker/core/common/stream_util.dart';
+import 'package:anime_tracker/core/common/util/stream_util.dart';
 
 mixin UserDataTableColumns {
   static const String id = 'id';

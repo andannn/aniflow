@@ -1,6 +1,9 @@
-import 'package:anime_tracker/core/data/repository/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/repository/anime_track_list_repository.dart';
+import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/model/anime_sort.dart';
+import 'package:anime_tracker/core/common/model/anime_status.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
+import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,6 +31,13 @@ void main() {
           userId: 1,
           status: [AnimeListStatus.completed, AnimeListStatus.current],
         ),
+      );
+    });
+
+    test('get_airing_schedule', () async {
+      await AniListDataSource().getAiringSchedules(
+        AiringSchedulesQueryParam(
+            airingAtGreater: 1696953600, airingAtLesser: 1697039999),
       );
     });
   });
