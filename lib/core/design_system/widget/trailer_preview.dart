@@ -9,7 +9,7 @@ class TrailerPreview extends StatelessWidget {
   const TrailerPreview(
       {required this.model, required this.onTrailerClick, super.key});
 
-  final TrailerModel model;
+  final TrailerModel? model;
   final VoidCallback onTrailerClick;
 
   @override
@@ -28,7 +28,7 @@ class TrailerPreview extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               AFNetworkImage(
-                imageUrl: model.thumbnail ?? '',
+                imageUrl: model?.thumbnail ?? '',
               ),
               Center(
                 child: SvgPicture.asset(ATIcons.icYoutube),

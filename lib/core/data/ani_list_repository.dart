@@ -104,7 +104,7 @@ class AnimeTrackListRepositoryImpl extends AniListRepository {
       final animeEntities = networkAnimeList
           .map<AnimeEntity?>(
             (e) => e.media != null
-                ? AnimeEntity.fromDetailNetworkModel(e.media!)
+                ? AnimeEntity.fromNetworkModel(e.media!)
                 : null,
           )
           .whereType<AnimeEntity>()

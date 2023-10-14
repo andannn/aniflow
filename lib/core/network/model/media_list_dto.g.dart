@@ -16,7 +16,7 @@ _$_MediaListDto _$$_MediaListDtoFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] as int? ?? -1,
       media: json['media'] == null
           ? null
-          : DetailAnimeDto.fromJson(json['media'] as Map<String, dynamic>),
+          : AnimeDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_MediaListDtoToJson(_$_MediaListDto instance) =>

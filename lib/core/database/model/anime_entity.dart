@@ -4,8 +4,7 @@ import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
-import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
-import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
+import 'package:anime_tracker/core/network/model/anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_entity.freezed.dart';
@@ -53,17 +52,7 @@ class AnimeEntity with _$AnimeEntity {
   factory AnimeEntity.fromJson(Map<String, dynamic> json) =>
       _$$_AnimeEntityFromJson(json);
 
-  static AnimeEntity fromShortNetworkModel(ShortcutAnimeDto model) =>
-      AnimeEntity(
-        id: model.id.toString(),
-        englishTitle: model.title?.english ?? '',
-        romajiTitle: model.title?.romaji ?? '',
-        nativeTitle: model.title?.native ?? '',
-        coverImage: model.coverImage['extraLarge'] ?? '',
-        coverImageColor: model.coverImage['color'] ?? '',
-      );
-
-  static AnimeEntity fromDetailNetworkModel(DetailAnimeDto model) =>
+  static AnimeEntity fromNetworkModel(AnimeDto model) =>
       AnimeEntity(
         id: model.id.toString(),
         englishTitle: model.title?.english ?? '',

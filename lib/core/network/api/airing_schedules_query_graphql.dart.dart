@@ -20,7 +20,10 @@ query(\$airingAt_greater: Int, \$airingAt_lesser: Int){
         type
         format
         status
+        seasonYear
         season
+        source
+        episodes
         coverImage {
           extraLarge
           large

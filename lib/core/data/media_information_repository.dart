@@ -5,10 +5,12 @@ import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
+import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
-import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
+import 'package:anime_tracker/core/network/model/anime_dto.dart';
+import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_edge.dart';
 import 'package:anime_tracker/core/common/util/time_util.dart';
 import 'package:dio/dio.dart';
@@ -105,7 +107,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
           /// insert the anime to db.
           final dbAnimeList = networkRes
-              .map((e) => AnimeEntity.fromShortNetworkModel(e))
+              .map((e) => AnimeEntity.fromNetworkModel(e))
               .toList();
 
           /// clear and re-insert data when refresh.
@@ -128,7 +130,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
             /// insert the network data to db.
             final dbAnimeList = networkRes
-                .map((e) => AnimeEntity.fromShortNetworkModel(e))
+                .map((e) => AnimeEntity.fromNetworkModel(e))
                 .toList();
             await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
                 animeList: dbAnimeList);
@@ -164,13 +166,13 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id) async {
     try {
       /// fetch anime info from network.
-      DetailAnimeDto networkResult = await aniListDataSource.getNetworkAnime(
+      AnimeDto networkResult = await aniListDataSource.getNetworkAnime(
         id: int.parse(id),
       );
 
       /// insert anime info to db.
       await animeDao.upsertAnimeInformation(
-          [AnimeEntity.fromDetailNetworkModel(networkResult)],
+          [AnimeEntity.fromNetworkModel(networkResult)],
           conflictAlgorithm: ConflictAlgorithm.replace);
 
       final List<CharacterEdge> characters =
@@ -230,6 +232,18 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         );
       }
 
+      final List<MediaExternalLinkDto> externalLinks =
+          networkResult.externalLinks;
+      /// insert external links to database.
+      if (externalLinks.isNotEmpty) {
+        final linkEntities = externalLinks
+            .map(
+              (e) => MediaExternalLinkEntity.fromDto(e, id),
+            )
+            .toList();
+        await animeDao.upsertMediaExternalLinks(externalLinks: linkEntities);
+      }
+
       /// notify data base has been changed an trigger the streams.
       animeDao.notifyAnimeDetailInfoChanged();
       return LoadSuccess(data: []);
@@ -275,7 +289,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
       /// insert anime data to db if not exist.
       final animeEntities = networkResults
-          .map((e) => AnimeEntity.fromShortNetworkModel(e.media!))
+          .map((e) => AnimeEntity.fromNetworkModel(e.media!))
           .toList();
       await animeDao.upsertAnimeInformation(animeEntities,
           conflictAlgorithm: ConflictAlgorithm.ignore);

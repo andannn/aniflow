@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'detail_anime_dto.dart';
+part of 'anime_dto.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-DetailAnimeDto _$DetailAnimeDtoFromJson(Map<String, dynamic> json) {
-  return _DetailAnimeDto.fromJson(json);
+AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) {
+  return _AnimeDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DetailAnimeDto {
+mixin _$AnimeDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
@@ -61,18 +61,20 @@ mixin _$DetailAnimeDto {
   CharacterConnection? get characters => throw _privateConstructorUsedError;
   @JsonKey(name: 'staff')
   StaffConnection? get staff => throw _privateConstructorUsedError;
+  @JsonKey(name: 'externalLinks')
+  List<MediaExternalLinkDto> get externalLinks =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DetailAnimeDtoCopyWith<DetailAnimeDto> get copyWith =>
+  $AnimeDtoCopyWith<AnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DetailAnimeDtoCopyWith<$Res> {
-  factory $DetailAnimeDtoCopyWith(
-          DetailAnimeDto value, $Res Function(DetailAnimeDto) then) =
-      _$DetailAnimeDtoCopyWithImpl<$Res, DetailAnimeDto>;
+abstract class $AnimeDtoCopyWith<$Res> {
+  factory $AnimeDtoCopyWith(AnimeDto value, $Res Function(AnimeDto) then) =
+      _$AnimeDtoCopyWithImpl<$Res, AnimeDto>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
@@ -94,7 +96,9 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters,
-      @JsonKey(name: 'staff') StaffConnection? staff});
+      @JsonKey(name: 'staff') StaffConnection? staff,
+      @JsonKey(name: 'externalLinks')
+      List<MediaExternalLinkDto> externalLinks});
 
   $AnimeTitleCopyWith<$Res>? get title;
   $TrailerDtoCopyWith<$Res>? get trailer;
@@ -104,9 +108,9 @@ abstract class $DetailAnimeDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
-    implements $DetailAnimeDtoCopyWith<$Res> {
-  _$DetailAnimeDtoCopyWithImpl(this._value, this._then);
+class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
+    implements $AnimeDtoCopyWith<$Res> {
+  _$AnimeDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -136,6 +140,7 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
     Object? rankings = null,
     Object? characters = freezed,
     Object? staff = freezed,
+    Object? externalLinks = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -218,6 +223,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
           ? _value.staff
           : staff // ignore: cast_nullable_to_non_nullable
               as StaffConnection?,
+      externalLinks: null == externalLinks
+          ? _value.externalLinks
+          : externalLinks // ignore: cast_nullable_to_non_nullable
+              as List<MediaExternalLinkDto>,
     ) as $Val);
   }
 
@@ -283,11 +292,10 @@ class _$DetailAnimeDtoCopyWithImpl<$Res, $Val extends DetailAnimeDto>
 }
 
 /// @nodoc
-abstract class _$$_DetailAnimeDtoCopyWith<$Res>
-    implements $DetailAnimeDtoCopyWith<$Res> {
-  factory _$$_DetailAnimeDtoCopyWith(
-          _$_DetailAnimeDto value, $Res Function(_$_DetailAnimeDto) then) =
-      __$$_DetailAnimeDtoCopyWithImpl<$Res>;
+abstract class _$$_AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res> {
+  factory _$$_AnimeDtoCopyWith(
+          _$_AnimeDto value, $Res Function(_$_AnimeDto) then) =
+      __$$_AnimeDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -310,7 +318,9 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
       @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters,
-      @JsonKey(name: 'staff') StaffConnection? staff});
+      @JsonKey(name: 'staff') StaffConnection? staff,
+      @JsonKey(name: 'externalLinks')
+      List<MediaExternalLinkDto> externalLinks});
 
   @override
   $AnimeTitleCopyWith<$Res>? get title;
@@ -325,11 +335,11 @@ abstract class _$$_DetailAnimeDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DetailAnimeDtoCopyWithImpl<$Res>
-    extends _$DetailAnimeDtoCopyWithImpl<$Res, _$_DetailAnimeDto>
-    implements _$$_DetailAnimeDtoCopyWith<$Res> {
-  __$$_DetailAnimeDtoCopyWithImpl(
-      _$_DetailAnimeDto _value, $Res Function(_$_DetailAnimeDto) _then)
+class __$$_AnimeDtoCopyWithImpl<$Res>
+    extends _$AnimeDtoCopyWithImpl<$Res, _$_AnimeDto>
+    implements _$$_AnimeDtoCopyWith<$Res> {
+  __$$_AnimeDtoCopyWithImpl(
+      _$_AnimeDto _value, $Res Function(_$_AnimeDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -355,8 +365,9 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
     Object? rankings = null,
     Object? characters = freezed,
     Object? staff = freezed,
+    Object? externalLinks = null,
   }) {
-    return _then(_$_DetailAnimeDto(
+    return _then(_$_AnimeDto(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -437,14 +448,18 @@ class __$$_DetailAnimeDtoCopyWithImpl<$Res>
           ? _value.staff
           : staff // ignore: cast_nullable_to_non_nullable
               as StaffConnection?,
+      externalLinks: null == externalLinks
+          ? _value._externalLinks
+          : externalLinks // ignore: cast_nullable_to_non_nullable
+              as List<MediaExternalLinkDto>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_DetailAnimeDto implements _DetailAnimeDto {
-  _$_DetailAnimeDto(
+class _$_AnimeDto implements _AnimeDto {
+  _$_AnimeDto(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'coverImage')
@@ -465,13 +480,16 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
       @JsonKey(name: 'nextAiringEpisode') this.nextAiringEpisode,
       @JsonKey(name: 'rankings') final List<AnimeRank?> rankings = const [],
       @JsonKey(name: 'characters') this.characters,
-      @JsonKey(name: 'staff') this.staff})
+      @JsonKey(name: 'staff') this.staff,
+      @JsonKey(name: 'externalLinks')
+      final List<MediaExternalLinkDto> externalLinks = const []})
       : _coverImage = coverImage,
         _genres = genres,
-        _rankings = rankings;
+        _rankings = rankings,
+        _externalLinks = externalLinks;
 
-  factory _$_DetailAnimeDto.fromJson(Map<String, dynamic> json) =>
-      _$$_DetailAnimeDtoFromJson(json);
+  factory _$_AnimeDto.fromJson(Map<String, dynamic> json) =>
+      _$$_AnimeDtoFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -551,17 +569,25 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
   @override
   @JsonKey(name: 'staff')
   final StaffConnection? staff;
+  final List<MediaExternalLinkDto> _externalLinks;
+  @override
+  @JsonKey(name: 'externalLinks')
+  List<MediaExternalLinkDto> get externalLinks {
+    if (_externalLinks is EqualUnmodifiableListView) return _externalLinks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_externalLinks);
+  }
 
   @override
   String toString() {
-    return 'DetailAnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff)';
+    return 'AnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, externalLinks: $externalLinks)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DetailAnimeDto &&
+            other is _$_AnimeDto &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
@@ -591,7 +617,9 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
             const DeepCollectionEquality().equals(other._rankings, _rankings) &&
             (identical(other.characters, characters) ||
                 other.characters == characters) &&
-            (identical(other.staff, staff) || other.staff == staff));
+            (identical(other.staff, staff) || other.staff == staff) &&
+            const DeepCollectionEquality()
+                .equals(other._externalLinks, _externalLinks));
   }
 
   @JsonKey(ignore: true)
@@ -617,50 +645,51 @@ class _$_DetailAnimeDto implements _DetailAnimeDto {
         nextAiringEpisode,
         const DeepCollectionEquality().hash(_rankings),
         characters,
-        staff
+        staff,
+        const DeepCollectionEquality().hash(_externalLinks)
       ]);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DetailAnimeDtoCopyWith<_$_DetailAnimeDto> get copyWith =>
-      __$$_DetailAnimeDtoCopyWithImpl<_$_DetailAnimeDto>(this, _$identity);
+  _$$_AnimeDtoCopyWith<_$_AnimeDto> get copyWith =>
+      __$$_AnimeDtoCopyWithImpl<_$_AnimeDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DetailAnimeDtoToJson(
+    return _$$_AnimeDtoToJson(
       this,
     );
   }
 }
 
-abstract class _DetailAnimeDto implements DetailAnimeDto {
-  factory _DetailAnimeDto(
-          {@JsonKey(name: 'id') final int id,
-          @JsonKey(name: 'title') final AnimeTitle? title,
-          @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
-          @JsonKey(name: 'description') final String? description,
-          @JsonKey(name: 'status') final AnimeStatus? status,
-          @JsonKey(name: 'source') final AnimeSource? source,
-          @JsonKey(name: 'episodes') final int? episodes,
-          @JsonKey(name: 'seasonYear') final int? seasonYear,
-          @JsonKey(name: 'season') final AnimeSeason? season,
-          @JsonKey(name: 'hashtag') final String? hashtag,
-          @JsonKey(name: 'bannerImage') final String? bannerImage,
-          @JsonKey(name: 'averageScore') final int? averageScore,
-          @JsonKey(name: 'trending') final int? trending,
-          @JsonKey(name: 'favourites') final int? favourites,
-          @JsonKey(name: 'genres') final List<dynamic> genres,
-          @JsonKey(name: 'trailer') final TrailerDto? trailer,
-          @JsonKey(name: 'nextAiringEpisode')
-          final AiringScheduleDto? nextAiringEpisode,
-          @JsonKey(name: 'rankings') final List<AnimeRank?> rankings,
-          @JsonKey(name: 'characters') final CharacterConnection? characters,
-          @JsonKey(name: 'staff') final StaffConnection? staff}) =
-      _$_DetailAnimeDto;
+abstract class _AnimeDto implements AnimeDto {
+  factory _AnimeDto(
+      {@JsonKey(name: 'id') final int id,
+      @JsonKey(name: 'title') final AnimeTitle? title,
+      @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
+      @JsonKey(name: 'description') final String? description,
+      @JsonKey(name: 'status') final AnimeStatus? status,
+      @JsonKey(name: 'source') final AnimeSource? source,
+      @JsonKey(name: 'episodes') final int? episodes,
+      @JsonKey(name: 'seasonYear') final int? seasonYear,
+      @JsonKey(name: 'season') final AnimeSeason? season,
+      @JsonKey(name: 'hashtag') final String? hashtag,
+      @JsonKey(name: 'bannerImage') final String? bannerImage,
+      @JsonKey(name: 'averageScore') final int? averageScore,
+      @JsonKey(name: 'trending') final int? trending,
+      @JsonKey(name: 'favourites') final int? favourites,
+      @JsonKey(name: 'genres') final List<dynamic> genres,
+      @JsonKey(name: 'trailer') final TrailerDto? trailer,
+      @JsonKey(name: 'nextAiringEpisode')
+      final AiringScheduleDto? nextAiringEpisode,
+      @JsonKey(name: 'rankings') final List<AnimeRank?> rankings,
+      @JsonKey(name: 'characters') final CharacterConnection? characters,
+      @JsonKey(name: 'staff') final StaffConnection? staff,
+      @JsonKey(name: 'externalLinks')
+      final List<MediaExternalLinkDto> externalLinks}) = _$_AnimeDto;
 
-  factory _DetailAnimeDto.fromJson(Map<String, dynamic> json) =
-      _$_DetailAnimeDto.fromJson;
+  factory _AnimeDto.fromJson(Map<String, dynamic> json) = _$_AnimeDto.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -723,7 +752,10 @@ abstract class _DetailAnimeDto implements DetailAnimeDto {
   @JsonKey(name: 'staff')
   StaffConnection? get staff;
   @override
+  @JsonKey(name: 'externalLinks')
+  List<MediaExternalLinkDto> get externalLinks;
+  @override
   @JsonKey(ignore: true)
-  _$$_DetailAnimeDtoCopyWith<_$_DetailAnimeDto> get copyWith =>
+  _$$_AnimeDtoCopyWith<_$_AnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

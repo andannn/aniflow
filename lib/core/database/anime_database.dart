@@ -21,6 +21,7 @@ mixin Tables {
   static const String userDataTable = 'user_data_table';
   static const String animeTrackListTable = 'usr_anime_list_table';
   static const String airingSchedulesTable = 'airing_schedules_table';
+  static const String mediaExternalLickTable = 'media_external_link_table';
 }
 
 class AnimeDatabase {
@@ -160,6 +161,18 @@ class AnimeDatabase {
             '${AiringSchedulesColumns.airingAt} integer,'
             '${AiringSchedulesColumns.timeUntilAiring} integer,'
             '${AiringSchedulesColumns.episode} episode'
+            ')');
+
+    await _animeDB!
+        .execute('CREATE TABLE IF NOT EXISTS ${Tables.mediaExternalLickTable} ('
+            '${MediaExternalLinkColumnValues.id} text primary key,'
+            '${MediaExternalLinkColumnValues.animeId} text,'
+            '${MediaExternalLinkColumnValues.url} text,'
+            '${MediaExternalLinkColumnValues.site} text,'
+            '${MediaExternalLinkColumnValues.type} text,'
+            '${MediaExternalLinkColumnValues.siteId} integer,'
+            '${MediaExternalLinkColumnValues.color} text,'
+            '${MediaExternalLinkColumnValues.icon} text'
             ')');
   }
 }

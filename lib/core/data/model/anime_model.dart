@@ -5,6 +5,7 @@ import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
+import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
@@ -40,6 +41,7 @@ class AnimeModel with _$AnimeModel {
     @Default(false) bool isFollowing,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
     @Default([]) List<StaffAndRoleModel> staffs,
+    @Default([]) List<MediaExternalLinkModel> externalLinks,
   }) = _DetailAnimeModel;
 
   static AnimeModel fromDatabaseModel(AnimeEntity model) {
@@ -94,6 +96,9 @@ class AnimeModel with _$AnimeModel {
           .toList(),
       staffs: model.staffs
           .map((e) => StaffAndRoleModel.fromDatabaseEntity(e))
+          .toList(),
+      externalLinks: model.externalLinks
+          .map((e) => MediaExternalLinkModel.fromEntity(e))
           .toList(),
     );
   }

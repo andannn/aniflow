@@ -3,11 +3,10 @@ import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
-import 'package:anime_tracker/core/network/model/detail_anime_dto.dart';
+import 'package:anime_tracker/core/network/model/anime_dto.dart';
 
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/model/media_list_dto.dart';
-import 'package:anime_tracker/core/network/model/short_anime_dto.dart';
 
 /// Anime list data source get from AniList.
 class AniListDataSource {
@@ -17,7 +16,7 @@ class AniListDataSource {
 
   AniListDataSource._();
 
-  Future<DetailAnimeDto> getNetworkAnime({required int id}) async {
+  Future<AnimeDto> getNetworkAnime({required int id}) async {
     final queryGraphQL = detailAnimeQueryGraphQLString;
     final variablesMap = {
       'id': id,
@@ -26,12 +25,12 @@ class AniListDataSource {
         data: {'query': queryGraphQL, 'variables': variablesMap});
 
     final resultJson = response.data['data']['Media'];
-    final DetailAnimeDto detailAnimeDto = DetailAnimeDto.fromJson(resultJson);
+    final AnimeDto detailAnimeDto = AnimeDto.fromJson(resultJson);
 
     return detailAnimeDto;
   }
 
-  Future<List<ShortcutAnimeDto>> getNetworkAnimePage({
+  Future<List<AnimeDto>> getNetworkAnimePage({
     required AnimePageQueryParam param,
   }) async {
     final queryGraphQL = animeListQueryGraphQLString;
@@ -67,8 +66,8 @@ class AniListDataSource {
         data: {'query': queryGraphQL, 'variables': variablesMap});
 
     final List resultJson = response.data['data']['Page']['media'];
-    final List<ShortcutAnimeDto> animeList =
-        resultJson.map((e) => ShortcutAnimeDto.fromJson(e)).toList();
+    final List<AnimeDto> animeList =
+        resultJson.map((e) => AnimeDto.fromJson(e)).toList();
 
     return animeList;
   }

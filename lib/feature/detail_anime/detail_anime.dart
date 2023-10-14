@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/core/common/util/color_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
+import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
@@ -118,42 +120,42 @@ class _DetailAnimePageContent extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildBannerSectionSection(context, model.bannerImage),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildAnimeBasicInfoBar(
                   context: context,
                   model: model,
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildTwitterHashTags(context, model),
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeInfoSection(context, model),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildAnimeDescription(
                   context: context,
                   description: model.description,
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildCharacterSection(
                   context,
                   model.characterAndVoiceActors,
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildStaffsSection(
                   context,
                   model.staffs,
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildTrailerSection(
                   context,
@@ -163,7 +165,14 @@ class _DetailAnimePageContent extends StatelessWidget {
                   },
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
+              SliverToBoxAdapter(
+                child: _buildExternalLinkSection(
+                  context,
+                  model.externalLinks,
+                ),
+              ),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
             ],
           ),
         );
@@ -257,58 +266,56 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildAnimeDescription(
       {required BuildContext context, required String? description}) {
     return VerticalScaleSwitcher(
-      child: description != null
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AFLocalizations.of(context).animeDescription,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Html(data: description),
-                ],
-              ),
-            )
-          : const SizedBox(),
+      visible: description != null,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AFLocalizations.of(context).animeDescription,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            description != null ? Html(data: description) : const SizedBox(),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildCharacterSection(
       BuildContext context, List<CharacterAndVoiceActorModel> models) {
     return VerticalScaleSwitcher(
-      child: models.isNotEmpty
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    AFLocalizations.of(context).characters,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 400,
-                  child: PageView.builder(
-                    itemCount: (models.length / 3).ceil(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: _createColumItemsPage(context,
-                            models: models,
-                            pageCount: 3,
-                            pageIndex: index,
-                            onBuildWidget: _buildCharacterAndVoiceActorItem),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            )
-          : const SizedBox(),
+      visible: models.isNotEmpty,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              AFLocalizations.of(context).characters,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 400,
+            child: PageView.builder(
+              itemCount: (models.length / 3).ceil(),
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _createColumItemsPage(context,
+                      models: models,
+                      pageCount: 3,
+                      pageIndex: index,
+                      onBuildWidget: _buildCharacterAndVoiceActorItem),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -329,44 +336,43 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildStaffsSection(
       BuildContext context, List<StaffAndRoleModel> staffs) {
     return VerticalScaleSwitcher(
-      child: staffs.isNotEmpty
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    AFLocalizations.of(context).staff,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 266,
-                  child: PageView.builder(
-                    itemCount: (staffs.length).ceil(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return PageView.builder(
-                        itemCount: (staffs.length / 2).ceil(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: _createColumItemsPage(
-                              context,
-                              models: staffs,
-                              pageCount: 2,
-                              pageIndex: index,
-                              onBuildWidget: _buildStaffItem,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            )
-          : const SizedBox(),
+      visible: staffs.isNotEmpty,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              AFLocalizations.of(context).staff,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 266,
+            child: PageView.builder(
+              itemCount: (staffs.length).ceil(),
+              itemBuilder: (BuildContext context, int index) {
+                return PageView.builder(
+                  itemCount: (staffs.length / 2).ceil(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: _createColumItemsPage(
+                        context,
+                        models: staffs,
+                        pageCount: 2,
+                        pageIndex: index,
+                        onBuildWidget: _buildStaffItem,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -397,68 +403,93 @@ class _DetailAnimePageContent extends StatelessWidget {
     );
   }
 
+  Widget _buildExternalLinkSection(
+      BuildContext context, List<MediaExternalLinkModel> externalLinks) {
+    return VerticalScaleSwitcher(
+      visible: externalLinks.isNotEmpty,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              'External & Streaming links',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              spacing: 6,
+              children: externalLinks
+                  .map((e) => _ExternalLinkItem(externalLink: e))
+                  .toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildTrailerSection(BuildContext context,
       {required VoidCallback onTrailerClick, TrailerModel? trailerModel}) {
     return VerticalScaleSwitcher(
-      child: trailerModel != null
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AFLocalizations.of(context).trailer,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  TrailerPreview(
-                    model: trailerModel,
-                    onTrailerClick: onTrailerClick,
-                  ),
-                ],
-              ),
-            )
-          : const SizedBox(),
+      visible: trailerModel != null,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AFLocalizations.of(context).trailer,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            TrailerPreview(
+              model: trailerModel,
+              onTrailerClick: onTrailerClick,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildTwitterHashTags(BuildContext context, AnimeModel model) {
     final hashTags = model.hashtags;
     return VerticalScaleSwitcher(
-      child: hashTags.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Wrap(
-                spacing: 10,
-                children: hashTags
-                    .map((hashtag) => TwitterHashtagWidget(hashtag: hashtag))
-                    .toList(),
-              ),
-            )
-          : const SizedBox(),
+      visible: hashTags.isNotEmpty,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          spacing: 10,
+          children: hashTags
+              .map((hashtag) => TwitterHashtagWidget(hashtag: hashtag))
+              .toList(),
+        ),
+      ),
     );
   }
 
   Widget _buildAnimeInfoSection(BuildContext context, AnimeModel model) {
     final infoString = model.getAnimeInfoString(context);
     return VerticalScaleSwitcher(
-      child: infoString.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model.getAnimeInfoString(context),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildAiringInfo(context, model)
-                ],
-              ),
-            )
-          : const SizedBox(),
+      visible: infoString.isNotEmpty,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              model.getAnimeInfoString(context),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            _buildAiringInfo(context, model)
+          ],
+        ),
+      ),
     );
   }
 
@@ -470,6 +501,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     }
     const stringRes = 'Next airing schedule is EP.%s in %s';
     return VerticalScaleSwitcher(
+      visible: true,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
@@ -559,6 +591,41 @@ class _InfoItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ExternalLinkItem extends StatelessWidget {
+  const _ExternalLinkItem({required this.externalLink});
+
+  final MediaExternalLinkModel externalLink;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: () async {
+        final url = Uri.parse(externalLink.url);
+        if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+        }
+      },
+      icon: externalLink.icon.isNotEmpty
+          ? Container(
+              width: 24,
+              height: 24,
+              decoration: ShapeDecoration(
+                color: ColorUtil.parseColor(externalLink.color),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: AFNetworkImage(imageUrl: externalLink.icon),
+              ),
+            )
+          : const SizedBox(),
+      label: Text(externalLink.site),
     );
   }
 }
