@@ -3,9 +3,10 @@
 A simple app to track anime.
 
 <p float="left">
-  <img src="screen_shots/home.jpeg" width="32%" />
-  <img src="screen_shots/track.jpeg" width="32%" />
-  <img src="screen_shots/detail.jpeg" width="32%" />
+  <img src="screen_shots/home.jpeg" width="25%" />
+  <img src="screen_shots/track.jpeg" width="25%" />
+  <img src="screen_shots/schedule.png" width="25%" />
+  <img src="screen_shots/detail.jpeg" width="25%" />
 </p>
 
 ## Installation
