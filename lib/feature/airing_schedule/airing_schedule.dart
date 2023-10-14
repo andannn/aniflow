@@ -1,3 +1,4 @@
+import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/airing_anime_item.dart';
@@ -51,7 +52,7 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
   }
 
   @override
-  bool get maintainState => false;
+  bool get maintainState => true;
 }
 
 class _AiringScheduleContent extends StatefulWidget {
@@ -240,7 +241,13 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                         top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
                     child: SizedBox(
                       height: 120,
-                      child: AiringAnimeItem(model: schedule, onClick: () {}),
+                      child: AiringAnimeItem(
+                        model: schedule,
+                        onClick: () {
+                          AnimeTrackerRouterDelegate.of(context)
+                              .navigateToDetailAnime(schedule.animeModel.id);
+                        },
+                      ),
                     ),
                   );
                 },
