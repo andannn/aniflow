@@ -15,6 +15,7 @@ _$_MediaExternalLinkEntity _$$_MediaExternalLinkEntityFromJson(
       site: json['external_link_site'] as String?,
       type: json['external_link_type'] as String?,
       siteId: json['external_link_siteId'] as int?,
+      color: json['external_link_color'] as String?,
       icon: json['external_link_icon'] as String?,
     );
 
@@ -27,5 +28,6 @@ Map<String, dynamic> _$$_MediaExternalLinkEntityToJson(
       'external_link_site': instance.site,
       'external_link_type': instance.type,
       'external_link_siteId': instance.siteId,
+      'external_link_color': instance.color,
       'external_link_icon': instance.icon,
     };

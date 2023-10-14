@@ -33,6 +33,8 @@ mixin _$MediaExternalLinkEntity {
   String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: MediaExternalLinkColumnValues.siteId)
   int? get siteId => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaExternalLinkColumnValues.color)
+  String? get color => throw _privateConstructorUsedError;
   @JsonKey(name: MediaExternalLinkColumnValues.icon)
   String? get icon => throw _privateConstructorUsedError;
 
@@ -55,6 +57,7 @@ abstract class $MediaExternalLinkEntityCopyWith<$Res> {
       @JsonKey(name: MediaExternalLinkColumnValues.site) String? site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) String? type,
       @JsonKey(name: MediaExternalLinkColumnValues.siteId) int? siteId,
+      @JsonKey(name: MediaExternalLinkColumnValues.color) String? color,
       @JsonKey(name: MediaExternalLinkColumnValues.icon) String? icon});
 }
 
@@ -78,6 +81,7 @@ class _$MediaExternalLinkEntityCopyWithImpl<$Res,
     Object? site = freezed,
     Object? type = freezed,
     Object? siteId = freezed,
+    Object? color = freezed,
     Object? icon = freezed,
   }) {
     return _then(_value.copyWith(
@@ -105,6 +109,10 @@ class _$MediaExternalLinkEntityCopyWithImpl<$Res,
           ? _value.siteId
           : siteId // ignore: cast_nullable_to_non_nullable
               as int?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -128,6 +136,7 @@ abstract class _$$_MediaExternalLinkEntityCopyWith<$Res>
       @JsonKey(name: MediaExternalLinkColumnValues.site) String? site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) String? type,
       @JsonKey(name: MediaExternalLinkColumnValues.siteId) int? siteId,
+      @JsonKey(name: MediaExternalLinkColumnValues.color) String? color,
       @JsonKey(name: MediaExternalLinkColumnValues.icon) String? icon});
 }
 
@@ -149,6 +158,7 @@ class __$$_MediaExternalLinkEntityCopyWithImpl<$Res>
     Object? site = freezed,
     Object? type = freezed,
     Object? siteId = freezed,
+    Object? color = freezed,
     Object? icon = freezed,
   }) {
     return _then(_$_MediaExternalLinkEntity(
@@ -176,6 +186,10 @@ class __$$_MediaExternalLinkEntityCopyWithImpl<$Res>
           ? _value.siteId
           : siteId // ignore: cast_nullable_to_non_nullable
               as int?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -194,6 +208,7 @@ class _$_MediaExternalLinkEntity implements _MediaExternalLinkEntity {
       @JsonKey(name: MediaExternalLinkColumnValues.site) this.site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) this.type,
       @JsonKey(name: MediaExternalLinkColumnValues.siteId) this.siteId,
+      @JsonKey(name: MediaExternalLinkColumnValues.color) this.color,
       @JsonKey(name: MediaExternalLinkColumnValues.icon) this.icon});
 
   factory _$_MediaExternalLinkEntity.fromJson(Map<String, dynamic> json) =>
@@ -218,12 +233,15 @@ class _$_MediaExternalLinkEntity implements _MediaExternalLinkEntity {
   @JsonKey(name: MediaExternalLinkColumnValues.siteId)
   final int? siteId;
   @override
+  @JsonKey(name: MediaExternalLinkColumnValues.color)
+  final String? color;
+  @override
   @JsonKey(name: MediaExternalLinkColumnValues.icon)
   final String? icon;
 
   @override
   String toString() {
-    return 'MediaExternalLinkEntity(id: $id, animeId: $animeId, url: $url, site: $site, type: $type, siteId: $siteId, icon: $icon)';
+    return 'MediaExternalLinkEntity(id: $id, animeId: $animeId, url: $url, site: $site, type: $type, siteId: $siteId, color: $color, icon: $icon)';
   }
 
   @override
@@ -237,13 +255,14 @@ class _$_MediaExternalLinkEntity implements _MediaExternalLinkEntity {
             (identical(other.site, site) || other.site == site) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.siteId, siteId) || other.siteId == siteId) &&
+            (identical(other.color, color) || other.color == color) &&
             (identical(other.icon, icon) || other.icon == icon));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, animeId, url, site, type, siteId, icon);
+  int get hashCode => Object.hash(
+      runtimeType, id, animeId, url, site, type, siteId, color, icon);
 
   @JsonKey(ignore: true)
   @override
@@ -270,6 +289,7 @@ abstract class _MediaExternalLinkEntity implements MediaExternalLinkEntity {
       @JsonKey(name: MediaExternalLinkColumnValues.site) final String? site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) final String? type,
       @JsonKey(name: MediaExternalLinkColumnValues.siteId) final int? siteId,
+      @JsonKey(name: MediaExternalLinkColumnValues.color) final String? color,
       @JsonKey(name: MediaExternalLinkColumnValues.icon)
       final String? icon}) = _$_MediaExternalLinkEntity;
 
@@ -294,6 +314,9 @@ abstract class _MediaExternalLinkEntity implements MediaExternalLinkEntity {
   @override
   @JsonKey(name: MediaExternalLinkColumnValues.siteId)
   int? get siteId;
+  @override
+  @JsonKey(name: MediaExternalLinkColumnValues.color)
+  String? get color;
   @override
   @JsonKey(name: MediaExternalLinkColumnValues.icon)
   String? get icon;

@@ -26,6 +26,7 @@ mixin _$MediaExternalLinkModel {
   MediaExternalLinkType get type => throw _privateConstructorUsedError;
   int get siteId => throw _privateConstructorUsedError;
   String get icon => throw _privateConstructorUsedError;
+  String get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $MediaExternalLinkModelCopyWith<$Res> {
       String site,
       MediaExternalLinkType type,
       int siteId,
-      String icon});
+      String icon,
+      String color});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$MediaExternalLinkModelCopyWithImpl<$Res,
     Object? type = null,
     Object? siteId = null,
     Object? icon = null,
+    Object? color = null,
   }) {
     return _then(_value.copyWith(
       url: null == url
@@ -88,6 +91,10 @@ class _$MediaExternalLinkModelCopyWithImpl<$Res,
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
+      color: null == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -105,7 +112,8 @@ abstract class _$$_MediaExternalLinkModelCopyWith<$Res>
       String site,
       MediaExternalLinkType type,
       int siteId,
-      String icon});
+      String icon,
+      String color});
 }
 
 /// @nodoc
@@ -125,6 +133,7 @@ class __$$_MediaExternalLinkModelCopyWithImpl<$Res>
     Object? type = null,
     Object? siteId = null,
     Object? icon = null,
+    Object? color = null,
   }) {
     return _then(_$_MediaExternalLinkModel(
       url: null == url
@@ -147,6 +156,10 @@ class __$$_MediaExternalLinkModelCopyWithImpl<$Res>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
+      color: null == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -159,7 +172,8 @@ class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
       this.site = '',
       this.type = MediaExternalLinkType.info,
       this.siteId = -1,
-      this.icon = ''});
+      this.icon = '',
+      this.color = ''});
 
   factory _$_MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =>
       _$$_MediaExternalLinkModelFromJson(json);
@@ -179,10 +193,13 @@ class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
   @override
   @JsonKey()
   final String icon;
+  @override
+  @JsonKey()
+  final String color;
 
   @override
   String toString() {
-    return 'MediaExternalLinkModel(url: $url, site: $site, type: $type, siteId: $siteId, icon: $icon)';
+    return 'MediaExternalLinkModel(url: $url, site: $site, type: $type, siteId: $siteId, icon: $icon, color: $color)';
   }
 
   @override
@@ -194,12 +211,14 @@ class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
             (identical(other.site, site) || other.site == site) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.siteId, siteId) || other.siteId == siteId) &&
-            (identical(other.icon, icon) || other.icon == icon));
+            (identical(other.icon, icon) || other.icon == icon) &&
+            (identical(other.color, color) || other.color == color));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, url, site, type, siteId, icon);
+  int get hashCode =>
+      Object.hash(runtimeType, url, site, type, siteId, icon, color);
 
   @JsonKey(ignore: true)
   @override
@@ -222,7 +241,8 @@ abstract class _MediaExternalLinkModel implements MediaExternalLinkModel {
       final String site,
       final MediaExternalLinkType type,
       final int siteId,
-      final String icon}) = _$_MediaExternalLinkModel;
+      final String icon,
+      final String color}) = _$_MediaExternalLinkModel;
 
   factory _MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =
       _$_MediaExternalLinkModel.fromJson;
@@ -237,6 +257,8 @@ abstract class _MediaExternalLinkModel implements MediaExternalLinkModel {
   int get siteId;
   @override
   String get icon;
+  @override
+  String get color;
   @override
   @JsonKey(ignore: true)
   _$$_MediaExternalLinkModelCopyWith<_$_MediaExternalLinkModel> get copyWith =>

@@ -14,6 +14,7 @@ class MediaExternalLinkModel with _$MediaExternalLinkModel {
     @Default(MediaExternalLinkType.info) MediaExternalLinkType type,
     @Default(-1) int siteId,
     @Default('') String icon,
+    @Default('') String color,
   }) = _MediaExternalLinkModel;
 
   factory MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =>
@@ -27,6 +28,7 @@ class MediaExternalLinkModel with _$MediaExternalLinkModel {
           MediaExternalLinkType.info,
       siteId: entity.siteId ?? -1,
       icon: entity.icon ?? '',
+      color: entity.color ?? '',
     );
   }
 }

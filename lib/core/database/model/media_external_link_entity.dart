@@ -17,6 +17,7 @@ class MediaExternalLinkEntity with _$MediaExternalLinkEntity {
     @JsonKey(name: MediaExternalLinkColumnValues.site) String? site,
     @JsonKey(name: MediaExternalLinkColumnValues.type) String? type,
     @JsonKey(name: MediaExternalLinkColumnValues.siteId) int? siteId,
+    @JsonKey(name: MediaExternalLinkColumnValues.color) String? color,
     @JsonKey(name: MediaExternalLinkColumnValues.icon) String? icon,
   }) = _MediaExternalLinkEntity;
 
@@ -33,6 +34,7 @@ class MediaExternalLinkEntity with _$MediaExternalLinkEntity {
       type: dto.type,
       siteId: dto.siteId,
       icon: dto.icon,
+      color: dto.color
     );
   }
 }

@@ -15,6 +15,7 @@ _$_MediaExternalLinkModel _$$_MediaExternalLinkModelFromJson(
           MediaExternalLinkType.info,
       siteId: json['siteId'] as int? ?? -1,
       icon: json['icon'] as String? ?? '',
+      color: json['color'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_MediaExternalLinkModelToJson(
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$_MediaExternalLinkModelToJson(
       'type': _$MediaExternalLinkTypeEnumMap[instance.type]!,
       'siteId': instance.siteId,
       'icon': instance.icon,
+      'color': instance.color,
     };
 
 const _$MediaExternalLinkTypeEnumMap = {

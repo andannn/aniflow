@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/core/common/util/color_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
@@ -156,19 +157,19 @@ class _DetailAnimePageContent extends StatelessWidget {
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
-                child: _buildExternalLinkSection(
-                  context,
-                  model.externalLinks,
-                ),
-              ),
-              const SliverPadding(padding: EdgeInsets.only(top: 16)),
-              SliverToBoxAdapter(
                 child: _buildTrailerSection(
                   context,
                   trailerModel: model.trailerModel,
                   onTrailerClick: () {
                     launchUrl(TrailerModel.getLaunchUri(model.trailerModel));
                   },
+                ),
+              ),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
+              SliverToBoxAdapter(
+                child: _buildExternalLinkSection(
+                  context,
+                  model.externalLinks,
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
@@ -406,11 +407,26 @@ class _DetailAnimePageContent extends StatelessWidget {
       BuildContext context, List<MediaExternalLinkModel> externalLinks) {
     return VerticalScaleSwitcher(
       visible: externalLinks.isNotEmpty,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          children: externalLinks.map((e) => Text(e.site)).toList(),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              'External & Streaming links',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              spacing: 6,
+              children: externalLinks
+                  .map((e) => _ExternalLinkItem(externalLink: e))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -575,6 +591,41 @@ class _InfoItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ExternalLinkItem extends StatelessWidget {
+  const _ExternalLinkItem({required this.externalLink});
+
+  final MediaExternalLinkModel externalLink;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: () async {
+        final url = Uri.parse(externalLink.url);
+        if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+        }
+      },
+      icon: externalLink.icon.isNotEmpty
+          ? Container(
+              width: 24,
+              height: 24,
+              decoration: ShapeDecoration(
+                color: ColorUtil.parseColor(externalLink.color),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: AFNetworkImage(imageUrl: externalLink.icon),
+              ),
+            )
+          : const SizedBox(),
+      label: Text(externalLink.site),
     );
   }
 }
