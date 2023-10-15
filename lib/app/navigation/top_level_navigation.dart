@@ -12,14 +12,14 @@ enum TopLevelNavigation {
     iconTextId: 'Track',
   ),
   search(
-    selectedIcon: Icons.search,
-    unSelectedIcon: Icons.search,
-    iconTextId: 'Search',
+    selectedIcon: Icons.forum,
+    unSelectedIcon: Icons.forum_outlined,
+    iconTextId: 'Forum',
   ),
   profile(
     selectedIcon: Icons.person,
     unSelectedIcon: Icons.person_outline,
-    iconTextId: 'profile',
+    iconTextId: 'Profile',
   );
 
   const TopLevelNavigation({

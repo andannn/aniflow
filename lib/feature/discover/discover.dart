@@ -28,7 +28,13 @@ class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Scaffold(body: DiscoverScreen());
+    return Scaffold(
+      body: const DiscoverScreen(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.search),
+        onPressed: () {},
+      ),
+    );
   }
 
   @override
