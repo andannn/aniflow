@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
@@ -146,6 +147,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   Future<void> refreshAnime() async {
     add(_OnLoadStateChanged(true));
+
     /// wait refresh tasks.
     final result = await Future.wait([
       _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
@@ -173,17 +175,19 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       {bool isRefresh = false}) async {
     final LoadResult result;
     if (isRefresh) {
-      result =
-          await _aniListRepository.refreshAnimeByCategory(category: category);
+      result = await _aniListRepository.loadAnimePageByCategory(
+          loadType: const Refresh(), category: category);
     } else {
-      result = await _aniListRepository.getAnimePageByCategory(
-          category: category, page: 1);
+      result = await _aniListRepository.loadAnimePageByCategory(
+        category: category,
+        loadType: const Append(page: 1, perPage: Config.defaultPerPageCount),
+      );
     }
     switch (result) {
-      case LoadSuccess<AnimeModel>(data: final data):
+      case LoadSuccess<List<AnimeModel>>(data: final data):
         add(_OnAnimeLoaded(data, category));
         return true;
-      case LoadError<AnimeModel>(exception: final exception):
+      case LoadError<List<AnimeModel>>(exception: final exception):
         add(_OnAnimeLoadError(exception, category));
         return false;
       default:

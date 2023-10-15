@@ -113,7 +113,7 @@ class AnimeTrackListRepositoryImpl extends AniListRepository {
           conflictAlgorithm: ConflictAlgorithm.replace);
 
       animeTrackListDao.notifyTrackingAnimeContentChanged(targetUserId);
-      return LoadSuccess(data: []);
+      return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
     }
@@ -183,7 +183,7 @@ class AnimeTrackListRepositoryImpl extends AniListRepository {
       final updateEntity = AnimeTrackItemEntity.fromNetworkModel(result);
       await animeTrackListDao.insertTrackingAnimeListEntities([updateEntity]);
       animeTrackListDao.notifyTrackingAnimeContentChanged(targetUserId);
-      return LoadSuccess(data: []);
+      return LoadSuccess(data: null);
     } on NetworkException catch (exception) {
       /// network error happened.
       /// revert the changes in database.

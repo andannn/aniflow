@@ -105,13 +105,16 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   }
 
   Future<bool> _createLoadAnimePageTask({required int page}) async {
-    final LoadResult result = await _mediaInfoRepository.getAnimePageByCategory(
-        category: category, page: page, perPage: Config.defaultPerPageCount);
+    final LoadResult result =
+        await _mediaInfoRepository.loadAnimePageByCategory(
+      category: category,
+      loadType: Append(page: page, perPage: Config.defaultPerPageCount),
+    );
     switch (result) {
-      case LoadSuccess<AnimeModel>(data: final data):
+      case LoadSuccess<List<AnimeModel>>(data: final data):
         add(_OnAnimePageLoadedEvent(data, page));
         return true;
-      case LoadError<AnimeModel>(exception: final exception):
+      case LoadError<List<AnimeModel>>(exception: final exception):
         add(_OnAnimePageErrorEvent(exception));
         return false;
       default:
