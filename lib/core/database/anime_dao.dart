@@ -182,6 +182,9 @@ abstract class AnimeListDao {
       {required List<MediaExternalLinkEntity> externalLinks});
 
   void notifyAnimeDetailInfoChanged();
+
+  Future insertCharacterVoiceActors(
+      {required int animeId, required List<CharacterAndVoiceActor> entities});
 }
 
 class AnimeDaoImpl extends AnimeListDao {
@@ -380,7 +383,7 @@ class AnimeDaoImpl extends AnimeListDao {
     return await batch.commit(noResult: true);
   }
 
-      @override
+  @override
   Future upsertMediaExternalLinks(
       {required List<MediaExternalLinkEntity> externalLinks}) async {
     final batch = database.animeDB.batch();
@@ -435,5 +438,35 @@ class AnimeDaoImpl extends AnimeListDao {
   @override
   Future clearAiringSchedule() {
     return database.animeDB.delete(Tables.airingSchedulesTable);
+  }
+
+  @override
+  Future insertCharacterVoiceActors(
+      {required int animeId,
+      required List<CharacterAndVoiceActor> entities}) async {
+    final batch = database.animeDB.batch();
+    for (final entity in entities) {
+      if (entity.voiceActorEntity != null) {
+        batch.insert(
+          Tables.staffTable,
+          entity.voiceActorEntity!.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      batch.insert(
+        Tables.characterTable,
+        entity.characterEntity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.animeCharacterCrossRefTable,
+        {
+          AnimeCharacterCrossRefColumns.animeId: animeId,
+          AnimeCharacterCrossRefColumns.characterId: entity.characterEntity.id,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
   }
 }

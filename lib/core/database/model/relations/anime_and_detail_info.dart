@@ -6,7 +6,7 @@ import 'package:anime_tracker/core/database/model/staff_entity.dart';
 
 class CharacterAndVoiceActor {
   final CharacterEntity characterEntity;
-  final StaffEntity voiceActorEntity;
+  final StaffEntity? voiceActorEntity;
 
   const CharacterAndVoiceActor(
       {required this.characterEntity, required this.voiceActorEntity});

@@ -3,10 +3,12 @@ import 'package:anime_tracker/core/common/util/load_page_util.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
+import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
+import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
@@ -30,6 +32,12 @@ import 'package:sqflite/sqflite.dart';
 abstract class MediaInformationRepository {
   Future<LoadResult<List<AnimeModel>>> loadAnimePageByCategory({
     required AnimeCategory category,
+    required LoadType loadType,
+  });
+
+  Future<LoadResult<List<CharacterAndVoiceActorModel>>>
+      loadCharacterPageByAnimeId({
+    required int animeId,
     required LoadType loadType,
   });
 
@@ -78,6 +86,29 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   }
 
   @override
+  Future<LoadResult<List<CharacterAndVoiceActorModel>>>
+      loadCharacterPageByAnimeId(
+          {required int animeId, required LoadType loadType}) async {
+    // return LoadPageUtil.loadPage<CharacterEdge, CharacterAndVoiceActor,
+    //     CharacterAndVoiceActorModel>(
+    //   type: loadType,
+    //   onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
+    //       animeId: animeId, page: page, perPage: perPage),
+    //   onClearDbCache: () async {},
+    //   onInsertEntityToDB: (entities) =>
+    //       animeDao.insertCharacterVoiceActors(animeId, entities),
+    //   onGetEntityFromDB: onGetEntityFromDB,
+    //   mapDtoToEntity: (dto) => CharacterAndVoiceActor(
+    //     characterEntity: CharacterEntity.fromNetworkModel(dto),
+    //     voiceActorEntity: StaffEntity.fromVoiceActorDto(dto)!,
+    //   ),
+    //   mapEntityToModel: (entity) =>
+    //       CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
+    // );
+    return LoadSuccess(data: []);
+  }
+
+  @override
   Stream<AnimeModel> getDetailAnimeInfoStream(String id) {
     return animeDao.getDetailAnimeInfoStream(id).map(
           (entity) => AnimeModel.fromAnimeDetailInfo(entity),
@@ -101,33 +132,17 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           networkResult.characters?.edges ?? [];
       if (characters.isNotEmpty) {
         /// inset character entities to db.
-        final List<CharacterEntity> characterEntities = characters
+        final List<CharacterAndVoiceActor> characterAndVoiceActors = characters
             .map(
-              (e) => CharacterEntity.fromNetworkModel(e),
+              (e) => CharacterAndVoiceActor(
+                characterEntity: CharacterEntity.fromNetworkModel(e),
+                voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
+              ),
             )
             .toList();
-        await animeDao.upsertCharacterInfo(characterEntities);
 
-        /// inset voice actor entities to db.
-        final List<StaffEntity> voiceActorEntities = characters
-            .map(
-              (e) => StaffEntity.fromVoiceActorDto(e),
-            )
-            .whereType<StaffEntity>()
-            .toList();
-        await animeDao.upsertStaffInfo(voiceActorEntities);
-
-        /// Set crossRefs to anime and characters.
-        await animeDao.upsertAnimeCharacterCrossRef(
-          crossRefs: characters
-              .map(
-                (e) => AnimeCharacterCrossRef(
-                  animeId: id.toString(),
-                  characterId: e.characterNode!.id.toString(),
-                ),
-              )
-              .toList(),
-        );
+        await animeDao.insertCharacterVoiceActors(
+            animeId: int.parse(id), entities: characterAndVoiceActors);
       }
 
       final List<StaffEdge> staffs = networkResult.staff?.edges ?? [];
