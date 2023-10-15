@@ -5,8 +5,6 @@ import 'package:anime_tracker/core/common/model/anime_sort.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
 
 class AnimePageQueryParam {
-  final int page;
-  final int perPage;
   final int? seasonYear;
   final AnimeSeason? season;
   final AnimeStatus? status;
@@ -14,17 +12,15 @@ class AnimePageQueryParam {
   final List<AnimeFormat> animeFormat;
 
   AnimePageQueryParam(
-      {required this.page,
-      required this.perPage,
-      this.seasonYear,
+      {this.seasonYear,
       this.season,
       this.status,
       this.animeSort = const [],
       this.animeFormat = const []});
 }
 
-AnimePageQueryParam createAnimePageQueryParam(AnimeCategory category,
-    int page, int perPage, AnimeSeason currentSeason, int currentSeasonYear) {
+AnimePageQueryParam createAnimePageQueryParam(
+    AnimeCategory category, AnimeSeason currentSeason, int currentSeasonYear) {
   AnimeStatus? status;
   AnimeSeasonParam? seasonParam;
   List<AnimeSort> sorts = [];
@@ -56,8 +52,6 @@ AnimePageQueryParam createAnimePageQueryParam(AnimeCategory category,
   }
 
   return AnimePageQueryParam(
-    page: page,
-    perPage: perPage,
     seasonYear: seasonParam?.seasonYear,
     season: seasonParam?.season,
     status: status,
@@ -66,8 +60,7 @@ AnimePageQueryParam createAnimePageQueryParam(AnimeCategory category,
   );
 }
 
-String get animeListQueryGraphQLString =>
-'''
+String get animeListQueryGraphQLString => '''
 query (\$page: Int, \$perPage: Int, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
   Page(page: \$page, perPage: \$perPage) {
     media: media(type: ANIME, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {

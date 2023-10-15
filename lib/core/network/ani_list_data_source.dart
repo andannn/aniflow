@@ -31,6 +31,8 @@ class AniListDataSource {
   }
 
   Future<List<AnimeDto>> getNetworkAnimePage({
+    required int page,
+    required int perPage,
     required AnimePageQueryParam param,
   }) async {
     final queryGraphQL = animeListQueryGraphQLString;
@@ -40,8 +42,8 @@ class AniListDataSource {
     final hasAnimeSort = param.animeSort.isNotEmpty;
     final hasAnimeFormat = param.animeFormat.isNotEmpty;
     final variablesMap = <String, dynamic>{
-      'page': param.page,
-      'perPage': param.perPage,
+      'page': page,
+      'perPage': perPage,
     };
 
     if (hasSeasonYear) {

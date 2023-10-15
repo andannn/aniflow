@@ -1,5 +1,6 @@
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
@@ -36,54 +37,53 @@ void main() {
     test('ani_list_get_current_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      final result = await aniListRepository.getAnimePageByCategory(
-          category: AnimeCategory.currentSeason, page: 1);
-      final dbResult = await animeDao
-          .getAnimeByPage(AnimeCategory.currentSeason, page: 1);
+      final result = await aniListRepository.loadAnimePageByCategory(
+          category: AnimeCategory.currentSeason,
+          loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
+      final dbResult =
+          await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
       expect(
           (result as LoadSuccess).data,
-          equals(dbResult
-              .map((e) => AnimeModel.fromDatabaseModel(e))
-              .toList()));
+          equals(
+              dbResult.map((e) => AnimeModel.fromDatabaseModel(e)).toList()));
     });
 
     test('ani_list_refresh_current_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      final result = await aniListRepository.refreshAnimeByCategory(
-          category: AnimeCategory.currentSeason);
-      final dbResult = await animeDao
-          .getAnimeByPage(AnimeCategory.currentSeason, page: 1);
+      final result = await aniListRepository.loadAnimePageByCategory(
+          loadType: const Refresh(), category: AnimeCategory.currentSeason);
+      final dbResult =
+          await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
       expect(
           (result as LoadSuccess).data,
-          equals(dbResult
-              .map((e) => AnimeModel.fromDatabaseModel(e))
-              .toList()));
+          equals(
+              dbResult.map((e) => AnimeModel.fromDatabaseModel(e)).toList()));
     });
 
     test('ani_list_get_nex_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      final result = await aniListRepository.getAnimePageByCategory(
-          category: AnimeCategory.nextSeason, page: 1);
-      final dbResult = await animeDao
-          .getAnimeByPage(AnimeCategory.nextSeason, page: 1);
+      final result = await aniListRepository.loadAnimePageByCategory(
+          category: AnimeCategory.nextSeason,
+          loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
+      final dbResult =
+          await animeDao.getAnimeByPage(AnimeCategory.nextSeason, page: 1);
       expect(
           (result as LoadSuccess).data,
-          equals(dbResult
-              .map((e) => AnimeModel.fromDatabaseModel(e))
-              .toList()));
+          equals(
+              dbResult.map((e) => AnimeModel.fromDatabaseModel(e)).toList()));
     });
 
     test('ani_list_refresh_nex_season_anime', () async {
       final animeDao = animeDatabase.getAnimeDao();
 
-      final result = await aniListRepository.refreshAnimeByCategory(
-          category: AnimeCategory.nextSeason);
-      final dbResult = await animeDao
-          .getAnimeByPage(AnimeCategory.nextSeason, page: 1);
+      final result = await aniListRepository.loadAnimePageByCategory(
+          loadType: const Refresh(), category: AnimeCategory.nextSeason);
+      final dbResult =
+          await animeDao.getAnimeByPage(AnimeCategory.nextSeason, page: 1);
       expect(
-          (result as LoadSuccess<AnimeModel>).data.map((e) => e.id),
+          (result as LoadSuccess<List<AnimeModel>>).data.map((e) => e.id),
           equals(dbResult
               .map((e) => AnimeModel.fromDatabaseModel(e))
               .map((e) => e.id)
@@ -96,19 +96,21 @@ void main() {
 
     test('ani_list_fetch_anime_detail_data_and_get_result', () async {
       await aniListRepository.startFetchDetailAnimeInfo('161964');
-      final res = await aniListRepository
-          .getDetailAnimeInfoStream('161964')
-          .first;
+      final res =
+          await aniListRepository.getDetailAnimeInfoStream('161964').first;
       expect(res.id, equals('161964'));
     });
 
     test('ani_list_refresh_airing_schedule', () async {
-      await aniListRepository.refreshAiringSchedule(DateTime.now(), dayAgo: 6, dayAfter: 6);
+      await aniListRepository.refreshAiringSchedule(DateTime.now(),
+          dayAgo: 6, dayAfter: 6);
     });
 
     test('ani_list_refresh_and_get_airing_schedule', () async {
-      await aniListRepository.refreshAiringSchedule(DateTime.now(), dayAgo: 0, dayAfter: 2);
-      final res = await aniListRepository.getAiringScheduleAndAnimeByDateTime(DateTime.now());
+      await aniListRepository.refreshAiringSchedule(DateTime.now(),
+          dayAgo: 0, dayAfter: 2);
+      final res = await aniListRepository
+          .getAiringScheduleAndAnimeByDateTime(DateTime.now());
       expect(res.isNotEmpty, equals(true));
     });
   });

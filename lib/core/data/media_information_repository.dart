@@ -1,4 +1,5 @@
 import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/util/load_page_util.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
@@ -22,22 +23,14 @@ import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// repository for get anime list.
 abstract class MediaInformationRepository {
-  /// refresh the category anime table, which will deleted the table and get
-  /// data from network data source.
-  Future<LoadResult<AnimeModel>> refreshAnimeByCategory(
-      {required AnimeCategory category});
-
-  /// get data from database or network if database have no data.
-  Future<LoadResult<AnimeModel>> getAnimePageByCategory({
+  Future<LoadResult<List<AnimeModel>>> loadAnimePageByCategory({
     required AnimeCategory category,
-    required int page,
-    int perPage = Config.defaultPerPageCount,
+    required LoadType loadType,
   });
 
   Stream<AnimeModel> getDetailAnimeInfoStream(String id);
@@ -61,98 +54,27 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<LoadResult<AnimeModel>> getAnimePageByCategory(
-      {required AnimeCategory category,
-      required int page,
-      int perPage = Config.defaultPerPageCount}) {
-    return _loadAnimePage(
-      category: category,
-      type: LoadType.append,
-      animeListParam: createAnimePageQueryParam(
-        category,
-        page,
-        perPage,
-        preferences.getCurrentSeason(),
-        preferences.getCurrentSeasonYear(),
-      ),
-    );
-  }
-
-  @override
-  Future<LoadResult<AnimeModel>> refreshAnimeByCategory(
-      {required AnimeCategory category}) {
-    return _loadAnimePage(
-        category: category,
-        type: LoadType.refresh,
-        animeListParam: createAnimePageQueryParam(
+  Future<LoadResult<List<AnimeModel>>> loadAnimePageByCategory(
+      {required AnimeCategory category, required LoadType loadType}) {
+    return LoadPageUtil.loadPage(
+      type: loadType,
+      onGetNetworkRes: (page, perPage) => aniListDataSource.getNetworkAnimePage(
+        page: page,
+        perPage: perPage,
+        param: createAnimePageQueryParam(
           category,
-          1,
-          Config.defaultPerPageCount,
           preferences.getCurrentSeason(),
           preferences.getCurrentSeasonYear(),
-        ));
-  }
-
-  Future<LoadResult<AnimeModel>> _loadAnimePage(
-      {required AnimeCategory category,
-      required LoadType type,
-      required AnimePageQueryParam animeListParam}) async {
-    try {
-      switch (type) {
-        case LoadType.refresh:
-
-          /// get data from network datasource.
-          final networkRes = await aniListDataSource.getNetworkAnimePage(
-              param: animeListParam);
-
-          /// insert the anime to db.
-          final dbAnimeList = networkRes
-              .map((e) => AnimeEntity.fromNetworkModel(e))
-              .toList();
-
-          /// clear and re-insert data when refresh.
-          await animeDao.clearAll();
-          await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
-              animeList: dbAnimeList);
-
-          /// load success, return result.
-          return LoadSuccess(
-              data: dbAnimeList
-                  .map((e) => AnimeModel.fromDatabaseModel(e))
-                  .toList());
-        case LoadType.append:
-          final dbResult = await animeDao.getAnimeByPage(category,
-              page: animeListParam.page, perPage: animeListParam.perPage);
-          if (dbResult.length < animeListParam.perPage) {
-            /// the data in database is not enough for one page. try to get data from network.
-            final networkRes = await aniListDataSource.getNetworkAnimePage(
-                param: animeListParam);
-
-            /// insert the network data to db.
-            final dbAnimeList = networkRes
-                .map((e) => AnimeEntity.fromNetworkModel(e))
-                .toList();
-            await animeDao.insertOrIgnoreAnimeByAnimeCategory(category,
-                animeList: dbAnimeList);
-
-            /// load success, return result.
-            final newResult = await animeDao.getAnimeByPage(category,
-                page: animeListParam.page, perPage: animeListParam.perPage);
-            return LoadSuccess(
-                data: newResult
-                    .map((e) => AnimeModel.fromDatabaseModel(e))
-                    .toList());
-          } else {
-            /// we have catch in db, return the result.
-            return LoadSuccess(
-                data: dbResult
-                    .map((e) => AnimeModel.fromDatabaseModel(e))
-                    .toList());
-          }
-      }
-    } on DioException catch (e) {
-      return LoadError(e);
-    }
+        ),
+      ),
+      onGetEntityFromDB: (page, perPage) =>
+          animeDao.getAnimeByPage(category, page: page, perPage: perPage),
+      onInsertEntityToDB: (entities) => animeDao
+          .insertOrIgnoreAnimeByAnimeCategory(category, animeList: entities),
+      onClearDbCache: () => animeDao.clearAll(),
+      mapDtoToEntity: (dto) => AnimeEntity.fromNetworkModel(dto),
+      mapEntityToModel: (entity) => AnimeModel.fromDatabaseModel(entity),
+    );
   }
 
   @override
@@ -234,6 +156,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
       final List<MediaExternalLinkDto> externalLinks =
           networkResult.externalLinks;
+
       /// insert external links to database.
       if (externalLinks.isNotEmpty) {
         final linkEntities = externalLinks
@@ -246,7 +169,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
       /// notify data base has been changed an trigger the streams.
       animeDao.notifyAnimeDetailInfoChanged();
-      return LoadSuccess(data: []);
+      return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
     }
@@ -294,7 +217,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       await animeDao.upsertAnimeInformation(animeEntities,
           conflictAlgorithm: ConflictAlgorithm.ignore);
 
-      return LoadSuccess(data: []);
+      return LoadSuccess(data: null);
     } on NetworkException catch (exception) {
       return LoadError(exception);
     }
