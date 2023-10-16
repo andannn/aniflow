@@ -1,17 +1,18 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/stream_util.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_anime.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
+import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_anime.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 
 /// [Tables.animeTable]
 mixin AnimeTableColumns {
@@ -151,6 +152,9 @@ abstract class AnimeListDao {
 
   Future<AnimeWithDetailInfo> getDetailAnimeInfo(String id);
 
+  Future<List<CharacterAndVoiceActor>> getCharacterOfAnimeByPage(String animeId,
+      {required int page, int perPage = Config.defaultPerPageCount});
+
   Stream<AnimeWithDetailInfo> getDetailAnimeInfoStream(String id);
 
   Future insertOrIgnoreAnimeByAnimeCategory(AnimeCategory category,
@@ -182,6 +186,9 @@ abstract class AnimeListDao {
       {required List<MediaExternalLinkEntity> externalLinks});
 
   void notifyAnimeDetailInfoChanged();
+
+  Future insertCharacterVoiceActors(
+      {required int animeId, required List<CharacterAndVoiceActor> entities});
 }
 
 class AnimeDaoImpl extends AnimeListDao {
@@ -242,6 +249,30 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
+  Future<List<CharacterAndVoiceActor>> getCharacterOfAnimeByPage(String animeId,
+      {required int page, int perPage = Config.defaultPerPageCount}) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    final characterSql = 'select * from ${Tables.characterTable} as c '
+        'join ${Tables.animeCharacterCrossRefTable} as ac '
+        '  on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId} '
+        'join ${Tables.staffTable} as v '
+        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
+        'where ac.${AnimeCharacterCrossRefColumns.animeId} = \'$animeId\' '
+        'limit $limit '
+        'offset $offset ';
+    List characterResults = await database.animeDB.rawQuery(characterSql);
+    return characterResults
+        .map(
+          (e) => CharacterAndVoiceActor(
+            characterEntity: CharacterEntity.fromJson(e),
+            voiceActorEntity: StaffEntity.fromJson(e),
+          ),
+        )
+        .toList();
+  }
+
+  @override
   Future<AnimeWithDetailInfo> getDetailAnimeInfo(String id) async {
     final animeJson = await database.animeDB.query(
       Tables.animeTable,
@@ -250,13 +281,7 @@ class AnimeDaoImpl extends AnimeListDao {
     );
     final animeEntity = AnimeEntity.fromJson(animeJson.first);
 
-    final characterSql = 'select * from ${Tables.characterTable} as c '
-        'join ${Tables.animeCharacterCrossRefTable} as ac '
-        '  on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId} '
-        'join ${Tables.staffTable} as v '
-        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
-        'where ac.${AnimeCharacterCrossRefColumns.animeId} = \'$id\' ';
-    List characterResults = await database.animeDB.rawQuery(characterSql);
+    final characterResults = await getCharacterOfAnimeByPage(id, page: 1);
 
     String staffSql = 'select * from ${Tables.staffTable} as s '
         'join ${Tables.animeStaffCrossRefTable} as animeStaff '
@@ -271,14 +296,7 @@ class AnimeDaoImpl extends AnimeListDao {
 
     return AnimeWithDetailInfo(
       animeEntity: animeEntity,
-      characterAndVoiceActors: characterResults
-          .map(
-            (e) => CharacterAndVoiceActor(
-              characterEntity: CharacterEntity.fromJson(e),
-              voiceActorEntity: StaffEntity.fromJson(e),
-            ),
-          )
-          .toList(),
+      characterAndVoiceActors: characterResults,
       staffs: staffResults
           .map(
             (e) => StaffAndRoleEntity.fromJson(e),
@@ -380,7 +398,7 @@ class AnimeDaoImpl extends AnimeListDao {
     return await batch.commit(noResult: true);
   }
 
-      @override
+  @override
   Future upsertMediaExternalLinks(
       {required List<MediaExternalLinkEntity> externalLinks}) async {
     final batch = database.animeDB.batch();
@@ -435,5 +453,35 @@ class AnimeDaoImpl extends AnimeListDao {
   @override
   Future clearAiringSchedule() {
     return database.animeDB.delete(Tables.airingSchedulesTable);
+  }
+
+  @override
+  Future insertCharacterVoiceActors(
+      {required int animeId,
+      required List<CharacterAndVoiceActor> entities}) async {
+    final batch = database.animeDB.batch();
+    for (final entity in entities) {
+      if (entity.voiceActorEntity != null) {
+        batch.insert(
+          Tables.staffTable,
+          entity.voiceActorEntity!.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      batch.insert(
+        Tables.characterTable,
+        entity.characterEntity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.animeCharacterCrossRefTable,
+        {
+          AnimeCharacterCrossRefColumns.animeId: animeId,
+          AnimeCharacterCrossRefColumns.characterId: entity.characterEntity.id,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
   }
 }

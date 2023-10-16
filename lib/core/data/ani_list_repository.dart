@@ -3,9 +3,9 @@ import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_track_item_entity.dart';
-import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
@@ -160,7 +160,8 @@ class AnimeTrackListRepositoryImpl extends AniListRepository {
 
     if (entity != null) {
       /// the tracking anime is already cached in database.
-      /// change the local database and notify the to ui without waiting network result.
+      /// change the local database and notify the to ui without waiting
+      /// network result.
       final updatedEntity = entity.copyWith(
         status: status,
         progress: progress ?? entity.progress,

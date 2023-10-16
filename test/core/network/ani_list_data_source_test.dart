@@ -40,5 +40,10 @@ void main() {
             airingAtGreater: 1696953600, airingAtLesser: 1697039999),
       );
     });
+
+    test('get_characters', () async {
+      await AniListDataSource()
+          .getCharacterPage(animeId: 140501, page: 1, perPage: 3);
+    });
   });
 }

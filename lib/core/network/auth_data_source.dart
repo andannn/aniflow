@@ -1,14 +1,14 @@
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/media_list_dto.dart';
+import 'package:anime_tracker/core/network/model/user_data_dto.dart'
+    show UserDataDto;
 import 'package:anime_tracker/core/network/util/http_status_util.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:dio/dio.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/common/util/logger.dart';
-import 'package:anime_tracker/core/network/model/user_data_dto.dart'
-    show UserDataDto;
 
 class AuthDataSource {
   static AuthDataSource? _instance;
@@ -64,7 +64,8 @@ class AuthDataSource {
     return UserDataDto.fromJson(resultJson);
   }
 
-  Future<MediaListDto> saveAnimeToAnimeList(MediaListMutationParam param) async {
+  Future<MediaListDto> saveAnimeToAnimeList(
+      MediaListMutationParam param) async {
     final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,
     };

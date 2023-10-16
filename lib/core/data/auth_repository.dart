@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:anime_tracker/core/channel/auth_event_channel.dart';
+import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
+import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:anime_tracker/core/network/auth_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:anime_tracker/core/data/model/user_data_model.dart';
 
 const String _clientId = '14409';
 

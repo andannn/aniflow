@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
-import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
-import 'package:anime_tracker/core/data/model/trailter_model.dart';
-import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
+import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
+import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
+import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_model.freezed.dart';
 

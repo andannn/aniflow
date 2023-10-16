@@ -1,10 +1,10 @@
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
 import 'package:anime_tracker/core/common/model/character_role.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/util/time_util.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:flutter/material.dart';
 
 extension AnimeSourceEx on AnimeSource {

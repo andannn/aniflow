@@ -6,7 +6,7 @@ import 'package:anime_tracker/core/database/model/staff_entity.dart';
 
 class CharacterAndVoiceActor {
   final CharacterEntity characterEntity;
-  final StaffEntity voiceActorEntity;
+  final StaffEntity? voiceActorEntity;
 
   const CharacterAndVoiceActor(
       {required this.characterEntity, required this.voiceActorEntity});
@@ -18,7 +18,8 @@ class StaffAndRoleEntity {
   final StaffEntity staff;
   final String role;
 
-  factory StaffAndRoleEntity.fromJson(Map<String, dynamic> json) => StaffAndRoleEntity(
+  factory StaffAndRoleEntity.fromJson(Map<String, dynamic> json) =>
+      StaffAndRoleEntity(
         staff: StaffEntity.fromJson(json),
         role: json[AnimeStaffCrossRefColumns.staffRole],
       );

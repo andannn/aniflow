@@ -1,9 +1,9 @@
+import 'package:anime_tracker/app/navigation/ani_flow_route_path.dart';
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:flutter/material.dart';
-import 'package:anime_tracker/app/navigation/ani_flow_route_path.dart';
 
-class AnimeTrackerRouterDelegate extends RouterDelegate<AniFlowRoutePath>
+class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     with ChangeNotifier {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
@@ -27,10 +27,10 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   bool get needShowTopAppBar => _backStack.last is TopLevelRoutePath;
 
-  static AnimeTrackerRouterDelegate of(context) =>
+  static AFRouterDelegate of(context) =>
       Router
           .of(context)
-          .routerDelegate as AnimeTrackerRouterDelegate;
+          .routerDelegate as AFRouterDelegate;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +79,12 @@ class AnimeTrackerRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   void navigateToAnimeList(AnimeCategory category) {
     _backStack += [AnimeListRoutePath(category)];
+
+    notifyListeners();
+  }
+
+  void navigateToCharacterList(String animeId) {
+    _backStack += [CharacterListRoutePath(animeId)];
 
     notifyListeners();
   }

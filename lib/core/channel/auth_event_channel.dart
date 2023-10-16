@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:flutter/services.dart';
+
 import 'package:anime_tracker/core/common/util/logger.dart';
+import 'package:flutter/services.dart';
 
 class AuthResult {
   AuthResult({required this.token, required this.expiresInTime});
@@ -38,6 +39,7 @@ class AuthEventChannel {
         }
 
         logger.d('login success and token will be expired in'
+        // ignore: lines_longer_than_80_chars
             ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
         completer.complete(
           AuthResult(token: token, expiresInTime: expiresInTime),

@@ -1,18 +1,20 @@
 import 'dart:math';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
+import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/util/color_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/auth_repository.dart';
-import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
@@ -24,7 +26,6 @@ import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,7 +72,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   }
 
   @override
-  bool get maintainState => false;
+  bool get maintainState => true;
 }
 
 class _DetailAnimePageContent extends StatelessWidget {
@@ -224,12 +225,14 @@ class _DetailAnimePageContent extends StatelessWidget {
                         label: 'SCORE',
                         iconData: Icons.star_purple500_sharp,
                         contentText:
+                            // ignore: lines_longer_than_80_chars
                             '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
                       ),
                       _InfoItem(
                         label: 'FAVOURITE',
                         iconData: Icons.thumb_up,
                         contentText:
+                            // ignore: lines_longer_than_80_chars
                             '${model.favourites != null ? (model.favourites) : '--'}',
                       ),
                     ],
@@ -292,9 +295,22 @@ class _DetailAnimePageContent extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              AFLocalizations.of(context).characters,
-              style: Theme.of(context).textTheme.titleMedium,
+            child: Row(
+              children: [
+                Text(
+                  AFLocalizations.of(context).characters,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Expanded(flex: 1, child: SizedBox()),
+                TextButton(
+                  onPressed: () {
+                    AFRouterDelegate.of(context).navigateToCharacterList(
+                      context.read<DetailAnimeBloc>().animeId
+                    );
+                  },
+                  child: const Text('More'),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 8),
@@ -325,7 +341,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
-        child: CharacterAndVoiceActor(
+        child: CharacterAndVoiceActorWidget(
           model: model,
           textStyle: Theme.of(context).textTheme.bodyMedium,
         ),
@@ -528,6 +544,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       modelList.map((model) => onBuildWidget(context, model)),
     );
 
+    // ignore: lines_longer_than_80_chars
     /// when column count is less than pageCount, add empty SizeBox to take the space.
     while (widgets.length < pageCount) {
       widgets.add(const Expanded(flex: 1, child: SizedBox()));
@@ -606,7 +623,7 @@ class _ExternalLinkItem extends StatelessWidget {
       onPressed: () async {
         final url = Uri.parse(externalLink.url);
         if (await canLaunchUrl(url)) {
-        await launchUrl(url);
+          await launchUrl(url);
         }
       },
       icon: externalLink.icon.isNotEmpty

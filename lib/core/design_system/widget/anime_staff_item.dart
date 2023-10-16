@@ -1,7 +1,6 @@
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
-import 'package:flutter/material.dart';
-
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:flutter/material.dart';
 
 class StaffItem extends StatelessWidget {
   const StaffItem({

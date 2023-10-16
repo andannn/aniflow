@@ -1,8 +1,7 @@
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:flutter/material.dart';
-
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:flutter/material.dart';
 
 class AnimePreviewItem extends StatelessWidget {
   const AnimePreviewItem(
@@ -47,8 +46,9 @@ class AnimePreviewItem extends StatelessWidget {
                           model.title!.getLocalTitle(context),
                           textAlign: TextAlign.center,
                           style: textStyle?.copyWith(
-                              color:
-                                  Theme.of(context).colorScheme.onSurfaceVariant),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           maxLines: 2,
                           softWrap: true,
                         ),

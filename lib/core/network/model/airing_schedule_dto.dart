@@ -1,8 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:anime_tracker/core/network/model/anime_dto.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'airing_schedule_dto.freezed.dart';
-
 part 'airing_schedule_dto.g.dart';
 
 @freezed

@@ -1,18 +1,16 @@
 import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
+import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
 import 'package:anime_tracker/core/network/model/anime_rank.dart';
+import 'package:anime_tracker/core/network/model/character_connection.dart';
 import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_connection.dart';
 import 'package:anime_tracker/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/core/network/model/character_connection.dart';
-
 part 'anime_dto.freezed.dart';
-
 part 'anime_dto.g.dart';
 
 @freezed
