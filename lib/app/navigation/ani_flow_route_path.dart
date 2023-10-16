@@ -1,7 +1,7 @@
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/feature/airing_schedule/airing_schedule.dart';
-import 'package:anime_tracker/feature/anime_list/anime_list.dart';
+import 'package:anime_tracker/feature/anime_page/anime_page.dart';
 import 'package:anime_tracker/feature/anime_search/anime_search.dart';
 import 'package:anime_tracker/feature/anime_track/anime_track.dart';
 import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';

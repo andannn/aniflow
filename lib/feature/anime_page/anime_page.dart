@@ -5,11 +5,12 @@ import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
-import 'package:anime_tracker/core/design_system/widget/paging_content_widget.dart';
-import 'package:anime_tracker/feature/anime_list/bloc/anime_list_bloc.dart';
+import 'package:anime_tracker/feature/anime_page/bloc/anime_page_bloc.dart';
+import 'package:anime_tracker/feature/common/page_loading_state.dart';
+import 'package:anime_tracker/feature/common/paging_bloc.dart';
+import 'package:anime_tracker/feature/common/paging_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +33,7 @@ class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => AnimeListBloc(
+      create: (context) => AnimePageBloc(
         category: category,
         aniListRepository: context.read<MediaInformationRepository>(),
         authRepository: context.read<AuthRepository>(),
@@ -63,13 +64,13 @@ class _AnimeListPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AnimeListBloc, PagingState<List<AnimeModel>>>(
+    return BlocBuilder<AnimePageBloc, PagingState<List<AnimeModel>>>(
         builder: (context, state) {
       final pagingState = state;
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            _getAppBarTitle(context, context.read<AnimeListBloc>().category),
+            _getAppBarTitle(context, context.read<AnimePageBloc>().category),
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -86,7 +87,10 @@ class _AnimeListPageContent extends StatelessWidget {
           ),
           onBuildItem: (context, model) => _buildGridItems(context, model),
           onRequestNewPage: () {
-            context.read<AnimeListBloc>().add(OnRequestLoadPageEvent());
+            context.read<AnimePageBloc>().add(OnRequestLoadPageEvent());
+          },
+          onRetryLoadPage: () {
+            context.read<AnimePageBloc>().add(OnRetryLoadPageEvent());
           },
         ),
       );

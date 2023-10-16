@@ -11,10 +11,10 @@ import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/user_data_repository.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
+import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 

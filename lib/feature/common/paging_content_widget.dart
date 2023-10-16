@@ -1,10 +1,8 @@
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/model/page_loading_state.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
-import 'package:anime_tracker/feature/anime_list/bloc/anime_list_bloc.dart';
+import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class PagingContent<Model> extends StatelessWidget {
@@ -12,12 +10,13 @@ class PagingContent<Model> extends StatelessWidget {
     required this.onBuildItem,
     required this.pagingState,
     required this.onRequestNewPage,
-    super.key,
+    required this.onRetryLoadPage, super.key,
     this.gridDelegate,
   });
 
   final Widget Function(BuildContext, Model) onBuildItem;
   final VoidCallback onRequestNewPage;
+  final VoidCallback onRetryLoadPage;
 
   final PagingState<List<Model>> pagingState;
   final SliverGridDelegate? gridDelegate;
@@ -100,9 +99,7 @@ class PagingContent<Model> extends StatelessWidget {
         width: double.infinity,
         child: Center(
           child: TextButton.icon(
-            onPressed: () {
-              context.read<AnimeListBloc>().add(OnRetryLoadPageEvent());
-            },
+            onPressed: onRetryLoadPage,
             icon: const Icon(Icons.refresh),
             label: Text(AFLocalizations.of(context).retry),
           ),
