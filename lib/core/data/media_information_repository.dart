@@ -87,23 +87,25 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId(
           {required int animeId, required LoadType loadType}) async {
-    // return LoadPageUtil.loadPage<CharacterEdge, CharacterAndVoiceActor,
-    //     CharacterAndVoiceActorModel>(
-    //   type: loadType,
-    //   onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
-    //       animeId: animeId, page: page, perPage: perPage),
-    //   onClearDbCache: () async {},
-    //   onInsertEntityToDB: (entities) =>
-    //       animeDao.insertCharacterVoiceActors(animeId, entities),
-    //   onGetEntityFromDB: onGetEntityFromDB,
-    //   mapDtoToEntity: (dto) => CharacterAndVoiceActor(
-    //     characterEntity: CharacterEntity.fromNetworkModel(dto),
-    //     voiceActorEntity: StaffEntity.fromVoiceActorDto(dto)!,
-    //   ),
-    //   mapEntityToModel: (entity) =>
-    //       CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
-    // );
-    return LoadSuccess(data: []);
+    return LoadPageUtil.loadPage<CharacterEdge, CharacterAndVoiceActor,
+        CharacterAndVoiceActorModel>(
+      type: loadType,
+      onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
+          animeId: animeId, page: page, perPage: perPage),
+      onClearDbCache: () async {},
+      onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
+          animeId: animeId, entities: entities),
+      onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfAnimeByPage(
+          animeId.toString(),
+          page: page,
+          perPage: perPage),
+      mapDtoToEntity: (dto) => CharacterAndVoiceActor(
+        characterEntity: CharacterEntity.fromNetworkModel(dto),
+        voiceActorEntity: StaffEntity.fromVoiceActorDto(dto)!,
+      ),
+      mapEntityToModel: (entity) =>
+          CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
+    );
   }
 
   @override

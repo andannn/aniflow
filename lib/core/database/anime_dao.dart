@@ -152,6 +152,9 @@ abstract class AnimeListDao {
 
   Future<AnimeWithDetailInfo> getDetailAnimeInfo(String id);
 
+  Future<List<CharacterAndVoiceActor>> getCharacterOfAnimeByPage(String animeId,
+      {required int page, int perPage = Config.defaultPerPageCount});
+
   Stream<AnimeWithDetailInfo> getDetailAnimeInfoStream(String id);
 
   Future insertOrIgnoreAnimeByAnimeCategory(AnimeCategory category,
@@ -246,6 +249,30 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
+  Future<List<CharacterAndVoiceActor>> getCharacterOfAnimeByPage(String animeId,
+      {required int page, int perPage = Config.defaultPerPageCount}) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    final characterSql = 'select * from ${Tables.characterTable} as c '
+        'join ${Tables.animeCharacterCrossRefTable} as ac '
+        '  on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId} '
+        'join ${Tables.staffTable} as v '
+        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
+        'where ac.${AnimeCharacterCrossRefColumns.animeId} = \'$animeId\' '
+        'limit $limit '
+        'offset $offset ';
+    List characterResults = await database.animeDB.rawQuery(characterSql);
+    return characterResults
+        .map(
+          (e) => CharacterAndVoiceActor(
+            characterEntity: CharacterEntity.fromJson(e),
+            voiceActorEntity: StaffEntity.fromJson(e),
+          ),
+        )
+        .toList();
+  }
+
+  @override
   Future<AnimeWithDetailInfo> getDetailAnimeInfo(String id) async {
     final animeJson = await database.animeDB.query(
       Tables.animeTable,
@@ -254,13 +281,7 @@ class AnimeDaoImpl extends AnimeListDao {
     );
     final animeEntity = AnimeEntity.fromJson(animeJson.first);
 
-    final characterSql = 'select * from ${Tables.characterTable} as c '
-        'join ${Tables.animeCharacterCrossRefTable} as ac '
-        '  on c.${CharacterColumns.id} = ac.${AnimeCharacterCrossRefColumns.characterId} '
-        'join ${Tables.staffTable} as v '
-        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
-        'where ac.${AnimeCharacterCrossRefColumns.animeId} = \'$id\' ';
-    List characterResults = await database.animeDB.rawQuery(characterSql);
+    final characterResults = await getCharacterOfAnimeByPage(id, page: 1);
 
     String staffSql = 'select * from ${Tables.staffTable} as s '
         'join ${Tables.animeStaffCrossRefTable} as animeStaff '
@@ -275,14 +296,7 @@ class AnimeDaoImpl extends AnimeListDao {
 
     return AnimeWithDetailInfo(
       animeEntity: animeEntity,
-      characterAndVoiceActors: characterResults
-          .map(
-            (e) => CharacterAndVoiceActor(
-              characterEntity: CharacterEntity.fromJson(e),
-              voiceActorEntity: StaffEntity.fromJson(e),
-            ),
-          )
-          .toList(),
+      characterAndVoiceActors: characterResults,
       staffs: staffResults
           .map(
             (e) => StaffAndRoleEntity.fromJson(e),

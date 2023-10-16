@@ -14,6 +14,7 @@ import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
+import 'package:anime_tracker/core/design_system/widget/af_fullscreen_dialog.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
@@ -23,6 +24,7 @@ import 'package:anime_tracker/core/design_system/widget/twitter_hashtag_widget.d
 import 'package:anime_tracker/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
+import 'package:anime_tracker/feature/detail_anime/character_paging_fullscreen_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -224,14 +226,14 @@ class _DetailAnimePageContent extends StatelessWidget {
                         label: 'SCORE',
                         iconData: Icons.star_purple500_sharp,
                         contentText:
-                        // ignore: lines_longer_than_80_chars
+                            // ignore: lines_longer_than_80_chars
                             '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
                       ),
                       _InfoItem(
                         label: 'FAVOURITE',
                         iconData: Icons.thumb_up,
                         contentText:
-                        // ignore: lines_longer_than_80_chars
+                            // ignore: lines_longer_than_80_chars
                             '${model.favourites != null ? (model.favourites) : '--'}',
                       ),
                     ],
@@ -294,9 +296,20 @@ class _DetailAnimePageContent extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              AFLocalizations.of(context).characters,
-              style: Theme.of(context).textTheme.titleMedium,
+            child: Row(
+              children: [
+                Text(
+                  AFLocalizations.of(context).characters,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Expanded(flex: 1, child: SizedBox()),
+                TextButton(
+                  onPressed: () {
+                    showFullScreenDialog(context, const CharactersPaging());
+                  },
+                  child: const Text('More'),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 8),

@@ -8,7 +8,6 @@ import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 import 'package:bloc/bloc.dart';
 
 sealed class AnimeListEvent {}
@@ -36,7 +35,18 @@ class _OnTrackingAnimeIdsChanged extends AnimeListEvent {
   _OnTrackingAnimeIdsChanged({required this.ids});
 }
 
-class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
+extension on PagingState<List<AnimeModel>> {
+  PagingState<List<AnimeModel>> copyWithTrackedIds(Set<String> ids) {
+    return updateWith(
+      (animeList) => animeList
+          .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+          .toList(),
+    );
+  }
+}
+
+class AnimeListBloc
+    extends Bloc<AnimeListEvent, PagingState<List<AnimeModel>>> {
   AnimeListBloc({
     required this.category,
     required AuthRepository authRepository,
@@ -45,7 +55,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
   })  : _mediaInfoRepository = aniListRepository,
         _authRepository = authRepository,
         _animeTrackListRepository = animeTrackListRepository,
-        super(AnimeListState()) {
+        super(const PageLoading(data: [], page: 1)) {
     on<_OnAnimePageLoadedEvent>(_onAnimePageLoadedEvent);
     on<_OnAnimePageErrorEvent>(_onAnimePageErrorEvent);
     on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
@@ -86,9 +96,9 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     return super.close();
   }
 
-  FutureOr<void> _onRequestLoadPageEvent(
-      OnRequestLoadPageEvent event, Emitter<AnimeListState> emit) {
-    final pagingState = state.animePagingState;
+  FutureOr<void> _onRequestLoadPageEvent(OnRequestLoadPageEvent event,
+      Emitter<PagingState<List<AnimeModel>>> emit) {
+    final pagingState = state;
 
     if (pagingState is PageLoading || pagingState is PageLoadReachEnd) {
       /// page is loading or already load all data.
@@ -98,7 +108,7 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     final currentPage = pagingState.page;
 
     /// change state to loading.
-    emit(state.copyWith(animePagingState: pagingState.toLoading()));
+    emit(pagingState.toLoading());
 
     /// load new page.
     _createLoadAnimePageTask(page: currentPage + 1);
@@ -122,9 +132,9 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
     }
   }
 
-  FutureOr<void> _onAnimePageLoadedEvent(
-      _OnAnimePageLoadedEvent event, Emitter<AnimeListState> emit) {
-    final pagingState = state.animePagingState;
+  FutureOr<void> _onAnimePageLoadedEvent(_OnAnimePageLoadedEvent event,
+      Emitter<PagingState<List<AnimeModel>>> emit) {
+    final pagingState = state;
     final currentData = pagingState.data;
     final PagingState<List<AnimeModel>> newPagingState;
     if (event.data.isEmpty) {
@@ -133,34 +143,31 @@ class AnimeListBloc extends Bloc<AnimeListEvent, AnimeListState> {
       newPagingState =
           PageReady(data: currentData + event.data, page: event.page);
     }
-    final newState = state.copyWith(animePagingState: newPagingState);
-    emit(AnimeListState.copyWithTrackedIds(newState, _ids));
+    emit(newPagingState.copyWithTrackedIds(_ids));
   }
 
-  FutureOr<void> _onAnimePageErrorEvent(
-      _OnAnimePageErrorEvent event, Emitter<AnimeListState> emit) {
-    final pagingState = state.animePagingState;
-    emit(
-      state.copyWith(animePagingState: pagingState.toError(event.exception)),
-    );
+  FutureOr<void> _onAnimePageErrorEvent(_OnAnimePageErrorEvent event,
+      Emitter<PagingState<List<AnimeModel>>> emit) {
+    final pagingState = state;
+    emit(pagingState.toError(event.exception));
   }
 
   FutureOr<void> _onRetryLoadPageEvent(
-      OnRetryLoadPageEvent event, Emitter<AnimeListState> emit) {
-    if (state.animePagingState is! PageLoadingError) {
+      OnRetryLoadPageEvent event, Emitter<PagingState<List<AnimeModel>>> emit) {
+    if (state is! PageLoadingError) {
       return null;
     }
 
     /// change state to loading.
-    emit(state.copyWith(animePagingState: state.animePagingState.toLoading()));
+    emit(state.toLoading());
 
     /// post task to load anime.
-    _createLoadAnimePageTask(page: state.animePagingState.page + 1);
+    _createLoadAnimePageTask(page: state.page + 1);
   }
 
-  FutureOr<void> _onTrackingAnimeIdsChanged(
-      _OnTrackingAnimeIdsChanged event, Emitter<AnimeListState> emit) {
+  FutureOr<void> _onTrackingAnimeIdsChanged(_OnTrackingAnimeIdsChanged event,
+      Emitter<PagingState<List<AnimeModel>>> emit) {
     _ids = event.ids;
-    emit(AnimeListState.copyWithTrackedIds(state, event.ids));
+    emit(state.copyWithTrackedIds(event.ids));
   }
 }
