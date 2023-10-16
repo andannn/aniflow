@@ -2,12 +2,14 @@ import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.da
 import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/query_anime_character_page_graphql.dart';
+import 'package:anime_tracker/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
 import 'package:anime_tracker/core/network/model/anime_dto.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/media_list_dto.dart';
+import 'package:anime_tracker/core/network/model/staff_edge.dart';
 
 /// Anime list data source get from AniList.
 class AniListDataSource {
@@ -95,6 +97,28 @@ class AniListDataSource {
         resultJson.map((e) => CharacterEdge.fromJson(e)).toList();
 
     return characters;
+  }
+
+  Future<List<StaffEdge>> getStaffPage({
+    required int animeId,
+    required int page,
+    required int perPage,
+  }) async {
+    final queryGraphQL = staffPageGraphql;
+    final variablesMap = <String, dynamic>{
+      'id': animeId,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+
+    final List resultJson =
+        response.data['data']['Media']['staff']['edges'];
+    final List<StaffEdge> staffs =
+        resultJson.map((e) => StaffEdge.fromJson(e)).toList();
+
+    return staffs;
   }
 
   Future<List<MediaListDto>> getUserMediaListPage({

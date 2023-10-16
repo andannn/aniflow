@@ -45,5 +45,10 @@ void main() {
       await AniListDataSource()
           .getCharacterPage(animeId: 140501, page: 1, perPage: 3);
     });
+
+    test('get_staffs', () async {
+      await AniListDataSource()
+          .getStaffPage(animeId: 140501, page: 1, perPage: 3);
+    });
   });
 }

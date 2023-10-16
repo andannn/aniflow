@@ -89,6 +89,12 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     notifyListeners();
   }
 
+  void navigateToStaffList(String animeId) {
+    _backStack += [StaffListRoutePath(animeId)];
+
+    notifyListeners();
+  }
+
   void navigateToDetailAnime(String animeId) {
     _backStack += [DetailAnimeRoutePath(animeId)];
 

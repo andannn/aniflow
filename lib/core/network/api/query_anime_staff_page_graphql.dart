@@ -2,7 +2,7 @@ String get staffPageGraphql =>
 '''
 query (\$id: Int, \$page: Int, \$perPage: Int) {
   Media(id: \$id, type: ANIME) {
-    staff(page: 1, perPage: 9, sort: FAVOURITES_DESC) {
+    staff(page: \$page, perPage: \$perPage, sort: FAVOURITES_DESC) {
       pageInfo {
         total
         perPage

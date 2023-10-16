@@ -358,9 +358,22 @@ class _DetailAnimePageContent extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              AFLocalizations.of(context).staff,
-              style: Theme.of(context).textTheme.titleMedium,
+            child: Row(
+              children: [
+                Text(
+                  AFLocalizations.of(context).staff,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Expanded(flex: 1, child: SizedBox()),
+                TextButton(
+                  onPressed: () {
+                    AFRouterDelegate.of(context).navigateToStaffList(
+                        context.read<DetailAnimeBloc>().animeId
+                    );
+                  },
+                  child: const Text('More'),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 8),

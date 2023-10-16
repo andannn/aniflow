@@ -6,6 +6,7 @@ import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.da
 import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
+import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
@@ -35,6 +36,11 @@ abstract class MediaInformationRepository {
 
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId({
+    required String animeId,
+    required LoadType loadType,
+  });
+
+  Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId({
     required String animeId,
     required LoadType loadType,
   });
@@ -87,8 +93,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId(
           {required String animeId, required LoadType loadType}) async {
-    return LoadPageUtil.loadPage<CharacterEdge, CharacterAndVoiceActor,
-        CharacterAndVoiceActorModel>(
+    return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
           animeId: int.parse(animeId), page: page, perPage: perPage),
@@ -106,6 +111,31 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       ),
       mapEntityToModel: (entity) =>
           CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
+    );
+  }
+
+  @override
+  Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId(
+      {required String animeId, required LoadType loadType}) {
+    return LoadPageUtil.loadPage<StaffEdge, StaffAndRoleEntity,
+        StaffAndRoleModel>(
+      type: loadType,
+      onGetNetworkRes: (page, perPage) => aniListDataSource.getStaffPage(
+          animeId: int.parse(animeId), page: page, perPage: perPage),
+      onClearDbCache: () async {},
+      onInsertEntityToDB: (entities) => animeDao.insertStaffEntities(
+          animeId: int.parse(animeId), entities: entities),
+      onGetEntityFromDB: (page, perPage) => animeDao.getStaffOfAnimeByPage(
+        animeId.toString(),
+        page: page,
+        perPage: perPage,
+      ),
+      mapDtoToEntity: (dto) => StaffAndRoleEntity(
+        staff: StaffEntity.fromStaffDto(dto),
+        role: dto.role ?? '',
+      ),
+      mapEntityToModel: (entity) =>
+          StaffAndRoleModel.fromDatabaseEntity(entity),
     );
   }
 
@@ -149,25 +179,16 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       final List<StaffEdge> staffs = networkResult.staff?.edges ?? [];
       if (staffs.isNotEmpty) {
         /// inset staff entities to db.
-        final List<StaffEntity> staffEntities = staffs
+        final List<StaffAndRoleEntity> entities = staffs
             .map(
-              (e) => StaffEntity.fromStaffDto(e),
+              (e) => StaffAndRoleEntity(
+                staff: StaffEntity.fromStaffDto(e),
+                role: e.role ?? '',
+              ),
             )
             .toList();
-        await animeDao.upsertStaffInfo(staffEntities);
-
-        /// Set crossRefs to anime and staff.
-        await animeDao.upsertAnimeStaffCrossRef(
-          crossRefs: staffs
-              .map(
-                (e) => AnimeStaffCrossRef(
-                  animeId: id.toString(),
-                  staffId: e.staffNode!.id.toString(),
-                  staffRole: e.role.toString(),
-                ),
-              )
-              .toList(),
-        );
+        await animeDao.insertStaffEntities(
+            animeId: int.parse(id), entities: entities);
       }
 
       final List<MediaExternalLinkDto> externalLinks =
