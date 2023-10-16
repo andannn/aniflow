@@ -1,8 +1,8 @@
-
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:flutter/cupertino.dart';
 
-class AnimeTrackerLocalizationsDelegate extends LocalizationsDelegate<AFLocalizations> {
+class AnimeTrackerLocalizationsDelegate
+    extends LocalizationsDelegate<AFLocalizations> {
   @override
   bool isSupported(Locale locale) {
     return ['en', 'Jpan', 'ja', 'zh'].contains(locale.languageCode);
@@ -25,5 +25,4 @@ class AnimeTrackerLocalizationsDelegate extends LocalizationsDelegate<AFLocaliza
   bool shouldReload(covariant LocalizationsDelegate<AFLocalizations> old) {
     return false;
   }
-
 }

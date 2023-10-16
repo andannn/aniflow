@@ -46,8 +46,9 @@ class AnimePreviewItem extends StatelessWidget {
                           model.title!.getLocalTitle(context),
                           textAlign: TextAlign.center,
                           style: textStyle?.copyWith(
-                              color:
-                                  Theme.of(context).colorScheme.onSurfaceVariant),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           maxLines: 2,
                           softWrap: true,
                         ),

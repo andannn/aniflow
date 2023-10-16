@@ -34,7 +34,8 @@ mixin LoadPageUtil {
         case Append(page: int page, perPage: int perPage):
           final dbResult = await onGetEntityFromDB(page, perPage);
           if (dbResult.length < perPage) {
-            /// the data in database is not enough for one page. try to get data from network.
+            /// the data in database is not enough for one page.
+            /// try to get data from network.
             final networkRes = await onGetNetworkRes(page, perPage);
 
             /// insert the network data to db.

@@ -39,6 +39,7 @@ class AuthEventChannel {
         }
 
         logger.d('login success and token will be expired in'
+        // ignore: lines_longer_than_80_chars
             ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
         completer.complete(
           AuthResult(token: token, expiresInTime: expiresInTime),

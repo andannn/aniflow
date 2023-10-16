@@ -18,7 +18,8 @@ class StaffAndRoleEntity {
   final StaffEntity staff;
   final String role;
 
-  factory StaffAndRoleEntity.fromJson(Map<String, dynamic> json) => StaffAndRoleEntity(
+  factory StaffAndRoleEntity.fromJson(Map<String, dynamic> json) =>
+      StaffAndRoleEntity(
         staff: StaffEntity.fromJson(json),
         role: json[AnimeStaffCrossRefColumns.staffRole],
       );

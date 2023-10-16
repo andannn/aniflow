@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/stream_util.dart';

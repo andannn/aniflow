@@ -95,7 +95,7 @@ void main() {
       AiringSchedulesEntity(id: '132', mediaId: '8917', airingAt: 3),
       AiringSchedulesEntity(id: '142', mediaId: '4353', airingAt: 2),
       AiringSchedulesEntity(id: '152', mediaId: '9523', airingAt: 4),
-      ];
+    ];
     final dummyExternalLinks = [
       MediaExternalLinkEntity(
         id: '212',
@@ -274,8 +274,7 @@ void main() {
 
       expect(
           result.map((e) => e.airingSchedule).toList(),
-          equals(dummyAiringSchedule
-          .sublist(0, 3)
+          equals(dummyAiringSchedule.sublist(0, 3)
             ..sort((a, b) => a.airingAt!.compareTo(b.airingAt!))));
     });
 
@@ -283,7 +282,8 @@ void main() {
       final animeDao = animeDatabase.getAnimeDao();
 
       await animeDao.upsertAnimeInformation(dummyAnimeData);
-      await animeDao.upsertMediaExternalLinks(externalLinks: dummyExternalLinks);
+      await animeDao.upsertMediaExternalLinks(
+          externalLinks: dummyExternalLinks);
 
       final result = await animeDao.getDetailAnimeInfo('5784');
       expect(result.externalLinks, equals([dummyExternalLinks[0]]));

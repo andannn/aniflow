@@ -29,7 +29,8 @@ mixin TimeUtil {
     return result.firstOrNull;
   }
 
-  /// Get range of millisecondsSinceEpoch, which is [daysAgo] from today and [daysAfter] after today.
+  /// Get range of millisecondsSinceEpoch, which is [daysAgo] from today
+  /// and [daysAfter] after today.
   /// For example:
   /// current time is: 2023-10-11 15:10:26.818764
   /// return rage is: (2023-10-05 00:00:00.000, 2023-10-17 23:59:59.999)

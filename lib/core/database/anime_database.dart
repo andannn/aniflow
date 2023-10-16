@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:async';
 
 import 'package:anime_tracker/core/database/anime_dao.dart';

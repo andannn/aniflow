@@ -2,7 +2,8 @@ import 'package:anime_tracker/core/design_system/animetion/scale_transaction_ani
 import 'package:flutter/material.dart';
 
 class VerticalScaleSwitcher extends StatelessWidget {
-  const VerticalScaleSwitcher({required this.child, required this.visible, super.key});
+  const VerticalScaleSwitcher(
+      {required this.child, required this.visible, super.key});
 
   final Widget child;
   final bool visible;

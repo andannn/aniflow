@@ -160,7 +160,8 @@ class AnimeTrackListRepositoryImpl extends AniListRepository {
 
     if (entity != null) {
       /// the tracking anime is already cached in database.
-      /// change the local database and notify the to ui without waiting network result.
+      /// change the local database and notify the to ui without waiting
+      /// network result.
       final updatedEntity = entity.copyWith(
         status: status,
         progress: progress ?? entity.progress,

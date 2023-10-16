@@ -8,6 +8,7 @@ extension AnimeListItemModelEx on AnimeListItemModel {
       case AnimeStatus.releasing:
         final nextAiringEpisode = animeModel!.nextAiringEpisode;
         if (nextAiringEpisode == null) {
+          // ignore: lines_longer_than_80_chars
           /// sometimes, there is no nextAiringEpisode in server but status is still releasing.
           /// just return true if have next episode to watch.
           return progress! < animeModel!.episodes!;

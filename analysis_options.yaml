@@ -65,3 +65,6 @@ linter:
     - always_use_package_imports
     - unawaited_futures
     - directives_ordering
+    - lines_longer_than_80_chars
+    - curly_braces_in_flow_control_structures
+    - constant_identifier_names

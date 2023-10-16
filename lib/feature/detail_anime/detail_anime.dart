@@ -224,12 +224,14 @@ class _DetailAnimePageContent extends StatelessWidget {
                         label: 'SCORE',
                         iconData: Icons.star_purple500_sharp,
                         contentText:
+                        // ignore: lines_longer_than_80_chars
                             '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
                       ),
                       _InfoItem(
                         label: 'FAVOURITE',
                         iconData: Icons.thumb_up,
                         contentText:
+                        // ignore: lines_longer_than_80_chars
                             '${model.favourites != null ? (model.favourites) : '--'}',
                       ),
                     ],
@@ -528,6 +530,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       modelList.map((model) => onBuildWidget(context, model)),
     );
 
+    // ignore: lines_longer_than_80_chars
     /// when column count is less than pageCount, add empty SizeBox to take the space.
     while (widgets.length < pageCount) {
       widgets.add(const Expanded(flex: 1, child: SizedBox()));
