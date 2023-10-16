@@ -155,6 +155,9 @@ abstract class AnimeListDao {
   Future<List<CharacterAndVoiceActor>> getCharacterOfAnimeByPage(String animeId,
       {required int page, int perPage = Config.defaultPerPageCount});
 
+  Future<List<StaffAndRoleEntity>> getStaffOfAnimeByPage(String animeId,
+      {required int page, int perPage = Config.defaultPerPageCount});
+
   Stream<AnimeWithDetailInfo> getDetailAnimeInfoStream(String id);
 
   Future insertOrIgnoreAnimeByAnimeCategory(AnimeCategory category,
@@ -189,6 +192,9 @@ abstract class AnimeListDao {
 
   Future insertCharacterVoiceActors(
       {required int animeId, required List<CharacterAndVoiceActor> entities});
+
+  Future insertStaffEntities(
+      {required int animeId, required List<StaffAndRoleEntity> entities});
 }
 
 class AnimeDaoImpl extends AnimeListDao {
@@ -273,6 +279,22 @@ class AnimeDaoImpl extends AnimeListDao {
   }
 
   @override
+  Future<List<StaffAndRoleEntity>> getStaffOfAnimeByPage(String animeId,
+      {required int page, int perPage = Config.defaultPerPageCount}) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    String staffSql = 'select * from ${Tables.staffTable} as s '
+        'join ${Tables.animeStaffCrossRefTable} as animeStaff '
+        '  on s.${StaffColumns.id} = animeStaff.${AnimeStaffCrossRefColumns.staffId} '
+        'where animeStaff.${AnimeStaffCrossRefColumns.animeId} = \'$animeId\' '
+        'limit $limit '
+        'offset $offset ';
+
+    List staffResults = await database.animeDB.rawQuery(staffSql);
+    return staffResults.map((e) => StaffAndRoleEntity.fromJson(e)).toList();
+  }
+
+  @override
   Future<AnimeWithDetailInfo> getDetailAnimeInfo(String id) async {
     final animeJson = await database.animeDB.query(
       Tables.animeTable,
@@ -283,11 +305,7 @@ class AnimeDaoImpl extends AnimeListDao {
 
     final characterResults = await getCharacterOfAnimeByPage(id, page: 1);
 
-    String staffSql = 'select * from ${Tables.staffTable} as s '
-        'join ${Tables.animeStaffCrossRefTable} as animeStaff '
-        '  on s.${StaffColumns.id} = animeStaff.${AnimeStaffCrossRefColumns.staffId} '
-        'where animeStaff.${AnimeStaffCrossRefColumns.animeId} = \'$id\' ';
-    List staffResults = await database.animeDB.rawQuery(staffSql);
+    final staffResults = await getStaffOfAnimeByPage(id, page: 1);
 
     String externalLinkSql =
         'select * from ${Tables.mediaExternalLickTable} as media '
@@ -297,11 +315,7 @@ class AnimeDaoImpl extends AnimeListDao {
     return AnimeWithDetailInfo(
       animeEntity: animeEntity,
       characterAndVoiceActors: characterResults,
-      staffs: staffResults
-          .map(
-            (e) => StaffAndRoleEntity.fromJson(e),
-          )
-          .toList(),
+      staffs: staffResults,
       externalLinks: externalLinkResults
           .map((e) => MediaExternalLinkEntity.fromJson(e))
           .toList(),
@@ -478,6 +492,30 @@ class AnimeDaoImpl extends AnimeListDao {
         {
           AnimeCharacterCrossRefColumns.animeId: animeId,
           AnimeCharacterCrossRefColumns.characterId: entity.characterEntity.id,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future insertStaffEntities(
+      {required int animeId,
+      required List<StaffAndRoleEntity> entities}) async {
+    final batch = database.animeDB.batch();
+    for (final entity in entities) {
+      batch.insert(
+        Tables.staffTable,
+        entity.staff.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.animeStaffCrossRefTable,
+        {
+          AnimeStaffCrossRefColumns.animeId: animeId,
+          AnimeStaffCrossRefColumns.staffId: entity.staff.id,
+          AnimeStaffCrossRefColumns.staffRole: entity.role,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );

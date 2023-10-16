@@ -8,6 +8,7 @@ import 'package:anime_tracker/feature/character_page/character_page.dart';
 import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';
 import 'package:anime_tracker/feature/discover/discover.dart';
 import 'package:anime_tracker/feature/profile/profile.dart';
+import 'package:anime_tracker/feature/staff_page/staff_page.dart';
 import 'package:flutter/material.dart';
 
 sealed class AniFlowRoutePath {
@@ -58,6 +59,12 @@ class CharacterListRoutePath extends AniFlowRoutePath {
   final String animeId;
 }
 
+class StaffListRoutePath extends AniFlowRoutePath {
+  StaffListRoutePath(this.animeId);
+
+  final String animeId;
+}
+
 class DetailAnimeRoutePath extends AniFlowRoutePath {
   DetailAnimeRoutePath(this.animeId);
 
@@ -81,6 +88,11 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case CharacterListRoutePath(animeId: final animeId):
         return CharacterListPage(
           key: ValueKey('CharacterListPage_$animeId'),
+          animeId: animeId,
+        );
+      case StaffListRoutePath(animeId: final animeId):
+        return StaffListPage(
+          key: ValueKey('StaffListPage_$animeId'),
           animeId: animeId,
         );
       case DetailAnimeRoutePath(animeId: final animeId):
