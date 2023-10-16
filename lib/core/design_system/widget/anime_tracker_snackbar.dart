@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:anime_tracker/app/app.dart';
+import 'package:flutter/material.dart';
 
 /// show snack bar.
 /// if the [context] is null, [globalContext] will be used to show snack bar.

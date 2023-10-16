@@ -1,5 +1,6 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/af_toogle_button.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_track_item.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
@@ -7,7 +8,6 @@ import 'package:anime_tracker/feature/anime_track/bloc/track_bloc.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/track_ui_state.dart';
 import 'package:anime_tracker/feature/anime_track/bloc/user_anime_list_load_state.dart';
 import 'package:flutter/material.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnimeTrackPage extends Page {

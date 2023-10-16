@@ -5,8 +5,8 @@ import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

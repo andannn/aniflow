@@ -1,7 +1,7 @@
+import 'package:anime_tracker/app/navigation/ani_flow_route_path.dart';
 import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:flutter/material.dart';
-import 'package:anime_tracker/app/navigation/ani_flow_route_path.dart';
 
 class AnimeTrackerRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     with ChangeNotifier {

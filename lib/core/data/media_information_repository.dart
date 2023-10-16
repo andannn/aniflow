@@ -1,31 +1,29 @@
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/util/load_page_util.dart';
+import 'package:anime_tracker/core/common/util/time_util.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
+import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
+import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
-import 'package:anime_tracker/core/network/model/character_edge.dart';
+import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/model/anime_dto.dart';
+import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
 import 'package:anime_tracker/core/network/model/staff_edge.dart';
-import 'package:anime_tracker/core/common/util/time_util.dart';
-import 'package:dio/dio.dart';
-
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/database/anime_dao.dart';
-import 'package:anime_tracker/core/database/model/anime_entity.dart';
-import 'package:anime_tracker/core/network/ani_list_data_source.dart';
-import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
-import 'package:anime_tracker/core/shared_preference/user_data.dart';
-
 import 'package:anime_tracker/core/network/util/http_status_util.dart';
+import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// repository for get anime list.

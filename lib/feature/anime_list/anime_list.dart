@@ -2,10 +2,12 @@ import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
+import 'package:anime_tracker/core/data/model/page_loading_state.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
 import 'package:anime_tracker/feature/anime_list/bloc/anime_list_bloc.dart';
@@ -13,8 +15,6 @@ import 'package:anime_tracker/feature/anime_list/bloc/anime_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:anime_tracker/core/data/model/page_loading_state.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 
 class AnimeListPage extends Page {
   final AnimeCategory category;

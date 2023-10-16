@@ -1,18 +1,19 @@
 import 'dart:math';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
 import 'package:anime_tracker/core/common/util/color_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
+import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/auth_repository.dart';
+import 'package:anime_tracker/core/data/media_information_repository.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/auth_repository.dart';
-import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
+import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
@@ -24,7 +25,6 @@ import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -606,7 +606,7 @@ class _ExternalLinkItem extends StatelessWidget {
       onPressed: () async {
         final url = Uri.parse(externalLink.url);
         if (await canLaunchUrl(url)) {
-        await launchUrl(url);
+          await launchUrl(url);
         }
       },
       icon: externalLink.icon.isNotEmpty

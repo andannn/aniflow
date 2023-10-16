@@ -64,3 +64,4 @@ linter:
     - package_names
     - always_use_package_imports
     - unawaited_futures
+    - directives_ordering

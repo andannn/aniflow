@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:anime_tracker/core/data/model/page_loading_state.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_list_state.freezed.dart';
 

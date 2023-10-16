@@ -1,8 +1,7 @@
 import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:flutter/material.dart';
-
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:flutter/material.dart';
 
 class AnimePreviewItem extends StatelessWidget {
   const AnimePreviewItem(

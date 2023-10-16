@@ -1,7 +1,7 @@
 import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/network/auth_data_source.dart';
 import 'package:anime_tracker/core/shared_preference/user_data.dart';

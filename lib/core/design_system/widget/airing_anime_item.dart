@@ -1,9 +1,8 @@
+import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
 import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
-import 'package:flutter/material.dart';
-
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:flutter/material.dart';
 
 class AiringAnimeItem extends StatelessWidget {
   const AiringAnimeItem(

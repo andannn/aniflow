@@ -1,17 +1,16 @@
 import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/stream_util.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_anime.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
+import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_anime.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 
 /// [Tables.animeTable]
 mixin AnimeTableColumns {
