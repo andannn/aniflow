@@ -94,7 +94,7 @@ class AnimeTrackerAppScaffold extends StatefulWidget {
 }
 
 class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
-  final animeTrackerRouterDelegate = AnimeTrackerRouterDelegate();
+  final animeTrackerRouterDelegate = AFRouterDelegate();
 
   var currentNavigation = TopLevelNavigation.discover;
   var needShowAppbar = true;

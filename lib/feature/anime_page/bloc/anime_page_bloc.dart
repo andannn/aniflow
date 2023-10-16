@@ -71,7 +71,7 @@ class AnimePageBloc extends PagingBloc<AnimeModel> {
   }
 
   @override
-  Future<bool> createLoadAnimePageTask({required int page}) async {
+  Future<bool> createLoadPageTask({required int page}) async {
     final LoadResult result =
         await _mediaInfoRepository.loadAnimePageByCategory(
       category: category,

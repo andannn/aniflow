@@ -39,12 +39,11 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
 
 class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
   DetailAnimeBloc({
-    required String animeId,
+    required this.animeId,
     required MediaInformationRepository aniListRepository,
     required AuthRepository authRepository,
     required AniListRepository animeTrackListRepository,
-  })  : _animeId = animeId,
-        _aniListRepository = aniListRepository,
+  })  : _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
         _authRepository = authRepository,
         super(DetailAnimeUiState()) {
@@ -56,7 +55,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
     _init();
   }
 
-  final String _animeId;
+  final String animeId;
   final MediaInformationRepository _aniListRepository;
   final AniListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
@@ -67,7 +66,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
 
   void _init() async {
     _detailAnimeSub =
-        _aniListRepository.getDetailAnimeInfoStream(_animeId).listen(
+        _aniListRepository.getDetailAnimeInfoStream(animeId).listen(
       (animeModel) {
         add(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },
@@ -77,7 +76,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
     if (userData != null) {
       _isTrackingSub = _animeTrackListRepository
           .getIsTrackingByUserAndIdStream(
-              userId: userData.id, animeId: _animeId)
+              userId: userData.id, animeId: animeId)
           .listen(
         (isTracking) {
           add(_OnTrackingStateChanged(isTracking: isTracking));
@@ -105,7 +104,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
 
   void _startFetchDetailAnimeInfo() async {
     add(_OnLoadingStateChanged(isLoading: true));
-    await _aniListRepository.startFetchDetailAnimeInfo(_animeId);
+    await _aniListRepository.startFetchDetailAnimeInfo(animeId);
     add(_OnLoadingStateChanged(isLoading: false));
   }
 
@@ -140,7 +139,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailAnimeUiState> {
 
     add(_OnLoadingStateChanged(isLoading: true));
     final result = await _animeTrackListRepository.updateAnimeInTrackList(
-        animeId: _animeId, status: status);
+        animeId: animeId, status: status);
     add(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {

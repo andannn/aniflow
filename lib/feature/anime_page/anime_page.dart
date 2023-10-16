@@ -102,7 +102,7 @@ class _AnimeListPageContent extends StatelessWidget {
       model: model,
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AnimeTrackerRouterDelegate.of(context).navigateToDetailAnime(
+        AFRouterDelegate.of(context).navigateToDetailAnime(
           model.id,
         );
       },

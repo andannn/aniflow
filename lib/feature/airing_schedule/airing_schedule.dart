@@ -243,7 +243,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                       child: AiringAnimeItem(
                         model: schedule,
                         onClick: () {
-                          AnimeTrackerRouterDelegate.of(context)
+                          AFRouterDelegate.of(context)
                               .navigateToDetailAnime(schedule.animeModel.id);
                         },
                       ),

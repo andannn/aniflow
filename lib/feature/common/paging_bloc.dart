@@ -25,16 +25,16 @@ class OnRetryLoadPageEvent<T> extends PagingEvent<T> {}
 abstract class PagingBloc<T>
     extends Bloc<PagingEvent<T>, PagingState<List<T>>> {
   PagingBloc(super.initialState) {
-    on<OnPageLoadedEvent<T>>(_onAnimePageLoadedEvent);
-    on<OnPageErrorEvent<T>>(_onAnimePageErrorEvent);
+    on<OnPageLoadedEvent<T>>(_onPageLoadedEvent);
+    on<OnPageErrorEvent<T>>(_onPageErrorEvent);
     on<OnRequestLoadPageEvent<T>>(_onRequestLoadPageEvent);
     on<OnRetryLoadPageEvent<T>>(_onRetryLoadPageEvent);
 
     /// launch event to get first page data.
-    unawaited(createLoadAnimePageTask(page: 1));
+    unawaited(createLoadPageTask(page: 1));
   }
 
-  FutureOr<void> _onAnimePageLoadedEvent(
+  FutureOr<void> _onPageLoadedEvent(
       OnPageLoadedEvent<T> event, Emitter<PagingState<List<T>>> emit) {
     final pagingState = state;
     final currentData = pagingState.data;
@@ -49,7 +49,7 @@ abstract class PagingBloc<T>
     onEmitNewPagingState(newPagingState, emit);
   }
 
-  FutureOr<void> _onAnimePageErrorEvent(
+  FutureOr<void> _onPageErrorEvent(
       OnPageErrorEvent<T> event, Emitter<PagingState<List<T>>> emit) {
     emit(state.toError(event.exception));
   }
@@ -69,7 +69,7 @@ abstract class PagingBloc<T>
     emit(pagingState.toLoading());
 
     /// load new page.
-    createLoadAnimePageTask(page: currentPage + 1);
+    createLoadPageTask(page: currentPage + 1);
   }
 
   FutureOr<void> _onRetryLoadPageEvent(
@@ -81,11 +81,11 @@ abstract class PagingBloc<T>
     /// change state to loading.
     emit(state.toLoading());
 
-    /// post task to load anime.
-    createLoadAnimePageTask(page: state.page + 1);
+    /// post task to load page.
+    createLoadPageTask(page: state.page + 1);
   }
 
-  Future<bool> createLoadAnimePageTask({required int page});
+  Future<bool> createLoadPageTask({required int page});
 
   void onEmitNewPagingState(
       PagingState<List<T>> state, Emitter<PagingState<List<T>>> emit) {

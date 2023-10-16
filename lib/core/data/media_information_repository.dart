@@ -35,7 +35,7 @@ abstract class MediaInformationRepository {
 
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId({
-    required int animeId,
+    required String animeId,
     required LoadType loadType,
   });
 
@@ -86,22 +86,23 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   @override
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId(
-          {required int animeId, required LoadType loadType}) async {
+          {required String animeId, required LoadType loadType}) async {
     return LoadPageUtil.loadPage<CharacterEdge, CharacterAndVoiceActor,
         CharacterAndVoiceActorModel>(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
-          animeId: animeId, page: page, perPage: perPage),
+          animeId: int.parse(animeId), page: page, perPage: perPage),
       onClearDbCache: () async {},
       onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
-          animeId: animeId, entities: entities),
+          animeId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfAnimeByPage(
-          animeId.toString(),
-          page: page,
-          perPage: perPage),
+        animeId.toString(),
+        page: page,
+        perPage: perPage,
+      ),
       mapDtoToEntity: (dto) => CharacterAndVoiceActor(
         characterEntity: CharacterEntity.fromNetworkModel(dto),
-        voiceActorEntity: StaffEntity.fromVoiceActorDto(dto)!,
+        voiceActorEntity: StaffEntity.fromVoiceActorDto(dto),
       ),
       mapEntityToModel: (entity) =>
           CharacterAndVoiceActorModel.fromDatabaseEntity(entity),

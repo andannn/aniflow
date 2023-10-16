@@ -4,6 +4,7 @@ import 'package:anime_tracker/feature/airing_schedule/airing_schedule.dart';
 import 'package:anime_tracker/feature/anime_page/anime_page.dart';
 import 'package:anime_tracker/feature/anime_search/anime_search.dart';
 import 'package:anime_tracker/feature/anime_track/anime_track.dart';
+import 'package:anime_tracker/feature/character_page/character_page.dart';
 import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';
 import 'package:anime_tracker/feature/discover/discover.dart';
 import 'package:anime_tracker/feature/profile/profile.dart';
@@ -51,6 +52,12 @@ class AnimeListRoutePath extends AniFlowRoutePath {
   final AnimeCategory category;
 }
 
+class CharacterListRoutePath extends AniFlowRoutePath {
+  CharacterListRoutePath(this.animeId);
+
+  final String animeId;
+}
+
 class DetailAnimeRoutePath extends AniFlowRoutePath {
   DetailAnimeRoutePath(this.animeId);
 
@@ -70,6 +77,11 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return AnimeListPage(
           key: ValueKey('AnimeListPage_$category'),
           category: category,
+        );
+      case CharacterListRoutePath(animeId: final animeId):
+        return CharacterListPage(
+          key: ValueKey('CharacterListPage_$animeId'),
+          animeId: animeId,
         );
       case DetailAnimeRoutePath(animeId: final animeId):
         return DetailAnimePage(

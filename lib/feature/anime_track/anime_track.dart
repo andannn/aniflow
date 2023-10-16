@@ -112,7 +112,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
             // mark watch
           },
           onClick: () {
-            AnimeTrackerRouterDelegate.of(context).navigateToDetailAnime(
+            AFRouterDelegate.of(context).navigateToDetailAnime(
               item.animeModel!.id,
             );
           },
@@ -148,7 +148,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.calendar_month_rounded),
               onPressed: () {
-                AnimeTrackerRouterDelegate.of(context)
+                AFRouterDelegate.of(context)
                     .navigateToAiringSchedule();
               },
             ),

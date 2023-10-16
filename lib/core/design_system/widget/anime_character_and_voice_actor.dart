@@ -3,8 +3,8 @@ import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.da
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
-class CharacterAndVoiceActor extends StatelessWidget {
-  const CharacterAndVoiceActor(
+class CharacterAndVoiceActorWidget extends StatelessWidget {
+  const CharacterAndVoiceActorWidget(
       {required this.model,
       super.key,
       this.textStyle,

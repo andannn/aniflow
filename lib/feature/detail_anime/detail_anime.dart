@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
+import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/util/color_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/ani_list_repository.dart';
@@ -14,7 +15,6 @@ import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
-import 'package:anime_tracker/core/design_system/widget/af_fullscreen_dialog.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
@@ -24,7 +24,6 @@ import 'package:anime_tracker/core/design_system/widget/twitter_hashtag_widget.d
 import 'package:anime_tracker/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_bloc.dart';
 import 'package:anime_tracker/feature/detail_anime/bloc/detail_anime_ui_state.dart';
-import 'package:anime_tracker/feature/detail_anime/character_paging_fullscreen_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -73,7 +72,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   }
 
   @override
-  bool get maintainState => false;
+  bool get maintainState => true;
 }
 
 class _DetailAnimePageContent extends StatelessWidget {
@@ -305,7 +304,9 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    showFullScreenDialog(context, const CharactersPaging());
+                    AFRouterDelegate.of(context).navigateToCharacterList(
+                      context.read<DetailAnimeBloc>().animeId
+                    );
                   },
                   child: const Text('More'),
                 ),
@@ -340,7 +341,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
-        child: CharacterAndVoiceActor(
+        child: CharacterAndVoiceActorWidget(
           model: model,
           textStyle: Theme.of(context).textTheme.bodyMedium,
         ),
