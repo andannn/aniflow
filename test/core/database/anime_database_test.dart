@@ -129,7 +129,7 @@ void main() {
 
     test('anime_dao_clear_all', () async {
       final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.clearAll();
+      await animeDao.clearAnimeCategoryCrossRef(AnimeCategory.movie);
     });
 
     test('anime_dao_insert', () async {

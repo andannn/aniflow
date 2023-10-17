@@ -83,7 +83,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           animeDao.getAnimeByPage(category, page: page, perPage: perPage),
       onInsertEntityToDB: (entities) => animeDao
           .insertOrIgnoreAnimeByAnimeCategory(category, animeList: entities),
-      onClearDbCache: () => animeDao.clearAll(),
+      onClearDbCache: () => animeDao.clearAnimeCategoryCrossRef(category),
       mapDtoToEntity: (dto) => AnimeEntity.fromNetworkModel(dto),
       mapEntityToModel: (entity) => AnimeModel.fromDatabaseModel(entity),
     );
@@ -117,8 +117,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   @override
   Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId(
       {required String animeId, required LoadType loadType}) {
-    return LoadPageUtil.loadPage<StaffEdge, StaffAndRoleEntity,
-        StaffAndRoleModel>(
+    return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getStaffPage(
           animeId: int.parse(animeId), page: page, perPage: perPage),

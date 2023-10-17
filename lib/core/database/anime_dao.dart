@@ -145,7 +145,7 @@ mixin MediaExternalLinkColumnValues {
 }
 
 abstract class AnimeListDao {
-  Future clearAll();
+  Future clearAnimeCategoryCrossRef(AnimeCategory category);
 
   Future<List<AnimeEntity>> getAnimeByPage(AnimeCategory category,
       {required int page, int perPage = Config.defaultPerPageCount});
@@ -205,8 +205,12 @@ class AnimeDaoImpl extends AnimeListDao {
   final detailListChangeSource = ValueNotifier(0);
 
   @override
-  Future clearAll() async {
-    await database.animeDB.delete(Tables.animeCategoryCrossRefTable);
+  Future clearAnimeCategoryCrossRef(AnimeCategory category) async {
+    await database.animeDB.delete(
+      Tables.animeCategoryCrossRefTable,
+      where: '${AnimeCategoryCrossRefColumns.categoryId} = ?',
+      whereArgs: [category.getContentValue()],
+    );
   }
 
   @override
