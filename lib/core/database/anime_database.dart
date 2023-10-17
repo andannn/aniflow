@@ -63,21 +63,21 @@ class AnimeDatabase {
 
   Future _createTables() async {
     await _animeDB!.execute('create table if not exists ${Tables.animeTable} ('
-        '${AnimeTableColumns.id} text primary key, '
-        '${AnimeTableColumns.englishTitle} text, '
-        '${AnimeTableColumns.romajiTitle} text, '
-        '${AnimeTableColumns.nativeTitle} text, '
-        '${AnimeTableColumns.coverImage} text, '
-        '${AnimeTableColumns.coverImageColor} text, '
-        '${AnimeTableColumns.description} text, '
-        '${AnimeTableColumns.source} text, '
-        '${AnimeTableColumns.bannerImage} text, '
-        '${AnimeTableColumns.averageScore} integer, '
-        '${AnimeTableColumns.hashtag} text, '
-        '${AnimeTableColumns.trending} integer, '
-        '${AnimeTableColumns.favourites} integer, '
-        '${AnimeTableColumns.trailerId} text, '
-        '${AnimeTableColumns.trailerSite} text, '
+        '${AnimeTableColumns.id} text primary key,'
+        '${AnimeTableColumns.englishTitle} text,'
+        '${AnimeTableColumns.romajiTitle} text,'
+        '${AnimeTableColumns.nativeTitle} text,'
+        '${AnimeTableColumns.coverImage} text,'
+        '${AnimeTableColumns.coverImageColor} text,'
+        '${AnimeTableColumns.description} text,'
+        '${AnimeTableColumns.source} text,'
+        '${AnimeTableColumns.bannerImage} text,'
+        '${AnimeTableColumns.averageScore} integer,'
+        '${AnimeTableColumns.hashtag} text,'
+        '${AnimeTableColumns.trending} integer,'
+        '${AnimeTableColumns.favourites} integer,'
+        '${AnimeTableColumns.trailerId} text,'
+        '${AnimeTableColumns.trailerSite} text,'
         '${AnimeTableColumns.trailerThumbnail} text,'
         '${AnimeTableColumns.episodes} integer,'
         '${AnimeTableColumns.seasonYear} integer,'
@@ -97,84 +97,90 @@ class AnimeDatabase {
 
     await _animeDB!.execute(
         'create table if not exists ${Tables.animeCategoryCrossRefTable} ('
-        '${AnimeCategoryCrossRefColumns.animeId} text, '
-        '${AnimeCategoryCrossRefColumns.categoryId} text, '
-        'primary key (${AnimeCategoryCrossRefColumns.animeId}, ${AnimeCategoryCrossRefColumns.categoryId}), '
-        'foreign key (${AnimeCategoryCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
+        '${AnimeCategoryCrossRefColumns.animeId} text,'
+        '${AnimeCategoryCrossRefColumns.categoryId} text,'
+        'primary key (${AnimeCategoryCrossRefColumns.animeId}, ${AnimeCategoryCrossRefColumns.categoryId}),'
+        'foreign key (${AnimeCategoryCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}),'
         'foreign key (${AnimeCategoryCrossRefColumns.categoryId}) references ${Tables.categoryTable} (${CategoryColumns.category})'
         ')');
 
     await _animeDB!
         .execute('create table if not exists ${Tables.userDataTable} ('
-            '${UserDataTableColumns.id} text primary key, '
-            '${UserDataTableColumns.name} text, '
-            '${UserDataTableColumns.avatarImage} text, '
+            '${UserDataTableColumns.id} text primary key,'
+            '${UserDataTableColumns.name} text,'
+            '${UserDataTableColumns.avatarImage} text,'
             '${UserDataTableColumns.bannerImage} text)');
 
-    await _animeDB!
-        .execute('create table if not exists ${Tables.characterTable} ('
-            '${CharacterColumns.id} text primary key, '
-            '${CharacterColumns.voiceActorId} text, '
-            '${CharacterColumns.role} text, '
-            '${CharacterColumns.image} text, '
-            '${CharacterColumns.nameEnglish} text, '
-            '${CharacterColumns.nameNative} text)');
+    await _animeDB!.execute(
+        'create table if not exists ${Tables.characterTable} ('
+        '${CharacterColumns.id} text primary key,'
+        '${CharacterColumns.voiceActorId} text,'
+        '${CharacterColumns.role} text,'
+        '${CharacterColumns.image} text,'
+        '${CharacterColumns.nameEnglish} text,'
+        '${CharacterColumns.nameNative} text,'
+        'foreign key (${CharacterColumns.voiceActorId}) references ${Tables.staffTable} (${StaffColumns.id})'
+        ')');
 
     await _animeDB!.execute('create table if not exists ${Tables.staffTable} ('
-        '${StaffColumns.id} text primary key, '
-        '${StaffColumns.image} text, '
-        '${StaffColumns.nameEnglish} text, '
+        '${StaffColumns.id} text primary key,'
+        '${StaffColumns.image} text,'
+        '${StaffColumns.nameEnglish} text,'
         '${StaffColumns.nameNative} text)');
 
     await _animeDB!.execute(
         'create table if not exists ${Tables.animeCharacterCrossRefTable} ('
-        '${AnimeCharacterCrossRefColumns.animeId} text, '
-        '${AnimeCharacterCrossRefColumns.characterId} text, '
-        'primary key (${AnimeCharacterCrossRefColumns.animeId}, ${AnimeCharacterCrossRefColumns.characterId}), '
-        'foreign key (${AnimeCharacterCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
+        '${AnimeCharacterCrossRefColumns.animeId} text,'
+        '${AnimeCharacterCrossRefColumns.characterId} text,'
+        'primary key (${AnimeCharacterCrossRefColumns.animeId}, ${AnimeCharacterCrossRefColumns.characterId}),'
+        'foreign key (${AnimeCharacterCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}),'
         'foreign key (${AnimeCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
         ')');
 
     await _animeDB!.execute(
         'create table if not exists ${Tables.animeStaffCrossRefTable} ('
-        '${AnimeStaffCrossRefColumns.animeId} text, '
-        '${AnimeStaffCrossRefColumns.staffId} text, '
-        '${AnimeStaffCrossRefColumns.staffRole} text, '
-        'primary key (${AnimeStaffCrossRefColumns.animeId}, ${AnimeStaffCrossRefColumns.staffRole}), '
-        'foreign key (${AnimeStaffCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}), '
+        '${AnimeStaffCrossRefColumns.animeId} text,'
+        '${AnimeStaffCrossRefColumns.staffId} text,'
+        '${AnimeStaffCrossRefColumns.staffRole} text,'
+        'primary key (${AnimeStaffCrossRefColumns.animeId}, ${AnimeStaffCrossRefColumns.staffRole}),'
+        'foreign key (${AnimeStaffCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}),'
         'foreign key (${AnimeStaffCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
         ')');
 
-    await _animeDB!
-        .execute('create table if not exists ${Tables.animeTrackListTable} ('
-            '${AnimeTrackItemTableColumns.id} text primary key,'
-            '${AnimeTrackItemTableColumns.userId} text,'
-            '${AnimeTrackItemTableColumns.animeId} text,'
-            '${AnimeTrackItemTableColumns.status} text,'
-            '${AnimeTrackItemTableColumns.progress} integer,'
-            '${AnimeTrackItemTableColumns.score} integer,'
-            '${AnimeTrackItemTableColumns.updatedAt} integer'
-            ')');
+    await _animeDB!.execute(
+        'create table if not exists ${Tables.animeTrackListTable} ('
+        '${AnimeTrackItemTableColumns.id} text primary key,'
+        '${AnimeTrackItemTableColumns.userId} text,'
+        '${AnimeTrackItemTableColumns.animeId} text,'
+        '${AnimeTrackItemTableColumns.status} text,'
+        '${AnimeTrackItemTableColumns.progress} integer,'
+        '${AnimeTrackItemTableColumns.score} integer,'
+        '${AnimeTrackItemTableColumns.updatedAt} integer,'
+        'foreign key (${AnimeTrackItemTableColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id})'
+        'foreign key (${AnimeTrackItemTableColumns.userId}) references ${Tables.userDataTable} (${UserDataTableColumns.id})'
+        ')');
 
-    await _animeDB!
-        .execute('create table if not exists ${Tables.airingSchedulesTable} ('
-            '${AiringSchedulesColumns.id} text primary key,'
-            '${AiringSchedulesColumns.mediaId} text,'
-            '${AiringSchedulesColumns.airingAt} integer,'
-            '${AiringSchedulesColumns.timeUntilAiring} integer,'
-            '${AiringSchedulesColumns.episode} episode'
-            ')');
+    await _animeDB!.execute(
+        'create table if not exists ${Tables.airingSchedulesTable} ('
+        '${AiringSchedulesColumns.id} text primary key,'
+        '${AiringSchedulesColumns.mediaId} text,'
+        '${AiringSchedulesColumns.airingAt} integer,'
+        '${AiringSchedulesColumns.timeUntilAiring} integer,'
+        '${AiringSchedulesColumns.episode} episode,'
+        'foreign key (${AiringSchedulesColumns.mediaId}) references ${Tables.animeTable} (${AnimeTableColumns.id})'
+        ')');
 
-    await _animeDB!
-        .execute('CREATE TABLE IF NOT EXISTS ${Tables.mediaExternalLickTable} ('
-            '${MediaExternalLinkColumnValues.id} text primary key,'
-            '${MediaExternalLinkColumnValues.animeId} text,'
-            '${MediaExternalLinkColumnValues.url} text,'
-            '${MediaExternalLinkColumnValues.site} text,'
-            '${MediaExternalLinkColumnValues.type} text,'
-            '${MediaExternalLinkColumnValues.siteId} integer,'
-            '${MediaExternalLinkColumnValues.color} text,'
-            '${MediaExternalLinkColumnValues.icon} text'
-            ')');
+    await _animeDB!.execute(
+        'CREATE TABLE IF NOT EXISTS ${Tables.mediaExternalLickTable} ('
+        '${MediaExternalLinkColumnValues.id} text primary key,'
+        '${MediaExternalLinkColumnValues.animeId} text,'
+        '${MediaExternalLinkColumnValues.url} text,'
+        '${MediaExternalLinkColumnValues.site} text,'
+        '${MediaExternalLinkColumnValues.type} text,'
+        '${MediaExternalLinkColumnValues.siteId} integer,'
+        '${MediaExternalLinkColumnValues.color} text,'
+        '${MediaExternalLinkColumnValues.icon} text,'
+        'foreign key (${MediaExternalLinkColumnValues.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id})'
+        ')');
   }
 }
