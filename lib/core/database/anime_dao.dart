@@ -112,8 +112,9 @@ class AnimeCharacterCrossRef {
 /// [Tables.animeStaffCrossRefTable]
 mixin AnimeStaffCrossRefColumns {
   static const String animeId = 'anime_staff_cross_anime_id';
-  static const String staffId = 'anime_character_cross_staff_id';
-  static const String staffRole = 'anime_character_cross_staff_role';
+  static const String staffId = 'anime_staff_cross_staff_id';
+  static const String staffRole = 'anime_staff_cross_staff_role';
+  static const String timeStamp = 'anime_staff_cross_timeStamp';
 }
 
 /// [Tables.airingSchedulesTable]
@@ -123,15 +124,6 @@ mixin AiringSchedulesColumns {
   static const String airingAt = 'airing_schedules_airing_at';
   static const String timeUntilAiring = 'airing_schedules_time_until_airing';
   static const String episode = 'airing_schedules_episode';
-}
-
-class AnimeStaffCrossRef {
-  AnimeStaffCrossRef(
-      {required this.animeId, required this.staffId, required this.staffRole});
-
-  final String animeId;
-  final String staffId;
-  final String staffRole;
 }
 
 /// [Tables.mediaExternalLickTable]
@@ -169,9 +161,6 @@ abstract class AnimeListDao {
       {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore});
 
   Future upsertStaffInfo(List<StaffEntity> entities);
-
-  Future upsertAnimeStaffCrossRef(
-      {required List<AnimeStaffCrossRef> crossRefs});
 
   Future upsertAiringSchedules(
       {required List<AiringSchedulesEntity> schedules});
@@ -303,6 +292,7 @@ class AnimeDaoImpl extends AnimeListDao {
         'join ${Tables.animeStaffCrossRefTable} as animeStaff '
         '  on s.${StaffColumns.id} = animeStaff.${AnimeStaffCrossRefColumns.staffId} '
         'where animeStaff.${AnimeStaffCrossRefColumns.animeId} = \'$animeId\' '
+        'order by ${AnimeStaffCrossRefColumns.timeStamp} asc '
         'limit $limit '
         'offset $offset ';
 
@@ -359,24 +349,6 @@ class AnimeDaoImpl extends AnimeListDao {
       batch.insert(
         Tables.staffTable,
         entity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    return await batch.commit(noResult: true);
-  }
-
-  @override
-  Future upsertAnimeStaffCrossRef(
-      {required List<AnimeStaffCrossRef> crossRefs}) async {
-    final batch = database.animeDB.batch();
-    for (final crossRef in crossRefs) {
-      batch.insert(
-        Tables.animeStaffCrossRefTable,
-        {
-          AnimeStaffCrossRefColumns.animeId: crossRef.animeId,
-          AnimeStaffCrossRefColumns.staffId: crossRef.staffId,
-          AnimeStaffCrossRefColumns.staffRole: crossRef.staffRole,
-        },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
@@ -503,6 +475,8 @@ class AnimeDaoImpl extends AnimeListDao {
           AnimeStaffCrossRefColumns.animeId: animeId,
           AnimeStaffCrossRefColumns.staffId: entity.staff.id,
           AnimeStaffCrossRefColumns.staffRole: entity.role,
+          AnimeStaffCrossRefColumns.timeStamp:
+              DateTime.now().microsecondsSinceEpoch,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );

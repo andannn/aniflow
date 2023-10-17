@@ -144,6 +144,7 @@ class AnimeDatabase {
         '${AnimeStaffCrossRefColumns.animeId} text,'
         '${AnimeStaffCrossRefColumns.staffId} text,'
         '${AnimeStaffCrossRefColumns.staffRole} text,'
+        '${AnimeStaffCrossRefColumns.timeStamp} integer,'
         'primary key (${AnimeStaffCrossRefColumns.animeId}, ${AnimeStaffCrossRefColumns.staffRole}),'
         'foreign key (${AnimeStaffCrossRefColumns.animeId}) references ${Tables.animeTable} (${AnimeTableColumns.id}),'
         'foreign key (${AnimeStaffCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
