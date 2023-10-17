@@ -97,7 +97,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
           animeId: int.parse(animeId), page: page, perPage: perPage),
-      onClearDbCache: () async {},
+      onClearDbCache: () => animeDao.clearAnimeCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
           animeId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfAnimeByPage(
@@ -161,6 +161,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];
       if (characters.isNotEmpty) {
+        await animeDao.clearAnimeCharacterCrossRef(id);
         /// inset character entities to db.
         final List<CharacterAndVoiceActor> characterAndVoiceActors = characters
             .map(

@@ -19,8 +19,7 @@ class StaffPageBloc extends PagingBloc<StaffAndRoleModel> {
 
   @override
   Future<bool> createLoadPageTask({required int page}) async {
-    final LoadResult result =
-        await _mediaInfoRepository.loadStaffPageByAnimeId(
+    final LoadResult result = await _mediaInfoRepository.loadStaffPageByAnimeId(
       animeId: animeId,
       loadType: Append(page: page, perPage: Config.defaultPerPageCount),
     );
@@ -28,9 +27,7 @@ class StaffPageBloc extends PagingBloc<StaffAndRoleModel> {
       case LoadSuccess<List<StaffAndRoleModel>>(data: final data):
         add(OnPageLoadedEvent(data, page));
         return true;
-      case LoadError<List<StaffAndRoleModel>>(
-          exception: final exception
-        ):
+      case LoadError<List<StaffAndRoleModel>>(exception: final exception):
         add(OnPageErrorEvent(exception));
         return false;
       default:

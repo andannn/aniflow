@@ -1,10 +1,10 @@
 import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
+import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -65,6 +65,13 @@ void main() {
         nameEnglish: 'Judy',
         nameNative: 'ジュディ',
       ),
+      CharacterEntity(
+        id: '2334',
+        voiceActorId: '95262',
+        image:
+            'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
+        nameEnglish: 'Jack',
+      ),
     ];
 
     final dummyVoiceActorData = [
@@ -81,12 +88,17 @@ void main() {
         nameNative: '堀内賢雄',
         nameEnglish: 'Kenyuu Horiuchi',
       ),
+      StaffEntity(
+        id: '95346',
+        image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+        nameEnglish: 'Character A',
+      ),
     ];
 
-    final dummyStaff = [
-      StaffEntity(id: '1234', nameEnglish: 'nameA'),
-      StaffEntity(id: '4567', nameEnglish: 'nameB'),
-    ];
+    // final dummyStaff = [
+    //   StaffEntity(id: '1234', nameEnglish: 'nameA'),
+    //   StaffEntity(id: '4567', nameEnglish: 'nameB'),
+    // ];
 
     final dummyUserData = UserDataEntity(id: 'aa', avatar: "bb");
 
@@ -170,69 +182,9 @@ void main() {
       expect(AnimeEntity.fromJson(res.first), equals(dummyAnimeData[0]));
     });
 
-    test('upsert_detail_character_data', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertCharacterInfo(dummyCharacterData);
-    });
-
     test('upsert_voice_actor_data', () async {
       final animeDao = animeDatabase.getAnimeDao();
       await animeDao.upsertStaffInfo(dummyVoiceActorData);
-    });
-
-    test('upsert_anime_character_cross_ref_data', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertAnimeCharacterCrossRef(
-        crossRefs: [
-          AnimeCharacterCrossRef(animeId: '5784', characterId: '2736'),
-        ],
-      );
-    });
-
-    test('upsert_and_get_detail_anime_data', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertAnimeInformation(dummyAnimeData);
-
-      await animeDao.upsertCharacterInfo(dummyCharacterData);
-
-      await animeDao.upsertStaffInfo(dummyVoiceActorData);
-
-      await animeDao.upsertStaffInfo(dummyStaff);
-
-      await animeDao.upsertAnimeCharacterCrossRef(
-        crossRefs: [
-          AnimeCharacterCrossRef(animeId: '5784', characterId: '2736'),
-          AnimeCharacterCrossRef(animeId: '5784', characterId: '6694'),
-        ],
-      );
-
-      await animeDao.upsertAnimeStaffCrossRef(
-        crossRefs: [
-          AnimeStaffCrossRef(
-              animeId: '5784', staffId: '1234', staffRole: 'job 1'),
-          AnimeStaffCrossRef(
-              animeId: '5784', staffId: '4567', staffRole: 'job b'),
-        ],
-      );
-
-      final result = await animeDao.getDetailAnimeInfo('5784');
-      expect(result.animeEntity, equals(dummyAnimeData[0]));
-      expect(
-        result.characterAndVoiceActors.map((e) => e.voiceActorEntity).toList(),
-        equals(dummyVoiceActorData),
-      );
-      expect(
-        result.characterAndVoiceActors.map((e) => e.characterEntity).toList(),
-        equals(dummyCharacterData),
-      );
-      expect(
-        result.staffs.map((e) => e.staff).toList(),
-        equals(dummyStaff),
-      );
-      expect(
-        result.staffs.map((e) => e.role).toList(),
-        equals(['job 1', 'job b']),
-      );
     });
 
     test('get_user_data_stream_test', () async {
@@ -287,6 +239,21 @@ void main() {
 
       final result = await animeDao.getDetailAnimeInfo('5784');
       expect(result.externalLinks, equals([dummyExternalLinks[0]]));
+    });
+
+    test('query_character_page', () async {
+      final animeDao = animeDatabase.getAnimeDao();
+
+      await animeDao.insertCharacterVoiceActors(animeId: 5784, entities: [
+        CharacterAndVoiceActor(
+            characterEntity: dummyCharacterData[0], voiceActorEntity: null),
+        CharacterAndVoiceActor(
+            characterEntity: dummyCharacterData[1], voiceActorEntity: null),
+        CharacterAndVoiceActor(
+            characterEntity: dummyCharacterData[2], voiceActorEntity: null),
+      ]);
+
+      await animeDao.getCharacterOfAnimeByPage('5784', page: 1);
     });
   });
 }
