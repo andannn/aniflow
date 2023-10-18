@@ -57,4 +57,22 @@ mixin LoadPageUtil {
       return LoadError(e);
     }
   }
+
+  static Future<LoadResult<List<Model>>> loadPageWithoutCacheDB<Dto, Model>({
+    required page,
+    required perPage,
+    required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,
+    required Model Function(Dto dto) mapDtoToModel,
+  }) async {
+    try {
+      /// get data from network datasource.
+      final networkRes = await onGetNetworkRes(1, Config.defaultPerPageCount);
+
+      /// load success, return result.
+      return LoadSuccess(
+          data: networkRes.map((e) => mapDtoToModel(e)).toList());
+    } on DioException catch (e) {
+      return LoadError(e);
+    }
+  }
 }
