@@ -58,15 +58,19 @@ mixin LoadPageUtil {
     }
   }
 
-  static Future<LoadResult<List<Model>>> loadPageWithoutCacheDB<Dto, Model>({
+  static Future<LoadResult<List<Model>>> loadPageWithoutDBCache<Dto, Model>({
     required page,
     required perPage,
     required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,
+    required Future<void> Function(List<Dto> dto) onInsertEntityToDB,
     required Model Function(Dto dto) mapDtoToModel,
   }) async {
     try {
       /// get data from network datasource.
       final networkRes = await onGetNetworkRes(page, perPage);
+
+      /// insert network resource to DB.
+      await onInsertEntityToDB(networkRes);
 
       /// load success, return result.
       return LoadSuccess(

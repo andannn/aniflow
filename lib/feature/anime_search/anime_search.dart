@@ -47,16 +47,19 @@ class _AnimeSearchPageContent extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
             title:_buildSearchArea(context) ,
           ),
-          body: PagingContent(
-            pagingState: state,
-            onBuildItem: (context, model) =>
-                _buildListItems(context, model),
-            onRequestNewPage: () {
-              context.read<SearchPageBloc>().add(OnRequestLoadPageEvent());
-            },
-            onRetryLoadPage: () {
-              context.read<SearchPageBloc>().add(OnRetryLoadPageEvent());
-            },
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: PagingContent(
+              pagingState: state,
+              onBuildItem: (context, model) =>
+                  _buildListItems(context, model),
+              onRequestNewPage: () {
+                context.read<SearchPageBloc>().add(OnRequestLoadPageEvent());
+              },
+              onRetryLoadPage: () {
+                context.read<SearchPageBloc>().add(OnRetryLoadPageEvent());
+              },
+            ),
           ),
         );
       },
@@ -83,17 +86,13 @@ class _AnimeSearchPageContent extends StatelessWidget {
   }
 
   Widget _buildListItems(BuildContext context, AnimeModel model) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
-      child: SizedBox(
-        height: 90,
-        child: SearchAnimeItem(
-          model: model,
-          onClick: () {
-            AFRouterDelegate.of(context).navigateToDetailAnime(model.id);
-          },
-        ),
+    return SizedBox(
+      height: 110,
+      child: SearchAnimeItem(
+        model: model,
+        onClick: () {
+          AFRouterDelegate.of(context).navigateToDetailAnime(model.id);
+        },
       ),
     );
   }
