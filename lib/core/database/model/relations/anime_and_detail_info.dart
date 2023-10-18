@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/anime_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';

@@ -1,12 +1,12 @@
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
-import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_track_list_dao.dart';
+import 'package:anime_tracker/core/database/dao/user_data_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_track_item_entity.dart';
-import 'package:anime_tracker/core/database/user_data_dao.dart';
 import 'package:anime_tracker/core/network/ani_list_data_source.dart';
 import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';

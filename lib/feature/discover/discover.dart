@@ -3,7 +3,6 @@ import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
 import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
@@ -24,19 +23,12 @@ class DiscoverPage extends Page {
 }
 
 class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
-  DiscoverPageRoute({super.settings});
+  DiscoverPageRoute({super.settings}): super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Scaffold(body: DiscoverScreen());
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getSecondaryPageTransaction(
-      animation: secondaryAnimation,
-      child: child,
+    return const Scaffold(
+      body: DiscoverScreen(),
     );
   }
 
@@ -70,7 +62,12 @@ class DiscoverScreen extends StatelessWidget {
                 pinned: true,
                 actions: [
                   LoadingIndicator(isLoading: isLoading),
-                  const SizedBox(width: 10),
+                  IconButton(
+                    onPressed: () {
+                      AFRouterDelegate.of(context).navigateToSearch();
+                    },
+                    icon: const Icon(Icons.search_rounded),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: IconButton(

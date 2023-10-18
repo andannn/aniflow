@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_track_list_dao.dart';
 import 'package:anime_tracker/core/network/model/media_list_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

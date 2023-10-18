@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-
 /// context of app root.
 BuildContext? globalContext;
 
@@ -97,7 +96,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   final animeTrackerRouterDelegate = AFRouterDelegate();
 
   var currentNavigation = TopLevelNavigation.discover;
-  var needShowAppbar = true;
+  var needHideNavigationBar = false;
 
   @override
   void initState() {
@@ -106,7 +105,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
       setState(() {
         currentNavigation =
             animeTrackerRouterDelegate.currentTopLevelNavigation;
-        needShowAppbar = animeTrackerRouterDelegate.needShowTopAppBar;
+        needHideNavigationBar = animeTrackerRouterDelegate.isTopRouteFullScreen;
       });
     });
   }
@@ -142,11 +141,14 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         body: Router(
             routerDelegate: animeTrackerRouterDelegate,
             backButtonDispatcher: RootBackButtonDispatcher()),
-        bottomNavigationBar: _animeTrackerNavigationBar(
-            selected: currentNavigation,
-            onNavigateToDestination: (navigation) async {
-              animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
-            }),
+        bottomNavigationBar: needHideNavigationBar
+            ? const SizedBox()
+            : _animeTrackerNavigationBar(
+                selected: currentNavigation,
+                onNavigateToDestination: (navigation) async {
+                  animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
+                },
+              ),
       ),
     );
   }

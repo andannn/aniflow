@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/user_data_dao.dart';
+import 'package:anime_tracker/core/database/dao/user_data_dao.dart';
 import 'package:anime_tracker/core/network/model/user_data_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

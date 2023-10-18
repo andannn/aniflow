@@ -36,7 +36,7 @@ class AnimePageBloc extends PagingBloc<AnimeModel> {
   })  : _mediaInfoRepository = aniListRepository,
         _authRepository = authRepository,
         _animeTrackListRepository = animeTrackListRepository,
-        super(const PageLoading(data: [], page: 1)) {
+        super(const PageInit(data: [])) {
     on<_OnTrackingAnimeIdsChanged<AnimeModel>>(_onTrackingAnimeIdsChanged);
 
     _init();
@@ -71,22 +71,11 @@ class AnimePageBloc extends PagingBloc<AnimeModel> {
   }
 
   @override
-  Future<bool> createLoadPageTask({required int page}) async {
-    final LoadResult result =
-        await _mediaInfoRepository.loadAnimePageByCategory(
+  Future<LoadResult<List<AnimeModel>>> loadPage({required int page}) {
+    return _mediaInfoRepository.loadAnimePageByCategory(
       category: category,
       loadType: Append(page: page, perPage: Config.defaultPerPageCount),
     );
-    switch (result) {
-      case LoadSuccess<List<AnimeModel>>(data: final data):
-        add(OnPageLoadedEvent(data, page));
-        return true;
-      case LoadError<List<AnimeModel>>(exception: final exception):
-        add(OnPageErrorEvent(exception));
-        return false;
-      default:
-        return false;
-    }
   }
 
   @override
@@ -99,5 +88,14 @@ class AnimePageBloc extends PagingBloc<AnimeModel> {
       Emitter<PagingState<List<AnimeModel>>> emit) {
     _ids = event.ids;
     emit(state.copyWithTrackedIds(event.ids));
+  }
+
+  @override
+  FutureOr<void> onInit(
+      OnInit<AnimeModel> event, Emitter<PagingState<List<AnimeModel>>> emit) {
+    emit(const PageLoading(data: [], page: 1));
+
+    /// launch event to get first page data.
+    unawaited(createLoadPageTask(page: 1));
   }
 }

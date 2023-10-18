@@ -11,15 +11,15 @@ enum TopLevelNavigation {
     unSelectedIcon: Icons.collections_bookmark_outlined,
     iconTextId: 'Track',
   ),
-  search(
-    selectedIcon: Icons.search,
-    unSelectedIcon: Icons.search,
-    iconTextId: 'Search',
+  forum(
+    selectedIcon: Icons.forum,
+    unSelectedIcon: Icons.forum_outlined,
+    iconTextId: 'Forum',
   ),
   profile(
     selectedIcon: Icons.person,
     unSelectedIcon: Icons.person_outline,
-    iconTextId: 'profile',
+    iconTextId: 'Profile',
   );
 
   const TopLevelNavigation({
@@ -46,13 +46,13 @@ extension TopLevelNavigationEx on TopLevelNavigation {
   AniFlowRoutePath toRoutePath() {
     switch (this) {
       case TopLevelNavigation.discover:
-        return DiscoverRoutePath();
+        return const DiscoverRoutePath();
       case TopLevelNavigation.track:
-        return TrackRoutePath();
-      case TopLevelNavigation.search:
-        return SearchRoutePath();
+        return const TrackRoutePath();
+      case TopLevelNavigation.forum:
+        return const ForumRoutePath();
       case TopLevelNavigation.profile:
-        return ProfileRoutePath();
+        return const ProfileRoutePath();
     }
   }
 }

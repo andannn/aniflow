@@ -1,12 +1,12 @@
-// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: lines_longer_than_80_chars, avoid_dynamic_calls
 
 import 'dart:async';
 
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/stream_util.dart';
 import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/database/anime_dao.dart';
 import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/dao/anime_dao.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/anime_track_item_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';

@@ -1,7 +1,6 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/airing_anime_item.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
 import 'package:anime_tracker/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
@@ -23,7 +22,7 @@ class AiringSchedule extends Page {
 }
 
 class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AiringScheduleRoute({super.settings});
+  AiringScheduleRoute({super.settings}): super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -34,18 +33,6 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
       lazy: false,
       child: const Scaffold(
         body: _AiringScheduleContent(),
-      ),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getFistPageTransaction(
-      animation: animation,
-      child: getSecondaryPageTransaction(
-        animation: secondaryAnimation,
-        child: child,
       ),
     );
   }

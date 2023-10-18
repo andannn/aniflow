@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/model/anime_source.dart';
 import 'package:anime_tracker/core/common/model/anime_status.dart';
-import 'package:anime_tracker/core/database/anime_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_dao.dart';
 import 'package:anime_tracker/core/network/model/anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

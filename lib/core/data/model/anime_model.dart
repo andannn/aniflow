@@ -10,6 +10,7 @@ import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
 import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
+import 'package:anime_tracker/core/network/model/anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_model.freezed.dart';
@@ -100,5 +101,10 @@ class AnimeModel with _$AnimeModel {
           .map((e) => MediaExternalLinkModel.fromEntity(e))
           .toList(),
     );
+  }
+
+  static AnimeModel fromDto(AnimeDto dto) {
+    final entity = AnimeEntity.fromNetworkModel(dto);
+    return AnimeModel.fromDatabaseModel(entity);
   }
 }

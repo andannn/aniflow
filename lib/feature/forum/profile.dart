@@ -1,8 +1,8 @@
 import 'package:anime_tracker/core/design_system/widget/comming_soon.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends Page {
-  const ProfilePage({super.key});
+class ForumPage extends Page {
+  const ForumPage({super.key});
 
   @override
   Route createRoute(BuildContext context) {
@@ -16,7 +16,7 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return const Scaffold(
-      body: _ProfilePageContent(),
+      body: _ForumPageContent(),
     );
   }
 
@@ -24,8 +24,8 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _ProfilePageContent extends StatelessWidget {
-  const _ProfilePageContent();
+class _ForumPageContent extends StatelessWidget {
+  const _ForumPageContent();
 
   @override
   Widget build(BuildContext context) {

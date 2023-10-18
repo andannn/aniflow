@@ -13,7 +13,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   RouteObserver routeObserver = RouteObserver();
 
-  List<AniFlowRoutePath> _backStack = [DiscoverRoutePath()];
+  List<AniFlowRoutePath> _backStack = [const DiscoverRoutePath()];
 
   /// get current path.
   AniFlowRoutePath get currentPath => _backStack.last;
@@ -25,7 +25,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
           .last
           .topLevel;
 
-  bool get needShowTopAppBar => _backStack.last is TopLevelRoutePath;
+  bool get isTopRouteFullScreen => _backStack.last.isFullScreen;
 
   static AFRouterDelegate of(context) =>
       Router
@@ -69,9 +69,9 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
     if (navigation == TopLevelNavigation.discover) {
-      _backStack = [DiscoverRoutePath()];
+      _backStack = [const DiscoverRoutePath()];
     } else {
-      _backStack = [DiscoverRoutePath(), navigation.toRoutePath()];
+      _backStack = [const DiscoverRoutePath(), navigation.toRoutePath()];
     }
 
     notifyListeners();
@@ -103,6 +103,12 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   void navigateToAiringSchedule() {
     _backStack += [const AiringScheduleRoutePath()];
+
+    notifyListeners();
+  }
+
+  void navigateToSearch() {
+    _backStack += [const SearchRoutePath()];
 
     notifyListeners();
   }

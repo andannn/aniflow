@@ -1,5 +1,5 @@
 import 'package:anime_tracker/core/common/model/character_role.dart';
-import 'package:anime_tracker/core/database/anime_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_dao.dart';
 import 'package:anime_tracker/core/network/model/character_edge.dart';
 import 'package:anime_tracker/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

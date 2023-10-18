@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/query_anime_character_page_graphql.dart';
 import 'package:anime_tracker/core/network/api/query_anime_staff_page_graphql.dart';
+import 'package:anime_tracker/core/network/api/search_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
 import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
@@ -113,8 +116,7 @@ class AniListDataSource {
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
 
-    final List resultJson =
-        response.data['data']['Media']['staff']['edges'];
+    final List resultJson = response.data['data']['Media']['staff']['edges'];
     final List<StaffEdge> staffs =
         resultJson.map((e) => StaffEdge.fromJson(e)).toList();
 
@@ -164,5 +166,25 @@ class AniListDataSource {
         resultJson.map((e) => AiringScheduleDto.fromJson(e)).toList();
 
     return airingSchedules;
+  }
+
+  Future<List<AnimeDto>> searchAnimePage({
+    required int page,
+    required int perPage,
+    required String search,
+  }) async {
+    final queryGraphQL = searchQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson = response.data['data']['page']['media'];
+    final List<AnimeDto> animeList =
+        resultJson.map((e) => AnimeDto.fromJson(e)).toList();
+
+    return animeList;
   }
 }

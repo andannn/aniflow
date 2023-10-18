@@ -68,3 +68,4 @@ linter:
     - lines_longer_than_80_chars
     - curly_braces_in_flow_control_structures
     - constant_identifier_names
+    - avoid_dynamic_calls
