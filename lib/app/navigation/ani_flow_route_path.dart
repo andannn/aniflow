@@ -7,12 +7,15 @@ import 'package:anime_tracker/feature/anime_track/anime_track.dart';
 import 'package:anime_tracker/feature/character_page/character_page.dart';
 import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';
 import 'package:anime_tracker/feature/discover/discover.dart';
+import 'package:anime_tracker/feature/forum/profile.dart';
 import 'package:anime_tracker/feature/profile/profile.dart';
 import 'package:anime_tracker/feature/staff_page/staff_page.dart';
 import 'package:flutter/material.dart';
 
 sealed class AniFlowRoutePath {
-  const AniFlowRoutePath();
+  const AniFlowRoutePath({this.isFullScreen = false});
+
+  final bool isFullScreen;
 }
 
 abstract class TopLevelRoutePath extends AniFlowRoutePath {
@@ -32,47 +35,51 @@ abstract class TopLevelRoutePath extends AniFlowRoutePath {
 }
 
 class DiscoverRoutePath extends TopLevelRoutePath {
-  DiscoverRoutePath() : super(TopLevelNavigation.discover);
+  const DiscoverRoutePath() : super(TopLevelNavigation.discover);
 }
 
 class TrackRoutePath extends TopLevelRoutePath {
-  TrackRoutePath() : super(TopLevelNavigation.track);
+  const TrackRoutePath() : super(TopLevelNavigation.track);
 }
 
-class SearchRoutePath extends TopLevelRoutePath {
-  SearchRoutePath() : super(TopLevelNavigation.search);
+class ForumRoutePath extends TopLevelRoutePath {
+  const ForumRoutePath() : super(TopLevelNavigation.forum);
 }
 
 class ProfileRoutePath extends TopLevelRoutePath {
-  ProfileRoutePath() : super(TopLevelNavigation.profile);
+  const ProfileRoutePath() : super(TopLevelNavigation.profile);
+}
+
+class SearchRoutePath extends AniFlowRoutePath {
+  const SearchRoutePath() : super(isFullScreen: true);
 }
 
 class AnimeListRoutePath extends AniFlowRoutePath {
-  AnimeListRoutePath(this.category);
+  const AnimeListRoutePath(this.category) : super(isFullScreen: true);
 
   final AnimeCategory category;
 }
 
 class CharacterListRoutePath extends AniFlowRoutePath {
-  CharacterListRoutePath(this.animeId);
+  const CharacterListRoutePath(this.animeId) : super(isFullScreen: true);
 
   final String animeId;
 }
 
 class StaffListRoutePath extends AniFlowRoutePath {
-  StaffListRoutePath(this.animeId);
+  const StaffListRoutePath(this.animeId) : super(isFullScreen: true);
 
   final String animeId;
 }
 
 class DetailAnimeRoutePath extends AniFlowRoutePath {
-  DetailAnimeRoutePath(this.animeId);
+  const DetailAnimeRoutePath(this.animeId) : super(isFullScreen: true);
 
   final String animeId;
 }
 
 class AiringScheduleRoutePath extends AniFlowRoutePath {
-  const AiringScheduleRoutePath();
+  const AiringScheduleRoutePath() : super(isFullScreen: true);
 }
 
 extension AniFlowRoutePathEx on AniFlowRoutePath {
@@ -102,12 +109,14 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         );
       case TrackRoutePath(topLevel: final _):
         return const AnimeTrackPage(key: ValueKey('AnimeTrackPage'));
-      case SearchRoutePath(topLevel: final _):
-        return const AnimeSearchPage(key: ValueKey('AnimeSearchPage'));
+      case ForumRoutePath(topLevel: final _):
+        return const ForumPage(key: ValueKey('ForumPage'));
       case ProfileRoutePath(topLevel: final _):
         return const ProfilePage(key: ValueKey('ProfilePage'));
       case AiringScheduleRoutePath():
         return const AiringSchedule(key: ValueKey('AiringSchedule'));
+      case SearchRoutePath():
+        return const SearchPage(key: ValueKey('SearchPage'));
       default:
         return const MaterialPage(child: SizedBox());
     }

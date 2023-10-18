@@ -9,7 +9,9 @@ sealed class PagingState<T> extends Equatable {
   PagingState<T> updateWith(T Function(T) updater) {
     final newData = updater.call(data);
 
-    if (this is PageLoading) {
+    if (this is PageInit) {
+      return PageInit(data: newData);
+    } else if (this is PageLoading) {
       return PageLoading(data: newData, page: page);
     } else if (this is PageReady) {
       return PageReady(data: newData, page: page);
@@ -30,6 +32,10 @@ sealed class PagingState<T> extends Equatable {
 
   PageLoadingError<T> toError(Exception e) =>
       PageLoadingError(e, data: data, page: page);
+}
+
+class PageInit<T> extends PagingState<T> {
+  const PageInit({required super.data}): super(page: 0);
 }
 
 /// page is loading.

@@ -92,6 +92,8 @@ class PagingContent<Model> extends StatelessWidget {
           ],
         ),
       );
+    } else if (pagingState is PageInit) {
+      return const SizedBox();
     } else {
       // Error widget.
       return SizedBox(

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:anime_tracker/core/network/api/ani_detail_query_graphql.dart';
 import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
@@ -179,7 +181,7 @@ class AniListDataSource {
     };
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
-    final List resultJson = response.data['data']['Page']['media'];
+    final List resultJson = response.data['data']['page']['media'];
     final List<AnimeDto> animeList =
         resultJson.map((e) => AnimeDto.fromJson(e)).toList();
 

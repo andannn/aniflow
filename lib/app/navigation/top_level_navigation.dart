@@ -11,7 +11,7 @@ enum TopLevelNavigation {
     unSelectedIcon: Icons.collections_bookmark_outlined,
     iconTextId: 'Track',
   ),
-  search(
+  forum(
     selectedIcon: Icons.forum,
     unSelectedIcon: Icons.forum_outlined,
     iconTextId: 'Forum',
@@ -46,13 +46,13 @@ extension TopLevelNavigationEx on TopLevelNavigation {
   AniFlowRoutePath toRoutePath() {
     switch (this) {
       case TopLevelNavigation.discover:
-        return DiscoverRoutePath();
+        return const DiscoverRoutePath();
       case TopLevelNavigation.track:
-        return TrackRoutePath();
-      case TopLevelNavigation.search:
-        return SearchRoutePath();
+        return const TrackRoutePath();
+      case TopLevelNavigation.forum:
+        return const ForumRoutePath();
       case TopLevelNavigation.profile:
-        return ProfileRoutePath();
+        return const ProfileRoutePath();
     }
   }
 }

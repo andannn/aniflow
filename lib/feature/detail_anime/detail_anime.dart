@@ -14,7 +14,6 @@ import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.da
 import 'package:anime_tracker/core/data/model/media_external_link_model.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
 import 'package:anime_tracker/core/data/model/trailter_model.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
@@ -44,7 +43,8 @@ class DetailAnimePage extends Page {
 class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   final String animeId;
 
-  DetailAnimeRoute({required this.animeId, super.settings});
+  DetailAnimeRoute({required this.animeId, super.settings})
+      : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -55,19 +55,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
         authRepository: context.read<AuthRepository>(),
         animeTrackListRepository: context.read<AniListRepository>(),
       ),
-      child: const _DetailAnimePageContent(),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getFistPageTransaction(
-      animation: animation,
-      child: getSecondaryPageTransaction(
-        animation: secondaryAnimation,
-        child: child,
-      ),
+      child: const Scaffold(body: _DetailAnimePageContent()),
     );
   }
 
@@ -305,8 +293,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToCharacterList(
-                      context.read<DetailAnimeBloc>().animeId
-                    );
+                        context.read<DetailAnimeBloc>().animeId);
                   },
                   child: const Text('More'),
                 ),
@@ -368,8 +355,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToStaffList(
-                        context.read<DetailAnimeBloc>().animeId
-                    );
+                        context.read<DetailAnimeBloc>().animeId);
                   },
                   child: const Text('More'),
                 ),

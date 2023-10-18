@@ -66,7 +66,7 @@ mixin LoadPageUtil {
   }) async {
     try {
       /// get data from network datasource.
-      final networkRes = await onGetNetworkRes(1, Config.defaultPerPageCount);
+      final networkRes = await onGetNetworkRes(page, perPage);
 
       /// load success, return result.
       return LoadSuccess(

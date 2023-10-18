@@ -1,14 +1,16 @@
 import 'package:anime_tracker/app/local/util/anime_model_extension.dart';
-import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
 import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
-class AiringAnimeItem extends StatelessWidget {
-  const AiringAnimeItem(
-      {required this.model, required this.onClick, super.key});
+class SearchAnimeItem extends StatelessWidget {
+  const SearchAnimeItem(
+      {required this.model,
+      required this.onClick,
+      super.key});
 
-  final AiringScheduleAndAnimeModel model;
+  final AnimeModel model;
   final VoidCallback onClick;
 
   @override
@@ -25,7 +27,7 @@ class AiringAnimeItem extends StatelessWidget {
           AspectRatio(
             aspectRatio: 3.0 / 4,
             child: AFNetworkImage(
-              imageUrl: model.animeModel.coverImage,
+              imageUrl: model.coverImage,
             ),
           ),
           const SizedBox(width: 16),
@@ -37,16 +39,14 @@ class AiringAnimeItem extends StatelessWidget {
               children: [
                 const SizedBox(height: 4),
                 Text(
-                  model.animeModel.title!.getLocalTitle(context),
+                  model.title!.getLocalTitle(context),
                   style: textTheme.titleMedium?.copyWith(color: textColor),
                   maxLines: 2,
                   softWrap: true,
                 ),
                 const Expanded(child: SizedBox()),
-                _buildWatchingInfoLabel(context, model),
-                const Expanded(child: SizedBox()),
                 Text(
-                  model.animeModel.getAnimeInfoString(context),
+                  model.getAnimeInfoString(context),
                   style: textTheme.bodySmall?.copyWith(color: textColor),
                 ),
                 const SizedBox(height: 4),
@@ -55,14 +55,6 @@ class AiringAnimeItem extends StatelessWidget {
           ),
         ]),
       ),
-    );
-  }
-
-  Widget _buildWatchingInfoLabel(
-      BuildContext context, AiringScheduleAndAnimeModel model) {
-    return Text(
-      'EP.${model.airingSchedule.episode}',
-      style: Theme.of(context).textTheme.labelLarge,
     );
   }
 }

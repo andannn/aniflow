@@ -5,7 +5,6 @@ import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
 import 'package:anime_tracker/feature/anime_page/bloc/anime_page_bloc.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
@@ -28,7 +27,8 @@ class AnimeListPage extends Page {
 class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   final AnimeCategory category;
 
-  AnimeListRoute({required this.category, super.settings});
+  AnimeListRoute({required this.category, super.settings})
+      : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -40,18 +40,6 @@ class AnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
         animeTrackListRepository: context.read<AniListRepository>(),
       ),
       child: const _AnimeListPageContent(),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getFistPageTransaction(
-      animation: animation,
-      child: getSecondaryPageTransaction(
-        animation: secondaryAnimation,
-        child: child,
-      ),
     );
   }
 

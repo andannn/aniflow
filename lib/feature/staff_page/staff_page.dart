@@ -1,6 +1,5 @@
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:anime_tracker/feature/common/paging_bloc.dart';
@@ -23,7 +22,8 @@ class StaffListPage extends Page {
 class StaffListRoute extends PageRoute with MaterialRouteTransitionMixin {
   final String animeId;
 
-  StaffListRoute({required this.animeId, super.settings});
+  StaffListRoute({required this.animeId, super.settings})
+      : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -33,18 +33,6 @@ class StaffListRoute extends PageRoute with MaterialRouteTransitionMixin {
         aniListRepository: context.read<MediaInformationRepository>(),
       ),
       child: const _StaffListPageContent(),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getFistPageTransaction(
-      animation: animation,
-      child: getSecondaryPageTransaction(
-        animation: secondaryAnimation,
-        child: child,
-      ),
     );
   }
 

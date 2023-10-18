@@ -1,6 +1,5 @@
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
 import 'package:anime_tracker/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
@@ -23,7 +22,8 @@ class CharacterListPage extends Page {
 class CharacterListRoute extends PageRoute with MaterialRouteTransitionMixin {
   final String animeId;
 
-  CharacterListRoute({required this.animeId, super.settings});
+  CharacterListRoute({required this.animeId, super.settings})
+      : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -33,18 +33,6 @@ class CharacterListRoute extends PageRoute with MaterialRouteTransitionMixin {
         aniListRepository: context.read<MediaInformationRepository>(),
       ),
       child: const _CharacterListPageContent(),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getFistPageTransaction(
-      animation: animation,
-      child: getSecondaryPageTransaction(
-        animation: secondaryAnimation,
-        child: child,
-      ),
     );
   }
 

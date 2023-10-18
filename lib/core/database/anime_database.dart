@@ -2,9 +2,9 @@
 
 import 'dart:async';
 
-import 'package:anime_tracker/core/database/anime_dao.dart';
-import 'package:anime_tracker/core/database/anime_track_list_dao.dart';
-import 'package:anime_tracker/core/database/user_data_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_dao.dart';
+import 'package:anime_tracker/core/database/dao/anime_track_list_dao.dart';
+import 'package:anime_tracker/core/database/dao/user_data_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

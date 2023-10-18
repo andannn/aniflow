@@ -1,6 +1,5 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
-import 'package:anime_tracker/core/design_system/animetion/page_transaction_animetion.dart';
 import 'package:anime_tracker/core/design_system/widget/af_toogle_button.dart';
 import 'package:anime_tracker/core/design_system/widget/anime_track_item.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
@@ -20,24 +19,12 @@ class AnimeTrackPage extends Page {
 }
 
 class AnimeTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AnimeTrackRoute({super.settings});
+  AnimeTrackRoute({super.settings}): super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
     return const Scaffold(
       body: _AnimeTrackPageContent(),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return getFistPageTransaction(
-      animation: animation,
-      child: getSecondaryPageTransaction(
-        animation: secondaryAnimation,
-        child: child,
-      ),
     );
   }
 

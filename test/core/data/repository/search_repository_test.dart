@@ -1,4 +1,5 @@
 import 'package:anime_tracker/core/data/load_result.dart';
+import 'package:anime_tracker/core/data/model/anime_model.dart';
 import 'package:anime_tracker/core/data/search_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -12,7 +13,7 @@ void main() {
     test('search page', () async {
       final res = await searchRepository
           .loadMediaSearchResultByPage(page: 1, perPage: 3, search:  'Titan');
-      expect(res.runtimeType, LoadSuccess);
+      expect(res.runtimeType, LoadSuccess<List<AnimeModel>>);
     });
   });
 }
