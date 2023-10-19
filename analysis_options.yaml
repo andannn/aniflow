@@ -69,3 +69,18 @@ linter:
     - curly_braces_in_flow_control_structures
     - constant_identifier_names
     - avoid_dynamic_calls
+    - await_only_futures
+    - exhaustive_cases
+    - file_names
+    - null_check_on_nullable_type_parameter
+    - null_closures
+    - prefer_collection_literals
+    - prefer_conditional_assignment
+    - unnecessary_nullable_for_final_variable_declarations
+    - unnecessary_overrides
+    - unnecessary_string_escapes
+    - unnecessary_this
+    - unnecessary_string_interpolations
+    - use_rethrow_when_possible
+    - void_checks
+    - depend_on_referenced_packages

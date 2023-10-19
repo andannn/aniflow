@@ -31,7 +31,8 @@ class SearchRepositoryImpl implements SearchRepository {
       ),
       mapDtoToModel: (AnimeDto dto) => AnimeModel.fromDto(dto),
       onInsertEntityToDB: (List<AnimeDto> dto) async {
-        final entities = dto.map((e) => AnimeEntity.fromNetworkModel(e)).toList();
+        final entities =
+            dto.map((e) => AnimeEntity.fromNetworkModel(e)).toList();
         await dao.upsertAnimeInformation(entities);
       },
     );
