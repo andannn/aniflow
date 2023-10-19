@@ -52,7 +52,7 @@ class DiscoverScreen extends StatelessWidget {
         final isLoading = state.isLoading;
         return RefreshIndicator(
           onRefresh: () async {
-            await context.read<DiscoverBloc>().refreshAnime();
+            await context.read<DiscoverBloc>().refreshAllMedia();
           },
           child: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,

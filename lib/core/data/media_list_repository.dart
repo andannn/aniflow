@@ -31,7 +31,7 @@ abstract class MediaListRepository {
 
   Future<LoadResult<void>> syncUserAnimeList({String? userId});
 
-  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
+  Stream<Set<String>> getMediaListAnimeIdsByUserStream(
       String userId, List<MediaListStatus> status);
 
   Stream<bool> getIsTrackingByUserAndIdStream(
@@ -129,7 +129,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Stream<Set<String>> getAnimeListAnimeIdsByUserStream(
+  Stream<Set<String>> getMediaListAnimeIdsByUserStream(
       String userId, List<MediaListStatus> status) {
     return animeTrackListDao.getMediaListMediaIdsByUserStream(userId, status);
   }

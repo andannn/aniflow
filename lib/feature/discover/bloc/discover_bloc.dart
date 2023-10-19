@@ -85,7 +85,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   final MediaListRepository _animeTrackListRepository;
 
   StreamSubscription? _userDataSub;
-  StreamSubscription? _trackedAnimeIdsSub;
+  StreamSubscription? _trackedMediaIdsSub;
 
   Set<String> _ids = {};
 
@@ -97,7 +97,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   @override
   Future<void> close() {
     _userDataSub?.cancel();
-    _trackedAnimeIdsSub?.cancel();
+    _trackedMediaIdsSub?.cancel();
 
     return super.close();
   }
@@ -140,11 +140,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     if (lastSyncTime != null) {
       /// Refresh all data.
-      await refreshAnime();
+      await refreshAllMedia();
     }
   }
 
-  Future<void> refreshAnime() async {
+  Future<void> refreshAllMedia() async {
     add(_OnLoadStateChanged(true));
 
     /// wait refresh tasks.
@@ -155,14 +155,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _createLoadAnimePageTask(MediaCategory.movie, isRefresh: true),
     ]);
     if (!result.any((e) => e == false)) {
-      logger.d('AimeTracker refresh success');
-
-      /// data sync success and show snack bar message.
-      showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
-
       /// refresh success, update sync time.
       await _userDataRepository.setLastSuccessSync(DateTime.now());
     } else {
+      logger.d('AimeTracker refresh failed');
+
       /// data sync failed and show snack bar message.
       showSnackBarMessage(label: AFLocalizations.of().dataRefreshFailed);
     }
@@ -220,9 +217,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     if (event.userData != null) {
       /// user login, start listen following anime changed.
-      await _trackedAnimeIdsSub?.cancel();
-      _trackedAnimeIdsSub =
-          _animeTrackListRepository.getAnimeListAnimeIdsByUserStream(
+      await _trackedMediaIdsSub?.cancel();
+      _trackedMediaIdsSub =
+          _animeTrackListRepository.getMediaListAnimeIdsByUserStream(
         event.userData!.id,
         [MediaListStatus.planning, MediaListStatus.current],
       ).listen((ids) {
@@ -234,7 +231,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
           userId: event.userData!.id));
     } else {
       /// user logout, cancel following stream.
-      await _trackedAnimeIdsSub?.cancel();
+      await _trackedMediaIdsSub?.cancel();
     }
   }
 
