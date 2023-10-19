@@ -2,10 +2,10 @@ import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
+import 'package:anime_tracker/core/data/model/media_model.dart';
 import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
+import 'package:anime_tracker/core/design_system/widget/media_preview_item.dart';
 import 'package:anime_tracker/feature/auth/auth_dialog.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
@@ -82,7 +82,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  AnimeCategory.currentSeason,
+                  MediaCategory.currentSeason,
                   currentSeasonState,
                 ),
               ),
@@ -92,7 +92,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  AnimeCategory.nextSeason,
+                  MediaCategory.nextSeason,
                   nextSeasonState,
                 ),
               ),
@@ -102,7 +102,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  AnimeCategory.trending,
+                  MediaCategory.trending,
                   trendingState,
                 ),
               ),
@@ -112,7 +112,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  AnimeCategory.movie,
+                  MediaCategory.movie,
                   movieState,
                 ),
               ),
@@ -125,7 +125,7 @@ class DiscoverScreen extends StatelessWidget {
 
   Widget _buildAnimeCategoryPreview(
     BuildContext context,
-    AnimeCategory category,
+    MediaCategory category,
     PagingState state,
   ) {
     final animeModels = state.data;
@@ -152,9 +152,9 @@ class _AnimeCategoryPreview extends StatelessWidget {
       this.onMoreClick,
       this.onAnimeClick});
 
-  final AnimeCategory category;
+  final MediaCategory category;
   final bool isLoading;
-  final List<AnimeModel> animeModels;
+  final List<MediaModel> animeModels;
   final VoidCallback? onMoreClick;
   final Function(String animeId)? onAnimeClick;
 
@@ -173,7 +173,7 @@ class _AnimeCategoryPreview extends StatelessWidget {
                   sliver: SliverList.builder(
                     itemCount: animeModels.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return AnimePreviewItem(
+                      return MediaPreviewItem(
                         width: 160,
                         textStyle: Theme.of(context).textTheme.titleSmall,
                         model: animeModels[index],
@@ -191,13 +191,13 @@ class _AnimeCategoryPreview extends StatelessWidget {
   Widget _buildTitleBar(BuildContext context) {
     String title;
     switch (category) {
-      case AnimeCategory.currentSeason:
+      case MediaCategory.currentSeason:
         title = AFLocalizations.of(context).popularThisSeasonLabel;
-      case AnimeCategory.nextSeason:
+      case MediaCategory.nextSeason:
         title = AFLocalizations.of(context).upComingNextSeasonLabel;
-      case AnimeCategory.trending:
+      case MediaCategory.trending:
         title = AFLocalizations.of(context).trendingNowLabel;
-      case AnimeCategory.movie:
+      case MediaCategory.movie:
         title = AFLocalizations.of(context).movieLabel;
     }
     return Padding(

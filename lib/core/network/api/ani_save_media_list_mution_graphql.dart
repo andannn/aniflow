@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
+import 'package:anime_tracker/core/data/media_list_repository.dart';
 
 class MediaListMutationParam {
   MediaListMutationParam(
@@ -11,7 +11,7 @@ class MediaListMutationParam {
   final int? entryId;
   final int mediaId;
   final int? progress;
-  final AnimeListStatus? status;
+  final MediaListStatus? status;
   final int? score;
 }
 

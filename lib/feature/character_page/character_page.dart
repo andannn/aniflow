@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
+import 'package:anime_tracker/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:anime_tracker/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:anime_tracker/feature/common/paging_bloc.dart';

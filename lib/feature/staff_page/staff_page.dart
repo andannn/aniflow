@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/data/media_information_repository.dart';
 import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_staff_item.dart';
+import 'package:anime_tracker/core/design_system/widget/staff_item.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:anime_tracker/feature/common/paging_bloc.dart';
 import 'package:anime_tracker/feature/common/paging_content_widget.dart';

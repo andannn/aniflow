@@ -1,4 +1,4 @@
-enum AnimeCategory {
+enum MediaCategory {
   /// current season releasing anime.
   currentSeason,
 

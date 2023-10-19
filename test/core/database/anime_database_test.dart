@@ -1,10 +1,10 @@
 import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/database/anime_database.dart';
+import 'package:anime_tracker/core/database/aniflow_database.dart';
 import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
-import 'package:anime_tracker/core/database/model/anime_entity.dart';
 import 'package:anime_tracker/core/database/model/character_entity.dart';
+import 'package:anime_tracker/core/database/model/media_entity.dart';
 import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
+import 'package:anime_tracker/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,10 +12,10 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   group('anime_database_test', () {
-    final animeDatabase = AnimeDatabase();
+    final animeDatabase = AniflowDatabase();
 
     final dummyAnimeData = [
-      AnimeEntity(
+      MediaEntity(
           id: '5784',
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
@@ -23,7 +23,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
           coverImageColor: '#6b351a'),
-      AnimeEntity(
+      MediaEntity(
           id: '8917',
           englishTitle: 'Bodacious Space Pirates',
           romajiTitle: 'Mouretsu Pirates',
@@ -31,7 +31,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
           coverImageColor: '#50aee4'),
-      AnimeEntity(
+      MediaEntity(
           id: '9523',
           englishTitle: '',
           romajiTitle: 'Minori Scramble!',
@@ -39,7 +39,7 @@ void main() {
           coverImage:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
           coverImageColor: '#f10000'),
-      AnimeEntity(
+      MediaEntity(
           id: '4353',
           englishTitle: '',
           romajiTitle: 'test test test!',
@@ -129,61 +129,61 @@ void main() {
     });
 
     tearDown(() async {
-      await animeDatabase.animeDB.delete(Tables.animeTable);
-      await animeDatabase.animeDB.delete(Tables.categoryTable);
-      await animeDatabase.animeDB.delete(Tables.animeCategoryCrossRefTable);
-      await animeDatabase.animeDB.delete(Tables.userDataTable);
-      await animeDatabase.animeDB.delete(Tables.animeCharacterCrossRefTable);
-      await animeDatabase.animeDB.delete(Tables.characterTable);
-      await animeDatabase.animeDB.delete(Tables.airingSchedulesTable);
-      await animeDatabase.animeDB.delete(Tables.mediaExternalLickTable);
+      await animeDatabase.aniflowDB.delete(Tables.mediaTable);
+      await animeDatabase.aniflowDB.delete(Tables.categoryTable);
+      await animeDatabase.aniflowDB.delete(Tables.animeCategoryCrossRefTable);
+      await animeDatabase.aniflowDB.delete(Tables.userDataTable);
+      await animeDatabase.aniflowDB.delete(Tables.mediaCharacterCrossRefTable);
+      await animeDatabase.aniflowDB.delete(Tables.characterTable);
+      await animeDatabase.aniflowDB.delete(Tables.airingSchedulesTable);
+      await animeDatabase.aniflowDB.delete(Tables.mediaExternalLickTable);
     });
 
     test('anime_dao_clear_all', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.clearAnimeCategoryCrossRef(AnimeCategory.movie);
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.clearAnimeCategoryCrossRef(MediaCategory.movie);
     });
 
     test('anime_dao_insert', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trending,
           animeList: dummyAnimeData);
     });
 
     test('anime_dao_insert_and_get', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trending,
           animeList: dummyAnimeData);
 
       final res =
-          await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.trending, page: 1);
       expect(res, equals(dummyAnimeData));
     });
 
     test('user_data_insert_and_get_cross_ref', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.insertOrIgnoreAnimeByAnimeCategory(AnimeCategory.trending,
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trending,
           animeList: dummyAnimeData.sublist(0, 2));
-      await animeDao.insertOrIgnoreAnimeByAnimeCategory(
-          AnimeCategory.currentSeason,
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(
+          MediaCategory.currentSeason,
           animeList: dummyAnimeData.sublist(1, 3));
       final res =
-          await animeDao.getAnimeByPage(AnimeCategory.trending, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.trending, page: 1);
       expect(res, equals(dummyAnimeData.sublist(0, 2)));
       final res1 =
-          await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.currentSeason, page: 1);
       expect(res1, equals(dummyAnimeData.sublist(1, 3)));
     });
 
     test('upsert_detail_anime_data', () async {
-      final animeDao = animeDatabase.getAnimeDao();
-      await animeDao.upsertAnimeInformation([dummyAnimeData[0]]);
-      final res = await animeDatabase.animeDB.query(Tables.animeTable);
-      expect(AnimeEntity.fromJson(res.first), equals(dummyAnimeData[0]));
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.upsertMediaInformation([dummyAnimeData[0]]);
+      final res = await animeDatabase.aniflowDB.query(Tables.mediaTable);
+      expect(MediaEntity.fromJson(res.first), equals(dummyAnimeData[0]));
     });
 
     test('upsert_voice_actor_data', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertStaffInfo(dummyVoiceActorData);
     });
 
@@ -212,14 +212,14 @@ void main() {
     });
 
     test('insert_airing_schedule', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
     });
 
     test('get_airing_schedule_by_range', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
-      await animeDao.upsertAnimeInformation(dummyAnimeData);
+      await animeDao.upsertMediaInformation(dummyAnimeData);
 
       final result =
           await animeDao.getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
@@ -231,29 +231,29 @@ void main() {
     });
 
     test('upsert_media_external_links_test', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      await animeDao.upsertAnimeInformation(dummyAnimeData);
+      await animeDao.upsertMediaInformation(dummyAnimeData);
       await animeDao.upsertMediaExternalLinks(
           externalLinks: dummyExternalLinks);
 
-      final result = await animeDao.getDetailAnimeInfo('5784');
+      final result = await animeDao.getDetailMediaInfo('5784');
       expect(result.externalLinks, equals([dummyExternalLinks[0]]));
     });
 
     test('query_character_page', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      await animeDao.insertCharacterVoiceActors(animeId: 5784, entities: [
-        CharacterAndVoiceActor(
+      await animeDao.insertCharacterVoiceActors(mediaId: 5784, entities: [
+        CharacterAndVoiceActorRelation(
             characterEntity: dummyCharacterData[0], voiceActorEntity: null),
-        CharacterAndVoiceActor(
+        CharacterAndVoiceActorRelation(
             characterEntity: dummyCharacterData[1], voiceActorEntity: null),
-        CharacterAndVoiceActor(
+        CharacterAndVoiceActorRelation(
             characterEntity: dummyCharacterData[2], voiceActorEntity: null),
       ]);
 
-      await animeDao.getCharacterOfAnimeByPage('5784', page: 1);
+      await animeDao.getCharacterOfMediaByPage('5784', page: 1);
     });
   });
 }

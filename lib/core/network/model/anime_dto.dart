@@ -1,7 +1,7 @@
 import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/model/anime_source.dart';
-import 'package:anime_tracker/core/common/model/anime_status.dart';
-import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
+import 'package:anime_tracker/core/common/model/media_status.dart';
+import 'package:anime_tracker/core/data/model/media_title_modle.dart';
 import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
 import 'package:anime_tracker/core/network/model/anime_rank.dart';
 import 'package:anime_tracker/core/network/model/character_connection.dart';
@@ -17,10 +17,10 @@ part 'anime_dto.g.dart';
 class AnimeDto with _$AnimeDto {
   factory AnimeDto({
     @Default(-1) @JsonKey(name: 'id') int id,
-    @JsonKey(name: 'title') AnimeTitle? title,
+    @JsonKey(name: 'title') MediaTitle? title,
     @Default({}) @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
     @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'status') AnimeStatus? status,
+    @JsonKey(name: 'status') MediaStatus? status,
     @JsonKey(name: 'source') AnimeSource? source,
     @JsonKey(name: 'episodes') int? episodes,
     @JsonKey(name: 'seasonYear') int? seasonYear,

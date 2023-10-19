@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/dao/anime_dao.dart';
+import 'package:anime_tracker/core/database/dao/media_dao.dart';
 import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -11,7 +11,7 @@ class MediaExternalLinkEntity with _$MediaExternalLinkEntity {
   factory MediaExternalLinkEntity({
     @Default('') @JsonKey(name: MediaExternalLinkColumnValues.id) String id,
     @Default('')
-    @JsonKey(name: MediaExternalLinkColumnValues.animeId)
+    @JsonKey(name: MediaExternalLinkColumnValues.mediaId)
     String animeId,
     @JsonKey(name: MediaExternalLinkColumnValues.url) String? url,
     @JsonKey(name: MediaExternalLinkColumnValues.site) String? site,

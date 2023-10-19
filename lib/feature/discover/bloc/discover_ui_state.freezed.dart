@@ -18,13 +18,13 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DiscoverUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   String get isShowSuggestionBoard => throw _privateConstructorUsedError;
-  PagingState<List<AnimeModel>> get currentSeasonPagingState =>
+  PagingState<List<MediaModel>> get currentSeasonPagingState =>
       throw _privateConstructorUsedError;
-  PagingState<List<AnimeModel>> get nextSeasonPagingState =>
+  PagingState<List<MediaModel>> get nextSeasonPagingState =>
       throw _privateConstructorUsedError;
-  PagingState<List<AnimeModel>> get trendingPagingState =>
+  PagingState<List<MediaModel>> get trendingPagingState =>
       throw _privateConstructorUsedError;
-  PagingState<List<AnimeModel>> get moviePagingState =>
+  PagingState<List<MediaModel>> get moviePagingState =>
       throw _privateConstructorUsedError;
   UserData? get userData => throw _privateConstructorUsedError;
 
@@ -42,10 +42,10 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       String isShowSuggestionBoard,
-      PagingState<List<AnimeModel>> currentSeasonPagingState,
-      PagingState<List<AnimeModel>> nextSeasonPagingState,
-      PagingState<List<AnimeModel>> trendingPagingState,
-      PagingState<List<AnimeModel>> moviePagingState,
+      PagingState<List<MediaModel>> currentSeasonPagingState,
+      PagingState<List<MediaModel>> nextSeasonPagingState,
+      PagingState<List<MediaModel>> trendingPagingState,
+      PagingState<List<MediaModel>> moviePagingState,
       UserData? userData});
 
   $UserDataCopyWith<$Res>? get userData;
@@ -84,19 +84,19 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
       currentSeasonPagingState: null == currentSeasonPagingState
           ? _value.currentSeasonPagingState
           : currentSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       nextSeasonPagingState: null == nextSeasonPagingState
           ? _value.nextSeasonPagingState
           : nextSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       trendingPagingState: null == trendingPagingState
           ? _value.trendingPagingState
           : trendingPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       moviePagingState: null == moviePagingState
           ? _value.moviePagingState
           : moviePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -128,10 +128,10 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
   $Res call(
       {bool isLoading,
       String isShowSuggestionBoard,
-      PagingState<List<AnimeModel>> currentSeasonPagingState,
-      PagingState<List<AnimeModel>> nextSeasonPagingState,
-      PagingState<List<AnimeModel>> trendingPagingState,
-      PagingState<List<AnimeModel>> moviePagingState,
+      PagingState<List<MediaModel>> currentSeasonPagingState,
+      PagingState<List<MediaModel>> nextSeasonPagingState,
+      PagingState<List<MediaModel>> trendingPagingState,
+      PagingState<List<MediaModel>> moviePagingState,
       UserData? userData});
 
   @override
@@ -169,19 +169,19 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
       currentSeasonPagingState: null == currentSeasonPagingState
           ? _value.currentSeasonPagingState
           : currentSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       nextSeasonPagingState: null == nextSeasonPagingState
           ? _value.nextSeasonPagingState
           : nextSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       trendingPagingState: null == trendingPagingState
           ? _value.trendingPagingState
           : trendingPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       moviePagingState: null == moviePagingState
           ? _value.moviePagingState
           : moviePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<AnimeModel>>,
+              as PagingState<List<MediaModel>>,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -210,16 +210,16 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   final String isShowSuggestionBoard;
   @override
   @JsonKey()
-  final PagingState<List<AnimeModel>> currentSeasonPagingState;
+  final PagingState<List<MediaModel>> currentSeasonPagingState;
   @override
   @JsonKey()
-  final PagingState<List<AnimeModel>> nextSeasonPagingState;
+  final PagingState<List<MediaModel>> nextSeasonPagingState;
   @override
   @JsonKey()
-  final PagingState<List<AnimeModel>> trendingPagingState;
+  final PagingState<List<MediaModel>> trendingPagingState;
   @override
   @JsonKey()
-  final PagingState<List<AnimeModel>> moviePagingState;
+  final PagingState<List<MediaModel>> moviePagingState;
   @override
   final UserData? userData;
 
@@ -272,10 +272,10 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
       {final bool isLoading,
       final String isShowSuggestionBoard,
-      final PagingState<List<AnimeModel>> currentSeasonPagingState,
-      final PagingState<List<AnimeModel>> nextSeasonPagingState,
-      final PagingState<List<AnimeModel>> trendingPagingState,
-      final PagingState<List<AnimeModel>> moviePagingState,
+      final PagingState<List<MediaModel>> currentSeasonPagingState,
+      final PagingState<List<MediaModel>> nextSeasonPagingState,
+      final PagingState<List<MediaModel>> trendingPagingState,
+      final PagingState<List<MediaModel>> moviePagingState,
       final UserData? userData}) = _$_DiscoverUiState;
 
   @override
@@ -283,13 +283,13 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   @override
   String get isShowSuggestionBoard;
   @override
-  PagingState<List<AnimeModel>> get currentSeasonPagingState;
+  PagingState<List<MediaModel>> get currentSeasonPagingState;
   @override
-  PagingState<List<AnimeModel>> get nextSeasonPagingState;
+  PagingState<List<MediaModel>> get nextSeasonPagingState;
   @override
-  PagingState<List<AnimeModel>> get trendingPagingState;
+  PagingState<List<MediaModel>> get trendingPagingState;
   @override
-  PagingState<List<AnimeModel>> get moviePagingState;
+  PagingState<List<MediaModel>> get moviePagingState;
   @override
   UserData? get userData;
   @override

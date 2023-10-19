@@ -1,5 +1,6 @@
 import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:anime_tracker/core/common/model/media_type.dart';
+import 'package:anime_tracker/core/shared_preference/aniflow_prefrences.dart';
 
 abstract class UserDataRepository {
   AnimeSeasonParam getAnimeSeasonParam();
@@ -9,6 +10,8 @@ abstract class UserDataRepository {
   DateTime? getLastSuccessSyncTime();
 
   Future setLastSuccessSync(DateTime time);
+
+  Stream<MediaType> getMediaTypeStream();
 }
 
 class UserDataRepositoryImpl implements UserDataRepository {
@@ -34,4 +37,8 @@ class UserDataRepositoryImpl implements UserDataRepository {
   @override
   Future setLastSuccessSync(DateTime time) =>
       preferences.setLastSuccessSync(time);
+
+  @override
+  Stream<MediaType> getMediaTypeStream() =>
+      preferences.getCurrentMediaTypeStream();
 }

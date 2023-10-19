@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/model/anime_model.dart';
+import 'package:anime_tracker/core/data/model/media_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,13 +11,13 @@ class DiscoverUiState with _$DiscoverUiState {
     @Default(false) bool isLoading,
     @Default('') String isShowSuggestionBoard,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> currentSeasonPagingState,
+    PagingState<List<MediaModel>> currentSeasonPagingState,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> nextSeasonPagingState,
+    PagingState<List<MediaModel>> nextSeasonPagingState,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> trendingPagingState,
+    PagingState<List<MediaModel>> trendingPagingState,
     @Default(PageLoading(data: [], page: 1))
-    PagingState<List<AnimeModel>> moviePagingState,
+    PagingState<List<MediaModel>> moviePagingState,
     UserData? userData,
   }) = _DiscoverUiState;
 

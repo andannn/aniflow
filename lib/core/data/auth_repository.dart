@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:anime_tracker/core/channel/auth_event_channel.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/dao/anime_track_list_dao.dart';
+import 'package:anime_tracker/core/database/aniflow_database.dart';
+import 'package:anime_tracker/core/database/dao/media_list_dao.dart';
 import 'package:anime_tracker/core/database/dao/user_data_dao.dart';
 import 'package:anime_tracker/core/database/model/user_data_entity.dart';
 import 'package:anime_tracker/core/network/auth_data_source.dart';
-import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:anime_tracker/core/shared_preference/aniflow_prefrences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _clientId = '14409';
@@ -32,10 +32,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   final AuthDataSource authDataSource = AuthDataSource();
 
-  final UserDataDao userDataDao = AnimeDatabase().getUserDataDao();
+  final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
 
-  final AnimeTrackListDao animeTrackListDao =
-      AnimeDatabase().getAnimeTrackListDao();
+  final MediaListDao animeTrackListDao =
+      AniflowDatabase().getMediaListDao();
 
   @override
   Future<bool> awaitAuthLogin() async {
@@ -79,8 +79,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future logout() async {
     final userId = (await userDataDao.getUserData())?.id;
     if (userId != null) {
-      await animeTrackListDao.removeUserAnimeListByUserId(userId);
-      animeTrackListDao.notifyTrackingAnimeContentChanged(userId);
+      await animeTrackListDao.removeMediaListByUserId(userId);
+      animeTrackListDao.notifyMediaListChanged(userId);
     }
     await userDataDao.removeUserData();
     await preferences.setAuthExpiredTime(null);

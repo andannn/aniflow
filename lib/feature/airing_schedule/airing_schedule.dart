@@ -1,7 +1,7 @@
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/design_system/widget/airing_anime_item.dart';
+import 'package:anime_tracker/core/design_system/widget/airing_media_item.dart';
 import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
 import 'package:anime_tracker/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
 import 'package:anime_tracker/feature/airing_schedule/bloc/airing_schedule_state.dart';
@@ -227,7 +227,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                         top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
                     child: SizedBox(
                       height: 120,
-                      child: AiringAnimeItem(
+                      child: AiringMediaItem(
                         model: schedule,
                         onClick: () {
                           AFRouterDelegate.of(context)

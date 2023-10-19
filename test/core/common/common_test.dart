@@ -1,5 +1,7 @@
+import 'package:anime_tracker/core/common/model/media_type.dart';
 import 'package:anime_tracker/core/common/util/color_util.dart';
 import 'package:anime_tracker/core/common/util/time_util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -24,6 +26,9 @@ void main() {
 
       final res = ColorUtil.parseColor('#123456');
       expect(res != null, equals(true));
+    });
+    test('enum_to_from_json', () async {
+      expect(describeEnum(MediaType.anime), equals('anime'));
     });
   });
 }

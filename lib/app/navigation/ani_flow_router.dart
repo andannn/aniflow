@@ -77,7 +77,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     notifyListeners();
   }
 
-  void navigateToAnimeList(AnimeCategory category) {
+  void navigateToAnimeList(MediaCategory category) {
     _backStack += [AnimeListRoutePath(category)];
 
     notifyListeners();

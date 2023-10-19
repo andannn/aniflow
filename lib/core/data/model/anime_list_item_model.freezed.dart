@@ -15,40 +15,40 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$AnimeListItemModel {
+mixin _$MediaListItemModel {
   String get id => throw _privateConstructorUsedError;
-  AnimeListStatus? get status => throw _privateConstructorUsedError;
+  MediaListStatus? get status => throw _privateConstructorUsedError;
   int? get score => throw _privateConstructorUsedError;
   int? get updatedAt => throw _privateConstructorUsedError;
   int? get progress => throw _privateConstructorUsedError;
-  AnimeModel? get animeModel => throw _privateConstructorUsedError;
+  MediaModel? get animeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AnimeListItemModelCopyWith<AnimeListItemModel> get copyWith =>
+  $MediaListItemModelCopyWith<MediaListItemModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AnimeListItemModelCopyWith<$Res> {
-  factory $AnimeListItemModelCopyWith(
-          AnimeListItemModel value, $Res Function(AnimeListItemModel) then) =
-      _$AnimeListItemModelCopyWithImpl<$Res, AnimeListItemModel>;
+abstract class $MediaListItemModelCopyWith<$Res> {
+  factory $MediaListItemModelCopyWith(
+          MediaListItemModel value, $Res Function(MediaListItemModel) then) =
+      _$MediaListItemModelCopyWithImpl<$Res, MediaListItemModel>;
   @useResult
   $Res call(
       {String id,
-      AnimeListStatus? status,
+      MediaListStatus? status,
       int? score,
       int? updatedAt,
       int? progress,
-      AnimeModel? animeModel});
+      MediaModel? animeModel});
 
-  $AnimeModelCopyWith<$Res>? get animeModel;
+  $MediaModelCopyWith<$Res>? get animeModel;
 }
 
 /// @nodoc
-class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
-    implements $AnimeListItemModelCopyWith<$Res> {
-  _$AnimeListItemModelCopyWithImpl(this._value, this._then);
+class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
+    implements $MediaListItemModelCopyWith<$Res> {
+  _$MediaListItemModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -73,7 +73,7 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as AnimeListStatus?,
+              as MediaListStatus?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -89,49 +89,49 @@ class _$AnimeListItemModelCopyWithImpl<$Res, $Val extends AnimeListItemModel>
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
-              as AnimeModel?,
+              as MediaModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AnimeModelCopyWith<$Res>? get animeModel {
+  $MediaModelCopyWith<$Res>? get animeModel {
     if (_value.animeModel == null) {
       return null;
     }
 
-    return $AnimeModelCopyWith<$Res>(_value.animeModel!, (value) {
+    return $MediaModelCopyWith<$Res>(_value.animeModel!, (value) {
       return _then(_value.copyWith(animeModel: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$_AnimeListItemModelCopyWith<$Res>
-    implements $AnimeListItemModelCopyWith<$Res> {
-  factory _$$_AnimeListItemModelCopyWith(_$_AnimeListItemModel value,
-          $Res Function(_$_AnimeListItemModel) then) =
-      __$$_AnimeListItemModelCopyWithImpl<$Res>;
+abstract class _$$_MediaListItemModelCopyWith<$Res>
+    implements $MediaListItemModelCopyWith<$Res> {
+  factory _$$_MediaListItemModelCopyWith(_$_MediaListItemModel value,
+          $Res Function(_$_MediaListItemModel) then) =
+      __$$_MediaListItemModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
-      AnimeListStatus? status,
+      MediaListStatus? status,
       int? score,
       int? updatedAt,
       int? progress,
-      AnimeModel? animeModel});
+      MediaModel? animeModel});
 
   @override
-  $AnimeModelCopyWith<$Res>? get animeModel;
+  $MediaModelCopyWith<$Res>? get animeModel;
 }
 
 /// @nodoc
-class __$$_AnimeListItemModelCopyWithImpl<$Res>
-    extends _$AnimeListItemModelCopyWithImpl<$Res, _$_AnimeListItemModel>
-    implements _$$_AnimeListItemModelCopyWith<$Res> {
-  __$$_AnimeListItemModelCopyWithImpl(
-      _$_AnimeListItemModel _value, $Res Function(_$_AnimeListItemModel) _then)
+class __$$_MediaListItemModelCopyWithImpl<$Res>
+    extends _$MediaListItemModelCopyWithImpl<$Res, _$_MediaListItemModel>
+    implements _$$_MediaListItemModelCopyWith<$Res> {
+  __$$_MediaListItemModelCopyWithImpl(
+      _$_MediaListItemModel _value, $Res Function(_$_MediaListItemModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,7 +144,7 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
     Object? progress = freezed,
     Object? animeModel = freezed,
   }) {
-    return _then(_$_AnimeListItemModel(
+    return _then(_$_MediaListItemModel(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as AnimeListStatus?,
+              as MediaListStatus?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -168,15 +168,15 @@ class __$$_AnimeListItemModelCopyWithImpl<$Res>
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
-              as AnimeModel?,
+              as MediaModel?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_AnimeListItemModel implements _AnimeListItemModel {
-  _$_AnimeListItemModel(
+class _$_MediaListItemModel implements _MediaListItemModel {
+  _$_MediaListItemModel(
       {this.id = '',
       this.status,
       this.score,
@@ -188,7 +188,7 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
   @JsonKey()
   final String id;
   @override
-  final AnimeListStatus? status;
+  final MediaListStatus? status;
   @override
   final int? score;
   @override
@@ -196,18 +196,18 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
   @override
   final int? progress;
   @override
-  final AnimeModel? animeModel;
+  final MediaModel? animeModel;
 
   @override
   String toString() {
-    return 'AnimeListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, animeModel: $animeModel)';
+    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, animeModel: $animeModel)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AnimeListItemModel &&
+            other is _$_MediaListItemModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.score, score) || other.score == score) &&
@@ -226,24 +226,24 @@ class _$_AnimeListItemModel implements _AnimeListItemModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnimeListItemModelCopyWith<_$_AnimeListItemModel> get copyWith =>
-      __$$_AnimeListItemModelCopyWithImpl<_$_AnimeListItemModel>(
+  _$$_MediaListItemModelCopyWith<_$_MediaListItemModel> get copyWith =>
+      __$$_MediaListItemModelCopyWithImpl<_$_MediaListItemModel>(
           this, _$identity);
 }
 
-abstract class _AnimeListItemModel implements AnimeListItemModel {
-  factory _AnimeListItemModel(
+abstract class _MediaListItemModel implements MediaListItemModel {
+  factory _MediaListItemModel(
       {final String id,
-      final AnimeListStatus? status,
+      final MediaListStatus? status,
       final int? score,
       final int? updatedAt,
       final int? progress,
-      final AnimeModel? animeModel}) = _$_AnimeListItemModel;
+      final MediaModel? animeModel}) = _$_MediaListItemModel;
 
   @override
   String get id;
   @override
-  AnimeListStatus? get status;
+  MediaListStatus? get status;
   @override
   int? get score;
   @override
@@ -251,9 +251,9 @@ abstract class _AnimeListItemModel implements AnimeListItemModel {
   @override
   int? get progress;
   @override
-  AnimeModel? get animeModel;
+  MediaModel? get animeModel;
   @override
   @JsonKey(ignore: true)
-  _$$_AnimeListItemModelCopyWith<_$_AnimeListItemModel> get copyWith =>
+  _$$_MediaListItemModelCopyWith<_$_MediaListItemModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

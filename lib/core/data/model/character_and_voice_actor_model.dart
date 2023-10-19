@@ -1,6 +1,6 @@
 import 'package:anime_tracker/core/data/model/character_model.dart';
 import 'package:anime_tracker/core/data/model/staff_model.dart';
-import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
+import 'package:anime_tracker/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:anime_tracker/core/database/model/staff_entity.dart';
 
 class CharacterAndVoiceActorModel {
@@ -11,7 +11,7 @@ class CharacterAndVoiceActorModel {
   final StaffModel voiceActorModel;
 
   static CharacterAndVoiceActorModel fromDatabaseEntity(
-      CharacterAndVoiceActor entity) {
+      CharacterAndVoiceActorRelation entity) {
     return CharacterAndVoiceActorModel(
       characterModel: CharacterModel.fromDatabaseEntity(
         entity.characterEntity,

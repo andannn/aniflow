@@ -6,14 +6,14 @@ import 'package:anime_tracker/core/common/model/anime_season.dart';
 import 'package:anime_tracker/core/common/util/anime_season_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/logger.dart';
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
 import 'package:anime_tracker/core/data/auth_repository.dart';
 import 'package:anime_tracker/core/data/load_result.dart';
 import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
+import 'package:anime_tracker/core/data/media_list_repository.dart';
+import 'package:anime_tracker/core/data/model/media_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/core/data/user_data_repository.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
+import 'package:anime_tracker/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
 import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
@@ -23,14 +23,14 @@ sealed class DiscoverEvent {}
 class _OnAnimeLoaded extends DiscoverEvent {
   _OnAnimeLoaded(this.animeList, this.category);
 
-  final List<AnimeModel> animeList;
-  final AnimeCategory category;
+  final List<MediaModel> animeList;
+  final MediaCategory category;
 }
 
 class _OnAnimeLoadError extends DiscoverEvent {
   _OnAnimeLoadError(this.exception, this.category);
 
-  final AnimeCategory category;
+  final MediaCategory category;
   final Exception exception;
 }
 
@@ -61,7 +61,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       {required AuthRepository authRepository,
       required userDataRepository,
       required aniListRepository,
-      required AniListRepository animeTrackListRepository})
+      required MediaListRepository animeTrackListRepository})
       : _userDataRepository = userDataRepository,
         _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
@@ -82,7 +82,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   final UserDataRepository _userDataRepository;
   final MediaInformationRepository _aniListRepository;
-  final AniListRepository _animeTrackListRepository;
+  final MediaListRepository _animeTrackListRepository;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _trackedAnimeIdsSub;
@@ -119,10 +119,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
     add(_OnLoadStateChanged(true));
     final initialLoadResult = await Future.wait([
-      _createLoadAnimePageTask(AnimeCategory.currentSeason),
-      _createLoadAnimePageTask(AnimeCategory.nextSeason),
-      _createLoadAnimePageTask(AnimeCategory.trending),
-      _createLoadAnimePageTask(AnimeCategory.movie),
+      _createLoadAnimePageTask(MediaCategory.currentSeason),
+      _createLoadAnimePageTask(MediaCategory.nextSeason),
+      _createLoadAnimePageTask(MediaCategory.trending),
+      _createLoadAnimePageTask(MediaCategory.movie),
     ]);
     add(_OnLoadStateChanged(false));
 
@@ -149,10 +149,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     /// wait refresh tasks.
     final result = await Future.wait([
-      _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
-      _createLoadAnimePageTask(AnimeCategory.nextSeason, isRefresh: true),
-      _createLoadAnimePageTask(AnimeCategory.trending, isRefresh: true),
-      _createLoadAnimePageTask(AnimeCategory.movie, isRefresh: true),
+      _createLoadAnimePageTask(MediaCategory.currentSeason, isRefresh: true),
+      _createLoadAnimePageTask(MediaCategory.nextSeason, isRefresh: true),
+      _createLoadAnimePageTask(MediaCategory.trending, isRefresh: true),
+      _createLoadAnimePageTask(MediaCategory.movie, isRefresh: true),
     ]);
     if (!result.any((e) => e == false)) {
       logger.d('AimeTracker refresh success');
@@ -170,7 +170,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     add(_OnLoadStateChanged(false));
   }
 
-  Future<bool> _createLoadAnimePageTask(AnimeCategory category,
+  Future<bool> _createLoadAnimePageTask(MediaCategory category,
       {bool isRefresh = false}) async {
     final LoadResult result;
     if (isRefresh) {
@@ -183,10 +183,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       );
     }
     switch (result) {
-      case LoadSuccess<List<AnimeModel>>(data: final data):
+      case LoadSuccess<List<MediaModel>>(data: final data):
         add(_OnAnimeLoaded(data, category));
         return true;
-      case LoadError<List<AnimeModel>>(exception: final exception):
+      case LoadError<List<MediaModel>>(exception: final exception):
         add(_OnAnimeLoadError(exception, category));
         return false;
       default:
@@ -199,13 +199,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     final result = PageReady(data: event.animeList, page: 1);
     final DiscoverUiState newState;
     switch (event.category) {
-      case AnimeCategory.nextSeason:
+      case MediaCategory.nextSeason:
         newState = state.copyWith(nextSeasonPagingState: result);
-      case AnimeCategory.currentSeason:
+      case MediaCategory.currentSeason:
         newState = state.copyWith(currentSeasonPagingState: result);
-      case AnimeCategory.trending:
+      case MediaCategory.trending:
         newState = state.copyWith(trendingPagingState: result);
-      case AnimeCategory.movie:
+      case MediaCategory.movie:
         newState = state.copyWith(moviePagingState: result);
     }
     emit(DiscoverUiState.copyWithTrackedIds(newState, _ids));
@@ -224,7 +224,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _trackedAnimeIdsSub =
           _animeTrackListRepository.getAnimeListAnimeIdsByUserStream(
         event.userData!.id,
-        [AnimeListStatus.planning, AnimeListStatus.current],
+        [MediaListStatus.planning, MediaListStatus.current],
       ).listen((ids) {
         add(_OnTrackingAnimeIdsChanged(ids));
       });
