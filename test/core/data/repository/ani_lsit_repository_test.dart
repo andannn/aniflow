@@ -40,8 +40,8 @@ void main() {
       final result = await aniListRepository.loadAnimePageByCategory(
           category: MediaCategory.currentSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
-      final dbResult =
-          await animeDao.getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
+      final dbResult = await animeDao
+          .getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
@@ -52,9 +52,10 @@ void main() {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
       final result = await aniListRepository.loadAnimePageByCategory(
-          loadType: const Refresh(), category: MediaCategory.currentSeasonAnime);
-      final dbResult =
-          await animeDao.getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
+          loadType: const Refresh(),
+          category: MediaCategory.currentSeasonAnime);
+      final dbResult = await animeDao
+          .getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(

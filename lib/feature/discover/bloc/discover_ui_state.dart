@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
@@ -19,6 +20,7 @@ class DiscoverUiState with _$DiscoverUiState {
       MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1),
     })
     Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
+    @Default(MediaType.anime) MediaType currentMediaType,
     UserData? userData,
   }) = _DiscoverUiState;
 

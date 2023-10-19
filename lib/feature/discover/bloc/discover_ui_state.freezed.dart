@@ -19,6 +19,7 @@ mixin _$DiscoverUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap =>
       throw _privateConstructorUsedError;
+  MediaType get currentMediaType => throw _privateConstructorUsedError;
   UserData? get userData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,6 +36,7 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
+      MediaType currentMediaType,
       UserData? userData});
 
   $UserDataCopyWith<$Res>? get userData;
@@ -55,6 +57,7 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
   $Res call({
     Object? isLoading = null,
     Object? categoryMediaMap = null,
+    Object? currentMediaType = null,
     Object? userData = freezed,
   }) {
     return _then(_value.copyWith(
@@ -66,6 +69,10 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
           ? _value.categoryMediaMap
           : categoryMediaMap // ignore: cast_nullable_to_non_nullable
               as Map<MediaCategory, PagingState<List<MediaModel>>>,
+      currentMediaType: null == currentMediaType
+          ? _value.currentMediaType
+          : currentMediaType // ignore: cast_nullable_to_non_nullable
+              as MediaType,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -97,6 +104,7 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
   $Res call(
       {bool isLoading,
       Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
+      MediaType currentMediaType,
       UserData? userData});
 
   @override
@@ -116,6 +124,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? categoryMediaMap = null,
+    Object? currentMediaType = null,
     Object? userData = freezed,
   }) {
     return _then(_$_DiscoverUiState(
@@ -127,6 +136,10 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
           ? _value._categoryMediaMap
           : categoryMediaMap // ignore: cast_nullable_to_non_nullable
               as Map<MediaCategory, PagingState<List<MediaModel>>>,
+      currentMediaType: null == currentMediaType
+          ? _value.currentMediaType
+          : currentMediaType // ignore: cast_nullable_to_non_nullable
+              as MediaType,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -149,6 +162,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
         MediaCategory.trendingManga: PageLoading(data: [], page: 1),
         MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1)
       },
+      this.currentMediaType = MediaType.anime,
       this.userData})
       : _categoryMediaMap = categoryMediaMap;
 
@@ -165,11 +179,14 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   }
 
   @override
+  @JsonKey()
+  final MediaType currentMediaType;
+  @override
   final UserData? userData;
 
   @override
   String toString() {
-    return 'DiscoverUiState(isLoading: $isLoading, categoryMediaMap: $categoryMediaMap, userData: $userData)';
+    return 'DiscoverUiState(isLoading: $isLoading, categoryMediaMap: $categoryMediaMap, currentMediaType: $currentMediaType, userData: $userData)';
   }
 
   @override
@@ -181,13 +198,19 @@ class _$_DiscoverUiState implements _DiscoverUiState {
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
                 .equals(other._categoryMediaMap, _categoryMediaMap) &&
+            (identical(other.currentMediaType, currentMediaType) ||
+                other.currentMediaType == currentMediaType) &&
             (identical(other.userData, userData) ||
                 other.userData == userData));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading,
-      const DeepCollectionEquality().hash(_categoryMediaMap), userData);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      const DeepCollectionEquality().hash(_categoryMediaMap),
+      currentMediaType,
+      userData);
 
   @JsonKey(ignore: true)
   @override
@@ -200,12 +223,15 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
       {final bool isLoading,
       final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
+      final MediaType currentMediaType,
       final UserData? userData}) = _$_DiscoverUiState;
 
   @override
   bool get isLoading;
   @override
   Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap;
+  @override
+  MediaType get currentMediaType;
   @override
   UserData? get userData;
   @override

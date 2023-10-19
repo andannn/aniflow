@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -28,9 +29,7 @@ class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Scaffold(
-      body: DiscoverScreen(),
-    );
+    return const DiscoverScreen();
   }
 
   @override
@@ -45,113 +44,116 @@ class DiscoverScreen extends StatelessWidget {
     return BlocBuilder<DiscoverBloc, DiscoverUiState>(
       builder: (BuildContext context, state) {
         final map = state.categoryMediaMap;
-
-        final currentSeasonState = map[MediaCategory.currentSeasonAnime]!;
-        final nextSeasonState = map[MediaCategory.nextSeasonAnime]!;
-        final trendingState = map[MediaCategory.trendingAnime]!;
-        final movieState = map[MediaCategory.movieAnime]!;
+        final currentMediaType = state.currentMediaType;
 
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
-        return RefreshIndicator(
-          onRefresh: () async {
-            await context
-                .read<DiscoverBloc>()
-                .reloadAllMedia(mediaType: MediaType.anime, isRefresh: true);
-          },
-          child: CustomScrollView(
-            cacheExtent: Config.defaultCatchExtend,
-            slivers: [
-              SliverAppBar(
-                title: Text(AFLocalizations.of(context).discover),
-                pinned: true,
-                actions: [
-                  LoadingIndicator(isLoading: isLoading),
-                  IconButton(
-                    onPressed: () {
-                      AFRouterDelegate.of(context).navigateToSearch();
-                    },
-                    icon: const Icon(Icons.search_rounded),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: IconButton(
-                      onPressed: () => showAuthDialog(context),
-                      icon: isLoggedIn
-                          ? buildAvatarIcon(context, userData!.avatar)
-                          : const Icon(Icons.person_outline),
-                    ),
-                  )
-                ],
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(AFLocalizations.of(context).discover),
+            actions: [
+              LoadingIndicator(isLoading: isLoading),
+              IconButton(
+                onPressed: () {
+                  AFRouterDelegate.of(context).navigateToSearch();
+                },
+                icon: const Icon(Icons.search_rounded),
               ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  MediaCategory.currentSeasonAnime,
-                  currentSeasonState,
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
+                  onPressed: () => showAuthDialog(context),
+                  icon: isLoggedIn
+                      ? buildAvatarIcon(context, userData!.avatar)
+                      : const Icon(Icons.person_outline),
                 ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 12),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  MediaCategory.nextSeasonAnime,
-                  nextSeasonState,
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 12),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  MediaCategory.trendingAnime,
-                  trendingState,
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 24),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  MediaCategory.movieAnime,
-                  movieState,
-                ),
-              ),
+              )
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              final repository = context.read<UserDataRepository>();
+              if (currentMediaType == MediaType.manga) {
+                repository.setMediaType(MediaType.anime);
+              } else {
+                repository.setMediaType(MediaType.manga);
+              }
+            },
+            child: const Icon(Icons.map),
+            isExtended: true,
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await context
+                  .read<DiscoverBloc>()
+                  .reloadAllMedia(mediaType: MediaType.anime, isRefresh: true);
+            },
+            child: CustomScrollView(
+              cacheExtent: Config.defaultCatchExtend,
+              slivers:
+                  _buildCategoriesByMediaType(context, map, currentMediaType),
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildAnimeCategoryPreview(
+  List<Widget> _buildCategoriesByMediaType(
+    BuildContext context,
+    Map categoryMap,
+    MediaType type,
+  ) {
+    final categories = MediaCategory.getALlCategoryByType(type)
+        .map(
+          (category) => _buildMediaCategoryPreview(
+            context,
+            category,
+            categoryMap[category],
+          ),
+        )
+        .toList();
+
+    final widgets = <Widget>[];
+    for (var i = 0; i < categories.length; i++) {
+      widgets.add(categories[i]);
+      if (i > 0 && i < (categories.length - 1)) {
+        widgets.add(
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 12),
+          ),
+        );
+      }
+    }
+    return widgets;
+  }
+
+  Widget _buildMediaCategoryPreview(
     BuildContext context,
     MediaCategory category,
     PagingState state,
   ) {
     final animeModels = state.data;
     final isLoading = state is PageLoading;
-    return _AnimeCategoryPreview(
-      category: category,
-      animeModels: animeModels,
-      isLoading: isLoading,
-      onMoreClick: () {
-        AFRouterDelegate.of(context).navigateToAnimeList(category);
-      },
-      onAnimeClick: (id) {
-        AFRouterDelegate.of(context).navigateToDetailAnime(id);
-      },
+    return SliverToBoxAdapter(
+      child: _MediaCategoryPreview(
+        category: category,
+        animeModels: animeModels,
+        isLoading: isLoading,
+        onMoreClick: () {
+          AFRouterDelegate.of(context).navigateToAnimeList(category);
+        },
+        onAnimeClick: (id) {
+          AFRouterDelegate.of(context).navigateToDetailAnime(id);
+        },
+      ),
     );
   }
 }
 
-class _AnimeCategoryPreview extends StatelessWidget {
-  const _AnimeCategoryPreview(
+class _MediaCategoryPreview extends StatelessWidget {
+  const _MediaCategoryPreview(
       {required this.category,
       required this.animeModels,
       required this.isLoading,

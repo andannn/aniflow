@@ -12,6 +12,8 @@ abstract class UserDataRepository {
   Future setLastSuccessSync(DateTime time);
 
   Stream<MediaType> getMediaTypeStream();
+
+  Future setMediaType(MediaType type);
 }
 
 class UserDataRepositoryImpl implements UserDataRepository {
@@ -41,4 +43,7 @@ class UserDataRepositoryImpl implements UserDataRepository {
   @override
   Stream<MediaType> getMediaTypeStream() =>
       preferences.getCurrentMediaTypeStream();
+
+  @override
+  Future setMediaType(MediaType type) => preferences.setCurrentMediaType(type);
 }

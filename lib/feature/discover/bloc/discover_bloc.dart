@@ -54,6 +54,12 @@ class _OnLoadStateChanged extends DiscoverEvent {
   final bool isLoading;
 }
 
+class _OnMediaTypeChanged extends DiscoverEvent {
+  _OnMediaTypeChanged(this.mediaType);
+
+  final MediaType mediaType;
+}
+
 extension DiscoverUiStateEx on DiscoverUiState {
   bool get isLoggedIn => userData != null;
 }
@@ -72,6 +78,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
     on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
+    on<_OnMediaTypeChanged>(_onMediaTypeChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
 
     _userDataSub ??=
@@ -87,6 +94,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   final MediaListRepository _animeTrackListRepository;
 
   StreamSubscription? _userDataSub;
+  StreamSubscription? _mediaTypeSub;
   StreamSubscription? _trackedMediaIdsSub;
 
   Set<String> _ids = {};
@@ -100,6 +108,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   Future<void> close() {
     _userDataSub?.cancel();
     _trackedMediaIdsSub?.cancel();
+    _mediaTypeSub?.cancel();
 
     return super.close();
   }
@@ -117,11 +126,27 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
+    _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
+          (mediaType) {
+            logger.d(mediaType);
+            add(_OnMediaTypeChanged(mediaType));
+          },
+        );
+  }
+
+  Future<void> _onMediaTypeChanged(
+      _OnMediaTypeChanged event, Emitter<DiscoverUiState> emit) async {
+    final type = event.mediaType;
+
+    emit(state.copyWith(currentMediaType: type));
+
+    // _trackedMediaIdsSub?.cancel();
+
     /// load all media from db cache first.
-    await reloadAllMedia(mediaType: MediaType.anime, isRefresh: false);
+    await reloadAllMedia(mediaType: type, isRefresh: false);
 
     /// Media's order may changed, refresh all media again.
-    unawaited(reloadAllMedia(mediaType: MediaType.anime, isRefresh: true));
+    unawaited(reloadAllMedia(mediaType: type, isRefresh: true));
   }
 
   Future<void> reloadAllMedia(
