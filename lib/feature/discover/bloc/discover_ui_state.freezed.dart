@@ -17,14 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DiscoverUiState {
   bool get isLoading => throw _privateConstructorUsedError;
-  String get isShowSuggestionBoard => throw _privateConstructorUsedError;
-  PagingState<List<MediaModel>> get currentSeasonPagingState =>
-      throw _privateConstructorUsedError;
-  PagingState<List<MediaModel>> get nextSeasonPagingState =>
-      throw _privateConstructorUsedError;
-  PagingState<List<MediaModel>> get trendingPagingState =>
-      throw _privateConstructorUsedError;
-  PagingState<List<MediaModel>> get moviePagingState =>
+  Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap =>
       throw _privateConstructorUsedError;
   UserData? get userData => throw _privateConstructorUsedError;
 
@@ -41,11 +34,7 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
-      String isShowSuggestionBoard,
-      PagingState<List<MediaModel>> currentSeasonPagingState,
-      PagingState<List<MediaModel>> nextSeasonPagingState,
-      PagingState<List<MediaModel>> trendingPagingState,
-      PagingState<List<MediaModel>> moviePagingState,
+      Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       UserData? userData});
 
   $UserDataCopyWith<$Res>? get userData;
@@ -65,11 +54,7 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? isShowSuggestionBoard = null,
-    Object? currentSeasonPagingState = null,
-    Object? nextSeasonPagingState = null,
-    Object? trendingPagingState = null,
-    Object? moviePagingState = null,
+    Object? categoryMediaMap = null,
     Object? userData = freezed,
   }) {
     return _then(_value.copyWith(
@@ -77,26 +62,10 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      isShowSuggestionBoard: null == isShowSuggestionBoard
-          ? _value.isShowSuggestionBoard
-          : isShowSuggestionBoard // ignore: cast_nullable_to_non_nullable
-              as String,
-      currentSeasonPagingState: null == currentSeasonPagingState
-          ? _value.currentSeasonPagingState
-          : currentSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
-      nextSeasonPagingState: null == nextSeasonPagingState
-          ? _value.nextSeasonPagingState
-          : nextSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
-      trendingPagingState: null == trendingPagingState
-          ? _value.trendingPagingState
-          : trendingPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
-      moviePagingState: null == moviePagingState
-          ? _value.moviePagingState
-          : moviePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
+      categoryMediaMap: null == categoryMediaMap
+          ? _value.categoryMediaMap
+          : categoryMediaMap // ignore: cast_nullable_to_non_nullable
+              as Map<MediaCategory, PagingState<List<MediaModel>>>,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -127,11 +96,7 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
-      String isShowSuggestionBoard,
-      PagingState<List<MediaModel>> currentSeasonPagingState,
-      PagingState<List<MediaModel>> nextSeasonPagingState,
-      PagingState<List<MediaModel>> trendingPagingState,
-      PagingState<List<MediaModel>> moviePagingState,
+      Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       UserData? userData});
 
   @override
@@ -150,11 +115,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? isShowSuggestionBoard = null,
-    Object? currentSeasonPagingState = null,
-    Object? nextSeasonPagingState = null,
-    Object? trendingPagingState = null,
-    Object? moviePagingState = null,
+    Object? categoryMediaMap = null,
     Object? userData = freezed,
   }) {
     return _then(_$_DiscoverUiState(
@@ -162,26 +123,10 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      isShowSuggestionBoard: null == isShowSuggestionBoard
-          ? _value.isShowSuggestionBoard
-          : isShowSuggestionBoard // ignore: cast_nullable_to_non_nullable
-              as String,
-      currentSeasonPagingState: null == currentSeasonPagingState
-          ? _value.currentSeasonPagingState
-          : currentSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
-      nextSeasonPagingState: null == nextSeasonPagingState
-          ? _value.nextSeasonPagingState
-          : nextSeasonPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
-      trendingPagingState: null == trendingPagingState
-          ? _value.trendingPagingState
-          : trendingPagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
-      moviePagingState: null == moviePagingState
-          ? _value.moviePagingState
-          : moviePagingState // ignore: cast_nullable_to_non_nullable
-              as PagingState<List<MediaModel>>,
+      categoryMediaMap: null == categoryMediaMap
+          ? _value._categoryMediaMap
+          : categoryMediaMap // ignore: cast_nullable_to_non_nullable
+              as Map<MediaCategory, PagingState<List<MediaModel>>>,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -195,37 +140,36 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
 class _$_DiscoverUiState implements _DiscoverUiState {
   _$_DiscoverUiState(
       {this.isLoading = false,
-      this.isShowSuggestionBoard = '',
-      this.currentSeasonPagingState = const PageLoading(data: [], page: 1),
-      this.nextSeasonPagingState = const PageLoading(data: [], page: 1),
-      this.trendingPagingState = const PageLoading(data: [], page: 1),
-      this.moviePagingState = const PageLoading(data: [], page: 1),
-      this.userData});
+      final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap =
+          const {
+        MediaCategory.currentSeasonAnime: PageLoading(data: [], page: 1),
+        MediaCategory.nextSeasonAnime: PageLoading(data: [], page: 1),
+        MediaCategory.trendingAnime: PageLoading(data: [], page: 1),
+        MediaCategory.movieAnime: PageLoading(data: [], page: 1),
+        MediaCategory.trendingManga: PageLoading(data: [], page: 1),
+        MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1)
+      },
+      this.userData})
+      : _categoryMediaMap = categoryMediaMap;
 
   @override
   @JsonKey()
   final bool isLoading;
+  final Map<MediaCategory, PagingState<List<MediaModel>>> _categoryMediaMap;
   @override
   @JsonKey()
-  final String isShowSuggestionBoard;
-  @override
-  @JsonKey()
-  final PagingState<List<MediaModel>> currentSeasonPagingState;
-  @override
-  @JsonKey()
-  final PagingState<List<MediaModel>> nextSeasonPagingState;
-  @override
-  @JsonKey()
-  final PagingState<List<MediaModel>> trendingPagingState;
-  @override
-  @JsonKey()
-  final PagingState<List<MediaModel>> moviePagingState;
+  Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap {
+    if (_categoryMediaMap is EqualUnmodifiableMapView) return _categoryMediaMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_categoryMediaMap);
+  }
+
   @override
   final UserData? userData;
 
   @override
   String toString() {
-    return 'DiscoverUiState(isLoading: $isLoading, isShowSuggestionBoard: $isShowSuggestionBoard, currentSeasonPagingState: $currentSeasonPagingState, nextSeasonPagingState: $nextSeasonPagingState, trendingPagingState: $trendingPagingState, moviePagingState: $moviePagingState, userData: $userData)';
+    return 'DiscoverUiState(isLoading: $isLoading, categoryMediaMap: $categoryMediaMap, userData: $userData)';
   }
 
   @override
@@ -235,31 +179,15 @@ class _$_DiscoverUiState implements _DiscoverUiState {
             other is _$_DiscoverUiState &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.isShowSuggestionBoard, isShowSuggestionBoard) ||
-                other.isShowSuggestionBoard == isShowSuggestionBoard) &&
-            (identical(
-                    other.currentSeasonPagingState, currentSeasonPagingState) ||
-                other.currentSeasonPagingState == currentSeasonPagingState) &&
-            (identical(other.nextSeasonPagingState, nextSeasonPagingState) ||
-                other.nextSeasonPagingState == nextSeasonPagingState) &&
-            (identical(other.trendingPagingState, trendingPagingState) ||
-                other.trendingPagingState == trendingPagingState) &&
-            (identical(other.moviePagingState, moviePagingState) ||
-                other.moviePagingState == moviePagingState) &&
+            const DeepCollectionEquality()
+                .equals(other._categoryMediaMap, _categoryMediaMap) &&
             (identical(other.userData, userData) ||
                 other.userData == userData));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isShowSuggestionBoard,
-      currentSeasonPagingState,
-      nextSeasonPagingState,
-      trendingPagingState,
-      moviePagingState,
-      userData);
+  int get hashCode => Object.hash(runtimeType, isLoading,
+      const DeepCollectionEquality().hash(_categoryMediaMap), userData);
 
   @JsonKey(ignore: true)
   @override
@@ -271,25 +199,13 @@ class _$_DiscoverUiState implements _DiscoverUiState {
 abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
       {final bool isLoading,
-      final String isShowSuggestionBoard,
-      final PagingState<List<MediaModel>> currentSeasonPagingState,
-      final PagingState<List<MediaModel>> nextSeasonPagingState,
-      final PagingState<List<MediaModel>> trendingPagingState,
-      final PagingState<List<MediaModel>> moviePagingState,
+      final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       final UserData? userData}) = _$_DiscoverUiState;
 
   @override
   bool get isLoading;
   @override
-  String get isShowSuggestionBoard;
-  @override
-  PagingState<List<MediaModel>> get currentSeasonPagingState;
-  @override
-  PagingState<List<MediaModel>> get nextSeasonPagingState;
-  @override
-  PagingState<List<MediaModel>> get trendingPagingState;
-  @override
-  PagingState<List<MediaModel>> get moviePagingState;
+  Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap;
   @override
   UserData? get userData;
   @override

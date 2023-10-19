@@ -141,37 +141,37 @@ void main() {
 
     test('anime_dao_clear_all', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.clearAnimeCategoryCrossRef(MediaCategory.movie);
+      await animeDao.clearAnimeCategoryCrossRef(MediaCategory.movieAnime);
     });
 
     test('anime_dao_insert', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trending,
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trendingAnime,
           animeList: dummyAnimeData);
     });
 
     test('anime_dao_insert_and_get', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trending,
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trendingAnime,
           animeList: dummyAnimeData);
 
       final res =
-          await animeDao.getMediaByPage(MediaCategory.trending, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.trendingAnime, page: 1);
       expect(res, equals(dummyAnimeData));
     });
 
     test('user_data_insert_and_get_cross_ref', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trending,
+      await animeDao.insertOrIgnoreMediaByAnimeCategory(MediaCategory.trendingAnime,
           animeList: dummyAnimeData.sublist(0, 2));
       await animeDao.insertOrIgnoreMediaByAnimeCategory(
-          MediaCategory.currentSeason,
+          MediaCategory.currentSeasonAnime,
           animeList: dummyAnimeData.sublist(1, 3));
       final res =
-          await animeDao.getMediaByPage(MediaCategory.trending, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.trendingAnime, page: 1);
       expect(res, equals(dummyAnimeData.sublist(0, 2)));
       final res1 =
-          await animeDao.getMediaByPage(MediaCategory.currentSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(res1, equals(dummyAnimeData.sublist(1, 3)));
     });
 

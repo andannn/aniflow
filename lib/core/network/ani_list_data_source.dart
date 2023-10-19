@@ -50,6 +50,7 @@ class AniListDataSource {
     final variablesMap = <String, dynamic>{
       'page': page,
       'perPage': perPage,
+      'type': param.type.sqlTypeString,
     };
 
     if (hasSeasonYear) {

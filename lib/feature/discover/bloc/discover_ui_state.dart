@@ -1,3 +1,4 @@
+import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/data/model/media_model.dart';
 import 'package:anime_tracker/core/data/model/user_data_model.dart';
 import 'package:anime_tracker/feature/common/page_loading_state.dart';
@@ -9,41 +10,32 @@ part 'discover_ui_state.freezed.dart';
 class DiscoverUiState with _$DiscoverUiState {
   factory DiscoverUiState({
     @Default(false) bool isLoading,
-    @Default('') String isShowSuggestionBoard,
-    @Default(PageLoading(data: [], page: 1))
-    PagingState<List<MediaModel>> currentSeasonPagingState,
-    @Default(PageLoading(data: [], page: 1))
-    PagingState<List<MediaModel>> nextSeasonPagingState,
-    @Default(PageLoading(data: [], page: 1))
-    PagingState<List<MediaModel>> trendingPagingState,
-    @Default(PageLoading(data: [], page: 1))
-    PagingState<List<MediaModel>> moviePagingState,
+    @Default({
+      MediaCategory.currentSeasonAnime: PageLoading(data: [], page: 1),
+      MediaCategory.nextSeasonAnime: PageLoading(data: [], page: 1),
+      MediaCategory.trendingAnime: PageLoading(data: [], page: 1),
+      MediaCategory.movieAnime: PageLoading(data: [], page: 1),
+      MediaCategory.trendingManga: PageLoading(data: [], page: 1),
+      MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1),
+    })
+    Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
     UserData? userData,
   }) = _DiscoverUiState;
 
   static DiscoverUiState copyWithTrackedIds(
       DiscoverUiState state, Set<String> ids) {
-    return state.copyWith(
-      currentSeasonPagingState: state.currentSeasonPagingState.updateWith(
-        (animeList) => animeList
-            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
-            .toList(),
-      ),
-      nextSeasonPagingState: state.nextSeasonPagingState.updateWith(
-        (animeList) => animeList
-            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
-            .toList(),
-      ),
-      trendingPagingState: state.trendingPagingState.updateWith(
-        (animeList) => animeList
-            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
-            .toList(),
-      ),
-      moviePagingState: state.moviePagingState.updateWith(
-        (animeList) => animeList
-            .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
-            .toList(),
+    Map<MediaCategory, PagingState<List<MediaModel>>> stateMap =
+        state.categoryMediaMap.map(
+      (key, value) => MapEntry(
+        key,
+        value.updateWith(
+          (animeList) => animeList
+              .map((e) => e.copyWith(isFollowing: ids.contains(e.id)))
+              .toList(),
+        ),
       ),
     );
+
+    return state.copyWith(categoryMediaMap: stateMap);
   }
 }

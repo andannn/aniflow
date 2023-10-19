@@ -1,6 +1,7 @@
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:anime_tracker/core/common/model/media_type.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/data/model/media_model.dart';
 import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
@@ -23,7 +24,7 @@ class DiscoverPage extends Page {
 }
 
 class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
-  DiscoverPageRoute({super.settings}): super(allowSnapshotting: false);
+  DiscoverPageRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -43,16 +44,21 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DiscoverBloc, DiscoverUiState>(
       builder: (BuildContext context, state) {
-        final currentSeasonState = state.currentSeasonPagingState;
-        final nextSeasonState = state.nextSeasonPagingState;
-        final trendingState = state.trendingPagingState;
-        final movieState = state.moviePagingState;
+        final map = state.categoryMediaMap;
+
+        final currentSeasonState = map[MediaCategory.currentSeasonAnime]!;
+        final nextSeasonState = map[MediaCategory.nextSeasonAnime]!;
+        final trendingState = map[MediaCategory.trendingAnime]!;
+        final movieState = map[MediaCategory.movieAnime]!;
+
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
         return RefreshIndicator(
           onRefresh: () async {
-            await context.read<DiscoverBloc>().refreshAllMedia();
+            await context
+                .read<DiscoverBloc>()
+                .reloadAllMedia(mediaType: MediaType.anime, isRefresh: true);
           },
           child: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,
@@ -82,7 +88,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  MediaCategory.currentSeason,
+                  MediaCategory.currentSeasonAnime,
                   currentSeasonState,
                 ),
               ),
@@ -92,7 +98,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  MediaCategory.nextSeason,
+                  MediaCategory.nextSeasonAnime,
                   nextSeasonState,
                 ),
               ),
@@ -102,7 +108,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  MediaCategory.trending,
+                  MediaCategory.trendingAnime,
                   trendingState,
                 ),
               ),
@@ -112,7 +118,7 @@ class DiscoverScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildAnimeCategoryPreview(
                   context,
-                  MediaCategory.movie,
+                  MediaCategory.movieAnime,
                   movieState,
                 ),
               ),
@@ -191,14 +197,20 @@ class _AnimeCategoryPreview extends StatelessWidget {
   Widget _buildTitleBar(BuildContext context) {
     String title;
     switch (category) {
-      case MediaCategory.currentSeason:
+      case MediaCategory.currentSeasonAnime:
         title = AFLocalizations.of(context).popularThisSeasonLabel;
-      case MediaCategory.nextSeason:
+      case MediaCategory.nextSeasonAnime:
         title = AFLocalizations.of(context).upComingNextSeasonLabel;
-      case MediaCategory.trending:
+      case MediaCategory.trendingAnime:
         title = AFLocalizations.of(context).trendingNowLabel;
-      case MediaCategory.movie:
+      case MediaCategory.movieAnime:
         title = AFLocalizations.of(context).movieLabel;
+      case MediaCategory.trendingManga:
+        title = AFLocalizations.of(context).movieLabel;
+      // TODO: Handle this case.
+      case MediaCategory.allTimePopularManga:
+        title = AFLocalizations.of(context).movieLabel;
+      // TODO: Handle this case.
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),

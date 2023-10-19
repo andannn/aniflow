@@ -19,10 +19,13 @@ enum MediaType {
 
 MediaType getMediaTypeByCategory(MediaCategory category) {
   switch (category) {
-    case MediaCategory.currentSeason:
-    case MediaCategory.nextSeason:
-    case MediaCategory.trending:
-    case MediaCategory.movie:
+    case MediaCategory.currentSeasonAnime:
+    case MediaCategory.nextSeasonAnime:
+    case MediaCategory.trendingAnime:
+    case MediaCategory.movieAnime:
       return MediaType.anime;
+    case MediaCategory.trendingManga:
+    case MediaCategory.allTimePopularManga:
+      return MediaType.manga;
   }
 }

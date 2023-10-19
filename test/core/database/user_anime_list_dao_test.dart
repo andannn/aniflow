@@ -63,7 +63,7 @@ void main() {
 
       await animeDatabase
           .getMediaInformationDaoDao()
-          .insertOrIgnoreMediaByAnimeCategory(MediaCategory.movie,
+          .insertOrIgnoreMediaByAnimeCategory(MediaCategory.movieAnime,
               animeList: dummyAnimeData);
 
       final res = await dao.getMediaListByPage('22', [MediaListStatus.current],

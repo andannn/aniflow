@@ -38,10 +38,10 @@ void main() {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
       final result = await aniListRepository.loadAnimePageByCategory(
-          category: MediaCategory.currentSeason,
+          category: MediaCategory.currentSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
       final dbResult =
-          await animeDao.getMediaByPage(MediaCategory.currentSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
@@ -52,9 +52,9 @@ void main() {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
       final result = await aniListRepository.loadAnimePageByCategory(
-          loadType: const Refresh(), category: MediaCategory.currentSeason);
+          loadType: const Refresh(), category: MediaCategory.currentSeasonAnime);
       final dbResult =
-          await animeDao.getMediaByPage(MediaCategory.currentSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
@@ -65,10 +65,10 @@ void main() {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
       final result = await aniListRepository.loadAnimePageByCategory(
-          category: MediaCategory.nextSeason,
+          category: MediaCategory.nextSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
       final dbResult =
-          await animeDao.getMediaByPage(MediaCategory.nextSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.nextSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
@@ -79,9 +79,9 @@ void main() {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
       final result = await aniListRepository.loadAnimePageByCategory(
-          loadType: const Refresh(), category: MediaCategory.nextSeason);
+          loadType: const Refresh(), category: MediaCategory.nextSeasonAnime);
       final dbResult =
-          await animeDao.getMediaByPage(MediaCategory.nextSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.nextSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess<List<MediaModel>>).data.map((e) => e.id),
           equals(dbResult

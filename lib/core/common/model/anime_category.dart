@@ -1,13 +1,37 @@
+import 'package:anime_tracker/core/common/model/media_type.dart';
+
 enum MediaCategory {
   /// current season releasing anime.
-  currentSeason,
+  currentSeasonAnime,
 
   /// next season not yet released anime.
-  nextSeason,
+  nextSeasonAnime,
 
   /// now trending anime.
-  trending,
+  trendingAnime,
 
   /// popular movie.
-  movie,
+  movieAnime,
+
+  /// trending Manga.
+  trendingManga,
+
+  /// all time popular manga.
+  allTimePopularManga;
+
+  static List<MediaCategory> getALlCategoryByType(MediaType type) {
+    if (type == MediaType.anime) {
+      return [
+        currentSeasonAnime,
+        nextSeasonAnime,
+        trendingAnime,
+        movieAnime,
+      ];
+    } else {
+      return [
+        trendingManga,
+        allTimePopularManga,
+      ];
+    }
+  }
 }

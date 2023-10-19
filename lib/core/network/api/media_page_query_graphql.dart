@@ -35,23 +35,33 @@ AnimePageQueryParam createAnimePageQueryParam(
     season: currentSeason,
   );
   switch (category) {
-    case MediaCategory.currentSeason:
+    case MediaCategory.currentSeasonAnime:
       status = null;
       seasonParam = currentSeasonParam;
       // sorts = [AnimeSort.latestUpdate];
       format = [AnimeFormat.tv, AnimeFormat.ova];
-    case MediaCategory.nextSeason:
+    case MediaCategory.nextSeasonAnime:
       status = null;
       seasonParam = getNextSeasonParam(currentSeasonParam);
       format = [AnimeFormat.tv, AnimeFormat.ova];
-    case MediaCategory.trending:
+    case MediaCategory.trendingAnime:
       status = null;
       seasonParam = null;
       sorts = [MediaSort.trending];
-    case MediaCategory.movie:
+    case MediaCategory.movieAnime:
       status = null;
       seasonParam = null;
       format = [AnimeFormat.movie];
+      sorts = [MediaSort.trending];
+    case MediaCategory.trendingManga:
+      status = null;
+      seasonParam = null;
+      format = [];
+      sorts = [MediaSort.trending];
+    case MediaCategory.allTimePopularManga:
+      status = null;
+      seasonParam = null;
+      format = [];
       sorts = [MediaSort.trending];
   }
 
@@ -66,7 +76,7 @@ AnimePageQueryParam createAnimePageQueryParam(
 }
 
 String get animeListQueryGraphQLString => '''
-query (\$page: Int, \$perPage: Int, \$type: Int, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
+query (\$page: Int, \$perPage: Int, \$type: MediaType, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
   Page(page: \$page, perPage: \$perPage) {
     media: media(type: \$type, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
       id

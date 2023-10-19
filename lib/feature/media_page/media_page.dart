@@ -100,14 +100,20 @@ class _MediaListPageContent extends StatelessWidget {
   String _getAppBarTitle(BuildContext context, MediaCategory category) {
     String title;
     switch (category) {
-      case MediaCategory.currentSeason:
+      case MediaCategory.currentSeasonAnime:
         title = AFLocalizations.of(context).popularThisSeasonLabel;
-      case MediaCategory.nextSeason:
+      case MediaCategory.nextSeasonAnime:
         title = AFLocalizations.of(context).upComingNextSeasonLabel;
-      case MediaCategory.trending:
+      case MediaCategory.trendingAnime:
         title = AFLocalizations.of(context).trendingNowLabel;
-      case MediaCategory.movie:
+      case MediaCategory.movieAnime:
         title = AFLocalizations.of(context).movieLabel;
+      case MediaCategory.trendingManga:
+        title = AFLocalizations.of(context).movieLabel;
+      // TODO: Handle this case.
+      case MediaCategory.allTimePopularManga:
+        title = AFLocalizations.of(context).movieLabel;
+      // TODO: Handle this case.
     }
     return title;
   }

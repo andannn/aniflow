@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
 import 'package:anime_tracker/core/common/model/anime_category.dart';
 import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:anime_tracker/core/common/model/media_type.dart';
 import 'package:anime_tracker/core/common/util/anime_season_util.dart';
+import 'package:anime_tracker/core/common/util/collection_util.dart';
 import 'package:anime_tracker/core/common/util/global_static_constants.dart';
 import 'package:anime_tracker/core/common/util/logger.dart';
 import 'package:anime_tracker/core/data/auth_repository.dart';
@@ -20,15 +22,15 @@ import 'package:bloc/bloc.dart';
 
 sealed class DiscoverEvent {}
 
-class _OnAnimeLoaded extends DiscoverEvent {
-  _OnAnimeLoaded(this.animeList, this.category);
+class _OnMediaLoaded extends DiscoverEvent {
+  _OnMediaLoaded(this.animeList, this.category);
 
   final List<MediaModel> animeList;
   final MediaCategory category;
 }
 
-class _OnAnimeLoadError extends DiscoverEvent {
-  _OnAnimeLoadError(this.exception, this.category);
+class _OnMediaLoadError extends DiscoverEvent {
+  _OnMediaLoadError(this.exception, this.category);
 
   final MediaCategory category;
   final Exception exception;
@@ -66,8 +68,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
         _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
         super(DiscoverUiState()) {
-    on<_OnAnimeLoaded>(_onAnimeLoaded);
-    on<_OnAnimeLoadError>(_onAnimeLoadError);
+    on<_OnMediaLoaded>(_onMediaLoaded);
+    on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
     on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
@@ -115,49 +117,22 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
-    /// request first page of Anime to show in home.
-    final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
-    add(_OnLoadStateChanged(true));
-    final initialLoadResult = await Future.wait([
-      _createLoadAnimePageTask(MediaCategory.currentSeason),
-      _createLoadAnimePageTask(MediaCategory.nextSeason),
-      _createLoadAnimePageTask(MediaCategory.trending),
-      _createLoadAnimePageTask(MediaCategory.movie),
-    ]);
-    add(_OnLoadStateChanged(false));
+    /// load all media from db cache first.
+    await reloadAllMedia(mediaType: MediaType.anime, isRefresh: false);
 
-    if (lastSyncTime == null) {
-      if (!initialLoadResult.any((e) => e == false)) {
-        logger.d('AimeTracker first sync success');
-
-        /// first sync success.
-        await _userDataRepository.setLastSuccessSync(DateTime.now());
-
-        showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
-        return;
-      }
-    }
-
-    if (lastSyncTime != null) {
-      /// Refresh all data.
-      await refreshAllMedia();
-    }
+    /// Media's order may changed, refresh all media again.
+    unawaited(reloadAllMedia(mediaType: MediaType.anime, isRefresh: true));
   }
 
-  Future<void> refreshAllMedia() async {
+  Future<void> reloadAllMedia(
+      {required MediaType mediaType, required bool isRefresh}) async {
     add(_OnLoadStateChanged(true));
 
     /// wait refresh tasks.
-    final result = await Future.wait([
-      _createLoadAnimePageTask(MediaCategory.currentSeason, isRefresh: true),
-      _createLoadAnimePageTask(MediaCategory.nextSeason, isRefresh: true),
-      _createLoadAnimePageTask(MediaCategory.trending, isRefresh: true),
-      _createLoadAnimePageTask(MediaCategory.movie, isRefresh: true),
-    ]);
-    if (!result.any((e) => e == false)) {
-      /// refresh success, update sync time.
-      await _userDataRepository.setLastSuccessSync(DateTime.now());
-    } else {
+    final result =
+        await Future.wait(_getAllLoadTask(mediaType, isRefresh: isRefresh));
+
+    if (result.any((e) => e == false)) {
       logger.d('AimeTracker refresh failed');
 
       /// data sync failed and show snack bar message.
@@ -167,7 +142,14 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     add(_OnLoadStateChanged(false));
   }
 
-  Future<bool> _createLoadAnimePageTask(MediaCategory category,
+  List<Future<bool>> _getAllLoadTask(MediaType type,
+      {required bool isRefresh}) {
+    return MediaCategory.getALlCategoryByType(type)
+        .map((e) => _createLoadMediaPageTask(e, isRefresh: isRefresh))
+        .toList();
+  }
+
+  Future<bool> _createLoadMediaPageTask(MediaCategory category,
       {bool isRefresh = false}) async {
     final LoadResult result;
     if (isRefresh) {
@@ -181,35 +163,31 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     }
     switch (result) {
       case LoadSuccess<List<MediaModel>>(data: final data):
-        add(_OnAnimeLoaded(data, category));
+        add(_OnMediaLoaded(data, category));
         return true;
       case LoadError<List<MediaModel>>(exception: final exception):
-        add(_OnAnimeLoadError(exception, category));
+        add(_OnMediaLoadError(exception, category));
         return false;
       default:
         return false;
     }
   }
 
-  FutureOr<void> _onAnimeLoaded(
-      _OnAnimeLoaded event, Emitter<DiscoverUiState> emit) {
+  FutureOr<void> _onMediaLoaded(
+      _OnMediaLoaded event, Emitter<DiscoverUiState> emit) {
     final result = PageReady(data: event.animeList, page: 1);
-    final DiscoverUiState newState;
-    switch (event.category) {
-      case MediaCategory.nextSeason:
-        newState = state.copyWith(nextSeasonPagingState: result);
-      case MediaCategory.currentSeason:
-        newState = state.copyWith(currentSeasonPagingState: result);
-      case MediaCategory.trending:
-        newState = state.copyWith(trendingPagingState: result);
-      case MediaCategory.movie:
-        newState = state.copyWith(moviePagingState: result);
-    }
+    final category = event.category;
+
+    Map<MediaCategory, PagingState<List<MediaModel>>> stateMap =
+        state.categoryMediaMap.toMutableMap()..[category] = result;
+
+    final DiscoverUiState newState = state.copyWith(categoryMediaMap: stateMap);
+
     emit(DiscoverUiState.copyWithTrackedIds(newState, _ids));
   }
 
-  FutureOr<void> _onAnimeLoadError(
-      _OnAnimeLoadError event, Emitter<DiscoverUiState> emit) {}
+  FutureOr<void> _onMediaLoadError(
+      _OnMediaLoadError event, Emitter<DiscoverUiState> emit) {}
 
   Future<void> _onUserDataChanged(
       _OnUserDataChanged event, Emitter<DiscoverUiState> emit) async {
