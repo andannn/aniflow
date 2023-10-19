@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/network/model/character_edge.dart';
-import 'package:anime_tracker/core/network/model/page_info.dart';
+import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/page_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_connection.freezed.dart';

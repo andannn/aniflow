@@ -1,5 +1,5 @@
 
-import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class MediaListLoadState extends Equatable {

@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/common/model/media_type.dart';
-import 'package:anime_tracker/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

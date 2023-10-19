@@ -1,7 +1,7 @@
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 

@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

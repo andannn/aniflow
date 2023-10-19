@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/common/model/media_type.dart';
-import 'package:anime_tracker/core/common/util/color_util.dart';
-import 'package:anime_tracker/core/common/util/time_util.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/color_util.dart';
+import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 

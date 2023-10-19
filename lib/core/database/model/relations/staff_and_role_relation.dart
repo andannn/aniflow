@@ -1,6 +1,6 @@
 
-import 'package:anime_tracker/core/database/dao/media_dao.dart';
-import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/model/staff_entity.dart';
 
 class StaffAndRoleRelation {
   const StaffAndRoleRelation({required this.staff, required this.role});

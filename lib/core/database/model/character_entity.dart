@@ -1,7 +1,7 @@
-import 'package:anime_tracker/core/common/model/character_role.dart';
-import 'package:anime_tracker/core/database/dao/media_dao.dart';
-import 'package:anime_tracker/core/network/model/character_edge.dart';
-import 'package:anime_tracker/core/network/model/staff_dto.dart';
+import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_entity.freezed.dart';

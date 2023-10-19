@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/database/model/user_data_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_data_model.freezed.dart';

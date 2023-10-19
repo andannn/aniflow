@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/media_type.dart';
-import 'package:anime_tracker/core/common/util/stream_util.dart';
-import 'package:anime_tracker/core/shared_preference/model/user_setting_model.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/stream_util.dart';
+import 'package:aniflow/core/shared_preference/model/user_setting_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

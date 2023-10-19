@@ -1,4 +1,4 @@
-name: anime_tracker
+name: aniflow
 description: A simple app to track new anime release in current season.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

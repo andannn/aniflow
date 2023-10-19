@@ -1,12 +1,12 @@
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/media_sort.dart';
-import 'package:anime_tracker/core/common/model/media_status.dart';
-import 'package:anime_tracker/core/common/model/media_type.dart';
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/network/ani_list_data_source.dart';
-import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
-import 'package:anime_tracker/core/network/api/media_list_query_graphql.dart';
-import 'package:anime_tracker/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_sort.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/network/ani_list_data_source.dart';
+import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
+import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
+import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

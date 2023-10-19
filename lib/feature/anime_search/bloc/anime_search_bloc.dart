@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/core/data/model/media_model.dart';
-import 'package:anime_tracker/core/data/search_repository.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
-import 'package:anime_tracker/feature/common/paging_bloc.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/search_repository.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:bloc/bloc.dart';
 
 class OnSearchStringCommit<T> extends PagingEvent<T> {

@@ -1,18 +1,18 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
-import 'package:anime_tracker/core/network/api/media_detail_query_graphql.dart';
-import 'package:anime_tracker/core/network/api/media_list_query_graphql.dart';
-import 'package:anime_tracker/core/network/api/media_page_query_graphql.dart';
-import 'package:anime_tracker/core/network/api/query_anime_staff_page_graphql.dart';
-import 'package:anime_tracker/core/network/api/query_media_character_page_graphql.dart';
-import 'package:anime_tracker/core/network/api/search_query_graphql.dart';
-import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
-import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
-import 'package:anime_tracker/core/network/model/anime_dto.dart';
-import 'package:anime_tracker/core/network/model/character_edge.dart';
-import 'package:anime_tracker/core/network/model/media_list_dto.dart';
-import 'package:anime_tracker/core/network/model/staff_edge.dart';
+import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
+import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
+import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
+import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
+import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
+import 'package:aniflow/core/network/api/search_query_graphql.dart';
+import 'package:aniflow/core/network/client/ani_list_dio.dart';
+import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
+import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/media_list_dto.dart';
+import 'package:aniflow/core/network/model/staff_edge.dart';
 
 /// Anime list data source get from AniList.
 class AniListDataSource {

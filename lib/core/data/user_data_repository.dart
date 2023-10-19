@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/media_type.dart';
-import 'package:anime_tracker/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 
 abstract class UserDataRepository {
   AnimeSeasonParam getAnimeSeasonParam();

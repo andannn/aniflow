@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/anime_source.dart';
-import 'package:anime_tracker/core/common/model/media_status.dart';
-import 'package:anime_tracker/core/database/dao/media_dao.dart';
-import 'package:anime_tracker/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/anime_source.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/network/model/anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_entity.freezed.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/services.dart';
 
 class AuthResult {

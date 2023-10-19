@@ -1,4 +1,4 @@
-import 'package:anime_tracker/app/app.dart';
+import 'package:aniflow/app/app.dart';
 import 'package:flutter/material.dart';
 
 /// show snack bar.

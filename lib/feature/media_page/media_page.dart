@@ -1,15 +1,15 @@
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/data/auth_repository.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/data/model/media_model.dart';
-import 'package:anime_tracker/core/design_system/widget/media_preview_item.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
-import 'package:anime_tracker/feature/common/paging_bloc.dart';
-import 'package:anime_tracker/feature/common/paging_content_widget.dart';
-import 'package:anime_tracker/feature/media_page/bloc/media_page_bloc.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:aniflow/feature/common/paging_content_widget.dart';
+import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,6 +1,6 @@
 
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/network/model/anime_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_list_dto.freezed.dart';

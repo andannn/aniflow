@@ -1,8 +1,8 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/database/model/media_entity.dart';
-import 'package:anime_tracker/core/database/model/media_list_entity.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

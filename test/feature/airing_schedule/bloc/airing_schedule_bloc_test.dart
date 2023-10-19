@@ -1,8 +1,8 @@
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
-import 'package:anime_tracker/feature/airing_schedule/bloc/schedule_page_key.dart';
-import 'package:anime_tracker/feature/airing_schedule/bloc/schedule_page_state.dart';
+import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
+import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
+import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

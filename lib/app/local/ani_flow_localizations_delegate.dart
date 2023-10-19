@@ -1,4 +1,4 @@
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:flutter/cupertino.dart';
 
 class AnimeTrackerLocalizationsDelegate

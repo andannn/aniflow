@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/design_system/theme/colors.dart';
+import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

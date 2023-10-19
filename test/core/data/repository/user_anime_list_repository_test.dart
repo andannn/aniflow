@@ -1,12 +1,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/network/auth_data_source.dart';
-import 'package:anime_tracker/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';

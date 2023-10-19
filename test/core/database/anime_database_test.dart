@@ -1,12 +1,12 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
-import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/media_entity.dart';
-import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/character_and_voice_actor_relation.dart';
-import 'package:anime_tracker/core/database/model/staff_entity.dart';
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
+import 'package:aniflow/core/database/model/character_entity.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/media_external_link_entity.dart';
+import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

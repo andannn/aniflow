@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:bloc/bloc.dart';
 
 abstract class PagingEvent<T> {}

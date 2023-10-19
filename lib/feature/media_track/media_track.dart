@@ -1,11 +1,11 @@
-import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
-import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
-import 'package:anime_tracker/core/design_system/widget/af_toogle_button.dart';
-import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
-import 'package:anime_tracker/core/design_system/widget/media_list_item.dart';
-import 'package:anime_tracker/feature/media_track/bloc/track_bloc.dart';
-import 'package:anime_tracker/feature/media_track/bloc/track_ui_state.dart';
-import 'package:anime_tracker/feature/media_track/bloc/user_anime_list_load_state.dart';
+import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/core/design_system/widget/media_list_item.dart';
+import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
+import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
+import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

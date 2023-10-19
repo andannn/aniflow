@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
 
 class UserAnimeListPageQueryParam {
   final int page;

@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/design_system/widget/comming_soon.dart';
+import 'package:aniflow/core/design_system/widget/comming_soon.dart';
 import 'package:flutter/material.dart';
 
 class ForumPage extends Page {

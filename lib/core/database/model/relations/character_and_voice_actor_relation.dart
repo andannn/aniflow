@@ -1,6 +1,6 @@
 
-import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/database/model/character_entity.dart';
+import 'package:aniflow/core/database/model/staff_entity.dart';
 
 class CharacterAndVoiceActorRelation {
   final CharacterEntity characterEntity;

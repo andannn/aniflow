@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/data/model/trailter_model.dart';
-import 'package:anime_tracker/core/design_system/icons/icons.dart';
-import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/design_system/icons/icons.dart';
+import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';

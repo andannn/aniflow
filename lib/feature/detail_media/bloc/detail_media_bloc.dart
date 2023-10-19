@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/core/common/util/logger.dart';
-import 'package:anime_tracker/core/data/auth_repository.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/data/model/media_model.dart';
-import 'package:anime_tracker/core/design_system/widget/aniflow_snackbar.dart';
-import 'package:anime_tracker/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
+import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
 sealed class DetailAnimeEvent {}

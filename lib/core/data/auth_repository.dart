@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/channel/auth_event_channel.dart';
-import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/database/dao/media_list_dao.dart';
-import 'package:anime_tracker/core/database/dao/user_data_dao.dart';
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
-import 'package:anime_tracker/core/network/auth_data_source.dart';
-import 'package:anime_tracker/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/channel/auth_event_channel.dart';
+import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/user_data_dao.dart';
+import 'package:aniflow/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _clientId = '14409';

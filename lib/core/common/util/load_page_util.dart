@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/load_result.dart';
 import 'package:dio/dio.dart';
 
 mixin LoadPageUtil {

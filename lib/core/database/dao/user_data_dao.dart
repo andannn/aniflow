@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/common/util/stream_util.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/common/util/stream_util.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/model/user_data_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 

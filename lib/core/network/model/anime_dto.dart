@@ -1,13 +1,13 @@
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/anime_source.dart';
-import 'package:anime_tracker/core/common/model/media_status.dart';
-import 'package:anime_tracker/core/data/model/media_title_modle.dart';
-import 'package:anime_tracker/core/network/model/airing_schedule_dto.dart';
-import 'package:anime_tracker/core/network/model/anime_rank.dart';
-import 'package:anime_tracker/core/network/model/character_connection.dart';
-import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
-import 'package:anime_tracker/core/network/model/staff_connection.dart';
-import 'package:anime_tracker/core/network/model/trailer_dto.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/anime_source.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
+import 'package:aniflow/core/network/model/anime_rank.dart';
+import 'package:aniflow/core/network/model/character_connection.dart';
+import 'package:aniflow/core/network/model/media_external_links_dto.dart';
+import 'package:aniflow/core/network/model/staff_connection.dart';
+import 'package:aniflow/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_dto.freezed.dart';

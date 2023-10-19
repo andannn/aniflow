@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/data/model/staff_model.dart';
-import 'package:anime_tracker/core/database/model/relations/staff_and_role_relation.dart';
+import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
 
 class StaffAndRoleModel {
   StaffAndRoleModel({required this.role, required this.staff});

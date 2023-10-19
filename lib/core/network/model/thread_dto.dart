@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_data_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'thread_dto.freezed.dart';

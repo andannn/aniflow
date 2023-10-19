@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 
 enum MediaCategory {
   /// current season releasing anime.

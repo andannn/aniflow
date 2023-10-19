@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
+import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'airing_schedule_model.freezed.dart';

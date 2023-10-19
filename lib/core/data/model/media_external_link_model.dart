@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/data/model/media_external_link_type.dart';
-import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
+import 'package:aniflow/core/data/model/media_external_link_type.dart';
+import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_external_link_model.freezed.dart';

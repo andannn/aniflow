@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/data/model/media_model.dart';
-import 'package:anime_tracker/core/data/model/media_title_modle.dart';
-import 'package:anime_tracker/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MediaPreviewItem extends StatelessWidget {

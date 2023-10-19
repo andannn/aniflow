@@ -1,9 +1,9 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/common/model/anime_format.dart';
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/media_sort.dart';
-import 'package:anime_tracker/core/common/model/media_status.dart';
-import 'package:anime_tracker/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/anime_format.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_sort.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 
 class AnimePageQueryParam {
   final int? seasonYear;

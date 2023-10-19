@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/common/model/media_status.dart';
-import 'package:anime_tracker/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 
 extension MediaListItemModelEx on MediaListItemModel {
   bool get hasNextReleasingEpisode {

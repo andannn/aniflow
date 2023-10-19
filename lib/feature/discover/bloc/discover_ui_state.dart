@@ -1,7 +1,7 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/data/model/media_model.dart';
-import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'discover_ui_state.freezed.dart';

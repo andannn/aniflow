@@ -2,14 +2,14 @@
 
 import 'dart:async';
 
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/common/util/stream_util.dart';
-import 'package:anime_tracker/core/data/media_list_repository.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/database/dao/media_dao.dart';
-import 'package:anime_tracker/core/database/model/media_entity.dart';
-import 'package:anime_tracker/core/database/model/media_list_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/stream_util.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/media_list_entity.dart';
+import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 

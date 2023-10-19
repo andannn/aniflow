@@ -1,18 +1,18 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/common/util/stream_util.dart';
-import 'package:anime_tracker/core/database/aniflow_database.dart';
-import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
-import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/media_entity.dart';
-import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/airing_schedule_and_media_relation.dart';
-import 'package:anime_tracker/core/database/model/relations/character_and_voice_actor_relation.dart';
-import 'package:anime_tracker/core/database/model/relations/media_with_detail_info.dart';
-import 'package:anime_tracker/core/database/model/relations/staff_and_role_relation.dart';
-import 'package:anime_tracker/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/stream_util.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
+import 'package:aniflow/core/database/model/character_entity.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/media_external_link_entity.dart';
+import 'package:aniflow/core/database/model/relations/airing_schedule_and_media_relation.dart';
+import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
+import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
+import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
