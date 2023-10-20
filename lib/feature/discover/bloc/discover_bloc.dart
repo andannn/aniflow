@@ -99,6 +99,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   Set<String> _ids = {};
 
+  final Set<MediaType> _syncedMediaTypes = {};
+
   @override
   void onChange(Change<DiscoverUiState> change) {
     super.onChange(change);
@@ -127,11 +129,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     }
 
     _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
-          (mediaType) {
-            logger.d(mediaType);
-            add(_OnMediaTypeChanged(mediaType));
-          },
-        );
+      (mediaType) {
+        logger.d(mediaType);
+        add(_OnMediaTypeChanged(mediaType));
+      },
+    );
   }
 
   Future<void> _onMediaTypeChanged(
@@ -145,8 +147,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     /// load all media from db cache first.
     await reloadAllMedia(mediaType: type, isRefresh: false);
 
-    /// Media's order may changed, refresh all media again.
-    unawaited(reloadAllMedia(mediaType: type, isRefresh: true));
+    if (!_syncedMediaTypes.contains(type)) {
+      /// Media's order may changed, refresh all media again.
+      unawaited(reloadAllMedia(mediaType: type, isRefresh: true));
+    }
   }
 
   Future<void> reloadAllMedia(
@@ -157,7 +161,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     final result =
         await Future.wait(_getAllLoadTask(mediaType, isRefresh: isRefresh));
 
-    if (result.any((e) => e == false)) {
+    if (!result.any((e) => e == false)) {
+      if (isRefresh) {
+        _syncedMediaTypes.add(mediaType);
+      }
+    } else {
       logger.d('AimeTracker refresh failed');
 
       /// data sync failed and show snack bar message.
