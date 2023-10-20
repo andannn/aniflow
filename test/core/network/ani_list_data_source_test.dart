@@ -1,11 +1,13 @@
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/anime_sort.dart';
-import 'package:anime_tracker/core/common/model/anime_status.dart';
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/network/ani_list_data_source.dart';
-import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
-import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
-import 'package:anime_tracker/core/network/api/user_anime_list_query_graphql.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_sort.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/network/ani_list_data_source.dart';
+import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
+import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
+import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:country_code/country_code.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -17,8 +19,18 @@ void main() {
           param: AnimePageQueryParam(
               seasonYear: 2023,
               season: AnimeSeason.summer,
-              status: AnimeStatus.finished,
-              animeSort: [AnimeSort.trending]));
+              type: MediaType.anime,
+              status: MediaStatus.finished,
+              animeSort: [MediaSort.trending]));
+    });
+    test('get_media_with_countryCode', () async {
+      await AniListDataSource().getNetworkAnimePage(
+          page: 1,
+          perPage: 10,
+          param: AnimePageQueryParam(
+              countryCode: CountryCode.KR,
+              type: MediaType.manga,
+              animeSort: [MediaSort.trending]));
     });
     test('get_detail_anime', () async {
       await AniListDataSource().getNetworkAnime(id: 1);
@@ -29,7 +41,7 @@ void main() {
           page: 1,
           perPage: 12,
           userId: 1,
-          status: [AnimeListStatus.completed, AnimeListStatus.current],
+          status: [MediaListStatus.completed, MediaListStatus.current],
         ),
       );
     });

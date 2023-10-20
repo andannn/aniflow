@@ -1,29 +1,29 @@
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/database/model/relations/user_anime_list_and_anime.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_list_item_model.freezed.dart';
 
 @freezed
-class AnimeListItemModel with _$AnimeListItemModel {
-  factory AnimeListItemModel({
+class MediaListItemModel with _$MediaListItemModel {
+  factory MediaListItemModel({
     @Default('') String id,
-    AnimeListStatus? status,
+    MediaListStatus? status,
     int? score,
     int? updatedAt,
     int? progress,
-    AnimeModel? animeModel,
-  }) = _AnimeListItemModel;
+    MediaModel? animeModel,
+  }) = _MediaListItemModel;
 
-  static AnimeListItemModel fromDataBaseModel(UserAnimeListAndAnime model) {
-    return AnimeListItemModel(
-      id: model.userAnimeListEntity.id,
-      status: model.userAnimeListEntity.status,
-      score: model.userAnimeListEntity.score,
-      progress: model.userAnimeListEntity.progress,
-      updatedAt: model.userAnimeListEntity.updatedAt,
-      animeModel: AnimeModel.fromDatabaseModel(model.animeEntity),
+  static MediaListItemModel fromDataBaseModel(MediaListAndMediaRelation model) {
+    return MediaListItemModel(
+      id: model.mediaListEntity.id,
+      status: model.mediaListEntity.status,
+      score: model.mediaListEntity.score,
+      progress: model.mediaListEntity.progress,
+      updatedAt: model.mediaListEntity.updatedAt,
+      animeModel: MediaModel.fromDatabaseModel(model.mediaEntity),
     );
   }
 }

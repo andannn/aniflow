@@ -1,36 +1,37 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/common/util/load_page_util.dart';
-import 'package:anime_tracker/core/common/util/time_util.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/core/data/model/airing_schedule_and_anime_model.dart';
-import 'package:anime_tracker/core/data/model/airing_schedule_model.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/data/model/staff_and_role_model.dart';
-import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/dao/anime_dao.dart';
-import 'package:anime_tracker/core/database/model/airing_schedules_entity.dart';
-import 'package:anime_tracker/core/database/model/anime_entity.dart';
-import 'package:anime_tracker/core/database/model/character_entity.dart';
-import 'package:anime_tracker/core/database/model/media_external_link_entity.dart';
-import 'package:anime_tracker/core/database/model/relations/anime_and_detail_info.dart';
-import 'package:anime_tracker/core/database/model/staff_entity.dart';
-import 'package:anime_tracker/core/network/ani_list_data_source.dart';
-import 'package:anime_tracker/core/network/api/airing_schedules_query_graphql.dart.dart';
-import 'package:anime_tracker/core/network/api/ani_list_query_graphql.dart';
-import 'package:anime_tracker/core/network/model/anime_dto.dart';
-import 'package:anime_tracker/core/network/model/character_edge.dart';
-import 'package:anime_tracker/core/network/model/media_external_links_dto.dart';
-import 'package:anime_tracker/core/network/model/staff_edge.dart';
-import 'package:anime_tracker/core/network/util/http_status_util.dart';
-import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/util/load_page_util.dart';
+import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
+import 'package:aniflow/core/data/model/airing_schedule_model.dart';
+import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
+import 'package:aniflow/core/database/model/character_entity.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/media_external_link_entity.dart';
+import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
+import 'package:aniflow/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/network/ani_list_data_source.dart';
+import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
+import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/media_external_links_dto.dart';
+import 'package:aniflow/core/network/model/staff_edge.dart';
+import 'package:aniflow/core/network/util/http_status_util.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// repository for get anime list.
 abstract class MediaInformationRepository {
-  Future<LoadResult<List<AnimeModel>>> loadAnimePageByCategory({
-    required AnimeCategory category,
+  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
+    required MediaCategory category,
     required LoadType loadType,
   });
 
@@ -45,7 +46,7 @@ abstract class MediaInformationRepository {
     required LoadType loadType,
   });
 
-  Stream<AnimeModel> getDetailAnimeInfoStream(String id);
+  Stream<MediaModel> getDetailAnimeInfoStream(String id);
 
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id);
 
@@ -62,12 +63,13 @@ abstract class MediaInformationRepository {
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
-  final AnimeListDao animeDao = AnimeDatabase().getAnimeDao();
+  final MediaInformationDao animeDao =
+      AniflowDatabase().getMediaInformationDaoDao();
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<LoadResult<List<AnimeModel>>> loadAnimePageByCategory(
-      {required AnimeCategory category, required LoadType loadType}) {
+  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory(
+      {required MediaCategory category, required LoadType loadType}) {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getNetworkAnimePage(
@@ -80,12 +82,12 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         ),
       ),
       onGetEntityFromDB: (page, perPage) =>
-          animeDao.getAnimeByPage(category, page: page, perPage: perPage),
+          animeDao.getMediaByPage(category, page: page, perPage: perPage),
       onInsertEntityToDB: (entities) => animeDao
-          .insertOrIgnoreAnimeByAnimeCategory(category, animeList: entities),
+          .insertOrIgnoreMediaByAnimeCategory(category, animeList: entities),
       onClearDbCache: () => animeDao.clearAnimeCategoryCrossRef(category),
-      mapDtoToEntity: (dto) => AnimeEntity.fromNetworkModel(dto),
-      mapEntityToModel: (entity) => AnimeModel.fromDatabaseModel(entity),
+      mapDtoToEntity: (dto) => MediaEntity.fromNetworkModel(dto),
+      mapEntityToModel: (entity) => MediaModel.fromDatabaseModel(entity),
     );
   }
 
@@ -97,15 +99,15 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
           animeId: int.parse(animeId), page: page, perPage: perPage),
-      onClearDbCache: () => animeDao.clearAnimeCharacterCrossRef(animeId),
+      onClearDbCache: () => animeDao.clearMediaCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
-          animeId: int.parse(animeId), entities: entities),
-      onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfAnimeByPage(
+          mediaId: int.parse(animeId), entities: entities),
+      onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfMediaByPage(
         animeId.toString(),
         page: page,
         perPage: perPage,
       ),
-      mapDtoToEntity: (dto) => CharacterAndVoiceActor(
+      mapDtoToEntity: (dto) => CharacterAndVoiceActorRelation(
         characterEntity: CharacterEntity.fromNetworkModel(dto),
         voiceActorEntity: StaffEntity.fromVoiceActorDto(dto),
       ),
@@ -123,13 +125,13 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           animeId: int.parse(animeId), page: page, perPage: perPage),
       onClearDbCache: () async {},
       onInsertEntityToDB: (entities) => animeDao.insertStaffEntities(
-          animeId: int.parse(animeId), entities: entities),
-      onGetEntityFromDB: (page, perPage) => animeDao.getStaffOfAnimeByPage(
+          mediaId: int.parse(animeId), entities: entities),
+      onGetEntityFromDB: (page, perPage) => animeDao.getStaffOfMediaByPage(
         animeId.toString(),
         page: page,
         perPage: perPage,
       ),
-      mapDtoToEntity: (dto) => StaffAndRoleEntity(
+      mapDtoToEntity: (dto) => StaffAndRoleRelation(
         staff: StaffEntity.fromStaffDto(dto),
         role: dto.role ?? '',
       ),
@@ -139,9 +141,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   }
 
   @override
-  Stream<AnimeModel> getDetailAnimeInfoStream(String id) {
-    return animeDao.getDetailAnimeInfoStream(id).map(
-          (entity) => AnimeModel.fromAnimeDetailInfo(entity),
+  Stream<MediaModel> getDetailAnimeInfoStream(String id) {
+    return animeDao.getDetailMediaInfoStream(id).map(
+          (entity) => MediaModel.fromAnimeDetailInfo(entity),
         );
   }
 
@@ -154,41 +156,43 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       );
 
       /// insert anime info to db.
-      await animeDao.upsertAnimeInformation(
-          [AnimeEntity.fromNetworkModel(networkResult)],
+      await animeDao.upsertMediaInformation(
+          [MediaEntity.fromNetworkModel(networkResult)],
           conflictAlgorithm: ConflictAlgorithm.replace);
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];
       if (characters.isNotEmpty) {
-        await animeDao.clearAnimeCharacterCrossRef(id);
+        await animeDao.clearMediaCharacterCrossRef(id);
+
         /// inset character entities to db.
-        final List<CharacterAndVoiceActor> characterAndVoiceActors = characters
-            .map(
-              (e) => CharacterAndVoiceActor(
-                characterEntity: CharacterEntity.fromNetworkModel(e),
-                voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
-              ),
-            )
-            .toList();
+        final List<CharacterAndVoiceActorRelation> characterAndVoiceActors =
+            characters
+                .map(
+                  (e) => CharacterAndVoiceActorRelation(
+                    characterEntity: CharacterEntity.fromNetworkModel(e),
+                    voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
+                  ),
+                )
+                .toList();
 
         await animeDao.insertCharacterVoiceActors(
-            animeId: int.parse(id), entities: characterAndVoiceActors);
+            mediaId: int.parse(id), entities: characterAndVoiceActors);
       }
 
       final List<StaffEdge> staffs = networkResult.staff?.edges ?? [];
       if (staffs.isNotEmpty) {
         /// inset staff entities to db.
-        final List<StaffAndRoleEntity> entities = staffs
+        final List<StaffAndRoleRelation> entities = staffs
             .map(
-              (e) => StaffAndRoleEntity(
+              (e) => StaffAndRoleRelation(
                 staff: StaffEntity.fromStaffDto(e),
                 role: e.role ?? '',
               ),
             )
             .toList();
         await animeDao.insertStaffEntities(
-            animeId: int.parse(id), entities: entities);
+            mediaId: int.parse(id), entities: entities);
       }
 
       final List<MediaExternalLinkDto> externalLinks =
@@ -205,7 +209,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       }
 
       /// notify data base has been changed an trigger the streams.
-      animeDao.notifyAnimeDetailInfoChanged();
+      animeDao.notifyMediaDetailInfoChanged();
       return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
@@ -223,7 +227,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         .map(
           (e) => AiringScheduleAndAnimeModel(
             airingSchedule: AiringScheduleModel.fromEntity(e.airingSchedule),
-            animeModel: AnimeModel.fromDatabaseModel(e.anime),
+            animeModel: MediaModel.fromDatabaseModel(e.mediaEntity),
           ),
         )
         .toList();
@@ -249,9 +253,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
       /// insert anime data to db if not exist.
       final animeEntities = networkResults
-          .map((e) => AnimeEntity.fromNetworkModel(e.media!))
+          .map((e) => MediaEntity.fromNetworkModel(e.media!))
           .toList();
-      await animeDao.upsertAnimeInformation(animeEntities,
+      await animeDao.upsertMediaInformation(animeEntities,
           conflictAlgorithm: ConflictAlgorithm.ignore);
 
       return LoadSuccess(data: null);

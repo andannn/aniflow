@@ -1,18 +1,18 @@
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   group('anime_database_test', () {
-    final animeDatabase = AnimeDatabase();
+    final animeDatabase = AniflowDatabase();
     late MediaInformationRepository aniListRepository;
 
     setUp(() async {
@@ -28,64 +28,65 @@ void main() {
     });
 
     tearDown(() async {
-      await animeDatabase.animeDB.delete(Tables.animeTable);
-      await animeDatabase.animeDB.delete(Tables.animeCategoryCrossRefTable);
-      await animeDatabase.animeDB.delete(Tables.categoryTable);
-      await animeDatabase.animeDB.delete(Tables.userDataTable);
+      await animeDatabase.aniflowDB.delete(Tables.mediaTable);
+      await animeDatabase.aniflowDB.delete(Tables.animeCategoryCrossRefTable);
+      await animeDatabase.aniflowDB.delete(Tables.categoryTable);
+      await animeDatabase.aniflowDB.delete(Tables.userDataTable);
     });
 
     test('ani_list_get_current_season_anime', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
-          category: AnimeCategory.currentSeason,
+      final result = await aniListRepository.loadMediaPageByCategory(
+          category: MediaCategory.currentSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
-      final dbResult =
-          await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
+      final dbResult = await animeDao
+          .getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
-              dbResult.map((e) => AnimeModel.fromDatabaseModel(e)).toList()));
+              dbResult.map((e) => MediaModel.fromDatabaseModel(e)).toList()));
     });
 
     test('ani_list_refresh_current_season_anime', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
-          loadType: const Refresh(), category: AnimeCategory.currentSeason);
-      final dbResult =
-          await animeDao.getAnimeByPage(AnimeCategory.currentSeason, page: 1);
+      final result = await aniListRepository.loadMediaPageByCategory(
+          loadType: const Refresh(),
+          category: MediaCategory.currentSeasonAnime);
+      final dbResult = await animeDao
+          .getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
-              dbResult.map((e) => AnimeModel.fromDatabaseModel(e)).toList()));
+              dbResult.map((e) => MediaModel.fromDatabaseModel(e)).toList()));
     });
 
     test('ani_list_get_nex_season_anime', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
-          category: AnimeCategory.nextSeason,
+      final result = await aniListRepository.loadMediaPageByCategory(
+          category: MediaCategory.nextSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
       final dbResult =
-          await animeDao.getAnimeByPage(AnimeCategory.nextSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.nextSeasonAnime, page: 1);
       expect(
           (result as LoadSuccess).data,
           equals(
-              dbResult.map((e) => AnimeModel.fromDatabaseModel(e)).toList()));
+              dbResult.map((e) => MediaModel.fromDatabaseModel(e)).toList()));
     });
 
     test('ani_list_refresh_nex_season_anime', () async {
-      final animeDao = animeDatabase.getAnimeDao();
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
-          loadType: const Refresh(), category: AnimeCategory.nextSeason);
+      final result = await aniListRepository.loadMediaPageByCategory(
+          loadType: const Refresh(), category: MediaCategory.nextSeasonAnime);
       final dbResult =
-          await animeDao.getAnimeByPage(AnimeCategory.nextSeason, page: 1);
+          await animeDao.getMediaByPage(MediaCategory.nextSeasonAnime, page: 1);
       expect(
-          (result as LoadSuccess<List<AnimeModel>>).data.map((e) => e.id),
+          (result as LoadSuccess<List<MediaModel>>).data.map((e) => e.id),
           equals(dbResult
-              .map((e) => AnimeModel.fromDatabaseModel(e))
+              .map((e) => MediaModel.fromDatabaseModel(e))
               .map((e) => e.id)
               .toList()));
     });

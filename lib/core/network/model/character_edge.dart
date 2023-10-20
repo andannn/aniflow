@@ -1,6 +1,6 @@
-import 'package:anime_tracker/core/common/model/character_role.dart';
-import 'package:anime_tracker/core/network/model/character_dto.dart';
-import 'package:anime_tracker/core/network/model/staff_dto.dart';
+import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/network/model/character_dto.dart';
+import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_edge.freezed.dart';

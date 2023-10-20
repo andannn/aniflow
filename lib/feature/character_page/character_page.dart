@@ -1,10 +1,10 @@
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/model/character_and_voice_actor_model.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_character_and_voice_actor.dart';
-import 'package:anime_tracker/feature/character_page/bloc/character_page_bloc.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
-import 'package:anime_tracker/feature/common/paging_bloc.dart';
-import 'package:anime_tracker/feature/common/paging_content_widget.dart';
+import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
+import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
+import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

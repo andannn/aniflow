@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/network/model/media_list_dto.dart';
+import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

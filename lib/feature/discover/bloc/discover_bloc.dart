@@ -1,36 +1,38 @@
 import 'dart:async';
 
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/util/anime_season_util.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/common/util/logger.dart';
-import 'package:anime_tracker/core/data/ani_list_repository.dart';
-import 'package:anime_tracker/core/data/auth_repository.dart';
-import 'package:anime_tracker/core/data/load_result.dart';
-import 'package:anime_tracker/core/data/media_information_repository.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/data/model/user_data_model.dart';
-import 'package:anime_tracker/core/data/user_data_repository.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_tracker_snackbar.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
-import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/anime_season_util.dart';
+import 'package:aniflow/core/common/util/collection_util.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 
 sealed class DiscoverEvent {}
 
-class _OnAnimeLoaded extends DiscoverEvent {
-  _OnAnimeLoaded(this.animeList, this.category);
+class _OnMediaLoaded extends DiscoverEvent {
+  _OnMediaLoaded(this.animeList, this.category);
 
-  final List<AnimeModel> animeList;
-  final AnimeCategory category;
+  final List<MediaModel> animeList;
+  final MediaCategory category;
 }
 
-class _OnAnimeLoadError extends DiscoverEvent {
-  _OnAnimeLoadError(this.exception, this.category);
+class _OnMediaLoadError extends DiscoverEvent {
+  _OnMediaLoadError(this.exception, this.category);
 
-  final AnimeCategory category;
+  final MediaCategory category;
   final Exception exception;
 }
 
@@ -52,6 +54,12 @@ class _OnLoadStateChanged extends DiscoverEvent {
   final bool isLoading;
 }
 
+class _OnMediaTypeChanged extends DiscoverEvent {
+  _OnMediaTypeChanged(this.mediaType);
+
+  final MediaType mediaType;
+}
+
 extension DiscoverUiStateEx on DiscoverUiState {
   bool get isLoggedIn => userData != null;
 }
@@ -61,15 +69,16 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       {required AuthRepository authRepository,
       required userDataRepository,
       required aniListRepository,
-      required AniListRepository animeTrackListRepository})
+      required MediaListRepository animeTrackListRepository})
       : _userDataRepository = userDataRepository,
         _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
         super(DiscoverUiState()) {
-    on<_OnAnimeLoaded>(_onAnimeLoaded);
-    on<_OnAnimeLoadError>(_onAnimeLoadError);
+    on<_OnMediaLoaded>(_onMediaLoaded);
+    on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
     on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
+    on<_OnMediaTypeChanged>(_onMediaTypeChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
 
     _userDataSub ??=
@@ -82,12 +91,15 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   final UserDataRepository _userDataRepository;
   final MediaInformationRepository _aniListRepository;
-  final AniListRepository _animeTrackListRepository;
+  final MediaListRepository _animeTrackListRepository;
 
   StreamSubscription? _userDataSub;
-  StreamSubscription? _trackedAnimeIdsSub;
+  StreamSubscription? _mediaTypeSub;
+  StreamSubscription? _trackedMediaIdsSub;
 
   Set<String> _ids = {};
+
+  final Set<MediaType> _syncedMediaTypes = {};
 
   @override
   void onChange(Change<DiscoverUiState> change) {
@@ -97,7 +109,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   @override
   Future<void> close() {
     _userDataSub?.cancel();
-    _trackedAnimeIdsSub?.cancel();
+    _trackedMediaIdsSub?.cancel();
+    _mediaTypeSub?.cancel();
 
     return super.close();
   }
@@ -115,54 +128,46 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
-    /// request first page of Anime to show in home.
-    final lastSyncTime = _userDataRepository.getLastSuccessSyncTime();
-    add(_OnLoadStateChanged(true));
-    final initialLoadResult = await Future.wait([
-      _createLoadAnimePageTask(AnimeCategory.currentSeason),
-      _createLoadAnimePageTask(AnimeCategory.nextSeason),
-      _createLoadAnimePageTask(AnimeCategory.trending),
-      _createLoadAnimePageTask(AnimeCategory.movie),
-    ]);
-    add(_OnLoadStateChanged(false));
+    _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
+      (mediaType) {
+        logger.d(mediaType);
+        add(_OnMediaTypeChanged(mediaType));
+      },
+    );
+  }
 
-    if (lastSyncTime == null) {
-      if (!initialLoadResult.any((e) => e == false)) {
-        logger.d('AimeTracker first sync success');
+  Future<void> _onMediaTypeChanged(
+      _OnMediaTypeChanged event, Emitter<DiscoverUiState> emit) async {
+    final type = event.mediaType;
 
-        /// first sync success.
-        await _userDataRepository.setLastSuccessSync(DateTime.now());
+    emit(state.copyWith(currentMediaType: type));
 
-        showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
-        return;
-      }
-    }
+    // _trackedMediaIdsSub?.cancel();
 
-    if (lastSyncTime != null) {
-      /// Refresh all data.
-      await refreshAnime();
+    /// load all media from db cache first.
+    await reloadAllMedia(mediaType: type, isRefresh: false);
+
+    if (!_syncedMediaTypes.contains(type)) {
+      /// Media's order may changed, refresh all media again.
+      unawaited(reloadAllMedia(mediaType: type, isRefresh: true));
     }
   }
 
-  Future<void> refreshAnime() async {
+  Future<void> reloadAllMedia(
+      {required MediaType mediaType, required bool isRefresh}) async {
     add(_OnLoadStateChanged(true));
 
     /// wait refresh tasks.
-    final result = await Future.wait([
-      _createLoadAnimePageTask(AnimeCategory.currentSeason, isRefresh: true),
-      _createLoadAnimePageTask(AnimeCategory.nextSeason, isRefresh: true),
-      _createLoadAnimePageTask(AnimeCategory.trending, isRefresh: true),
-      _createLoadAnimePageTask(AnimeCategory.movie, isRefresh: true),
-    ]);
+    final result =
+        await Future.wait(_getAllLoadTask(mediaType, isRefresh: isRefresh));
+
     if (!result.any((e) => e == false)) {
-      logger.d('AimeTracker refresh success');
-
-      /// data sync success and show snack bar message.
-      showSnackBarMessage(label: AFLocalizations.of().dataRefreshed);
-
-      /// refresh success, update sync time.
-      await _userDataRepository.setLastSuccessSync(DateTime.now());
+      if (isRefresh) {
+        _syncedMediaTypes.add(mediaType);
+      }
     } else {
+      logger.d('AimeTracker refresh failed');
+
       /// data sync failed and show snack bar message.
       showSnackBarMessage(label: AFLocalizations.of().dataRefreshFailed);
     }
@@ -170,49 +175,52 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     add(_OnLoadStateChanged(false));
   }
 
-  Future<bool> _createLoadAnimePageTask(AnimeCategory category,
+  List<Future<bool>> _getAllLoadTask(MediaType type,
+      {required bool isRefresh}) {
+    return MediaCategory.getALlCategoryByType(type)
+        .map((e) => _createLoadMediaPageTask(e, isRefresh: isRefresh))
+        .toList();
+  }
+
+  Future<bool> _createLoadMediaPageTask(MediaCategory category,
       {bool isRefresh = false}) async {
     final LoadResult result;
     if (isRefresh) {
-      result = await _aniListRepository.loadAnimePageByCategory(
+      result = await _aniListRepository.loadMediaPageByCategory(
           loadType: const Refresh(), category: category);
     } else {
-      result = await _aniListRepository.loadAnimePageByCategory(
+      result = await _aniListRepository.loadMediaPageByCategory(
         category: category,
         loadType: const Append(page: 1, perPage: Config.defaultPerPageCount),
       );
     }
     switch (result) {
-      case LoadSuccess<List<AnimeModel>>(data: final data):
-        add(_OnAnimeLoaded(data, category));
+      case LoadSuccess<List<MediaModel>>(data: final data):
+        add(_OnMediaLoaded(data, category));
         return true;
-      case LoadError<List<AnimeModel>>(exception: final exception):
-        add(_OnAnimeLoadError(exception, category));
+      case LoadError<List<MediaModel>>(exception: final exception):
+        add(_OnMediaLoadError(exception, category));
         return false;
       default:
         return false;
     }
   }
 
-  FutureOr<void> _onAnimeLoaded(
-      _OnAnimeLoaded event, Emitter<DiscoverUiState> emit) {
+  FutureOr<void> _onMediaLoaded(
+      _OnMediaLoaded event, Emitter<DiscoverUiState> emit) {
     final result = PageReady(data: event.animeList, page: 1);
-    final DiscoverUiState newState;
-    switch (event.category) {
-      case AnimeCategory.nextSeason:
-        newState = state.copyWith(nextSeasonPagingState: result);
-      case AnimeCategory.currentSeason:
-        newState = state.copyWith(currentSeasonPagingState: result);
-      case AnimeCategory.trending:
-        newState = state.copyWith(trendingPagingState: result);
-      case AnimeCategory.movie:
-        newState = state.copyWith(moviePagingState: result);
-    }
+    final category = event.category;
+
+    Map<MediaCategory, PagingState<List<MediaModel>>> stateMap =
+        state.categoryMediaMap.toMutableMap()..[category] = result;
+
+    final DiscoverUiState newState = state.copyWith(categoryMediaMap: stateMap);
+
     emit(DiscoverUiState.copyWithTrackedIds(newState, _ids));
   }
 
-  FutureOr<void> _onAnimeLoadError(
-      _OnAnimeLoadError event, Emitter<DiscoverUiState> emit) {}
+  FutureOr<void> _onMediaLoadError(
+      _OnMediaLoadError event, Emitter<DiscoverUiState> emit) {}
 
   Future<void> _onUserDataChanged(
       _OnUserDataChanged event, Emitter<DiscoverUiState> emit) async {
@@ -220,11 +228,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     if (event.userData != null) {
       /// user login, start listen following anime changed.
-      await _trackedAnimeIdsSub?.cancel();
-      _trackedAnimeIdsSub =
-          _animeTrackListRepository.getAnimeListAnimeIdsByUserStream(
+      await _trackedMediaIdsSub?.cancel();
+      _trackedMediaIdsSub =
+          _animeTrackListRepository.getMediaListAnimeIdsByUserStream(
         event.userData!.id,
-        [AnimeListStatus.planning, AnimeListStatus.current],
+        [MediaListStatus.planning, MediaListStatus.current],
       ).listen((ids) {
         add(_OnTrackingAnimeIdsChanged(ids));
       });
@@ -234,7 +242,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
           userId: event.userData!.id));
     } else {
       /// user logout, cancel following stream.
-      await _trackedAnimeIdsSub?.cancel();
+      await _trackedMediaIdsSub?.cancel();
     }
   }
 

@@ -1,15 +1,15 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/common/util/logger.dart';
-import 'package:anime_tracker/core/network/api/ani_auth_mution_graphql.dart';
-import 'package:anime_tracker/core/network/api/ani_save_media_list_mution_graphql.dart';
-import 'package:anime_tracker/core/network/client/ani_list_dio.dart';
-import 'package:anime_tracker/core/network/model/media_list_dto.dart';
-import 'package:anime_tracker/core/network/model/user_data_dto.dart'
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
+import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
+import 'package:aniflow/core/network/client/ani_list_dio.dart';
+import 'package:aniflow/core/network/model/media_list_dto.dart';
+import 'package:aniflow/core/network/model/user_data_dto.dart'
     show UserDataDto;
-import 'package:anime_tracker/core/network/util/http_status_util.dart';
-import 'package:anime_tracker/core/shared_preference/user_data.dart';
+import 'package:aniflow/core/network/util/http_status_util.dart';
+import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
 import 'package:dio/dio.dart';
 
 class AuthDataSource {

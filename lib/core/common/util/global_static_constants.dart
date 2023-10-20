@@ -4,7 +4,7 @@ mixin Config {
   static const defaultCatchExtend = 300.0;
 
   /// default page count of anime.
-  static const int defaultPerPageCount = 9;
+  static const int defaultPerPageCount = 18;
 }
 
 var isUnitTest = false;

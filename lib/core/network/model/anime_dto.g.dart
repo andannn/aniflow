@@ -10,13 +10,13 @@ _$_AnimeDto _$$_AnimeDtoFromJson(Map<String, dynamic> json) => _$_AnimeDto(
       id: json['id'] as int? ?? -1,
       title: json['title'] == null
           ? null
-          : AnimeTitle.fromJson(json['title'] as Map<String, dynamic>),
+          : MediaTitle.fromJson(json['title'] as Map<String, dynamic>),
       coverImage: (json['coverImage'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
       description: json['description'] as String?,
-      status: $enumDecodeNullable(_$AnimeStatusEnumMap, json['status']),
+      status: $enumDecodeNullable(_$MediaStatusEnumMap, json['status']),
       source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']),
       episodes: json['episodes'] as int?,
       seasonYear: json['seasonYear'] as int?,
@@ -60,7 +60,7 @@ Map<String, dynamic> _$$_AnimeDtoToJson(_$_AnimeDto instance) =>
       'title': instance.title,
       'coverImage': instance.coverImage,
       'description': instance.description,
-      'status': _$AnimeStatusEnumMap[instance.status],
+      'status': _$MediaStatusEnumMap[instance.status],
       'source': _$AnimeSourceEnumMap[instance.source],
       'episodes': instance.episodes,
       'seasonYear': instance.seasonYear,
@@ -79,10 +79,10 @@ Map<String, dynamic> _$$_AnimeDtoToJson(_$_AnimeDto instance) =>
       'externalLinks': instance.externalLinks,
     };
 
-const _$AnimeStatusEnumMap = {
-  AnimeStatus.releasing: 'RELEASING',
-  AnimeStatus.finished: 'FINISHED',
-  AnimeStatus.notYetReleased: 'NOT_YET_RELEASED',
+const _$MediaStatusEnumMap = {
+  MediaStatus.releasing: 'RELEASING',
+  MediaStatus.finished: 'FINISHED',
+  MediaStatus.notYetReleased: 'NOT_YET_RELEASED',
 };
 
 const _$AnimeSourceEnumMap = {

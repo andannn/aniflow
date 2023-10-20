@@ -23,7 +23,7 @@ MediaExternalLinkEntity _$MediaExternalLinkEntityFromJson(
 mixin _$MediaExternalLinkEntity {
   @JsonKey(name: MediaExternalLinkColumnValues.id)
   String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: MediaExternalLinkColumnValues.animeId)
+  @JsonKey(name: MediaExternalLinkColumnValues.mediaId)
   String get animeId => throw _privateConstructorUsedError;
   @JsonKey(name: MediaExternalLinkColumnValues.url)
   String? get url => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $MediaExternalLinkEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: MediaExternalLinkColumnValues.id) String id,
-      @JsonKey(name: MediaExternalLinkColumnValues.animeId) String animeId,
+      @JsonKey(name: MediaExternalLinkColumnValues.mediaId) String animeId,
       @JsonKey(name: MediaExternalLinkColumnValues.url) String? url,
       @JsonKey(name: MediaExternalLinkColumnValues.site) String? site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) String? type,
@@ -131,7 +131,7 @@ abstract class _$$_MediaExternalLinkEntityCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: MediaExternalLinkColumnValues.id) String id,
-      @JsonKey(name: MediaExternalLinkColumnValues.animeId) String animeId,
+      @JsonKey(name: MediaExternalLinkColumnValues.mediaId) String animeId,
       @JsonKey(name: MediaExternalLinkColumnValues.url) String? url,
       @JsonKey(name: MediaExternalLinkColumnValues.site) String? site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) String? type,
@@ -203,7 +203,7 @@ class __$$_MediaExternalLinkEntityCopyWithImpl<$Res>
 class _$_MediaExternalLinkEntity implements _MediaExternalLinkEntity {
   _$_MediaExternalLinkEntity(
       {@JsonKey(name: MediaExternalLinkColumnValues.id) this.id = '',
-      @JsonKey(name: MediaExternalLinkColumnValues.animeId) this.animeId = '',
+      @JsonKey(name: MediaExternalLinkColumnValues.mediaId) this.animeId = '',
       @JsonKey(name: MediaExternalLinkColumnValues.url) this.url,
       @JsonKey(name: MediaExternalLinkColumnValues.site) this.site,
       @JsonKey(name: MediaExternalLinkColumnValues.type) this.type,
@@ -218,7 +218,7 @@ class _$_MediaExternalLinkEntity implements _MediaExternalLinkEntity {
   @JsonKey(name: MediaExternalLinkColumnValues.id)
   final String id;
   @override
-  @JsonKey(name: MediaExternalLinkColumnValues.animeId)
+  @JsonKey(name: MediaExternalLinkColumnValues.mediaId)
   final String animeId;
   @override
   @JsonKey(name: MediaExternalLinkColumnValues.url)
@@ -283,7 +283,7 @@ class _$_MediaExternalLinkEntity implements _MediaExternalLinkEntity {
 abstract class _MediaExternalLinkEntity implements MediaExternalLinkEntity {
   factory _MediaExternalLinkEntity(
       {@JsonKey(name: MediaExternalLinkColumnValues.id) final String id,
-      @JsonKey(name: MediaExternalLinkColumnValues.animeId)
+      @JsonKey(name: MediaExternalLinkColumnValues.mediaId)
       final String animeId,
       @JsonKey(name: MediaExternalLinkColumnValues.url) final String? url,
       @JsonKey(name: MediaExternalLinkColumnValues.site) final String? site,
@@ -300,7 +300,7 @@ abstract class _MediaExternalLinkEntity implements MediaExternalLinkEntity {
   @JsonKey(name: MediaExternalLinkColumnValues.id)
   String get id;
   @override
-  @JsonKey(name: MediaExternalLinkColumnValues.animeId)
+  @JsonKey(name: MediaExternalLinkColumnValues.mediaId)
   String get animeId;
   @override
   @JsonKey(name: MediaExternalLinkColumnValues.url)

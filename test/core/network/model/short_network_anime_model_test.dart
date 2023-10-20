@@ -1,5 +1,5 @@
-import 'package:anime_tracker/core/data/model/anime_title_modle.dart';
-import 'package:anime_tracker/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/network/model/anime_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -26,7 +26,7 @@ void main() {
       expect(res, equals(
           AnimeDto(
               id: 124,
-              title: AnimeTitle(
+              title: MediaTitle(
                   romaji: "Fushigi Yuugi: Eikoden",
                   english: "Mysterious Play: Eikoden",
                   native: "ふしぎ遊戯 -永光伝"

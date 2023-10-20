@@ -10,7 +10,7 @@ _$_MediaExternalLinkEntity _$$_MediaExternalLinkEntityFromJson(
         Map<String, dynamic> json) =>
     _$_MediaExternalLinkEntity(
       id: json['external_link_id'] as String? ?? '',
-      animeId: json['external_link_anime_id'] as String? ?? '',
+      animeId: json['external_link_media_id'] as String? ?? '',
       url: json['external_link_url'] as String?,
       site: json['external_link_site'] as String?,
       type: json['external_link_type'] as String?,
@@ -23,7 +23,7 @@ Map<String, dynamic> _$$_MediaExternalLinkEntityToJson(
         _$_MediaExternalLinkEntity instance) =>
     <String, dynamic>{
       'external_link_id': instance.id,
-      'external_link_anime_id': instance.animeId,
+      'external_link_media_id': instance.animeId,
       'external_link_url': instance.url,
       'external_link_site': instance.site,
       'external_link_type': instance.type,

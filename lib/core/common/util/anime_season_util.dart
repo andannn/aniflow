@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
 
 mixin AnimeSeasonUtil {
   /// get anime season params by DateTime.

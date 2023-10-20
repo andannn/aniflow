@@ -1,4 +1,4 @@
-import 'package:anime_tracker/core/network/model/staff_dto.dart';
+import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'staff_edge.freezed.dart';

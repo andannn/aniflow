@@ -1,10 +1,10 @@
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/core/common/model/anime_season.dart';
-import 'package:anime_tracker/core/common/model/anime_source.dart';
-import 'package:anime_tracker/core/common/model/anime_status.dart';
-import 'package:anime_tracker/core/common/model/character_role.dart';
-import 'package:anime_tracker/core/common/util/time_util.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/anime_source.dart';
+import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:flutter/material.dart';
 
 extension AnimeSourceEx on AnimeSource {
@@ -41,14 +41,14 @@ extension AnimeSeasonEx on AnimeSeason {
   }
 }
 
-extension AnimeStatusEx on AnimeStatus {
+extension AnimeStatusEx on MediaStatus {
   String getAnimeStatusString(BuildContext context) {
     switch (this) {
-      case AnimeStatus.releasing:
+      case MediaStatus.releasing:
         return AFLocalizations.of(context).animeReleasing;
-      case AnimeStatus.finished:
+      case MediaStatus.finished:
         return AFLocalizations.of(context).animeFinished;
-      case AnimeStatus.notYetReleased:
+      case MediaStatus.notYetReleased:
         return AFLocalizations.of(context).animeNotYetReleased;
     }
   }
@@ -67,7 +67,7 @@ extension CharacterRoleEx on CharacterRole {
   }
 }
 
-extension AnimeModelEx on AnimeModel {
+extension AnimeModelEx on MediaModel {
   String getAnimeInfoString(BuildContext context) {
     final itemList = <String>[];
     if (seasonYear != null && season != null) {

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:anime_tracker/core/common/util/stream_util.dart';
-import 'package:anime_tracker/core/database/anime_database.dart';
-import 'package:anime_tracker/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/common/util/stream_util.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/model/user_data_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,13 +24,13 @@ abstract class UserDataDao {
 }
 
 class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
-  final AnimeDatabase database;
+  final AniflowDatabase database;
 
   UserDataDaoImpl(this.database);
 
   @override
   Future updateUserData(UserDataEntity userDataEntity) {
-    final batch = database.animeDB.batch();
+    final batch = database.aniflowDB.batch();
     batch.delete(Tables.userDataTable);
     batch.insert(Tables.userDataTable, userDataEntity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
@@ -43,7 +43,7 @@ class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
   @override
   Future<UserDataEntity?> getUserData() async {
     final resultJson =
-        await database.animeDB.query(Tables.userDataTable, limit: 1);
+        await database.aniflowDB.query(Tables.userDataTable, limit: 1);
 
     if (resultJson.isEmpty) return null;
 
@@ -57,7 +57,7 @@ class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
 
   @override
   Future removeUserData() {
-    final batch = database.animeDB.batch();
+    final batch = database.aniflowDB.batch();
     batch.delete(Tables.userDataTable);
 
     return batch.commit(noResult: true).then(

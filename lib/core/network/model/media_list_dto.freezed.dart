@@ -27,7 +27,7 @@ mixin _$MediaListDto {
   @JsonKey(name: 'score')
   int? get score => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
-  AnimeListStatus? get status => throw _privateConstructorUsedError;
+  MediaListStatus? get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'progress')
   int get progress => throw _privateConstructorUsedError;
   @JsonKey(name: 'updatedAt')
@@ -51,7 +51,7 @@ abstract class $MediaListDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'userId') int userId,
       @JsonKey(name: 'score') int? score,
-      @JsonKey(name: 'status') AnimeListStatus? status,
+      @JsonKey(name: 'status') MediaListStatus? status,
       @JsonKey(name: 'progress') int progress,
       @JsonKey(name: 'updatedAt') int updatedAt,
       @JsonKey(name: 'media') AnimeDto? media});
@@ -96,7 +96,7 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as AnimeListStatus?,
+              as MediaListStatus?,
       progress: null == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ abstract class _$$_MediaListDtoCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'userId') int userId,
       @JsonKey(name: 'score') int? score,
-      @JsonKey(name: 'status') AnimeListStatus? status,
+      @JsonKey(name: 'status') MediaListStatus? status,
       @JsonKey(name: 'progress') int progress,
       @JsonKey(name: 'updatedAt') int updatedAt,
       @JsonKey(name: 'media') AnimeDto? media});
@@ -181,7 +181,7 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as AnimeListStatus?,
+              as MediaListStatus?,
       progress: null == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
@@ -224,7 +224,7 @@ class _$_MediaListDto implements _MediaListDto {
   final int? score;
   @override
   @JsonKey(name: 'status')
-  final AnimeListStatus? status;
+  final MediaListStatus? status;
   @override
   @JsonKey(name: 'progress')
   final int progress;
@@ -280,7 +280,7 @@ abstract class _MediaListDto implements MediaListDto {
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'userId') final int userId,
       @JsonKey(name: 'score') final int? score,
-      @JsonKey(name: 'status') final AnimeListStatus? status,
+      @JsonKey(name: 'status') final MediaListStatus? status,
       @JsonKey(name: 'progress') final int progress,
       @JsonKey(name: 'updatedAt') final int updatedAt,
       @JsonKey(name: 'media') final AnimeDto? media}) = _$_MediaListDto;
@@ -299,7 +299,7 @@ abstract class _MediaListDto implements MediaListDto {
   int? get score;
   @override
   @JsonKey(name: 'status')
-  AnimeListStatus? get status;
+  MediaListStatus? get status;
   @override
   @JsonKey(name: 'progress')
   int get progress;

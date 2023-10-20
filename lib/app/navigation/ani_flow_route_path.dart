@@ -1,15 +1,15 @@
-import 'package:anime_tracker/app/navigation/top_level_navigation.dart';
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/feature/airing_schedule/airing_schedule.dart';
-import 'package:anime_tracker/feature/anime_page/anime_page.dart';
-import 'package:anime_tracker/feature/anime_search/anime_search.dart';
-import 'package:anime_tracker/feature/anime_track/anime_track.dart';
-import 'package:anime_tracker/feature/character_page/character_page.dart';
-import 'package:anime_tracker/feature/detail_anime/detail_anime.dart';
-import 'package:anime_tracker/feature/discover/discover.dart';
-import 'package:anime_tracker/feature/forum/profile.dart';
-import 'package:anime_tracker/feature/profile/profile.dart';
-import 'package:anime_tracker/feature/staff_page/staff_page.dart';
+import 'package:aniflow/app/navigation/top_level_navigation.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
+import 'package:aniflow/feature/anime_search/media_search.dart';
+import 'package:aniflow/feature/character_page/character_page.dart';
+import 'package:aniflow/feature/detail_media/detail_media.dart';
+import 'package:aniflow/feature/discover/discover.dart';
+import 'package:aniflow/feature/forum/profile.dart';
+import 'package:aniflow/feature/media_page/media_page.dart';
+import 'package:aniflow/feature/media_track/media_track.dart';
+import 'package:aniflow/feature/profile/profile.dart';
+import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:flutter/material.dart';
 
 sealed class AniFlowRoutePath {
@@ -57,7 +57,7 @@ class SearchRoutePath extends AniFlowRoutePath {
 class AnimeListRoutePath extends AniFlowRoutePath {
   const AnimeListRoutePath(this.category) : super(isFullScreen: true);
 
-  final AnimeCategory category;
+  final MediaCategory category;
 }
 
 class CharacterListRoutePath extends AniFlowRoutePath {
@@ -88,7 +88,7 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case DiscoverRoutePath(topLevel: final _):
         return const DiscoverPage(key: ValueKey('DiscoverPage'));
       case AnimeListRoutePath(category: final category):
-        return AnimeListPage(
+        return MediaListPage(
           key: ValueKey('AnimeListPage_$category'),
           category: category,
         );

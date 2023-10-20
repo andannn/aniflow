@@ -1,15 +1,17 @@
-import 'package:anime_tracker/app/local/ani_flow_localizations.dart';
-import 'package:anime_tracker/app/navigation/ani_flow_router.dart';
-import 'package:anime_tracker/core/common/model/anime_category.dart';
-import 'package:anime_tracker/core/common/util/global_static_constants.dart';
-import 'package:anime_tracker/core/data/model/anime_model.dart';
-import 'package:anime_tracker/core/design_system/widget/anime_preview_item.dart';
-import 'package:anime_tracker/core/design_system/widget/avatar_icon.dart';
-import 'package:anime_tracker/core/design_system/widget/loading_indicator.dart';
-import 'package:anime_tracker/feature/auth/auth_dialog.dart';
-import 'package:anime_tracker/feature/common/page_loading_state.dart';
-import 'package:anime_tracker/feature/discover/bloc/discover_bloc.dart';
-import 'package:anime_tracker/feature/discover/bloc/discover_ui_state.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/feature/auth/auth_dialog.dart';
+import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
+import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,13 +25,11 @@ class DiscoverPage extends Page {
 }
 
 class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
-  DiscoverPageRoute({super.settings}): super(allowSnapshotting: false);
+  DiscoverPageRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Scaffold(
-      body: DiscoverScreen(),
-    );
+    return const DiscoverScreen();
   }
 
   @override
@@ -43,118 +43,130 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DiscoverBloc, DiscoverUiState>(
       builder: (BuildContext context, state) {
-        final currentSeasonState = state.currentSeasonPagingState;
-        final nextSeasonState = state.nextSeasonPagingState;
-        final trendingState = state.trendingPagingState;
-        final movieState = state.moviePagingState;
+        final map = state.categoryMediaMap;
+        final currentMediaType = state.currentMediaType;
+        final isAnime = state.currentMediaType == MediaType.anime;
+
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
-        return RefreshIndicator(
-          onRefresh: () async {
-            await context.read<DiscoverBloc>().refreshAnime();
-          },
-          child: CustomScrollView(
-            cacheExtent: Config.defaultCatchExtend,
-            slivers: [
-              SliverAppBar(
-                title: Text(AFLocalizations.of(context).discover),
-                pinned: true,
-                actions: [
-                  LoadingIndicator(isLoading: isLoading),
-                  IconButton(
-                    onPressed: () {
-                      AFRouterDelegate.of(context).navigateToSearch();
-                    },
-                    icon: const Icon(Icons.search_rounded),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: IconButton(
-                      onPressed: () => showAuthDialog(context),
-                      icon: isLoggedIn
-                          ? buildAvatarIcon(context, userData!.avatar)
-                          : const Icon(Icons.person_outline),
-                    ),
-                  )
-                ],
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(AFLocalizations.of(context).discover),
+            actions: [
+              LoadingIndicator(isLoading: isLoading),
+              IconButton(
+                onPressed: () {
+                  AFRouterDelegate.of(context).navigateToSearch();
+                },
+                icon: const Icon(Icons.search_rounded),
               ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  AnimeCategory.currentSeason,
-                  currentSeasonState,
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
+                  onPressed: () => showAuthDialog(context),
+                  icon: isLoggedIn
+                      ? buildAvatarIcon(context, userData!.avatar)
+                      : const Icon(Icons.person_outline),
                 ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 12),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  AnimeCategory.nextSeason,
-                  nextSeasonState,
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 12),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  AnimeCategory.trending,
-                  trendingState,
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 24),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeCategoryPreview(
-                  context,
-                  AnimeCategory.movie,
-                  movieState,
-                ),
-              ),
+              )
             ],
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              final repository = context.read<UserDataRepository>();
+              if (currentMediaType == MediaType.manga) {
+                repository.setMediaType(MediaType.anime);
+              } else {
+                repository.setMediaType(MediaType.manga);
+              }
+            },
+            isExtended: true,
+            icon: isAnime
+                ? const Icon(Icons.palette_rounded)
+                : const Icon(Icons.map),
+            label: Text(isAnime ? 'Anime' : 'Manga'),
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await context
+                  .read<DiscoverBloc>()
+                  .reloadAllMedia(mediaType: MediaType.anime, isRefresh: true);
+            },
+            child: CustomScrollView(
+              cacheExtent: Config.defaultCatchExtend,
+              slivers:
+                  _buildCategoriesByMediaType(context, map, currentMediaType),
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildAnimeCategoryPreview(
+  List<Widget> _buildCategoriesByMediaType(
     BuildContext context,
-    AnimeCategory category,
+    Map categoryMap,
+    MediaType type,
+  ) {
+    final categories = MediaCategory.getALlCategoryByType(type)
+        .map(
+          (category) => _buildMediaCategoryPreview(
+            context,
+            category,
+            categoryMap[category],
+          ),
+        )
+        .toList();
+
+    final widgets = <Widget>[];
+    for (var i = 0; i < categories.length; i++) {
+      widgets.add(categories[i]);
+      if (i > 0 && i < (categories.length - 1)) {
+        widgets.add(
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 12),
+          ),
+        );
+      }
+    }
+    return widgets;
+  }
+
+  Widget _buildMediaCategoryPreview(
+    BuildContext context,
+    MediaCategory category,
     PagingState state,
   ) {
     final animeModels = state.data;
     final isLoading = state is PageLoading;
-    return _AnimeCategoryPreview(
-      category: category,
-      animeModels: animeModels,
-      isLoading: isLoading,
-      onMoreClick: () {
-        AFRouterDelegate.of(context).navigateToAnimeList(category);
-      },
-      onAnimeClick: (id) {
-        AFRouterDelegate.of(context).navigateToDetailAnime(id);
-      },
+    return SliverToBoxAdapter(
+      child: _MediaCategoryPreview(
+        category: category,
+        animeModels: animeModels,
+        isLoading: isLoading,
+        onMoreClick: () {
+          AFRouterDelegate.of(context).navigateToAnimeList(category);
+        },
+        onAnimeClick: (id) {
+          AFRouterDelegate.of(context).navigateToDetailAnime(id);
+        },
+      ),
     );
   }
 }
 
-class _AnimeCategoryPreview extends StatelessWidget {
-  const _AnimeCategoryPreview(
+class _MediaCategoryPreview extends StatelessWidget {
+  const _MediaCategoryPreview(
       {required this.category,
       required this.animeModels,
       required this.isLoading,
       this.onMoreClick,
       this.onAnimeClick});
 
-  final AnimeCategory category;
+  final MediaCategory category;
   final bool isLoading;
-  final List<AnimeModel> animeModels;
+  final List<MediaModel> animeModels;
   final VoidCallback? onMoreClick;
   final Function(String animeId)? onAnimeClick;
 
@@ -173,7 +185,7 @@ class _AnimeCategoryPreview extends StatelessWidget {
                   sliver: SliverList.builder(
                     itemCount: animeModels.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return AnimePreviewItem(
+                      return MediaPreviewItem(
                         width: 160,
                         textStyle: Theme.of(context).textTheme.titleSmall,
                         model: animeModels[index],
@@ -189,17 +201,7 @@ class _AnimeCategoryPreview extends StatelessWidget {
   }
 
   Widget _buildTitleBar(BuildContext context) {
-    String title;
-    switch (category) {
-      case AnimeCategory.currentSeason:
-        title = AFLocalizations.of(context).popularThisSeasonLabel;
-      case AnimeCategory.nextSeason:
-        title = AFLocalizations.of(context).upComingNextSeasonLabel;
-      case AnimeCategory.trending:
-        title = AFLocalizations.of(context).trendingNowLabel;
-      case AnimeCategory.movie:
-        title = AFLocalizations.of(context).movieLabel;
-    }
+    String title = category.getMediaCategoryTitle(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(children: [

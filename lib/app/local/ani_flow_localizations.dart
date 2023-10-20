@@ -1,4 +1,4 @@
-import 'package:anime_tracker/app/app.dart';
+import 'package:aniflow/app/app.dart';
 import 'package:flutter/material.dart';
 
 abstract class AFLocalizations {
@@ -79,6 +79,10 @@ abstract class AFLocalizations {
   String get animeMarkWatched;
 
   String get staff;
+
+  String get allTimePopular;
+
+  String get topManhwa;
 
   static AFLocalizations of([BuildContext? context]) {
     return Localizations.of<AFLocalizations>(
@@ -203,6 +207,12 @@ class EnAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get staff => 'Staff';
+
+  @override
+  String get allTimePopular => 'All time popular';
+
+  @override
+  String get topManhwa => 'Top Manhwa';
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -322,6 +332,12 @@ class JaAniFLowLocalizations extends AFLocalizations {
 
   @override
   String get staff => 'スタッフ';
+
+  @override
+  String get allTimePopular => 'All time popular';
+
+  @override
+  String get topManhwa => 'Top Manhwa';
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -441,4 +457,10 @@ class CNAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get staff => '职员';
+
+  @override
+  String get allTimePopular => 'All time popular';
+
+  @override
+  String get topManhwa => 'Top Manhwa';
 }

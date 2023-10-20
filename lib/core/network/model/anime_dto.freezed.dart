@@ -23,13 +23,13 @@ mixin _$AnimeDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
-  AnimeTitle? get title => throw _privateConstructorUsedError;
+  MediaTitle? get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'coverImage')
   Map<String, String?> get coverImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
-  AnimeStatus? get status => throw _privateConstructorUsedError;
+  MediaStatus? get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'source')
   AnimeSource? get source => throw _privateConstructorUsedError;
   @JsonKey(name: 'episodes')
@@ -78,10 +78,10 @@ abstract class $AnimeDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'title') AnimeTitle? title,
+      @JsonKey(name: 'title') MediaTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'status') AnimeStatus? status,
+      @JsonKey(name: 'status') MediaStatus? status,
       @JsonKey(name: 'source') AnimeSource? source,
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
@@ -100,7 +100,7 @@ abstract class $AnimeDtoCopyWith<$Res> {
       @JsonKey(name: 'externalLinks')
       List<MediaExternalLinkDto> externalLinks});
 
-  $AnimeTitleCopyWith<$Res>? get title;
+  $MediaTitleCopyWith<$Res>? get title;
   $TrailerDtoCopyWith<$Res>? get trailer;
   $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode;
   $CharacterConnectionCopyWith<$Res>? get characters;
@@ -150,7 +150,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as AnimeTitle?,
+              as MediaTitle?,
       coverImage: null == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
@@ -162,7 +162,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as AnimeStatus?,
+              as MediaStatus?,
       source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -232,12 +232,12 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
 
   @override
   @pragma('vm:prefer-inline')
-  $AnimeTitleCopyWith<$Res>? get title {
+  $MediaTitleCopyWith<$Res>? get title {
     if (_value.title == null) {
       return null;
     }
 
-    return $AnimeTitleCopyWith<$Res>(_value.title!, (value) {
+    return $MediaTitleCopyWith<$Res>(_value.title!, (value) {
       return _then(_value.copyWith(title: value) as $Val);
     });
   }
@@ -300,10 +300,10 @@ abstract class _$$_AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'title') AnimeTitle? title,
+      @JsonKey(name: 'title') MediaTitle? title,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'status') AnimeStatus? status,
+      @JsonKey(name: 'status') MediaStatus? status,
       @JsonKey(name: 'source') AnimeSource? source,
       @JsonKey(name: 'episodes') int? episodes,
       @JsonKey(name: 'seasonYear') int? seasonYear,
@@ -323,7 +323,7 @@ abstract class _$$_AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res> {
       List<MediaExternalLinkDto> externalLinks});
 
   @override
-  $AnimeTitleCopyWith<$Res>? get title;
+  $MediaTitleCopyWith<$Res>? get title;
   @override
   $TrailerDtoCopyWith<$Res>? get trailer;
   @override
@@ -375,7 +375,7 @@ class __$$_AnimeDtoCopyWithImpl<$Res>
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as AnimeTitle?,
+              as MediaTitle?,
       coverImage: null == coverImage
           ? _value._coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
@@ -387,7 +387,7 @@ class __$$_AnimeDtoCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as AnimeStatus?,
+              as MediaStatus?,
       source: freezed == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -496,7 +496,7 @@ class _$_AnimeDto implements _AnimeDto {
   final int id;
   @override
   @JsonKey(name: 'title')
-  final AnimeTitle? title;
+  final MediaTitle? title;
   final Map<String, String?> _coverImage;
   @override
   @JsonKey(name: 'coverImage')
@@ -511,7 +511,7 @@ class _$_AnimeDto implements _AnimeDto {
   final String? description;
   @override
   @JsonKey(name: 'status')
-  final AnimeStatus? status;
+  final MediaStatus? status;
   @override
   @JsonKey(name: 'source')
   final AnimeSource? source;
@@ -666,10 +666,10 @@ class _$_AnimeDto implements _AnimeDto {
 abstract class _AnimeDto implements AnimeDto {
   factory _AnimeDto(
       {@JsonKey(name: 'id') final int id,
-      @JsonKey(name: 'title') final AnimeTitle? title,
+      @JsonKey(name: 'title') final MediaTitle? title,
       @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
       @JsonKey(name: 'description') final String? description,
-      @JsonKey(name: 'status') final AnimeStatus? status,
+      @JsonKey(name: 'status') final MediaStatus? status,
       @JsonKey(name: 'source') final AnimeSource? source,
       @JsonKey(name: 'episodes') final int? episodes,
       @JsonKey(name: 'seasonYear') final int? seasonYear,
@@ -696,7 +696,7 @@ abstract class _AnimeDto implements AnimeDto {
   int get id;
   @override
   @JsonKey(name: 'title')
-  AnimeTitle? get title;
+  MediaTitle? get title;
   @override
   @JsonKey(name: 'coverImage')
   Map<String, String?> get coverImage;
@@ -705,7 +705,7 @@ abstract class _AnimeDto implements AnimeDto {
   String? get description;
   @override
   @JsonKey(name: 'status')
-  AnimeStatus? get status;
+  MediaStatus? get status;
   @override
   @JsonKey(name: 'source')
   AnimeSource? get source;
