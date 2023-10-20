@@ -45,6 +45,7 @@ class DiscoverScreen extends StatelessWidget {
       builder: (BuildContext context, state) {
         final map = state.categoryMediaMap;
         final currentMediaType = state.currentMediaType;
+        final isAnime = state.currentMediaType == MediaType.anime;
 
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
@@ -71,7 +72,7 @@ class DiscoverScreen extends StatelessWidget {
               )
             ],
           ),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               final repository = context.read<UserDataRepository>();
               if (currentMediaType == MediaType.manga) {
@@ -80,8 +81,11 @@ class DiscoverScreen extends StatelessWidget {
                 repository.setMediaType(MediaType.manga);
               }
             },
-            child: const Icon(Icons.map),
             isExtended: true,
+            icon: isAnime
+                ? const Icon(Icons.palette_rounded)
+                : const Icon(Icons.map),
+            label: Text(isAnime ? 'Anime' : 'Manga'),
           ),
           body: RefreshIndicator(
             onRefresh: () async {
