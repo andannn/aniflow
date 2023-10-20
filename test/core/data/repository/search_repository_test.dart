@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/search_repository.dart';
@@ -20,7 +21,7 @@ void main() {
 
     test('search page', () async {
       final res = await searchRepository.loadMediaSearchResultByPage(
-          page: 1, perPage: 3, search: 'Titan');
+          page: 1, perPage: 3, search: 'Titan', type: MediaType.anime);
       expect(res.runtimeType, LoadSuccess<List<MediaModel>>);
     });
   });

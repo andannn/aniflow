@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -11,7 +12,10 @@ import 'package:aniflow/core/network/model/anime_dto.dart';
 
 abstract class SearchRepository {
   Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage(
-      {required int page, required int perPage, required String search});
+      {required int page,
+      required int perPage,
+      required String search,
+      required MediaType type});
 }
 
 class SearchRepositoryImpl implements SearchRepository {
@@ -20,13 +24,17 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage(
-      {required int page, required int perPage, required String search}) {
+      {required int page,
+      required int perPage,
+      required String search,
+      required MediaType type}) {
     return LoadPageUtil.loadPageWithoutDBCache<AnimeDto, MediaModel>(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) => dataSource.searchAnimePage(
         page: page,
         perPage: perPage,
+        type: type,
         search: search,
       ),
       mapDtoToModel: (AnimeDto dto) => MediaModel.fromDto(dto),

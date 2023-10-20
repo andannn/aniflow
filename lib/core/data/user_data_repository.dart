@@ -13,6 +13,8 @@ abstract class UserDataRepository {
 
   Stream<MediaType> getMediaTypeStream();
 
+  MediaType getMediaType();
+
   Future setMediaType(MediaType type);
 }
 
@@ -46,4 +48,7 @@ class UserDataRepositoryImpl implements UserDataRepository {
 
   @override
   Future setMediaType(MediaType type) => preferences.setCurrentMediaType(type);
+
+  @override
+  MediaType getMediaType() => preferences.getCurrentMediaType();
 }

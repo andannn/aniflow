@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
@@ -176,6 +177,7 @@ class AniListDataSource {
   Future<List<AnimeDto>> searchAnimePage({
     required int page,
     required int perPage,
+    required MediaType type,
     required String search,
   }) async {
     final queryGraphQL = searchQueryGraphql;
@@ -183,6 +185,7 @@ class AniListDataSource {
       'search': search,
       'page': page,
       'perPage': perPage,
+      'type': type.sqlTypeString,
     };
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});

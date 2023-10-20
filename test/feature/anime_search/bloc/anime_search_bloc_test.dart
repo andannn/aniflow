@@ -1,4 +1,5 @@
 import 'package:aniflow/core/data/search_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/feature/anime_search/bloc/anime_search_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +15,9 @@ void main() {
       databaseFactory = databaseFactoryFfi;
 
       await animeDatabase.initDatabase(isTest: true);
-      searchPageBloc = SearchPageBloc(searchRepository: SearchRepositoryImpl());
+      searchPageBloc = SearchPageBloc(
+          searchRepository: SearchRepositoryImpl(),
+          userDataRepository: UserDataRepositoryImpl());
     });
 
     test('test_search_bloc', () async {
