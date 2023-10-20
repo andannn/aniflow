@@ -4,11 +4,13 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:country_code/country_code.dart';
 
 class AnimePageQueryParam {
   final int? seasonYear;
   final AnimeSeason? season;
   final MediaStatus? status;
+  final CountryCode? countryCode;
   final MediaType type;
   final List<MediaSort> animeSort;
   final List<AnimeFormat> animeFormat;
@@ -17,6 +19,7 @@ class AnimePageQueryParam {
       {required this.type,
       this.seasonYear,
       this.season,
+      this.countryCode,
       this.status,
       this.animeSort = const [],
       this.animeFormat = const []});
@@ -29,6 +32,7 @@ AnimePageQueryParam createAnimePageQueryParam(
   MediaType type = getMediaTypeByCategory(category);
   List<MediaSort> sorts = [];
   List<AnimeFormat> format = [];
+  CountryCode? code;
 
   AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
     seasonYear: currentSeasonYear,
@@ -62,13 +66,20 @@ AnimePageQueryParam createAnimePageQueryParam(
       status = null;
       seasonParam = null;
       format = [];
-      sorts = [MediaSort.trending];
+      sorts = [MediaSort.popularity];
+    case MediaCategory.topManhwa:
+      status = null;
+      seasonParam = null;
+      code = CountryCode.KR;
+      format = [];
+      sorts = [MediaSort.popularity];
   }
 
   return AnimePageQueryParam(
     seasonYear: seasonParam?.seasonYear,
     season: seasonParam?.season,
     type: type,
+    countryCode: code,
     status: status,
     animeSort: sorts,
     animeFormat: format,
@@ -76,9 +87,9 @@ AnimePageQueryParam createAnimePageQueryParam(
 }
 
 String get animeListQueryGraphQLString => '''
-query (\$page: Int, \$perPage: Int, \$type: MediaType, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
+query (\$page: Int, \$perPage: Int, \$type: MediaType, \$countryCode: CountryCode, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
   Page(page: \$page, perPage: \$perPage) {
-    media: media(type: \$type, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
+    media: media(type: \$type, countryOfOrigin: \$countryCode, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
       id
       type
       format

@@ -7,6 +7,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:country_code/country_code.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -20,6 +21,15 @@ void main() {
               season: AnimeSeason.summer,
               type: MediaType.anime,
               status: MediaStatus.finished,
+              animeSort: [MediaSort.trending]));
+    });
+    test('get_media_with_countryCode', () async {
+      await AniListDataSource().getNetworkAnimePage(
+          page: 1,
+          perPage: 10,
+          param: AnimePageQueryParam(
+              countryCode: CountryCode.KR,
+              type: MediaType.manga,
               animeSort: [MediaSort.trending]));
     });
     test('get_detail_anime', () async {

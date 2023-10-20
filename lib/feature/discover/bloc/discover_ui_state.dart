@@ -18,6 +18,7 @@ class DiscoverUiState with _$DiscoverUiState {
       MediaCategory.movieAnime: PageLoading(data: [], page: 1),
       MediaCategory.trendingManga: PageLoading(data: [], page: 1),
       MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1),
+      MediaCategory.topManhwa: PageLoading(data: [], page: 1),
     })
     Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
     @Default(MediaType.anime) MediaType currentMediaType,

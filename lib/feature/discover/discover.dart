@@ -201,23 +201,7 @@ class _MediaCategoryPreview extends StatelessWidget {
   }
 
   Widget _buildTitleBar(BuildContext context) {
-    String title;
-    switch (category) {
-      case MediaCategory.currentSeasonAnime:
-        title = AFLocalizations.of(context).popularThisSeasonLabel;
-      case MediaCategory.nextSeasonAnime:
-        title = AFLocalizations.of(context).upComingNextSeasonLabel;
-      case MediaCategory.trendingAnime:
-        title = AFLocalizations.of(context).trendingNowLabel;
-      case MediaCategory.movieAnime:
-        title = AFLocalizations.of(context).movieLabel;
-      case MediaCategory.trendingManga:
-        title = AFLocalizations.of(context).movieLabel;
-      // TODO: Handle this case.
-      case MediaCategory.allTimePopularManga:
-        title = AFLocalizations.of(context).movieLabel;
-      // TODO: Handle this case.
-    }
+    String title = category.getMediaCategoryTitle(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(children: [

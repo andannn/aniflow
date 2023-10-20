@@ -57,6 +57,7 @@ mixin CategoryColumnsValues {
   static const String movie = 'movie';
   static const String trendingManga = 'trending_manga';
   static const String allTimePopularManga = 'all_time_popular_manga';
+  static const String topManhwa = 'top_manhwa';
 }
 
 extension on MediaCategory {
@@ -74,6 +75,8 @@ extension on MediaCategory {
         return CategoryColumnsValues.trendingManga;
       case MediaCategory.allTimePopularManga:
         return CategoryColumnsValues.allTimePopularManga;
+      case MediaCategory.topManhwa:
+        return CategoryColumnsValues.topManhwa;
     }
   }
 }

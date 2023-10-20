@@ -1,7 +1,7 @@
 String get mediaDetailQueryGraphQLString =>
 '''
 query (\$id: Int) {
-  Media(id: \$id, type: ANIME) {
+  Media(id: \$id) {
     id
     title {
       romaji

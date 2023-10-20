@@ -47,6 +47,7 @@ class AniListDataSource {
     final hasStatus = param.status != null;
     final hasAnimeSort = param.animeSort.isNotEmpty;
     final hasAnimeFormat = param.animeFormat.isNotEmpty;
+    final hasCountryCode = param.countryCode != null;
     final variablesMap = <String, dynamic>{
       'page': page,
       'perPage': perPage,
@@ -69,6 +70,9 @@ class AniListDataSource {
     if (hasAnimeFormat) {
       variablesMap['format_in'] =
           param.animeFormat.expand((list) => list.sqlTypeString).toList();
+    }
+    if (hasCountryCode) {
+      variablesMap['countryCode'] = param.countryCode!.alpha2;
     }
 
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,

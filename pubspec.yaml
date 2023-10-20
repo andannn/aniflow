@@ -66,6 +66,7 @@ dependencies:
   timeline_tile: ^2.0.0
   collection: ^1.17.2
   rxdart: ^0.27.7
+  country_code: ^1.0.0
 
 dev_dependencies:
   flutter_test:

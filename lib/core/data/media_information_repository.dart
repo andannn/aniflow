@@ -30,7 +30,7 @@ import 'package:sqflite/sqflite.dart';
 
 /// repository for get anime list.
 abstract class MediaInformationRepository {
-  Future<LoadResult<List<MediaModel>>> loadAnimePageByCategory({
+  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,
     required LoadType loadType,
   });
@@ -68,7 +68,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadAnimePageByCategory(
+  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory(
       {required MediaCategory category, required LoadType loadType}) {
     return LoadPageUtil.loadPage(
       type: loadType,

@@ -160,7 +160,8 @@ class _$_DiscoverUiState implements _DiscoverUiState {
         MediaCategory.trendingAnime: PageLoading(data: [], page: 1),
         MediaCategory.movieAnime: PageLoading(data: [], page: 1),
         MediaCategory.trendingManga: PageLoading(data: [], page: 1),
-        MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1)
+        MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1),
+        MediaCategory.topManhwa: PageLoading(data: [], page: 1)
       },
       this.currentMediaType = MediaType.anime,
       this.userData})

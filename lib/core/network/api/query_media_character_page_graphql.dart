@@ -1,7 +1,7 @@
 String get characterPageGraphql =>
 '''
 query (\$id: Int, \$page: Int, \$perPage: Int) {
-  Media(id: \$id, type: ANIME) {
+  Media(id: \$id) {
     characters(page: \$page, perPage: \$perPage, sort: FAVOURITES_DESC) {
       pageInfo {
         total

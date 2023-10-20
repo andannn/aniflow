@@ -178,10 +178,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       {bool isRefresh = false}) async {
     final LoadResult result;
     if (isRefresh) {
-      result = await _aniListRepository.loadAnimePageByCategory(
+      result = await _aniListRepository.loadMediaPageByCategory(
           loadType: const Refresh(), category: category);
     } else {
-      result = await _aniListRepository.loadAnimePageByCategory(
+      result = await _aniListRepository.loadMediaPageByCategory(
         category: category,
         loadType: const Append(page: 1, perPage: Config.defaultPerPageCount),
       );

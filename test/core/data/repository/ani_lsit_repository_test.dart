@@ -37,7 +37,7 @@ void main() {
     test('ani_list_get_current_season_anime', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
+      final result = await aniListRepository.loadMediaPageByCategory(
           category: MediaCategory.currentSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
       final dbResult = await animeDao
@@ -51,7 +51,7 @@ void main() {
     test('ani_list_refresh_current_season_anime', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
+      final result = await aniListRepository.loadMediaPageByCategory(
           loadType: const Refresh(),
           category: MediaCategory.currentSeasonAnime);
       final dbResult = await animeDao
@@ -65,7 +65,7 @@ void main() {
     test('ani_list_get_nex_season_anime', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
+      final result = await aniListRepository.loadMediaPageByCategory(
           category: MediaCategory.nextSeasonAnime,
           loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
       final dbResult =
@@ -79,7 +79,7 @@ void main() {
     test('ani_list_refresh_nex_season_anime', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      final result = await aniListRepository.loadAnimePageByCategory(
+      final result = await aniListRepository.loadMediaPageByCategory(
           loadType: const Refresh(), category: MediaCategory.nextSeasonAnime);
       final dbResult =
           await animeDao.getMediaByPage(MediaCategory.nextSeasonAnime, page: 1);

@@ -1,4 +1,3 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -58,7 +57,10 @@ class _MediaListPageContent extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            _getAppBarTitle(context, context.read<AnimePageBloc>().category),
+            context
+                .read<AnimePageBloc>()
+                .category
+                .getMediaCategoryTitle(context),
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -95,26 +97,5 @@ class _MediaListPageContent extends StatelessWidget {
         );
       },
     );
-  }
-
-  String _getAppBarTitle(BuildContext context, MediaCategory category) {
-    String title;
-    switch (category) {
-      case MediaCategory.currentSeasonAnime:
-        title = AFLocalizations.of(context).popularThisSeasonLabel;
-      case MediaCategory.nextSeasonAnime:
-        title = AFLocalizations.of(context).upComingNextSeasonLabel;
-      case MediaCategory.trendingAnime:
-        title = AFLocalizations.of(context).trendingNowLabel;
-      case MediaCategory.movieAnime:
-        title = AFLocalizations.of(context).movieLabel;
-      case MediaCategory.trendingManga:
-        title = AFLocalizations.of(context).movieLabel;
-      // TODO: Handle this case.
-      case MediaCategory.allTimePopularManga:
-        title = AFLocalizations.of(context).movieLabel;
-      // TODO: Handle this case.
-    }
-    return title;
   }
 }

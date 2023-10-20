@@ -26,6 +26,7 @@ MediaType getMediaTypeByCategory(MediaCategory category) {
       return MediaType.anime;
     case MediaCategory.trendingManga:
     case MediaCategory.allTimePopularManga:
+    case MediaCategory.topManhwa:
       return MediaType.manga;
   }
 }

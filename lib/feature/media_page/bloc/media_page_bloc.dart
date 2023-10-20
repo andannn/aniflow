@@ -72,7 +72,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
 
   @override
   Future<LoadResult<List<MediaModel>>> loadPage({required int page}) {
-    return _mediaInfoRepository.loadAnimePageByCategory(
+    return _mediaInfoRepository.loadMediaPageByCategory(
       category: category,
       loadType: Append(page: page, perPage: Config.defaultPerPageCount),
     );
