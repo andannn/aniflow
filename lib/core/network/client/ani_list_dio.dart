@@ -16,7 +16,7 @@ class AniListDio {
           "Accept": "application/json",
         },);
 
-    dio.interceptors.add(LogInterceptor());
+    // dio.interceptors.add(LogInterceptor());
 
     // /// Test code.
     // (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =

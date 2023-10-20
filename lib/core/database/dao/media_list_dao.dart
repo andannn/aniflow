@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -35,10 +36,10 @@ abstract class MediaListDao {
       {required int page, int? perPage = Config.defaultPerPageCount});
 
   Future<Set<String>> getMediaListMediaIdsByUser(
-      String userId, List<MediaListStatus> status);
+      String userId, List<MediaListStatus> status, MediaType type);
 
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
-      String userId, List<MediaListStatus> status);
+      String userId, List<MediaListStatus> status, MediaType type);
 
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
       String userId, List<MediaListStatus> status);
@@ -105,7 +106,7 @@ class MediaListDaoImpl extends MediaListDao {
 
   @override
   Future<Set<String>> getMediaListMediaIdsByUser(
-      String userId, List<MediaListStatus> status) async {
+      String userId, List<MediaListStatus> status, MediaType type) async {
     String statusParam = '';
     for (var e in status) {
       statusParam += '\'${e.sqlTypeString}\'';
@@ -115,9 +116,13 @@ class MediaListDaoImpl extends MediaListDao {
     }
 
     String sql =
-        'select ${MediaListTableColumns.mediaId} from ${Tables.mediaListTable} '
-        'where ${MediaListTableColumns.status} in ($statusParam) '
-        '  and ${MediaListTableColumns.userId}=\'$userId\' ';
+        'select ${MediaListTableColumns.mediaId} from ${Tables.mediaListTable} as ml '
+        'join ${Tables.mediaTable} as m '
+        '  on ml.${MediaListTableColumns.mediaId} = m.${MediaTableColumns.id} '
+        'where ml.${MediaListTableColumns.status} in ($statusParam) '
+        '  and ml.${MediaListTableColumns.userId}=\'$userId\' '
+        '  and m.${MediaTableColumns.type}=\'${type.sqlTypeString}\' '
+    ;
 
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
@@ -170,15 +175,14 @@ class MediaListDaoImpl extends MediaListDao {
 
   @override
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
-      String userId, List<MediaListStatus> status) {
+      String userId, List<MediaListStatus> status, MediaType type) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(
-        changeSource, () => getMediaListMediaIdsByUser(userId, status));
+        changeSource, () => getMediaListMediaIdsByUser(userId, status, type));
   }
 
   @override
-  Future insertMediaListEntities(
-      List<MediaListEntity> entities) async {
+  Future insertMediaListEntities(List<MediaListEntity> entities) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       batch.insert(

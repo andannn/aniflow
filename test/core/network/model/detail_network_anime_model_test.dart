@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -175,7 +175,7 @@ void main() {
       }
     };
     test('detail_anime', () async {
-      AnimeDto.fromJson(dummyData);
+      MediaDto.fromJson(dummyData);
     });
   });
 }

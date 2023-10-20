@@ -65,6 +65,7 @@ class AniflowDatabase {
     await _aniflowDB!
         .execute('create table if not exists ${Tables.mediaTable} ('
             '${MediaTableColumns.id} text primary key,'
+            '${MediaTableColumns.type} text,'
             '${MediaTableColumns.englishTitle} text,'
             '${MediaTableColumns.romajiTitle} text,'
             '${MediaTableColumns.nativeTitle} text,'

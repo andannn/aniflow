@@ -1,4 +1,4 @@
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'airing_schedule_dto.freezed.dart';
@@ -12,7 +12,7 @@ class AiringScheduleDto with _$AiringScheduleDto {
     @JsonKey(name: 'airingAt') int? airingAt,
     @JsonKey(name: 'timeUntilAiring') int? timeUntilAiring,
     @JsonKey(name: 'episode') int? episode,
-    @JsonKey(name: 'media') AnimeDto? media,
+    @JsonKey(name: 'media') MediaDto? media,
   }) = _AiringScheduleDto;
 
   factory AiringScheduleDto.fromJson(Map<String, dynamic> json) =>

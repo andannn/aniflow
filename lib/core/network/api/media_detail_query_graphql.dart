@@ -8,6 +8,7 @@ query (\$id: Int) {
       english
       native
     }
+    type
     description(asHtml: true)
     episodes
     seasonYear

@@ -4,7 +4,6 @@ import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -45,7 +44,6 @@ class DiscoverScreen extends StatelessWidget {
       builder: (BuildContext context, state) {
         final map = state.categoryMediaMap;
         final currentMediaType = state.currentMediaType;
-        final isAnime = state.currentMediaType == MediaType.anime;
 
         final userData = state.userData;
         final isLoggedIn = state.isLoggedIn;
@@ -72,26 +70,11 @@ class DiscoverScreen extends StatelessWidget {
               )
             ],
           ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              final repository = context.read<UserDataRepository>();
-              if (currentMediaType == MediaType.manga) {
-                repository.setMediaType(MediaType.anime);
-              } else {
-                repository.setMediaType(MediaType.manga);
-              }
-            },
-            isExtended: true,
-            icon: isAnime
-                ? const Icon(Icons.palette_rounded)
-                : const Icon(Icons.map),
-            label: Text(isAnime ? 'Anime' : 'Manga'),
-          ),
           body: RefreshIndicator(
             onRefresh: () async {
               await context
                   .read<DiscoverBloc>()
-                  .reloadAllMedia(mediaType: MediaType.anime, isRefresh: true);
+                  .onPullToRefreshTriggered();
             },
             child: CustomScrollView(
               cacheExtent: Config.defaultCatchExtend,

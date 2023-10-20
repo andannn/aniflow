@@ -27,7 +27,8 @@ void main() {
 
       repository = MediaListRepositoryImpl();
       isUnitTest = true;
-      AuthDataSource().setTestToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFmNjI3ODk4NzQ1YzBhZWIwOGZmYmYyNjA4MTQ4NzgyYWNhMDM0YmM1NWMzZWZlYzE3OTZlNGI0NjgyMGFiNjdhNzljZTA2MTRhNDZlNTVmIn0.eyJhdWQiOiIxNDQwOSIsImp0aSI6ImFmNjI3ODk4NzQ1YzBhZWIwOGZmYmYyNjA4MTQ4NzgyYWNhMDM0YmM1NWMzZWZlYzE3OTZlNGI0NjgyMGFiNjdhNzljZTA2MTRhNDZlNTVmIiwiaWF0IjoxNjk1NjUxMjA1LCJuYmYiOjE2OTU2NTEyMDUsImV4cCI6MTcyNzI3MzYwNSwic3ViIjoiNjM3ODM5MyIsInNjb3BlcyI6W119.XGdU2Zg6tlPoKxKi6VxqqvfPSqmuwj_PW3zKagYyk9j_NIbzkrCFOh9MNLF0X1ifRmB9LcfD5mj4_mj7f63ufwJW7VLrtAaUUu3Vbg8cOwUiPibgnQfVmErv_mThDphLvw4LCEmX7ok13QqC9XMk2AVLNvx9TZW5fo6SfXS4rPySgvHhzMyPc6gbYWkvUTYCBYYTYbWPR7ZcL6gCR1NYPv4NnkVfxFDYF6KKt3nCjcZ7XY894K4GKRIlINoR2KNjflfLzVW2PcopmfQRveXRTKZBmaPeZa5HFbHclpRVe0kxoildpg_4uqqWPjPbUDkuMK3gIHahs2WjqiLc8Le0O9pMRyvaETp27iJVUcoeNFy05vLS6ZzSyoI6tFqfveTiQsrPKLodFjMAVoroTQoIZuX60r9ri-8oj1yWF3Wms4OIHQItkSyJKwezAizrIntRS8kiguuejdS_qWfNTFmMjYOxKU_-d9rcHDjYcVHxr7FPkp7HfpqN1CPVYNn8BMLtRYECMTs-Ds-kY9DDHlLQAWggOtYOR4KsU0sRqOpC4yqmkEdCCZLbdpZOwbCpp-ZLWu1jCICNGI8QEEHfrnvnBHR4KbqguMyOPIVviNXTx82DWNfI_KZTGb5PHuYMleBXacYO9wg0KTYKggVtn6ULxR0ekoA_77otU6x_bf4fW2Q');
+      AuthDataSource().setTestToken(
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFmNjI3ODk4NzQ1YzBhZWIwOGZmYmYyNjA4MTQ4NzgyYWNhMDM0YmM1NWMzZWZlYzE3OTZlNGI0NjgyMGFiNjdhNzljZTA2MTRhNDZlNTVmIn0.eyJhdWQiOiIxNDQwOSIsImp0aSI6ImFmNjI3ODk4NzQ1YzBhZWIwOGZmYmYyNjA4MTQ4NzgyYWNhMDM0YmM1NWMzZWZlYzE3OTZlNGI0NjgyMGFiNjdhNzljZTA2MTRhNDZlNTVmIiwiaWF0IjoxNjk1NjUxMjA1LCJuYmYiOjE2OTU2NTEyMDUsImV4cCI6MTcyNzI3MzYwNSwic3ViIjoiNjM3ODM5MyIsInNjb3BlcyI6W119.XGdU2Zg6tlPoKxKi6VxqqvfPSqmuwj_PW3zKagYyk9j_NIbzkrCFOh9MNLF0X1ifRmB9LcfD5mj4_mj7f63ufwJW7VLrtAaUUu3Vbg8cOwUiPibgnQfVmErv_mThDphLvw4LCEmX7ok13QqC9XMk2AVLNvx9TZW5fo6SfXS4rPySgvHhzMyPc6gbYWkvUTYCBYYTYbWPR7ZcL6gCR1NYPv4NnkVfxFDYF6KKt3nCjcZ7XY894K4GKRIlINoR2KNjflfLzVW2PcopmfQRveXRTKZBmaPeZa5HFbHclpRVe0kxoildpg_4uqqWPjPbUDkuMK3gIHahs2WjqiLc8Le0O9pMRyvaETp27iJVUcoeNFy05vLS6ZzSyoI6tFqfveTiQsrPKLodFjMAVoroTQoIZuX60r9ri-8oj1yWF3Wms4OIHQItkSyJKwezAizrIntRS8kiguuejdS_qWfNTFmMjYOxKU_-d9rcHDjYcVHxr7FPkp7HfpqN1CPVYNn8BMLtRYECMTs-Ds-kY9DDHlLQAWggOtYOR4KsU0sRqOpC4yqmkEdCCZLbdpZOwbCpp-ZLWu1jCICNGI8QEEHfrnvnBHR4KbqguMyOPIVviNXTx82DWNfI_KZTGb5PHuYMleBXacYO9wg0KTYKggVtn6ULxR0ekoA_77otU6x_bf4fW2Q');
     });
 
     tearDown(() async {
@@ -39,12 +40,14 @@ void main() {
     });
 
     test('get_user_anime_list_from_data_source', () async {
-      final res = await repository.syncUserAnimeList(userId: '1');
+      final res = await repository.syncUserAnimeList(
+          userId: '1');
       expect(res.runtimeType, equals(LoadSuccess<void>));
     });
 
     test('ani_list_get_from_database', () async {
-      final res = await repository.syncUserAnimeList(userId: '1');
+      final res = await repository.syncUserAnimeList(
+          userId: '1');
       expect(res.runtimeType, equals(LoadSuccess<void>));
 
       final res2 = await repository.getUserAnimeList(
@@ -54,7 +57,8 @@ void main() {
     });
 
     test('ani_list_get_stream_test', () async {
-      final res = await repository.syncUserAnimeList(userId: '1');
+      final res = await repository.syncUserAnimeList(
+          userId: '1');
       expect(res.runtimeType, equals(LoadSuccess<void>));
 
       final stream = repository.getUserAnimeListStream(

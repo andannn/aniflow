@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/app/navigation/top_level_navigation.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -103,6 +106,11 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
   var currentNavigation = TopLevelNavigation.discover;
   var needHideNavigationBar = false;
+  late UserDataRepository userDataRepository = UserDataRepositoryImpl();
+  late StreamSubscription _mediaTypeSub;
+  MediaType _mediaType = MediaType.anime;
+
+  bool get isAnime => _mediaType == MediaType.anime;
 
   @override
   void initState() {
@@ -114,6 +122,13 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         needHideNavigationBar = animeTrackerRouterDelegate.isTopRouteFullScreen;
       });
     });
+    _mediaTypeSub = userDataRepository.getMediaTypeStream().distinct().listen(
+      (mediaType) {
+        setState(() {
+          _mediaType = mediaType;
+        });
+      },
+    );
   }
 
   @override
@@ -121,6 +136,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
     super.dispose();
 
     animeTrackerRouterDelegate.dispose();
+    _mediaTypeSub.cancel();
   }
 
   @override
@@ -147,6 +163,21 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         body: Router(
             routerDelegate: animeTrackerRouterDelegate,
             backButtonDispatcher: RootBackButtonDispatcher()),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            final repository = context.read<UserDataRepository>();
+            if (_mediaType == MediaType.manga) {
+              repository.setMediaType(MediaType.anime);
+            } else {
+              repository.setMediaType(MediaType.manga);
+            }
+          },
+          isExtended: true,
+          icon: isAnime
+              ? const Icon(Icons.palette_rounded)
+              : const Icon(Icons.map),
+          label: Text(isAnime ? 'Anime' : 'Manga'),
+        ),
         bottomNavigationBar: needHideNavigationBar
             ? const SizedBox()
             : _animeTrackerNavigationBar(

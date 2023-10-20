@@ -33,7 +33,7 @@ mixin _$MediaListDto {
   @JsonKey(name: 'updatedAt')
   int get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'media')
-  AnimeDto? get media => throw _privateConstructorUsedError;
+  MediaDto? get media => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,9 +54,9 @@ abstract class $MediaListDtoCopyWith<$Res> {
       @JsonKey(name: 'status') MediaListStatus? status,
       @JsonKey(name: 'progress') int progress,
       @JsonKey(name: 'updatedAt') int updatedAt,
-      @JsonKey(name: 'media') AnimeDto? media});
+      @JsonKey(name: 'media') MediaDto? media});
 
-  $AnimeDtoCopyWith<$Res>? get media;
+  $MediaDtoCopyWith<$Res>? get media;
 }
 
 /// @nodoc
@@ -108,18 +108,18 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
-              as AnimeDto?,
+              as MediaDto?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AnimeDtoCopyWith<$Res>? get media {
+  $MediaDtoCopyWith<$Res>? get media {
     if (_value.media == null) {
       return null;
     }
 
-    return $AnimeDtoCopyWith<$Res>(_value.media!, (value) {
+    return $MediaDtoCopyWith<$Res>(_value.media!, (value) {
       return _then(_value.copyWith(media: value) as $Val);
     });
   }
@@ -140,10 +140,10 @@ abstract class _$$_MediaListDtoCopyWith<$Res>
       @JsonKey(name: 'status') MediaListStatus? status,
       @JsonKey(name: 'progress') int progress,
       @JsonKey(name: 'updatedAt') int updatedAt,
-      @JsonKey(name: 'media') AnimeDto? media});
+      @JsonKey(name: 'media') MediaDto? media});
 
   @override
-  $AnimeDtoCopyWith<$Res>? get media;
+  $MediaDtoCopyWith<$Res>? get media;
 }
 
 /// @nodoc
@@ -193,7 +193,7 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
-              as AnimeDto?,
+              as MediaDto?,
     ));
   }
 }
@@ -233,7 +233,7 @@ class _$_MediaListDto implements _MediaListDto {
   final int updatedAt;
   @override
   @JsonKey(name: 'media')
-  final AnimeDto? media;
+  final MediaDto? media;
 
   @override
   String toString() {
@@ -283,7 +283,7 @@ abstract class _MediaListDto implements MediaListDto {
       @JsonKey(name: 'status') final MediaListStatus? status,
       @JsonKey(name: 'progress') final int progress,
       @JsonKey(name: 'updatedAt') final int updatedAt,
-      @JsonKey(name: 'media') final AnimeDto? media}) = _$_MediaListDto;
+      @JsonKey(name: 'media') final MediaDto? media}) = _$_MediaListDto;
 
   factory _MediaListDto.fromJson(Map<String, dynamic> json) =
       _$_MediaListDto.fromJson;
@@ -308,7 +308,7 @@ abstract class _MediaListDto implements MediaListDto {
   int get updatedAt;
   @override
   @JsonKey(name: 'media')
-  AnimeDto? get media;
+  MediaDto? get media;
   @override
   @JsonKey(ignore: true)
   _$$_MediaListDtoCopyWith<_$_MediaListDto> get copyWith =>

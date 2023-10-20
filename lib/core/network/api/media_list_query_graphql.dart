@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 
 class UserAnimeListPageQueryParam {
@@ -5,18 +6,20 @@ class UserAnimeListPageQueryParam {
   final int? perPage;
   final int userId;
   final List<MediaListStatus> status;
+  final MediaType? mediaType;
 
   UserAnimeListPageQueryParam(
       {required this.page,
-      required this.userId, this.perPage,
+      required this.userId,
+      this.perPage,
+      this.mediaType,
       this.status = const []});
 }
 
-String get userAnimeListGraphQLString =>
-'''
-query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]){
+String get userAnimeListGraphQLString => '''
+query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus], \$type: MediaType){
   Page(page: \$page, perPage: \$perPage) {
-    mediaList(userId: \$userId, type: ANIME, status_in: \$status_in) {
+    mediaList(userId: \$userId, type: \$type, status_in: \$status_in) {
       id
       status
       score
@@ -32,6 +35,7 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
           english
           native
         }
+        type
         description(asHtml: true)
         episodes
         seasonYear

@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -29,10 +30,15 @@ abstract class MediaListRepository {
   Stream<List<MediaListItemModel>> getUserAnimeListStream(
       {required List<MediaListStatus> status, required String userId});
 
-  Future<LoadResult<void>> syncUserAnimeList({String? userId});
+  Future<LoadResult<void>> syncUserAnimeList(
+      {String? userId,
+      List<MediaListStatus> status = const [],
+      MediaType? mediaType});
 
-  Stream<Set<String>> getMediaListAnimeIdsByUserStream(
-      String userId, List<MediaListStatus> status);
+  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+      {required String userId,
+      required List<MediaListStatus> status,
+      required MediaType type});
 
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
@@ -77,7 +83,10 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Future<LoadResult<void>> syncUserAnimeList({String? userId}) async {
+  Future<LoadResult<void>> syncUserAnimeList(
+      {String? userId,
+      List<MediaListStatus> status = const [],
+      MediaType? mediaType}) async {
     try {
       final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
       if (targetUserId == null) {
@@ -90,6 +99,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
         param: UserAnimeListPageQueryParam(
           page: 1,
           perPage: null,
+          mediaType: mediaType,
+          status: status,
           userId: int.parse(targetUserId.toString()),
         ),
       );
@@ -109,7 +120,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
           .whereType<MediaEntity>()
           .toList();
       await animeListDao.upsertMediaInformation(animeEntities,
-          conflictAlgorithm: ConflictAlgorithm.replace);
+          conflictAlgorithm: ConflictAlgorithm.ignore);
 
       animeTrackListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
@@ -129,9 +140,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Stream<Set<String>> getMediaListAnimeIdsByUserStream(
-      String userId, List<MediaListStatus> status) {
-    return animeTrackListDao.getMediaListMediaIdsByUserStream(userId, status);
+  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+      {required String userId,
+      required List<MediaListStatus> status,
+      required MediaType type}) {
+    return animeTrackListDao.getMediaListMediaIdsByUserStream(
+        userId, status, type);
   }
 
   @override

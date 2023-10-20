@@ -6,11 +6,12 @@ part of 'media_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AnimeDto _$$_AnimeDtoFromJson(Map<String, dynamic> json) => _$_AnimeDto(
+_$_MediaDto _$$_MediaDtoFromJson(Map<String, dynamic> json) => _$_MediaDto(
       id: json['id'] as int? ?? -1,
       title: json['title'] == null
           ? null
           : MediaTitle.fromJson(json['title'] as Map<String, dynamic>),
+      type: json['type'] as String?,
       coverImage: (json['coverImage'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String?),
           ) ??
@@ -54,10 +55,11 @@ _$_AnimeDto _$$_AnimeDtoFromJson(Map<String, dynamic> json) => _$_AnimeDto(
           const [],
     );
 
-Map<String, dynamic> _$$_AnimeDtoToJson(_$_AnimeDto instance) =>
+Map<String, dynamic> _$$_MediaDtoToJson(_$_MediaDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'type': instance.type,
       'coverImage': instance.coverImage,
       'description': instance.description,
       'status': _$MediaStatusEnumMap[instance.status],

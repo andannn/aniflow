@@ -1,5 +1,5 @@
 import 'package:aniflow/core/data/model/media_title_modle.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -22,9 +22,9 @@ void main() {
       }
     };
     test('get_topics', () async {
-      final res = AnimeDto.fromJson(dummyData);
+      final res = MediaDto.fromJson(dummyData);
       expect(res, equals(
-          AnimeDto(
+          MediaDto(
               id: 124,
               title: MediaTitle(
                   romaji: "Fushigi Yuugi: Eikoden",

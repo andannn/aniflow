@@ -9,6 +9,7 @@ part of 'media_entity.dart';
 _$_MediaEntity _$$_MediaEntityFromJson(Map<String, dynamic> json) =>
     _$_MediaEntity(
       id: json['id'] as String? ?? '',
+      type: json['media_type'] as String?,
       englishTitle: json['english_title'] as String? ?? '',
       romajiTitle: json['romaji_title'] as String? ?? '',
       nativeTitle: json['native_title'] as String? ?? '',
@@ -38,6 +39,7 @@ _$_MediaEntity _$$_MediaEntityFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_MediaEntityToJson(_$_MediaEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'media_type': instance.type,
       'english_title': instance.englishTitle,
       'romaji_title': instance.romajiTitle,
       'native_title': instance.nativeTitle,

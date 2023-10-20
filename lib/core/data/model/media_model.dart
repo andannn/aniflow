@@ -10,7 +10,7 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_model.freezed.dart';
@@ -103,7 +103,7 @@ class MediaModel with _$MediaModel {
     );
   }
 
-  static MediaModel fromDto(AnimeDto dto) {
+  static MediaModel fromDto(MediaDto dto) {
     final entity = MediaEntity.fromNetworkModel(dto);
     return MediaModel.fromDatabaseModel(entity);
   }

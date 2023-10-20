@@ -86,8 +86,8 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
 
   Future syncUserAnimeList({String? userId}) async {
     add(_OnLoadStateChanged(isLoading: true));
-    final result =
-        await _animeTrackListRepository.syncUserAnimeList(userId: userId);
+    final result = await _animeTrackListRepository.syncUserAnimeList(
+        userId: userId);
     if (result is LoadError) {
       /// load error, show snack bar msg.
     }

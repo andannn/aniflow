@@ -10,8 +10,8 @@ import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 
@@ -23,7 +23,7 @@ class AniListDataSource {
 
   AniListDataSource._();
 
-  Future<AnimeDto> getNetworkAnime({required int id}) async {
+  Future<MediaDto> getNetworkAnime({required int id}) async {
     final queryGraphQL = mediaDetailQueryGraphQLString;
     final variablesMap = {
       'id': id,
@@ -32,12 +32,12 @@ class AniListDataSource {
         data: {'query': queryGraphQL, 'variables': variablesMap});
 
     final resultJson = response.data['data']['Media'];
-    final AnimeDto detailAnimeDto = AnimeDto.fromJson(resultJson);
+    final MediaDto detailAnimeDto = MediaDto.fromJson(resultJson);
 
     return detailAnimeDto;
   }
 
-  Future<List<AnimeDto>> getNetworkAnimePage({
+  Future<List<MediaDto>> getNetworkAnimePage({
     required int page,
     required int perPage,
     required AnimePageQueryParam param,
@@ -80,8 +80,8 @@ class AniListDataSource {
         data: {'query': queryGraphQL, 'variables': variablesMap});
 
     final List resultJson = response.data['data']['Page']['media'];
-    final List<AnimeDto> animeList =
-        resultJson.map((e) => AnimeDto.fromJson(e)).toList();
+    final List<MediaDto> animeList =
+        resultJson.map((e) => MediaDto.fromJson(e)).toList();
 
     return animeList;
   }
@@ -135,6 +135,7 @@ class AniListDataSource {
     final queryGraphQL = userAnimeListGraphQLString;
     final hasStatus = param.status.isNotEmpty;
     final hasPerPage = param.perPage != null;
+    final hasMediaType = param.mediaType != null;
     final variablesMap = <String, dynamic>{
       'page': param.page,
       'userId': param.userId,
@@ -145,6 +146,9 @@ class AniListDataSource {
     }
     if (hasPerPage) {
       variablesMap['perPage'] = param.perPage;
+    }
+    if (hasMediaType) {
+      variablesMap['type'] = param.mediaType!.sqlTypeString;
     }
 
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
@@ -174,7 +178,7 @@ class AniListDataSource {
     return airingSchedules;
   }
 
-  Future<List<AnimeDto>> searchAnimePage({
+  Future<List<MediaDto>> searchAnimePage({
     required int page,
     required int perPage,
     required MediaType type,
@@ -190,8 +194,8 @@ class AniListDataSource {
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
     final List resultJson = response.data['data']['page']['media'];
-    final List<AnimeDto> animeList =
-        resultJson.map((e) => AnimeDto.fromJson(e)).toList();
+    final List<MediaDto> animeList =
+        resultJson.map((e) => MediaDto.fromJson(e)).toList();
 
     return animeList;
   }

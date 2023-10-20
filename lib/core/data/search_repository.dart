@@ -8,7 +8,7 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 
 abstract class SearchRepository {
   Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage(
@@ -28,7 +28,7 @@ class SearchRepositoryImpl implements SearchRepository {
       required int perPage,
       required String search,
       required MediaType type}) {
-    return LoadPageUtil.loadPageWithoutDBCache<AnimeDto, MediaModel>(
+    return LoadPageUtil.loadPageWithoutDBCache<MediaDto, MediaModel>(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) => dataSource.searchAnimePage(
@@ -37,8 +37,8 @@ class SearchRepositoryImpl implements SearchRepository {
         type: type,
         search: search,
       ),
-      mapDtoToModel: (AnimeDto dto) => MediaModel.fromDto(dto),
-      onInsertEntityToDB: (List<AnimeDto> dto) async {
+      mapDtoToModel: (MediaDto dto) => MediaModel.fromDto(dto),
+      onInsertEntityToDB: (List<MediaDto> dto) async {
         final entities =
             dto.map((e) => MediaEntity.fromNetworkModel(e)).toList();
         await dao.upsertMediaInformation(entities);

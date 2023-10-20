@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_entity.freezed.dart';
@@ -15,6 +15,8 @@ part 'media_entity.g.dart';
 class MediaEntity with _$MediaEntity {
   factory MediaEntity({
     @Default('') @JsonKey(name: MediaTableColumns.id) String id,
+    @JsonKey(name: MediaTableColumns.type)
+    String? type,
     @Default('')
     @JsonKey(name: MediaTableColumns.englishTitle)
     String englishTitle,
@@ -52,9 +54,10 @@ class MediaEntity with _$MediaEntity {
   factory MediaEntity.fromJson(Map<String, dynamic> json) =>
       _$$_MediaEntityFromJson(json);
 
-  static MediaEntity fromNetworkModel(AnimeDto model) =>
+  static MediaEntity fromNetworkModel(MediaDto model) =>
       MediaEntity(
         id: model.id.toString(),
+        type: model.type,
         englishTitle: model.title?.english ?? '',
         romajiTitle: model.title?.romaji ?? '',
         nativeTitle: model.title?.native ?? '',
