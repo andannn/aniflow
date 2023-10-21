@@ -1,4 +1,5 @@
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
@@ -19,7 +20,7 @@ class AnimeTrackPage extends Page {
 }
 
 class AnimeTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AnimeTrackRoute({super.settings}): super(allowSnapshotting: false);
+  AnimeTrackRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -54,8 +55,8 @@ class _AnimeTrackPageContent extends StatelessWidget {
     });
   }
 
-  List<Widget> _buildTrackSectionContents(BuildContext context,
-      TrackUiState state) {
+  List<Widget> _buildTrackSectionContents(
+      BuildContext context, TrackUiState state) {
     final animeLoadState = state.animeLoadState;
     if (animeLoadState is MediaStateNoUser) {
       return [
@@ -66,7 +67,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
         _buildInitialDummyView(),
       ];
     } else {
-      final animeList = (animeLoadState as MediaStateLoaded).watchingAnimeList;
+      final animeList = (animeLoadState as MediaStateLoaded).followingMediaList;
       final showReleasedOnly = state.showReleasedOnly;
       return [
         SliverToBoxAdapter(
@@ -74,8 +75,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-                (context, index) =>
-                _buildAnimeListItem(context, animeList[index]),
+            (context, index) => _buildMediaListItem(context, animeList[index]),
             childCount: animeList.length,
           ),
         )
@@ -83,7 +83,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
     }
   }
 
-  Widget? _buildAnimeListItem(BuildContext context, MediaListItemModel item) {
+  Widget? _buildMediaListItem(BuildContext context, MediaListItemModel item) {
     return SizedBox(
       key: ValueKey('anime_track_list_item_${item.id}'),
       height: 120,
@@ -124,26 +124,29 @@ class _AnimeTrackPageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, TrackUiState state) =>
-      SliverAppBar(
-        title: const Text('Track'),
-        actions: [
-          LoadingIndicator(isLoading: state.isLoading,),
-          const SizedBox(width: 10),
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              icon: const Icon(Icons.calendar_month_rounded),
-              onPressed: () {
-                AFRouterDelegate.of(context)
-                    .navigateToAiringSchedule();
-              },
-            ),
-          ),
-        ],
-        pinned: true,
-        automaticallyImplyLeading: false,
-      );
+  Widget _buildAppBar(BuildContext context, TrackUiState state) {
+    final isAnime = state.currentMediaType == MediaType.anime;
+    return SliverAppBar(
+      title: const Text('Track'),
+      actions: [
+        LoadingIndicator(isLoading: state.isLoading),
+        const SizedBox(width: 10),
+        isAnime
+            ? Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
+                  icon: const Icon(Icons.calendar_month_rounded),
+                  onPressed: () {
+                    AFRouterDelegate.of(context).navigateToAiringSchedule();
+                  },
+                ),
+              )
+            : const SizedBox(),
+      ],
+      pinned: true,
+      automaticallyImplyLeading: false,
+    );
+  }
 
   Widget _buildNoUserHint() {
     return const SliverToBoxAdapter(

@@ -57,7 +57,7 @@ void main() {
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
 
       final res = await dao.getMediaListByPage('22', [MediaListStatus.current],
-          page: 1);
+          type: MediaType.anime, page: 1);
       expect(res[0].mediaListEntity, equals(dummyUserAnimeListEntity[0]));
     });
 
@@ -71,7 +71,7 @@ void main() {
               animeList: dummyAnimeData);
 
       final res = await dao.getMediaListByPage('22', [MediaListStatus.current],
-          page: 1);
+          type: MediaType.anime, page: 1);
       expect(res[0].mediaEntity, equals(dummyAnimeData[0]));
     });
 
@@ -81,7 +81,7 @@ void main() {
 
       final res = await dao.getMediaListByPage(
           '22', [MediaListStatus.current, MediaListStatus.dropped],
-          page: 1);
+          type: MediaType.anime, page: 1);
       expect(res.length, equals(2));
     });
 
@@ -91,7 +91,7 @@ void main() {
 
       final res = await dao.getMediaListByPage(
           '22', [MediaListStatus.current, MediaListStatus.dropped],
-          page: 1, perPage: null);
+          type: MediaType.anime, page: 1, perPage: null);
       expect(res.length, equals(2));
     });
 

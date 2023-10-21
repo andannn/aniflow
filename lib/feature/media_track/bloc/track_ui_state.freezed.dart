@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TrackUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get showReleasedOnly => throw _privateConstructorUsedError;
+  MediaType get currentMediaType => throw _privateConstructorUsedError;
   MediaListLoadState get animeLoadState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,6 +35,7 @@ abstract class $TrackUiStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool showReleasedOnly,
+      MediaType currentMediaType,
       MediaListLoadState animeLoadState});
 }
 
@@ -52,6 +54,7 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
   $Res call({
     Object? isLoading = null,
     Object? showReleasedOnly = null,
+    Object? currentMediaType = null,
     Object? animeLoadState = null,
   }) {
     return _then(_value.copyWith(
@@ -63,6 +66,10 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
           ? _value.showReleasedOnly
           : showReleasedOnly // ignore: cast_nullable_to_non_nullable
               as bool,
+      currentMediaType: null == currentMediaType
+          ? _value.currentMediaType
+          : currentMediaType // ignore: cast_nullable_to_non_nullable
+              as MediaType,
       animeLoadState: null == animeLoadState
           ? _value.animeLoadState
           : animeLoadState // ignore: cast_nullable_to_non_nullable
@@ -82,6 +89,7 @@ abstract class _$$_TrackUiStateCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool showReleasedOnly,
+      MediaType currentMediaType,
       MediaListLoadState animeLoadState});
 }
 
@@ -98,6 +106,7 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? showReleasedOnly = null,
+    Object? currentMediaType = null,
     Object? animeLoadState = null,
   }) {
     return _then(_$_TrackUiState(
@@ -109,6 +118,10 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
           ? _value.showReleasedOnly
           : showReleasedOnly // ignore: cast_nullable_to_non_nullable
               as bool,
+      currentMediaType: null == currentMediaType
+          ? _value.currentMediaType
+          : currentMediaType // ignore: cast_nullable_to_non_nullable
+              as MediaType,
       animeLoadState: null == animeLoadState
           ? _value.animeLoadState
           : animeLoadState // ignore: cast_nullable_to_non_nullable
@@ -123,6 +136,7 @@ class _$_TrackUiState implements _TrackUiState {
   _$_TrackUiState(
       {this.isLoading = false,
       this.showReleasedOnly = false,
+      this.currentMediaType = MediaType.anime,
       this.animeLoadState = const MediaStateInitState()});
 
   @override
@@ -133,11 +147,14 @@ class _$_TrackUiState implements _TrackUiState {
   final bool showReleasedOnly;
   @override
   @JsonKey()
+  final MediaType currentMediaType;
+  @override
+  @JsonKey()
   final MediaListLoadState animeLoadState;
 
   @override
   String toString() {
-    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, animeLoadState: $animeLoadState)';
+    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, currentMediaType: $currentMediaType, animeLoadState: $animeLoadState)';
   }
 
   @override
@@ -149,13 +166,15 @@ class _$_TrackUiState implements _TrackUiState {
                 other.isLoading == isLoading) &&
             (identical(other.showReleasedOnly, showReleasedOnly) ||
                 other.showReleasedOnly == showReleasedOnly) &&
+            (identical(other.currentMediaType, currentMediaType) ||
+                other.currentMediaType == currentMediaType) &&
             (identical(other.animeLoadState, animeLoadState) ||
                 other.animeLoadState == animeLoadState));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, showReleasedOnly, animeLoadState);
+  int get hashCode => Object.hash(runtimeType, isLoading, showReleasedOnly,
+      currentMediaType, animeLoadState);
 
   @JsonKey(ignore: true)
   @override
@@ -168,12 +187,15 @@ abstract class _TrackUiState implements TrackUiState {
   factory _TrackUiState(
       {final bool isLoading,
       final bool showReleasedOnly,
+      final MediaType currentMediaType,
       final MediaListLoadState animeLoadState}) = _$_TrackUiState;
 
   @override
   bool get isLoading;
   @override
   bool get showReleasedOnly;
+  @override
+  MediaType get currentMediaType;
   @override
   MediaListLoadState get animeLoadState;
   @override

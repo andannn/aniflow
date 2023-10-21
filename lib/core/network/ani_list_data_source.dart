@@ -52,7 +52,7 @@ class AniListDataSource {
     final variablesMap = <String, dynamic>{
       'page': page,
       'perPage': perPage,
-      'type': param.type.sqlTypeString,
+      'type': param.type.jsonString,
     };
 
     if (hasSeasonYear) {
@@ -148,7 +148,7 @@ class AniListDataSource {
       variablesMap['perPage'] = param.perPage;
     }
     if (hasMediaType) {
-      variablesMap['type'] = param.mediaType!.sqlTypeString;
+      variablesMap['type'] = param.mediaType!.jsonString;
     }
 
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
@@ -189,7 +189,7 @@ class AniListDataSource {
       'search': search,
       'page': page,
       'perPage': perPage,
-      'type': type.sqlTypeString,
+      'type': type.jsonString,
     };
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});

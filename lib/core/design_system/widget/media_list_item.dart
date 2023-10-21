@@ -81,13 +81,15 @@ class MediaListItem extends StatelessWidget {
   Widget _buildWatchingInfoLabel(
       BuildContext context, MediaListItemModel model) {
     final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
-    String label;
+    String label = '';
     if (hasNextReleasingEpisode) {
       label = 'Next Episode: EP.${model.progress! + 1}';
     } else {
-      label =
-      // ignore: lines_longer_than_80_chars
-          'Next Episode: EP.${model.animeModel!.nextAiringEpisode} in ${model.animeModel!.getReleasingTimeString(context)}';
+      if (model.animeModel!.nextAiringEpisode != null) {
+        label =
+            // ignore: lines_longer_than_80_chars
+            'Next Episode: EP.${model.animeModel!.nextAiringEpisode} in ${model.animeModel!.getReleasingTimeString(context)}';
+      }
     }
     return Text(
       label,

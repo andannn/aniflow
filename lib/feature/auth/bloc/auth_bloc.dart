@@ -34,8 +34,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnLogoutButtonTapped>(_onLogoutButtonTapped);
     on<_OnUserDataChanged>(_onUserDataChanged);
 
-    _userDataSub =
-        authRepository.getUserDataStream().distinct().listen((userDataNullable) {
+    _userDataSub = authRepository
+        .getUserDataStream()
+        .distinct()
+        .listen((userDataNullable) {
       add(_OnUserDataChanged(userDataNullable));
     });
   }

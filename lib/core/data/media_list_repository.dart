@@ -23,12 +23,15 @@ part 'model/media_list_status.dart';
 abstract class MediaListRepository {
   Future<List<MediaListItemModel>> getUserAnimeList(
       {required List<MediaListStatus> status,
+      required MediaType type,
       int page = 1,
       int? userId,
       int perPage = Config.defaultPerPageCount});
 
   Stream<List<MediaListItemModel>> getUserAnimeListStream(
-      {required List<MediaListStatus> status, required String userId});
+      {required List<MediaListStatus> status,
+      required String userId,
+      required MediaType type});
 
   Future<LoadResult<void>> syncUserAnimeList(
       {String? userId,
@@ -64,6 +67,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
   @override
   Future<List<MediaListItemModel>> getUserAnimeList(
       {required List<MediaListStatus> status,
+      required MediaType type,
       int page = 1,
       int? userId,
       int perPage = Config.defaultPerPageCount}) async {
@@ -74,6 +78,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     }
 
     final animeList = await animeTrackListDao.getMediaListByPage(
+        type: type,
         targetUserId.toString(), status,
         page: 1, perPage: null);
 
@@ -120,7 +125,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
           .whereType<MediaEntity>()
           .toList();
       await animeListDao.upsertMediaInformation(animeEntities,
-          conflictAlgorithm: ConflictAlgorithm.ignore);
+          conflictAlgorithm: ConflictAlgorithm.replace);
 
       animeTrackListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
@@ -131,8 +136,10 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
   @override
   Stream<List<MediaListItemModel>> getUserAnimeListStream(
-      {required List<MediaListStatus> status, required String userId}) {
-    return animeTrackListDao.getMediaListStream(userId, status).map(
+      {required List<MediaListStatus> status,
+      required String userId,
+      required MediaType type}) {
+    return animeTrackListDao.getMediaListStream(userId, status, type).map(
           (models) => models
               .map((e) => MediaListItemModel.fromDataBaseModel(e))
               .toList(),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
@@ -20,6 +21,7 @@ class MediaModel with _$MediaModel {
   factory MediaModel({
     @Default('') String id,
     MediaTitle? title,
+    @Default(MediaType.anime) MediaType type,
     @Default('') String coverImage,
     @Default('') String coverImageColor,
     String? description,
@@ -47,6 +49,9 @@ class MediaModel with _$MediaModel {
   static MediaModel fromDatabaseModel(MediaEntity model) {
     return MediaModel(
       id: model.id,
+      type: model.type != null
+          ? MediaType.fromString(model.type!)
+          : MediaType.anime,
       title: MediaTitle(
         english: model.englishTitle,
         romaji: model.romajiTitle,

@@ -1,5 +1,4 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 @JsonEnum()
@@ -9,12 +8,12 @@ enum MediaType {
   @JsonValue('MANGA')
   manga('MANGA');
 
-  final String sqlTypeString;
+  final String jsonString;
 
-  const MediaType(this.sqlTypeString);
+  const MediaType(this.jsonString);
 
-  static MediaType fromString(String enumString) =>
-      MediaType.values.firstWhere((e) => describeEnum(e) == enumString);
+  static MediaType fromString(String value) =>
+      MediaType.values.firstWhere((e) => e.jsonString == value);
 }
 
 MediaType getMediaTypeByCategory(MediaCategory category) {

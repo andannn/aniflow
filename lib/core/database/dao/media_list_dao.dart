@@ -33,7 +33,9 @@ abstract class MediaListDao {
 
   Future<List<MediaListAndMediaRelation>> getMediaListByPage(
       String userId, List<MediaListStatus> status,
-      {required int page, int? perPage = Config.defaultPerPageCount});
+      {required MediaType type,
+      required int page,
+      int? perPage = Config.defaultPerPageCount});
 
   Future<Set<String>> getMediaListMediaIdsByUser(
       String userId, List<MediaListStatus> status, MediaType type);
@@ -42,7 +44,7 @@ abstract class MediaListDao {
       String userId, List<MediaListStatus> status, MediaType type);
 
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
-      String userId, List<MediaListStatus> status);
+      String userId, List<MediaListStatus> status, MediaType type);
 
   Future<bool> getIsTrackingByUserAndId(
       {required String userId, required String mediaId});
@@ -73,7 +75,7 @@ class MediaListDaoImpl extends MediaListDao {
   @override
   Future<List<MediaListAndMediaRelation>> getMediaListByPage(
       String userId, List<MediaListStatus> status,
-      {required int page, int? perPage}) async {
+      {required MediaType type, required int page, int? perPage}) async {
     final int? limit = perPage;
     final int offset = (page - 1) * (perPage ?? 0);
     String statusParam = '';
@@ -87,7 +89,9 @@ class MediaListDaoImpl extends MediaListDao {
     String sql = 'select * from ${Tables.mediaListTable} as ua '
         'left join ${Tables.mediaTable} as a '
         'on ua.${MediaListTableColumns.mediaId}=a.${MediaTableColumns.id} '
-        'where ${MediaListTableColumns.status} in ($statusParam) and ${MediaListTableColumns.userId}=\'$userId\' '
+        'where ${MediaListTableColumns.status} in ($statusParam) '
+        '  and ${MediaListTableColumns.userId}=\'$userId\' '
+        '  and a.${MediaTableColumns.type}=\'${type.jsonString}\' '
         'order by ${MediaListTableColumns.updatedAt} desc ';
     if (limit != null) {
       sql += 'limit $limit '
@@ -121,8 +125,7 @@ class MediaListDaoImpl extends MediaListDao {
         '  on ml.${MediaListTableColumns.mediaId} = m.${MediaTableColumns.id} '
         'where ml.${MediaListTableColumns.status} in ($statusParam) '
         '  and ml.${MediaListTableColumns.userId}=\'$userId\' '
-        '  and m.${MediaTableColumns.type}=\'${type.sqlTypeString}\' '
-    ;
+        '  and m.${MediaTableColumns.type}=\'${type.jsonString}\' ';
 
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
@@ -204,10 +207,10 @@ class MediaListDaoImpl extends MediaListDao {
 
   @override
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
-      String userId, List<MediaListStatus> status) {
+      String userId, List<MediaListStatus> status, MediaType type) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(changeSource,
-        () => getMediaListByPage(userId, status, page: 1, perPage: null));
+        () => getMediaListByPage(userId, status, type: type ,page: 1, perPage: null));
   }
 
   @override

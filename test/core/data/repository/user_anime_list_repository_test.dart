@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -51,6 +52,7 @@ void main() {
       expect(res.runtimeType, equals(LoadSuccess<void>));
 
       final res2 = await repository.getUserAnimeList(
+        type: MediaType.anime,
           userId: 1,
           status: [MediaListStatus.current, MediaListStatus.planning]);
       expect(res2.isNotEmpty, equals(true));
@@ -62,6 +64,8 @@ void main() {
       expect(res.runtimeType, equals(LoadSuccess<void>));
 
       final stream = repository.getUserAnimeListStream(
+          type: MediaType.anime,
+
           userId: '1',
           status: [MediaListStatus.current, MediaListStatus.planning]);
       final res2 = await stream.first;
