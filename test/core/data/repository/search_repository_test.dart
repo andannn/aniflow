@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/search_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
@@ -14,6 +15,7 @@ void main() {
     setUp(() async {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
+      SharedPreferences.setMockInitialValues({});
       await animeDatabase.initDatabase(isTest: true);
 
       searchRepository = SearchRepositoryImpl();
