@@ -110,7 +110,7 @@ class AniFlowPreferences {
 
   MediaType getCurrentMediaType() => MediaType.fromString(
         _preference.getString(UserDataKey.currentMediaType) ??
-            describeEnum(MediaType.anime),
+            MediaType.anime.jsonString,
       );
 
   Stream<MediaType> getCurrentMediaTypeStream() => StreamUtil.createStream(
@@ -120,7 +120,7 @@ class AniFlowPreferences {
 
   Future setCurrentMediaType(MediaType mediaType) async {
     final isChanged = await _preference.setString(
-        UserDataKey.currentMediaType, describeEnum(mediaType));
+        UserDataKey.currentMediaType, mediaType.jsonString);
 
     if (isChanged) {
       _currentMediaTypeChangeNotifier.value =

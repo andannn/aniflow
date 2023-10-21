@@ -22,6 +22,8 @@ MediaEntity _$MediaEntityFromJson(Map<String, dynamic> json) {
 mixin _$MediaEntity {
   @JsonKey(name: MediaTableColumns.id)
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.type)
+  String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.englishTitle)
   String get englishTitle => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.romajiTitle)
@@ -85,6 +87,7 @@ abstract class $MediaEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: MediaTableColumns.id) String id,
+      @JsonKey(name: MediaTableColumns.type) String? type,
       @JsonKey(name: MediaTableColumns.englishTitle) String englishTitle,
       @JsonKey(name: MediaTableColumns.romajiTitle) String romajiTitle,
       @JsonKey(name: MediaTableColumns.nativeTitle) String nativeTitle,
@@ -127,6 +130,7 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
   @override
   $Res call({
     Object? id = null,
+    Object? type = freezed,
     Object? englishTitle = null,
     Object? romajiTitle = null,
     Object? nativeTitle = null,
@@ -157,6 +161,10 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
       englishTitle: null == englishTitle
           ? _value.englishTitle
           : englishTitle // ignore: cast_nullable_to_non_nullable
@@ -267,6 +275,7 @@ abstract class _$$_MediaEntityCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: MediaTableColumns.id) String id,
+      @JsonKey(name: MediaTableColumns.type) String? type,
       @JsonKey(name: MediaTableColumns.englishTitle) String englishTitle,
       @JsonKey(name: MediaTableColumns.romajiTitle) String romajiTitle,
       @JsonKey(name: MediaTableColumns.nativeTitle) String nativeTitle,
@@ -307,6 +316,7 @@ class __$$_MediaEntityCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? type = freezed,
     Object? englishTitle = null,
     Object? romajiTitle = null,
     Object? nativeTitle = null,
@@ -337,6 +347,10 @@ class __$$_MediaEntityCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
       englishTitle: null == englishTitle
           ? _value.englishTitle
           : englishTitle // ignore: cast_nullable_to_non_nullable
@@ -442,6 +456,7 @@ class __$$_MediaEntityCopyWithImpl<$Res>
 class _$_MediaEntity implements _MediaEntity {
   _$_MediaEntity(
       {@JsonKey(name: MediaTableColumns.id) this.id = '',
+      @JsonKey(name: MediaTableColumns.type) this.type,
       @JsonKey(name: MediaTableColumns.englishTitle) this.englishTitle = '',
       @JsonKey(name: MediaTableColumns.romajiTitle) this.romajiTitle = '',
       @JsonKey(name: MediaTableColumns.nativeTitle) this.nativeTitle = '',
@@ -475,6 +490,9 @@ class _$_MediaEntity implements _MediaEntity {
   @override
   @JsonKey(name: MediaTableColumns.id)
   final String id;
+  @override
+  @JsonKey(name: MediaTableColumns.type)
+  final String? type;
   @override
   @JsonKey(name: MediaTableColumns.englishTitle)
   final String englishTitle;
@@ -550,7 +568,7 @@ class _$_MediaEntity implements _MediaEntity {
 
   @override
   String toString() {
-    return 'MediaEntity(id: $id, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
+    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
   }
 
   @override
@@ -559,6 +577,7 @@ class _$_MediaEntity implements _MediaEntity {
         (other.runtimeType == runtimeType &&
             other is _$_MediaEntity &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.englishTitle, englishTitle) ||
                 other.englishTitle == englishTitle) &&
             (identical(other.romajiTitle, romajiTitle) ||
@@ -609,6 +628,7 @@ class _$_MediaEntity implements _MediaEntity {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        type,
         englishTitle,
         romajiTitle,
         nativeTitle,
@@ -652,6 +672,7 @@ class _$_MediaEntity implements _MediaEntity {
 abstract class _MediaEntity implements MediaEntity {
   factory _MediaEntity(
       {@JsonKey(name: MediaTableColumns.id) final String id,
+      @JsonKey(name: MediaTableColumns.type) final String? type,
       @JsonKey(name: MediaTableColumns.englishTitle) final String englishTitle,
       @JsonKey(name: MediaTableColumns.romajiTitle) final String romajiTitle,
       @JsonKey(name: MediaTableColumns.nativeTitle) final String nativeTitle,
@@ -688,6 +709,9 @@ abstract class _MediaEntity implements MediaEntity {
   @override
   @JsonKey(name: MediaTableColumns.id)
   String get id;
+  @override
+  @JsonKey(name: MediaTableColumns.type)
+  String? get type;
   @override
   @JsonKey(name: MediaTableColumns.englishTitle)
   String get englishTitle;

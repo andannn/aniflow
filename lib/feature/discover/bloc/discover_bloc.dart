@@ -19,6 +19,7 @@ import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 
 sealed class DiscoverEvent {}
 
@@ -42,8 +43,8 @@ class _OnUserDataChanged extends DiscoverEvent {
   final UserData? userData;
 }
 
-class _OnTrackingAnimeIdsChanged extends DiscoverEvent {
-  _OnTrackingAnimeIdsChanged(this.ids);
+class _OnTrackingMediaIdsChanged extends DiscoverEvent {
+  _OnTrackingMediaIdsChanged(this.ids);
 
   final Set<String> ids;
 }
@@ -71,33 +72,31 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       required aniListRepository,
       required MediaListRepository animeTrackListRepository})
       : _userDataRepository = userDataRepository,
-        _aniListRepository = aniListRepository,
-        _animeTrackListRepository = animeTrackListRepository,
+        _authRepository = authRepository,
+        _mediaInfoRepository = aniListRepository,
+        _mediaListRepository = animeTrackListRepository,
         super(DiscoverUiState()) {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
-    on<_OnTrackingAnimeIdsChanged>(_onTrackingAnimeIdsChanged);
+    on<_OnTrackingMediaIdsChanged>(_onTrackingMediaIdsChanged);
     on<_OnMediaTypeChanged>(_onMediaTypeChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
-
-    _userDataSub ??=
-        authRepository.getUserDataStream().listen((userDataNullable) {
-      add(_OnUserDataChanged(userDataNullable));
-    });
 
     _init();
   }
 
   final UserDataRepository _userDataRepository;
-  final MediaInformationRepository _aniListRepository;
-  final MediaListRepository _animeTrackListRepository;
+  final AuthRepository _authRepository;
+  final MediaInformationRepository _mediaInfoRepository;
+  final MediaListRepository _mediaListRepository;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _mediaTypeSub;
   StreamSubscription? _trackedMediaIdsSub;
 
-  Set<String> _ids = {};
+  Set<String> _followingMediaIds = {};
+  String? _userId;
 
   final Set<MediaType> _syncedMediaTypes = {};
 
@@ -128,6 +127,12 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
+    _userDataSub ??= _authRepository.getUserDataStream().listen(
+      (userDataNullable) {
+        add(_OnUserDataChanged(userDataNullable));
+      },
+    );
+
     _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
       (mediaType) {
         logger.d(mediaType);
@@ -142,18 +147,26 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     emit(state.copyWith(currentMediaType: type));
 
-    // _trackedMediaIdsSub?.cancel();
-
     /// load all media from db cache first.
-    await reloadAllMedia(mediaType: type, isRefresh: false);
+    await _reloadAllMedia(mediaType: type, isRefresh: false);
 
     if (!_syncedMediaTypes.contains(type)) {
       /// Media's order may changed, refresh all media again.
-      unawaited(reloadAllMedia(mediaType: type, isRefresh: true));
+      unawaited(_reloadAllMedia(mediaType: type, isRefresh: true));
     }
+
+    /// re-collecting following media ids, because of media type changed.
+    _startListenFollowingIds();
   }
 
-  Future<void> reloadAllMedia(
+  Future onPullToRefreshTriggered() {
+    return Future.wait([
+      _reloadAllMedia(mediaType: state.currentMediaType, isRefresh: true),
+      if (_userId != null) _syncAllMediaList(_userId!) else Future.value(),
+    ]);
+  }
+
+  Future<void> _reloadAllMedia(
       {required MediaType mediaType, required bool isRefresh}) async {
     add(_OnLoadStateChanged(true));
 
@@ -186,10 +199,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       {bool isRefresh = false}) async {
     final LoadResult result;
     if (isRefresh) {
-      result = await _aniListRepository.loadMediaPageByCategory(
+      result = await _mediaInfoRepository.loadMediaPageByCategory(
           loadType: const Refresh(), category: category);
     } else {
-      result = await _aniListRepository.loadMediaPageByCategory(
+      result = await _mediaInfoRepository.loadMediaPageByCategory(
         category: category,
         loadType: const Append(page: 1, perPage: Config.defaultPerPageCount),
       );
@@ -216,7 +229,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     final DiscoverUiState newState = state.copyWith(categoryMediaMap: stateMap);
 
-    emit(DiscoverUiState.copyWithTrackedIds(newState, _ids));
+    emit(DiscoverUiState.copyWithTrackedIds(newState, _followingMediaIds));
   }
 
   FutureOr<void> _onMediaLoadError(
@@ -227,33 +240,60 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     emit(state.copyWith(userData: event.userData));
 
     if (event.userData != null) {
+      _userId = event.userData!.id;
+
       /// user login, start listen following anime changed.
-      await _trackedMediaIdsSub?.cancel();
-      _trackedMediaIdsSub =
-          _animeTrackListRepository.getMediaListAnimeIdsByUserStream(
-        event.userData!.id,
-        [MediaListStatus.planning, MediaListStatus.current],
-      ).listen((ids) {
-        add(_OnTrackingAnimeIdsChanged(ids));
-      });
+      _startListenFollowingIds();
 
       /// post event to sync user anime list.
-      unawaited(_animeTrackListRepository.syncUserAnimeList(
-          userId: event.userData!.id));
+      unawaited(_syncAllMediaList(event.userData!.id));
     } else {
       /// user logout, cancel following stream.
       await _trackedMediaIdsSub?.cancel();
     }
   }
 
-  FutureOr<void> _onTrackingAnimeIdsChanged(
-      _OnTrackingAnimeIdsChanged event, Emitter<DiscoverUiState> emit) {
-    _ids = event.ids;
+  FutureOr<void> _onTrackingMediaIdsChanged(
+      _OnTrackingMediaIdsChanged event, Emitter<DiscoverUiState> emit) {
+    _followingMediaIds = event.ids;
     emit(DiscoverUiState.copyWithTrackedIds(state, event.ids));
   }
 
   FutureOr<void> _onLoadStateChanged(
       _OnLoadStateChanged event, Emitter<DiscoverUiState> emit) {
     emit(state.copyWith(isLoading: event.isLoading));
+  }
+
+  void _startListenFollowingIds() async {
+    final userId = _userId;
+
+    if (userId == null) return;
+
+    await _trackedMediaIdsSub?.cancel();
+    _trackedMediaIdsSub = _mediaListRepository
+        .getMediaListMediaIdsByUserStream(
+            userId: userId,
+            status: [MediaListStatus.planning, MediaListStatus.current],
+            type: state.currentMediaType)
+        .distinct(
+            (pre, next) => const DeepCollectionEquality().equals(pre, next))
+        .listen(
+      (ids) {
+        add(_OnTrackingMediaIdsChanged(ids));
+      },
+    );
+  }
+
+  Future _syncAllMediaList(String userId) async {
+    return Future.wait([
+      _mediaListRepository.syncUserAnimeList(
+          userId: userId,
+          status: [MediaListStatus.current, MediaListStatus.planning],
+          mediaType: MediaType.manga),
+      _mediaListRepository.syncUserAnimeList(
+          userId: userId,
+          status: [MediaListStatus.current, MediaListStatus.planning],
+          mediaType: MediaType.anime),
+    ]);
   }
 }

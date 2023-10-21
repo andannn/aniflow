@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -53,11 +54,15 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   void _init() async {
     final userData = await _authRepository.getUserDataStream().first;
     if (userData != null) {
-      _trackingIdsStream =
-          _animeTrackListRepository.getMediaListAnimeIdsByUserStream(
-        userData.id,
-        [MediaListStatus.planning, MediaListStatus.current],
-      ).listen((ids) {
+      _trackingIdsStream = _animeTrackListRepository
+          .getMediaListMediaIdsByUserStream(
+            userId: userData.id,
+            status: [MediaListStatus.planning, MediaListStatus.current],
+//TODO:
+            type: MediaType.anime,
+          )
+          .distinct()
+          .listen((ids) {
         add(_OnTrackingAnimeIdsChanged(ids: ids));
       });
     }

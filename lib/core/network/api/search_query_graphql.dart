@@ -1,9 +1,9 @@
 
 String get searchQueryGraphql =>
 '''
-query (\$page: Int, \$perPage: Int, \$search: String) {
+query (\$page: Int, \$perPage: Int, \$search: String, \$type: MediaType) {
   page: Page(page: \$page, perPage: \$perPage) {
-    media(type: ANIME, sort: [POPULARITY_DESC], search: \$search) {
+    media(type: \$type, sort: [POPULARITY_DESC], search: \$search) {
       id
       title {
         romaji

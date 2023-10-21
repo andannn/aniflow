@@ -27,6 +27,8 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   bool get isTopRouteFullScreen => _backStack.last.isFullScreen;
 
+  bool get isTopLevelNavigation => _backStack.last is TopLevelRoutePath;
+
   static AFRouterDelegate of(context) =>
       Router
           .of(context)

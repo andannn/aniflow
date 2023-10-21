@@ -8,7 +8,10 @@ mixin StreamUtil {
     late StreamController<T> controller;
 
     void listener() async {
-      controller.add(await getEventData());
+      final data = await getEventData();
+      if (!controller.isClosed) {
+        controller.add(data);
+      }
     }
 
     controller = StreamController(onListen: () {

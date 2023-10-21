@@ -19,6 +19,7 @@ import 'package:sqflite/sqflite.dart';
 /// [Tables.mediaTable]
 mixin MediaTableColumns {
   static const String id = 'id';
+  static const String type = 'media_type';
   static const String englishTitle = 'english_title';
   static const String romajiTitle = 'romaji_title';
   static const String nativeTitle = 'native_title';

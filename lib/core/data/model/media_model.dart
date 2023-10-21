@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
@@ -10,7 +11,7 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_model.freezed.dart';
@@ -20,6 +21,7 @@ class MediaModel with _$MediaModel {
   factory MediaModel({
     @Default('') String id,
     MediaTitle? title,
+    @Default(MediaType.anime) MediaType type,
     @Default('') String coverImage,
     @Default('') String coverImageColor,
     String? description,
@@ -47,6 +49,9 @@ class MediaModel with _$MediaModel {
   static MediaModel fromDatabaseModel(MediaEntity model) {
     return MediaModel(
       id: model.id,
+      type: model.type != null
+          ? MediaType.fromString(model.type!)
+          : MediaType.anime,
       title: MediaTitle(
         english: model.englishTitle,
         romaji: model.romajiTitle,
@@ -103,7 +108,7 @@ class MediaModel with _$MediaModel {
     );
   }
 
-  static MediaModel fromDto(AnimeDto dto) {
+  static MediaModel fromDto(MediaDto dto) {
     final entity = MediaEntity.fromNetworkModel(dto);
     return MediaModel.fromDatabaseModel(entity);
   }

@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
@@ -24,7 +25,10 @@ void main() {
       )
     ];
 
-    final dummyAnimeData = [MediaEntity(id: '33', englishTitle: 'aaaaaaaaaaa')];
+    final dummyMediaData = [
+      MediaEntity(id: '33', type: 'ANIME', englishTitle: 'aaaaaaaaaaa'),
+      MediaEntity(id: '55', type: 'MANGA', englishTitle: 'bbbbbbbbbbb')
+    ];
 
     setUp(() async {
       sqfliteFfiInit();
@@ -50,10 +54,12 @@ void main() {
 
     test('get_list_by_user_test', () async {
       final dao = animeDatabase.getMediaListDao();
+      final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
+      await mediaDao.upsertMediaInformation(dummyMediaData);
 
       final res = await dao.getMediaListByPage('22', [MediaListStatus.current],
-          page: 1);
+          type: MediaType.anime, page: 1);
       expect(res[0].mediaListEntity, equals(dummyUserAnimeListEntity[0]));
     });
 
@@ -64,41 +70,59 @@ void main() {
       await animeDatabase
           .getMediaInformationDaoDao()
           .insertOrIgnoreMediaByAnimeCategory(MediaCategory.movieAnime,
-              animeList: dummyAnimeData);
+              animeList: dummyMediaData);
 
       final res = await dao.getMediaListByPage('22', [MediaListStatus.current],
-          page: 1);
-      expect(res[0].mediaEntity, equals(dummyAnimeData[0]));
+          type: MediaType.anime, page: 1);
+      expect(res[0].mediaEntity, equals(dummyMediaData[0]));
     });
 
     test('get_list_by_multi_status', () async {
       final dao = animeDatabase.getMediaListDao();
+      final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
+      await mediaDao.upsertMediaInformation(dummyMediaData);
 
       final res = await dao.getMediaListByPage(
           '22', [MediaListStatus.current, MediaListStatus.dropped],
-          page: 1);
-      expect(res.length, equals(2));
+          type: MediaType.anime, page: 1);
+      expect(res[0].mediaEntity, equals(dummyMediaData[0]));
     });
 
     test('get_list_no_limit', () async {
       final dao = animeDatabase.getMediaListDao();
+      final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
+      await mediaDao.upsertMediaInformation(dummyMediaData);
 
       final res = await dao.getMediaListByPage(
           '22', [MediaListStatus.current, MediaListStatus.dropped],
-          page: 1, perPage: null);
-      expect(res.length, equals(2));
+          type: MediaType.anime, page: 1, perPage: null);
+      expect(res[0].mediaEntity, equals(dummyMediaData[0]));
     });
 
-    test('get_list_ids_stream', () async {
-      final dao = animeDatabase.getMediaListDao();
-      await dao.insertMediaListEntities(dummyUserAnimeListEntity);
+    test('get_anime_list_ids_stream', () async {
+      final listDao = animeDatabase.getMediaListDao();
+      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      await listDao.insertMediaListEntities(dummyUserAnimeListEntity);
+      await mediaDao.upsertMediaInformation(dummyMediaData);
 
-      final stream = dao.getMediaListMediaIdsByUserStream(
-          '22', [MediaListStatus.current, MediaListStatus.dropped]);
+      final stream = listDao.getMediaListMediaIdsByUserStream('22',
+          [MediaListStatus.current, MediaListStatus.dropped], MediaType.anime);
       final res = await stream.first;
-      expect(res, equals({'33', '55'}));
+      expect(res, equals({'33'}));
+    });
+
+    test('get_manga_list_ids_stream', () async {
+      final listDao = animeDatabase.getMediaListDao();
+      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      await listDao.insertMediaListEntities(dummyUserAnimeListEntity);
+      await mediaDao.upsertMediaInformation(dummyMediaData);
+
+      final stream = listDao.getMediaListMediaIdsByUserStream('22',
+          [MediaListStatus.current, MediaListStatus.dropped], MediaType.manga);
+      final res = await stream.first;
+      expect(res, equals({'55'}));
     });
 
     test('get_list_ids_stream', () async {

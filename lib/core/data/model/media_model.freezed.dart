@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MediaModel {
   String get id => throw _privateConstructorUsedError;
   MediaTitle? get title => throw _privateConstructorUsedError;
+  MediaType get type => throw _privateConstructorUsedError;
   String get coverImage => throw _privateConstructorUsedError;
   String get coverImageColor => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -57,6 +58,7 @@ abstract class $MediaModelCopyWith<$Res> {
   $Res call(
       {String id,
       MediaTitle? title,
+      MediaType type,
       String coverImage,
       String coverImageColor,
       String? description,
@@ -99,6 +101,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
   $Res call({
     Object? id = null,
     Object? title = freezed,
+    Object? type = null,
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
@@ -131,6 +134,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as MediaTitle?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MediaType,
       coverImage: null == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
@@ -258,6 +265,7 @@ abstract class _$$_MediaModelCopyWith<$Res>
   $Res call(
       {String id,
       MediaTitle? title,
+      MediaType type,
       String coverImage,
       String coverImageColor,
       String? description,
@@ -300,6 +308,7 @@ class __$$_MediaModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = freezed,
+    Object? type = null,
     Object? coverImage = null,
     Object? coverImageColor = null,
     Object? description = freezed,
@@ -332,6 +341,10 @@ class __$$_MediaModelCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as MediaTitle?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MediaType,
       coverImage: null == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
@@ -430,6 +443,7 @@ class _$_MediaModel implements _MediaModel {
   _$_MediaModel(
       {this.id = '',
       this.title,
+      this.type = MediaType.anime,
       this.coverImage = '',
       this.coverImageColor = '',
       this.description,
@@ -464,6 +478,9 @@ class _$_MediaModel implements _MediaModel {
   final String id;
   @override
   final MediaTitle? title;
+  @override
+  @JsonKey()
+  final MediaType type;
   @override
   @JsonKey()
   final String coverImage;
@@ -549,7 +566,7 @@ class _$_MediaModel implements _MediaModel {
 
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks)';
   }
 
   @override
@@ -559,6 +576,7 @@ class _$_MediaModel implements _MediaModel {
             other is _$_MediaModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.coverImage, coverImage) ||
                 other.coverImage == coverImage) &&
             (identical(other.coverImageColor, coverImageColor) ||
@@ -604,6 +622,7 @@ class _$_MediaModel implements _MediaModel {
         runtimeType,
         id,
         title,
+        type,
         coverImage,
         coverImageColor,
         description,
@@ -639,6 +658,7 @@ abstract class _MediaModel implements MediaModel {
   factory _MediaModel(
       {final String id,
       final MediaTitle? title,
+      final MediaType type,
       final String coverImage,
       final String coverImageColor,
       final String? description,
@@ -666,6 +686,8 @@ abstract class _MediaModel implements MediaModel {
   String get id;
   @override
   MediaTitle? get title;
+  @override
+  MediaType get type;
   @override
   String get coverImage;
   @override

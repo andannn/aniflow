@@ -17,10 +17,10 @@ class MediaStateNoUser extends MediaListLoadState {
 }
 
 class MediaStateLoaded extends MediaListLoadState {
-  final List<MediaListItemModel> watchingAnimeList;
+  final List<MediaListItemModel> followingMediaList;
 
-  const MediaStateLoaded({required this.watchingAnimeList});
+  const MediaStateLoaded({required this.followingMediaList});
 
   @override
-  List<Object?> get props => [watchingAnimeList];
+  List<Object?> get props => [followingMediaList];
 }

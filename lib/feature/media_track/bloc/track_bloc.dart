@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
@@ -47,16 +49,26 @@ class OnAnimeMarkWatched extends TrackEvent {
       required this.totalEpisode});
 }
 
+class _OnMediaTypeChanged extends TrackEvent {
+  _OnMediaTypeChanged(this.mediaType);
+
+  final MediaType mediaType;
+}
+
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
-      {required MediaListRepository animeTrackListRepository,
-      required AuthRepository authRepository})
-      : _animeTrackListRepository = animeTrackListRepository,
+      {required MediaListRepository mediaListRepository,
+      required AuthRepository authRepository,
+      required UserDataRepository userDataRepository
+      })
+      : _animeTrackListRepository = mediaListRepository,
+        _userDataRepository = userDataRepository,
         _authRepository = authRepository,
         super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
     on<_OnWatchingAnimeListChanged>(_onWatchingAnimeListChanged);
+    on<_OnMediaTypeChanged>(_onMediaTypeChanged);
     on<OnToggleShowFollowOnly>(_onToggleShowReleasedOnly);
     on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
 
@@ -65,8 +77,11 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
 
   StreamSubscription? _userContentSub;
   StreamSubscription? _userStateSub;
+  StreamSubscription? _mediaTypeSub;
   final MediaListRepository _animeTrackListRepository;
+  final UserDataRepository _userDataRepository;
   final AuthRepository _authRepository;
+  String? _userId;
 
   var _watchingAnimeList = <MediaListItemModel>[];
 
@@ -75,12 +90,19 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     _userStateSub ??= _authRepository.getUserDataStream().listen((userData) {
       add(_OnUserStateChanged(userData: userData));
     });
+
+    _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
+          (mediaType) {
+        add(_OnMediaTypeChanged(mediaType));
+      },
+    );
   }
 
   @override
   Future<void> close() {
     _userContentSub?.cancel();
     _userStateSub?.cancel();
+    _mediaTypeSub?.cancel();
     return super.close();
   }
 
@@ -106,15 +128,9 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         emit(state.copyWith(animeLoadState: const MediaStateInitState()));
       }
 
-      /// start listening streams if needed.
-      final userData = event.userData!;
-      await _userContentSub?.cancel();
-      _userContentSub = _animeTrackListRepository.getUserAnimeListStream(
-        status: [MediaListStatus.planning, MediaListStatus.current],
-        userId: userData.id,
-      ).listen((animeList) {
-        add(_OnWatchingAnimeListChanged(animeList: animeList));
-      });
+      /// start listening streams.
+      _userId = event.userData!.id;
+      _startListenFollowingMedias();
     }
   }
 
@@ -136,10 +152,10 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final needShowReleasedOnly = state.showReleasedOnly;
 
     /// trim anime list if needed.
-    final animeList = _getTrimmedAnimeList(needShowReleasedOnly);
+    final mediaList = _getTrimmedMediaList(needShowReleasedOnly);
 
     emit(state.copyWith(
-      animeLoadState: MediaStateLoaded(watchingAnimeList: animeList),
+      animeLoadState: MediaStateLoaded(followingMediaList: mediaList),
     ));
   }
 
@@ -155,16 +171,16 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     emit(state.copyWith(showReleasedOnly: needShowReleasedOnly));
 
     /// trim anime list if needed.
-    final animeList = _getTrimmedAnimeList(needShowReleasedOnly);
+    final animeList = _getTrimmedMediaList(needShowReleasedOnly);
 
     emit(
       state.copyWith(
-        animeLoadState: MediaStateLoaded(watchingAnimeList: animeList),
+        animeLoadState: MediaStateLoaded(followingMediaList: animeList),
       ),
     );
   }
 
-  List<MediaListItemModel> _getTrimmedAnimeList(bool needShowReleasedOnly) {
+  List<MediaListItemModel> _getTrimmedMediaList(bool needShowReleasedOnly) {
     List<MediaListItemModel> animeList;
     if (needShowReleasedOnly) {
       animeList =
@@ -202,5 +218,30 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     } else {
 //TODO: show error msg.
     }
+  }
+
+  FutureOr<void> _onMediaTypeChanged(
+      _OnMediaTypeChanged event, Emitter<TrackUiState> emit) {
+    final type = event.mediaType;
+
+    emit(state.copyWith(currentMediaType: type));
+
+    /// re-collecting following medias, because of media type changed.
+    _startListenFollowingMedias();
+  }
+
+  void _startListenFollowingMedias() async {
+    final userId = _userId;
+
+    if (userId == null) return;
+
+    await _userContentSub?.cancel();
+    _userContentSub = _animeTrackListRepository.getUserAnimeListStream(
+      status: [MediaListStatus.planning, MediaListStatus.current],
+      type: state.currentMediaType,
+      userId: userId,
+    ).listen((animeList) {
+      add(_OnWatchingAnimeListChanged(animeList: animeList));
+    });
   }
 }

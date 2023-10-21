@@ -10,14 +10,15 @@ import 'package:aniflow/core/network/model/staff_connection.dart';
 import 'package:aniflow/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'anime_dto.freezed.dart';
-part 'anime_dto.g.dart';
+part 'media_dto.freezed.dart';
+part 'media_dto.g.dart';
 
 @freezed
-class AnimeDto with _$AnimeDto {
-  factory AnimeDto({
+class MediaDto with _$MediaDto {
+  factory MediaDto({
     @Default(-1) @JsonKey(name: 'id') int id,
     @JsonKey(name: 'title') MediaTitle? title,
+    @JsonKey(name: 'type') String? type,
     @Default({}) @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
     @JsonKey(name: 'description') String? description,
     @JsonKey(name: 'status') MediaStatus? status,
@@ -39,8 +40,8 @@ class AnimeDto with _$AnimeDto {
     @Default([])
     @JsonKey(name: 'externalLinks')
     List<MediaExternalLinkDto> externalLinks,
-  }) = _AnimeDto;
+  }) = _MediaDto;
 
-  factory AnimeDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AnimeDtoFromJson(json);
+  factory MediaDto.fromJson(Map<String, dynamic> json) =>
+      _$$_MediaDtoFromJson(json);
 }

@@ -14,16 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) {
-  return _AnimeDto.fromJson(json);
+MediaDto _$MediaDtoFromJson(Map<String, dynamic> json) {
+  return _MediaDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AnimeDto {
+mixin _$MediaDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
   MediaTitle? get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'type')
+  String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'coverImage')
   Map<String, String?> get coverImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
@@ -67,18 +69,19 @@ mixin _$AnimeDto {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AnimeDtoCopyWith<AnimeDto> get copyWith =>
+  $MediaDtoCopyWith<MediaDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AnimeDtoCopyWith<$Res> {
-  factory $AnimeDtoCopyWith(AnimeDto value, $Res Function(AnimeDto) then) =
-      _$AnimeDtoCopyWithImpl<$Res, AnimeDto>;
+abstract class $MediaDtoCopyWith<$Res> {
+  factory $MediaDtoCopyWith(MediaDto value, $Res Function(MediaDto) then) =
+      _$MediaDtoCopyWithImpl<$Res, MediaDto>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') MediaTitle? title,
+      @JsonKey(name: 'type') String? type,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
       @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'status') MediaStatus? status,
@@ -108,9 +111,9 @@ abstract class $AnimeDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
-    implements $AnimeDtoCopyWith<$Res> {
-  _$AnimeDtoCopyWithImpl(this._value, this._then);
+class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
+    implements $MediaDtoCopyWith<$Res> {
+  _$MediaDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -122,6 +125,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
   $Res call({
     Object? id = null,
     Object? title = freezed,
+    Object? type = freezed,
     Object? coverImage = null,
     Object? description = freezed,
     Object? status = freezed,
@@ -151,6 +155,10 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as MediaTitle?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
       coverImage: null == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
@@ -292,15 +300,16 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
 }
 
 /// @nodoc
-abstract class _$$_AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res> {
-  factory _$$_AnimeDtoCopyWith(
-          _$_AnimeDto value, $Res Function(_$_AnimeDto) then) =
-      __$$_AnimeDtoCopyWithImpl<$Res>;
+abstract class _$$_MediaDtoCopyWith<$Res> implements $MediaDtoCopyWith<$Res> {
+  factory _$$_MediaDtoCopyWith(
+          _$_MediaDto value, $Res Function(_$_MediaDto) then) =
+      __$$_MediaDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') MediaTitle? title,
+      @JsonKey(name: 'type') String? type,
       @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
       @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'status') MediaStatus? status,
@@ -335,11 +344,11 @@ abstract class _$$_AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AnimeDtoCopyWithImpl<$Res>
-    extends _$AnimeDtoCopyWithImpl<$Res, _$_AnimeDto>
-    implements _$$_AnimeDtoCopyWith<$Res> {
-  __$$_AnimeDtoCopyWithImpl(
-      _$_AnimeDto _value, $Res Function(_$_AnimeDto) _then)
+class __$$_MediaDtoCopyWithImpl<$Res>
+    extends _$MediaDtoCopyWithImpl<$Res, _$_MediaDto>
+    implements _$$_MediaDtoCopyWith<$Res> {
+  __$$_MediaDtoCopyWithImpl(
+      _$_MediaDto _value, $Res Function(_$_MediaDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -347,6 +356,7 @@ class __$$_AnimeDtoCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = freezed,
+    Object? type = freezed,
     Object? coverImage = null,
     Object? description = freezed,
     Object? status = freezed,
@@ -367,7 +377,7 @@ class __$$_AnimeDtoCopyWithImpl<$Res>
     Object? staff = freezed,
     Object? externalLinks = null,
   }) {
-    return _then(_$_AnimeDto(
+    return _then(_$_MediaDto(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -376,6 +386,10 @@ class __$$_AnimeDtoCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as MediaTitle?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
       coverImage: null == coverImage
           ? _value._coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
@@ -458,10 +472,11 @@ class __$$_AnimeDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AnimeDto implements _AnimeDto {
-  _$_AnimeDto(
+class _$_MediaDto implements _MediaDto {
+  _$_MediaDto(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'title') this.title,
+      @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'coverImage')
       final Map<String, String?> coverImage = const {},
       @JsonKey(name: 'description') this.description,
@@ -488,8 +503,8 @@ class _$_AnimeDto implements _AnimeDto {
         _rankings = rankings,
         _externalLinks = externalLinks;
 
-  factory _$_AnimeDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AnimeDtoFromJson(json);
+  factory _$_MediaDto.fromJson(Map<String, dynamic> json) =>
+      _$$_MediaDtoFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -497,6 +512,9 @@ class _$_AnimeDto implements _AnimeDto {
   @override
   @JsonKey(name: 'title')
   final MediaTitle? title;
+  @override
+  @JsonKey(name: 'type')
+  final String? type;
   final Map<String, String?> _coverImage;
   @override
   @JsonKey(name: 'coverImage')
@@ -580,16 +598,17 @@ class _$_AnimeDto implements _AnimeDto {
 
   @override
   String toString() {
-    return 'AnimeDto(id: $id, title: $title, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, externalLinks: $externalLinks)';
+    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, externalLinks: $externalLinks)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AnimeDto &&
+            other is _$_MediaDto &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
                 .equals(other._coverImage, _coverImage) &&
             (identical(other.description, description) ||
@@ -628,6 +647,7 @@ class _$_AnimeDto implements _AnimeDto {
         runtimeType,
         id,
         title,
+        type,
         const DeepCollectionEquality().hash(_coverImage),
         description,
         status,
@@ -652,21 +672,22 @@ class _$_AnimeDto implements _AnimeDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnimeDtoCopyWith<_$_AnimeDto> get copyWith =>
-      __$$_AnimeDtoCopyWithImpl<_$_AnimeDto>(this, _$identity);
+  _$$_MediaDtoCopyWith<_$_MediaDto> get copyWith =>
+      __$$_MediaDtoCopyWithImpl<_$_MediaDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AnimeDtoToJson(
+    return _$$_MediaDtoToJson(
       this,
     );
   }
 }
 
-abstract class _AnimeDto implements AnimeDto {
-  factory _AnimeDto(
+abstract class _MediaDto implements MediaDto {
+  factory _MediaDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'title') final MediaTitle? title,
+      @JsonKey(name: 'type') final String? type,
       @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
       @JsonKey(name: 'description') final String? description,
       @JsonKey(name: 'status') final MediaStatus? status,
@@ -687,9 +708,9 @@ abstract class _AnimeDto implements AnimeDto {
       @JsonKey(name: 'characters') final CharacterConnection? characters,
       @JsonKey(name: 'staff') final StaffConnection? staff,
       @JsonKey(name: 'externalLinks')
-      final List<MediaExternalLinkDto> externalLinks}) = _$_AnimeDto;
+      final List<MediaExternalLinkDto> externalLinks}) = _$_MediaDto;
 
-  factory _AnimeDto.fromJson(Map<String, dynamic> json) = _$_AnimeDto.fromJson;
+  factory _MediaDto.fromJson(Map<String, dynamic> json) = _$_MediaDto.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -697,6 +718,9 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   @JsonKey(name: 'title')
   MediaTitle? get title;
+  @override
+  @JsonKey(name: 'type')
+  String? get type;
   @override
   @JsonKey(name: 'coverImage')
   Map<String, String?> get coverImage;
@@ -756,6 +780,6 @@ abstract class _AnimeDto implements AnimeDto {
   List<MediaExternalLinkDto> get externalLinks;
   @override
   @JsonKey(ignore: true)
-  _$$_AnimeDtoCopyWith<_$_AnimeDto> get copyWith =>
+  _$$_MediaDtoCopyWith<_$_MediaDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

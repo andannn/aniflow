@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -22,17 +23,25 @@ part 'model/media_list_status.dart';
 abstract class MediaListRepository {
   Future<List<MediaListItemModel>> getUserAnimeList(
       {required List<MediaListStatus> status,
+      required MediaType type,
       int page = 1,
       int? userId,
       int perPage = Config.defaultPerPageCount});
 
   Stream<List<MediaListItemModel>> getUserAnimeListStream(
-      {required List<MediaListStatus> status, required String userId});
+      {required List<MediaListStatus> status,
+      required String userId,
+      required MediaType type});
 
-  Future<LoadResult<void>> syncUserAnimeList({String? userId});
+  Future<LoadResult<void>> syncUserAnimeList(
+      {String? userId,
+      List<MediaListStatus> status = const [],
+      MediaType? mediaType});
 
-  Stream<Set<String>> getMediaListAnimeIdsByUserStream(
-      String userId, List<MediaListStatus> status);
+  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+      {required String userId,
+      required List<MediaListStatus> status,
+      required MediaType type});
 
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
@@ -58,6 +67,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
   @override
   Future<List<MediaListItemModel>> getUserAnimeList(
       {required List<MediaListStatus> status,
+      required MediaType type,
       int page = 1,
       int? userId,
       int perPage = Config.defaultPerPageCount}) async {
@@ -68,6 +78,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     }
 
     final animeList = await animeTrackListDao.getMediaListByPage(
+        type: type,
         targetUserId.toString(), status,
         page: 1, perPage: null);
 
@@ -77,7 +88,10 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Future<LoadResult<void>> syncUserAnimeList({String? userId}) async {
+  Future<LoadResult<void>> syncUserAnimeList(
+      {String? userId,
+      List<MediaListStatus> status = const [],
+      MediaType? mediaType}) async {
     try {
       final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
       if (targetUserId == null) {
@@ -90,6 +104,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
         param: UserAnimeListPageQueryParam(
           page: 1,
           perPage: null,
+          mediaType: mediaType,
+          status: status,
           userId: int.parse(targetUserId.toString()),
         ),
       );
@@ -120,8 +136,10 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
   @override
   Stream<List<MediaListItemModel>> getUserAnimeListStream(
-      {required List<MediaListStatus> status, required String userId}) {
-    return animeTrackListDao.getMediaListStream(userId, status).map(
+      {required List<MediaListStatus> status,
+      required String userId,
+      required MediaType type}) {
+    return animeTrackListDao.getMediaListStream(userId, status, type).map(
           (models) => models
               .map((e) => MediaListItemModel.fromDataBaseModel(e))
               .toList(),
@@ -129,9 +147,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Stream<Set<String>> getMediaListAnimeIdsByUserStream(
-      String userId, List<MediaListStatus> status) {
-    return animeTrackListDao.getMediaListMediaIdsByUserStream(userId, status);
+  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+      {required String userId,
+      required List<MediaListStatus> status,
+      required MediaType type}) {
+    return animeTrackListDao.getMediaListMediaIdsByUserStream(
+        userId, status, type);
   }
 
   @override

@@ -19,8 +19,8 @@ import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
-import 'package:aniflow/core/network/model/anime_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
@@ -151,7 +151,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Future<LoadResult<void>> startFetchDetailAnimeInfo(String id) async {
     try {
       /// fetch anime info from network.
-      AnimeDto networkResult = await aniListDataSource.getNetworkAnime(
+      MediaDto networkResult = await aniListDataSource.getNetworkAnime(
         id: int.parse(id),
       );
 
