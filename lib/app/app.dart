@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
+import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -171,19 +172,20 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         floatingActionButton: isTopLevelNavigation
             ? _buildTopFloatingActionButton()
             : null,
-        bottomNavigationBar: needHideNavigationBar
-            ? const SizedBox()
-            : _animeTrackerNavigationBar(
-          selected: currentNavigation,
-          onNavigateToDestination: (navigation) async {
-            animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
-          },
+        bottomNavigationBar: VerticalScaleSwitcher(
+          visible: !needHideNavigationBar,
+          child: _animeTrackerNavigationBar(
+            selected: currentNavigation,
+            onNavigateToDestination: (navigation) async {
+              animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget? _animeTrackerNavigationBar({required TopLevelNavigation selected,
+  Widget _animeTrackerNavigationBar({required TopLevelNavigation selected,
     required Function(TopLevelNavigation) onNavigateToDestination}) {
     final currentIndex = TopLevelNavigation.values.indexOf(selected);
     return NavigationBar(
