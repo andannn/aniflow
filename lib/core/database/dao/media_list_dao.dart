@@ -122,6 +122,7 @@ class MediaListDaoImpl extends MediaListDao {
         .toList();
   }
 
+  @override
   Future<Set<String>> getMediaListMediaIdsByUser(
       String userId, List<MediaListStatus> status, MediaType type) async {
     String statusParam = '';
@@ -166,6 +167,7 @@ class MediaListDaoImpl extends MediaListDao {
     }
   }
 
+  @override
   Future<bool> getIsTrackingByUserAndId(
       {required String userId, required String mediaId}) async {
     final status = [MediaListStatus.planning, MediaListStatus.current];

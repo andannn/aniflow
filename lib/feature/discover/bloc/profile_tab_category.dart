@@ -1,0 +1,5 @@
+
+enum ProfileTabType {
+  favorite,
+  myList
+}

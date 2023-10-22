@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
   UserData? get userData => throw _privateConstructorUsedError;
+  Map<FavoriteType, PagingState<List>> get favoriteDataMap =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -30,7 +32,10 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({bool isLoading, UserData? userData});
+  $Res call(
+      {bool isLoading,
+      UserData? userData,
+      Map<FavoriteType, PagingState<List>> favoriteDataMap});
 
   $UserDataCopyWith<$Res>? get userData;
 }
@@ -50,6 +55,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   $Res call({
     Object? isLoading = null,
     Object? userData = freezed,
+    Object? favoriteDataMap = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -60,6 +66,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
+      favoriteDataMap: null == favoriteDataMap
+          ? _value.favoriteDataMap
+          : favoriteDataMap // ignore: cast_nullable_to_non_nullable
+              as Map<FavoriteType, PagingState<List>>,
     ) as $Val);
   }
 
@@ -84,7 +94,10 @@ abstract class _$$_ProfileStateCopyWith<$Res>
       __$$_ProfileStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, UserData? userData});
+  $Res call(
+      {bool isLoading,
+      UserData? userData,
+      Map<FavoriteType, PagingState<List>> favoriteDataMap});
 
   @override
   $UserDataCopyWith<$Res>? get userData;
@@ -103,6 +116,7 @@ class __$$_ProfileStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? userData = freezed,
+    Object? favoriteDataMap = null,
   }) {
     return _then(_$_ProfileState(
       isLoading: null == isLoading
@@ -113,6 +127,10 @@ class __$$_ProfileStateCopyWithImpl<$Res>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
+      favoriteDataMap: null == favoriteDataMap
+          ? _value._favoriteDataMap
+          : favoriteDataMap // ignore: cast_nullable_to_non_nullable
+              as Map<FavoriteType, PagingState<List>>,
     ));
   }
 }
@@ -120,17 +138,34 @@ class __$$_ProfileStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ProfileState implements _ProfileState {
-  _$_ProfileState({this.isLoading = false, this.userData});
+  _$_ProfileState(
+      {this.isLoading = false,
+      this.userData,
+      final Map<FavoriteType, PagingState<List>> favoriteDataMap = const {
+        FavoriteType.anime: PageLoading(data: [], page: 1),
+        FavoriteType.manga: PageLoading(data: [], page: 1),
+        FavoriteType.staff: PageLoading(data: [], page: 1),
+        FavoriteType.character: PageLoading(data: [], page: 1)
+      }})
+      : _favoriteDataMap = favoriteDataMap;
 
   @override
   @JsonKey()
   final bool isLoading;
   @override
   final UserData? userData;
+  final Map<FavoriteType, PagingState<List>> _favoriteDataMap;
+  @override
+  @JsonKey()
+  Map<FavoriteType, PagingState<List>> get favoriteDataMap {
+    if (_favoriteDataMap is EqualUnmodifiableMapView) return _favoriteDataMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_favoriteDataMap);
+  }
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, userData: $userData)';
+    return 'ProfileState(isLoading: $isLoading, userData: $userData, favoriteDataMap: $favoriteDataMap)';
   }
 
   @override
@@ -141,11 +176,14 @@ class _$_ProfileState implements _ProfileState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.userData, userData) ||
-                other.userData == userData));
+                other.userData == userData) &&
+            const DeepCollectionEquality()
+                .equals(other._favoriteDataMap, _favoriteDataMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, userData);
+  int get hashCode => Object.hash(runtimeType, isLoading, userData,
+      const DeepCollectionEquality().hash(_favoriteDataMap));
 
   @JsonKey(ignore: true)
   @override
@@ -155,13 +193,18 @@ class _$_ProfileState implements _ProfileState {
 }
 
 abstract class _ProfileState implements ProfileState {
-  factory _ProfileState({final bool isLoading, final UserData? userData}) =
+  factory _ProfileState(
+          {final bool isLoading,
+          final UserData? userData,
+          final Map<FavoriteType, PagingState<List>> favoriteDataMap}) =
       _$_ProfileState;
 
   @override
   bool get isLoading;
   @override
   UserData? get userData;
+  @override
+  Map<FavoriteType, PagingState<List>> get favoriteDataMap;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileStateCopyWith<_$_ProfileState> get copyWith =>

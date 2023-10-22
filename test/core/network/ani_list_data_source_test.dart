@@ -76,10 +76,8 @@ void main() {
           .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
     });
     test('get_favorite_staff', () async {
-      final res = await AniListDataSource()
+      await AniListDataSource()
           .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
-
-      print(res);
     });
   });
 }
