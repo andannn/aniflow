@@ -1,4 +1,3 @@
-import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -9,7 +8,6 @@ import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/boc/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class ProfilePage extends Page {
   const ProfilePage({this.userId, super.key});
@@ -97,9 +95,14 @@ class _UserProfileState extends State<_UserProfile>
             ),
           ];
         },
-        body: TabBarView(
-          controller: _tabController,
-          children: _buildPageByProfileCategory(),
+        body: SizedBox.expand(
+          child: ColoredBox(
+            color: Colors.green,
+            child: TabBarView(
+              controller: _tabController,
+              children: _buildPageByProfileCategory(),
+            ),
+          ),
         ),
       ),
     );
@@ -107,26 +110,35 @@ class _UserProfileState extends State<_UserProfile>
 
   List<Widget> _buildPageByProfileCategory() {
     return [
-      CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              height: 300,
-              color: Colors.red,
-            ),
-          )
-        ],
+      Container(
+        height: 300,
+        color: Colors.red,
       ),
-      CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              height: 300,
-              color: Colors.blue,
-            ),
-          )
-        ],
+      Container(
+        height: 300,
+        color: Colors.red,
       ),
+
+      // CustomScrollView(
+      //   slivers: [
+      //     SliverToBoxAdapter(
+      //       child: Container(
+      //         height: 300,
+      //         color: Colors.red,
+      //       ),
+      //     )
+      //   ],
+      // ),
+      // CustomScrollView(
+      //   slivers: [
+      //     SliverToBoxAdapter(
+      //       child: Container(
+      //         height: 300,
+      //         color: Colors.blue,
+      //       ),
+      //     )
+      //   ],
+      // ),
     ];
   }
 }
@@ -140,11 +152,11 @@ class _CustomTabBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      constraints: BoxConstraints.expand(),
+      constraints: const BoxConstraints.expand(),
       color: Theme.of(context).colorScheme.background,
       child: TabBar(
         controller: tabController,
-        tabs: [Tab(text: 'profile'), Tab(text: 'overView')],
+        tabs: const [Tab(text: 'Favorite'), Tab(text: 'MyList')],
       ),
     );
   }
@@ -164,11 +176,13 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   const _CustomSliverAppBarDelegate({required this.state});
 
   final UserData state;
-  final _expandedHeight = 210.0;
+  final _maxExtent = 210.0;
+  final _minExtent = 100.0;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    logger.d(shrinkOffset);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -179,17 +193,17 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => _expandedHeight;
+  double get maxExtent => _maxExtent;
 
   @override
-  double get minExtent => 100;
+  double get minExtent => _minExtent;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
       true;
 
   Widget _buildBackground(BuildContext context, double shrinkOffset) => Opacity(
-        opacity: 1 - shrinkOffset / _expandedHeight,
+        opacity: 1 - shrinkOffset / (_maxExtent - _minExtent),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -229,14 +243,15 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 ],
               ),
             ),
+
           ],
         ),
       );
 
   Widget _buildAppbar(double shrinkOffset) => Opacity(
-        opacity: shrinkOffset / _expandedHeight,
+        opacity: shrinkOffset / (_maxExtent - _minExtent),
         child: AppBar(
-          title: Text('AAA'),
+          title: Text(state.name),
           automaticallyImplyLeading: false,
         ),
       );
