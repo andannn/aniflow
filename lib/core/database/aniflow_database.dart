@@ -24,6 +24,7 @@ mixin Tables {
   static const String mediaListTable = 'media_list_table';
   static const String airingSchedulesTable = 'airing_schedules_table';
   static const String mediaExternalLickTable = 'media_external_link_table';
+  static const String favoriteInfoCrossRefTable = 'favoriteInfoTable';
 }
 
 class AniflowDatabase {
@@ -188,5 +189,13 @@ class AniflowDatabase {
         '${MediaExternalLinkColumnValues.icon} text,'
         'foreign key (${MediaExternalLinkColumnValues.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');
+
+    await _aniflowDB!.execute(
+        'CREATE TABLE IF NOT EXISTS ${Tables.favoriteInfoCrossRefTable} ('
+            '${FavoriteInfoCrossRefTableColumn.favoriteType} text,'
+            '${FavoriteInfoCrossRefTableColumn.id} text,'
+            '${FavoriteInfoCrossRefTableColumn.userId} text'
+            ')');
+
   }
 }

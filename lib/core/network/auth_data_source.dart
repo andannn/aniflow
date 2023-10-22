@@ -66,7 +66,7 @@ class AuthDataSource {
     return UserDataDto.fromJson(resultJson);
   }
 
-  Future<MediaListDto> saveAnimeToAnimeList(
+  Future<MediaListDto> saveMediaToMediaList(
       MediaListMutationParam param) async {
     final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,

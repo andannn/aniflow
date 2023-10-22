@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -10,6 +11,9 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('user_anime_list_test', () {
     final animeDatabase = AniflowDatabase();
+    final mediaDao = animeDatabase.getMediaInformationDaoDao();
+    final mediaListDap = animeDatabase.getMediaListDao();
+
     final dummyUserAnimeListEntity = <MediaListEntity>[
       MediaListEntity(
         id: '1',
@@ -158,6 +162,17 @@ void main() {
 
       final item3 = await dao.getMediaListItem(mediaId: '55', entryId: '2');
       expect(item3, equals(dummyUserAnimeListEntity[1]));
+    });
+
+    test('get_favorite_anime', () async {
+      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaListDap
+          .insertFavoritesCrossRef('1', FavoriteType.anime, ['33']);
+      await mediaListDap
+          .insertFavoritesCrossRef('1', FavoriteType.manga, ['55']);
+
+      final res = await mediaListDap.getFavoriteAnime('1', 1, 10);
+      expect(res, equals([dummyMediaData[0]]));
     });
   });
 }

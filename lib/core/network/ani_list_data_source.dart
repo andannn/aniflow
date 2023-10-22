@@ -207,7 +207,7 @@ class AniListDataSource {
   }
 
   Future<List<MediaDto>> getFavoriteAnimeMedia(
-      String userId, int page, int perPage) async {
+      {required String userId, required int page, required int perPage}) async {
     final queryGraphQL = userFavoriteAnimeQueryGraphQl;
     final variablesMap = <String, dynamic>{
       'page': page,
@@ -225,7 +225,7 @@ class AniListDataSource {
   }
 
   Future<List<MediaDto>> getFavoriteMangaMedia(
-      String userId, int page, int perPage) async {
+      {required String userId, required int page, required int perPage}) async {
     final queryGraphQL = userFavoriteMangaQueryGraphQl;
     final variablesMap = <String, dynamic>{
       'page': page,
@@ -243,7 +243,7 @@ class AniListDataSource {
   }
 
   Future<List<CharacterDto>> getFavoriteCharacter(
-      String userId, int page, int perPage) async {
+      {required String userId, required int page, required int perPage}) async {
     final queryGraphQL = userFavoriteCharacterQueryGraphQl;
     final variablesMap = <String, dynamic>{
       'page': page,
@@ -261,7 +261,7 @@ class AniListDataSource {
   }
 
   Future<List<StaffDto>> getFavoriteStaffs(
-      String userId, int page, int perPage) async {
+      {required String userId, required int page, required int perPage}) async {
     final queryGraphQL = userFavoriteStaffQueryGraphQl;
     final variablesMap = <String, dynamic>{
       'page': page,

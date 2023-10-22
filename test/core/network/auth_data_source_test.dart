@@ -19,7 +19,7 @@ void main() {
 
     test('save_media_list_motion', () async {
       try {
-        await authDataSource.saveAnimeToAnimeList(MediaListMutationParam(
+        await authDataSource.saveMediaToMediaList(MediaListMutationParam(
           entryId: 1,
           mediaId: 2,
           progress: 3,

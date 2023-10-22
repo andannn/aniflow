@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
@@ -23,6 +24,13 @@ mixin MediaListTableColumns {
   static const String progress = 'media_list_progress';
   static const String score = 'media_list_score';
   static const String updatedAt = 'media_list_updatedAt';
+}
+
+/// [Tables.favoriteInfoCrossRefTable]
+mixin FavoriteInfoCrossRefTableColumn {
+  static const String favoriteType = 'favorite_type';
+  static const String id = 'favorite_info_id';
+  static const String userId = 'favorite_user_id';
 }
 
 abstract class MediaListDao {
@@ -55,6 +63,12 @@ abstract class MediaListDao {
   Future insertMediaListEntities(List<MediaListEntity> entities);
 
   void notifyMediaListChanged(String userId);
+
+  Future insertFavoritesCrossRef(
+      String userId, FavoriteType type, List<String> ids);
+
+  Future<List<MediaEntity>> getFavoriteAnime(
+      String userId, int page, int perPage);
 }
 
 class MediaListDaoImpl extends MediaListDao {
@@ -108,7 +122,6 @@ class MediaListDaoImpl extends MediaListDao {
         .toList();
   }
 
-  @override
   Future<Set<String>> getMediaListMediaIdsByUser(
       String userId, List<MediaListStatus> status, MediaType type) async {
     String statusParam = '';
@@ -153,7 +166,6 @@ class MediaListDaoImpl extends MediaListDao {
     }
   }
 
-  @override
   Future<bool> getIsTrackingByUserAndId(
       {required String userId, required String mediaId}) async {
     final status = [MediaListStatus.planning, MediaListStatus.current];
@@ -209,8 +221,10 @@ class MediaListDaoImpl extends MediaListDao {
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
       String userId, List<MediaListStatus> status, MediaType type) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
-    return StreamUtil.createStream(changeSource,
-        () => getMediaListByPage(userId, status, type: type ,page: 1, perPage: null));
+    return StreamUtil.createStream(
+        changeSource,
+        () => getMediaListByPage(userId, status,
+            type: type, page: 1, perPage: null));
   }
 
   @override
@@ -219,5 +233,42 @@ class MediaListDaoImpl extends MediaListDao {
     if (notifier != null) {
       notifier.value = notifier.value++;
     }
+  }
+
+  @override
+  Future insertFavoritesCrossRef(
+      String userId, FavoriteType type, List<String> ids) async {
+    final batch = database.aniflowDB.batch();
+    for (final id in ids) {
+      batch.insert(
+        Tables.favoriteInfoCrossRefTable,
+        {
+          'favorite_type': type.contentValues,
+          'favorite_info_id': id,
+          'favorite_user_id': userId,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    await batch.commit(noResult: true);
+  }
+
+  @override
+  Future<List<MediaEntity>> getFavoriteAnime(
+      String userId, int page, int perPage) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    final sql = 'select * from ${Tables.favoriteInfoCrossRefTable} '
+        'join ${Tables.mediaTable} '
+        '  on ${FavoriteInfoCrossRefTableColumn.id} = ${MediaTableColumns.id} '
+        'where ${FavoriteInfoCrossRefTableColumn.userId} = \'$userId\' '
+        '  and ${FavoriteInfoCrossRefTableColumn.favoriteType} = \'${FavoriteType.anime.contentValues}\' '
+        'limit $limit '
+        'offset $offset ';
+
+    final List<Map<String, dynamic>> result =
+        await database.aniflowDB.rawQuery(sql);
+
+    return result.map((e) => MediaEntity.fromJson(e)).toList();
   }
 }
