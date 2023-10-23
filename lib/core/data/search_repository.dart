@@ -28,7 +28,7 @@ class SearchRepositoryImpl implements SearchRepository {
       required int perPage,
       required String search,
       required MediaType type}) {
-    return LoadPageUtil.loadPageWithoutDBCache<MediaDto, MediaModel>(
+    return LoadPageUtil.loadPageWithoutDBCache(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) => dataSource.searchAnimePage(

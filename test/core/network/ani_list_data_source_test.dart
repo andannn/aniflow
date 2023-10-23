@@ -62,5 +62,22 @@ void main() {
       await AniListDataSource()
           .getStaffPage(animeId: 140501, page: 1, perPage: 3);
     });
+
+    test('get_favorite_anime', () async {
+      await AniListDataSource()
+          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+    });
+    test('get_favorite_manga', () async {
+      await AniListDataSource()
+          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+    });
+    test('get_favorite_character', () async {
+      await AniListDataSource()
+          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+    });
+    test('get_favorite_staff', () async {
+      await AniListDataSource()
+          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+    });
   });
 }

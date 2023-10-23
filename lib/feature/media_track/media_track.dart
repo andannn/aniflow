@@ -99,7 +99,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
             // mark watch
           },
           onClick: () {
-            AFRouterDelegate.of(context).navigateToDetailAnime(
+            AFRouterDelegate.of(context).navigateToDetailMedia(
               item.animeModel!.id,
             );
           },

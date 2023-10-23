@@ -194,7 +194,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
     try {
       /// post mutation to network and insert result to database.
-      final result = await authDataSource.saveAnimeToAnimeList(
+      final result = await authDataSource.saveMediaToMediaList(
           MediaListMutationParam(
               entryId: int.tryParse(entryId ?? ''),
               mediaId: int.parse(animeId),

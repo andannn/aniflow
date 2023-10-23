@@ -84,6 +84,20 @@ abstract class AFLocalizations {
 
   String get topManhwa;
 
+  String get favorite;
+
+  String get animeList;
+
+  String get mangaList;
+
+  String get reviews;
+
+  String get social;
+
+  String get animeLabel;
+
+  String get mangaLabel;
+
   static AFLocalizations of([BuildContext? context]) {
     return Localizations.of<AFLocalizations>(
         context ?? globalContext!, AFLocalizations)!;
@@ -213,6 +227,27 @@ class EnAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get topManhwa => 'Top Manhwa';
+
+  @override
+  String get favorite => 'Favorite';
+
+  @override
+  String get animeList => 'Anime List';
+
+  @override
+  String get mangaList => 'Manga List';
+
+  @override
+  String get reviews => 'Reviews';
+
+  @override
+  String get animeLabel => 'Anime';
+
+  @override
+  String get mangaLabel => 'Manga';
+
+  @override
+  String get social => 'Social';
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -338,6 +373,27 @@ class JaAniFLowLocalizations extends AFLocalizations {
 
   @override
   String get topManhwa => 'Top Manhwa';
+
+  @override
+  String get favorite => 'Favorites';
+
+  @override
+  String get animeList => 'Anime List';
+
+  @override
+  String get mangaList => 'Manga List';
+
+  @override
+  String get reviews => 'Reviews';
+
+  @override
+  String get animeLabel => 'アニメ';
+
+  @override
+  String get mangaLabel => '漫画';
+
+  @override
+  String get social => 'Social';
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -463,4 +519,25 @@ class CNAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get topManhwa => 'Top Manhwa';
+
+  @override
+  String get favorite => 'Favorite';
+
+  @override
+  String get animeList => 'Anime List';
+
+  @override
+  String get mangaList => 'Manga List';
+
+  @override
+  String get reviews => 'Reviews';
+
+  @override
+  String get animeLabel => '动画';
+
+  @override
+  String get mangaLabel => '漫画';
+
+  @override
+  String get social => 'Social';
 }

@@ -24,6 +24,7 @@ mixin Tables {
   static const String mediaListTable = 'media_list_table';
   static const String airingSchedulesTable = 'airing_schedules_table';
   static const String mediaExternalLickTable = 'media_external_link_table';
+  static const String favoriteInfoCrossRefTable = 'favoriteInfoTable';
 }
 
 class AniflowDatabase {
@@ -134,12 +135,12 @@ class AniflowDatabase {
 
     await _aniflowDB!.execute(
         'create table if not exists ${Tables.mediaCharacterCrossRefTable} ('
-        '${MediaCharacterCrossRefColumns.mediaId} text,'
-        '${MediaCharacterCrossRefColumns.characterId} text,'
-        '${MediaCharacterCrossRefColumns.timeStamp} integer,'
-        'primary key (${MediaCharacterCrossRefColumns.mediaId}, ${MediaCharacterCrossRefColumns.characterId}),'
-        'foreign key (${MediaCharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
-        'foreign key (${MediaCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        '${CharacterCrossRefColumns.mediaId} text,'
+        '${CharacterCrossRefColumns.characterId} text,'
+        '${CharacterCrossRefColumns.timeStamp} integer,'
+        'primary key (${CharacterCrossRefColumns.mediaId}, ${CharacterCrossRefColumns.characterId}),'
+        'foreign key (${CharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
+        'foreign key (${CharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
         ')');
 
     await _aniflowDB!.execute(
@@ -188,5 +189,14 @@ class AniflowDatabase {
         '${MediaExternalLinkColumnValues.icon} text,'
         'foreign key (${MediaExternalLinkColumnValues.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');
+
+    await _aniflowDB!.execute(
+        'CREATE TABLE IF NOT EXISTS ${Tables.favoriteInfoCrossRefTable} ('
+            '${FavoriteInfoCrossRefTableColumn.favoriteType} text,'
+            '${FavoriteInfoCrossRefTableColumn.id} text,'
+            '${FavoriteInfoCrossRefTableColumn.userId} text, '
+            'primary key (${FavoriteInfoCrossRefTableColumn.favoriteType},${FavoriteInfoCrossRefTableColumn.id},${FavoriteInfoCrossRefTableColumn.userId})'
+            ')');
+
   }
 }

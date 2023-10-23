@@ -8,11 +8,17 @@ import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
+import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart';
+import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
+import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart';
+import 'package:aniflow/core/network/api/user_favorite_staff_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
+import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
+import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 
 /// Anime list data source get from AniList.
@@ -194,9 +200,82 @@ class AniListDataSource {
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
     final List resultJson = response.data['data']['page']['media'];
-    final List<MediaDto> animeList =
+    final List<MediaDto> mediaList =
         resultJson.map((e) => MediaDto.fromJson(e)).toList();
 
-    return animeList;
+    return mediaList;
+  }
+
+  Future<List<MediaDto>> getFavoriteAnimeMedia(
+      {required String userId, required int page, required int perPage}) async {
+    final queryGraphQL = userFavoriteAnimeQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+      'UserId': userId,
+    };
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson =
+        response.data['data']['User']['favourites']['anime']['nodes'];
+    final List<MediaDto> mediaList =
+        resultJson.map((e) => MediaDto.fromJson(e)).toList();
+
+    return mediaList;
+  }
+
+  Future<List<MediaDto>> getFavoriteMangaMedia(
+      {required String userId, required int page, required int perPage}) async {
+    final queryGraphQL = userFavoriteMangaQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+      'UserId': userId,
+    };
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson =
+        response.data['data']['User']['favourites']['manga']['nodes'];
+    final List<MediaDto> mediaList =
+        resultJson.map((e) => MediaDto.fromJson(e)).toList();
+
+    return mediaList;
+  }
+
+  Future<List<CharacterDto>> getFavoriteCharacter(
+      {required String userId, required int page, required int perPage}) async {
+    final queryGraphQL = userFavoriteCharacterQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+      'UserId': userId,
+    };
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson =
+        response.data['data']['User']['favourites']['characters']['nodes'];
+    final List<CharacterDto> characters =
+        resultJson.map((e) => CharacterDto.fromJson(e)).toList();
+
+    return characters;
+  }
+
+  Future<List<StaffDto>> getFavoriteStaffs(
+      {required String userId, required int page, required int perPage}) async {
+    final queryGraphQL = userFavoriteStaffQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+      'UserId': userId,
+    };
+
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson =
+        response.data['data']['User']['favourites']['staff']['nodes'];
+    final List<StaffDto> staff =
+        resultJson.map((e) => StaffDto.fromJson(e)).toList();
+
+    return staff;
   }
 }
