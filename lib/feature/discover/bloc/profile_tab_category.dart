@@ -1,5 +1,0 @@
-
-enum ProfileTabType {
-  favorite,
-  myList
-}

@@ -231,7 +231,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                         model: schedule,
                         onClick: () {
                           AFRouterDelegate.of(context)
-                              .navigateToDetailAnime(schedule.animeModel.id);
+                              .navigateToDetailMedia(schedule.animeModel.id);
                         },
                       ),
                     ),

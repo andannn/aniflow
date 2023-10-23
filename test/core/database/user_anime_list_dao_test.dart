@@ -171,7 +171,8 @@ void main() {
       await mediaListDap
           .insertFavoritesCrossRef('1', FavoriteType.manga, ['55']);
 
-      final res = await mediaListDap.getFavoriteAnime('1', 1, 10);
+      final res =
+          await mediaListDap.getFavoriteMedia(MediaType.anime, '1', 1, 10);
       expect(res, equals([dummyMediaData[0]]));
     });
   });

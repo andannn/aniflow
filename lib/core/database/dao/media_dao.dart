@@ -108,7 +108,7 @@ mixin StaffColumns {
 }
 
 /// [Tables.mediaCharacterCrossRefTable]
-mixin MediaCharacterCrossRefColumns {
+mixin CharacterCrossRefColumns {
   static const String mediaId = 'media_character_cross_anime_id';
   static const String characterId = 'media_character_cross_character_id';
   static const String timeStamp = 'media_character_cross_time_stamp';
@@ -158,8 +158,10 @@ abstract class MediaInformationDao {
 
   Future<MediaWithDetailInfo> getDetailMediaInfo(String id);
 
-  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(String animeId,
-      {required int page, int perPage = Config.defaultPerPageCount});
+  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+      String animeId,
+      {required int page,
+      int perPage = Config.defaultPerPageCount});
 
   Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
       {required int page, int perPage = Config.defaultPerPageCount});
@@ -189,7 +191,10 @@ abstract class MediaInformationDao {
   void notifyMediaDetailInfoChanged();
 
   Future insertCharacterVoiceActors(
-      {required int mediaId, required List<CharacterAndVoiceActorRelation> entities});
+      {required int mediaId,
+      required List<CharacterAndVoiceActorRelation> entities});
+
+  Future insertCharacters({required List<CharacterEntity> entities});
 
   Future clearMediaCharacterCrossRef(String mediaId);
 
@@ -217,7 +222,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   Future clearMediaCharacterCrossRef(String mediaId) async {
     await database.aniflowDB.delete(
       Tables.mediaCharacterCrossRefTable,
-      where: '${MediaCharacterCrossRefColumns.mediaId} = ?',
+      where: '${CharacterCrossRefColumns.mediaId} = ?',
       whereArgs: [mediaId.toString()],
     );
   }
@@ -271,17 +276,19 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(String animeId,
-      {required int page, int perPage = Config.defaultPerPageCount}) async {
+  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+      String animeId,
+      {required int page,
+      int perPage = Config.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
     final characterSql = 'select * from ${Tables.characterTable} as c '
         'join ${Tables.mediaCharacterCrossRefTable} as ac '
-        '  on c.${CharacterColumns.id} = ac.${MediaCharacterCrossRefColumns.characterId} '
+        '  on c.${CharacterColumns.id} = ac.${CharacterCrossRefColumns.characterId} '
         'left join ${Tables.staffTable} as v '
         '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
-        'where ac.${MediaCharacterCrossRefColumns.mediaId} = \'$animeId\' '
-        'order by ${MediaCharacterCrossRefColumns.timeStamp} asc '
+        'where ac.${CharacterCrossRefColumns.mediaId} = \'$animeId\' '
+        'order by ${CharacterCrossRefColumns.timeStamp} asc '
         'limit $limit '
         'offset $offset ';
     List characterResults = await database.aniflowDB.rawQuery(characterSql);
@@ -328,7 +335,8 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     String externalLinkSql =
         'select * from ${Tables.mediaExternalLickTable} as media '
         'where media.${MediaExternalLinkColumnValues.mediaId} = \'$id\' ';
-    List externalLinkResults = await database.aniflowDB.rawQuery(externalLinkSql);
+    List externalLinkResults =
+        await database.aniflowDB.rawQuery(externalLinkSql);
 
     return MediaWithDetailInfo(
       mediaEntity: animeEntity,
@@ -439,6 +447,19 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
+  Future insertCharacters({required List<CharacterEntity> entities}) async {
+    final batch = database.aniflowDB.batch();
+    for (final entity in entities) {
+      batch.insert(
+        Tables.characterTable,
+        entity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+  @override
   Future insertCharacterVoiceActors(
       {required int mediaId,
       required List<CharacterAndVoiceActorRelation> entities}) async {
@@ -459,9 +480,9 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       batch.insert(
         Tables.mediaCharacterCrossRefTable,
         {
-          MediaCharacterCrossRefColumns.mediaId: mediaId,
-          MediaCharacterCrossRefColumns.characterId: entity.characterEntity.id,
-          MediaCharacterCrossRefColumns.timeStamp:
+          CharacterCrossRefColumns.mediaId: mediaId,
+          CharacterCrossRefColumns.characterId: entity.characterEntity.id,
+          CharacterCrossRefColumns.timeStamp:
               DateTime.now().microsecondsSinceEpoch,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,

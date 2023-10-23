@@ -1,20 +1,22 @@
-import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MediaPreviewItem extends StatelessWidget {
   const MediaPreviewItem(
-      {required this.model,
-      required this.onClick,
+      {required this.onClick,
+      required this.coverImage,
+      required this.title,
+      this.isFollowing = false,
       super.key,
       this.width,
       this.textStyle});
 
-  final MediaModel model;
   final VoidCallback onClick;
   final double? width;
   final TextStyle? textStyle;
+  final String coverImage;
+  final String title;
+  final bool isFollowing;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class MediaPreviewItem extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 3.0 / 4,
                     child: AFNetworkImage(
-                      imageUrl: model.coverImage,
+                      imageUrl: coverImage,
                     ),
                   ),
                   Expanded(
@@ -43,7 +45,7 @@ class MediaPreviewItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Text(
-                          model.title!.getLocalTitle(context),
+                          title,
                           textAlign: TextAlign.center,
                           style: textStyle?.copyWith(
                               color: Theme.of(context)
@@ -58,7 +60,7 @@ class MediaPreviewItem extends StatelessWidget {
                 ]),
               ),
             ),
-            model.isFollowing
+            isFollowing
                 ? Align(
                     alignment: Alignment.topRight,
                     child: Transform.translate(

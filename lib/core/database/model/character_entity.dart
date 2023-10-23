@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -37,6 +38,15 @@ class CharacterEntity with _$CharacterEntity {
       image: e.characterNode!.image['large'],
       nameNative: e.characterNode!.name['native'],
       nameEnglish: e.characterNode!.name['full'],
+    );
+  }
+
+  static CharacterEntity fromDto(CharacterDto e) {
+    return CharacterEntity(
+      id: e.id.toString(),
+      image: e.image['large'],
+      nameNative: e.name['native'],
+      nameEnglish: e.name['full'],
     );
   }
 }

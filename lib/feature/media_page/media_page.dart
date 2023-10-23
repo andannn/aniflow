@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
@@ -89,10 +90,12 @@ class _MediaListPageContent extends StatelessWidget {
 
   Widget _buildGridItems(BuildContext context, MediaModel model) {
     return MediaPreviewItem(
-      model: model,
       textStyle: Theme.of(context).textTheme.labelMedium,
+      coverImage: model.coverImage,
+      title: model.title!.getLocalTitle(context),
+      isFollowing: model.isFollowing,
       onClick: () {
-        AFRouterDelegate.of(context).navigateToDetailAnime(
+        AFRouterDelegate.of(context).navigateToDetailMedia(
           model.id,
         );
       },

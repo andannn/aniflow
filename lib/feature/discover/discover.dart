@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -72,9 +73,7 @@ class DiscoverScreen extends StatelessWidget {
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              await context
-                  .read<DiscoverBloc>()
-                  .onPullToRefreshTriggered();
+              await context.read<DiscoverBloc>().onPullToRefreshTriggered();
             },
             child: CustomScrollView(
               cacheExtent: Config.defaultCatchExtend,
@@ -132,7 +131,7 @@ class DiscoverScreen extends StatelessWidget {
           AFRouterDelegate.of(context).navigateToAnimeList(category);
         },
         onAnimeClick: (id) {
-          AFRouterDelegate.of(context).navigateToDetailAnime(id);
+          AFRouterDelegate.of(context).navigateToDetailMedia(id);
         },
       ),
     );
@@ -168,10 +167,13 @@ class _MediaCategoryPreview extends StatelessWidget {
                   sliver: SliverList.builder(
                     itemCount: animeModels.length,
                     itemBuilder: (BuildContext context, int index) {
+                      final model = animeModels[index];
                       return MediaPreviewItem(
                         width: 160,
                         textStyle: Theme.of(context).textTheme.titleSmall,
-                        model: animeModels[index],
+                        coverImage: model.coverImage,
+                        title: model.title!.getLocalTitle(context),
+                        isFollowing: model.isFollowing,
                         onClick: () =>
                             onAnimeClick?.call(animeModels[index].id),
                       );

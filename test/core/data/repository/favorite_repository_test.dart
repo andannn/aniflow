@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -19,8 +20,8 @@ void main() {
     });
 
     test('favorite_anime_test', () async {
-      final result = await favoriteRepository.loadFavoriteAnimeByPage(
-          userId: '6378393', loadType: const Refresh());
+      final result = await favoriteRepository.loadFavoriteMediaByPage(
+          type: MediaType.anime, userId: '6378393', loadType: const Refresh());
       expect(result.runtimeType, LoadSuccess<List<MediaModel>>);
     });
   });

@@ -9,6 +9,7 @@ import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
@@ -67,7 +68,10 @@ abstract class MediaListDao {
   Future insertFavoritesCrossRef(
       String userId, FavoriteType type, List<String> ids);
 
-  Future<List<MediaEntity>> getFavoriteAnime(
+  Future<List<MediaEntity>> getFavoriteMedia(
+      MediaType type, String userId, int page, int perPage);
+
+  Future<List<CharacterEntity>> getFavoriteCharacters(
       String userId, int page, int perPage);
 }
 
@@ -256,15 +260,18 @@ class MediaListDaoImpl extends MediaListDao {
   }
 
   @override
-  Future<List<MediaEntity>> getFavoriteAnime(
-      String userId, int page, int perPage) async {
+  Future<List<MediaEntity>> getFavoriteMedia(
+      MediaType type, String userId, int page, int perPage) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
+    final favoriteValue = type == MediaType.manga
+        ? FavoriteType.manga.contentValues
+        : FavoriteType.anime.contentValues;
     final sql = 'select * from ${Tables.favoriteInfoCrossRefTable} '
         'join ${Tables.mediaTable} '
         '  on ${FavoriteInfoCrossRefTableColumn.id} = ${MediaTableColumns.id} '
         'where ${FavoriteInfoCrossRefTableColumn.userId} = \'$userId\' '
-        '  and ${FavoriteInfoCrossRefTableColumn.favoriteType} = \'${FavoriteType.anime.contentValues}\' '
+        '  and ${FavoriteInfoCrossRefTableColumn.favoriteType} = \'$favoriteValue\' '
         'limit $limit '
         'offset $offset ';
 
@@ -272,5 +279,24 @@ class MediaListDaoImpl extends MediaListDao {
         await database.aniflowDB.rawQuery(sql);
 
     return result.map((e) => MediaEntity.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<CharacterEntity>> getFavoriteCharacters(
+      String userId, int page, int perPage) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    final sql = 'select * from ${Tables.favoriteInfoCrossRefTable} '
+        'join ${Tables.characterTable} '
+        '  on ${FavoriteInfoCrossRefTableColumn.id} = ${CharacterColumns.id} '
+        'where ${FavoriteInfoCrossRefTableColumn.userId} = \'$userId\' '
+        '  and ${FavoriteInfoCrossRefTableColumn.favoriteType} = \'${FavoriteType.character.contentValues}\' '
+        'limit $limit '
+        'offset $offset ';
+
+    final List<Map<String, dynamic>> result =
+        await database.aniflowDB.rawQuery(sql);
+
+    return result.map((e) => CharacterEntity.fromJson(e)).toList();
   }
 }
