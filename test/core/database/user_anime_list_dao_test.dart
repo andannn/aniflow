@@ -12,7 +12,7 @@ void main() {
   group('user_anime_list_test', () {
     final animeDatabase = AniflowDatabase();
     final mediaDao = animeDatabase.getMediaInformationDaoDao();
-    final mediaListDap = animeDatabase.getMediaListDao();
+    final favoriteDao = animeDatabase.getFavoriteDao();
 
     final dummyUserAnimeListEntity = <MediaListEntity>[
       MediaListEntity(
@@ -166,13 +166,13 @@ void main() {
 
     test('get_favorite_anime', () async {
       await mediaDao.upsertMediaInformation(dummyMediaData);
-      await mediaListDap
+      await favoriteDao
           .insertFavoritesCrossRef('1', FavoriteType.anime, ['33']);
-      await mediaListDap
+      await favoriteDao
           .insertFavoritesCrossRef('1', FavoriteType.manga, ['55']);
 
       final res =
-          await mediaListDap.getFavoriteMedia(MediaType.anime, '1', 1, 10);
+          await favoriteDao.getFavoriteMedia(MediaType.anime, '1', 1, 10);
       expect(res, equals([dummyMediaData[0]]));
     });
   });

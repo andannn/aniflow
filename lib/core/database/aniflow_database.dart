@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
@@ -24,7 +25,7 @@ mixin Tables {
   static const String mediaListTable = 'media_list_table';
   static const String airingSchedulesTable = 'airing_schedules_table';
   static const String mediaExternalLickTable = 'media_external_link_table';
-  static const String favoriteInfoCrossRefTable = 'favoriteInfoTable';
+  static const String favoriteInfoTable = 'favoriteInfoTable';
 }
 
 class AniflowDatabase {
@@ -40,7 +41,9 @@ class AniflowDatabase {
 
   UserDataDao? _userDataDao;
 
-  MediaListDao? _mediaListDaoDao;
+  MediaListDao? _mediaListDao;
+
+  FavoriteDao? _favoriteDao;
 
   Database get aniflowDB => _aniflowDB!;
 
@@ -60,7 +63,9 @@ class AniflowDatabase {
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
-  MediaListDao getMediaListDao() => _mediaListDaoDao ??= MediaListDaoImpl(this);
+  MediaListDao getMediaListDao() => _mediaListDao ??= MediaListDaoImpl(this);
+
+  FavoriteDao getFavoriteDao() => _favoriteDao ??= FavoriteDaoImpl(this);
 
   Future _createTables() async {
     await _aniflowDB!
@@ -178,7 +183,7 @@ class AniflowDatabase {
         ')');
 
     await _aniflowDB!.execute(
-        'CREATE TABLE IF NOT EXISTS ${Tables.mediaExternalLickTable} ('
+        'create table if not exists ${Tables.mediaExternalLickTable} ('
         '${MediaExternalLinkColumnValues.id} text primary key,'
         '${MediaExternalLinkColumnValues.mediaId} text,'
         '${MediaExternalLinkColumnValues.url} text,'
@@ -191,12 +196,12 @@ class AniflowDatabase {
         ')');
 
     await _aniflowDB!.execute(
-        'CREATE TABLE IF NOT EXISTS ${Tables.favoriteInfoCrossRefTable} ('
-            '${FavoriteInfoCrossRefTableColumn.favoriteType} text,'
-            '${FavoriteInfoCrossRefTableColumn.id} text,'
-            '${FavoriteInfoCrossRefTableColumn.userId} text, '
-            'primary key (${FavoriteInfoCrossRefTableColumn.favoriteType},${FavoriteInfoCrossRefTableColumn.id},${FavoriteInfoCrossRefTableColumn.userId})'
-            ')');
-
+        'create table if not exists ${Tables.favoriteInfoTable} ('
+        '${FavoriteInfoTableColumn.id} integer primary key autoincrement,'
+        '${FavoriteInfoTableColumn.favoriteType} text,'
+        '${FavoriteInfoTableColumn.infoId} text,'
+        '${FavoriteInfoTableColumn.userId} text, '
+        'unique (${FavoriteInfoTableColumn.favoriteType},${FavoriteInfoTableColumn.infoId},${FavoriteInfoTableColumn.userId})'
+        ')');
   }
 }

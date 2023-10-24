@@ -124,7 +124,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       onGetNetworkRes: (page, perPage) => aniListDataSource.getStaffPage(
           animeId: int.parse(animeId), page: page, perPage: perPage),
       onClearDbCache: () async {},
-      onInsertEntityToDB: (entities) => animeDao.insertStaffEntities(
+      onInsertEntityToDB: (entities) => animeDao.insertStaffRelationEntities(
           mediaId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => animeDao.getStaffOfMediaByPage(
         animeId.toString(),
@@ -132,7 +132,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         perPage: perPage,
       ),
       mapDtoToEntity: (dto) => StaffAndRoleRelation(
-        staff: StaffEntity.fromStaffDto(dto),
+        staff: StaffEntity.fromStaffEdge(dto),
         role: dto.role ?? '',
       ),
       mapEntityToModel: (entity) =>
@@ -186,12 +186,12 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         final List<StaffAndRoleRelation> entities = staffs
             .map(
               (e) => StaffAndRoleRelation(
-                staff: StaffEntity.fromStaffDto(e),
+                staff: StaffEntity.fromStaffEdge(e),
                 role: e.role ?? '',
               ),
             )
             .toList();
-        await animeDao.insertStaffEntities(
+        await animeDao.insertStaffRelationEntities(
             mediaId: int.parse(id), entities: entities);
       }
 

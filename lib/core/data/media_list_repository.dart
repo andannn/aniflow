@@ -56,9 +56,9 @@ abstract class MediaListRepository {
 }
 
 class MediaListRepositoryImpl extends MediaListRepository {
-  final MediaListDao animeTrackListDao = AniflowDatabase().getMediaListDao();
+  final MediaListDao mediaListDao = AniflowDatabase().getMediaListDao();
   final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
-  final MediaInformationDao animeListDao =
+  final MediaInformationDao mediaDao =
       AniflowDatabase().getMediaInformationDaoDao();
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AuthDataSource authDataSource = AuthDataSource();
@@ -77,10 +77,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
       return [];
     }
 
-    final animeList = await animeTrackListDao.getMediaListByPage(
-        type: type,
-        targetUserId.toString(), status,
-        page: 1, perPage: null);
+    final animeList = await mediaListDao.getMediaListByPage(
+        type: type, targetUserId.toString(), status, page: 1, perPage: null);
 
     return animeList
         .map((e) => MediaListItemModel.fromDataBaseModel(e))
@@ -114,7 +112,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       final animeListEntity = networkAnimeList
           .map((e) => MediaListEntity.fromNetworkModel(e))
           .toList();
-      await animeTrackListDao.insertMediaListEntities(animeListEntity);
+      await mediaListDao.insertMediaListEntities(animeListEntity);
 
       /// insert anime to database.
       final animeEntities = networkAnimeList
@@ -124,10 +122,11 @@ class MediaListRepositoryImpl extends MediaListRepository {
           )
           .whereType<MediaEntity>()
           .toList();
-      await animeListDao.upsertMediaInformation(animeEntities,
+
+      await mediaDao.upsertMediaInformation(animeEntities,
           conflictAlgorithm: ConflictAlgorithm.replace);
 
-      animeTrackListDao.notifyMediaListChanged(targetUserId);
+      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
@@ -139,7 +138,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
-    return animeTrackListDao.getMediaListStream(userId, status, type).map(
+    return mediaListDao.getMediaListStream(userId, status, type).map(
           (models) => models
               .map((e) => MediaListItemModel.fromDataBaseModel(e))
               .toList(),
@@ -151,14 +150,13 @@ class MediaListRepositoryImpl extends MediaListRepository {
       {required String userId,
       required List<MediaListStatus> status,
       required MediaType type}) {
-    return animeTrackListDao.getMediaListMediaIdsByUserStream(
-        userId, status, type);
+    return mediaListDao.getMediaListMediaIdsByUserStream(userId, status, type);
   }
 
   @override
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId}) {
-    return animeTrackListDao.getIsTrackingByUserAndIdStream(
+    return mediaListDao.getIsTrackingByUserAndIdStream(
         userId: userId, mediaId: animeId);
   }
 
@@ -169,8 +167,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
       String? entryId,
       int? progress,
       int? score}) async {
-    final entity = await animeTrackListDao.getMediaListItem(
-        mediaId: animeId, entryId: entryId);
+    final entity =
+        await mediaListDao.getMediaListItem(mediaId: animeId, entryId: entryId);
     final targetUserId = (await userDataDao.getUserData())?.id;
 
     if (targetUserId == null) {
@@ -188,8 +186,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
         score: score ?? entity.progress,
         updatedAt: DateTime.now().millisecondsSinceEpoch,
       );
-      await animeTrackListDao.insertMediaListEntities([updatedEntity]);
-      animeTrackListDao.notifyMediaListChanged(targetUserId);
+      await mediaListDao.insertMediaListEntities([updatedEntity]);
+      mediaListDao.notifyMediaListChanged(targetUserId);
     }
 
     try {
@@ -202,16 +200,16 @@ class MediaListRepositoryImpl extends MediaListRepository {
               status: status,
               score: 0));
       final updateEntity = MediaListEntity.fromNetworkModel(result);
-      await animeTrackListDao.insertMediaListEntities([updateEntity]);
-      animeTrackListDao.notifyMediaListChanged(targetUserId);
+      await mediaListDao.insertMediaListEntities([updateEntity]);
+      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on NetworkException catch (exception) {
       /// network error happened.
       /// revert the changes in database.
       if (entity != null) {
-        await animeTrackListDao.insertMediaListEntities([entity]);
+        await mediaListDao.insertMediaListEntities([entity]);
       }
-      animeTrackListDao.notifyMediaListChanged(targetUserId);
+      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadError(exception);
     }
   }

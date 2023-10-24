@@ -9,7 +9,6 @@ import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
-import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +46,7 @@ class ProfileFavoriteBloc
   final FavoriteRepository _favoriteRepository;
 
   void _init() async {
-    unawaited(_reloadAllFavoriteData(isRefresh: true));
+    unawaited(_reloadAllFavoriteData(isRefresh: false));
   }
 
   Future<void> _reloadAllFavoriteData({required bool isRefresh}) async {
@@ -90,7 +89,8 @@ class ProfileFavoriteBloc
         result = await _favoriteRepository.loadFavoriteCharacterByPage(
             userId: _userId, loadType: loadType);
       case FavoriteType.staff:
-        result = LoadError(const NotFoundException());
+        result = await _favoriteRepository.loadFavoriteStaffByPage(
+            userId: _userId, loadType: loadType);
     }
     switch (result) {
       case LoadSuccess<List>(data: final data):

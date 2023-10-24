@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
@@ -29,6 +30,7 @@ class ProfileFavoriteTabPage extends StatelessWidget {
             ),
             for (var type in FavoriteType.values)
               ..._buildFavoriteCategory(context, type, favoriteMap[type]!),
+            const SliverPadding(padding: EdgeInsets.only(top: 20)),
           ],
         );
       },
@@ -86,9 +88,9 @@ class ProfileFavoriteTabPage extends StatelessWidget {
         title = model.nameNative;
         id = model.id;
       case FavoriteType.staff:
-        coverImage = '';
-        title = '';
-        id = '';
+        coverImage = (model as StaffModel).image;
+        title = model.nameNative;
+        id = model.id;
     }
     return MediaPreviewItem(
       coverImage: coverImage,
