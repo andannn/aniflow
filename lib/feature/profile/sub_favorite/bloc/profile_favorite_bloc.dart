@@ -46,7 +46,11 @@ class ProfileFavoriteBloc
   final FavoriteRepository _favoriteRepository;
 
   void _init() async {
-    unawaited(_reloadAllFavoriteData(isRefresh: false));
+    await _reloadAllFavoriteData(isRefresh: false);
+
+    /// Refresh data when init.
+    /// Favorite data may be changed when change like state in detail screen.
+    await _reloadAllFavoriteData(isRefresh: true);
   }
 
   Future<void> _reloadAllFavoriteData({required bool isRefresh}) async {
@@ -117,5 +121,7 @@ class ProfileFavoriteBloc
   }
 
   FutureOr<void> _onLoadStateChanged(
-      _OnLoadStateChanged event, Emitter<ProfileFavoriteState> emit) {}
+      _OnLoadStateChanged event, Emitter<ProfileFavoriteState> emit) {
+    emit(state.copyWith(isLoading: event.isLoading));
+  }
 }

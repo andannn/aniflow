@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
@@ -6,6 +7,7 @@ import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/boc/profile_state.dart';
 import 'package:aniflow/feature/profile/boc/profile_tab_category.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_state.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,6 +82,9 @@ class _UserProfileState extends State<_UserProfile>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
+  bool get needShowLoadingIndicator => isFavoritePageLoading;
+  var isFavoritePageLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -106,6 +111,7 @@ class _UserProfileState extends State<_UserProfile>
                 delegate: _CustomSliverAppBarDelegate(
                   state: widget.userState,
                   tabController: _tabController,
+                  isLoading: isFavoritePageLoading,
                   tabs: ProfileTabType.values
                       .map((e) => Text(e.getLocalString(context)))
                       .toList(),
@@ -144,6 +150,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.state,
     required this.tabController,
     required this.tabs,
+    this.isLoading = false,
   });
 
   final TabController tabController;
@@ -152,32 +159,16 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final UserData state;
   final _maxExtent = 360.0;
   final _minExtent = 160.0;
+  final bool isLoading;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              _buildBackground(context, shrinkOffset),
-              _buildAppbar(shrinkOffset),
-            ],
-          ),
-        ),
-        Container(
-          height: 50,
-          color: Theme.of(context).colorScheme.background,
-          child: TabBar(
-            controller: tabController,
-            isScrollable: true,
-            tabs: tabs,
-          ),
-        )
-      ],
+    return BlocBuilder<ProfileFavoriteBloc, ProfileFavoriteState>(
+      buildWhen: (pre, current) => pre.isLoading != current.isLoading,
+      builder: (context, state) {
+        return _buildCustomHeader(context, shrinkOffset, state.isLoading);
+      },
     );
   }
 
@@ -234,6 +225,44 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
           ],
         ),
+      );
+
+  Widget _buildCustomHeader(
+          BuildContext context, shrinkOffset, bool isLoading) =>
+      Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                _buildBackground(context, shrinkOffset),
+                _buildAppbar(shrinkOffset),
+              ],
+            ),
+          ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            color: Theme.of(context).colorScheme.background,
+            child: Column(
+              children: [
+                Expanded(
+                  child: TabBar(
+                    controller: tabController,
+                    isScrollable: true,
+                    tabs: tabs,
+                  ),
+                ),
+                AnimatedOpacity(
+                  opacity: isLoading ? 1 : 0,
+                  duration: Config.defaultAnimationDuration,
+                  child: const LinearProgressIndicator(),
+                ),
+              ],
+            ),
+          )
+        ],
       );
 
   Widget _buildAppbar(double shrinkOffset) => Opacity(
