@@ -46,8 +46,10 @@ class ForumRoutePath extends TopLevelRoutePath {
   const ForumRoutePath() : super(TopLevelNavigation.forum);
 }
 
-class ProfileRoutePath extends TopLevelRoutePath {
-  const ProfileRoutePath() : super(TopLevelNavigation.profile);
+class ProfileRoutePath extends AniFlowRoutePath {
+  const ProfileRoutePath({this.userId});
+
+  final String? userId;
 }
 
 class SearchRoutePath extends AniFlowRoutePath {
@@ -111,8 +113,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return const AnimeTrackPage(key: ValueKey('AnimeTrackPage'));
       case ForumRoutePath(topLevel: final _):
         return const ForumPage(key: ValueKey('ForumPage'));
-      case ProfileRoutePath(topLevel: final _):
-        return const ProfilePage(key: ValueKey('ProfilePage'));
+      case ProfileRoutePath(userId: final userId):
+        return ProfilePage(key: const ValueKey('ProfilePage'), userId: userId);
       case AiringScheduleRoutePath():
         return const AiringSchedule(key: ValueKey('AiringSchedule'));
       case SearchRoutePath():

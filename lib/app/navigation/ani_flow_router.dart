@@ -79,6 +79,12 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     notifyListeners();
   }
 
+  void navigateToProfilePage([String? userId]) {
+    _backStack += [ProfileRoutePath(userId: userId)];
+
+    notifyListeners();
+  }
+
   void navigateToAnimeList(MediaCategory category) {
     _backStack += [AnimeListRoutePath(category)];
 
