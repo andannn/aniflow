@@ -47,10 +47,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       return LoadError(const UnauthorizedException());
     }
 
+    final isAnime = type == MediaType.anime;
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (int page, int perPage) {
-        if (type == MediaType.anime) {
+        if (isAnime) {
           return aniListDataSource.getFavoriteAnimeMedia(
             userId: userId!,
             page: page,
@@ -74,7 +75,8 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
               userId!, FavoriteType.manga, entities.map((e) => e.id).toList());
         }
       },
-      onClearDbCache: () async {},
+      onClearDbCache: () => favoriteDao.clearFavorites(
+          userId!, isAnime ? FavoriteType.anime : FavoriteType.manga),
       onGetEntityFromDB: (int page, int perPage) =>
           favoriteDao.getFavoriteMedia(type, userId!, page, perPage),
       mapDtoToEntity: (dto) => MediaEntity.fromNetworkModel(dto),
@@ -104,7 +106,8 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         await favoriteDao.insertFavoritesCrossRef(userId!,
             FavoriteType.character, entities.map((e) => e.id).toList());
       },
-      onClearDbCache: () async {},
+      onClearDbCache: () =>
+          favoriteDao.clearFavorites(userId!, FavoriteType.character),
       onGetEntityFromDB: (int page, int perPage) =>
           favoriteDao.getFavoriteCharacters(userId!, page, perPage),
       mapDtoToEntity: (dto) => CharacterEntity.fromDto(dto),
@@ -138,7 +141,8 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         await favoriteDao.insertFavoritesCrossRef(
             userId!, FavoriteType.staff, entities.map((e) => e.id).toList());
       },
-      onClearDbCache: () async {},
+      onClearDbCache: () =>
+          favoriteDao.clearFavorites(userId!, FavoriteType.staff),
       onGetEntityFromDB: (int page, int perPage) =>
           favoriteDao.getFavoriteStaffs(userId!, page, perPage),
       mapDtoToEntity: (dto) => StaffEntity.fromStaffDto(dto),

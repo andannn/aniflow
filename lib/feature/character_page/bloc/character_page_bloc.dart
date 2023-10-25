@@ -6,7 +6,6 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CharacterPageBloc extends PagingBloc<CharacterAndVoiceActorModel> {
   CharacterPageBloc(
@@ -20,19 +19,12 @@ class CharacterPageBloc extends PagingBloc<CharacterAndVoiceActorModel> {
 
   @override
   Future<LoadResult<List<CharacterAndVoiceActorModel>>> loadPage(
-      {required int page}) {
+      {required int page, bool isRefresh = false}) {
     return _mediaInfoRepository.loadCharacterPageByAnimeId(
       animeId: animeId,
-      loadType: Append(page: page, perPage: Config.defaultPerPageCount),
+      loadType: isRefresh
+          ? const Refresh()
+          : Append(page: page, perPage: Config.defaultPerPageCount),
     );
-  }
-
-  @override
-  FutureOr<void> onInit(OnInit<CharacterAndVoiceActorModel> event,
-      Emitter<PagingState<List<CharacterAndVoiceActorModel>>> emit) {
-    emit(const PageLoading(data: [], page: 1));
-
-    /// launch event to get first page data.
-    unawaited(createLoadPageTask(page: 1));
   }
 }

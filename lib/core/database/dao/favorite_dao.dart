@@ -18,6 +18,8 @@ mixin FavoriteInfoTableColumn {
 }
 
 abstract class FavoriteDao {
+  Future clearFavorites(String userId, FavoriteType type);
+
   Future insertFavoritesCrossRef(
       String userId, FavoriteType type, List<String> ids);
 
@@ -112,5 +114,15 @@ class FavoriteDaoImpl extends FavoriteDao {
         await database.aniflowDB.rawQuery(sql);
 
     return result.map((e) => StaffEntity.fromJson(e)).toList();
+  }
+
+  @override
+  Future clearFavorites(String userId, FavoriteType type) {
+    return database.aniflowDB.delete(
+      Tables.favoriteInfoTable,
+      where:
+          '${FavoriteInfoTableColumn.userId}=? AND ${FavoriteInfoTableColumn.favoriteType}=?',
+      whereArgs: [userId, type.contentValues],
+    );
   }
 }

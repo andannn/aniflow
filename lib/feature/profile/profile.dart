@@ -6,8 +6,10 @@ import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/boc/profile_state.dart';
 import 'package:aniflow/feature/profile/boc/profile_tab_category.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_state.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,9 +59,27 @@ class _ProfilePageContent extends StatelessWidget {
         } else {
           return MultiBlocProvider(providers: [
             BlocProvider(
-              create: (BuildContext context) => ProfileFavoriteBloc(
+              create: (BuildContext context) => FavoriteAnimePagingBloc(
                 userState.id,
-                context.read<FavoriteRepository>(),
+                favoriteRepository: context.read<FavoriteRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => FavoriteMangaPagingBloc(
+                userState.id,
+                favoriteRepository: context.read<FavoriteRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => FavoriteCharacterPagingBloc(
+                userState.id,
+                favoriteRepository: context.read<FavoriteRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => FavoriteStaffPagingBloc(
+                userState.id,
+                favoriteRepository: context.read<FavoriteRepository>(),
               ),
             ),
           ], child: _UserProfile(userState: userState));
@@ -164,12 +184,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return BlocBuilder<ProfileFavoriteBloc, ProfileFavoriteState>(
-      buildWhen: (pre, current) => pre.isLoading != current.isLoading,
-      builder: (context, state) {
-        return _buildCustomHeader(context, shrinkOffset, state.isLoading);
-      },
-    );
+    return _buildCustomHeader(context, shrinkOffset, false);
   }
 
   @override

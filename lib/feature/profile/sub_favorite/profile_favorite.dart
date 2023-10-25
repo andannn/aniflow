@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
@@ -7,39 +9,58 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/profile_favorite_state.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileFavoriteTabPage extends StatelessWidget {
+class ProfileFavoriteTabPage extends StatefulWidget {
   const ProfileFavoriteTabPage({super.key});
 
   @override
+  State<ProfileFavoriteTabPage> createState() => _ProfileFavoriteTabPageState();
+}
+
+class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
+  PagingState<List<MediaModel>>? favoriteAnimeState;
+  PagingState<List<MediaModel>>? favoriteMangaState;
+  PagingState<List<CharacterModel>>? favoriteCharacterState;
+  PagingState<List<StaffModel>>? favoriteStaffState;
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileFavoriteBloc, ProfileFavoriteState>(
-      buildWhen: (pre, current) =>
-          pre.favoriteDataMap != current.favoriteDataMap,
-      builder: (BuildContext context, ProfileFavoriteState state) {
-        final favoriteMap = state.favoriteDataMap;
-        return CustomScrollView(
-          key: const PageStorageKey<String>('anime'),
-          slivers: [
-            SliverOverlapInjector(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            ),
-            for (var type in FavoriteType.values)
-              ..._buildFavoriteCategory(context, type, favoriteMap[type]!),
-            const SliverPadding(padding: EdgeInsets.only(top: 20)),
-          ],
-        );
-      },
+    favoriteAnimeState = context.watch<FavoriteAnimePagingBloc>().state;
+    favoriteMangaState = context.watch<FavoriteMangaPagingBloc>().state;
+    favoriteCharacterState = context.watch<FavoriteCharacterPagingBloc>().state;
+    favoriteStaffState = context.watch<FavoriteStaffPagingBloc>().state;
+    return CustomScrollView(
+      key: const PageStorageKey<String>('anime'),
+      slivers: [
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
+        for (var type in FavoriteType.values)
+          ..._buildFavoriteCategory(context, type),
+        const SliverPadding(padding: EdgeInsets.only(top: 20)),
+      ],
     );
   }
 
-  List<Widget> _buildFavoriteCategory(BuildContext context, FavoriteType type,
-      PagingState<List<dynamic>> state) {
-    List items = state.data;
+  List<Widget> _buildFavoriteCategory(BuildContext context, FavoriteType type) {
+    List items;
+    switch (type) {
+      case FavoriteType.anime:
+        items = favoriteAnimeState?.data ?? [];
+      case FavoriteType.manga:
+        items = favoriteMangaState?.data ?? [];
+      case FavoriteType.character:
+        items = favoriteCharacterState?.data ?? [];
+      case FavoriteType.staff:
+        items = favoriteStaffState?.data ?? [];
+    }
+
     return [
       SliverToBoxAdapter(
         child: VerticalScaleSwitcher(
