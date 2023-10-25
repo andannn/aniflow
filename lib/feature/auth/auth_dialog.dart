@@ -4,12 +4,10 @@ import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
-import 'package:aniflow/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum _OptionColumn {
-  profile,
   settings,
   about;
 }
@@ -110,9 +108,6 @@ class _AuthDialogContent extends StatelessWidget {
     final IconData iconData;
     final String label;
     switch (option) {
-      case _OptionColumn.profile:
-        iconData = Icons.person_outline;
-        label = 'Profile';
       case _OptionColumn.settings:
         iconData = Icons.settings_outlined;
         label = 'Settings';
@@ -147,9 +142,6 @@ class _AuthDialogContent extends StatelessWidget {
   void _onOptionTap(
       BuildContext context, _OptionColumn option, UserData? userData) {
     switch (option) {
-      case _OptionColumn.profile:
-        Navigator.of(context, rootNavigator: true)
-            .push(ProfileRoute(userId: userData?.id));
       case _OptionColumn.settings:
       case _OptionColumn.about:
     }

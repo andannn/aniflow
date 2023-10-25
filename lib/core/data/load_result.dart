@@ -1,9 +1,12 @@
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+
 sealed class LoadType {
   const LoadType();
 }
 
 class Refresh extends LoadType {
-  const Refresh();
+  final int perPage;
+  const Refresh([this.perPage = Config.defaultPerPageCount]);
 }
 
 class Append extends LoadType {

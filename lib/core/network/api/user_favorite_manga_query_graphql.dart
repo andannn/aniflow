@@ -1,12 +1,12 @@
 
 String get userFavoriteMangaQueryGraphQl =>
 '''
-query(\$UserId: Int, \$perPage: Int){
+query(\$UserId: Int, \$page: Int, \$perPage: Int){
   User(id: \$UserId) {
     id
     name
     favourites(page: 1) {
-      manga(page: 1, perPage: \$perPage) {
+      manga(page: \$page, perPage: \$perPage) {
         nodes {
           id
           type

@@ -38,11 +38,12 @@ abstract class PagingBloc<T>
     add(OnInit());
   }
 
-  FutureOr<void> onInit(OnInit<T> event, Emitter<PagingState<List<T>>> emit) {
+  Future<void> onInit(
+      OnInit<T> event, Emitter<PagingState<List<T>>> emit) async {
     emit(state.toLoading());
 
     /// launch event to get first page data.
-    unawaited(createLoadPageTask(page: 1, isRefresh: false));
+    await createLoadPageTask(page: 1, isRefresh: false);
   }
 
   Future<LoadResult<List<T>>> loadPage(

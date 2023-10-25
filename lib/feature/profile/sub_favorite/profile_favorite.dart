@@ -2,13 +2,16 @@
 
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
@@ -35,32 +38,42 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     favoriteMangaState = context.watch<FavoriteMangaPagingBloc>().state;
     favoriteCharacterState = context.watch<FavoriteCharacterPagingBloc>().state;
     favoriteStaffState = context.watch<FavoriteStaffPagingBloc>().state;
-    return CustomScrollView(
-      key: const PageStorageKey<String>('anime'),
-      slivers: [
-        SliverOverlapInjector(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-        ),
-        for (var type in FavoriteType.values)
-          ..._buildFavoriteCategory(context, type),
-        const SliverPadding(padding: EdgeInsets.only(top: 20)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: CustomScrollView(
+        key: const PageStorageKey<String>('anime'),
+        slivers: [
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          for (var type in FavoriteType.values)
+            ..._buildFavoriteCategory(context, type),
+          const SliverPadding(padding: EdgeInsets.only(top: 20)),
+        ],
+      ),
     );
   }
 
   List<Widget> _buildFavoriteCategory(BuildContext context, FavoriteType type) {
-    List items;
+    final PagingState? state;
     switch (type) {
       case FavoriteType.anime:
-        items = favoriteAnimeState?.data ?? [];
+        state = favoriteAnimeState;
       case FavoriteType.manga:
-        items = favoriteMangaState?.data ?? [];
+        state = favoriteMangaState;
       case FavoriteType.character:
-        items = favoriteCharacterState?.data ?? [];
+        state = favoriteCharacterState;
       case FavoriteType.staff:
-        items = favoriteStaffState?.data ?? [];
+        state = favoriteStaffState;
     }
 
+    if (state == null) return [const SizedBox()];
+
+    List items = state.data ?? [];
+
+    if (type == FavoriteType.anime) {
+      logger.d(state.runtimeType);
+    }
     return [
       SliverToBoxAdapter(
         child: VerticalScaleSwitcher(
@@ -77,6 +90,56 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         itemBuilder: (context, index) {
           return _buildGridItems(context, type, items[index]);
         },
+      ),
+      SliverToBoxAdapter(
+        child: Container(
+          height: 64,
+          alignment: Alignment.center,
+          child: buildPageBottomWidget(
+            context: context,
+            pagingState: state,
+            onRetryLoadPage: () {
+              switch (type) {
+                case FavoriteType.anime:
+                  context
+                      .read<FavoriteAnimePagingBloc>()
+                      .add(OnRetryLoadPageEvent());
+                case FavoriteType.manga:
+                  context
+                      .read<FavoriteMangaPagingBloc>()
+                      .add(OnRetryLoadPageEvent());
+                case FavoriteType.character:
+                  context
+                      .read<FavoriteCharacterPagingBloc>()
+                      .add(OnRetryLoadPageEvent());
+                case FavoriteType.staff:
+                  context
+                      .read<FavoriteStaffPagingBloc>()
+                      .add(OnRetryLoadPageEvent());
+              }
+            },
+            onLoadMore: () {
+              switch (type) {
+                case FavoriteType.anime:
+                  context
+                      .read<FavoriteAnimePagingBloc>()
+                      .add(OnRequestLoadPageEvent());
+                case FavoriteType.manga:
+                  context
+                      .read<FavoriteMangaPagingBloc>()
+                      .add(OnRequestLoadPageEvent());
+                case FavoriteType.character:
+                  context
+                      .read<FavoriteCharacterPagingBloc>()
+                      .add(OnRequestLoadPageEvent());
+                case FavoriteType.staff:
+                  context
+                      .read<FavoriteStaffPagingBloc>()
+                      .add(OnRequestLoadPageEvent());
+              }
+            },
+          ),
+        ),
       ),
     ];
   }

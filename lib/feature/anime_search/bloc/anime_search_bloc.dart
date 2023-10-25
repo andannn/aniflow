@@ -33,8 +33,8 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
   MediaType? mediaType;
 
   @override
-  FutureOr<void> onInit(
-      OnInit<MediaModel> event, Emitter<PagingState<List<MediaModel>>> emit) {
+  Future<void> onInit(OnInit<MediaModel> event,
+      Emitter<PagingState<List<MediaModel>>> emit) async {
     /// Do nothing.
   }
 

@@ -234,6 +234,7 @@ class AniListDataSource {
     };
     final response = await AniListDio().dio.post(AniListDio.aniListUrl,
         data: {'query': queryGraphQL, 'variables': variablesMap});
+
     final List resultJson =
         response.data['data']['User']['favourites']['manga']['nodes'];
     final List<MediaDto> mediaList =

@@ -1,4 +1,3 @@
-import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:dio/dio.dart';
 
@@ -15,11 +14,11 @@ mixin LoadPageUtil {
   }) async {
     try {
       switch (type) {
-        case Refresh():
+        case Refresh(perPage: final perPage):
 
           /// get data from network datasource.
           final networkRes =
-              await onGetNetworkRes(1, Config.defaultPerPageCount);
+              await onGetNetworkRes(1, perPage);
 
           /// insert the anime to db.
           final dbAnimeList = networkRes.map((e) => mapDtoToEntity(e)).toList();
