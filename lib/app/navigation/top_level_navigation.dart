@@ -15,6 +15,11 @@ enum TopLevelNavigation {
     selectedIcon: Icons.forum,
     unSelectedIcon: Icons.forum_outlined,
     iconTextId: 'Forum',
+  ),
+  profile(
+    selectedIcon: Icons.person,
+    unSelectedIcon: Icons.person_outline,
+    iconTextId: 'Profile',
   );
 
   const TopLevelNavigation({
@@ -46,6 +51,8 @@ extension TopLevelNavigationEx on TopLevelNavigation {
         return const TrackRoutePath();
       case TopLevelNavigation.forum:
         return const ForumRoutePath();
+      case TopLevelNavigation.profile:
+        return const ProfileRoutePath();
     }
   }
 }

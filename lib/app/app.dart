@@ -107,7 +107,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
   var currentNavigation = TopLevelNavigation.discover;
   var needHideNavigationBar = false;
-  var isTopLevelNavigation = true;
+  var showFloatingButton = true;
   late UserDataRepository userDataRepository = UserDataRepositoryImpl();
   late StreamSubscription _mediaTypeSub;
   MediaType _mediaType = MediaType.anime;
@@ -122,7 +122,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         currentNavigation =
             animeTrackerRouterDelegate.currentTopLevelNavigation;
         needHideNavigationBar = animeTrackerRouterDelegate.isTopRouteFullScreen;
-        isTopLevelNavigation = animeTrackerRouterDelegate.isTopLevelNavigation;
+        showFloatingButton = animeTrackerRouterDelegate.showFloatingButton;
       });
     });
     _mediaTypeSub = userDataRepository.getMediaTypeStream().distinct().listen(
@@ -169,7 +169,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         body: Router(
             routerDelegate: animeTrackerRouterDelegate,
             backButtonDispatcher: RootBackButtonDispatcher()),
-        floatingActionButton: isTopLevelNavigation
+        floatingActionButton: showFloatingButton
             ? _buildTopFloatingActionButton()
             : null,
         bottomNavigationBar: VerticalScaleSwitcher(
