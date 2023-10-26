@@ -171,7 +171,10 @@ class _MediaCategoryPreview extends StatelessWidget {
       const SizedBox(height: 4),
       Container(
         child: isLoading && animeModels.isEmpty
-            ? _buildLoadingDummyWidget()
+            ? Container(
+                constraints: const BoxConstraints(maxHeight: 260),
+                child: _buildLoadingDummyWidget(),
+              )
             : SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Padding(
