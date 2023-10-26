@@ -1,12 +1,12 @@
 
 String get userFavoriteStaffQueryGraphQl =>
 '''
-query(\$UserId: Int, \$perPage: Int){
+query(\$UserId: Int, \$page: Int, \$perPage: Int){
   User(id: \$UserId) {
     id
     name
     favourites(page: 1) {
-      staff(page: 1, perPage: \$perPage) {
+      staff(page: \$page, perPage: \$perPage) {
         nodes {
           id
           name {

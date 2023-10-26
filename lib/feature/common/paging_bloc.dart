@@ -9,8 +9,9 @@ abstract class PagingEvent<T> {}
 class _OnPageLoadedEvent<T> extends PagingEvent<T> {
   final List<T> data;
   final int page;
+  final bool isRefresh;
 
-  _OnPageLoadedEvent(this.data, this.page);
+  _OnPageLoadedEvent(this.data, this.page, this.isRefresh);
 }
 
 class _OnPageErrorEvent<T> extends PagingEvent<T> {
@@ -37,15 +38,23 @@ abstract class PagingBloc<T>
     add(OnInit());
   }
 
-  FutureOr<void> onInit(OnInit<T> event, Emitter<PagingState<List<T>>> emit);
+  Future<void> onInit(
+      OnInit<T> event, Emitter<PagingState<List<T>>> emit) async {
+    emit(state.toLoading());
 
-  Future<LoadResult<List<T>>> loadPage({required int page});
+    /// launch event to get first page data.
+    await createLoadPageTask(page: 1, isRefresh: false);
+  }
 
-  Future<bool> createLoadPageTask({required int page}) async {
-    final LoadResult result = await loadPage(page: page);
+  Future<LoadResult<List<T>>> loadPage(
+      {required int page, bool isRefresh = false});
+
+  Future<bool> createLoadPageTask(
+      {int page = 1, bool isRefresh = false}) async {
+    final LoadResult result = await loadPage(page: page, isRefresh: isRefresh);
     switch (result) {
       case LoadSuccess<List<T>>(data: final data):
-        add(_OnPageLoadedEvent(data, page));
+        add(_OnPageLoadedEvent(data, page, isRefresh));
         return true;
       case LoadError<List<T>>(exception: final exception):
         add(_OnPageErrorEvent(exception));
@@ -60,7 +69,9 @@ abstract class PagingBloc<T>
     final pagingState = state;
     final currentData = pagingState.data;
     final PagingState<List<T>> newPagingState;
-    if (event.data.isEmpty) {
+    if (event.isRefresh) {
+      newPagingState = PageReady(data: event.data, page: event.page);
+    } else if (event.data.isEmpty) {
       newPagingState = pagingState.toReachEnd();
     } else {
       newPagingState =
@@ -95,7 +106,7 @@ abstract class PagingBloc<T>
     emit(pagingState.toLoading());
 
     /// load new page.
-    createLoadPageTask(page: currentPage + 1);
+    createLoadPageTask(page: currentPage + 1, isRefresh: false);
   }
 
   FutureOr<void> _onRetryLoadPageEvent(
@@ -108,6 +119,6 @@ abstract class PagingBloc<T>
     emit(state.toLoading());
 
     /// post task to load page.
-    createLoadPageTask(page: state.page + 1);
+    createLoadPageTask(page: state.page + 1, isRefresh: false);
   }
 }

@@ -33,13 +33,14 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
   MediaType? mediaType;
 
   @override
-  FutureOr<void> onInit(
-      OnInit<MediaModel> event, Emitter<PagingState<List<MediaModel>>> emit) {
+  Future<void> onInit(OnInit<MediaModel> event,
+      Emitter<PagingState<List<MediaModel>>> emit) async {
     /// Do nothing.
   }
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadPage({required int page}) async {
+  Future<LoadResult<List<MediaModel>>> loadPage(
+      {required int page, bool isRefresh = false}) async {
     if (_searchString == null) return LoadError(Exception("No search string"));
     return _searchRepository.loadMediaSearchResultByPage(
       page: page,

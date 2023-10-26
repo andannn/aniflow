@@ -1,7 +1,5 @@
-import 'package:aniflow/app/local/util/anime_model_extension.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
-import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:flutter/material.dart';
 
 class AiringMediaItem extends StatelessWidget {
@@ -13,56 +11,22 @@ class AiringMediaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSurfaceVariant;
-    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 0,
       color: Theme.of(context).colorScheme.surfaceVariant,
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onClick,
-        child: Row(children: [
-          AspectRatio(
-            aspectRatio: 3.0 / 4,
-            child: AFNetworkImage(
-              imageUrl: model.animeModel.coverImage,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4),
-                Text(
-                  model.animeModel.title!.getLocalTitle(context),
-                  style: textTheme.titleMedium?.copyWith(color: textColor),
-                  maxLines: 2,
-                  softWrap: true,
-                ),
-                const Expanded(child: SizedBox()),
-                _buildWatchingInfoLabel(context, model),
-                const Expanded(child: SizedBox()),
-                Text(
-                  model.animeModel.getAnimeInfoString(context),
-                  style: textTheme.bodySmall?.copyWith(color: textColor),
-                ),
-                const SizedBox(height: 4),
-              ],
-            ),
-          ),
-        ]),
+      child: MediaRowItem(
+        model: model.animeModel,
+        watchInfoTextColor: colorScheme.primary,
+        watchingInfo: _buildWatchingInfoLabel(model),
+        titleMaxLines: null,
+        onClick: onClick,
       ),
     );
   }
 
-  Widget _buildWatchingInfoLabel(
-      BuildContext context, AiringScheduleAndAnimeModel model) {
-    return Text(
-      'EP.${model.airingSchedule.episode}',
-      style: Theme.of(context).textTheme.labelLarge,
-    );
+  String _buildWatchingInfoLabel(AiringScheduleAndAnimeModel model) {
+    return 'EP.${model.airingSchedule.episode}';
   }
 }

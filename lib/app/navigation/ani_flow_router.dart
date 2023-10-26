@@ -20,19 +20,15 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   /// get current top level.
   TopLevelNavigation get currentTopLevelNavigation =>
-      _backStack
-          .whereType<TopLevelRoutePath>()
-          .last
-          .topLevel;
+      _backStack.whereType<TopLevelRoutePath>().last.topLevel;
 
   bool get isTopRouteFullScreen => _backStack.last.isFullScreen;
 
-  bool get isTopLevelNavigation => _backStack.last is TopLevelRoutePath;
+  bool get showFloatingButton =>
+      _backStack.last is DiscoverRoutePath || _backStack.last is TrackRoutePath;
 
   static AFRouterDelegate of(context) =>
-      Router
-          .of(context)
-          .routerDelegate as AFRouterDelegate;
+      Router.of(context).routerDelegate as AFRouterDelegate;
 
   @override
   Widget build(BuildContext context) {

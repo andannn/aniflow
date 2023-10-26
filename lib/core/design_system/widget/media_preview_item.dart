@@ -40,17 +40,18 @@ class MediaPreviewItem extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                        vertical: 4.0,
+                      ),
+                      child: Center(
                         child: Text(
                           title,
                           textAlign: TextAlign.center,
                           style: textStyle?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant),
+                              color:
+                                  Theme.of(context).colorScheme.onSurfaceVariant),
                           maxLines: 2,
                           softWrap: true,
                         ),

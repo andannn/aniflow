@@ -84,26 +84,23 @@ class _AnimeTrackPageContent extends StatelessWidget {
   }
 
   Widget? _buildMediaListItem(BuildContext context, MediaListItemModel item) {
-    return SizedBox(
+    return Padding(
       key: ValueKey('anime_track_list_item_${item.id}'),
-      height: 120,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-        child: MediaListItem(
-          model: item,
-          onMarkWatchedClick: () {
-            context.read<TrackBloc>().add(OnAnimeMarkWatched(
-                animeId: item.animeModel!.id,
-                progress: item.progress! + 1,
-                totalEpisode: item.animeModel!.episodes));
-            // mark watch
-          },
-          onClick: () {
-            AFRouterDelegate.of(context).navigateToDetailMedia(
-              item.animeModel!.id,
-            );
-          },
-        ),
+      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
+      child: MediaListItem(
+        model: item,
+        onMarkWatchedClick: () {
+          context.read<TrackBloc>().add(OnAnimeMarkWatched(
+              animeId: item.animeModel!.id,
+              progress: item.progress! + 1,
+              totalEpisode: item.animeModel!.episodes));
+          // mark watch
+        },
+        onClick: () {
+          AFRouterDelegate.of(context).navigateToDetailMedia(
+            item.animeModel!.id,
+          );
+        },
       ),
     );
   }

@@ -198,8 +198,10 @@ abstract class MediaInformationDao {
 
   Future clearMediaCharacterCrossRef(String mediaId);
 
-  Future insertStaffEntities(
+  Future insertStaffRelationEntities(
       {required int mediaId, required List<StaffAndRoleRelation> entities});
+
+  Future insertStaffEntities(List<StaffEntity> entities);
 }
 
 class MediaInformationDaoImpl extends MediaInformationDao {
@@ -492,7 +494,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future insertStaffEntities(
+  Future insertStaffRelationEntities(
       {required int mediaId,
       required List<StaffAndRoleRelation> entities}) async {
     final batch = database.aniflowDB.batch();
@@ -511,6 +513,19 @@ class MediaInformationDaoImpl extends MediaInformationDao {
           MediaStaffCrossRefColumns.timeStamp:
               DateTime.now().microsecondsSinceEpoch,
         },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future insertStaffEntities(List<StaffEntity> entities) async {
+    final batch = database.aniflowDB.batch();
+    for (final entity in entities) {
+      batch.insert(
+        Tables.staffTable,
+        entity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

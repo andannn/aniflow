@@ -1,6 +1,5 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -10,7 +9,8 @@ class PagingContent<Model> extends StatelessWidget {
     required this.onBuildItem,
     required this.pagingState,
     required this.onRequestNewPage,
-    required this.onRetryLoadPage, super.key,
+    required this.onRetryLoadPage,
+    super.key,
     this.gridDelegate,
   });
 
@@ -63,51 +63,17 @@ class PagingContent<Model> extends StatelessWidget {
   }
 
   Widget _buildPageBottomBar(BuildContext context, PagingState pagingState) {
-    if (pagingState is PageLoading) {
-      // Loading widget.
-      return const SizedBox.square(
-        dimension: 64,
-        child: Align(
-          alignment: Alignment.center,
-          child: SizedBox.square(
-            dimension: 36,
-            child: LoadingIndicator(isLoading: true),
-          ),
+    return SizedBox.square(
+      dimension: 64,
+      child: Center(
+        child: buildPageBottomWidget(
+          context: context,
+          pagingState: pagingState,
+          onRetryLoadPage: onRetryLoadPage,
+          onLoadMore: () {},
         ),
-      );
-    } else if (pagingState is PageLoadReachEnd) {
-      // All loaded widget.
-      return SizedBox(
-        height: 64,
-        child: Column(
-          children: [
-            const Divider(),
-            Opacity(
-              opacity: 0.5,
-              child: Text(
-                AFLocalizations.of(context).allPageLoaded,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          ],
-        ),
-      );
-    } else if (pagingState is PageInit) {
-      return const SizedBox();
-    } else {
-      // Error widget.
-      return SizedBox(
-        height: 64,
-        width: double.infinity,
-        child: Center(
-          child: TextButton.icon(
-            onPressed: onRetryLoadPage,
-            icon: const Icon(Icons.refresh),
-            label: Text(AFLocalizations.of(context).retry),
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -32,12 +33,16 @@ class StaffEntity with _$StaffEntity {
     );
   }
 
-  static StaffEntity fromStaffDto(StaffEdge e) {
+  static StaffEntity fromStaffEdge(StaffEdge e) {
+    return StaffEntity.fromStaffDto(e.staffNode!);
+  }
+
+  static StaffEntity fromStaffDto(StaffDto e) {
     return StaffEntity(
-      id: e.staffNode!.id.toString(),
-      image: e.staffNode!.image['large'],
-      nameNative: e.staffNode!.name['native'],
-      nameEnglish: e.staffNode!.name['full']!,
+      id: e.id.toString(),
+      image: e.image['large'],
+      nameNative: e.name['native'],
+      nameEnglish: e.name['full']!,
     );
   }
 }

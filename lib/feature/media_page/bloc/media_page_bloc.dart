@@ -76,10 +76,13 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   }
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadPage({required int page}) {
+  Future<LoadResult<List<MediaModel>>> loadPage(
+      {required int page, bool isRefresh = false}) {
     return _mediaInfoRepository.loadMediaPageByCategory(
       category: category,
-      loadType: Append(page: page, perPage: Config.defaultPerPageCount),
+      loadType: isRefresh
+          ? const Refresh()
+          : Append(page: page, perPage: Config.defaultPerPageCount),
     );
   }
 
@@ -93,14 +96,5 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
       Emitter<PagingState<List<MediaModel>>> emit) {
     _ids = event.ids;
     emit(state.copyWithTrackedIds(event.ids));
-  }
-
-  @override
-  FutureOr<void> onInit(
-      OnInit<MediaModel> event, Emitter<PagingState<List<MediaModel>>> emit) {
-    emit(const PageLoading(data: [], page: 1));
-
-    /// launch event to get first page data.
-    unawaited(createLoadPageTask(page: 1));
   }
 }
