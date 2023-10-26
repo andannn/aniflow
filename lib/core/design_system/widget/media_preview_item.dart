@@ -9,7 +9,8 @@ class MediaPreviewItem extends StatelessWidget {
       this.isFollowing = false,
       super.key,
       this.width,
-      this.textStyle});
+      this.textStyle,
+      this.titleVerticalPadding = 0});
 
   final VoidCallback onClick;
   final double? width;
@@ -17,6 +18,7 @@ class MediaPreviewItem extends StatelessWidget {
   final String coverImage;
   final String title;
   final bool isFollowing;
+  final double titleVerticalPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +43,18 @@ class MediaPreviewItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 4.0,
-                        vertical: 4.0,
+                        vertical: titleVerticalPadding,
                       ),
                       child: Center(
                         child: Text(
                           title,
                           textAlign: TextAlign.center,
                           style: textStyle?.copyWith(
-                              color:
-                                  Theme.of(context).colorScheme.onSurfaceVariant),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           maxLines: 2,
                           softWrap: true,
                         ),

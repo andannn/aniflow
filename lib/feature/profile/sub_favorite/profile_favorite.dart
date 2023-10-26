@@ -85,7 +85,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         itemCount: items.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          childAspectRatio: 3.0 / 5.0,
+          childAspectRatio: 3.0 / 5.2,
         ),
         itemBuilder: (context, index) {
           return _buildGridItems(context, type, items[index]);

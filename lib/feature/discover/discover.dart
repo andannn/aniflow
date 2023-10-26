@@ -161,6 +161,7 @@ class _MediaCategoryPreview extends StatelessWidget {
         coverImage: model.coverImage,
         title: model.title!.getLocalTitle(context),
         isFollowing: model.isFollowing,
+        titleVerticalPadding: 5,
         onClick: () => onAnimeClick?.call(model.id),
       );
     }
