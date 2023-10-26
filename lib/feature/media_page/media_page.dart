@@ -74,7 +74,7 @@ class _MediaListPageContent extends StatelessWidget {
           pagingState: pagingState,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: 3.0 / 5.0,
+            childAspectRatio: 3.0 / 5.2,
           ),
           onBuildItem: (context, model) => _buildGridItems(context, model),
           onRequestNewPage: () {
