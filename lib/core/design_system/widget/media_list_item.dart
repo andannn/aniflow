@@ -1,8 +1,9 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:aniflow/app/local/util/anime_model_extension.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
-import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -19,11 +20,10 @@ class MediaListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSurfaceVariant;
-    final textTheme = Theme.of(context).textTheme;
     final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
+    final colorScheme = Theme.of(context).colorScheme;
     return Opacity(
-      opacity: hasNextReleasingEpisode ? 1.0 : 0.5,
+      opacity: hasNextReleasingEpisode ? 1.0 : 0.7,
       child: Card(
         elevation: 0,
         color: Theme.of(context).colorScheme.surfaceVariant,
@@ -31,54 +31,21 @@ class MediaListItem extends StatelessWidget {
         child: MarkWatchSlideWidget(
           onWatchedClick: onMarkWatchedClick,
           canSlide: hasNextReleasingEpisode,
-          child: InkWell(
-            onTap: onClick,
-            child: Stack(
-              children: [
-                Row(children: [
-                  AspectRatio(
-                    aspectRatio: 3.0 / 4,
-                    child: AFNetworkImage(
-                      imageUrl: model.animeModel!.coverImage,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 4),
-                        Text(
-                          model.animeModel!.title!.getLocalTitle(context),
-                          style:
-                              textTheme.titleMedium?.copyWith(color: textColor),
-                          maxLines: 2,
-                          softWrap: true,
-                        ),
-                        const Expanded(child: SizedBox()),
-                        _buildWatchingInfoLabel(context, model),
-                        const Expanded(child: SizedBox()),
-                        Text(
-                          model.animeModel!.getAnimeInfoString(context),
-                          style:
-                              textTheme.bodySmall?.copyWith(color: textColor),
-                        ),
-                        const SizedBox(height: 4),
-                      ],
-                    ),
-                  ),
-                ]),
-              ],
-            ),
+          child: MediaRowItem(
+            model: model.animeModel!,
+            watchingInfo: _buildWatchingInfoLabel(context, model),
+            titleMaxLines: null,
+            watchInfoTextColor: model.hasNextReleasingEpisode
+                ? colorScheme.primary
+                : colorScheme.secondary,
+            onClick: onClick,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildWatchingInfoLabel(
+  String _buildWatchingInfoLabel(
       BuildContext context, MediaListItemModel model) {
     final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
     String label = '';
@@ -87,14 +54,10 @@ class MediaListItem extends StatelessWidget {
     } else {
       if (model.animeModel!.nextAiringEpisode != null) {
         label =
-            // ignore: lines_longer_than_80_chars
             'Next Episode: EP.${model.animeModel!.nextAiringEpisode} in ${model.animeModel!.getReleasingTimeString(context)}';
       }
     }
-    return Text(
-      label,
-      style: Theme.of(context).textTheme.labelLarge,
-    );
+    return label;
   }
 }
 

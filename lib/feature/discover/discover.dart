@@ -154,33 +154,36 @@ class _MediaCategoryPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget itemBuilder(MediaModel model) {
+      return MediaPreviewItem(
+        width: 160,
+        textStyle: Theme.of(context).textTheme.titleSmall,
+        coverImage: model.coverImage,
+        title: model.title!.getLocalTitle(context),
+        isFollowing: model.isFollowing,
+        onClick: () => onAnimeClick?.call(model.id),
+      );
+    }
+
     return Column(children: [
       _buildTitleBar(context),
       const SizedBox(height: 4),
       Container(
-        constraints: const BoxConstraints(maxHeight: 280),
         child: isLoading && animeModels.isEmpty
             ? _buildLoadingDummyWidget()
-            : CustomScrollView(scrollDirection: Axis.horizontal, slivers: [
-                SliverPadding(
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  sliver: SliverList.builder(
-                    itemCount: animeModels.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final model = animeModels[index];
-                      return MediaPreviewItem(
-                        width: 160,
-                        textStyle: Theme.of(context).textTheme.titleSmall,
-                        coverImage: model.coverImage,
-                        title: model.title!.getLocalTitle(context),
-                        isFollowing: model.isFollowing,
-                        onClick: () =>
-                            onAnimeClick?.call(animeModels[index].id),
-                      );
-                    },
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children:
+                          animeModels.map((item) => itemBuilder(item)).toList(),
+                    ),
                   ),
                 ),
-              ]),
+              ),
       ),
     ]);
   }

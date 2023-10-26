@@ -90,14 +90,11 @@ class _MediaSearchPageContent extends StatelessWidget {
   }
 
   Widget _buildListItems(BuildContext context, MediaModel model) {
-    return SizedBox(
-      height: 110,
-      child: SearchAnimeItem(
-        model: model,
-        onClick: () {
-          AFRouterDelegate.of(context).navigateToDetailMedia(model.id);
-        },
-      ),
+    return SearchAnimeItem(
+      model: model,
+      onClick: () {
+        AFRouterDelegate.of(context).navigateToDetailMedia(model.id);
+      },
     );
   }
 }

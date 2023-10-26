@@ -225,15 +225,12 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                   return Padding(
                     padding: const EdgeInsets.only(
                         top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
-                    child: SizedBox(
-                      height: 120,
-                      child: AiringMediaItem(
-                        model: schedule,
-                        onClick: () {
-                          AFRouterDelegate.of(context)
-                              .navigateToDetailMedia(schedule.animeModel.id);
-                        },
-                      ),
+                    child: AiringMediaItem(
+                      model: schedule,
+                      onClick: () {
+                        AFRouterDelegate.of(context)
+                            .navigateToDetailMedia(schedule.animeModel.id);
+                      },
                     ),
                   );
                 },
