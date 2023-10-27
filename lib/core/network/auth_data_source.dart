@@ -9,7 +9,7 @@ import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/user_data_dto.dart'
     show UserDataDto;
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 
 class AuthDataSource {

@@ -13,6 +13,7 @@ import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 
 sealed class TrackEvent {}
 
@@ -59,8 +60,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
       {required MediaListRepository mediaListRepository,
       required AuthRepository authRepository,
-      required UserDataRepository userDataRepository
-      })
+      required UserDataRepository userDataRepository})
       : _animeTrackListRepository = mediaListRepository,
         _userDataRepository = userDataRepository,
         _authRepository = authRepository,
@@ -92,7 +92,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     });
 
     _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
-          (mediaType) {
+      (mediaType) {
         add(_OnMediaTypeChanged(mediaType));
       },
     );
@@ -109,7 +109,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   Future syncUserAnimeList({String? userId}) async {
     add(_OnLoadStateChanged(isLoading: true));
     final result =
-        await _animeTrackListRepository.syncUserAnimeList(userId: userId);
+        await _animeTrackListRepository.syncMediaList(userId: userId);
     if (result is LoadError) {
       /// load error, show snack bar msg.
     }
@@ -188,7 +188,9 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     } else {
       animeList = _watchingAnimeList;
     }
-    return animeList;
+    final sorted =
+        animeList.sorted((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+    return sorted.reversed.toList();
   }
 
   Future<void> _onAnimeMarkWatched(
@@ -198,7 +200,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         isFinished ? MediaListStatus.completed : MediaListStatus.current;
 
     add(_OnLoadStateChanged(isLoading: true));
-    final result = await _animeTrackListRepository.updateAnimeInTrackList(
+    final result = await _animeTrackListRepository.updateMediaList(
         animeId: event.animeId, status: status, progress: event.progress);
     add(_OnLoadStateChanged(isLoading: false));
 
@@ -236,7 +238,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     if (userId == null) return;
 
     await _userContentSub?.cancel();
-    _userContentSub = _animeTrackListRepository.getUserAnimeListStream(
+    _userContentSub = _animeTrackListRepository.getMediaListStream(
       status: [MediaListStatus.planning, MediaListStatus.current],
       type: state.currentMediaType,
       userId: userId,

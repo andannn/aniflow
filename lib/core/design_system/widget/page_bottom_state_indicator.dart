@@ -36,3 +36,27 @@ Widget buildPageBottomWidget(
         label: Text(AFLocalizations.of(context).retry),
       ),
     };
+
+
+Widget buildPageSectionWidget(
+    {required BuildContext context,
+      required PagingState pagingState,
+      required VoidCallback onRetryLoadPage,
+      required VoidCallback onLoadMore}) =>
+    switch (pagingState) {
+      PageInit() => const SizedBox(),
+      PageLoading() => const TextButton(
+        onPressed: null,
+        child: Text('More'),
+      ),
+      PageReady() => TextButton(
+        onPressed: onLoadMore,
+        child: const Text('More'),
+      ),
+      PageLoadReachEnd() => const Center(child: Divider()),
+      PageLoadingError() => TextButton.icon(
+        onPressed: onRetryLoadPage,
+        icon: const Icon(Icons.refresh),
+        label: Text(AFLocalizations.of(context).retry),
+      ),
+    };

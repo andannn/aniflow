@@ -30,5 +30,10 @@ void main() {
     test('enum_to_from_json', () async {
       expect(describeEnum(MediaType.anime), equals('anime'));
     });
+    test('test_sorted', () async {
+      final list = [1, 3, 2 ,4];
+      final sorted = list..sort((a, b) => a.compareTo(b));
+      expect(true, listEquals(sorted, [1, 2, 3, 4]));
+    });
   });
 }

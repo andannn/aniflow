@@ -6,7 +6,7 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/search_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

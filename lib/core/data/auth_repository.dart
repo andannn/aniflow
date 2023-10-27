@@ -7,7 +7,7 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/user_data_entity.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
-import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _clientId = '14409';

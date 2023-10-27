@@ -286,11 +286,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   Future _syncAllMediaList(String userId) async {
     return Future.wait([
-      _mediaListRepository.syncUserAnimeList(
+      _mediaListRepository.syncMediaList(
           userId: userId,
           status: [MediaListStatus.current, MediaListStatus.planning],
           mediaType: MediaType.manga),
-      _mediaListRepository.syncUserAnimeList(
+      _mediaListRepository.syncMediaList(
           userId: userId,
           status: [MediaListStatus.current, MediaListStatus.planning],
           mediaType: MediaType.anime),

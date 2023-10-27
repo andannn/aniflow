@@ -138,7 +138,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
         event.isFollow ? MediaListStatus.current : MediaListStatus.dropped;
 
     add(_OnLoadingStateChanged(isLoading: true));
-    final result = await _animeTrackListRepository.updateAnimeInTrackList(
+    final result = await _animeTrackListRepository.updateMediaList(
         animeId: animeId, status: status);
     add(_OnLoadingStateChanged(isLoading: false));
 

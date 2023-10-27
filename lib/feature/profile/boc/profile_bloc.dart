@@ -13,13 +13,26 @@ class _OnUserDataLoaded extends ProfileEvent {
   final UserData userData;
 }
 
+class OnFavoritePageLoadingStateChanged extends ProfileEvent {
+  OnFavoritePageLoadingStateChanged({required this.isLoading});
+
+  final bool isLoading;
+}
+
+class OnMediaPageLoadingStateChanged extends ProfileEvent {
+  OnMediaPageLoadingStateChanged({required this.isLoading});
+
+  final bool isLoading;
+}
+
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     required AuthRepository authRepository,
     String? userId,
-  }) :
-        super(ProfileState()) {
+  }) : super(ProfileState()) {
     on<_OnUserDataLoaded>(_onUserDataLoaded);
+    on<OnFavoritePageLoadingStateChanged>(_onFavoritePageLoadingStateChanged);
+    on<OnMediaPageLoadingStateChanged>(_onMediaPageLoadingStateChanged);
 
     _userDataSub =
         authRepository.getUserDataStream().distinct().listen((userData) {
@@ -41,5 +54,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   FutureOr<void> _onUserDataLoaded(
       _OnUserDataLoaded event, Emitter<ProfileState> emit) {
     emit(state.copyWith(userData: event.userData));
+  }
+
+  FutureOr<void> _onFavoritePageLoadingStateChanged(
+      OnFavoritePageLoadingStateChanged event, Emitter<ProfileState> emit) {
+    emit(state.copyWith(isFavoriteLoading: event.isLoading));
+  }
+
+  FutureOr<void> _onMediaPageLoadingStateChanged(
+      OnMediaPageLoadingStateChanged event, Emitter<ProfileState> emit) {
+    emit(state.copyWith(isMediaListPageLoading: event.isLoading));
   }
 }
