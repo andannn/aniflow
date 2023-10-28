@@ -1,5 +1,5 @@
 import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -8,32 +8,35 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
+import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_prefrences.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sqflite/sqflite.dart';
 
 part 'model/media_list_status.dart';
 
 abstract class MediaListRepository {
-  Future<List<MediaListItemModel>> getUserAnimeList(
-      {required List<MediaListStatus> status,
-      required MediaType type,
-      int page = 1,
-      int? userId,
-      int perPage = Config.defaultPerPageCount});
+  ///
+  Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
+    required List<MediaListStatus> status,
+    required MediaType type,
+    required int page,
+    required int perPage,
+    String? userId,
+  });
 
-  Stream<List<MediaListItemModel>> getUserAnimeListStream(
+  Stream<List<MediaListItemModel>> getMediaListStream(
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type});
 
-  Future<LoadResult<void>> syncUserAnimeList(
+  /// Sync mediaList by [mediaType] with 50 limit.
+  Future<LoadResult<void>> syncMediaList(
       {String? userId,
       List<MediaListStatus> status = const [],
       MediaType? mediaType});
@@ -46,8 +49,7 @@ abstract class MediaListRepository {
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
 
-  /// update anime in anime tracking list.
-  Future<LoadResult<void>> updateAnimeInTrackList(
+  Future<LoadResult<void>> updateMediaList(
       {required String animeId,
       required MediaListStatus status,
       String? entryId,
@@ -65,28 +67,44 @@ class MediaListRepositoryImpl extends MediaListRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<List<MediaListItemModel>> getUserAnimeList(
-      {required List<MediaListStatus> status,
-      required MediaType type,
-      int page = 1,
-      int? userId,
-      int perPage = Config.defaultPerPageCount}) async {
+  Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
+    required List<MediaListStatus> status,
+    required MediaType type,
+    required int page,
+    required int perPage,
+    String? userId,
+  }) async {
     final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
     if (targetUserId == null) {
       /// No user.
-      return [];
+      return LoadError(const NotFoundException());
     }
 
-    final animeList = await mediaListDao.getMediaListByPage(
-        type: type, targetUserId.toString(), status, page: 1, perPage: null);
-
-    return animeList
-        .map((e) => MediaListItemModel.fromDataBaseModel(e))
-        .toList();
+    return LoadPageUtil.loadPageWithoutDBCache(
+      onGetNetworkRes: (int page, int perPage) {
+        return aniListDataSource.getUserMediaListPage(
+          param: UserAnimeListPageQueryParam(
+            page: page,
+            perPage: perPage,
+            userId: int.parse(targetUserId),
+            mediaType: type,
+            status: status,
+          ),
+        );
+      },
+      page: page,
+      perPage: perPage,
+      mapDtoToModel: (dto) => MediaListItemModel.fromDto(dto),
+      onInsertEntityToDB: (dto) async {
+        final entities =
+            dto.map((e) => MediaEntity.fromNetworkModel(e.media!)).toList();
+        await mediaDao.upsertMediaInformation(entities);
+      },
+    );
   }
 
   @override
-  Future<LoadResult<void>> syncUserAnimeList(
+  Future<LoadResult<void>> syncMediaList(
       {String? userId,
       List<MediaListStatus> status = const [],
       MediaType? mediaType}) async {
@@ -108,23 +126,13 @@ class MediaListRepositoryImpl extends MediaListRepository {
         ),
       );
 
-      /// insert animeList to database.
-      final animeListEntity = networkAnimeList
-          .map((e) => MediaListEntity.fromNetworkModel(e))
-          .toList();
-      await mediaListDao.insertMediaListEntities(animeListEntity);
+      // await mediaListDao.deleteMediaListOfUser(targetUserId);
 
-      /// insert anime to database.
-      final animeEntities = networkAnimeList
-          .map<MediaEntity?>(
-            (e) =>
-                e.media != null ? MediaEntity.fromNetworkModel(e.media!) : null,
-          )
-          .whereType<MediaEntity>()
+      /// insert data to db.
+      final entities = networkAnimeList
+          .map((e) => MediaListAndMediaRelation.fromDto(e))
           .toList();
-
-      await mediaDao.upsertMediaInformation(animeEntities,
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      await mediaListDao.insertMediaListAndMediaRelations(entities);
 
       mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
@@ -134,7 +142,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Stream<List<MediaListItemModel>> getUserAnimeListStream(
+  Stream<List<MediaListItemModel>> getMediaListStream(
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
@@ -161,7 +169,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Future<LoadResult<void>> updateAnimeInTrackList(
+  Future<LoadResult<void>> updateMediaList(
       {required String animeId,
       required MediaListStatus status,
       String? entryId,
@@ -184,7 +192,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
         status: status,
         progress: progress ?? entity.progress,
         score: score ?? entity.progress,
-        updatedAt: DateTime.now().millisecondsSinceEpoch,
+        updatedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       );
       await mediaListDao.insertMediaListEntities([updatedEntity]);
       mediaListDao.notifyMediaListChanged(targetUserId);

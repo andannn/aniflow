@@ -16,10 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileState {
-  bool get isLoading => throw _privateConstructorUsedError;
   UserData? get userData => throw _privateConstructorUsedError;
-  Map<FavoriteType, PagingState<List>> get favoriteDataMap =>
-      throw _privateConstructorUsedError;
+  bool get isFavoriteLoading => throw _privateConstructorUsedError;
+  bool get isMediaListPageLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -33,9 +32,9 @@ abstract class $ProfileStateCopyWith<$Res> {
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
   $Res call(
-      {bool isLoading,
-      UserData? userData,
-      Map<FavoriteType, PagingState<List>> favoriteDataMap});
+      {UserData? userData,
+      bool isFavoriteLoading,
+      bool isMediaListPageLoading});
 
   $UserDataCopyWith<$Res>? get userData;
 }
@@ -53,23 +52,23 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
     Object? userData = freezed,
-    Object? favoriteDataMap = null,
+    Object? isFavoriteLoading = null,
+    Object? isMediaListPageLoading = null,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
-      favoriteDataMap: null == favoriteDataMap
-          ? _value.favoriteDataMap
-          : favoriteDataMap // ignore: cast_nullable_to_non_nullable
-              as Map<FavoriteType, PagingState<List>>,
+      isFavoriteLoading: null == isFavoriteLoading
+          ? _value.isFavoriteLoading
+          : isFavoriteLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMediaListPageLoading: null == isMediaListPageLoading
+          ? _value.isMediaListPageLoading
+          : isMediaListPageLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -95,9 +94,9 @@ abstract class _$$_ProfileStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading,
-      UserData? userData,
-      Map<FavoriteType, PagingState<List>> favoriteDataMap});
+      {UserData? userData,
+      bool isFavoriteLoading,
+      bool isMediaListPageLoading});
 
   @override
   $UserDataCopyWith<$Res>? get userData;
@@ -114,23 +113,23 @@ class __$$_ProfileStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
     Object? userData = freezed,
-    Object? favoriteDataMap = null,
+    Object? isFavoriteLoading = null,
+    Object? isMediaListPageLoading = null,
   }) {
     return _then(_$_ProfileState(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
-      favoriteDataMap: null == favoriteDataMap
-          ? _value._favoriteDataMap
-          : favoriteDataMap // ignore: cast_nullable_to_non_nullable
-              as Map<FavoriteType, PagingState<List>>,
+      isFavoriteLoading: null == isFavoriteLoading
+          ? _value.isFavoriteLoading
+          : isFavoriteLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMediaListPageLoading: null == isMediaListPageLoading
+          ? _value.isMediaListPageLoading
+          : isMediaListPageLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -139,33 +138,22 @@ class __$$_ProfileStateCopyWithImpl<$Res>
 
 class _$_ProfileState implements _ProfileState {
   _$_ProfileState(
-      {this.isLoading = false,
-      this.userData,
-      final Map<FavoriteType, PagingState<List>> favoriteDataMap = const {
-        FavoriteType.anime: PageLoading(data: [], page: 1),
-        FavoriteType.manga: PageLoading(data: [], page: 1),
-        FavoriteType.staff: PageLoading(data: [], page: 1),
-        FavoriteType.character: PageLoading(data: [], page: 1)
-      }})
-      : _favoriteDataMap = favoriteDataMap;
+      {this.userData,
+      this.isFavoriteLoading = false,
+      this.isMediaListPageLoading = false});
 
   @override
-  @JsonKey()
-  final bool isLoading;
-  @override
   final UserData? userData;
-  final Map<FavoriteType, PagingState<List>> _favoriteDataMap;
   @override
   @JsonKey()
-  Map<FavoriteType, PagingState<List>> get favoriteDataMap {
-    if (_favoriteDataMap is EqualUnmodifiableMapView) return _favoriteDataMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_favoriteDataMap);
-  }
+  final bool isFavoriteLoading;
+  @override
+  @JsonKey()
+  final bool isMediaListPageLoading;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, userData: $userData, favoriteDataMap: $favoriteDataMap)';
+    return 'ProfileState(userData: $userData, isFavoriteLoading: $isFavoriteLoading, isMediaListPageLoading: $isMediaListPageLoading)';
   }
 
   @override
@@ -173,17 +161,17 @@ class _$_ProfileState implements _ProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ProfileState &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
             (identical(other.userData, userData) ||
                 other.userData == userData) &&
-            const DeepCollectionEquality()
-                .equals(other._favoriteDataMap, _favoriteDataMap));
+            (identical(other.isFavoriteLoading, isFavoriteLoading) ||
+                other.isFavoriteLoading == isFavoriteLoading) &&
+            (identical(other.isMediaListPageLoading, isMediaListPageLoading) ||
+                other.isMediaListPageLoading == isMediaListPageLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, userData,
-      const DeepCollectionEquality().hash(_favoriteDataMap));
+  int get hashCode => Object.hash(
+      runtimeType, userData, isFavoriteLoading, isMediaListPageLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -194,17 +182,16 @@ class _$_ProfileState implements _ProfileState {
 
 abstract class _ProfileState implements ProfileState {
   factory _ProfileState(
-          {final bool isLoading,
-          final UserData? userData,
-          final Map<FavoriteType, PagingState<List>> favoriteDataMap}) =
-      _$_ProfileState;
+      {final UserData? userData,
+      final bool isFavoriteLoading,
+      final bool isMediaListPageLoading}) = _$_ProfileState;
 
-  @override
-  bool get isLoading;
   @override
   UserData? get userData;
   @override
-  Map<FavoriteType, PagingState<List>> get favoriteDataMap;
+  bool get isFavoriteLoading;
+  @override
+  bool get isMediaListPageLoading;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileStateCopyWith<_$_ProfileState> get copyWith =>

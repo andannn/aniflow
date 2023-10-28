@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 enum FavoriteType {
   anime('favorite_anime'),
   manga('favorite_manga'),
-  character('favorite_staff'),
-  staff('favorite_character');
+  character('favorite_character'),
+  staff('favorite_staff');
 
   const FavoriteType(this.contentValues);
 

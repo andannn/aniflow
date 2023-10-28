@@ -1,6 +1,8 @@
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
@@ -11,6 +13,9 @@ import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_pag
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
+import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,7 +56,6 @@ class _ProfilePageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
-      buildWhen: (pre, current) => pre.userData != current.userData,
       builder: (context, state) {
         final userState = state.userData;
         if (userState == null) {
@@ -82,6 +86,36 @@ class _ProfilePageContent extends StatelessWidget {
                 favoriteRepository: context.read<FavoriteRepository>(),
               ),
             ),
+            BlocProvider(
+              create: (BuildContext context) => WatchingAnimeListPagingBloc(
+                userState.id,
+                mediaListRepository: context.read<MediaListRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => DroppedAnimeListPagingBloc(
+                userState.id,
+                mediaListRepository: context.read<MediaListRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => CompleteAnimeListPagingBloc(
+                userState.id,
+                mediaListRepository: context.read<MediaListRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => ReadingMangaListPagingBloc(
+                userState.id,
+                mediaListRepository: context.read<MediaListRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => DroppedMangaListPagingBloc(
+                userState.id,
+                mediaListRepository: context.read<MediaListRepository>(),
+              ),
+            ),
           ], child: _UserProfile(userState: userState));
         }
       },
@@ -101,9 +135,6 @@ class _UserProfile extends StatefulWidget {
 class _UserProfileState extends State<_UserProfile>
     with TickerProviderStateMixin {
   late final TabController _tabController;
-
-  bool get needShowLoadingIndicator => isFavoritePageLoading;
-  var isFavoritePageLoading = false;
 
   @override
   void initState() {
@@ -131,7 +162,6 @@ class _UserProfileState extends State<_UserProfile>
                 delegate: _CustomSliverAppBarDelegate(
                   state: widget.userState,
                   tabController: _tabController,
-                  isLoading: isFavoritePageLoading,
                   tabs: ProfileTabType.values
                       .map((e) => Text(e.getLocalString(context)))
                       .toList(),
@@ -157,7 +187,9 @@ class _UserProfileState extends State<_UserProfile>
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:
+        return const ProfileMediaListTabPage(mediaType: MediaType.anime);
       case ProfileTabType.mangaList:
+        return const ProfileMediaListTabPage(mediaType: MediaType.manga);
       case ProfileTabType.reviews:
       case ProfileTabType.social:
         return const SizedBox();
@@ -170,7 +202,6 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.state,
     required this.tabController,
     required this.tabs,
-    this.isLoading = false,
   });
 
   final TabController tabController;
@@ -179,12 +210,17 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final UserData state;
   final _maxExtent = 360.0;
   final _minExtent = 160.0;
-  final bool isLoading;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return _buildCustomHeader(context, shrinkOffset, false);
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        final isLoading =
+            state.isFavoriteLoading || state.isMediaListPageLoading;
+        return _buildCustomHeader(context, shrinkOffset, isLoading);
+      },
+    );
   }
 
   @override
@@ -243,42 +279,43 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       );
 
   Widget _buildCustomHeader(
-          BuildContext context, shrinkOffset, bool isLoading) =>
-      Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                _buildBackground(context, shrinkOffset),
-                _buildAppbar(shrinkOffset),
-              ],
-            ),
+      BuildContext context, shrinkOffset, bool isLoading) {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              _buildBackground(context, shrinkOffset),
+              _buildAppbar(shrinkOffset),
+            ],
           ),
-          Container(
-            height: 50,
-            width: double.infinity,
-            color: Theme.of(context).colorScheme.background,
-            child: Column(
-              children: [
-                Expanded(
-                  child: TabBar(
-                    controller: tabController,
-                    isScrollable: true,
-                    tabs: tabs,
-                  ),
+        ),
+        Container(
+          height: 50,
+          width: double.infinity,
+          color: Theme.of(context).colorScheme.background,
+          child: Column(
+            children: [
+              Expanded(
+                child: TabBar(
+                  controller: tabController,
+                  isScrollable: true,
+                  tabs: tabs,
                 ),
-                AnimatedOpacity(
-                  opacity: isLoading ? 1 : 0,
-                  duration: Config.defaultAnimationDuration,
-                  child: const LinearProgressIndicator(),
-                ),
-              ],
-            ),
-          )
-        ],
-      );
+              ),
+              AnimatedOpacity(
+                opacity: isLoading ? 1 : 0,
+                duration: Config.defaultAnimationDuration,
+                child: const LinearProgressIndicator(),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
 
   Widget _buildAppbar(double shrinkOffset) => Opacity(
         opacity: shrinkOffset / (_maxExtent - _minExtent),

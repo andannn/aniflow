@@ -69,6 +69,7 @@ class FavoriteDaoImpl extends FavoriteDao {
         '  on ${FavoriteInfoTableColumn.infoId} = ${MediaTableColumns.id} '
         'where ${FavoriteInfoTableColumn.userId} = \'$userId\' '
         '  and ${FavoriteInfoTableColumn.favoriteType} = \'$favoriteValue\' '
+        'order by ${FavoriteInfoTableColumn.id} asc '
         'limit $limit '
         'offset $offset ';
 
@@ -88,6 +89,7 @@ class FavoriteDaoImpl extends FavoriteDao {
         '  on ${FavoriteInfoTableColumn.infoId} = ${CharacterColumns.id} '
         'where ${FavoriteInfoTableColumn.userId} = \'$userId\' '
         '  and ${FavoriteInfoTableColumn.favoriteType} = \'${FavoriteType.character.contentValues}\' '
+        'order by ${FavoriteInfoTableColumn.id} asc '
         'limit $limit '
         'offset $offset ';
 
@@ -107,6 +109,7 @@ class FavoriteDaoImpl extends FavoriteDao {
         '  on ${FavoriteInfoTableColumn.infoId} = ${StaffColumns.id} '
         'where ${FavoriteInfoTableColumn.userId} = \'$userId\' '
         '  and ${FavoriteInfoTableColumn.favoriteType} = \'${FavoriteType.staff.contentValues}\' '
+        'order by ${FavoriteInfoTableColumn.id} asc '
         'limit $limit '
         'offset $offset ';
 

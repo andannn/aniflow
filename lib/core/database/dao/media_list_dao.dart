@@ -54,6 +54,11 @@ abstract class MediaListDao {
 
   Future insertMediaListEntities(List<MediaListEntity> entities);
 
+  Future insertMediaListAndMediaRelations(
+      List<MediaListAndMediaRelation> entities);
+
+  Future deleteMediaListOfUser(String userId);
+
   void notifyMediaListChanged(String userId);
 }
 
@@ -221,5 +226,32 @@ class MediaListDaoImpl extends MediaListDao {
     if (notifier != null) {
       notifier.value = notifier.value++;
     }
+  }
+
+  @override
+  Future insertMediaListAndMediaRelations(
+      List<MediaListAndMediaRelation> entities) async {
+    final batch = database.aniflowDB.batch();
+    for (final entity in entities) {
+      batch.insert(
+        Tables.mediaListTable,
+        entity.mediaListEntity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.mediaTable,
+        entity.mediaEntity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return batch.commit(noResult: true);
+  }
+
+  @override
+  Future deleteMediaListOfUser(String userId) {
+    final batch = database.aniflowDB.batch();
+    batch.delete(Tables.mediaListTable,
+        where: '${MediaListTableColumns.userId} = ?', whereArgs: [userId]);
+    return batch.commit(noResult: true);
   }
 }

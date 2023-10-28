@@ -2,7 +2,6 @@
 
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
@@ -12,6 +11,7 @@ import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.da
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
@@ -38,6 +38,30 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     favoriteMangaState = context.watch<FavoriteMangaPagingBloc>().state;
     favoriteCharacterState = context.watch<FavoriteCharacterPagingBloc>().state;
     favoriteStaffState = context.watch<FavoriteStaffPagingBloc>().state;
+
+    final isLoading = favoriteAnimeState is PageLoading ||
+        favoriteMangaState is PageLoading ||
+        favoriteCharacterState is PageLoading ||
+        favoriteStaffState is PageLoading;
+    context
+        .read<ProfileBloc>()
+        .add(OnFavoritePageLoadingStateChanged(isLoading: isLoading));
+
+    final isNoData = favoriteAnimeState!.data.isEmpty &&
+        favoriteMangaState!.data.isEmpty &&
+        favoriteCharacterState!.data.isEmpty &&
+        favoriteStaffState!.data.isEmpty;
+    if (isNoData) {
+      return Center(
+        child: Text(
+          'No favorites',
+          style: Theme.of(context).textTheme.headlineSmall,
+          softWrap: true,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6.0),
       child: CustomScrollView(
@@ -67,13 +91,12 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         state = favoriteStaffState;
     }
 
-    if (state == null) return [const SizedBox()];
+    if (state == null) return [const SliverToBoxAdapter()];
 
     List items = state.data ?? [];
 
-    if (type == FavoriteType.anime) {
-      logger.d(state.runtimeType);
-    }
+    if (items.isEmpty) return [const SliverToBoxAdapter()];
+
     return [
       SliverToBoxAdapter(
         child: VerticalScaleSwitcher(
@@ -95,7 +118,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         child: Container(
           height: 64,
           alignment: Alignment.center,
-          child: buildPageBottomWidget(
+          child: buildPageSectionWidget(
             context: context,
             pagingState: state,
             onRetryLoadPage: () {

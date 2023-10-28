@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -14,7 +15,6 @@ import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
-import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 
@@ -92,7 +92,8 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       return LoadError(const UnauthorizedException());
     }
 
-    return LoadPageUtil.loadPage<CharacterDto, CharacterEntity, CharacterModel>(
+    logger.d('User id $userId');
+    return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (int page, int perPage) {
         return aniListDataSource.getFavoriteCharacter(

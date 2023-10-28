@@ -68,6 +68,25 @@ class _AnimeTrackPageContent extends StatelessWidget {
       ];
     } else {
       final animeList = (animeLoadState as MediaStateLoaded).followingMediaList;
+
+      if (animeList.isEmpty) {
+        return [
+          SliverFillRemaining(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(26.0),
+                child: Text(
+                  'No tracked Anime or Manga',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ];
+      }
+
       final showReleasedOnly = state.showReleasedOnly;
       return [
         SliverToBoxAdapter(
