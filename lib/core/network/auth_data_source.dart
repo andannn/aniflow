@@ -4,10 +4,11 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
+import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart'
-    show UserDataDto;
+import 'package:aniflow/core/network/model/notification.dart';
+import 'package:aniflow/core/network/model/user_data_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -91,5 +92,41 @@ class AuthDataSource {
     } on DioException catch (e) {
       throw e.covertToNetWorkException();
     }
+  }
+
+  Future<List<AniNotification>> getNotifications(
+      NotificationQueryParam param) async {
+    final variablesMap = <String, dynamic>{
+      'page': param.page,
+      'perPage': param.perPage,
+      'type_in': param.type.map((e) => e.typeName).toList(),
+    };
+
+    try {
+      final response = await AniListDio().dio.post(
+            AniListDio.aniListUrl,
+            queryParameters: {
+              'query': notificationQueryGraphql,
+              'variables': variablesMap,
+            },
+            options: _createQueryOptions(),
+          );
+      List resultJson = response.data['data']['Page']['notifications'];
+      return resultJson
+          .map((e) => AniNotification.mapToAniNotification(e))
+          .toList();
+    } on DioException catch (e) {
+      throw e.covertToNetWorkException();
+    }
+  }
+
+  Options _createQueryOptions() {
+    return Options(
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
   }
 }
