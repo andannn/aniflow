@@ -48,6 +48,9 @@ _$_MediaDto _$$_MediaDtoFromJson(Map<String, dynamic> json) => _$_MediaDto(
       staff: json['staff'] == null
           ? null
           : StaffConnection.fromJson(json['staff'] as Map<String, dynamic>),
+      relations: json['relations'] == null
+          ? null
+          : MediaConnection.fromJson(json['relations'] as Map<String, dynamic>),
       externalLinks: (json['externalLinks'] as List<dynamic>?)
               ?.map((e) =>
                   MediaExternalLinkDto.fromJson(e as Map<String, dynamic>))
@@ -78,6 +81,7 @@ Map<String, dynamic> _$$_MediaDtoToJson(_$_MediaDto instance) =>
       'rankings': instance.rankings,
       'characters': instance.characters,
       'staff': instance.staff,
+      'relations': instance.relations,
       'externalLinks': instance.externalLinks,
     };
 

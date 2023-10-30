@@ -87,7 +87,6 @@ query (\$id: Int) {
         }
       }
     }
-    
     staff(page: 1, perPage: 9, sort: FAVOURITES_DESC) {
       pageInfo {
         total
@@ -108,6 +107,29 @@ query (\$id: Int) {
           image {
             large
             medium
+          }
+        }
+      }
+    }
+    relations {
+      edges {
+        relationType
+        node {
+          id
+          type
+          format
+          status
+          season
+          coverImage {
+            extraLarge
+            large
+            medium
+            color
+          }
+          title {
+            romaji
+            english
+            native
           }
         }
       }

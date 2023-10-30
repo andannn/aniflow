@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
 import 'package:aniflow/core/network/model/anime_rank.dart';
 import 'package:aniflow/core/network/model/character_connection.dart';
+import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_connection.dart';
 import 'package:aniflow/core/network/model/trailer_dto.dart';
@@ -37,6 +38,7 @@ class MediaDto with _$MediaDto {
     @Default([]) @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
     @JsonKey(name: 'characters') CharacterConnection? characters,
     @JsonKey(name: 'staff') StaffConnection? staff,
+    @JsonKey(name: 'relations') MediaConnection? relations,
     @Default([])
     @JsonKey(name: 'externalLinks')
     List<MediaExternalLinkDto> externalLinks,
