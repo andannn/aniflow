@@ -14,12 +14,14 @@ import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
@@ -201,11 +203,18 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       /// insert external links to database.
       if (externalLinks.isNotEmpty) {
         final linkEntities = externalLinks
-            .map(
-              (e) => MediaExternalLinkEntity.fromDto(e, id),
-            )
+            .map((e) => MediaExternalLinkEntity.fromDto(e, id))
             .toList();
         await animeDao.upsertMediaExternalLinks(externalLinks: linkEntities);
+      }
+
+      final MediaConnection? relations = networkResult.relations;
+
+      /// insert media relations to database.
+      if (relations != null) {
+        final relationEntity =
+            MediaRelationEntitiesWithOwnerId.fromDto(id, relations);
+        await animeDao.upsertMediaRelations(relationEntity: relationEntity);
       }
 
       /// notify data base has been changed an trigger the streams.

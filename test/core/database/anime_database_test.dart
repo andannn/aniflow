@@ -1,10 +1,12 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_relation.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/database/model/user_data_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,6 +49,36 @@ void main() {
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/91234123.jpg',
           coverImageColor: '#f10000')
     ];
+
+    final dummyMediaRelation = MediaRelationEntitiesWithOwnerId(
+      ownerId: '4353',
+      medias: [
+        MediaRelationEntity(
+          MediaRelation.alternative,
+          MediaEntity(
+            id: '8917',
+            englishTitle: 'Bodacious Space Pirates',
+            romajiTitle: 'Mouretsu Pirates',
+            nativeTitle: 'モーレツ宇宙海賊',
+            coverImage:
+                'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
+            coverImageColor: '#50aee4',
+          ),
+        ),
+        MediaRelationEntity(
+          MediaRelation.character,
+          MediaEntity(
+            id: '9523',
+            englishTitle: '',
+            romajiTitle: 'Minori Scramble!',
+            nativeTitle: 'みのりスクランブル!',
+            coverImage:
+                'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
+            coverImageColor: '#f10000',
+          ),
+        ),
+      ],
+    );
 
     final dummyCharacterData = [
       CharacterEntity(
@@ -239,6 +271,7 @@ void main() {
       await animeDao.upsertMediaInformation(dummyAnimeData);
       await animeDao.upsertMediaExternalLinks(
           externalLinks: dummyExternalLinks);
+      await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
 
       final result = await animeDao.getDetailMediaInfo('5784');
       expect(result.externalLinks, equals([dummyExternalLinks[0]]));
@@ -257,6 +290,19 @@ void main() {
       ]);
 
       await animeDao.getCharacterOfMediaByPage('5784', page: 1);
+    });
+
+    test('insert_media_relation', () async {
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
+    });
+
+    test('get_media_relation', () async {
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
+      final res = await animeDao.getMediaRelations('4353');
+      expect(res.map((e) => e.media),
+          equals(dummyMediaRelation.medias.map((e) => e.media)));
     });
   });
 }

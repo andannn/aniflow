@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-@JsonEnum()
+part 'media_relation.g.dart';
+
+@JsonEnum(alwaysCreate: true)
 enum MediaRelation {
   /// An adaption of this media into a different format.
   @JsonValue('ADAPTATION')
@@ -55,4 +57,9 @@ enum MediaRelation {
   contains;
 
   const MediaRelation();
+
+  String toJson() => _$MediaRelationEnumMap[this]!;
+
+  factory MediaRelation.fromJson(String json) =>
+      _$MediaRelationEnumMap.map((key, value) => MapEntry(value, key))[json]!;
 }
