@@ -43,6 +43,7 @@ mixin _$MediaModel {
   List<StaffAndRoleModel> get staffs => throw _privateConstructorUsedError;
   List<MediaExternalLinkModel> get externalLinks =>
       throw _privateConstructorUsedError;
+  List<MediaRelationModel> get relations => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MediaModelCopyWith<MediaModel> get copyWith =>
@@ -80,7 +81,8 @@ abstract class $MediaModelCopyWith<$Res> {
       bool isFollowing,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       List<StaffAndRoleModel> staffs,
-      List<MediaExternalLinkModel> externalLinks});
+      List<MediaExternalLinkModel> externalLinks,
+      List<MediaRelationModel> relations});
 
   $MediaTitleCopyWith<$Res>? get title;
   $TrailerModelCopyWith<$Res>? get trailerModel;
@@ -124,6 +126,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? characterAndVoiceActors = null,
     Object? staffs = null,
     Object? externalLinks = null,
+    Object? relations = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -226,6 +229,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.externalLinks
           : externalLinks // ignore: cast_nullable_to_non_nullable
               as List<MediaExternalLinkModel>,
+      relations: null == relations
+          ? _value.relations
+          : relations // ignore: cast_nullable_to_non_nullable
+              as List<MediaRelationModel>,
     ) as $Val);
   }
 
@@ -287,7 +294,8 @@ abstract class _$$_MediaModelCopyWith<$Res>
       bool isFollowing,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       List<StaffAndRoleModel> staffs,
-      List<MediaExternalLinkModel> externalLinks});
+      List<MediaExternalLinkModel> externalLinks,
+      List<MediaRelationModel> relations});
 
   @override
   $MediaTitleCopyWith<$Res>? get title;
@@ -331,6 +339,7 @@ class __$$_MediaModelCopyWithImpl<$Res>
     Object? characterAndVoiceActors = null,
     Object? staffs = null,
     Object? externalLinks = null,
+    Object? relations = null,
   }) {
     return _then(_$_MediaModel(
       id: null == id
@@ -433,6 +442,10 @@ class __$$_MediaModelCopyWithImpl<$Res>
           ? _value._externalLinks
           : externalLinks // ignore: cast_nullable_to_non_nullable
               as List<MediaExternalLinkModel>,
+      relations: null == relations
+          ? _value._relations
+          : relations // ignore: cast_nullable_to_non_nullable
+              as List<MediaRelationModel>,
     ));
   }
 }
@@ -466,12 +479,14 @@ class _$_MediaModel implements _MediaModel {
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
           const [],
       final List<StaffAndRoleModel> staffs = const [],
-      final List<MediaExternalLinkModel> externalLinks = const []})
+      final List<MediaExternalLinkModel> externalLinks = const [],
+      final List<MediaRelationModel> relations = const []})
       : _hashtags = hashtags,
         _genres = genres,
         _characterAndVoiceActors = characterAndVoiceActors,
         _staffs = staffs,
-        _externalLinks = externalLinks;
+        _externalLinks = externalLinks,
+        _relations = relations;
 
   @override
   @JsonKey()
@@ -564,9 +579,18 @@ class _$_MediaModel implements _MediaModel {
     return EqualUnmodifiableListView(_externalLinks);
   }
 
+  final List<MediaRelationModel> _relations;
+  @override
+  @JsonKey()
+  List<MediaRelationModel> get relations {
+    if (_relations is EqualUnmodifiableListView) return _relations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_relations);
+  }
+
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations)';
   }
 
   @override
@@ -614,7 +638,9 @@ class _$_MediaModel implements _MediaModel {
                 other._characterAndVoiceActors, _characterAndVoiceActors) &&
             const DeepCollectionEquality().equals(other._staffs, _staffs) &&
             const DeepCollectionEquality()
-                .equals(other._externalLinks, _externalLinks));
+                .equals(other._externalLinks, _externalLinks) &&
+            const DeepCollectionEquality()
+                .equals(other._relations, _relations));
   }
 
   @override
@@ -644,7 +670,8 @@ class _$_MediaModel implements _MediaModel {
         isFollowing,
         const DeepCollectionEquality().hash(_characterAndVoiceActors),
         const DeepCollectionEquality().hash(_staffs),
-        const DeepCollectionEquality().hash(_externalLinks)
+        const DeepCollectionEquality().hash(_externalLinks),
+        const DeepCollectionEquality().hash(_relations)
       ]);
 
   @JsonKey(ignore: true)
@@ -680,7 +707,8 @@ abstract class _MediaModel implements MediaModel {
       final bool isFollowing,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       final List<StaffAndRoleModel> staffs,
-      final List<MediaExternalLinkModel> externalLinks}) = _$_MediaModel;
+      final List<MediaExternalLinkModel> externalLinks,
+      final List<MediaRelationModel> relations}) = _$_MediaModel;
 
   @override
   String get id;
@@ -732,6 +760,8 @@ abstract class _MediaModel implements MediaModel {
   List<StaffAndRoleModel> get staffs;
   @override
   List<MediaExternalLinkModel> get externalLinks;
+  @override
+  List<MediaRelationModel> get relations;
   @override
   @JsonKey(ignore: true)
   _$$_MediaModelCopyWith<_$_MediaModel> get copyWith =>

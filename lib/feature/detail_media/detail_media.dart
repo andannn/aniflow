@@ -11,18 +11,21 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -100,7 +103,10 @@ class _DetailAnimePageContent extends StatelessWidget {
                     Navigator.maybePop(context);
                   },
                 ),
-                title: Text(model.title!.getLocalTitle(context)),
+                title: AutoSizeText(
+                  model.title!.getLocalTitle(context),
+                  maxLines: 2,
+                ),
                 actions: [
                   LoadingIndicator(isLoading: isLoading),
                   const SizedBox(width: 10),
@@ -119,6 +125,12 @@ class _DetailAnimePageContent extends StatelessWidget {
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildTwitterHashTags(context, model),
+              ),
+              SliverToBoxAdapter(
+                child: _buildAnimeRelations(
+                  context: context,
+                  relations: model.relations,
+                ),
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeInfoSection(context, model),
@@ -549,6 +561,43 @@ class _DetailAnimePageContent extends StatelessWidget {
       widgets.add(const Expanded(flex: 1, child: SizedBox()));
     }
     return widgets;
+  }
+
+  Widget _buildAnimeRelations(
+      {required BuildContext context,
+      required List<MediaRelationModel> relations}) {
+    return VerticalScaleSwitcher(
+      visible: relations.isNotEmpty,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Relations',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            SizedBox(
+              height: 130,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: relations.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final relation = relations[index];
+                  return MediaRelationWidget(
+                    model: relation,
+                    onClick: () {
+                      AFRouterDelegate.of(context)
+                          .navigateToDetailMedia(relation.media.id);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

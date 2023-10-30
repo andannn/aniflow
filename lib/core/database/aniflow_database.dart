@@ -210,6 +210,7 @@ class AniflowDatabase {
         '${MediaRelationCrossRefColumnValues.ownerId} text,'
         '${MediaRelationCrossRefColumnValues.relationId} text,'
         '${MediaRelationCrossRefColumnValues.relationType} text,'
+        'primary key (${MediaRelationCrossRefColumnValues.ownerId}, ${MediaRelationCrossRefColumnValues.relationId}),'
         'foreign key (${MediaRelationCrossRefColumnValues.ownerId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         'foreign key (${MediaRelationCrossRefColumnValues.relationId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');

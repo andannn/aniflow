@@ -119,7 +119,10 @@ query (\$id: Int) {
           type
           format
           status
+          episodes
+          seasonYear
           season
+          source
           coverImage {
             extraLarge
             large

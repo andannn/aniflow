@@ -10,12 +10,16 @@ import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
 import 'package:aniflow/feature/profile/profile.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-sealed class AniFlowRoutePath {
+sealed class AniFlowRoutePath extends Equatable {
   const AniFlowRoutePath({this.isFullScreen = false});
 
   final bool isFullScreen;
+
+  @override
+  List<Object?> get props => [];
 }
 
 abstract class TopLevelRoutePath extends AniFlowRoutePath {
@@ -24,14 +28,7 @@ abstract class TopLevelRoutePath extends AniFlowRoutePath {
   const TopLevelRoutePath(this.topLevel);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TopLevelRoutePath &&
-          runtimeType == other.runtimeType &&
-          topLevel == other.topLevel;
-
-  @override
-  int get hashCode => topLevel.hashCode;
+  List<Object?> get props => [topLevel];
 }
 
 class DiscoverRoutePath extends TopLevelRoutePath {
@@ -58,24 +55,36 @@ class AnimeListRoutePath extends AniFlowRoutePath {
   const AnimeListRoutePath(this.category) : super(isFullScreen: true);
 
   final MediaCategory category;
+
+  @override
+  List<Object?> get props => [category];
 }
 
 class CharacterListRoutePath extends AniFlowRoutePath {
-  const CharacterListRoutePath(this.animeId) : super(isFullScreen: true);
+  const CharacterListRoutePath(this.characterId) : super(isFullScreen: true);
 
-  final String animeId;
+  final String characterId;
+
+  @override
+  List<Object?> get props => [characterId];
 }
 
 class StaffListRoutePath extends AniFlowRoutePath {
-  const StaffListRoutePath(this.animeId) : super(isFullScreen: true);
+  const StaffListRoutePath(this.staffId) : super(isFullScreen: true);
 
-  final String animeId;
+  final String staffId;
+
+  @override
+  List<Object?> get props => [staffId];
 }
 
 class DetailAnimeRoutePath extends AniFlowRoutePath {
   const DetailAnimeRoutePath(this.animeId) : super(isFullScreen: true);
 
   final String animeId;
+
+  @override
+  List<Object?> get props => [animeId];
 }
 
 class AiringScheduleRoutePath extends AniFlowRoutePath {
@@ -92,12 +101,12 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
           key: ValueKey('AnimeListPage_$category'),
           category: category,
         );
-      case CharacterListRoutePath(animeId: final animeId):
+      case CharacterListRoutePath(characterId: final animeId):
         return CharacterListPage(
           key: ValueKey('CharacterListPage_$animeId'),
           animeId: animeId,
         );
-      case StaffListRoutePath(animeId: final animeId):
+      case StaffListRoutePath(staffId: final animeId):
         return StaffListPage(
           key: ValueKey('StaffListPage_$animeId'),
           animeId: animeId,
