@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
+import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
@@ -44,6 +45,7 @@ class MediaModel with _$MediaModel {
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
     @Default([]) List<StaffAndRoleModel> staffs,
     @Default([]) List<MediaExternalLinkModel> externalLinks,
+    @Default([]) List<MediaRelationModel> relations,
   }) = _MediaModel;
 
   static MediaModel fromDatabaseModel(MediaEntity model) {
@@ -104,6 +106,9 @@ class MediaModel with _$MediaModel {
           .toList(),
       externalLinks: model.externalLinks
           .map((e) => MediaExternalLinkModel.fromEntity(e))
+          .toList(),
+      relations: model.mediaRelations
+          .map((e) => MediaRelationModel.fromEntity(e))
           .toList(),
     );
   }

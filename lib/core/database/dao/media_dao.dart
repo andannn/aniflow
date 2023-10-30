@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_relation.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -10,6 +11,7 @@ import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:aniflow/core/database/model/relations/airing_schedule_and_media_relation.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
 import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
@@ -150,6 +152,21 @@ mixin MediaExternalLinkColumnValues {
   static const icon = 'external_link_icon';
 }
 
+/// [Tables.mediaRelationCrossRef]
+mixin MediaRelationCrossRefColumnValues {
+  static const String ownerId = 'media_relation_cross_ref_owner_media_id';
+  static const String relationId = 'media_relation_cross_ref_relation_media_id';
+  static const String relationType = 'media_staff_cross_ref_relation_type';
+}
+
+class MediaRelationCrossRef {
+  MediaRelationCrossRef(this.ownerId, this.relationId, this.relationType);
+
+  final String ownerId;
+  final String relationId;
+  final MediaRelation relationType;
+}
+
 abstract class MediaInformationDao {
   Future clearAnimeCategoryCrossRef(MediaCategory category);
 
@@ -167,6 +184,8 @@ abstract class MediaInformationDao {
       {required int page, int perPage = Config.defaultPerPageCount});
 
   Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id);
+
+  Future<List<MediaRelationEntity>> getMediaRelations(String animeId);
 
   Future insertOrIgnoreMediaByAnimeCategory(MediaCategory category,
       {required List<MediaEntity> animeList});
@@ -187,6 +206,9 @@ abstract class MediaInformationDao {
 
   Future upsertMediaExternalLinks(
       {required List<MediaExternalLinkEntity> externalLinks});
+
+  Future upsertMediaRelations(
+      {required MediaRelationEntitiesWithOwnerId relationEntity});
 
   void notifyMediaDetailInfoChanged();
 
@@ -340,6 +362,8 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     List externalLinkResults =
         await database.aniflowDB.rawQuery(externalLinkSql);
 
+    final mediaRelations = await getMediaRelations(id);
+
     return MediaWithDetailInfo(
       mediaEntity: animeEntity,
       characterAndVoiceActors: characterResults,
@@ -347,6 +371,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       externalLinks: externalLinkResults
           .map((e) => MediaExternalLinkEntity.fromJson(e))
           .toList(),
+      mediaRelations: mediaRelations,
     );
   }
 
@@ -412,8 +437,8 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     final (startSecond, endSecond) = (startMs ~/ 1000, endMs ~/ 1000);
 
     final sql = 'select * from ${Tables.airingSchedulesTable} as air '
-        'join ${Tables.mediaTable} as anime '
-        '  on air.${AiringSchedulesColumns.mediaId} = anime.${MediaTableColumns.id} '
+        'join ${Tables.mediaTable} as media '
+        '  on air.${AiringSchedulesColumns.mediaId} = media.${MediaTableColumns.id} '
         'where air.${AiringSchedulesColumns.airingAt} >= $startSecond '
         '  and air.${AiringSchedulesColumns.airingAt} < $endSecond '
         'order by air.${AiringSchedulesColumns.airingAt} asc ';
@@ -431,11 +456,27 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
+  Future<List<MediaRelationEntity>> getMediaRelations(String animeId) async {
+    final sql = 'select * from ${Tables.mediaRelationCrossRef} as mr '
+        'join ${Tables.mediaTable} as media '
+        '  on mr.${MediaRelationCrossRefColumnValues.relationId} = media.${MediaTableColumns.id} '
+        'where mr.${MediaRelationCrossRefColumnValues.ownerId} = $animeId';
+
+    List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
+
+    return results
+        .map((e) => MediaRelationEntity(
+              MediaRelation.fromJson(
+                  e[MediaRelationCrossRefColumnValues.relationType]),
+              MediaEntity.fromJson(e),
+            ))
+        .toList();
+  }
+
+  @override
   Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id) {
     return StreamUtil.createStream(
-      detailListChangeSource,
-      () => getDetailMediaInfo(id),
-    );
+        detailListChangeSource, () => getDetailMediaInfo(id));
   }
 
   @override
@@ -527,6 +568,29 @@ class MediaInformationDaoImpl extends MediaInformationDao {
         Tables.staffTable,
         entity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future upsertMediaRelations(
+      {required MediaRelationEntitiesWithOwnerId relationEntity}) async {
+    final batch = database.aniflowDB.batch();
+    for (final media in relationEntity.medias) {
+      batch.insert(
+        Tables.mediaRelationCrossRef,
+        {
+          MediaRelationCrossRefColumnValues.ownerId: relationEntity.ownerId,
+          MediaRelationCrossRefColumnValues.relationId: media.media.id,
+          MediaRelationCrossRefColumnValues.relationType: media.type.toJson(),
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.mediaTable,
+        media.media.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }
     return await batch.commit(noResult: true);

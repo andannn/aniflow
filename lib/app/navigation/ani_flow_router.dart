@@ -76,37 +76,35 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   }
 
   void navigateToAnimeList(MediaCategory category) {
-    _backStack += [AnimeListRoutePath(category)];
-
-    notifyListeners();
+    _pushAsSingleton(AnimeListRoutePath(category));
   }
 
-  void navigateToCharacterList(String animeId) {
-    _backStack += [CharacterListRoutePath(animeId)];
-
-    notifyListeners();
+  void navigateToCharacterList(String characterId) {
+    _pushAsSingleton(CharacterListRoutePath(characterId));
   }
 
-  void navigateToStaffList(String animeId) {
-    _backStack += [StaffListRoutePath(animeId)];
-
-    notifyListeners();
+  void navigateToStaffList(String staffId) {
+    _pushAsSingleton(StaffListRoutePath(staffId));
   }
 
   void navigateToDetailMedia(String animeId) {
-    _backStack += [DetailAnimeRoutePath(animeId)];
-
-    notifyListeners();
+    _pushAsSingleton(DetailAnimeRoutePath(animeId));
   }
 
   void navigateToAiringSchedule() {
-    _backStack += [const AiringScheduleRoutePath()];
-
-    notifyListeners();
+    _pushAsSingleton(const AiringScheduleRoutePath());
   }
 
   void navigateToSearch() {
-    _backStack += [const SearchRoutePath()];
+    _pushAsSingleton(const SearchRoutePath());
+  }
+
+  void _pushAsSingleton(AniFlowRoutePath path) {
+    if (_backStack.contains(path)) {
+      _backStack.remove(path);
+    }
+
+    _backStack += [path];
 
     notifyListeners();
   }
