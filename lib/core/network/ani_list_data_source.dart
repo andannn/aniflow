@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
@@ -14,6 +16,7 @@ import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart'
 import 'package:aniflow/core/network/api/user_favorite_staff_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
+import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
@@ -278,5 +281,39 @@ class AniListDataSource {
         resultJson.map((e) => StaffDto.fromJson(e)).toList();
 
     return staff;
+  }
+
+  Future<List<AniActivity>> getActivities(
+      {required int page,
+      required int perPage,
+      int? userId,
+      ActivityType? type,
+      int? mediaId,
+      bool? isFollowing}) async {
+    final queryGraphQL = activitiesGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+    };
+    if (userId != null) {
+      variablesMap['userId'] = userId;
+    }
+    if (type != null) {
+      variablesMap['type'] = type.toJson();
+    }
+    if (mediaId != null) {
+      variablesMap['mediaId'] = mediaId;
+    }
+    if (isFollowing != null) {
+      variablesMap['isFollowing'] = isFollowing;
+    }
+
+    final response = await AniListDio().dio.post(AniListDio.aniListUrl,
+        data: {'query': queryGraphQL, 'variables': variablesMap});
+    final List resultJson = response.data['data']['Page']['activities'];
+    final activities =
+        resultJson.map((e) => AniActivity.mapToAniActivity(e)).toList();
+
+    return activities;
   }
 }
