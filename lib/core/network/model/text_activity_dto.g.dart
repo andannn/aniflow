@@ -31,7 +31,7 @@ Map<String, dynamic> _$$_TextActivityDtoToJson(_$_TextActivityDto instance) =>
       'id': instance.id,
       'text': instance.text,
       'userId': instance.userId,
-      'type': _$ActivityTypeEnumMap[instance.type],
+      'type': instance.type,
       'replyCount': instance.replyCount,
       'siteUrl': instance.siteUrl,
       'isLocked': instance.isLocked,
@@ -41,11 +41,3 @@ Map<String, dynamic> _$$_TextActivityDtoToJson(_$_TextActivityDto instance) =>
       'createdAt': instance.createdAt,
       'user': instance.user,
     };
-
-const _$ActivityTypeEnumMap = {
-  ActivityType.text: 'TEXT',
-  ActivityType.animeList: 'ANIME_LIST',
-  ActivityType.mangaList: 'MANGA_LIST',
-  ActivityType.message: 'MESSAGE',
-  ActivityType.mediaList: 'MEDIA_LIST',
-};
