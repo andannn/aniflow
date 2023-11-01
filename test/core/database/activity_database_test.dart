@@ -2,7 +2,7 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/activity_entity.dart';
-import 'package:aniflow/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -29,7 +29,7 @@ void main() {
     ];
 
     final userData = [
-      UserDataEntity(
+      UserEntity(
         id: '1',
         name: 'user a',
       ),

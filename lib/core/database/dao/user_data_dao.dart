@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -14,13 +14,13 @@ mixin UserDataTableColumns {
 }
 
 abstract class UserDataDao {
-  Future updateUserData(UserDataEntity userDataEntity);
+  Future updateUserData(UserEntity userDataEntity);
 
-  Future<UserDataEntity?> getUserData();
+  Future<UserEntity?> getUserData();
 
   Future removeUserData();
 
-  Stream<UserDataEntity?> getUserDataStream();
+  Stream<UserEntity?> getUserDataStream();
 }
 
 class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
@@ -29,7 +29,7 @@ class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
   UserDataDaoImpl(this.database);
 
   @override
-  Future updateUserData(UserDataEntity userDataEntity) {
+  Future updateUserData(UserEntity userDataEntity) {
     final batch = database.aniflowDB.batch();
     batch.delete(Tables.userDataTable);
     batch.insert(Tables.userDataTable, userDataEntity.toJson(),
@@ -41,17 +41,17 @@ class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
   }
 
   @override
-  Future<UserDataEntity?> getUserData() async {
+  Future<UserEntity?> getUserData() async {
     final resultJson =
         await database.aniflowDB.query(Tables.userDataTable, limit: 1);
 
     if (resultJson.isEmpty) return null;
 
-    return UserDataEntity.fromJson(resultJson[0]);
+    return UserEntity.fromJson(resultJson[0]);
   }
 
   @override
-  Stream<UserDataEntity?> getUserDataStream() {
+  Stream<UserEntity?> getUserDataStream() {
     return StreamUtil.createStream(this, getUserData);
   }
 

@@ -5,7 +5,7 @@ import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
-import 'package:aniflow/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +61,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
         /// retrieve user data from ani list api;
         final userDto = await authDataSource.getUserDataDto();
-        final userEntity = UserDataEntity.fromNetworkModel(userDto);
+        final userEntity = UserEntity.fromNetworkModel(userDto);
         await userDataDao.updateUserData(userEntity);
 
         /// login success.

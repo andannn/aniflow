@@ -8,7 +8,7 @@ import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:aniflow/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -132,7 +132,7 @@ void main() {
     //   StaffEntity(id: '4567', nameEnglish: 'nameB'),
     // ];
 
-    final dummyUserData = UserDataEntity(id: 'aa', avatar: "bb");
+    final dummyUserData = UserEntity(id: 'aa', avatar: "bb");
 
     final dummyAiringSchedule = [
       AiringSchedulesEntity(id: '122', mediaId: '5784', airingAt: 1),
