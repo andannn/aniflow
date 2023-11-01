@@ -1,4 +1,5 @@
 import 'package:aniflow/app/app.dart';
+import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -38,6 +39,9 @@ void main() async {
     ),
     RepositoryProvider<FavoriteRepository>(
       create: (context) => FavoriteRepositoryImpl(),
+    ),
+    RepositoryProvider<ActivityRepository>(
+      create: (context) => ActivityRepositoryImpl(),
     ),
   ], child: const AnimeTrackerApp()));
 }

@@ -8,11 +8,18 @@ import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:country_code/country_code.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  group('short_network_anime_model_from_json', () {
+  group('ani_list_data_source_api_test', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await AniFlowPreferences().init();
+    });
+
     test('get_topics_convert_to_db_model', () async {
       await AniListDataSource().getNetworkAnimePage(
           page: 1,

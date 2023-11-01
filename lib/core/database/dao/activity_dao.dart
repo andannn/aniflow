@@ -1,4 +1,5 @@
-import 'package:aniflow/core/common/model/activity_type.dart';
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
@@ -27,11 +28,20 @@ mixin ActivityTableColumns {
   static const String createdAt = 'activity_createdAt';
 }
 
+mixin ActivityFilterTypeCrossRefColumns {
+  static const String id = 'activity_filter_type_cross_id';
+  static const String activityId = 'activity_filter_type_cross_activity_id';
+  static const String category = 'activity_filter_type_cross_filter_category';
+}
+
 abstract class ActivityDao {
-  Future upsertActivityEntities(List<ActivityAndUserRelation> entities);
+  Future upsertActivityEntities(
+      List<ActivityAndUserRelation> entities, String category);
 
   Future<List<ActivityAndUserRelation>> getActivityEntities(
-      [int page, int perPage, List<ActivityType> types]);
+      [int page, int perPage, String category]);
+
+  Future clearActivityEntities(String category);
 }
 
 class ActivityDaoImpl extends ActivityDao {
@@ -40,9 +50,17 @@ class ActivityDaoImpl extends ActivityDao {
   ActivityDaoImpl(this.database);
 
   @override
-  Future upsertActivityEntities(List<ActivityAndUserRelation> entities) async {
+  Future upsertActivityEntities(
+      List<ActivityAndUserRelation> entities, String category) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
+      batch.insert(
+          Tables.activityFilterTypeCrossRef,
+          {
+            ActivityFilterTypeCrossRefColumns.activityId: entity.activity.id,
+            ActivityFilterTypeCrossRefColumns.category: category,
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert(
         Tables.activityTable,
         entity.activity.toJson(),
@@ -65,26 +83,23 @@ class ActivityDaoImpl extends ActivityDao {
   }
 
   @override
-  Future<List<ActivityAndUserRelation>> getActivityEntities(
-      [int page = 1,
-      int perPage = Config.defaultPerPageCount,
-      List<ActivityType> types = const []]) async {
+  Future<List<ActivityAndUserRelation>> getActivityEntities([
+    int page = 1,
+    int perPage = Config.defaultPerPageCount,
+    String category = '',
+  ]) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
-    String sql = 'select * from ${Tables.activityTable} as a '
+    String sql = 'select * from ${Tables.activityFilterTypeCrossRef} as afc '
+        'join ${Tables.activityTable}  as a '
+        '  on a.${ActivityTableColumns.id} = afc.${ActivityFilterTypeCrossRefColumns.activityId} '
         'join ${Tables.userDataTable}  as u '
         '  on a.${ActivityTableColumns.userId} = u.${UserDataTableColumns.id} '
         'left join ${Tables.mediaTable} as m '
         '  on a.${ActivityTableColumns.mediaId} = m.${MediaTableColumns.id} '
-        'where true ';
-
-    String typeSelection = types.map((e) => e.toJson()).join(',');
-    if (typeSelection.isNotEmpty) {
-      sql += 'and ${ActivityTableColumns.type} in ($typeSelection)  ';
-    }
-
-    sql += 'order by ${ActivityTableColumns.id} desc '
+        'where ${ActivityFilterTypeCrossRefColumns.category} = \'$category\' '
+        'order by ${ActivityFilterTypeCrossRefColumns.id} asc '
         'limit $limit '
         'offset $offset ';
 
@@ -102,5 +117,11 @@ class ActivityDaoImpl extends ActivityDao {
         );
       },
     ).toList();
+  }
+
+  @override
+  Future clearActivityEntities(String category) {
+    return database.aniflowDB.delete(Tables.activityFilterTypeCrossRef,
+        where: '${ActivityFilterTypeCrossRefColumns.category}=\'$category\'');
   }
 }

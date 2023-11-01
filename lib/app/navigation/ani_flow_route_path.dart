@@ -5,10 +5,10 @@ import 'package:aniflow/feature/anime_search/media_search.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/discover/discover.dart';
-import 'package:aniflow/feature/forum/profile.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
 import 'package:aniflow/feature/profile/profile.dart';
+import 'package:aniflow/feature/social/social.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +39,8 @@ class TrackRoutePath extends TopLevelRoutePath {
   const TrackRoutePath() : super(TopLevelNavigation.track);
 }
 
-class ForumRoutePath extends TopLevelRoutePath {
-  const ForumRoutePath() : super(TopLevelNavigation.forum);
+class SocialRoutePath extends TopLevelRoutePath {
+  const SocialRoutePath() : super(TopLevelNavigation.social);
 }
 
 class ProfileRoutePath extends TopLevelRoutePath {
@@ -118,8 +118,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         );
       case TrackRoutePath(topLevel: final _):
         return const AnimeTrackPage(key: ValueKey('AnimeTrackPage'));
-      case ForumRoutePath(topLevel: final _):
-        return const ForumPage(key: ValueKey('ForumPage'));
+      case SocialRoutePath(topLevel: final _):
+        return const SocialPage(key: ValueKey('SocialPage'));
       case ProfileRoutePath(topLevel: final _):
         return const ProfilePage(key: ValueKey('ProfilePage'));
       case AiringScheduleRoutePath():

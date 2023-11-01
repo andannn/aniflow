@@ -11,10 +11,10 @@ enum TopLevelNavigation {
     unSelectedIcon: Icons.collections_bookmark_outlined,
     iconTextId: 'Track',
   ),
-  forum(
+  social(
     selectedIcon: Icons.forum,
     unSelectedIcon: Icons.forum_outlined,
-    iconTextId: 'Forum',
+    iconTextId: 'Social',
   ),
   profile(
     selectedIcon: Icons.person,
@@ -49,8 +49,8 @@ extension TopLevelNavigationEx on TopLevelNavigation {
         return const DiscoverRoutePath();
       case TopLevelNavigation.track:
         return const TrackRoutePath();
-      case TopLevelNavigation.forum:
-        return const ForumRoutePath();
+      case TopLevelNavigation.social:
+        return const SocialRoutePath();
       case TopLevelNavigation.profile:
         return const ProfileRoutePath();
     }

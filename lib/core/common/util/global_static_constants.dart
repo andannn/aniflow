@@ -9,6 +9,7 @@ mixin Config {
   static const int defaultPerPageCount = 18;
 
   static const int profilePageDefaultPerPageCount = 6;
+  static const int activityPageDefaultPerPageCount = 10;
 }
 
 /// Only for test

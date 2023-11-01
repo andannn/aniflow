@@ -29,6 +29,7 @@ mixin Tables {
   static const String favoriteInfoTable = 'favorite_info_table';
   static const String mediaRelationCrossRef = 'media_relation_cross_ref_table';
   static const String activityTable = 'activity_table';
+  static const String activityFilterTypeCrossRef = 'activity_filter_type_cross_ref_table';
 }
 
 class AniflowDatabase {
@@ -240,5 +241,14 @@ class AniflowDatabase {
         'foreign key (${ActivityTableColumns.userId}) references ${Tables.userDataTable} (${UserDataTableColumns.id})'
         'foreign key (${ActivityTableColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');
+
+    await _aniflowDB!.execute(
+        'create table if not exists ${Tables.activityFilterTypeCrossRef} ('
+            '${ActivityFilterTypeCrossRefColumns.id} integer primary key autoincrement,'
+            '${ActivityFilterTypeCrossRefColumns.activityId} text,'
+            '${ActivityFilterTypeCrossRefColumns.category} text,'
+            'unique (${ActivityFilterTypeCrossRefColumns.activityId},${ActivityFilterTypeCrossRefColumns.category})'
+            'foreign key (${ActivityFilterTypeCrossRefColumns.activityId}) references ${Tables.activityTable} (${ActivityTableColumns.id})'
+            ')');
   }
 }

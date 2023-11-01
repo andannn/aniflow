@@ -1,3 +1,5 @@
+import 'package:aniflow/core/common/model/activity_filter_type.dart';
+import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -26,7 +28,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.list,
-        userType: ActivityUserType.global,
+        userType: ActivityScopeCategory.global,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });
@@ -35,7 +37,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.list,
-        userType: ActivityUserType.following,
+        userType: ActivityScopeCategory.following,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });
@@ -44,7 +46,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.text,
-        userType: ActivityUserType.following,
+        userType: ActivityScopeCategory.following,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });
@@ -53,7 +55,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.text,
-        userType: ActivityUserType.global,
+        userType: ActivityScopeCategory.global,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/app/local/util/anime_model_extension.dart';
+import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';

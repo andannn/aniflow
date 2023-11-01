@@ -1,3 +1,6 @@
+import 'package:aniflow/core/common/model/activity_filter_type.dart';
+import 'package:aniflow/core/common/model/activity_scope_category.dart';
+import 'package:aniflow/core/common/model/extension/activity_type_extension.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/model/activity_entity.dart';
@@ -73,12 +76,22 @@ void main() {
     });
 
     test('insert_activity_table', () async {
-      await activityDao.upsertActivityEntities(dummyActivities);
+      await activityDao.upsertActivityEntities(
+          dummyActivities,
+          (ActivityFilterType.all, ActivityScopeCategory.global)
+              .combineJsonKey);
     });
 
     test('get_activities', () async {
-      await activityDao.upsertActivityEntities(dummyActivities);
-      await activityDao.getActivityEntities(1, 12);
+      await activityDao.upsertActivityEntities(
+          dummyActivities,
+          (ActivityFilterType.all, ActivityScopeCategory.global)
+              .combineJsonKey);
+      await activityDao.getActivityEntities(
+          1,
+          12,
+          (ActivityFilterType.all, ActivityScopeCategory.global)
+              .combineJsonKey);
     });
   });
 }

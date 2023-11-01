@@ -28,6 +28,9 @@ void main() {
           "medium": "https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b6378393-3BsPEhU6Tz5l.png"
         },
         "bannerImage": "https://s4.anilist.co/file/anilistcdn/user/banner/b6378393-qmyrEYbiA2HR.jpg"
+      },
+      "media": {
+        "id": 1,
       }
     };
     final dummyTextActivity = {
