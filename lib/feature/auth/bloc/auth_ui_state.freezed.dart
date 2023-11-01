@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthState {
-  UserData? get userData => throw _privateConstructorUsedError;
+  UserModel? get userData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -28,9 +28,9 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({UserData? userData});
+  $Res call({UserModel? userData});
 
-  $UserDataCopyWith<$Res>? get userData;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -52,18 +52,18 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
-              as UserData?,
+              as UserModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataCopyWith<$Res>? get userData {
+  $UserModelCopyWith<$Res>? get userData {
     if (_value.userData == null) {
       return null;
     }
 
-    return $UserDataCopyWith<$Res>(_value.userData!, (value) {
+    return $UserModelCopyWith<$Res>(_value.userData!, (value) {
       return _then(_value.copyWith(userData: value) as $Val);
     });
   }
@@ -76,10 +76,10 @@ abstract class _$$_AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
       __$$_AuthStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserData? userData});
+  $Res call({UserModel? userData});
 
   @override
-  $UserDataCopyWith<$Res>? get userData;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class __$$_AuthStateCopyWithImpl<$Res>
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
-              as UserData?,
+              as UserModel?,
     ));
   }
 }
@@ -110,7 +110,7 @@ class _$_AuthState implements _AuthState {
   _$_AuthState({this.userData});
 
   @override
-  final UserData? userData;
+  final UserModel? userData;
 
   @override
   String toString() {
@@ -137,10 +137,10 @@ class _$_AuthState implements _AuthState {
 }
 
 abstract class _AuthState implements AuthState {
-  factory _AuthState({final UserData? userData}) = _$_AuthState;
+  factory _AuthState({final UserModel? userData}) = _$_AuthState;
 
   @override
-  UserData? get userData;
+  UserModel? get userData;
   @override
   @JsonKey(ignore: true)
   _$$_AuthStateCopyWith<_$_AuthState> get copyWith =>

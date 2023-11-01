@@ -4,7 +4,7 @@ import 'package:aniflow/app/app.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
 import 'package:bloc/bloc.dart';
@@ -19,7 +19,7 @@ class OnLogoutButtonTapped extends AuthEvent {}
 class _OnUserDataChanged extends AuthEvent {
   _OnUserDataChanged(this.userData);
 
-  final UserData? userData;
+  final UserModel? userData;
 }
 
 extension AuthStateEx on AuthState {

@@ -1,26 +1,25 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
 
 class ActivityPageQueryParam {
-  final int page;
-  final int perPage;
   final int? userId;
-  final ActivityType? type;
+  final List<ActivityType> type;
   final int? mediaId;
   final bool? isFollowing;
+  final bool? hasReplies;
 
-  const ActivityPageQueryParam(
-      {required this.page,
-      required this.perPage,
-      this.userId,
-      this.type,
-      this.mediaId,
-      this.isFollowing});
+  const ActivityPageQueryParam({
+    this.userId,
+    this.type = const [],
+    this.mediaId,
+    this.isFollowing,
+    this.hasReplies,
+  });
 }
 
 String get activitiesGraphQLString => '''
-query (\$page: Int, \$perPage: Int, \$userId: Int, \$type: ActivityType, \$mediaId: Int, \$isFollowing: Boolean) {
+query (\$page: Int, \$perPage: Int, \$userId: Int, \$type_in: [ActivityType], \$mediaId: Int, \$isFollowing: Boolean, \$hasReplies: Boolean) {
   Page(page: \$page, perPage: \$perPage) {
-    activities(userId: \$userId, type: \$type, mediaId: \$mediaId, isFollowing: \$isFollowing) {
+    activities(userId: \$userId, type_in: \$type_in, mediaId: \$mediaId, isFollowing: \$isFollowing, sort: ID_DESC, hasReplies: \$hasReplies) {
       __typename
       ... on TextActivity {
         id
@@ -65,6 +64,24 @@ query (\$page: Int, \$perPage: Int, \$userId: Int, \$type: ActivityType, \$media
             medium
           }
           bannerImage
+        }
+        media {
+          id
+          type
+          format
+          status
+          season
+          coverImage {
+            extraLarge
+            large
+            medium
+            color
+          }
+          title {
+            romaji
+            english
+            native
+          }
         }
       }
     }

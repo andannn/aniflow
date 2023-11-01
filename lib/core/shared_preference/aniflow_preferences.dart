@@ -78,8 +78,8 @@ class AniFlowPreferences {
     }
   }
 
-  String? getAuthToken() {
-    return _preference.getString(UserDataKey.authToken);
+  String getAuthToken() {
+    return _preference.getString(UserDataKey.authToken) ?? '';
   }
 
   Future setAuthExpiredTime(DateTime? dateTime) {

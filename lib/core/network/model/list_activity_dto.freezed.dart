@@ -46,6 +46,8 @@ mixin _$ListActivityDto {
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
   UserDataDto? get user => throw _privateConstructorUsedError;
+  @JsonKey(name: 'media')
+  MediaDto? get media => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -72,9 +74,11 @@ abstract class $ListActivityDtoCopyWith<$Res> {
       @JsonKey(name: 'likeCount') int? likeCount,
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(name: 'media') MediaDto? media});
 
   $UserDataDtoCopyWith<$Res>? get user;
+  $MediaDtoCopyWith<$Res>? get media;
 }
 
 /// @nodoc
@@ -103,6 +107,7 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
     Object? isPinned = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
+    Object? media = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -157,6 +162,10 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserDataDto?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as MediaDto?,
     ) as $Val);
   }
 
@@ -169,6 +178,18 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
 
     return $UserDataDtoCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaDtoCopyWith<$Res>? get media {
+    if (_value.media == null) {
+      return null;
+    }
+
+    return $MediaDtoCopyWith<$Res>(_value.media!, (value) {
+      return _then(_value.copyWith(media: value) as $Val);
     });
   }
 }
@@ -194,10 +215,13 @@ abstract class _$$_ListActivityDtoCopyWith<$Res>
       @JsonKey(name: 'likeCount') int? likeCount,
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(name: 'media') MediaDto? media});
 
   @override
   $UserDataDtoCopyWith<$Res>? get user;
+  @override
+  $MediaDtoCopyWith<$Res>? get media;
 }
 
 /// @nodoc
@@ -224,6 +248,7 @@ class __$$_ListActivityDtoCopyWithImpl<$Res>
     Object? isPinned = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
+    Object? media = freezed,
   }) {
     return _then(_$_ListActivityDto(
       id: freezed == id
@@ -278,6 +303,10 @@ class __$$_ListActivityDtoCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserDataDto?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as MediaDto?,
     ));
   }
 }
@@ -298,7 +327,8 @@ class _$_ListActivityDto implements _ListActivityDto {
       @JsonKey(name: 'likeCount') this.likeCount,
       @JsonKey(name: 'isPinned') this.isPinned,
       @JsonKey(name: 'createdAt') this.createdAt,
-      @JsonKey(name: 'user') this.user});
+      @JsonKey(name: 'user') this.user,
+      @JsonKey(name: 'media') this.media});
 
   factory _$_ListActivityDto.fromJson(Map<String, dynamic> json) =>
       _$$_ListActivityDtoFromJson(json);
@@ -342,10 +372,13 @@ class _$_ListActivityDto implements _ListActivityDto {
   @override
   @JsonKey(name: 'user')
   final UserDataDto? user;
+  @override
+  @JsonKey(name: 'media')
+  final MediaDto? media;
 
   @override
   String toString() {
-    return 'ListActivityDto(id: $id, status: $status, progress: $progress, userId: $userId, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt, user: $user)';
+    return 'ListActivityDto(id: $id, status: $status, progress: $progress, userId: $userId, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt, user: $user, media: $media)';
   }
 
   @override
@@ -371,7 +404,8 @@ class _$_ListActivityDto implements _ListActivityDto {
                 other.isPinned == isPinned) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.media, media) || other.media == media));
   }
 
   @JsonKey(ignore: true)
@@ -390,7 +424,8 @@ class _$_ListActivityDto implements _ListActivityDto {
       likeCount,
       isPinned,
       createdAt,
-      user);
+      user,
+      media);
 
   @JsonKey(ignore: true)
   @override
@@ -420,7 +455,8 @@ abstract class _ListActivityDto implements ListActivityDto {
       @JsonKey(name: 'likeCount') final int? likeCount,
       @JsonKey(name: 'isPinned') final bool? isPinned,
       @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDataDto? user}) = _$_ListActivityDto;
+      @JsonKey(name: 'user') final UserDataDto? user,
+      @JsonKey(name: 'media') final MediaDto? media}) = _$_ListActivityDto;
 
   factory _ListActivityDto.fromJson(Map<String, dynamic> json) =
       _$_ListActivityDto.fromJson;
@@ -464,6 +500,9 @@ abstract class _ListActivityDto implements ListActivityDto {
   @override
   @JsonKey(name: 'user')
   UserDataDto? get user;
+  @override
+  @JsonKey(name: 'media')
+  MediaDto? get media;
   @override
   @JsonKey(ignore: true)
   _$$_ListActivityDtoCopyWith<_$_ListActivityDto> get copyWith =>

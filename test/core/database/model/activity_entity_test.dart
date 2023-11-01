@@ -1,9 +1,11 @@
+import 'package:aniflow/core/database/model/activity_entity.dart';
 import 'package:aniflow/core/network/model/list_activity_dto.dart';
 import 'package:aniflow/core/network/model/text_activity_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('activity_dto_from_json', () {
+  group('activity_entity_test', () {
+
     final dummyListActivity = {
       "__typename": "ListActivity",
       "id": 615559531,
@@ -51,11 +53,20 @@ void main() {
         "bannerImage": "https://s4.anilist.co/file/anilistcdn/user/banner/n1-Uq15ejQKm1Kg.jpg"
       }
     };
-    test('list_activity_dto', () async {
-      ListActivityDto.fromJson(dummyListActivity);
+
+    test('list activity to entity', () async {
+      final dto = ListActivityDto.fromJson(dummyListActivity);
+      final entity = ActivityEntity.fromDto(dto);
+
+      expect(entity.text == null, equals(true));
     });
-    test('text_activity_dto', () async {
-      TextActivityDto.fromJson(dummyTextActivity);
+
+    test('text activity to entity', () async {
+      final dto = TextActivityDto.fromJson(dummyTextActivity);
+      final entity = ActivityEntity.fromDto(dto);
+
+      expect(entity.status == null, equals(true));
+      expect(entity.progress == null, equals(true));
     });
   });
 }

@@ -7,7 +7,6 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,9 +28,7 @@ void main() {
 
       repository = MediaListRepositoryImpl();
       isUnitTest = true;
-      AuthDataSource().setTestToken(
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFmNjI3ODk4NzQ1YzBhZWIwOGZmYmYyNjA4MTQ4NzgyYWNhMDM0YmM1NWMzZWZlYzE3OTZlNGI0NjgyMGFiNjdhNzljZTA2MTRhNDZlNTVmIn0.eyJhdWQiOiIxNDQwOSIsImp0aSI6ImFmNjI3ODk4NzQ1YzBhZWIwOGZmYmYyNjA4MTQ4NzgyYWNhMDM0YmM1NWMzZWZlYzE3OTZlNGI0NjgyMGFiNjdhNzljZTA2MTRhNDZlNTVmIiwiaWF0IjoxNjk1NjUxMjA1LCJuYmYiOjE2OTU2NTEyMDUsImV4cCI6MTcyNzI3MzYwNSwic3ViIjoiNjM3ODM5MyIsInNjb3BlcyI6W119.XGdU2Zg6tlPoKxKi6VxqqvfPSqmuwj_PW3zKagYyk9j_NIbzkrCFOh9MNLF0X1ifRmB9LcfD5mj4_mj7f63ufwJW7VLrtAaUUu3Vbg8cOwUiPibgnQfVmErv_mThDphLvw4LCEmX7ok13QqC9XMk2AVLNvx9TZW5fo6SfXS4rPySgvHhzMyPc6gbYWkvUTYCBYYTYbWPR7ZcL6gCR1NYPv4NnkVfxFDYF6KKt3nCjcZ7XY894K4GKRIlINoR2KNjflfLzVW2PcopmfQRveXRTKZBmaPeZa5HFbHclpRVe0kxoildpg_4uqqWPjPbUDkuMK3gIHahs2WjqiLc8Le0O9pMRyvaETp27iJVUcoeNFy05vLS6ZzSyoI6tFqfveTiQsrPKLodFjMAVoroTQoIZuX60r9ri-8oj1yWF3Wms4OIHQItkSyJKwezAizrIntRS8kiguuejdS_qWfNTFmMjYOxKU_-d9rcHDjYcVHxr7FPkp7HfpqN1CPVYNn8BMLtRYECMTs-Ds-kY9DDHlLQAWggOtYOR4KsU0sRqOpC4yqmkEdCCZLbdpZOwbCpp-ZLWu1jCICNGI8QEEHfrnvnBHR4KbqguMyOPIVviNXTx82DWNfI_KZTGb5PHuYMleBXacYO9wg0KTYKggVtn6ULxR0ekoA_77otU6x_bf4fW2Q');
-    });
+  });
 
     tearDown(() async {
       await animeDatabase.aniflowDB.delete(Tables.mediaTable);

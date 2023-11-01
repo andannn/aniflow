@@ -1,7 +1,8 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
-import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/activity_entity.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -10,30 +11,53 @@ void main() {
   group('anime_database_test', () {
     final animeDatabase = AniflowDatabase();
     late ActivityDao activityDao;
-    late UserDataDao userDataDao;
 
     final dummyActivities = [
-      ActivityEntity(
-        id: '2',
-        userId: '1',
-        text: "<p>Welcome to 2.0 :)</p>",
-        type: "TEXT",
-        replyCount: 25,
-        siteUrl: "https://anilist.co/activity/2",
-        isLocked: true,
-        isLiked: false,
-        likeCount: 89,
-        isPinned: false,
-        createdAt: 1417356320,
-      )
-    ];
-
-    final userData = [
-      UserEntity(
-        id: '1',
-        name: 'user a',
+      ActivityAndUserRelation(
+        user: UserEntity(
+          id: '1',
+          name: 'Josh',
+        ),
+        activity: ActivityEntity(
+          id: '2',
+          userId: '1',
+          text: "<p>Welcome to 2.0 :)</p>",
+          type: "TEXT",
+          replyCount: 25,
+          siteUrl: "https://anilist.co/activity/2",
+          isLocked: 1,
+          isLiked: 0,
+          likeCount: 89,
+          isPinned: 0,
+          createdAt: 1417356320,
+        ),
+      ),
+      ActivityAndUserRelation(
+        user: UserEntity(
+          id: '1790',
+          name: 'Mex',
+        ),
+        activity: ActivityEntity(
+          id: '3',
+          userId: '1790',
+          mediaId: '20806',
+          type: "ANIME_LIST",
+          replyCount: 24,
+          status: "watched episode",
+          progress: "9",
+          isLiked: 1,
+          isLocked: 0,
+          likeCount: 18,
+          isPinned: 0,
+          createdAt: 1417359311,
+        ),
+        media: MediaEntity(
+          id: '20806',
+          nativeTitle: 'クロスアンジュ 天使と竜の輪舞',
+        ),
       ),
     ];
+
     setUp(() async {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
@@ -41,7 +65,6 @@ void main() {
       await animeDatabase.initDatabase(isTest: true);
 
       activityDao = AniflowDatabase().getActivityDao();
-      userDataDao = AniflowDatabase().getUserDataDao();
     });
 
     tearDown(() async {
@@ -55,8 +78,6 @@ void main() {
 
     test('get_activities', () async {
       await activityDao.upsertActivityEntities(dummyActivities);
-      await userDataDao.updateUserData(userData.first);
-
       await activityDao.getActivityEntities(1, 12);
     });
   });

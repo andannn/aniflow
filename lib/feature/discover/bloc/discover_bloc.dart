@@ -13,7 +13,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
@@ -40,7 +40,7 @@ class _OnMediaLoadError extends DiscoverEvent {
 class _OnUserDataChanged extends DiscoverEvent {
   _OnUserDataChanged(this.userData);
 
-  final UserData? userData;
+  final UserModel? userData;
 }
 
 class _OnTrackingMediaIdsChanged extends DiscoverEvent {

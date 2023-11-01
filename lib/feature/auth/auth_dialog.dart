@@ -1,6 +1,6 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
@@ -65,7 +65,7 @@ class _AuthDialogContent extends StatelessWidget {
   }
 
   Widget _buildUserInfoWidget(
-      BuildContext context, UserData? userData, bool isLoggedIn) {
+      BuildContext context, UserModel? userData, bool isLoggedIn) {
     final avatarUrl = userData?.avatar;
     // final bannerUrl = userData?.bannerImage;
     final userName = userData?.name;
@@ -104,7 +104,7 @@ class _AuthDialogContent extends StatelessWidget {
   }
 
   Widget _buildOptionColumnItem(
-      BuildContext context, _OptionColumn option, UserData? userData) {
+      BuildContext context, _OptionColumn option, UserModel? userData) {
     final IconData iconData;
     final String label;
     switch (option) {
@@ -140,7 +140,7 @@ class _AuthDialogContent extends StatelessWidget {
   }
 
   void _onOptionTap(
-      BuildContext context, _OptionColumn option, UserData? userData) {
+      BuildContext context, _OptionColumn option, UserModel? userData) {
     switch (option) {
       case _OptionColumn.settings:
       case _OptionColumn.about:

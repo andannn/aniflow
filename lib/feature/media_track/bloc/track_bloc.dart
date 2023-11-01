@@ -7,7 +7,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
@@ -18,7 +18,7 @@ import 'package:collection/collection.dart';
 sealed class TrackEvent {}
 
 class _OnUserStateChanged extends TrackEvent {
-  final UserData? userData;
+  final UserModel? userData;
 
   _OnUserStateChanged({required this.userData});
 }

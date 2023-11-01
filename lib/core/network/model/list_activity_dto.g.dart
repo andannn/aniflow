@@ -25,6 +25,9 @@ _$_ListActivityDto _$$_ListActivityDtoFromJson(Map<String, dynamic> json) =>
       user: json['user'] == null
           ? null
           : UserDataDto.fromJson(json['user'] as Map<String, dynamic>),
+      media: json['media'] == null
+          ? null
+          : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_ListActivityDtoToJson(_$_ListActivityDto instance) =>
@@ -42,4 +45,5 @@ Map<String, dynamic> _$$_ListActivityDtoToJson(_$_ListActivityDto instance) =>
       'isPinned': instance.isPinned,
       'createdAt': instance.createdAt,
       'user': instance.user,
+      'media': instance.media,
     };

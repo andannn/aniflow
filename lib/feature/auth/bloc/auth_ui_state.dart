@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_ui_state.freezed.dart';
@@ -6,6 +6,6 @@ part 'auth_ui_state.freezed.dart';
 @freezed
 class AuthState with _$AuthState {
   factory AuthState({
-     UserData? userData,
+     UserModel? userData,
   }) = _AuthState;
 }

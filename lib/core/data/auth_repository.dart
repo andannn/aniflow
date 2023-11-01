@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
@@ -20,7 +20,7 @@ abstract class AuthRepository {
 
   FutureOr<bool> isTokenValid();
 
-  Stream<UserData?> getUserDataStream();
+  Stream<UserModel?> getUserDataStream();
 
   Future logout();
 }
@@ -34,8 +34,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
 
-  final MediaListDao animeTrackListDao =
-      AniflowDatabase().getMediaListDao();
+  final MediaListDao animeTrackListDao = AniflowDatabase().getMediaListDao();
 
   @override
   Future<bool> awaitAuthLogin() async {
@@ -88,6 +87,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Stream<UserData?> getUserDataStream() =>
-      userDataDao.getUserDataStream().map((e) => UserData.fromDatabaseModel(e));
+  Stream<UserModel?> getUserDataStream() => userDataDao
+      .getUserDataStream()
+      .map((e) => UserModel.fromDatabaseModel(e));
 }

@@ -1,14 +1,19 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/activity_entity.dart';
+import 'package:aniflow/core/database/model/media_entity.dart';
+import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
+import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.activityTable]
 mixin ActivityTableColumns {
   static const String id = 'activity_id';
   static const String userId = 'activity_userId';
+  static const String mediaId = 'activity_mediaId';
   static const String text = 'activity_text';
   static const String status = 'activity_status';
   static const String progress = 'activity_progress';
@@ -23,10 +28,10 @@ mixin ActivityTableColumns {
 }
 
 abstract class ActivityDao {
-  Future upsertActivityEntities(List<ActivityEntity> entities);
+  Future upsertActivityEntities(List<ActivityAndUserRelation> entities);
 
-  Future getActivityEntities(
-      [int page, int perPage, int? userId, List<ActivityType> types]);
+  Future<List<ActivityAndUserRelation>> getActivityEntities(
+      [int page, int perPage, List<ActivityType> types]);
 }
 
 class ActivityDaoImpl extends ActivityDao {
@@ -35,35 +40,44 @@ class ActivityDaoImpl extends ActivityDao {
   ActivityDaoImpl(this.database);
 
   @override
-  Future upsertActivityEntities(List<ActivityEntity> entities) async {
+  Future upsertActivityEntities(List<ActivityAndUserRelation> entities) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       batch.insert(
         Tables.activityTable,
-        entity.toJson(),
+        entity.activity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+      batch.insert(
+        Tables.userDataTable,
+        entity.user.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+      if (entity.media != null) {
+        batch.insert(
+          Tables.mediaTable,
+          entity.media!.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.ignore,
+        );
+      }
     }
     return batch.commit(noResult: true);
   }
 
   @override
-  Future getActivityEntities(
+  Future<List<ActivityAndUserRelation>> getActivityEntities(
       [int page = 1,
       int perPage = Config.defaultPerPageCount,
-      int? userId,
       List<ActivityType> types = const []]) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
     String sql = 'select * from ${Tables.activityTable} as a '
         'join ${Tables.userDataTable}  as u '
-        '  on ${ActivityTableColumns.userId} = ${UserDataTableColumns.id} '
+        '  on a.${ActivityTableColumns.userId} = u.${UserDataTableColumns.id} '
+        'left join ${Tables.mediaTable} as m '
+        '  on a.${ActivityTableColumns.mediaId} = m.${MediaTableColumns.id} '
         'where true ';
-
-    if (userId != null) {
-      sql += 'and ${UserDataTableColumns.id} = \'$userId\' ';
-    }
 
     String typeSelection = types.map((e) => e.toJson()).join(',');
     if (typeSelection.isNotEmpty) {
@@ -77,6 +91,16 @@ class ActivityDaoImpl extends ActivityDao {
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
 
-    print(result);
+    return result.map(
+      (e) {
+        final mediaEntity = MediaEntity.fromJson(e);
+        final isMediaValid = mediaEntity.id.isNotEmpty;
+        return ActivityAndUserRelation(
+          user: UserEntity.fromJson(e),
+          activity: ActivityEntity.fromJson(e),
+          media: isMediaValid ? mediaEntity : null,
+        );
+      },
+    ).toList();
   }
 }

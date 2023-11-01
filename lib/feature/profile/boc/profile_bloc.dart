@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/data/auth_repository.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/feature/profile/boc/profile_state.dart';
 import 'package:bloc/bloc.dart';
 
@@ -10,7 +10,7 @@ sealed class ProfileEvent {}
 class _OnUserDataLoaded extends ProfileEvent {
   _OnUserDataLoaded({required this.userData});
 
-  final UserData userData;
+  final UserModel userData;
 }
 
 class OnFavoritePageLoadingStateChanged extends ProfileEvent {

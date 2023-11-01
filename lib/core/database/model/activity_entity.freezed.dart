@@ -24,6 +24,8 @@ mixin _$ActivityEntity {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.userId)
   String get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: ActivityTableColumns.mediaId)
+  String? get mediaId => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.text)
   String? get text => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.status)
@@ -37,13 +39,13 @@ mixin _$ActivityEntity {
   @JsonKey(name: ActivityTableColumns.siteUrl)
   String? get siteUrl => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.isLocked)
-  bool? get isLocked => throw _privateConstructorUsedError;
+  int? get isLocked => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.isLiked)
-  bool? get isLiked => throw _privateConstructorUsedError;
+  int? get isLiked => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.likeCount)
   int? get likeCount => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.isPinned)
-  bool? get isPinned => throw _privateConstructorUsedError;
+  int? get isPinned => throw _privateConstructorUsedError;
   @JsonKey(name: ActivityTableColumns.createdAt)
   int? get createdAt => throw _privateConstructorUsedError;
 
@@ -62,16 +64,17 @@ abstract class $ActivityEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: ActivityTableColumns.id) String id,
       @JsonKey(name: ActivityTableColumns.userId) String userId,
+      @JsonKey(name: ActivityTableColumns.mediaId) String? mediaId,
       @JsonKey(name: ActivityTableColumns.text) String? text,
       @JsonKey(name: ActivityTableColumns.status) String? status,
       @JsonKey(name: ActivityTableColumns.progress) String? progress,
       @JsonKey(name: ActivityTableColumns.type) String? type,
       @JsonKey(name: ActivityTableColumns.replyCount) int? replyCount,
       @JsonKey(name: ActivityTableColumns.siteUrl) String? siteUrl,
-      @JsonKey(name: ActivityTableColumns.isLocked) bool? isLocked,
-      @JsonKey(name: ActivityTableColumns.isLiked) bool? isLiked,
+      @JsonKey(name: ActivityTableColumns.isLocked) int? isLocked,
+      @JsonKey(name: ActivityTableColumns.isLiked) int? isLiked,
       @JsonKey(name: ActivityTableColumns.likeCount) int? likeCount,
-      @JsonKey(name: ActivityTableColumns.isPinned) bool? isPinned,
+      @JsonKey(name: ActivityTableColumns.isPinned) int? isPinned,
       @JsonKey(name: ActivityTableColumns.createdAt) int? createdAt});
 }
 
@@ -90,6 +93,7 @@ class _$ActivityEntityCopyWithImpl<$Res, $Val extends ActivityEntity>
   $Res call({
     Object? id = null,
     Object? userId = null,
+    Object? mediaId = freezed,
     Object? text = freezed,
     Object? status = freezed,
     Object? progress = freezed,
@@ -111,6 +115,10 @@ class _$ActivityEntityCopyWithImpl<$Res, $Val extends ActivityEntity>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      mediaId: freezed == mediaId
+          ? _value.mediaId
+          : mediaId // ignore: cast_nullable_to_non_nullable
+              as String?,
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -138,11 +146,11 @@ class _$ActivityEntityCopyWithImpl<$Res, $Val extends ActivityEntity>
       isLocked: freezed == isLocked
           ? _value.isLocked
           : isLocked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       isLiked: freezed == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       likeCount: freezed == likeCount
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
@@ -150,7 +158,7 @@ class _$ActivityEntityCopyWithImpl<$Res, $Val extends ActivityEntity>
       isPinned: freezed == isPinned
           ? _value.isPinned
           : isPinned // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -170,16 +178,17 @@ abstract class _$$_ActivityEntityCopyWith<$Res>
   $Res call(
       {@JsonKey(name: ActivityTableColumns.id) String id,
       @JsonKey(name: ActivityTableColumns.userId) String userId,
+      @JsonKey(name: ActivityTableColumns.mediaId) String? mediaId,
       @JsonKey(name: ActivityTableColumns.text) String? text,
       @JsonKey(name: ActivityTableColumns.status) String? status,
       @JsonKey(name: ActivityTableColumns.progress) String? progress,
       @JsonKey(name: ActivityTableColumns.type) String? type,
       @JsonKey(name: ActivityTableColumns.replyCount) int? replyCount,
       @JsonKey(name: ActivityTableColumns.siteUrl) String? siteUrl,
-      @JsonKey(name: ActivityTableColumns.isLocked) bool? isLocked,
-      @JsonKey(name: ActivityTableColumns.isLiked) bool? isLiked,
+      @JsonKey(name: ActivityTableColumns.isLocked) int? isLocked,
+      @JsonKey(name: ActivityTableColumns.isLiked) int? isLiked,
       @JsonKey(name: ActivityTableColumns.likeCount) int? likeCount,
-      @JsonKey(name: ActivityTableColumns.isPinned) bool? isPinned,
+      @JsonKey(name: ActivityTableColumns.isPinned) int? isPinned,
       @JsonKey(name: ActivityTableColumns.createdAt) int? createdAt});
 }
 
@@ -196,6 +205,7 @@ class __$$_ActivityEntityCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? userId = null,
+    Object? mediaId = freezed,
     Object? text = freezed,
     Object? status = freezed,
     Object? progress = freezed,
@@ -217,6 +227,10 @@ class __$$_ActivityEntityCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      mediaId: freezed == mediaId
+          ? _value.mediaId
+          : mediaId // ignore: cast_nullable_to_non_nullable
+              as String?,
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -244,11 +258,11 @@ class __$$_ActivityEntityCopyWithImpl<$Res>
       isLocked: freezed == isLocked
           ? _value.isLocked
           : isLocked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       isLiked: freezed == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       likeCount: freezed == likeCount
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
@@ -256,7 +270,7 @@ class __$$_ActivityEntityCopyWithImpl<$Res>
       isPinned: freezed == isPinned
           ? _value.isPinned
           : isPinned // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -271,6 +285,7 @@ class _$_ActivityEntity implements _ActivityEntity {
   _$_ActivityEntity(
       {@JsonKey(name: ActivityTableColumns.id) this.id = '',
       @JsonKey(name: ActivityTableColumns.userId) this.userId = '',
+      @JsonKey(name: ActivityTableColumns.mediaId) this.mediaId,
       @JsonKey(name: ActivityTableColumns.text) this.text,
       @JsonKey(name: ActivityTableColumns.status) this.status,
       @JsonKey(name: ActivityTableColumns.progress) this.progress,
@@ -293,6 +308,9 @@ class _$_ActivityEntity implements _ActivityEntity {
   @JsonKey(name: ActivityTableColumns.userId)
   final String userId;
   @override
+  @JsonKey(name: ActivityTableColumns.mediaId)
+  final String? mediaId;
+  @override
   @JsonKey(name: ActivityTableColumns.text)
   final String? text;
   @override
@@ -312,23 +330,23 @@ class _$_ActivityEntity implements _ActivityEntity {
   final String? siteUrl;
   @override
   @JsonKey(name: ActivityTableColumns.isLocked)
-  final bool? isLocked;
+  final int? isLocked;
   @override
   @JsonKey(name: ActivityTableColumns.isLiked)
-  final bool? isLiked;
+  final int? isLiked;
   @override
   @JsonKey(name: ActivityTableColumns.likeCount)
   final int? likeCount;
   @override
   @JsonKey(name: ActivityTableColumns.isPinned)
-  final bool? isPinned;
+  final int? isPinned;
   @override
   @JsonKey(name: ActivityTableColumns.createdAt)
   final int? createdAt;
 
   @override
   String toString() {
-    return 'ActivityEntity(id: $id, userId: $userId, text: $text, status: $status, progress: $progress, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt)';
+    return 'ActivityEntity(id: $id, userId: $userId, mediaId: $mediaId, text: $text, status: $status, progress: $progress, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt)';
   }
 
   @override
@@ -338,6 +356,7 @@ class _$_ActivityEntity implements _ActivityEntity {
             other is _$_ActivityEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.progress, progress) ||
@@ -363,6 +382,7 @@ class _$_ActivityEntity implements _ActivityEntity {
       runtimeType,
       id,
       userId,
+      mediaId,
       text,
       status,
       progress,
@@ -393,16 +413,17 @@ abstract class _ActivityEntity implements ActivityEntity {
   factory _ActivityEntity(
       {@JsonKey(name: ActivityTableColumns.id) final String id,
       @JsonKey(name: ActivityTableColumns.userId) final String userId,
+      @JsonKey(name: ActivityTableColumns.mediaId) final String? mediaId,
       @JsonKey(name: ActivityTableColumns.text) final String? text,
       @JsonKey(name: ActivityTableColumns.status) final String? status,
       @JsonKey(name: ActivityTableColumns.progress) final String? progress,
       @JsonKey(name: ActivityTableColumns.type) final String? type,
       @JsonKey(name: ActivityTableColumns.replyCount) final int? replyCount,
       @JsonKey(name: ActivityTableColumns.siteUrl) final String? siteUrl,
-      @JsonKey(name: ActivityTableColumns.isLocked) final bool? isLocked,
-      @JsonKey(name: ActivityTableColumns.isLiked) final bool? isLiked,
+      @JsonKey(name: ActivityTableColumns.isLocked) final int? isLocked,
+      @JsonKey(name: ActivityTableColumns.isLiked) final int? isLiked,
       @JsonKey(name: ActivityTableColumns.likeCount) final int? likeCount,
-      @JsonKey(name: ActivityTableColumns.isPinned) final bool? isPinned,
+      @JsonKey(name: ActivityTableColumns.isPinned) final int? isPinned,
       @JsonKey(name: ActivityTableColumns.createdAt)
       final int? createdAt}) = _$_ActivityEntity;
 
@@ -415,6 +436,9 @@ abstract class _ActivityEntity implements ActivityEntity {
   @override
   @JsonKey(name: ActivityTableColumns.userId)
   String get userId;
+  @override
+  @JsonKey(name: ActivityTableColumns.mediaId)
+  String? get mediaId;
   @override
   @JsonKey(name: ActivityTableColumns.text)
   String? get text;
@@ -435,16 +459,16 @@ abstract class _ActivityEntity implements ActivityEntity {
   String? get siteUrl;
   @override
   @JsonKey(name: ActivityTableColumns.isLocked)
-  bool? get isLocked;
+  int? get isLocked;
   @override
   @JsonKey(name: ActivityTableColumns.isLiked)
-  bool? get isLiked;
+  int? get isLiked;
   @override
   @JsonKey(name: ActivityTableColumns.likeCount)
   int? get likeCount;
   @override
   @JsonKey(name: ActivityTableColumns.isPinned)
-  bool? get isPinned;
+  int? get isPinned;
   @override
   @JsonKey(name: ActivityTableColumns.createdAt)
   int? get createdAt;
