@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ActivityState {
-  ActivityFilterType get filterType => throw _privateConstructorUsedError;
-  ActivityScopeCategory get userType => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  ActivityFilterType? get filterType => throw _privateConstructorUsedError;
+  ActivityScopeCategory? get scopeCategory =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ActivityStateCopyWith<ActivityState> get copyWith =>
@@ -30,7 +32,10 @@ abstract class $ActivityStateCopyWith<$Res> {
           ActivityState value, $Res Function(ActivityState) then) =
       _$ActivityStateCopyWithImpl<$Res, ActivityState>;
   @useResult
-  $Res call({ActivityFilterType filterType, ActivityScopeCategory userType});
+  $Res call(
+      {bool isLoading,
+      ActivityFilterType? filterType,
+      ActivityScopeCategory? scopeCategory});
 }
 
 /// @nodoc
@@ -46,18 +51,23 @@ class _$ActivityStateCopyWithImpl<$Res, $Val extends ActivityState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filterType = null,
-    Object? userType = null,
+    Object? isLoading = null,
+    Object? filterType = freezed,
+    Object? scopeCategory = freezed,
   }) {
     return _then(_value.copyWith(
-      filterType: null == filterType
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      filterType: freezed == filterType
           ? _value.filterType
           : filterType // ignore: cast_nullable_to_non_nullable
-              as ActivityFilterType,
-      userType: null == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as ActivityScopeCategory,
+              as ActivityFilterType?,
+      scopeCategory: freezed == scopeCategory
+          ? _value.scopeCategory
+          : scopeCategory // ignore: cast_nullable_to_non_nullable
+              as ActivityScopeCategory?,
     ) as $Val);
   }
 }
@@ -70,7 +80,10 @@ abstract class _$$_ActivityStateCopyWith<$Res>
       __$$_ActivityStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ActivityFilterType filterType, ActivityScopeCategory userType});
+  $Res call(
+      {bool isLoading,
+      ActivityFilterType? filterType,
+      ActivityScopeCategory? scopeCategory});
 }
 
 /// @nodoc
@@ -84,18 +97,23 @@ class __$$_ActivityStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filterType = null,
-    Object? userType = null,
+    Object? isLoading = null,
+    Object? filterType = freezed,
+    Object? scopeCategory = freezed,
   }) {
     return _then(_$_ActivityState(
-      filterType: null == filterType
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      filterType: freezed == filterType
           ? _value.filterType
           : filterType // ignore: cast_nullable_to_non_nullable
-              as ActivityFilterType,
-      userType: null == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as ActivityScopeCategory,
+              as ActivityFilterType?,
+      scopeCategory: freezed == scopeCategory
+          ? _value.scopeCategory
+          : scopeCategory // ignore: cast_nullable_to_non_nullable
+              as ActivityScopeCategory?,
     ));
   }
 }
@@ -104,19 +122,19 @@ class __$$_ActivityStateCopyWithImpl<$Res>
 
 class _$_ActivityState implements _ActivityState {
   _$_ActivityState(
-      {this.filterType = ActivityFilterType.all,
-      this.userType = ActivityScopeCategory.global});
+      {this.isLoading = false, this.filterType, this.scopeCategory});
 
   @override
   @JsonKey()
-  final ActivityFilterType filterType;
+  final bool isLoading;
   @override
-  @JsonKey()
-  final ActivityScopeCategory userType;
+  final ActivityFilterType? filterType;
+  @override
+  final ActivityScopeCategory? scopeCategory;
 
   @override
   String toString() {
-    return 'ActivityState(filterType: $filterType, userType: $userType)';
+    return 'ActivityState(isLoading: $isLoading, filterType: $filterType, scopeCategory: $scopeCategory)';
   }
 
   @override
@@ -124,14 +142,17 @@ class _$_ActivityState implements _ActivityState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ActivityState &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.filterType, filterType) ||
                 other.filterType == filterType) &&
-            (identical(other.userType, userType) ||
-                other.userType == userType));
+            (identical(other.scopeCategory, scopeCategory) ||
+                other.scopeCategory == scopeCategory));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, filterType, userType);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, filterType, scopeCategory);
 
   @JsonKey(ignore: true)
   @override
@@ -142,13 +163,16 @@ class _$_ActivityState implements _ActivityState {
 
 abstract class _ActivityState implements ActivityState {
   factory _ActivityState(
-      {final ActivityFilterType filterType,
-      final ActivityScopeCategory userType}) = _$_ActivityState;
+      {final bool isLoading,
+      final ActivityFilterType? filterType,
+      final ActivityScopeCategory? scopeCategory}) = _$_ActivityState;
 
   @override
-  ActivityFilterType get filterType;
+  bool get isLoading;
   @override
-  ActivityScopeCategory get userType;
+  ActivityFilterType? get filterType;
+  @override
+  ActivityScopeCategory? get scopeCategory;
   @override
   @JsonKey(ignore: true)
   _$$_ActivityStateCopyWith<_$_ActivityState> get copyWith =>

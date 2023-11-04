@@ -310,8 +310,8 @@ class AniListDataSource {
     if (param.isFollowing != null) {
       variablesMap['isFollowing'] = param.isFollowing;
     }
-    if (param.hasReplies != null) {
-      variablesMap['hasReplies'] = param.hasReplies;
+    if (param.hasRepliesOrTypeText != null) {
+      variablesMap['hasRepliesOrTypeText'] = param.hasRepliesOrTypeText;
     }
 
     final response = await AniListDio().dio.post(

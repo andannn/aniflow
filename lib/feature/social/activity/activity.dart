@@ -1,8 +1,10 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/activity_scope_category.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
+import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
@@ -19,7 +21,9 @@ class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ActivityBloc(),
+      create: (BuildContext context) => ActivityBloc(
+        context.read<ActivityRepository>(),
+      ),
       child: const _ActivityPageContent(),
     );
   }
@@ -33,7 +37,13 @@ class _ActivityPageContent extends StatelessWidget {
     return BlocBuilder<ActivityBloc, ActivityState>(
       builder: (context, state) {
         final filterType = state.filterType;
-        final userType = state.userType;
+        final scopeCategory = state.scopeCategory;
+        final isLoading = state.isLoading;
+
+        if (filterType == null || scopeCategory == null) {
+          return const SizedBox();
+        }
+
         return Scaffold(
           body: NestedScrollView(
             headerSliverBuilder:
@@ -80,7 +90,16 @@ class _ActivityPageContent extends StatelessWidget {
                   ],
                   bottom: PreferredSize(
                     preferredSize: const Size.fromHeight(50),
-                    child: _buildUserTypeSelection(context, userType),
+                    child: Column(
+                      children: [
+                        _buildScopeCategorySelection(context, scopeCategory),
+                        AnimatedOpacity(
+                          opacity: isLoading ? 1 : 0,
+                          duration: Config.defaultAnimationDuration,
+                          child: const LinearProgressIndicator(),
+                        )
+                      ],
+                    ),
                   ),
                   automaticallyImplyLeading: false,
                 ),
@@ -90,8 +109,8 @@ class _ActivityPageContent extends StatelessWidget {
               children: [
                 Expanded(
                   child: ActivityPageBlocProvider(
-                    key: ValueKey('${userType}_$filterType'),
-                    userType: userType,
+                    key: ValueKey('${scopeCategory}_$filterType'),
+                    userType: scopeCategory,
                     filterType: filterType,
                   ),
                 ),
@@ -103,7 +122,7 @@ class _ActivityPageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildUserTypeSelection(
+  Widget _buildScopeCategorySelection(
       BuildContext context, ActivityScopeCategory userType) {
     return Row(
       children: [
@@ -113,12 +132,12 @@ class _ActivityPageContent extends StatelessWidget {
             ButtonSegment(
               value: ActivityScopeCategory.global,
               label: Text('Global'),
-              icon: Icon(Icons.gamepad_rounded),
+              icon: Icon(Icons.public),
             ),
             ButtonSegment(
               value: ActivityScopeCategory.following,
               label: Text('Following'),
-              icon: Icon(Icons.contacts_outlined),
+              icon: Icon(Icons.person_2),
             ),
           ],
           selected: {userType},
@@ -126,7 +145,7 @@ class _ActivityPageContent extends StatelessWidget {
           onSelectionChanged: (newSelection) {
             context
                 .read<ActivityBloc>()
-                .add(OnUserTypeChanged(type: newSelection.first));
+                .add(OnActivityScopeChanged(type: newSelection.first));
           },
         ),
       ],
@@ -161,6 +180,11 @@ class ActivityPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ActivityPagingBloc, PagingState<List<ActivityModel>>>(
       builder: (context, state) {
+        final isLoading = state is PageLoading;
+        context
+            .read<ActivityBloc>()
+            .add(OnLoadingStateChanged(isLoading: isLoading));
+
         return PagingContent(
           onBuildItem: _buildActivityItem,
           pagingState: state,
@@ -176,14 +200,11 @@ class ActivityPageContent extends StatelessWidget {
   }
 
   Widget _buildActivityItem(BuildContext context, ActivityModel model) {
-    return SizedBox(
-      height: 30,
-      child: Row(
-        children: [
-          Text(model.id),
-          Text(model.runtimeType.toString()),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ActivityItem(model: model),
+      ],
     );
   }
 }

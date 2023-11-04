@@ -28,7 +28,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.list,
-        userType: ActivityScopeCategory.global,
+        scopeType: ActivityScopeCategory.global,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });
@@ -37,7 +37,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.list,
-        userType: ActivityScopeCategory.following,
+        scopeType: ActivityScopeCategory.following,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });
@@ -46,7 +46,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.text,
-        userType: ActivityScopeCategory.following,
+        scopeType: ActivityScopeCategory.following,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });
@@ -55,7 +55,7 @@ void main() {
       final result = await activityRepository.loadActivitiesByPage(
         loadType: const Refresh(),
         filterType: ActivityFilterType.text,
-        userType: ActivityScopeCategory.global,
+        scopeType: ActivityScopeCategory.global,
       );
       expect(result.runtimeType, LoadSuccess<List<ActivityModel>>);
     });

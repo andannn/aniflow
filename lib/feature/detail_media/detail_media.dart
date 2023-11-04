@@ -28,7 +28,7 @@ import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -279,7 +279,10 @@ class _DetailAnimePageContent extends StatelessWidget {
               AFLocalizations.of(context).animeDescription,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            description != null ? Html(data: description) : const SizedBox(),
+            description != null ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: HtmlWidget(description),
+            ) : const SizedBox(),
           ],
         ),
       ),

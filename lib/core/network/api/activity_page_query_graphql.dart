@@ -5,21 +5,21 @@ class ActivityPageQueryParam {
   final List<ActivityType> type;
   final int? mediaId;
   final bool? isFollowing;
-  final bool? hasReplies;
+  final bool? hasRepliesOrTypeText;
 
   const ActivityPageQueryParam({
     this.userId,
     this.type = const [],
     this.mediaId,
     this.isFollowing,
-    this.hasReplies,
+    this.hasRepliesOrTypeText,
   });
 }
 
 String get activitiesGraphQLString => '''
-query (\$page: Int, \$perPage: Int, \$userId: Int, \$type_in: [ActivityType], \$mediaId: Int, \$isFollowing: Boolean, \$hasReplies: Boolean) {
+query (\$page: Int, \$perPage: Int, \$userId: Int, \$type_in: [ActivityType], \$mediaId: Int, \$isFollowing: Boolean, \$hasRepliesOrTypeText: Boolean) {
   Page(page: \$page, perPage: \$perPage) {
-    activities(userId: \$userId, type_in: \$type_in, mediaId: \$mediaId, isFollowing: \$isFollowing, sort: ID_DESC, hasReplies: \$hasReplies) {
+    activities(userId: \$userId, type_in: \$type_in, mediaId: \$mediaId, isFollowing: \$isFollowing, sort: ID_DESC, hasRepliesOrTypeText: \$hasRepliesOrTypeText) {
       __typename
       ... on TextActivity {
         id

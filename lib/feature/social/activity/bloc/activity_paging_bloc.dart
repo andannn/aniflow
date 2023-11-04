@@ -1,7 +1,6 @@
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
@@ -16,9 +15,7 @@ class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
   })  : _repository = repository,
         _userType = userType,
         _filterType = filterType,
-        super(const PageInit(data: [])) {
-    logger.d('activity bloc init $hashCode');
-  }
+        super(const PageInit(data: []));
 
   final ActivityRepository _repository;
   final ActivityScopeCategory _userType;
@@ -33,6 +30,6 @@ class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
             : Append(
                 page: page, perPage: Config.activityPageDefaultPerPageCount),
         filterType: _filterType,
-        userType: _userType);
+        scopeType: _userType);
   }
 }

@@ -8,7 +8,8 @@ part 'activity_state.freezed.dart';
 @freezed
 class ActivityState with _$ActivityState {
   factory ActivityState({
-    @Default(ActivityFilterType.all) ActivityFilterType filterType,
-    @Default(ActivityScopeCategory.global) ActivityScopeCategory userType,
+    @Default(false) bool isLoading,
+    ActivityFilterType? filterType,
+    ActivityScopeCategory? scopeCategory,
   }) = _ActivityState;
 }

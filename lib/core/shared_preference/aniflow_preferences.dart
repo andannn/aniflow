@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:aniflow/core/common/model/activity_filter_type.dart';
+import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/shared_preference/model/user_setting_model.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +20,8 @@ mixin UserDataKey {
   /// user settings.
   static const displayAdultContent = "display_adult_content";
   static const currentMediaType = "currentMediaType";
+  static const activityScope = "activity_scope";
+  static const activityFilter = "activity_filter";
 }
 
 class AniFlowPreferences {
@@ -28,7 +33,9 @@ class AniFlowPreferences {
 
   late SharedPreferences _preference;
 
-  final _currentMediaTypeChangeNotifier = ValueNotifier(0);
+  final _mediaTypeChangeNotifier = ValueNotifier(0);
+  final _activityScopeChangeNotifier = ValueNotifier(0);
+  final _activityFilterChangeNotifier = ValueNotifier(0);
 
   Future init() async {
     _preference = await SharedPreferences.getInstance();
@@ -114,7 +121,7 @@ class AniFlowPreferences {
       );
 
   Stream<MediaType> getCurrentMediaTypeStream() => StreamUtil.createStream(
-        _currentMediaTypeChangeNotifier,
+        _mediaTypeChangeNotifier,
         () => Future(() => getCurrentMediaType()),
       );
 
@@ -123,8 +130,49 @@ class AniFlowPreferences {
         UserDataKey.currentMediaType, mediaType.jsonString);
 
     if (isChanged) {
-      _currentMediaTypeChangeNotifier.value =
-          _currentMediaTypeChangeNotifier.value++;
+      _mediaTypeChangeNotifier.notifyChanged();
     }
   }
+
+  Future setActivityScopeCategory(ActivityScopeCategory category) async {
+    final isChanged = await _preference.setString(
+        UserDataKey.activityScope, category.toJson());
+
+    if (isChanged) {
+      _activityScopeChangeNotifier.notifyChanged();
+    }
+  }
+
+  ActivityScopeCategory getActivityScopeCategory() {
+    return ActivityScopeCategory.fromJson(
+        _preference.getString(UserDataKey.activityScope) ??
+            ActivityScopeCategory.global.toJson());
+  }
+
+  Stream<ActivityScopeCategory> getActivityScopeCategoryStream() =>
+      StreamUtil.createStream(
+        _activityScopeChangeNotifier,
+        () => Future(() => getActivityScopeCategory()),
+      );
+
+  Future setActivityFilterType(ActivityFilterType category) async {
+    final isChanged = await _preference.setString(
+        UserDataKey.activityFilter, category.toJson());
+
+    if (isChanged) {
+      _activityFilterChangeNotifier.notifyChanged();
+    }
+  }
+
+  ActivityFilterType getActivityFilterType() {
+    return ActivityFilterType.fromJson(
+        _preference.getString(UserDataKey.activityFilter) ??
+            ActivityFilterType.all.toJson());
+  }
+
+  Stream<ActivityFilterType> getActivityFilterTypeStream() =>
+      StreamUtil.createStream(
+        _activityFilterChangeNotifier,
+            () => Future(() => getActivityFilterType()),
+      );
 }
