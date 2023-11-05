@@ -17,6 +17,7 @@ import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 
 abstract class FavoriteRepository {
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage(
@@ -32,6 +33,7 @@ abstract class FavoriteRepository {
 class FavoriteRepositoryImpl implements FavoriteRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
+  final preferences = AniFlowPreferences();
   final MediaInformationDao mediaInfoDao =
       AniflowDatabase().getMediaInformationDaoDao();
   final mediaListDao = AniflowDatabase().getMediaListDao();
@@ -42,7 +44,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       {required MediaType type,
       required LoadType loadType,
       String? userId}) async {
-    userId ??= (await _getCurrentAuthUserId());
+    userId ??= preferences.getAuthedUserId();
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -87,7 +89,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage(
       {required LoadType loadType, String? userId}) async {
-    userId ??= (await _getCurrentAuthUserId());
+    userId ??= preferences.getAuthedUserId();
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -116,14 +118,10 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     );
   }
 
-  Future<String?> _getCurrentAuthUserId() async {
-    return (await userDataDao.getUserData())?.id;
-  }
-
   @override
   Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage(
       {required LoadType loadType, String? userId}) async {
-    userId ??= (await _getCurrentAuthUserId());
+    userId ??= preferences.getAuthedUserId();
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }

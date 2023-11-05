@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_data_model.dart';
+part of 'user_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,29 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$UserData {
+mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
   String? get bannerImage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $UserDataCopyWith<UserData> get copyWith =>
+  $UserModelCopyWith<UserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserDataCopyWith<$Res> {
-  factory $UserDataCopyWith(UserData value, $Res Function(UserData) then) =
-      _$UserDataCopyWithImpl<$Res, UserData>;
+abstract class $UserModelCopyWith<$Res> {
+  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
+      _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call({String id, String name, String avatar, String? bannerImage});
 }
 
 /// @nodoc
-class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
-    implements $UserDataCopyWith<$Res> {
-  _$UserDataCopyWithImpl(this._value, this._then);
+class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
+    implements $UserModelCopyWith<$Res> {
+  _$UserModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -74,21 +74,21 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
 }
 
 /// @nodoc
-abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
-  factory _$$_UserDataCopyWith(
-          _$_UserData value, $Res Function(_$_UserData) then) =
-      __$$_UserDataCopyWithImpl<$Res>;
+abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
+  factory _$$_UserModelCopyWith(
+          _$_UserModel value, $Res Function(_$_UserModel) then) =
+      __$$_UserModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String name, String avatar, String? bannerImage});
 }
 
 /// @nodoc
-class __$$_UserDataCopyWithImpl<$Res>
-    extends _$UserDataCopyWithImpl<$Res, _$_UserData>
-    implements _$$_UserDataCopyWith<$Res> {
-  __$$_UserDataCopyWithImpl(
-      _$_UserData _value, $Res Function(_$_UserData) _then)
+class __$$_UserModelCopyWithImpl<$Res>
+    extends _$UserModelCopyWithImpl<$Res, _$_UserModel>
+    implements _$$_UserModelCopyWith<$Res> {
+  __$$_UserModelCopyWithImpl(
+      _$_UserModel _value, $Res Function(_$_UserModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_UserDataCopyWithImpl<$Res>
     Object? avatar = null,
     Object? bannerImage = freezed,
   }) {
-    return _then(_$_UserData(
+    return _then(_$_UserModel(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -122,8 +122,8 @@ class __$$_UserDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UserData implements _UserData {
-  _$_UserData(
+class _$_UserModel implements _UserModel {
+  _$_UserModel(
       {this.id = '', this.name = '', this.avatar = '', this.bannerImage});
 
   @override
@@ -140,14 +140,14 @@ class _$_UserData implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage)';
+    return 'UserModel(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserData &&
+            other is _$_UserModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
@@ -161,16 +161,16 @@ class _$_UserData implements _UserData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserDataCopyWith<_$_UserData> get copyWith =>
-      __$$_UserDataCopyWithImpl<_$_UserData>(this, _$identity);
+  _$$_UserModelCopyWith<_$_UserModel> get copyWith =>
+      __$$_UserModelCopyWithImpl<_$_UserModel>(this, _$identity);
 }
 
-abstract class _UserData implements UserData {
-  factory _UserData(
+abstract class _UserModel implements UserModel {
+  factory _UserModel(
       {final String id,
       final String name,
       final String avatar,
-      final String? bannerImage}) = _$_UserData;
+      final String? bannerImage}) = _$_UserModel;
 
   @override
   String get id;
@@ -182,6 +182,6 @@ abstract class _UserData implements UserData {
   String? get bannerImage;
   @override
   @JsonKey(ignore: true)
-  _$$_UserDataCopyWith<_$_UserData> get copyWith =>
+  _$$_UserModelCopyWith<_$_UserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

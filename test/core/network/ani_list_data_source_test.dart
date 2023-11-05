@@ -7,11 +7,18 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:country_code/country_code.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  group('short_network_anime_model_from_json', () {
+  group('ani_list_data_source_api_test', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await AniFlowPreferences().init();
+    });
+
     test('get_topics_convert_to_db_model', () async {
       await AniListDataSource().getNetworkAnimePage(
           page: 1,
@@ -65,19 +72,19 @@ void main() {
 
     test('get_favorite_anime', () async {
       await AniListDataSource()
-          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+          .getFavoriteAnimeMedia(userId: '6378393', page: 1, perPage: 10);
     });
     test('get_favorite_manga', () async {
       await AniListDataSource()
-          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+          .getFavoriteAnimeMedia(userId: '6378393', page: 1, perPage: 10);
     });
     test('get_favorite_character', () async {
       await AniListDataSource()
-          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+          .getFavoriteAnimeMedia(userId: '6378393', page: 1, perPage: 10);
     });
     test('get_favorite_staff', () async {
       await AniListDataSource()
-          .getFavoriteAnimeMedia(userId: '6378393',page: 1, perPage: 10);
+          .getFavoriteAnimeMedia(userId: '6378393', page: 1, perPage: 10);
     });
   });
 }

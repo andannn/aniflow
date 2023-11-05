@@ -7,8 +7,8 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
+import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
@@ -18,7 +18,7 @@ import 'package:collection/collection.dart';
 sealed class TrackEvent {}
 
 class _OnUserStateChanged extends TrackEvent {
-  final UserData? userData;
+  final UserModel? userData;
 
   _OnUserStateChanged({required this.userData});
 }
@@ -60,9 +60,9 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
       {required MediaListRepository mediaListRepository,
       required AuthRepository authRepository,
-      required UserDataRepository userDataRepository})
+      required SettingsRepository settingsRepository})
       : _animeTrackListRepository = mediaListRepository,
-        _userDataRepository = userDataRepository,
+        _settingsRepository = settingsRepository,
         _authRepository = authRepository,
         super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
@@ -79,7 +79,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   StreamSubscription? _userStateSub;
   StreamSubscription? _mediaTypeSub;
   final MediaListRepository _animeTrackListRepository;
-  final UserDataRepository _userDataRepository;
+  final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
   String? _userId;
 
@@ -87,11 +87,11 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
 
   void _init() async {
     /// start listen user changed event.
-    _userStateSub ??= _authRepository.getUserDataStream().listen((userData) {
+    _userStateSub ??= _authRepository.getAuthedUserStream().listen((userData) {
       add(_OnUserStateChanged(userData: userData));
     });
 
-    _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
+    _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
       (mediaType) {
         add(_OnMediaTypeChanged(mediaType));
       },

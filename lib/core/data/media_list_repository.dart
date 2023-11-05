@@ -74,7 +74,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     required int perPage,
     String? userId,
   }) async {
-    final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
+    final targetUserId = userId ?? preferences.getAuthedUserId();
     if (targetUserId == null) {
       /// No user.
       return LoadError(const NotFoundException());
@@ -109,7 +109,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       List<MediaListStatus> status = const [],
       MediaType? mediaType}) async {
     try {
-      final targetUserId = userId ?? (await userDataDao.getUserData())?.id;
+      final targetUserId = userId ?? preferences.getAuthedUserId();
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
@@ -177,7 +177,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       int? score}) async {
     final entity =
         await mediaListDao.getMediaListItem(mediaId: animeId, entryId: entryId);
-    final targetUserId = (await userDataDao.getUserData())?.id;
+    final targetUserId = preferences.getAuthedUserId();
 
     if (targetUserId == null) {
       /// no login, return with error.

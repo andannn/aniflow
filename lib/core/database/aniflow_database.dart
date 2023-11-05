@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
@@ -27,6 +28,8 @@ mixin Tables {
   static const String mediaExternalLickTable = 'media_external_link_table';
   static const String favoriteInfoTable = 'favorite_info_table';
   static const String mediaRelationCrossRef = 'media_relation_cross_ref_table';
+  static const String activityTable = 'activity_table';
+  static const String activityFilterTypeCrossRef = 'activity_filter_type_cross_ref_table';
 }
 
 class AniflowDatabase {
@@ -45,6 +48,8 @@ class AniflowDatabase {
   MediaListDao? _mediaListDao;
 
   FavoriteDao? _favoriteDao;
+
+  ActivityDao? _activityDao;
 
   Database get aniflowDB => _aniflowDB!;
 
@@ -67,6 +72,8 @@ class AniflowDatabase {
   MediaListDao getMediaListDao() => _mediaListDao ??= MediaListDaoImpl(this);
 
   FavoriteDao getFavoriteDao() => _favoriteDao ??= FavoriteDaoImpl(this);
+
+  ActivityDao getActivityDao() => _activityDao ??= ActivityDaoImpl(this);
 
   Future _createTables() async {
     await _aniflowDB!
@@ -214,5 +221,34 @@ class AniflowDatabase {
         'foreign key (${MediaRelationCrossRefColumnValues.ownerId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         'foreign key (${MediaRelationCrossRefColumnValues.relationId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');
+
+    await _aniflowDB!.execute(
+        'create table if not exists ${Tables.activityTable} ('
+        '${ActivityTableColumns.id} text primary key,'
+        '${ActivityTableColumns.userId} text,'
+        '${ActivityTableColumns.mediaId} text,'
+        '${ActivityTableColumns.text} text,'
+        '${ActivityTableColumns.status} text,'
+        '${ActivityTableColumns.progress} text,'
+        '${ActivityTableColumns.type} text,'
+        '${ActivityTableColumns.replyCount} integer,'
+        '${ActivityTableColumns.siteUrl} text,'
+        '${ActivityTableColumns.isLocked} integer,'
+        '${ActivityTableColumns.isLiked} integer,'
+        '${ActivityTableColumns.likeCount} integer,'
+        '${ActivityTableColumns.isPinned} integer,'
+        '${ActivityTableColumns.createdAt} integer,'
+        'foreign key (${ActivityTableColumns.userId}) references ${Tables.userDataTable} (${UserDataTableColumns.id})'
+        'foreign key (${ActivityTableColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
+        ')');
+
+    await _aniflowDB!.execute(
+        'create table if not exists ${Tables.activityFilterTypeCrossRef} ('
+            '${ActivityFilterTypeCrossRefColumns.id} integer primary key autoincrement,'
+            '${ActivityFilterTypeCrossRefColumns.activityId} text,'
+            '${ActivityFilterTypeCrossRefColumns.category} text,'
+            'unique (${ActivityFilterTypeCrossRefColumns.activityId},${ActivityFilterTypeCrossRefColumns.category})'
+            'foreign key (${ActivityFilterTypeCrossRefColumns.activityId}) references ${Tables.activityTable} (${ActivityTableColumns.id})'
+            ')');
   }
 }

@@ -9,7 +9,7 @@ query (\$id: Int) {
       native
     }
     type
-    description(asHtml: true)
+    description(asHtml: false)
     episodes
     seasonYear
     season

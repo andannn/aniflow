@@ -99,6 +99,10 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     _pushAsSingleton(const SearchRoutePath());
   }
 
+  void navigateToUserProfile(String userId) {
+    _pushAsSingleton(UserProfileRoutePath(userId));
+  }
+
   void _pushAsSingleton(AniFlowRoutePath path) {
     if (_backStack.contains(path)) {
       _backStack.remove(path);

@@ -8,6 +8,7 @@ import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/user_data_dto.dart'
     show UserDataDto;
+import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
@@ -19,20 +20,10 @@ class AuthDataSource {
 
   AuthDataSource._();
 
-  String _testToken = '';
-
-  void setTestToken(String token) {
-    _testToken = token;
-  }
-
-  String? get _token =>
-      isUnitTest ? _testToken : AniFlowPreferences().getAuthToken();
+  String get _token =>
+      isUnitTest ? testToken : AniFlowPreferences().getAuthToken();
 
   Future<bool> isTokenValid() async {
-    if (_token == null) {
-      return false;
-    }
-
     try {
       await AniListDio().dio.post(
             AniListDio.aniListUrl,
@@ -59,7 +50,7 @@ class AuthDataSource {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
           queryParameters: {'query': userInfoMotionGraphQLString},
-          options: _createQueryOptions(),
+          options: createQueryOptions(_token),
         );
 
     final resultJson = response.data['data']['UpdateUser'];
@@ -91,7 +82,7 @@ class AuthDataSource {
               'query': saveMediaListMotionGraphQLString,
               'variables': variablesMap,
             },
-            options: _createQueryOptions(),
+            options: createQueryOptions(_token),
           );
 
       Map<String, dynamic> resultJson =
@@ -100,15 +91,5 @@ class AuthDataSource {
     } on DioException catch (e) {
       throw e.covertToNetWorkException();
     }
-  }
-
-  Options _createQueryOptions() {
-    return Options(
-      headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/character_role.dart';
@@ -101,4 +102,12 @@ extension AnimeModelEx on MediaModel {
     }
     return airingTimeString;
   }
+}
+
+extension ActivityFilterTypeEx on ActivityFilterType {
+  String label(BuildContext context) => switch(this) {
+    ActivityFilterType.all => 'All',
+    ActivityFilterType.text => 'Text',
+    ActivityFilterType.list => 'List',
+  };
 }

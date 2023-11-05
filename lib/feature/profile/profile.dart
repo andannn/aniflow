@@ -1,9 +1,9 @@
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
+import 'package:aniflow/core/data/user_info_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/boc/profile_state.dart';
@@ -41,7 +41,7 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
     return BlocProvider(
         create: (BuildContext context) => ProfileBloc(
               userId: userId,
-              authRepository: context.read<AuthRepository>(),
+              userInfoRepository: context.read<UserInfoRepository>(),
             ),
         child: const _ProfilePageContent());
   }
@@ -126,7 +126,7 @@ class _ProfilePageContent extends StatelessWidget {
 class _UserProfile extends StatefulWidget {
   const _UserProfile({required this.userState});
 
-  final UserData userState;
+  final UserModel userState;
 
   @override
   State<_UserProfile> createState() => _UserProfileState();
@@ -207,7 +207,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabController tabController;
   final List<Widget> tabs;
 
-  final UserData state;
+  final UserModel state;
   final _maxExtent = 360.0;
   final _minExtent = 160.0;
 

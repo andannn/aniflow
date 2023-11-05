@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileState {
-  UserData? get userData => throw _privateConstructorUsedError;
+  UserModel? get userData => throw _privateConstructorUsedError;
   bool get isFavoriteLoading => throw _privateConstructorUsedError;
   bool get isMediaListPageLoading => throw _privateConstructorUsedError;
 
@@ -32,11 +32,11 @@ abstract class $ProfileStateCopyWith<$Res> {
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
   $Res call(
-      {UserData? userData,
+      {UserModel? userData,
       bool isFavoriteLoading,
       bool isMediaListPageLoading});
 
-  $UserDataCopyWith<$Res>? get userData;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
-              as UserData?,
+              as UserModel?,
       isFavoriteLoading: null == isFavoriteLoading
           ? _value.isFavoriteLoading
           : isFavoriteLoading // ignore: cast_nullable_to_non_nullable
@@ -74,12 +74,12 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataCopyWith<$Res>? get userData {
+  $UserModelCopyWith<$Res>? get userData {
     if (_value.userData == null) {
       return null;
     }
 
-    return $UserDataCopyWith<$Res>(_value.userData!, (value) {
+    return $UserModelCopyWith<$Res>(_value.userData!, (value) {
       return _then(_value.copyWith(userData: value) as $Val);
     });
   }
@@ -94,12 +94,12 @@ abstract class _$$_ProfileStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {UserData? userData,
+      {UserModel? userData,
       bool isFavoriteLoading,
       bool isMediaListPageLoading});
 
   @override
-  $UserDataCopyWith<$Res>? get userData;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -121,7 +121,7 @@ class __$$_ProfileStateCopyWithImpl<$Res>
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
-              as UserData?,
+              as UserModel?,
       isFavoriteLoading: null == isFavoriteLoading
           ? _value.isFavoriteLoading
           : isFavoriteLoading // ignore: cast_nullable_to_non_nullable
@@ -143,7 +143,7 @@ class _$_ProfileState implements _ProfileState {
       this.isMediaListPageLoading = false});
 
   @override
-  final UserData? userData;
+  final UserModel? userData;
   @override
   @JsonKey()
   final bool isFavoriteLoading;
@@ -182,12 +182,12 @@ class _$_ProfileState implements _ProfileState {
 
 abstract class _ProfileState implements ProfileState {
   factory _ProfileState(
-      {final UserData? userData,
+      {final UserModel? userData,
       final bool isFavoriteLoading,
       final bool isMediaListPageLoading}) = _$_ProfileState;
 
   @override
-  UserData? get userData;
+  UserModel? get userData;
   @override
   bool get isFavoriteLoading;
   @override

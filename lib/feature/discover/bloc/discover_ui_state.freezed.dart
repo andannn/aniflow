@@ -20,7 +20,7 @@ mixin _$DiscoverUiState {
   Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap =>
       throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
-  UserData? get userData => throw _privateConstructorUsedError;
+  UserModel? get userData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DiscoverUiStateCopyWith<DiscoverUiState> get copyWith =>
@@ -37,9 +37,9 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
       {bool isLoading,
       Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       MediaType currentMediaType,
-      UserData? userData});
+      UserModel? userData});
 
-  $UserDataCopyWith<$Res>? get userData;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -76,18 +76,18 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
-              as UserData?,
+              as UserModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataCopyWith<$Res>? get userData {
+  $UserModelCopyWith<$Res>? get userData {
     if (_value.userData == null) {
       return null;
     }
 
-    return $UserDataCopyWith<$Res>(_value.userData!, (value) {
+    return $UserModelCopyWith<$Res>(_value.userData!, (value) {
       return _then(_value.copyWith(userData: value) as $Val);
     });
   }
@@ -105,10 +105,10 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
       {bool isLoading,
       Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       MediaType currentMediaType,
-      UserData? userData});
+      UserModel? userData});
 
   @override
-  $UserDataCopyWith<$Res>? get userData;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -143,7 +143,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
-              as UserData?,
+              as UserModel?,
     ));
   }
 }
@@ -183,7 +183,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   @JsonKey()
   final MediaType currentMediaType;
   @override
-  final UserData? userData;
+  final UserModel? userData;
 
   @override
   String toString() {
@@ -225,7 +225,7 @@ abstract class _DiscoverUiState implements DiscoverUiState {
       {final bool isLoading,
       final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       final MediaType currentMediaType,
-      final UserData? userData}) = _$_DiscoverUiState;
+      final UserModel? userData}) = _$_DiscoverUiState;
 
   @override
   bool get isLoading;
@@ -234,7 +234,7 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   @override
   MediaType get currentMediaType;
   @override
-  UserData? get userData;
+  UserModel? get userData;
   @override
   @JsonKey(ignore: true)
   _$$_DiscoverUiStateCopyWith<_$_DiscoverUiState> get copyWith =>

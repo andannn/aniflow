@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
-import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
-import 'package:aniflow/core/database/model/user_data_entity.dart';
+import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,7 +20,7 @@ abstract class AuthRepository {
 
   FutureOr<bool> isTokenValid();
 
-  Stream<UserData?> getUserDataStream();
+  Stream<UserModel?> getAuthedUserStream();
 
   Future logout();
 }
@@ -34,8 +34,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
 
-  final MediaListDao animeTrackListDao =
-      AniflowDatabase().getMediaListDao();
+  final MediaListDao animeTrackListDao = AniflowDatabase().getMediaListDao();
 
   @override
   Future<bool> awaitAuthLogin() async {
@@ -61,8 +60,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
         /// retrieve user data from ani list api;
         final userDto = await authDataSource.getUserDataDto();
-        final userEntity = UserDataEntity.fromNetworkModel(userDto);
+        final userEntity = UserEntity.fromNetworkModel(userDto);
         await userDataDao.updateUserData(userEntity);
+        await preferences.setAuthedUserId(userEntity.id);
 
         /// login success.
         return true;
@@ -77,17 +77,27 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future logout() async {
-    final userId = (await userDataDao.getUserData())?.id;
+    final userId = preferences.getAuthedUserId();
     if (userId != null) {
       await animeTrackListDao.removeMediaListByUserId(userId);
       animeTrackListDao.notifyMediaListChanged(userId);
     }
-    await userDataDao.removeUserData();
     await preferences.setAuthExpiredTime(null);
     await preferences.setAuthToken(null);
+    await preferences.clearAuthedUserId();
   }
 
   @override
-  Stream<UserData?> getUserDataStream() =>
-      userDataDao.getUserDataStream().map((e) => UserData.fromDatabaseModel(e));
+  Stream<UserModel?> getAuthedUserStream() {
+    Stream<String?> userIdStream = preferences.getAuthedUserStream();
+
+    return userIdStream.asyncMap((userId) async {
+      if (userId == null) {
+        return null;
+      } else {
+        final userEntity = await userDataDao.getUserData(userId);
+        return UserModel.fromDatabaseModel(userEntity);
+      }
+    });
+  }
 }

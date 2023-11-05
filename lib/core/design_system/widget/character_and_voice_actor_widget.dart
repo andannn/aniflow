@@ -1,4 +1,4 @@
-import 'package:aniflow/app/local/util/anime_model_extension.dart';
+import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
@@ -14,12 +16,15 @@ import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart'
 import 'package:aniflow/core/network/api/user_favorite_staff_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
+import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
+import 'package:aniflow/core/network/util/auth_request_util.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 
 /// Anime list data source get from AniList.
 class AniListDataSource {
@@ -28,6 +33,9 @@ class AniListDataSource {
   factory AniListDataSource() => _instance ??= AniListDataSource._();
 
   AniListDataSource._();
+
+  String get _token =>
+      isUnitTest ? testToken : AniFlowPreferences().getAuthToken();
 
   Future<MediaDto> getNetworkAnime({required int id}) async {
     final queryGraphQL = mediaDetailQueryGraphQLString;
@@ -278,5 +286,46 @@ class AniListDataSource {
         resultJson.map((e) => StaffDto.fromJson(e)).toList();
 
     return staff;
+  }
+
+  Future<List<AniActivity>> getActivities({
+    required int page,
+    required int perPage,
+    required ActivityPageQueryParam param,
+  }) async {
+    final queryGraphQL = activitiesGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+    };
+    if (param.userId != null) {
+      variablesMap['userId'] = param.userId;
+    }
+    if (param.type.isNotEmpty) {
+      variablesMap['type_in'] = param.type.map((e) => e.toJson()).toList();
+    }
+    if (param.mediaId != null) {
+      variablesMap['mediaId'] = param.mediaId;
+    }
+    if (param.isFollowing != null) {
+      variablesMap['isFollowing'] = param.isFollowing;
+    }
+    if (param.hasRepliesOrTypeText != null) {
+      variablesMap['hasRepliesOrTypeText'] = param.hasRepliesOrTypeText;
+    }
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          data: {
+            'query': queryGraphQL,
+            'variables': variablesMap,
+          },
+          options: createQueryOptions(_token),
+        );
+    final List resultJson = response.data['data']['Page']['activities'];
+    final activities =
+        resultJson.map((e) => AniActivity.mapToAniActivity(e)).toList();
+
+    return activities;
   }
 }
