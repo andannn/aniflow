@@ -4,7 +4,6 @@ import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
-import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
@@ -86,10 +85,6 @@ void main() {
     test('get_favorite_staff', () async {
       await AniListDataSource()
           .getFavoriteAnimeMedia(userId: '6378393', page: 1, perPage: 10);
-    });
-    test('get_activities', () async {
-      await AniListDataSource().getActivities(
-          page: 1, perPage: 10, param: const ActivityPageQueryParam());
     });
   });
 }
