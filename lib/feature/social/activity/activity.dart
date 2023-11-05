@@ -181,7 +181,7 @@ class ActivityPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ActivityPagingBloc, PagingState<List<ActivityModel>>>(
       builder: (context, state) {
-        final isLoading = state is PageLoading;
+        final isLoading = state is PageLoading || state is PageInit;
         context
             .read<ActivityBloc>()
             .add(OnLoadingStateChanged(isLoading: isLoading));

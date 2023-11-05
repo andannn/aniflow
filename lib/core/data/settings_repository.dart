@@ -2,7 +2,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 
-abstract class UserDataRepository {
+abstract class SettingsRepository {
   AnimeSeasonParam getAnimeSeasonParam();
 
   Future setAnimeSeasonParam(AnimeSeasonParam param);
@@ -18,7 +18,7 @@ abstract class UserDataRepository {
   Future setMediaType(MediaType type);
 }
 
-class UserDataRepositoryImpl implements UserDataRepository {
+class SettingsRepositoryImpl implements SettingsRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override

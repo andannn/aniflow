@@ -7,7 +7,7 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
@@ -108,7 +108,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   var currentNavigation = TopLevelNavigation.discover;
   var needHideNavigationBar = false;
   var showFloatingButton = true;
-  late UserDataRepository userDataRepository = UserDataRepositoryImpl();
+  late SettingsRepository userDataRepository = SettingsRepositoryImpl();
   late StreamSubscription _mediaTypeSub;
   MediaType _mediaType = MediaType.anime;
 
@@ -150,8 +150,8 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         BlocProvider(
           create: (context) =>
               DiscoverBloc(
-                userDataRepository: context.read<UserDataRepository>(),
-                aniListRepository: context.read<MediaInformationRepository>(),
+                settingsRepository: context.read<SettingsRepository>(),
+                mediaRepository: context.read<MediaInformationRepository>(),
                 authRepository: context.read<AuthRepository>(),
                 animeTrackListRepository: context.read<MediaListRepository>(),
               ),
@@ -159,7 +159,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         BlocProvider(
           create: (context) =>
               TrackBloc(
-                userDataRepository: context.read<UserDataRepository>(),
+                settingsRepository: context.read<SettingsRepository>(),
                 mediaListRepository: context.read<MediaListRepository>(),
                 authRepository: context.read<AuthRepository>(),
               ),
@@ -206,7 +206,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   Widget _buildTopFloatingActionButton() {
     return FloatingActionButton.extended(
       onPressed: () {
-        final repository = context.read<UserDataRepository>();
+        final repository = context.read<SettingsRepository>();
         if (_mediaType == MediaType.manga) {
           repository.setMediaType(MediaType.anime);
         } else {

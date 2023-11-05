@@ -122,7 +122,7 @@ class __$$_ActivityStateCopyWithImpl<$Res>
 
 class _$_ActivityState implements _ActivityState {
   _$_ActivityState(
-      {this.isLoading = false, this.filterType, this.scopeCategory});
+      {this.isLoading = true, this.filterType, this.scopeCategory});
 
   @override
   @JsonKey()

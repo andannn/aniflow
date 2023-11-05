@@ -1,29 +1,23 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 mixin UserDataTableColumns {
-  static const String id = 'id';
-  static const String name = 'name';
-  static const String avatarImage = 'avatar_image';
-  static const String bannerImage = 'banner_image';
+  static const String id = 'user_data_id';
+  static const String name = 'user_data_name';
+  static const String avatarImage = 'user_data_avatar_image';
+  static const String bannerImage = 'user_data_banner_image';
 }
 
 abstract class UserDataDao {
   Future updateUserData(UserEntity userDataEntity);
 
-  Future<UserEntity?> getUserData();
-
-  Future removeUserData();
-
-  Stream<UserEntity?> getUserDataStream();
+  Future<UserEntity?> getUserData(String id);
 }
 
-class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
+class UserDataDaoImpl extends UserDataDao {
   final AniflowDatabase database;
 
   UserDataDaoImpl(this.database);
@@ -31,37 +25,19 @@ class UserDataDaoImpl extends UserDataDao with ChangeNotifier {
   @override
   Future updateUserData(UserEntity userDataEntity) {
     final batch = database.aniflowDB.batch();
-    batch.delete(Tables.userDataTable);
     batch.insert(Tables.userDataTable, userDataEntity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
 
-    return batch.commit(noResult: true).then(
-          (value) => notifyListeners(),
-        );
+    return batch.commit(noResult: true);
   }
 
   @override
-  Future<UserEntity?> getUserData() async {
-    final resultJson =
-        await database.aniflowDB.query(Tables.userDataTable, limit: 1);
+  Future<UserEntity?> getUserData(String id) async {
+    final resultJson = await database.aniflowDB.query(Tables.userDataTable,
+        where: '${UserDataTableColumns.id} = $id', limit: 1);
 
     if (resultJson.isEmpty) return null;
 
     return UserEntity.fromJson(resultJson[0]);
-  }
-
-  @override
-  Stream<UserEntity?> getUserDataStream() {
-    return StreamUtil.createStream(this, getUserData);
-  }
-
-  @override
-  Future removeUserData() {
-    final batch = database.aniflowDB.batch();
-    batch.delete(Tables.userDataTable);
-
-    return batch.commit(noResult: true).then(
-          (value) => notifyListeners(),
-        );
   }
 }

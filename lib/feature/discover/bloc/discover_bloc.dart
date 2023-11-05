@@ -14,7 +14,7 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
@@ -68,12 +68,12 @@ extension DiscoverUiStateEx on DiscoverUiState {
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   DiscoverBloc(
       {required AuthRepository authRepository,
-      required userDataRepository,
-      required aniListRepository,
+      required SettingsRepository settingsRepository,
+      required MediaInformationRepository mediaRepository,
       required MediaListRepository animeTrackListRepository})
-      : _userDataRepository = userDataRepository,
+      : _settingsRepository = settingsRepository,
         _authRepository = authRepository,
-        _mediaInfoRepository = aniListRepository,
+        _mediaInfoRepository = mediaRepository,
         _mediaListRepository = animeTrackListRepository,
         super(DiscoverUiState()) {
     on<_OnMediaLoaded>(_onMediaLoaded);
@@ -86,7 +86,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     _init();
   }
 
-  final UserDataRepository _userDataRepository;
+  final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _mediaListRepository;
@@ -120,20 +120,20 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
         AnimeSeasonUtil.getAnimeSeasonByDataTime(DateTime.now());
 
     /// get the saved anime season.
-    final savedAnimeSeasonParam = _userDataRepository.getAnimeSeasonParam();
+    final savedAnimeSeasonParam = _settingsRepository.getAnimeSeasonParam();
 
     if (currentAnimeSeasonParam != savedAnimeSeasonParam) {
       // season changed.
-      await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
+      await _settingsRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
-    _userDataSub ??= _authRepository.getUserDataStream().listen(
+    _userDataSub ??= _authRepository.getAuthedUserStream().listen(
       (userDataNullable) {
         add(_OnUserDataChanged(userDataNullable));
       },
     );
 
-    _mediaTypeSub = _userDataRepository.getMediaTypeStream().distinct().listen(
+    _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
       (mediaType) {
         logger.d(mediaType);
         add(_OnMediaTypeChanged(mediaType));

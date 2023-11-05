@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
+import 'package:aniflow/core/data/user_info_repository.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/profile/boc/profile_state.dart';
 import 'package:bloc/bloc.dart';
 
@@ -27,28 +28,25 @@ class OnMediaPageLoadingStateChanged extends ProfileEvent {
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
-    required AuthRepository authRepository,
+    required UserInfoRepository userInfoRepository,
     String? userId,
-  }) : super(ProfileState()) {
+  })  : _userId = userId,
+        _userInfoRepository = userInfoRepository,
+        super(ProfileState()) {
     on<_OnUserDataLoaded>(_onUserDataLoaded);
     on<OnFavoritePageLoadingStateChanged>(_onFavoritePageLoadingStateChanged);
     on<OnMediaPageLoadingStateChanged>(_onMediaPageLoadingStateChanged);
 
-    _userDataSub =
-        authRepository.getUserDataStream().distinct().listen((userData) {
-      if (userData != null) {
-        add(_OnUserDataLoaded(userData: userData));
-      }
-    });
+    _init();
   }
 
-  StreamSubscription? _userDataSub;
+  final String? _userId;
+  final UserInfoRepository _userInfoRepository;
 
-  @override
-  Future<void> close() {
-    _userDataSub?.cancel();
-
-    return super.close();
+  void _init() async {
+    final userId = _userId ?? AniFlowPreferences().getAuthedUserId();
+    final userData = await _userInfoRepository.getUserDataById(userId!);
+    add(_OnUserDataLoaded(userData: userData));
   }
 
   FutureOr<void> _onUserDataLoaded(

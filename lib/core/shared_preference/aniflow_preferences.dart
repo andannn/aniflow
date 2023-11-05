@@ -18,6 +18,7 @@ mixin UserDataKey {
   static const authExpiredTime = "auth_expired_time";
 
   /// user settings.
+  static const authedUserId = "authed_userId";
   static const displayAdultContent = "display_adult_content";
   static const currentMediaType = "currentMediaType";
   static const activityScope = "activity_scope";
@@ -36,6 +37,7 @@ class AniFlowPreferences {
   final _mediaTypeChangeNotifier = ValueNotifier(0);
   final _activityScopeChangeNotifier = ValueNotifier(0);
   final _activityFilterChangeNotifier = ValueNotifier(0);
+  final _userIdChangeNotifier = ValueNotifier(0);
 
   Future init() async {
     _preference = await SharedPreferences.getInstance();
@@ -173,6 +175,25 @@ class AniFlowPreferences {
   Stream<ActivityFilterType> getActivityFilterTypeStream() =>
       StreamUtil.createStream(
         _activityFilterChangeNotifier,
-            () => Future(() => getActivityFilterType()),
+        () => Future(() => getActivityFilterType()),
       );
+
+  Future setAuthedUserId(String userId) async {
+    bool isChanged =
+        await _preference.setString(UserDataKey.authedUserId, userId);
+
+    if (isChanged) {
+      _userIdChangeNotifier.notifyChanged();
+    }
+  }
+
+  Future clearAuthedUserId() async {
+    await _preference.remove(UserDataKey.authedUserId);
+    _userIdChangeNotifier.notifyChanged();
+  }
+
+  String? getAuthedUserId() => _preference.getString(UserDataKey.authedUserId);
+
+  Stream<String?> getAuthedUserStream() => StreamUtil.createStream(
+      _userIdChangeNotifier, () => Future.value(getAuthedUserId()));
 }

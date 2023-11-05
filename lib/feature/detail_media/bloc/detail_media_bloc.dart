@@ -72,7 +72,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       },
     );
 
-    final userData = await _authRepository.getUserDataStream().first;
+    final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
       _isTrackingSub = _animeTrackListRepository
           .getIsTrackingByUserAndIdStream(

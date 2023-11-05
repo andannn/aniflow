@@ -20,7 +20,7 @@ abstract class AuthRepository {
 
   FutureOr<bool> isTokenValid();
 
-  Stream<UserModel?> getUserDataStream();
+  Stream<UserModel?> getAuthedUserStream();
 
   Future logout();
 }
@@ -62,6 +62,7 @@ class AuthRepositoryImpl implements AuthRepository {
         final userDto = await authDataSource.getUserDataDto();
         final userEntity = UserEntity.fromNetworkModel(userDto);
         await userDataDao.updateUserData(userEntity);
+        await preferences.setAuthedUserId(userEntity.id);
 
         /// login success.
         return true;
@@ -76,18 +77,27 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future logout() async {
-    final userId = (await userDataDao.getUserData())?.id;
+    final userId = preferences.getAuthedUserId();
     if (userId != null) {
       await animeTrackListDao.removeMediaListByUserId(userId);
       animeTrackListDao.notifyMediaListChanged(userId);
     }
-    await userDataDao.removeUserData();
     await preferences.setAuthExpiredTime(null);
     await preferences.setAuthToken(null);
+    await preferences.clearAuthedUserId();
   }
 
   @override
-  Stream<UserModel?> getUserDataStream() => userDataDao
-      .getUserDataStream()
-      .map((e) => UserModel.fromDatabaseModel(e));
+  Stream<UserModel?> getAuthedUserStream() {
+    Stream<String?> userIdStream = preferences.getAuthedUserStream();
+
+    return userIdStream.asyncMap((userId) async {
+      if (userId == null) {
+        return null;
+      } else {
+        final userEntity = await userDataDao.getUserData(userId);
+        return UserModel.fromDatabaseModel(userEntity);
+      }
+    });
+  }
 }

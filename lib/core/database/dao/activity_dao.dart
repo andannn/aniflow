@@ -106,7 +106,7 @@ class ActivityDaoImpl extends ActivityDao {
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
 
-    return result.map(
+    final activities = result.map(
       (e) {
         final mediaEntity = MediaEntity.fromJson(e);
         final isMediaValid = mediaEntity.id.isNotEmpty;
@@ -117,6 +117,8 @@ class ActivityDaoImpl extends ActivityDao {
         );
       },
     ).toList();
+
+    return activities;
   }
 
   @override

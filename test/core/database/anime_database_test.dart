@@ -8,7 +8,6 @@ import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -132,8 +131,6 @@ void main() {
     //   StaffEntity(id: '4567', nameEnglish: 'nameB'),
     // ];
 
-    final dummyUserData = UserEntity(id: 'aa', avatar: "bb");
-
     final dummyAiringSchedule = [
       AiringSchedulesEntity(id: '122', mediaId: '5784', airingAt: 1),
       AiringSchedulesEntity(id: '132', mediaId: '8917', airingAt: 3),
@@ -220,30 +217,6 @@ void main() {
     test('upsert_voice_actor_data', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertStaffInfo(dummyVoiceActorData);
-    });
-
-    test('get_user_data_stream_test', () async {
-      final userDataDao = animeDatabase.getUserDataDao();
-
-      await userDataDao.updateUserData(dummyUserData);
-      final res = await userDataDao.getUserDataStream().first;
-      expect(res, equals(dummyUserData));
-    });
-
-    test('get_none_user_data_stream_test', () async {
-      final userDataDao = animeDatabase.getUserDataDao();
-
-      final res = await userDataDao.getUserDataStream().first;
-      expect(res, equals(null));
-    });
-
-    test('remove_user_data_stream_test', () async {
-      final userDataDao = animeDatabase.getUserDataDao();
-      await userDataDao.updateUserData(dummyUserData);
-      await userDataDao.removeUserData();
-
-      final res = await userDataDao.getUserDataStream().first;
-      expect(res, equals(null));
     });
 
     test('insert_airing_schedule', () async {
