@@ -51,6 +51,12 @@ class SearchRoutePath extends AniFlowRoutePath {
   const SearchRoutePath() : super(isFullScreen: true);
 }
 
+class UserProfileRoutePath extends AniFlowRoutePath {
+  const UserProfileRoutePath(this.userId);
+
+  final String userId;
+}
+
 class AnimeListRoutePath extends AniFlowRoutePath {
   const AnimeListRoutePath(this.category) : super(isFullScreen: true);
 
@@ -122,6 +128,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return const SocialPage(key: ValueKey('SocialPage'));
       case ProfileRoutePath(topLevel: final _):
         return const ProfilePage(key: ValueKey('ProfilePage'));
+      case UserProfileRoutePath(userId: final id):
+        return ProfilePage(key: ValueKey('ProfilePage_$id'), userId: id);
       case AiringScheduleRoutePath():
         return const AiringSchedule(key: ValueKey('AiringSchedule'));
       case SearchRoutePath():

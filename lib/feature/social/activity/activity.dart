@@ -1,4 +1,5 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
@@ -203,7 +204,15 @@ class ActivityPageContent extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ActivityItem(model: model),
+        ActivityItem(
+          model: model,
+          onMediaClick: (id) {
+            AFRouterDelegate.of(context).navigateToDetailMedia(id);
+          },
+          onUserIconClick: (id) {
+            AFRouterDelegate.of(context).navigateToUserProfile(id);
+          },
+        ),
       ],
     );
   }

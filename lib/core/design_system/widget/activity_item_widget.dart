@@ -7,9 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ActivityItem extends StatelessWidget {
-  const ActivityItem({required this.model, super.key});
+  const ActivityItem(
+      {required this.model,
+      super.key,
+      this.onMediaClick,
+      this.onUserIconClick});
 
   final ActivityModel model;
+  final Function(String mediaId)? onMediaClick;
+  final Function(String userId)? onUserIconClick;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +47,13 @@ class ActivityItem extends StatelessWidget {
                 // this height value will no take effect because we have set the IntrinsicHeight
                 height: 1,
                 width: 85,
-                child: AFNetworkImage(
-                  imageUrl: activity.media.coverImage,
+                child: InkWell(
+                  onTap: () {
+                    onMediaClick?.call(activity.media.id);
+                  },
+                  child: AFNetworkImage(
+                    imageUrl: activity.media.coverImage,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -70,7 +81,12 @@ class ActivityItem extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          buildAvatarIcon(context, model.user.avatar),
+                          InkWell(
+                            onTap: () {
+                              onUserIconClick?.call(activity.user.id);
+                            },
+                            child: buildAvatarIcon(context, model.user.avatar),
+                          ),
                           const Expanded(child: SizedBox()),
                           Padding(
                             padding: const EdgeInsets.only(right: 10.0),
@@ -110,7 +126,12 @@ class ActivityItem extends StatelessWidget {
               height: 50,
               child: Row(
                 children: [
-                  buildAvatarIcon(context, model.user.avatar),
+                  InkWell(
+                    onTap: () {
+                      onUserIconClick?.call(activity.user.id);
+                    },
+                    child: buildAvatarIcon(context, model.user.avatar),
+                  ),
                   const SizedBox(width: 12),
                   Text(
                     model.user.name,
