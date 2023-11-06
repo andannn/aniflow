@@ -51,6 +51,10 @@ extension AnimeStatusEx on MediaStatus {
         return AFLocalizations.of(context).animeFinished;
       case MediaStatus.notYetReleased:
         return AFLocalizations.of(context).animeNotYetReleased;
+      case MediaStatus.cancelled:
+        return 'Canceled';
+      case MediaStatus.hiatus:
+        return 'Hiatus';
     }
   }
 }
