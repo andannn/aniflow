@@ -108,11 +108,27 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   var currentNavigation = TopLevelNavigation.discover;
   var needHideNavigationBar = false;
   var showFloatingButton = true;
-  late SettingsRepository userDataRepository = SettingsRepositoryImpl();
+  final userDataRepository = SettingsRepositoryImpl();
+  final authRepository = AuthRepositoryImpl();
   late StreamSubscription _mediaTypeSub;
+  late StreamSubscription _authSub;
+
   MediaType _mediaType = MediaType.anime;
+  bool? _isLogIn;
 
   bool get isAnime => _mediaType == MediaType.anime;
+
+  List<TopLevelNavigation> get _topLevelNavigationList => _isLogIn == true
+      ? [
+          TopLevelNavigation.discover,
+          TopLevelNavigation.track,
+          TopLevelNavigation.social,
+          TopLevelNavigation.profile,
+        ]
+      : [
+          TopLevelNavigation.discover,
+          TopLevelNavigation.track,
+        ];
 
   @override
   void initState() {
@@ -126,12 +142,18 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
       });
     });
     _mediaTypeSub = userDataRepository.getMediaTypeStream().distinct().listen(
-          (mediaType) {
+      (mediaType) {
         setState(() {
           _mediaType = mediaType;
         });
       },
     );
+    _authSub =
+        authRepository.getAuthedUserStream().distinct().listen((userData) {
+      setState(() {
+        _isLogIn = userData != null;
+      });
+    });
   }
 
   @override
@@ -140,41 +162,46 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
     animeTrackerRouterDelegate.dispose();
     _mediaTypeSub.cancel();
+    _authSub.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
     globalContext = context;
+
+    if (_isLogIn == null) {
+      /// user login state is unknown.
+      return const SizedBox();
+    }
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              DiscoverBloc(
-                settingsRepository: context.read<SettingsRepository>(),
-                mediaRepository: context.read<MediaInformationRepository>(),
-                authRepository: context.read<AuthRepository>(),
-                animeTrackListRepository: context.read<MediaListRepository>(),
-              ),
+          create: (context) => DiscoverBloc(
+            settingsRepository: context.read<SettingsRepository>(),
+            mediaRepository: context.read<MediaInformationRepository>(),
+            authRepository: context.read<AuthRepository>(),
+            animeTrackListRepository: context.read<MediaListRepository>(),
+          ),
         ),
         BlocProvider(
-          create: (context) =>
-              TrackBloc(
-                settingsRepository: context.read<SettingsRepository>(),
-                mediaListRepository: context.read<MediaListRepository>(),
-                authRepository: context.read<AuthRepository>(),
-              ),
+          create: (context) => TrackBloc(
+            settingsRepository: context.read<SettingsRepository>(),
+            mediaListRepository: context.read<MediaListRepository>(),
+            authRepository: context.read<AuthRepository>(),
+          ),
         ),
       ],
       child: Scaffold(
         body: Router(
             routerDelegate: animeTrackerRouterDelegate,
             backButtonDispatcher: RootBackButtonDispatcher()),
-        floatingActionButton: showFloatingButton
-            ? _buildTopFloatingActionButton()
-            : null,
+        floatingActionButton:
+            showFloatingButton ? _buildTopFloatingActionButton() : null,
         bottomNavigationBar: VerticalScaleSwitcher(
           visible: !needHideNavigationBar,
           child: _animeTrackerNavigationBar(
+            navigationList: _topLevelNavigationList,
             selected: currentNavigation,
             onNavigateToDestination: (navigation) async {
               animeTrackerRouterDelegate.navigateToTopLevelPage(navigation);
@@ -185,13 +212,14 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
     );
   }
 
-  Widget _animeTrackerNavigationBar({required TopLevelNavigation selected,
-    required Function(TopLevelNavigation) onNavigateToDestination}) {
+  Widget _animeTrackerNavigationBar(
+      {required List<TopLevelNavigation> navigationList,
+      required TopLevelNavigation selected,
+      required Function(TopLevelNavigation) onNavigateToDestination}) {
     final currentIndex = TopLevelNavigation.values.indexOf(selected);
     return NavigationBar(
-      destinations: TopLevelNavigation.values
-          .map((navigation) =>
-          navigation.toBottomNavigationBarItem(
+      destinations: navigationList
+          .map((navigation) => navigation.toBottomNavigationBarItem(
               isSelected: navigation == selected))
           .toList(),
       onDestinationSelected: (index) {
@@ -214,9 +242,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         }
       },
       isExtended: true,
-      icon: isAnime
-          ? const Icon(Icons.palette_rounded)
-          : const Icon(Icons.map),
+      icon: isAnime ? const Icon(Icons.palette_rounded) : const Icon(Icons.map),
       label: Text(isAnime ? 'Anime' : 'Manga'),
     );
   }
