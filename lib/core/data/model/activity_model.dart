@@ -57,7 +57,7 @@ sealed class ActivityModel extends Equatable {
           likeCount: activity.likeCount ?? 0,
           isPinned: activity.isPinned.toBoolean(),
           createdAt: activity.createdAt!,
-          user: UserModel.fromDatabaseModel(user)!,
+          user: UserModel.fromEntity(user)!,
         );
 
       case ActivityType.animeList:
@@ -72,7 +72,7 @@ sealed class ActivityModel extends Equatable {
           likeCount: activity.likeCount ?? 0,
           isPinned: activity.isPinned.toBoolean(),
           createdAt: activity.createdAt!,
-          user: UserModel.fromDatabaseModel(user)!,
+          user: UserModel.fromEntity(user)!,
           status: activity.status ?? '',
           progress: activity.progress ?? '',
           media: MediaModel.fromDatabaseModel(media!),

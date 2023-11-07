@@ -96,7 +96,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return null;
       } else {
         final userEntity = await userDataDao.getUserData(userId);
-        return UserModel.fromDatabaseModel(userEntity);
+        return UserModel.fromEntity(userEntity);
       }
     });
   }
