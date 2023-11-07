@@ -10,6 +10,11 @@ mixin Config {
 
   static const int profilePageDefaultPerPageCount = 6;
   static const int activityPageDefaultPerPageCount = 50;
+
+  /// Detail page consts.
+  static const double detailPagePreviewItemHeight = 133.0;
+  static const int characterColumnCount = 3;
+  static const int staffColumnCount = 2;
 }
 
 /// Only for test
