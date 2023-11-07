@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
+import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
@@ -39,17 +40,17 @@ class _AnimeTrackPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackBloc, TrackUiState>(builder: (context, state) {
-      // final isLoading = state.isLoading;
-
-      return RefreshIndicator(
-        onRefresh: () async {
-          return context.read<TrackBloc>().syncUserAnimeList();
-        },
-        child: CustomScrollView(
-          slivers: [
-            _buildAppBar(context, state),
-            ..._buildTrackSectionContents(context, state),
-          ],
+      return Scaffold(
+        appBar: _buildAppBar(context, state),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            return context.read<TrackBloc>().syncUserAnimeList();
+          },
+          child: CustomScrollView(
+            slivers: [
+              ..._buildTrackSectionContents(context, state),
+            ],
+          ),
         ),
       );
     });
@@ -60,12 +61,10 @@ class _AnimeTrackPageContent extends StatelessWidget {
     final animeLoadState = state.animeLoadState;
     if (animeLoadState is MediaStateNoUser) {
       return [
-        _buildNoUserHint(),
+        _buildNoUserHint(context),
       ];
     } else if (animeLoadState is MediaStateInitState) {
-      return [
-        _buildInitialDummyView(),
-      ];
+      return [];
     } else {
       final animeList = (animeLoadState as MediaStateLoaded).followingMediaList;
 
@@ -88,9 +87,14 @@ class _AnimeTrackPageContent extends StatelessWidget {
       }
 
       final showReleasedOnly = state.showReleasedOnly;
+
+      final isAnime = state.currentMediaType == MediaType.anime;
       return [
-        SliverToBoxAdapter(
-          child: _buildFilterBarSection(context, showReleasedOnly),
+        SliverVisibility(
+          visible: isAnime,
+          sliver: SliverToBoxAdapter(
+            child: _buildFilterBarSection(context, showReleasedOnly),
+          ),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -140,12 +144,13 @@ class _AnimeTrackPageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, TrackUiState state) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, TrackUiState state) {
     final isAnime = state.currentMediaType == MediaType.anime;
-    return SliverAppBar(
+    final isLoading = state.isLoading;
+    return AppBar(
       title: const Text('Track'),
       actions: [
-        LoadingIndicator(isLoading: state.isLoading),
+        LoadingIndicator(isLoading: isLoading),
         const SizedBox(width: 10),
         isAnime
             ? Padding(
@@ -159,23 +164,32 @@ class _AnimeTrackPageContent extends StatelessWidget {
               )
             : const SizedBox(),
       ],
-      pinned: true,
       automaticallyImplyLeading: false,
     );
   }
 
-  Widget _buildNoUserHint() {
-    return const SliverToBoxAdapter(
+  Widget _buildNoUserHint(BuildContext context) {
+    return SliverFillRemaining(
       child: Center(
-        child: Text('No user'),
-      ),
-    );
-  }
-
-  Widget _buildInitialDummyView() {
-    return const SliverToBoxAdapter(
-      child: Center(
-        child: Text('Dummy'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Track your favorite anime or manga',
+              style: Theme.of(context).textTheme.headlineSmall,
+              softWrap: true,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            FilledButton.tonal(
+              onPressed: () {
+                context.read<AuthBloc>().add(OnLoginButtonTapped());
+              },
+              child: const Text('Join now'),
+            )
+          ],
+        ),
       ),
     );
   }

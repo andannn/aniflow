@@ -10,6 +10,7 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -188,6 +189,11 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
           create: (context) => TrackBloc(
             settingsRepository: context.read<SettingsRepository>(),
             mediaListRepository: context.read<MediaListRepository>(),
+            authRepository: context.read<AuthRepository>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => AuthBloc(
             authRepository: context.read<AuthRepository>(),
           ),
         ),
