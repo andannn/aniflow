@@ -22,8 +22,12 @@ class AuthDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AlertDialog(
-      content: _AuthDialogContent(),
+    return BlocProvider(
+      create: (context) =>
+          AuthBloc(authRepository: context.read<AuthRepository>()),
+      child: const AlertDialog(
+        content: _AuthDialogContent(),
+      ),
     );
   }
 }
