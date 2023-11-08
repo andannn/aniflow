@@ -15,8 +15,9 @@ class MediaMergeNotificationDto extends AniNotification
     @JsonKey(name: 'type') NotificationType? type,
     @JsonKey(name: 'mediaId') String? mediaId,
     @JsonKey(name: 'deletedMediaTitle') List<String>? deletedMediaTitle,
+    @JsonKey(name: 'createdAt') int? createdAt,
     @JsonKey(name: 'reason') String? reason,
-    @Default([]) @JsonKey(name: 'contexts') List<String> contexts,
+    @JsonKey(name: 'context') String? context,
     @JsonKey(name: 'media') MediaDto? media,
   }) = _MediaMergeNotificationDto;
 

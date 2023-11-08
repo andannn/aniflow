@@ -104,13 +104,13 @@ class AuthDataSource {
 
     try {
       final response = await AniListDio().dio.post(
-            AniListDio.aniListUrl,
-            queryParameters: {
-              'query': notificationQueryGraphql,
-              'variables': variablesMap,
-            },
-            options: _createQueryOptions(),
-          );
+        AniListDio.aniListUrl,
+        options: _createQueryOptions(),
+        data: {
+          'query': notificationQueryGraphql,
+          'variables': variablesMap,
+        },
+      );
       List resultJson = response.data['data']['Page']['notifications'];
       return resultJson
           .map((e) => AniNotification.mapToAniNotification(e))

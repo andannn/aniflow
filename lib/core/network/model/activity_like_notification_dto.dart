@@ -1,4 +1,5 @@
 import 'package:aniflow/core/data/model/notification_type.dart';
+import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_data_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,11 +15,20 @@ class ActivityLikeNotificationDto extends AniNotification
     @Default(-1) @JsonKey(name: 'id') int id,
     @JsonKey(name: 'type') NotificationType? type,
     @JsonKey(name: 'userId') int? userId,
-    @Default([]) @JsonKey(name: 'contexts') List<String> contexts,
+    @JsonKey(name: 'context') String? context,
     @JsonKey(name: 'createdAt') int? createdAt,
     @JsonKey(name: 'user') UserDataDto? user,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    AniActivity? activity,
   }) = _ActivityLikeNotificationDto;
 
   factory ActivityLikeNotificationDto.fromJson(Map<String, dynamic> json) =>
       _$$_ActivityLikeNotificationDtoFromJson(json);
+
+  static ActivityLikeNotificationDto fromJsonWithActivity(
+      Map<String, dynamic> json) {
+    return ActivityLikeNotificationDto.fromJson(json).copyWith(
+      activity: AniActivity.mapToAniActivity(json['activity']),
+    );
+  }
 }

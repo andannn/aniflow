@@ -27,8 +27,8 @@ mixin _$FollowingNotificationDto {
   NotificationType? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'userId')
   int? get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'contexts')
-  List<String> get contexts => throw _privateConstructorUsedError;
+  @JsonKey(name: 'context')
+  String? get context => throw _privateConstructorUsedError;
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
@@ -50,7 +50,7 @@ abstract class $FollowingNotificationDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'userId') int? userId,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'user') UserDataDto? user});
 
@@ -74,7 +74,7 @@ class _$FollowingNotificationDtoCopyWithImpl<$Res,
     Object? id = null,
     Object? type = freezed,
     Object? userId = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
   }) {
@@ -91,10 +91,10 @@ class _$FollowingNotificationDtoCopyWithImpl<$Res,
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int?,
-      contexts: null == contexts
-          ? _value.contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -132,7 +132,7 @@ abstract class _$$_FollowingNotificationDtoCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'userId') int? userId,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'user') UserDataDto? user});
 
@@ -155,7 +155,7 @@ class __$$_FollowingNotificationDtoCopyWithImpl<$Res>
     Object? id = null,
     Object? type = freezed,
     Object? userId = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
   }) {
@@ -172,10 +172,10 @@ class __$$_FollowingNotificationDtoCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int?,
-      contexts: null == contexts
-          ? _value._contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -195,10 +195,9 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'userId') this.userId,
-      @JsonKey(name: 'contexts') final List<String> contexts = const [],
+      @JsonKey(name: 'context') this.context,
       @JsonKey(name: 'createdAt') this.createdAt,
-      @JsonKey(name: 'user') this.user})
-      : _contexts = contexts;
+      @JsonKey(name: 'user') this.user});
 
   factory _$_FollowingNotificationDto.fromJson(Map<String, dynamic> json) =>
       _$$_FollowingNotificationDtoFromJson(json);
@@ -212,15 +211,9 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
   @override
   @JsonKey(name: 'userId')
   final int? userId;
-  final List<String> _contexts;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts {
-    if (_contexts is EqualUnmodifiableListView) return _contexts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_contexts);
-  }
-
+  @JsonKey(name: 'context')
+  final String? context;
   @override
   @JsonKey(name: 'createdAt')
   final int? createdAt;
@@ -230,7 +223,7 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
 
   @override
   String toString() {
-    return 'FollowingNotificationDto(id: $id, type: $type, userId: $userId, contexts: $contexts, createdAt: $createdAt, user: $user)';
+    return 'FollowingNotificationDto(id: $id, type: $type, userId: $userId, context: $context, createdAt: $createdAt, user: $user)';
   }
 
   @override
@@ -241,7 +234,7 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other._contexts, _contexts) &&
+            (identical(other.context, context) || other.context == context) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.user, user) || other.user == user));
@@ -249,8 +242,8 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, userId,
-      const DeepCollectionEquality().hash(_contexts), createdAt, user);
+  int get hashCode =>
+      Object.hash(runtimeType, id, type, userId, context, createdAt, user);
 
   @JsonKey(ignore: true)
   @override
@@ -272,7 +265,7 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
           {@JsonKey(name: 'id') final int id,
           @JsonKey(name: 'type') final NotificationType? type,
           @JsonKey(name: 'userId') final int? userId,
-          @JsonKey(name: 'contexts') final List<String> contexts,
+          @JsonKey(name: 'context') final String? context,
           @JsonKey(name: 'createdAt') final int? createdAt,
           @JsonKey(name: 'user') final UserDataDto? user}) =
       _$_FollowingNotificationDto;
@@ -290,8 +283,8 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
   @JsonKey(name: 'userId')
   int? get userId;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts;
+  @JsonKey(name: 'context')
+  String? get context;
   @override
   @JsonKey(name: 'createdAt')
   int? get createdAt;

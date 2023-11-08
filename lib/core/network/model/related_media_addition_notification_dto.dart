@@ -14,7 +14,7 @@ class RelatedMediaAdditionNotificationDto extends AniNotification
     @Default(-1) @JsonKey(name: 'id') int id,
     @JsonKey(name: 'type') NotificationType? type,
     @JsonKey(name: 'mediaId') int? mediaId,
-    @Default([]) @JsonKey(name: 'contexts') List<String> contexts,
+    @JsonKey(name: 'context') String? context,
     @JsonKey(name: 'createdAt') int? createdAt,
     @JsonKey(name: 'media') MediaDto? media,
   }) = _RelatedMediaAdditionNotificationDto;

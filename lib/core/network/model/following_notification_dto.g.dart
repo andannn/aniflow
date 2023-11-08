@@ -12,10 +12,7 @@ _$_FollowingNotificationDto _$$_FollowingNotificationDtoFromJson(
       id: json['id'] as int? ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       userId: json['userId'] as int?,
-      contexts: (json['contexts'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      context: json['context'] as String?,
       createdAt: json['createdAt'] as int?,
       user: json['user'] == null
           ? null
@@ -28,7 +25,7 @@ Map<String, dynamic> _$$_FollowingNotificationDtoToJson(
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],
       'userId': instance.userId,
-      'contexts': instance.contexts,
+      'context': instance.context,
       'createdAt': instance.createdAt,
       'user': instance.user,
     };

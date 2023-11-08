@@ -29,10 +29,12 @@ mixin _$MediaMergeNotificationDto {
   String? get mediaId => throw _privateConstructorUsedError;
   @JsonKey(name: 'deletedMediaTitle')
   List<String>? get deletedMediaTitle => throw _privateConstructorUsedError;
+  @JsonKey(name: 'createdAt')
+  int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'reason')
   String? get reason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'contexts')
-  List<String> get contexts => throw _privateConstructorUsedError;
+  @JsonKey(name: 'context')
+  String? get context => throw _privateConstructorUsedError;
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
 
@@ -53,8 +55,9 @@ abstract class $MediaMergeNotificationDtoCopyWith<$Res> {
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'mediaId') String? mediaId,
       @JsonKey(name: 'deletedMediaTitle') List<String>? deletedMediaTitle,
+      @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'reason') String? reason,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'media') MediaDto? media});
 
   $MediaDtoCopyWith<$Res>? get media;
@@ -78,8 +81,9 @@ class _$MediaMergeNotificationDtoCopyWithImpl<$Res,
     Object? type = freezed,
     Object? mediaId = freezed,
     Object? deletedMediaTitle = freezed,
+    Object? createdAt = freezed,
     Object? reason = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? media = freezed,
   }) {
     return _then(_value.copyWith(
@@ -99,14 +103,18 @@ class _$MediaMergeNotificationDtoCopyWithImpl<$Res,
           ? _value.deletedMediaTitle
           : deletedMediaTitle // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int?,
       reason: freezed == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
               as String?,
-      contexts: null == contexts
-          ? _value.contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
@@ -141,8 +149,9 @@ abstract class _$$_MediaMergeNotificationDtoCopyWith<$Res>
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'mediaId') String? mediaId,
       @JsonKey(name: 'deletedMediaTitle') List<String>? deletedMediaTitle,
+      @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'reason') String? reason,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'media') MediaDto? media});
 
   @override
@@ -166,8 +175,9 @@ class __$$_MediaMergeNotificationDtoCopyWithImpl<$Res>
     Object? type = freezed,
     Object? mediaId = freezed,
     Object? deletedMediaTitle = freezed,
+    Object? createdAt = freezed,
     Object? reason = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? media = freezed,
   }) {
     return _then(_$_MediaMergeNotificationDto(
@@ -187,14 +197,18 @@ class __$$_MediaMergeNotificationDtoCopyWithImpl<$Res>
           ? _value._deletedMediaTitle
           : deletedMediaTitle // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int?,
       reason: freezed == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
               as String?,
-      contexts: null == contexts
-          ? _value._contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
@@ -211,11 +225,11 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'mediaId') this.mediaId,
       @JsonKey(name: 'deletedMediaTitle') final List<String>? deletedMediaTitle,
+      @JsonKey(name: 'createdAt') this.createdAt,
       @JsonKey(name: 'reason') this.reason,
-      @JsonKey(name: 'contexts') final List<String> contexts = const [],
+      @JsonKey(name: 'context') this.context,
       @JsonKey(name: 'media') this.media})
-      : _deletedMediaTitle = deletedMediaTitle,
-        _contexts = contexts;
+      : _deletedMediaTitle = deletedMediaTitle;
 
   factory _$_MediaMergeNotificationDto.fromJson(Map<String, dynamic> json) =>
       _$$_MediaMergeNotificationDtoFromJson(json);
@@ -242,24 +256,21 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
   }
 
   @override
+  @JsonKey(name: 'createdAt')
+  final int? createdAt;
+  @override
   @JsonKey(name: 'reason')
   final String? reason;
-  final List<String> _contexts;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts {
-    if (_contexts is EqualUnmodifiableListView) return _contexts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_contexts);
-  }
-
+  @JsonKey(name: 'context')
+  final String? context;
   @override
   @JsonKey(name: 'media')
   final MediaDto? media;
 
   @override
   String toString() {
-    return 'MediaMergeNotificationDto(id: $id, type: $type, mediaId: $mediaId, deletedMediaTitle: $deletedMediaTitle, reason: $reason, contexts: $contexts, media: $media)';
+    return 'MediaMergeNotificationDto(id: $id, type: $type, mediaId: $mediaId, deletedMediaTitle: $deletedMediaTitle, createdAt: $createdAt, reason: $reason, context: $context, media: $media)';
   }
 
   @override
@@ -272,8 +283,10 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
             const DeepCollectionEquality()
                 .equals(other._deletedMediaTitle, _deletedMediaTitle) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.reason, reason) || other.reason == reason) &&
-            const DeepCollectionEquality().equals(other._contexts, _contexts) &&
+            (identical(other.context, context) || other.context == context) &&
             (identical(other.media, media) || other.media == media));
   }
 
@@ -285,8 +298,9 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
       type,
       mediaId,
       const DeepCollectionEquality().hash(_deletedMediaTitle),
+      createdAt,
       reason,
-      const DeepCollectionEquality().hash(_contexts),
+      context,
       media);
 
   @JsonKey(ignore: true)
@@ -310,8 +324,9 @@ abstract class _MediaMergeNotificationDto implements MediaMergeNotificationDto {
       @JsonKey(name: 'type') final NotificationType? type,
       @JsonKey(name: 'mediaId') final String? mediaId,
       @JsonKey(name: 'deletedMediaTitle') final List<String>? deletedMediaTitle,
+      @JsonKey(name: 'createdAt') final int? createdAt,
       @JsonKey(name: 'reason') final String? reason,
-      @JsonKey(name: 'contexts') final List<String> contexts,
+      @JsonKey(name: 'context') final String? context,
       @JsonKey(name: 'media')
       final MediaDto? media}) = _$_MediaMergeNotificationDto;
 
@@ -331,11 +346,14 @@ abstract class _MediaMergeNotificationDto implements MediaMergeNotificationDto {
   @JsonKey(name: 'deletedMediaTitle')
   List<String>? get deletedMediaTitle;
   @override
+  @JsonKey(name: 'createdAt')
+  int? get createdAt;
+  @override
   @JsonKey(name: 'reason')
   String? get reason;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts;
+  @JsonKey(name: 'context')
+  String? get context;
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;

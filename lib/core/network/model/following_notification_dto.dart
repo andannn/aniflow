@@ -14,7 +14,7 @@ class FollowingNotificationDto extends AniNotification
     @Default(-1) @JsonKey(name: 'id') int id,
     @JsonKey(name: 'type') NotificationType? type,
     @JsonKey(name: 'userId') int? userId,
-    @Default([]) @JsonKey(name: 'contexts') List<String> contexts,
+    @JsonKey(name: 'context') String? context,
     @JsonKey(name: 'createdAt') int? createdAt,
     @JsonKey(name: 'user') UserDataDto? user,
   }) = _FollowingNotificationDto;

@@ -13,10 +13,7 @@ _$_MediaDeletionNotificationDto _$$_MediaDeletionNotificationDtoFromJson(
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       deletedMediaTitle: json['deletedMediaTitle'] as String?,
       reason: json['reason'] as String?,
-      contexts: (json['contexts'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      context: json['context'] as String?,
       createdAt: json['createdAt'] as int?,
     );
 
@@ -27,7 +24,7 @@ Map<String, dynamic> _$$_MediaDeletionNotificationDtoToJson(
       'type': _$NotificationTypeEnumMap[instance.type],
       'deletedMediaTitle': instance.deletedMediaTitle,
       'reason': instance.reason,
-      'contexts': instance.contexts,
+      'context': instance.context,
       'createdAt': instance.createdAt,
     };
 

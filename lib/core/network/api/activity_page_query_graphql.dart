@@ -1,4 +1,6 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
+import 'package:aniflow/core/network/api/media_content_graphql.dart';
+import 'package:aniflow/core/network/api/user_content_graphql.dart';
 
 class ActivityPageQueryParam {
   final int? userId;
@@ -20,6 +22,13 @@ String get activitiesGraphQLString => '''
 query (\$page: Int, \$perPage: Int, \$userId: Int, \$type_in: [ActivityType], \$mediaId: Int, \$isFollowing: Boolean, \$hasRepliesOrTypeText: Boolean) {
   Page(page: \$page, perPage: \$perPage) {
     activities(userId: \$userId, type_in: \$type_in, mediaId: \$mediaId, isFollowing: \$isFollowing, sort: ID_DESC, hasRepliesOrTypeText: \$hasRepliesOrTypeText) {
+      $activityUnionContentString
+    }
+  }
+}
+''';
+
+String get activityUnionContentString => '''
       __typename
       ... on TextActivity {
         id
@@ -34,13 +43,7 @@ query (\$page: Int, \$perPage: Int, \$userId: Int, \$type_in: [ActivityType], \$
         isPinned
         createdAt
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on ListActivity {
@@ -57,34 +60,10 @@ query (\$page: Int, \$perPage: Int, \$userId: Int, \$type_in: [ActivityType], \$
         isPinned
         createdAt
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
         media {
-          id
-          type
-          format
-          status
-          season
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          title {
-            romaji
-            english
-            native
-          }
+          $mediaContentQueryGraphql
         }
       }
-    }
-  }
-}
 ''';

@@ -13,10 +13,7 @@ _$_ActivityReplyNotificationDto _$$_ActivityReplyNotificationDtoFromJson(
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       userId: json['userId'] as int?,
       activityId: json['activityId'] as int?,
-      contexts: (json['contexts'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      context: json['context'] as String?,
       createdAt: json['createdAt'] as int?,
       user: json['user'] == null
           ? null
@@ -30,7 +27,7 @@ Map<String, dynamic> _$$_ActivityReplyNotificationDtoToJson(
       'type': _$NotificationTypeEnumMap[instance.type],
       'userId': instance.userId,
       'activityId': instance.activityId,
-      'contexts': instance.contexts,
+      'context': instance.context,
       'createdAt': instance.createdAt,
       'user': instance.user,
     };

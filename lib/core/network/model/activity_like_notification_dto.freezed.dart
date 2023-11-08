@@ -27,12 +27,14 @@ mixin _$ActivityLikeNotificationDto {
   NotificationType? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'userId')
   int? get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'contexts')
-  List<String> get contexts => throw _privateConstructorUsedError;
+  @JsonKey(name: 'context')
+  String? get context => throw _privateConstructorUsedError;
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
   UserDataDto? get user => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  AniActivity? get activity => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,9 +54,11 @@ abstract class $ActivityLikeNotificationDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'userId') int? userId,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      AniActivity? activity});
 
   $UserDataDtoCopyWith<$Res>? get user;
 }
@@ -76,9 +80,10 @@ class _$ActivityLikeNotificationDtoCopyWithImpl<$Res,
     Object? id = null,
     Object? type = freezed,
     Object? userId = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
+    Object? activity = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -93,10 +98,10 @@ class _$ActivityLikeNotificationDtoCopyWithImpl<$Res,
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int?,
-      contexts: null == contexts
-          ? _value.contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -105,6 +110,10 @@ class _$ActivityLikeNotificationDtoCopyWithImpl<$Res,
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserDataDto?,
+      activity: freezed == activity
+          ? _value.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as AniActivity?,
     ) as $Val);
   }
 
@@ -134,9 +143,11 @@ abstract class _$$_ActivityLikeNotificationDtoCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'userId') int? userId,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      AniActivity? activity});
 
   @override
   $UserDataDtoCopyWith<$Res>? get user;
@@ -158,9 +169,10 @@ class __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>
     Object? id = null,
     Object? type = freezed,
     Object? userId = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
+    Object? activity = freezed,
   }) {
     return _then(_$_ActivityLikeNotificationDto(
       id: null == id
@@ -175,10 +187,10 @@ class __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int?,
-      contexts: null == contexts
-          ? _value._contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -187,6 +199,10 @@ class __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserDataDto?,
+      activity: freezed == activity
+          ? _value.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as AniActivity?,
     ));
   }
 }
@@ -198,10 +214,10 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'userId') this.userId,
-      @JsonKey(name: 'contexts') final List<String> contexts = const [],
+      @JsonKey(name: 'context') this.context,
       @JsonKey(name: 'createdAt') this.createdAt,
-      @JsonKey(name: 'user') this.user})
-      : _contexts = contexts;
+      @JsonKey(name: 'user') this.user,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.activity});
 
   factory _$_ActivityLikeNotificationDto.fromJson(Map<String, dynamic> json) =>
       _$$_ActivityLikeNotificationDtoFromJson(json);
@@ -215,25 +231,22 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
   @override
   @JsonKey(name: 'userId')
   final int? userId;
-  final List<String> _contexts;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts {
-    if (_contexts is EqualUnmodifiableListView) return _contexts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_contexts);
-  }
-
+  @JsonKey(name: 'context')
+  final String? context;
   @override
   @JsonKey(name: 'createdAt')
   final int? createdAt;
   @override
   @JsonKey(name: 'user')
   final UserDataDto? user;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final AniActivity? activity;
 
   @override
   String toString() {
-    return 'ActivityLikeNotificationDto(id: $id, type: $type, userId: $userId, contexts: $contexts, createdAt: $createdAt, user: $user)';
+    return 'ActivityLikeNotificationDto(id: $id, type: $type, userId: $userId, context: $context, createdAt: $createdAt, user: $user, activity: $activity)';
   }
 
   @override
@@ -244,16 +257,18 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other._contexts, _contexts) &&
+            (identical(other.context, context) || other.context == context) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.activity, activity) ||
+                other.activity == activity));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, userId,
-      const DeepCollectionEquality().hash(_contexts), createdAt, user);
+  int get hashCode => Object.hash(
+      runtimeType, id, type, userId, context, createdAt, user, activity);
 
   @JsonKey(ignore: true)
   @override
@@ -273,13 +288,14 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
 abstract class _ActivityLikeNotificationDto
     implements ActivityLikeNotificationDto {
   factory _ActivityLikeNotificationDto(
-          {@JsonKey(name: 'id') final int id,
-          @JsonKey(name: 'type') final NotificationType? type,
-          @JsonKey(name: 'userId') final int? userId,
-          @JsonKey(name: 'contexts') final List<String> contexts,
-          @JsonKey(name: 'createdAt') final int? createdAt,
-          @JsonKey(name: 'user') final UserDataDto? user}) =
-      _$_ActivityLikeNotificationDto;
+      {@JsonKey(name: 'id') final int id,
+      @JsonKey(name: 'type') final NotificationType? type,
+      @JsonKey(name: 'userId') final int? userId,
+      @JsonKey(name: 'context') final String? context,
+      @JsonKey(name: 'createdAt') final int? createdAt,
+      @JsonKey(name: 'user') final UserDataDto? user,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final AniActivity? activity}) = _$_ActivityLikeNotificationDto;
 
   factory _ActivityLikeNotificationDto.fromJson(Map<String, dynamic> json) =
       _$_ActivityLikeNotificationDto.fromJson;
@@ -294,14 +310,17 @@ abstract class _ActivityLikeNotificationDto
   @JsonKey(name: 'userId')
   int? get userId;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts;
+  @JsonKey(name: 'context')
+  String? get context;
   @override
   @JsonKey(name: 'createdAt')
   int? get createdAt;
   @override
   @JsonKey(name: 'user')
   UserDataDto? get user;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  AniActivity? get activity;
   @override
   @JsonKey(ignore: true)
   _$$_ActivityLikeNotificationDtoCopyWith<_$_ActivityLikeNotificationDto>

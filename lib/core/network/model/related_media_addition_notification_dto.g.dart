@@ -13,10 +13,7 @@ _$_RelatedMediaAdditionNotificationDto
           id: json['id'] as int? ?? -1,
           type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
           mediaId: json['mediaId'] as int?,
-          contexts: (json['contexts'] as List<dynamic>?)
-                  ?.map((e) => e as String)
-                  .toList() ??
-              const [],
+          context: json['context'] as String?,
           createdAt: json['createdAt'] as int?,
           media: json['media'] == null
               ? null
@@ -29,7 +26,7 @@ Map<String, dynamic> _$$_RelatedMediaAdditionNotificationDtoToJson(
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],
       'mediaId': instance.mediaId,
-      'contexts': instance.contexts,
+      'context': instance.context,
       'createdAt': instance.createdAt,
       'media': instance.media,
     };

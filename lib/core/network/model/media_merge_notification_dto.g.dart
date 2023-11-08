@@ -15,11 +15,9 @@ _$_MediaMergeNotificationDto _$$_MediaMergeNotificationDtoFromJson(
       deletedMediaTitle: (json['deletedMediaTitle'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      createdAt: json['createdAt'] as int?,
       reason: json['reason'] as String?,
-      contexts: (json['contexts'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+      context: json['context'] as String?,
       media: json['media'] == null
           ? null
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
@@ -32,8 +30,9 @@ Map<String, dynamic> _$$_MediaMergeNotificationDtoToJson(
       'type': _$NotificationTypeEnumMap[instance.type],
       'mediaId': instance.mediaId,
       'deletedMediaTitle': instance.deletedMediaTitle,
+      'createdAt': instance.createdAt,
       'reason': instance.reason,
-      'contexts': instance.contexts,
+      'context': instance.context,
       'media': instance.media,
     };
 

@@ -92,20 +92,5 @@ void main() {
           (ActivityFilterType.all, ActivityScopeCategory.global)
               .combineJsonKey);
     });
-
-    test('get_activities_aaaaaaaaa', () async {
-      await animeDatabase.aniflowDB.insert("parent_table", {
-        'parent_id' : 1,
-        'name' : 'parent name'
-      });
-      await animeDatabase.aniflowDB.insert("child", {
-        'child_id' : 1,
-        'parent_f_key' : 1,
-        'child_name' : 'parent name'
-      });
-
-      print('${(await animeDatabase.aniflowDB.query('parent_table'))}');
-      print('${(await animeDatabase.aniflowDB.query('child'))}');
-    });
   });
 }

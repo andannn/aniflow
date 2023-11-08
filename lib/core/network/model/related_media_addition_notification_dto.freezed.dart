@@ -27,8 +27,8 @@ mixin _$RelatedMediaAdditionNotificationDto {
   NotificationType? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'mediaId')
   int? get mediaId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'contexts')
-  List<String> get contexts => throw _privateConstructorUsedError;
+  @JsonKey(name: 'context')
+  String? get context => throw _privateConstructorUsedError;
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'media')
@@ -53,7 +53,7 @@ abstract class $RelatedMediaAdditionNotificationDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'mediaId') int? mediaId,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'media') MediaDto? media});
 
@@ -77,7 +77,7 @@ class _$RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res,
     Object? id = null,
     Object? type = freezed,
     Object? mediaId = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? createdAt = freezed,
     Object? media = freezed,
   }) {
@@ -94,10 +94,10 @@ class _$RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res,
           ? _value.mediaId
           : mediaId // ignore: cast_nullable_to_non_nullable
               as int?,
-      contexts: null == contexts
-          ? _value.contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -135,7 +135,7 @@ abstract class _$$_RelatedMediaAdditionNotificationDtoCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'type') NotificationType? type,
       @JsonKey(name: 'mediaId') int? mediaId,
-      @JsonKey(name: 'contexts') List<String> contexts,
+      @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'media') MediaDto? media});
 
@@ -159,7 +159,7 @@ class __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res>
     Object? id = null,
     Object? type = freezed,
     Object? mediaId = freezed,
-    Object? contexts = null,
+    Object? context = freezed,
     Object? createdAt = freezed,
     Object? media = freezed,
   }) {
@@ -176,10 +176,10 @@ class __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res>
           ? _value.mediaId
           : mediaId // ignore: cast_nullable_to_non_nullable
               as int?,
-      contexts: null == contexts
-          ? _value._contexts
-          : contexts // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -200,10 +200,9 @@ class _$_RelatedMediaAdditionNotificationDto
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'mediaId') this.mediaId,
-      @JsonKey(name: 'contexts') final List<String> contexts = const [],
+      @JsonKey(name: 'context') this.context,
       @JsonKey(name: 'createdAt') this.createdAt,
-      @JsonKey(name: 'media') this.media})
-      : _contexts = contexts;
+      @JsonKey(name: 'media') this.media});
 
   factory _$_RelatedMediaAdditionNotificationDto.fromJson(
           Map<String, dynamic> json) =>
@@ -218,15 +217,9 @@ class _$_RelatedMediaAdditionNotificationDto
   @override
   @JsonKey(name: 'mediaId')
   final int? mediaId;
-  final List<String> _contexts;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts {
-    if (_contexts is EqualUnmodifiableListView) return _contexts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_contexts);
-  }
-
+  @JsonKey(name: 'context')
+  final String? context;
   @override
   @JsonKey(name: 'createdAt')
   final int? createdAt;
@@ -236,7 +229,7 @@ class _$_RelatedMediaAdditionNotificationDto
 
   @override
   String toString() {
-    return 'RelatedMediaAdditionNotificationDto(id: $id, type: $type, mediaId: $mediaId, contexts: $contexts, createdAt: $createdAt, media: $media)';
+    return 'RelatedMediaAdditionNotificationDto(id: $id, type: $type, mediaId: $mediaId, context: $context, createdAt: $createdAt, media: $media)';
   }
 
   @override
@@ -247,7 +240,7 @@ class _$_RelatedMediaAdditionNotificationDto
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
-            const DeepCollectionEquality().equals(other._contexts, _contexts) &&
+            (identical(other.context, context) || other.context == context) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.media, media) || other.media == media));
@@ -255,8 +248,8 @@ class _$_RelatedMediaAdditionNotificationDto
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, mediaId,
-      const DeepCollectionEquality().hash(_contexts), createdAt, media);
+  int get hashCode =>
+      Object.hash(runtimeType, id, type, mediaId, context, createdAt, media);
 
   @JsonKey(ignore: true)
   @override
@@ -280,7 +273,7 @@ abstract class _RelatedMediaAdditionNotificationDto
           {@JsonKey(name: 'id') final int id,
           @JsonKey(name: 'type') final NotificationType? type,
           @JsonKey(name: 'mediaId') final int? mediaId,
-          @JsonKey(name: 'contexts') final List<String> contexts,
+          @JsonKey(name: 'context') final String? context,
           @JsonKey(name: 'createdAt') final int? createdAt,
           @JsonKey(name: 'media') final MediaDto? media}) =
       _$_RelatedMediaAdditionNotificationDto;
@@ -299,8 +292,8 @@ abstract class _RelatedMediaAdditionNotificationDto
   @JsonKey(name: 'mediaId')
   int? get mediaId;
   @override
-  @JsonKey(name: 'contexts')
-  List<String> get contexts;
+  @JsonKey(name: 'context')
+  String? get context;
   @override
   @JsonKey(name: 'createdAt')
   int? get createdAt;

@@ -22,10 +22,13 @@ void main() {
         "id": 6378393,
         "name": "andannn",
         "avatar": {
-          "large": "https://s4.anilist.co/file/anilistcdn/user/avatar/large/b6378393-3BsPEhU6Tz5l.png",
-          "medium": "https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b6378393-3BsPEhU6Tz5l.png"
+          "large":
+              "https://s4.anilist.co/file/anilistcdn/user/avatar/large/b6378393-3BsPEhU6Tz5l.png",
+          "medium":
+              "https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b6378393-3BsPEhU6Tz5l.png"
         },
-        "bannerImage": "https://s4.anilist.co/file/anilistcdn/user/banner/b6378393-qmyrEYbiA2HR.jpg"
+        "bannerImage":
+            "https://s4.anilist.co/file/anilistcdn/user/banner/b6378393-qmyrEYbiA2HR.jpg"
       }
     };
     final dummyTextActivity = {
@@ -45,12 +48,16 @@ void main() {
         "id": 1,
         "name": "Josh",
         "avatar": {
-          "large": "https://s4.anilist.co/file/anilistcdn/user/avatar/large/b1-PPhlCaTCpmrV.png",
-          "medium": "https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b1-PPhlCaTCpmrV.png"
+          "large":
+              "https://s4.anilist.co/file/anilistcdn/user/avatar/large/b1-PPhlCaTCpmrV.png",
+          "medium":
+              "https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b1-PPhlCaTCpmrV.png"
         },
-        "bannerImage": "https://s4.anilist.co/file/anilistcdn/user/banner/n1-Uq15ejQKm1Kg.jpg"
+        "bannerImage":
+            "https://s4.anilist.co/file/anilistcdn/user/banner/n1-Uq15ejQKm1Kg.jpg"
       }
     };
+
     test('list_activity_dto', () async {
       ListActivityDto.fromJson(dummyListActivity);
     });

@@ -14,7 +14,7 @@ abstract class AniNotification {
   static AniNotification mapToAniNotification(Map<String, dynamic> jsonMap) {
     switch (jsonMap['__typename']) {
       case 'ActivityLikeNotification':
-        return ActivityLikeNotificationDto.fromJson(jsonMap);
+        return ActivityLikeNotificationDto.fromJsonWithActivity(jsonMap);
       case 'AiringNotification':
         return AiringNotificationDto.fromJson(jsonMap);
       case 'FollowingNotification':
@@ -28,13 +28,14 @@ abstract class AniNotification {
       case 'MediaMergeNotification':
         return MediaMergeNotificationDto.fromJson(jsonMap);
       case 'ActivityReplyNotification':
-        return ActivityReplyNotificationDto.fromJson(jsonMap);
+        return ActivityReplyNotificationDto.fromJsonWithActivity(jsonMap);
       case 'ActivityReplyLikeNotification':
-        return ActivityReplyLikeNotificationDto.fromJson(jsonMap);
+        return ActivityReplyLikeNotificationDto.fromJsonWithActivity(jsonMap);
       case 'ActivityReplySubscribedNotification':
-        return ActivityReplySubscribedNotificationDto.fromJson(jsonMap);
+        return ActivityReplySubscribedNotificationDto.fromJsonWithActivity(
+            jsonMap);
       case 'ActivityMessageNotification':
-        return ActivityMessageNotificationDto.fromJson(jsonMap);
+        return ActivityMessageNotificationDto.fromJsonWithActivity(jsonMap);
     }
 
     throw Exception('InvalidType');

@@ -1,4 +1,7 @@
 import 'package:aniflow/core/data/model/notification_type.dart';
+import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
+import 'package:aniflow/core/network/api/media_content_graphql.dart';
+import 'package:aniflow/core/network/api/user_content_graphql.dart';
 
 class NotificationQueryParam {
   final int page;
@@ -25,19 +28,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         contexts
         createdAt
         media {
-          id
-          type
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          title {
-            romaji
-            english
-            native
-          }
+          $mediaContentQueryGraphql
         }
       }
       ... on ActivityLikeNotification {
@@ -47,14 +38,11 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         context
         activityId
         createdAt
+        activity {
+          $activityUnionContentString
+        }
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on ActivityMentionNotification {
@@ -64,14 +52,11 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         activityId
         context
         createdAt
+        activity {
+          $activityUnionContentString
+        }
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on ActivityMessageNotification {
@@ -85,13 +70,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
           id
         }
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on ActivityReplySubscribedNotification {
@@ -101,14 +80,11 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         activityId
         context
         createdAt
+        activity {
+          $activityUnionContentString
+        }
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on ActivityReplyLikeNotification {
@@ -118,14 +94,11 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         activityId
         context
         createdAt
+        activity {
+          $activityUnionContentString
+        }
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on ActivityReplyNotification {
@@ -135,14 +108,11 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         activityId
         context
         createdAt
+        activity {
+          $activityUnionContentString
+        }
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on FollowingNotification {
@@ -152,13 +122,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         context
         createdAt
         user {
-          id
-          name
-          avatar {
-            large
-            medium
-          }
-          bannerImage
+          $userContentQueryGraphql
         }
       }
       ... on MediaMergeNotification {
@@ -170,19 +134,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         reason
         createdAt
         media {
-          id
-          type
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          title {
-            romaji
-            english
-            native
-          }
+          $mediaContentQueryGraphql
         }
       }
       ... on MediaDataChangeNotification {
@@ -193,19 +145,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         reason
         createdAt
         media {
-          id
-          type
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          title {
-            romaji
-            english
-            native
-          }
+          $mediaContentQueryGraphql
         }
       }
       ... on MediaDeletionNotification {
@@ -223,19 +163,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         context
         createdAt
         media {
-          id
-          type
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          title {
-            romaji
-            english
-            native
-          }
+          $mediaContentQueryGraphql
         }
       }
     }

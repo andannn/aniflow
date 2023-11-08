@@ -14,7 +14,7 @@ class MediaDeletionNotificationDto extends AniNotification
     @JsonKey(name: 'type') NotificationType? type,
     @JsonKey(name: 'deletedMediaTitle') String? deletedMediaTitle,
     @JsonKey(name: 'reason') String? reason,
-    @Default([]) @JsonKey(name: 'contexts') List<String> contexts,
+    @JsonKey(name: 'context') String? context,
     @JsonKey(name: 'createdAt') int? createdAt,
   }) = _MediaDeletionNotificationDto;
 
