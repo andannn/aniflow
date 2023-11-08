@@ -20,7 +20,7 @@ void main() {
       databaseFactory = databaseFactoryFfi;
       SharedPreferences.setMockInitialValues({});
       await AniFlowPreferences().init();
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
       isUnitTest = true;
     });
 

@@ -11,6 +11,8 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,8 @@ void main() async {
   await AniFlowPreferences().init();
 
   /// init date base used in this app.
-  await AniflowDatabase().initDatabase();
+  await AniflowDatabase()
+      .initDatabase(path: join(await getDatabasesPath(), databaseFileName));
 
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [

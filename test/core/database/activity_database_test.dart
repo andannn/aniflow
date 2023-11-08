@@ -65,14 +65,13 @@ void main() {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
 
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
 
       activityDao = AniflowDatabase().getActivityDao();
     });
 
     tearDown(() async {
-      await animeDatabase.aniflowDB.delete(Tables.activityTable);
-      await animeDatabase.aniflowDB.delete(Tables.userDataTable);
+      await animeDatabase.aniflowDB.close();
     });
 
     test('insert_activity_table', () async {
@@ -92,6 +91,21 @@ void main() {
           12,
           (ActivityFilterType.all, ActivityScopeCategory.global)
               .combineJsonKey);
+    });
+
+    test('get_activities_aaaaaaaaa', () async {
+      await animeDatabase.aniflowDB.insert("parent_table", {
+        'parent_id' : 1,
+        'name' : 'parent name'
+      });
+      await animeDatabase.aniflowDB.insert("child", {
+        'child_id' : 1,
+        'parent_f_key' : 1,
+        'child_name' : 'parent name'
+      });
+
+      print('${(await animeDatabase.aniflowDB.query('parent_table'))}');
+      print('${(await animeDatabase.aniflowDB.query('child'))}');
     });
   });
 }

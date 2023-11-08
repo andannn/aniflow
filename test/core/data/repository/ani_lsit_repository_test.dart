@@ -22,7 +22,7 @@ void main() {
       await AniFlowPreferences().init();
       await AniFlowPreferences().setCurrentSeasonYear(2023);
       await AniFlowPreferences().setCurrentSeason(AnimeSeason.summer);
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
 
       aniListRepository = MediaInformationRepositoryImpl();
     });
