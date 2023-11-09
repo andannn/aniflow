@@ -56,9 +56,18 @@ class DiscoverScreen extends StatelessWidget {
               LoadingIndicator(isLoading: isLoading),
               IconButton(
                 onPressed: () {
-                  AFRouterDelegate.of(context).navigateToSearch();
+                  AFRouterDelegate.of(context).navigateToNotification();
                 },
-                icon: const Icon(Icons.search_rounded),
+                icon: const Icon(Icons.notifications_none),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
+                  onPressed: () {
+                    AFRouterDelegate.of(context).navigateToSearch();
+                  },
+                  icon: const Icon(Icons.search_rounded),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),

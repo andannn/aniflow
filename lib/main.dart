@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/data/search_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
@@ -49,6 +50,9 @@ void main() async {
     ),
     RepositoryProvider<UserInfoRepository>(
       create: (context) => UserInfoRepositoryImpl(),
+    ),
+    RepositoryProvider<NotificationRepository>(
+      create: (context) => NotificationRepositoryImpl(),
     ),
   ], child: const AnimeTrackerApp()));
 }

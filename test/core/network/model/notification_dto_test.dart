@@ -126,21 +126,18 @@ void main() {
           as AiringNotificationDto;
       expect(res.runtimeType.toString().contains('AiringNotification'),
           equals(true));
-      print(res);
     });
 
     test('following_notification_notification', () async {
       final res = AniNotification.mapToAniNotification(dummyFollowNotification);
       expect(res.runtimeType.toString().contains('FollowingNotification'),
           equals(true));
-      print(res);
     });
 
     test('activity_reply_notification', () async {
       final res = AniNotification.mapToAniNotification(activityNotification);
       expect(res.runtimeType.toString().contains('ActivityReplyNotification'),
           equals(true));
-      print(res);
     });
 
     test('related_media_addition_notification', () async {
@@ -148,7 +145,6 @@ void main() {
           dummyRelatedMediaAdditionNotification);
       expect(res.runtimeType.toString().contains('RelatedMediaAdditionNotification'),
           equals(true));
-      print(res);
     });
   });
 }

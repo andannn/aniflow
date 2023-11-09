@@ -85,6 +85,7 @@ sealed class NotificationModel extends Equatable {
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
           media: MediaModel.fromDto(dto.media!),
+          reason: dto.reason ?? '',
         );
       case RelatedMediaAdditionNotificationDto():
         return RelatedMediaAdditionNotification(
@@ -226,7 +227,10 @@ class MediaDataChangeNotification extends MediaNotification {
     required super.context,
     required super.createdAt,
     required super.media,
+    required this.reason,
   });
+
+  final String reason;
 }
 
 class MediaMergeNotification extends MediaNotification {

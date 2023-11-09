@@ -9,6 +9,7 @@ mixin Config {
 
   static const int profilePageDefaultPerPageCount = 6;
   static const int activityPageDefaultPerPageCount = 50;
+  static const int notificationPageDefaultPerPageCount = 25;
 
   /// Detail page consts.
   static const double detailPagePreviewItemHeight = 133.0;

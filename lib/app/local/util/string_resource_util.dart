@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
@@ -5,7 +7,12 @@ import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/notification_model.dart';
+import 'package:aniflow/core/data/notification_repository.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 extension AnimeSourceEx on AnimeSource {
@@ -109,9 +116,95 @@ extension AnimeModelEx on MediaModel {
 }
 
 extension ActivityFilterTypeEx on ActivityFilterType {
-  String label(BuildContext context) => switch(this) {
-    ActivityFilterType.all => 'All',
-    ActivityFilterType.text => 'Text',
-    ActivityFilterType.list => 'List',
-  };
+  String label(BuildContext context) => switch (this) {
+        ActivityFilterType.all => 'All',
+        ActivityFilterType.text => 'Text',
+        ActivityFilterType.list => 'List',
+      };
+}
+
+extension NotificationCategoryEx on NotificationCategory {
+  String label(BuildContext context) => switch (this) {
+        NotificationCategory.all => 'All',
+        NotificationCategory.airing => 'Airing',
+        NotificationCategory.activity => 'Activity',
+        NotificationCategory.follows => 'Follows',
+        NotificationCategory.media => 'Media',
+      };
+}
+
+extension AiringNotificationEx on AiringNotification {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onMediaTextClick}) {
+    final List contextList = jsonDecode(context);
+    final colorScheme = Theme.of(buildContext).colorScheme;
+    return [
+      TextSpan(text: '${contextList[0]} $episode ${contextList[1]}'),
+      TextSpan(
+        text: media.title?.native,
+        style: TextStyle(color: colorScheme.tertiary),
+        recognizer: TapGestureRecognizer()..onTap = onMediaTextClick,
+      ),
+      TextSpan(text: contextList[2]),
+    ];
+  }
+}
+
+extension FollowNotificationEx on FollowNotification {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onUserTextClick}) {
+    final colorScheme = Theme.of(buildContext).colorScheme;
+    return [
+      TextSpan(
+        text: user.name,
+        style: TextStyle(color: colorScheme.tertiary),
+        recognizer: TapGestureRecognizer()..onTap = onUserTextClick,
+      ),
+      TextSpan(text: context),
+    ];
+  }
+}
+
+extension ActivityNotificationEx on ActivityNotification {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onUserTextClick}) {
+    final colorScheme = Theme.of(buildContext).colorScheme;
+    return [
+      TextSpan(
+        text: user.name,
+        style: TextStyle(color: colorScheme.tertiary),
+        recognizer: TapGestureRecognizer()..onTap = onUserTextClick,
+      ),
+      TextSpan(text: context),
+    ];
+  }
+}
+
+extension MediaNotificationEx on MediaNotification {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onUserTextClick}) {
+    final colorScheme = Theme.of(buildContext).colorScheme;
+    return [
+      TextSpan(
+        text: media.title?.native,
+        style: TextStyle(color: colorScheme.tertiary),
+        recognizer: TapGestureRecognizer()..onTap = onUserTextClick,
+      ),
+      TextSpan(text: context),
+    ];
+  }
+}
+extension ListActivityModelEx on ListActivityModel {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onMediaClick}) {
+    final colorScheme = Theme.of(buildContext).colorScheme;
+    return [
+      TextSpan(text: '${status.toString()} $progress of '),
+      TextSpan(
+        text: media.title!.getLocalTitle(buildContext),
+        style: TextStyle(color: colorScheme.tertiary),
+        recognizer: TapGestureRecognizer()..onTap = onMediaClick,
+      ),
+    ];
+  }
 }

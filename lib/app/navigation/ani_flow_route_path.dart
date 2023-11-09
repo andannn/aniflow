@@ -7,6 +7,7 @@ import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/discover/discover.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
+import 'package:aniflow/feature/notification/notification.dart';
 import 'package:aniflow/feature/profile/profile.dart';
 import 'package:aniflow/feature/social/social.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
@@ -97,6 +98,10 @@ class AiringScheduleRoutePath extends AniFlowRoutePath {
   const AiringScheduleRoutePath() : super(isFullScreen: true);
 }
 
+class NotificationRoutePath extends AniFlowRoutePath {
+  const NotificationRoutePath() : super(isFullScreen: true);
+}
+
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
@@ -134,6 +139,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return const AiringSchedule(key: ValueKey('AiringSchedule'));
       case SearchRoutePath():
         return const SearchPage(key: ValueKey('SearchPage'));
+      case NotificationRoutePath():
+        return const NotificationPage(key: ValueKey('NotificationPage'));
       default:
         return const MaterialPage(child: SizedBox());
     }
