@@ -1,4 +1,5 @@
 import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:aniflow/core/network/model/user_data_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.freezed.dart';
@@ -12,7 +13,7 @@ class UserModel with _$UserModel {
     String? bannerImage,
   }) = _UserModel;
 
-  static UserModel? fromDatabaseModel(UserEntity? model) {
+  static UserModel? fromEntity(UserEntity? model) {
     if (model == null) {
       return null;
     } else {
@@ -23,5 +24,10 @@ class UserModel with _$UserModel {
         bannerImage: model.bannerImage,
       );
     }
+  }
+
+  static UserModel fromDto(UserDataDto dto) {
+    final entity = UserEntity.fromNetworkModel(dto);
+    return UserModel.fromEntity(entity)!;
   }
 }

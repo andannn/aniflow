@@ -65,14 +65,13 @@ void main() {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
 
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
 
       activityDao = AniflowDatabase().getActivityDao();
     });
 
     tearDown(() async {
-      await animeDatabase.aniflowDB.delete(Tables.activityTable);
-      await animeDatabase.aniflowDB.delete(Tables.userDataTable);
+      await animeDatabase.aniflowDB.close();
     });
 
     test('insert_activity_table', () async {

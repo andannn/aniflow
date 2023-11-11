@@ -3,6 +3,9 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/network/model/ani_activity.dart';
+import 'package:aniflow/core/network/model/list_activity_dto.dart';
+import 'package:aniflow/core/network/model/text_activity_dto.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class ActivityModel extends Equatable {
@@ -57,7 +60,7 @@ sealed class ActivityModel extends Equatable {
           likeCount: activity.likeCount ?? 0,
           isPinned: activity.isPinned.toBoolean(),
           createdAt: activity.createdAt!,
-          user: UserModel.fromDatabaseModel(user)!,
+          user: UserModel.fromEntity(user)!,
         );
 
       case ActivityType.animeList:
@@ -72,12 +75,48 @@ sealed class ActivityModel extends Equatable {
           likeCount: activity.likeCount ?? 0,
           isPinned: activity.isPinned.toBoolean(),
           createdAt: activity.createdAt!,
-          user: UserModel.fromDatabaseModel(user)!,
+          user: UserModel.fromEntity(user)!,
           status: activity.status ?? '',
           progress: activity.progress ?? '',
           media: MediaModel.fromDatabaseModel(media!),
         );
       case ActivityType.message:
+        throw Exception('Invalid type');
+    }
+  }
+
+  static ActivityModel fromDto(AniActivity dto) {
+    switch (dto) {
+      case TextActivityDto():
+        return TextActivityModel(
+          id: dto.id?.toString() ?? '',
+          text: dto.text ?? '',
+          replyCount: dto.replyCount ?? 0,
+          siteUrl: dto.siteUrl ?? '',
+          isLocked: dto.isLocked ?? false,
+          isLiked: dto.isLiked ?? false,
+          likeCount: dto.likeCount ?? 0,
+          isPinned: dto.isPinned ?? false,
+          createdAt: dto.createdAt ?? 0,
+          user: dto.user == null ? UserModel() : UserModel.fromDto(dto.user!),
+        );
+      case ListActivityDto():
+        return ListActivityModel(
+          id: dto.id?.toString() ?? '',
+          replyCount: dto.replyCount ?? 0,
+          siteUrl: dto.siteUrl ?? '',
+          isLocked: dto.isLocked ?? false,
+          isLiked: dto.isLiked ?? false,
+          likeCount: dto.likeCount ?? 0,
+          isPinned: dto.isPinned ?? false,
+          createdAt: dto.createdAt ?? 0,
+          user: dto.user == null ? UserModel() : UserModel.fromDto(dto.user!),
+          status: dto.status ?? '',
+          progress: dto.progress ?? '',
+          media:
+              dto.media == null ? MediaModel() : MediaModel.fromDto(dto.media!),
+        );
+      default:
         throw Exception('Invalid type');
     }
   }

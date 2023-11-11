@@ -18,7 +18,7 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       await AniFlowPreferences().init();
 
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
       searchPageBloc = SearchPageBloc(
           searchRepository: SearchRepositoryImpl(),
           settingsRepository: SettingsRepositoryImpl());

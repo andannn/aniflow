@@ -13,6 +13,8 @@ extension MediaListItemModelEx on MediaListItemModel {
 
     final status = animeModel!.status;
     switch (status) {
+      case MediaStatus.cancelled:
+      case MediaStatus.hiatus:
       case MediaStatus.releasing:
         final nextAiringEpisode = animeModel!.nextAiringEpisode;
         if (nextAiringEpisode == null) {

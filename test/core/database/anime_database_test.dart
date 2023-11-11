@@ -154,18 +154,11 @@ void main() {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
 
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
     });
 
     tearDown(() async {
-      await animeDatabase.aniflowDB.delete(Tables.mediaTable);
-      await animeDatabase.aniflowDB.delete(Tables.categoryTable);
-      await animeDatabase.aniflowDB.delete(Tables.animeCategoryCrossRefTable);
-      await animeDatabase.aniflowDB.delete(Tables.userDataTable);
-      await animeDatabase.aniflowDB.delete(Tables.mediaCharacterCrossRefTable);
-      await animeDatabase.aniflowDB.delete(Tables.characterTable);
-      await animeDatabase.aniflowDB.delete(Tables.airingSchedulesTable);
-      await animeDatabase.aniflowDB.delete(Tables.mediaExternalLickTable);
+      await animeDatabase.aniflowDB.close();
     });
 
     test('anime_dao_clear_all', () async {

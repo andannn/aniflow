@@ -13,6 +13,6 @@ class UserInfoRepositoryImpl extends UserInfoRepository {
   @override
   Future<UserModel> getUserDataById(String id) async {
     final userEntity = await userDao.getUserData(id);
-    return UserModel.fromDatabaseModel(userEntity)!;
+    return UserModel.fromEntity(userEntity)!;
   }
 }

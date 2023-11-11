@@ -86,9 +86,11 @@ Map<String, dynamic> _$$_MediaDtoToJson(_$_MediaDto instance) =>
     };
 
 const _$MediaStatusEnumMap = {
-  MediaStatus.releasing: 'RELEASING',
   MediaStatus.finished: 'FINISHED',
+  MediaStatus.releasing: 'RELEASING',
   MediaStatus.notYetReleased: 'NOT_YET_RELEASED',
+  MediaStatus.cancelled: 'CANCELLED',
+  MediaStatus.hiatus: 'HIATUS',
 };
 
 const _$AnimeSourceEnumMap = {

@@ -1,5 +1,5 @@
+import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/short_num_label_icon_button.dart';
@@ -7,11 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ActivityItem extends StatelessWidget {
-  const ActivityItem(
-      {required this.model,
-      super.key,
-      this.onMediaClick,
-      this.onUserIconClick});
+  const ActivityItem({required this.model,
+    super.key,
+    this.onMediaClick,
+    this.onUserIconClick});
 
   final ActivityModel model;
   final Function(String mediaId)? onMediaClick;
@@ -29,8 +28,12 @@ class ActivityItem extends StatelessWidget {
   }
 
   Widget _buildListActivity(BuildContext context, ListActivityModel activity) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme
+        .of(context)
+        .colorScheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
     return Container(
       constraints: const BoxConstraints(minHeight: 120),
       child: Card(
@@ -68,11 +71,17 @@ class ActivityItem extends StatelessWidget {
                           .copyWith(color: colorScheme.primary),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      // ignore: lines_longer_than_80_chars
-                      '${activity.status.toString()} ${activity.progress} of ${activity.media.title!.getLocalTitle(context)}',
-                      style: textTheme.bodyMedium!
-                          .copyWith(color: colorScheme.onSurfaceVariant),
+                    RichText(
+                      text: TextSpan(
+                        style: textTheme.bodyMedium!
+                            .copyWith(color: colorScheme.onSurfaceVariant),
+                        children: activity.createTextSpanList(
+                          context,
+                          onMediaClick: () {
+                            onMediaClick?.call(activity.media.id);
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
@@ -112,8 +121,12 @@ class ActivityItem extends StatelessWidget {
   }
 
   Widget _buildTextActivity(BuildContext context, TextActivityModel activity) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme
+        .of(context)
+        .colorScheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
     return Card(
       elevation: 0,
       color: colorScheme.surfaceVariant,
@@ -167,10 +180,14 @@ class ActivityItem extends StatelessWidget {
     );
   }
 
-  Widget _buildReplyLikeStateSection(
-      BuildContext context, bool isLike, int likeCount, int repliedCount) {
+  Widget _buildReplyLikeStateSection(BuildContext context, bool isLike,
+      int likeCount, int repliedCount) {
     final defaultColor =
-        Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8);
+    Theme
+        .of(context)
+        .colorScheme
+        .onSurfaceVariant
+        .withOpacity(0.8);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

@@ -173,7 +173,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   model.externalLinks,
                 ),
               ),
-              const SliverPadding(padding: EdgeInsets.only(top: 16)),
+              const SliverPadding(padding: EdgeInsets.symmetric(vertical: 16)),
             ],
           ),
         );
@@ -279,10 +279,12 @@ class _DetailAnimePageContent extends StatelessWidget {
               AFLocalizations.of(context).animeDescription,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            description != null ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: HtmlWidget(description),
-            ) : const SizedBox(),
+            description != null
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: HtmlWidget(description),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
@@ -291,6 +293,11 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildCharacterSection(
       BuildContext context, List<CharacterAndVoiceActorModel> models) {
+    final canFillPage = models.length >= Config.characterColumnCount;
+    const itemHeight = Config.detailPagePreviewItemHeight;
+    final pageHeight = canFillPage
+        ? Config.characterColumnCount * itemHeight
+        : models.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: models.isNotEmpty,
       child: Column(
@@ -317,15 +324,16 @@ class _DetailAnimePageContent extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 400,
+            height: pageHeight,
             child: PageView.builder(
+              controller: PageController(viewportFraction: 0.93),
               itemCount: (models.length / 3).ceil(),
               itemBuilder: (BuildContext context, int index) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: _createColumItemsPage(context,
                       models: models,
-                      pageCount: 3,
+                      pageItemCount: Config.characterColumnCount,
                       pageIndex: index,
                       onBuildWidget: _buildCharacterAndVoiceActorItem),
                 );
@@ -353,6 +361,11 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildStaffsSection(
       BuildContext context, List<StaffAndRoleModel> staffs) {
+    final canFillPage = staffs.length >= Config.staffColumnCount;
+    const itemHeight = Config.detailPagePreviewItemHeight;
+    final pageHeight = canFillPage
+        ? Config.staffColumnCount * itemHeight
+        : staffs.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: staffs.isNotEmpty,
       child: Column(
@@ -379,11 +392,12 @@ class _DetailAnimePageContent extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 266,
+            height: pageHeight,
             child: PageView.builder(
               itemCount: (staffs.length).ceil(),
               itemBuilder: (BuildContext context, int index) {
                 return PageView.builder(
+                  controller: PageController(viewportFraction: 0.93),
                   itemCount: (staffs.length / 2).ceil(),
                   itemBuilder: (BuildContext context, int index) {
                     return Column(
@@ -391,7 +405,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                       children: _createColumItemsPage(
                         context,
                         models: staffs,
-                        pageCount: 2,
+                        pageItemCount: Config.staffColumnCount,
                         pageIndex: index,
                         onBuildWidget: _buildStaffItem,
                       ),
@@ -545,22 +559,27 @@ class _DetailAnimePageContent extends StatelessWidget {
   List<Widget> _createColumItemsPage<T>(
     BuildContext context, {
     required List<T> models,
-    required int pageCount,
+    required int pageItemCount,
     required int pageIndex,
     required Widget Function(BuildContext, T model) onBuildWidget,
   }) {
     final modelList = models.sublist(
-      pageIndex * pageCount,
-      min((pageIndex + 1) * pageCount, models.length),
+      pageIndex * pageItemCount,
+      min((pageIndex + 1) * pageItemCount, models.length),
     );
     final widgets = <Widget>[];
     widgets.addAll(
       modelList.map((model) => onBuildWidget(context, model)),
     );
 
+    if (pageIndex == 0) {
+      /// first page have no need to add space.
+      return widgets;
+    }
+
     // ignore: lines_longer_than_80_chars
     /// when column count is less than pageCount, add empty SizeBox to take the space.
-    while (widgets.length < pageCount) {
+    while (widgets.length < pageItemCount) {
       widgets.add(const Expanded(flex: 1, child: SizedBox()));
     }
     return widgets;

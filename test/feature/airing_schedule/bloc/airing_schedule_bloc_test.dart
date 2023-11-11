@@ -15,7 +15,7 @@ void main() {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
 
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
       airingScheduleBloc = AiringScheduleBloc(
           mediaInfoRepository: MediaInformationRepositoryImpl());
     });

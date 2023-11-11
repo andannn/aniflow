@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:country_code/country_code.dart';
 
 class AnimePageQueryParam {
@@ -90,22 +91,7 @@ String get animeListQueryGraphQLString => '''
 query (\$page: Int, \$perPage: Int, \$type: MediaType, \$countryCode: CountryCode, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
   Page(page: \$page, perPage: \$perPage) {
     media: media(type: \$type, countryOfOrigin: \$countryCode, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
-      id
-      type
-      format
-      status
-      season
-      coverImage {
-        extraLarge
-        large
-        medium
-        color
-      }
-      title {
-        romaji
-        english
-        native
-      }
+      $mediaContentQueryGraphql
     }
   }
 }

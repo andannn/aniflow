@@ -16,7 +16,7 @@ void main() {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
       SharedPreferences.setMockInitialValues({});
-      await animeDatabase.initDatabase(isTest: true);
+      await animeDatabase.initDatabase(path: inMemoryDatabasePath);
 
       searchRepository = SearchRepositoryImpl();
     });
