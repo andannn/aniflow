@@ -1,10 +1,11 @@
+import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_title_language.g.dart';
 
 /// The language the user wants to see media titles in
 @JsonEnum(alwaysCreate: true)
-enum UserTitleLanguage {
+enum UserTitleLanguage implements Setting {
   @JsonValue('ROMAJI')
   romaji,
 

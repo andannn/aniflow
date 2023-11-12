@@ -256,6 +256,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
         /// post event to sync user anime list.
         unawaited(_syncAllMediaList(event.userData!.id));
+
+        /// post event to update user settings.
+        unawaited(_authRepository.updateUserSettings());
       }
     } else {
       /// user logout, cancel following stream.

@@ -1,7 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/app/local/util/string_resource_util.dart';
-import 'package:aniflow/core/common/model/user_title_language.dart';
+import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';

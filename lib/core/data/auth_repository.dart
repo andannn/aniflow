@@ -2,12 +2,16 @@ import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/setting/user_title_language.dart';
+import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,6 +26,9 @@ abstract class AuthRepository {
   FutureOr<bool> isTokenValid();
 
   Stream<UserModel?> getAuthedUserStream();
+
+  Future<LoadResult> updateUserSettings(
+      {UserTitleLanguage? userTitleLanguage, bool? displayAdultContent});
 
   Future logout();
 
@@ -63,7 +70,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         /// retrieve user data from ani list api;
-        final userDto = await authDataSource.getUserDataDto();
+        final userDto = await authDataSource.getAuthenUserDataDto();
         final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
         await preferences.setAuthedUserId(userEntity.id);
@@ -109,5 +116,35 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Stream<AniListSettings> getAniListSettingsStream() {
     return preferences.getAniListSettingsStream();
+  }
+
+  @override
+  Future<LoadResult> updateUserSettings(
+      {UserTitleLanguage? userTitleLanguage, bool? displayAdultContent}) async {
+    AniListSettings settings = preferences.getAniListSettings();
+    if (userTitleLanguage != null) {
+      settings = settings.copyWith(userTitleLanguage: userTitleLanguage);
+    }
+    if (displayAdultContent != null) {
+      settings = settings.copyWith(displayAdultContent: displayAdultContent);
+    }
+    await preferences.setAniListSettings(settings);
+
+    try {
+      final user = await authDataSource.updateUserSettings(
+        UpdateUserMotionParam(
+          titleLanguage: userTitleLanguage,
+          displayAdultContent: displayAdultContent,
+        ),
+      );
+      /// update setting again after network motion success.
+      await preferences
+          .setAniListSettings(AniListSettings.fromDto(user.options!));
+      return LoadSuccess(data: null);
+    } on NetworkException catch (exception) {
+      /// revert setting changed when network error.
+      await preferences.setAniListSettings(settings);
+      return LoadError(exception);
+    }
   }
 }

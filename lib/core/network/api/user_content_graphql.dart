@@ -18,6 +18,7 @@ String get userContentWithSettingsQueryGraphql => '''
             medium
           }
           bannerImage
+          unreadNotificationCount
           options {
             titleLanguage
             displayAdultContent

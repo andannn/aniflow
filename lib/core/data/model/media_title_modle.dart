@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/user_title_language.dart';
+import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_title_modle.freezed.dart';

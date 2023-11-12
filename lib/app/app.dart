@@ -199,8 +199,9 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
       ],
       child: Scaffold(
         body: Router(
-            routerDelegate: animeTrackerRouterDelegate,
-            backButtonDispatcher: RootBackButtonDispatcher()),
+          routerDelegate: animeTrackerRouterDelegate,
+          backButtonDispatcher: RootBackButtonDispatcher(),
+        ),
         floatingActionButton:
             showFloatingButton ? _buildTopFloatingActionButton() : null,
         bottomNavigationBar: VerticalScaleSwitcher(

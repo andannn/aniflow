@@ -47,10 +47,32 @@ class AuthDataSource {
     return true;
   }
 
-  Future<UserDto> getUserDataDto() async {
+  Future<UserDto> getAuthenUserDataDto() async {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
-          queryParameters: {'query': userInfoMotionGraphQLString},
+          queryParameters: {'query': updateUserMotionGraphQLString},
+          options: createQueryOptions(_token),
+        );
+
+    final resultJson = response.data['data']['UpdateUser'];
+    return UserDto.fromJson(resultJson);
+  }
+
+  Future<UserDto> updateUserSettings(UpdateUserMotionParam param) async {
+    final queryGraphQL = updateUserMotionGraphQLString;
+    final hasTitleLanguage = param.titleLanguage != null;
+    final hasDisplayAdultContent = param.displayAdultContent != null;
+    final variablesMap = <String, dynamic>{};
+    if (hasTitleLanguage) {
+      variablesMap['titleLanguage'] = param.titleLanguage;
+    }
+    if (hasDisplayAdultContent) {
+      variablesMap['displayAdultContent'] = param.displayAdultContent;
+    }
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
           options: createQueryOptions(_token),
         );
 

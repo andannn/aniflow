@@ -1,6 +1,6 @@
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/common/model/user_title_language.dart';
+import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
