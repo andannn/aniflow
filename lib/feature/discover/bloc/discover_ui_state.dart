@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -23,6 +24,7 @@ class DiscoverUiState with _$DiscoverUiState {
     Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
     @Default(MediaType.anime) MediaType currentMediaType,
     UserModel? userData,
+    AniListSettings? settings,
   }) = _DiscoverUiState;
 
   static DiscoverUiState copyWithTrackedIds(

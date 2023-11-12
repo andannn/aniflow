@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/model/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
@@ -12,11 +13,13 @@ class MediaListItem extends StatelessWidget {
       {required this.model,
       required this.onMarkWatchedClick,
       required this.onClick,
+      required this.language,
       super.key});
 
   final MediaListItemModel model;
   final VoidCallback onClick;
   final VoidCallback onMarkWatchedClick;
+  final UserTitleLanguage language;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +36,7 @@ class MediaListItem extends StatelessWidget {
           canSlide: hasNextReleasingEpisode,
           child: MediaRowItem(
             model: model.animeModel!,
+            language: language,
             watchingInfo: _buildWatchingInfoLabel(context, model),
             titleMaxLines: null,
             watchInfoTextColor: model.hasNextReleasingEpisode

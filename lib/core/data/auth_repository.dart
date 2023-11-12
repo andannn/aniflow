@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
+import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
@@ -23,6 +24,8 @@ abstract class AuthRepository {
   Stream<UserModel?> getAuthedUserStream();
 
   Future logout();
+
+  Stream<AniListSettings> getAniListSettingsStream();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -55,7 +58,8 @@ class AuthRepositoryImpl implements AuthRepository {
         await preferences.setAuthToken(authResult.token);
         await preferences.setAuthExpiredTime(
           DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime),
+            DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
+          ),
         );
 
         /// retrieve user data from ani list api;
@@ -63,6 +67,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
         await preferences.setAuthedUserId(userEntity.id);
+        await preferences
+            .setAniListSettings(AniListSettings.fromDto(userDto.options!));
 
         /// login success.
         return true;
@@ -90,7 +96,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Stream<UserModel?> getAuthedUserStream() {
     Stream<String?> userIdStream = preferences.getAuthedUserStream();
-
     return userIdStream.asyncMap((userId) async {
       if (userId == null) {
         return null;
@@ -99,5 +104,10 @@ class AuthRepositoryImpl implements AuthRepository {
         return UserModel.fromEntity(userEntity);
       }
     });
+  }
+
+  @override
+  Stream<AniListSettings> getAniListSettingsStream() {
+    return preferences.getAniListSettingsStream();
   }
 }

@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
@@ -92,7 +93,9 @@ class _MediaListPageContent extends StatelessWidget {
     return MediaPreviewItem(
       textStyle: Theme.of(context).textTheme.labelMedium,
       coverImage: model.coverImage,
-      title: model.title!.getLocalTitle(context),
+      title: model.title!.getTitle(AniFlowPreferences()
+          .getAniListSettings()
+          .userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
         AFRouterDelegate.of(context).navigateToDetailMedia(

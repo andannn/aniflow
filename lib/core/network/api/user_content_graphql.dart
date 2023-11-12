@@ -3,9 +3,11 @@ String get userContentQueryGraphql => '''
           name
           avatar {
             large
-            medium
           }
           bannerImage
+          options {
+            profileColor
+          }
 ''';
 
 String get userContentWithSettingsQueryGraphql => '''

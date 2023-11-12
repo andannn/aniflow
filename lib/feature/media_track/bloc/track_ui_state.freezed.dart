@@ -20,6 +20,7 @@ mixin _$TrackUiState {
   bool get showReleasedOnly => throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
   MediaListLoadState get animeLoadState => throw _privateConstructorUsedError;
+  AniListSettings? get settings => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TrackUiStateCopyWith<TrackUiState> get copyWith =>
@@ -36,7 +37,10 @@ abstract class $TrackUiStateCopyWith<$Res> {
       {bool isLoading,
       bool showReleasedOnly,
       MediaType currentMediaType,
-      MediaListLoadState animeLoadState});
+      MediaListLoadState animeLoadState,
+      AniListSettings? settings});
+
+  $AniListSettingsCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -56,6 +60,7 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
     Object? showReleasedOnly = null,
     Object? currentMediaType = null,
     Object? animeLoadState = null,
+    Object? settings = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -74,7 +79,23 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
           ? _value.animeLoadState
           : animeLoadState // ignore: cast_nullable_to_non_nullable
               as MediaListLoadState,
+      settings: freezed == settings
+          ? _value.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as AniListSettings?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AniListSettingsCopyWith<$Res>? get settings {
+    if (_value.settings == null) {
+      return null;
+    }
+
+    return $AniListSettingsCopyWith<$Res>(_value.settings!, (value) {
+      return _then(_value.copyWith(settings: value) as $Val);
+    });
   }
 }
 
@@ -90,7 +111,11 @@ abstract class _$$_TrackUiStateCopyWith<$Res>
       {bool isLoading,
       bool showReleasedOnly,
       MediaType currentMediaType,
-      MediaListLoadState animeLoadState});
+      MediaListLoadState animeLoadState,
+      AniListSettings? settings});
+
+  @override
+  $AniListSettingsCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -108,6 +133,7 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
     Object? showReleasedOnly = null,
     Object? currentMediaType = null,
     Object? animeLoadState = null,
+    Object? settings = freezed,
   }) {
     return _then(_$_TrackUiState(
       isLoading: null == isLoading
@@ -126,6 +152,10 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
           ? _value.animeLoadState
           : animeLoadState // ignore: cast_nullable_to_non_nullable
               as MediaListLoadState,
+      settings: freezed == settings
+          ? _value.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as AniListSettings?,
     ));
   }
 }
@@ -137,7 +167,8 @@ class _$_TrackUiState implements _TrackUiState {
       {this.isLoading = false,
       this.showReleasedOnly = false,
       this.currentMediaType = MediaType.anime,
-      this.animeLoadState = const MediaStateInitState()});
+      this.animeLoadState = const MediaStateInitState(),
+      this.settings});
 
   @override
   @JsonKey()
@@ -151,10 +182,12 @@ class _$_TrackUiState implements _TrackUiState {
   @override
   @JsonKey()
   final MediaListLoadState animeLoadState;
+  @override
+  final AniListSettings? settings;
 
   @override
   String toString() {
-    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, currentMediaType: $currentMediaType, animeLoadState: $animeLoadState)';
+    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, currentMediaType: $currentMediaType, animeLoadState: $animeLoadState, settings: $settings)';
   }
 
   @override
@@ -169,12 +202,14 @@ class _$_TrackUiState implements _TrackUiState {
             (identical(other.currentMediaType, currentMediaType) ||
                 other.currentMediaType == currentMediaType) &&
             (identical(other.animeLoadState, animeLoadState) ||
-                other.animeLoadState == animeLoadState));
+                other.animeLoadState == animeLoadState) &&
+            (identical(other.settings, settings) ||
+                other.settings == settings));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, showReleasedOnly,
-      currentMediaType, animeLoadState);
+      currentMediaType, animeLoadState, settings);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +223,8 @@ abstract class _TrackUiState implements TrackUiState {
       {final bool isLoading,
       final bool showReleasedOnly,
       final MediaType currentMediaType,
-      final MediaListLoadState animeLoadState}) = _$_TrackUiState;
+      final MediaListLoadState animeLoadState,
+      final AniListSettings? settings}) = _$_TrackUiState;
 
   @override
   bool get isLoading;
@@ -198,6 +234,8 @@ abstract class _TrackUiState implements TrackUiState {
   MediaType get currentMediaType;
   @override
   MediaListLoadState get animeLoadState;
+  @override
+  AniListSettings? get settings;
   @override
   @JsonKey(ignore: true)
   _$$_TrackUiStateCopyWith<_$_TrackUiState> get copyWith =>

@@ -23,6 +23,7 @@ import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -104,7 +105,9 @@ class _DetailAnimePageContent extends StatelessWidget {
                   },
                 ),
                 title: AutoSizeText(
-                  model.title!.getLocalTitle(context),
+                  model.title!.getTitle(AniFlowPreferences()
+                      .getAniListSettings()
+                      .userTitleLanguage),
                   maxLines: 2,
                 ),
                 actions: [

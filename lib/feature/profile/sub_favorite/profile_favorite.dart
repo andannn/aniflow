@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
@@ -188,7 +189,9 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       case FavoriteType.anime:
       case FavoriteType.manga:
         coverImage = (model as MediaModel).coverImage;
-        title = model.title!.getLocalTitle(context);
+        title = model.title!.getTitle(AniFlowPreferences()
+            .getAniListSettings()
+            .userTitleLanguage);
         id = model.id;
       case FavoriteType.character:
         coverImage = (model as CharacterModel).image;

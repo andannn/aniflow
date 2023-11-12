@@ -174,11 +174,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   Widget build(BuildContext context) {
     globalContext = context;
 
-    if (userModel == null) {
-      /// user login state is unknown.
-      return const SizedBox();
-    }
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(

@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/model/user_title_language.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -10,6 +11,7 @@ class MediaRowItem extends StatelessWidget {
   const MediaRowItem(
       {required this.model,
       required this.onClick,
+      required this.language,
       this.watchInfoTextColor,
       this.watchingInfo,
       super.key,
@@ -20,6 +22,7 @@ class MediaRowItem extends StatelessWidget {
   final VoidCallback onClick;
   final Color? watchInfoTextColor;
   final int? titleMaxLines;
+  final UserTitleLanguage language;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,7 @@ class MediaRowItem extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   Text(
-                    model.title!.getLocalTitle(context),
+                    model.title!.getTitle(language),
                     style: textTheme.titleMedium
                         ?.copyWith(color: surfaceTextColor),
                     maxLines: titleMaxLines,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -33,6 +34,12 @@ class _OnWatchingAnimeListChanged extends TrackEvent {
   final List<MediaListItemModel> animeList;
 
   _OnWatchingAnimeListChanged({required this.animeList});
+}
+
+class _OnAniListSettingsChanged extends TrackEvent {
+  _OnAniListSettingsChanged(this.settings);
+
+  final AniListSettings settings;
 }
 
 class OnToggleShowFollowOnly extends TrackEvent {
@@ -69,6 +76,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<_OnLoadStateChanged>(_onLoadStateChanged);
     on<_OnWatchingAnimeListChanged>(_onWatchingAnimeListChanged);
     on<_OnMediaTypeChanged>(_onMediaTypeChanged);
+    on<_OnAniListSettingsChanged>(_onAniListSettingsChanged);
     on<OnToggleShowFollowOnly>(_onToggleShowReleasedOnly);
     on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
 
@@ -78,6 +86,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   StreamSubscription? _userContentSub;
   StreamSubscription? _userStateSub;
   StreamSubscription? _mediaTypeSub;
+  StreamSubscription? _settingsSub;
   final MediaListRepository _animeTrackListRepository;
   final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
@@ -96,6 +105,12 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         add(_OnMediaTypeChanged(mediaType));
       },
     );
+
+    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
+      (settings) {
+        add(_OnAniListSettingsChanged(settings));
+      },
+    );
   }
 
   @override
@@ -103,6 +118,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     _userContentSub?.cancel();
     _userStateSub?.cancel();
     _mediaTypeSub?.cancel();
+    _settingsSub?.cancel();
     return super.close();
   }
 
@@ -245,5 +261,10 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     ).listen((animeList) {
       add(_OnWatchingAnimeListChanged(animeList: animeList));
     });
+  }
+
+  FutureOr<void> _onAniListSettingsChanged(
+      _OnAniListSettingsChanged event, Emitter<TrackUiState> emit) {
+    emit(state.copyWith(settings: event.settings));
   }
 }

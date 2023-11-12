@@ -175,9 +175,12 @@ class AniFlowPreferences {
   Stream<String?> getAuthedUserStream() => StreamUtil.createStream(
       _userIdChangeNotifier, () => Future.value(getAuthedUserId()));
 
-  Future setAniListSettings(AniListSettings setting) {
-    return _preference.setString(
+  Future setAniListSettings(AniListSettings setting) async {
+    bool isChanged = await _preference.setString(
         _UserDataKey.aniListSettingsKey, jsonEncode(setting.toJson()));
+    if (isChanged) {
+      _aniListSettingChangeNotifier.notifyChanged();
+    }
   }
 
   AniListSettings getAniListSettings() {

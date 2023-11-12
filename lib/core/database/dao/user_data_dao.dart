@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 
 mixin UserDataTableColumns {
@@ -16,6 +18,8 @@ abstract class UserDataDao {
   Future updateUserData(UserEntity userDataEntity);
 
   Future<UserEntity?> getUserData(String id);
+
+  Stream<UserEntity?> getUserDataStream(String id);
 }
 
 class UserDataDaoImpl extends UserDataDao {
@@ -23,13 +27,18 @@ class UserDataDaoImpl extends UserDataDao {
 
   UserDataDaoImpl(this.database);
 
+  /// userId to notifiers dict.
+  final Map<String, ValueNotifier<int>> _notifiers = {};
+
   @override
-  Future updateUserData(UserEntity userDataEntity) {
+  Future updateUserData(UserEntity userDataEntity) async {
     final batch = database.aniflowDB.batch();
     batch.insert(Tables.userDataTable, userDataEntity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
 
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    _notifyUserDataChanged(userDataEntity.id);
   }
 
   @override
@@ -40,5 +49,21 @@ class UserDataDaoImpl extends UserDataDao {
     if (resultJson.isEmpty) return null;
 
     return UserEntity.fromJson(resultJson[0]);
+  }
+
+  void _notifyUserDataChanged(String userId) {
+    final notifier = _notifiers[userId];
+    if (notifier != null) {
+      notifier.value = notifier.value++;
+    }
+  }
+
+  @override
+  Stream<UserEntity?> getUserDataStream(String id) {
+    final changeSource = _notifiers.putIfAbsent(id, () => ValueNotifier(0));
+    return StreamUtil.createStream(
+      changeSource,
+      () => getUserData(id),
+    );
   }
 }

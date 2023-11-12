@@ -6,8 +6,6 @@ String get mediaContentQueryGraphql => '''
       season
       coverImage {
         extraLarge
-        large
-        medium
         color
       }
       title {

@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/user_title_language.dart';
+import 'package:aniflow/core/network/model/user_options.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ani_list_settings.freezed.dart';
@@ -18,6 +19,13 @@ class AniListSettings with _$AniListSettings {
 
   factory AniListSettings.fromJson(Map<String, dynamic> json) =>
       _$$_AniListSettingsFromJson(json);
+
+  static AniListSettings fromDto(UserOptions dto) {
+    return AniListSettings(
+      displayAdultContent: dto.displayAdultContent,
+      userTitleLanguage: dto.titleLanguage ?? UserTitleLanguage.native,
+    );
+  }
 }
 
 mixin AniListSettingsKeys {

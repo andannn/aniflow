@@ -1,5 +1,6 @@
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
@@ -107,11 +108,15 @@ class _AnimeTrackPageContent extends StatelessWidget {
   }
 
   Widget? _buildMediaListItem(BuildContext context, MediaListItemModel item) {
+    final language =
+        context.read<TrackBloc>().state.settings?.userTitleLanguage ??
+            UserTitleLanguage.native;
     return Padding(
       key: ValueKey('anime_track_list_item_${item.id}'),
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
       child: MediaListItem(
         model: item,
+        language: language,
         onMarkWatchedClick: () {
           context.read<TrackBloc>().add(OnAnimeMarkWatched(
               animeId: item.animeModel!.id,
