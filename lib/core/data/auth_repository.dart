@@ -60,7 +60,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
         /// retrieve user data from ani list api;
         final userDto = await authDataSource.getUserDataDto();
-        final userEntity = UserEntity.fromNetworkModel(userDto);
+        final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
         await preferences.setAuthedUserId(userEntity.id);
 

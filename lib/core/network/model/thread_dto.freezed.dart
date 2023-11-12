@@ -23,7 +23,7 @@ mixin _$ThreadDto {
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
-  UserDataDto? get user => throw _privateConstructorUsedError;
+  UserDto? get user => throw _privateConstructorUsedError;
   @JsonKey(name: 'body')
   String? get body => throw _privateConstructorUsedError;
   @JsonKey(name: 'replyCommentId')
@@ -60,7 +60,7 @@ abstract class $ThreadDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(name: 'user') UserDto? user,
       @JsonKey(name: 'body') String? body,
       @JsonKey(name: 'replyCommentId') int? replyCommentId,
       @JsonKey(name: 'replyCount') int? replyCount,
@@ -73,7 +73,7 @@ abstract class $ThreadDtoCopyWith<$Res> {
       @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'isLocked') bool? isLocked});
 
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -111,7 +111,7 @@ class _$ThreadDtoCopyWithImpl<$Res, $Val extends ThreadDto>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
       body: freezed == body
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
@@ -161,12 +161,12 @@ class _$ThreadDtoCopyWithImpl<$Res, $Val extends ThreadDto>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataDtoCopyWith<$Res>? get user {
+  $UserDtoCopyWith<$Res>? get user {
     if (_value.user == null) {
       return null;
     }
 
-    return $UserDataDtoCopyWith<$Res>(_value.user!, (value) {
+    return $UserDtoCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -181,7 +181,7 @@ abstract class _$$_ThreadDtoCopyWith<$Res> implements $ThreadDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(name: 'user') UserDto? user,
       @JsonKey(name: 'body') String? body,
       @JsonKey(name: 'replyCommentId') int? replyCommentId,
       @JsonKey(name: 'replyCount') int? replyCount,
@@ -195,7 +195,7 @@ abstract class _$$_ThreadDtoCopyWith<$Res> implements $ThreadDtoCopyWith<$Res> {
       @JsonKey(name: 'isLocked') bool? isLocked});
 
   @override
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -231,7 +231,7 @@ class __$$_ThreadDtoCopyWithImpl<$Res>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
       body: freezed == body
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
@@ -306,7 +306,7 @@ class _$_ThreadDto implements _ThreadDto {
   final int id;
   @override
   @JsonKey(name: 'user')
-  final UserDataDto? user;
+  final UserDto? user;
   @override
   @JsonKey(name: 'body')
   final String? body;
@@ -409,7 +409,7 @@ class _$_ThreadDto implements _ThreadDto {
 abstract class _ThreadDto implements ThreadDto {
   factory _ThreadDto(
       {@JsonKey(name: 'id') final int id,
-      @JsonKey(name: 'user') final UserDataDto? user,
+      @JsonKey(name: 'user') final UserDto? user,
       @JsonKey(name: 'body') final String? body,
       @JsonKey(name: 'replyCommentId') final int? replyCommentId,
       @JsonKey(name: 'replyCount') final int? replyCount,
@@ -430,7 +430,7 @@ abstract class _ThreadDto implements ThreadDto {
   int get id;
   @override
   @JsonKey(name: 'user')
-  UserDataDto? get user;
+  UserDto? get user;
   @override
   @JsonKey(name: 'body')
   String? get body;

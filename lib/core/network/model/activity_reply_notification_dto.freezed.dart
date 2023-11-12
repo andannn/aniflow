@@ -34,7 +34,7 @@ mixin _$ActivityReplyNotificationDto {
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
-  UserDataDto? get user => throw _privateConstructorUsedError;
+  UserDto? get user => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   AniActivity? get activity => throw _privateConstructorUsedError;
 
@@ -59,11 +59,11 @@ abstract class $ActivityReplyNotificationDtoCopyWith<$Res> {
       @JsonKey(name: 'activityId') int? activityId,
       @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(name: 'user') UserDto? user,
       @JsonKey(includeFromJson: false, includeToJson: false)
       AniActivity? activity});
 
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -117,7 +117,7 @@ class _$ActivityReplyNotificationDtoCopyWithImpl<$Res,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
       activity: freezed == activity
           ? _value.activity
           : activity // ignore: cast_nullable_to_non_nullable
@@ -127,12 +127,12 @@ class _$ActivityReplyNotificationDtoCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataDtoCopyWith<$Res>? get user {
+  $UserDtoCopyWith<$Res>? get user {
     if (_value.user == null) {
       return null;
     }
 
-    return $UserDataDtoCopyWith<$Res>(_value.user!, (value) {
+    return $UserDtoCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -154,12 +154,12 @@ abstract class _$$_ActivityReplyNotificationDtoCopyWith<$Res>
       @JsonKey(name: 'activityId') int? activityId,
       @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user,
+      @JsonKey(name: 'user') UserDto? user,
       @JsonKey(includeFromJson: false, includeToJson: false)
       AniActivity? activity});
 
   @override
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -212,7 +212,7 @@ class __$$_ActivityReplyNotificationDtoCopyWithImpl<$Res>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
       activity: freezed == activity
           ? _value.activity
           : activity // ignore: cast_nullable_to_non_nullable
@@ -257,7 +257,7 @@ class _$_ActivityReplyNotificationDto implements _ActivityReplyNotificationDto {
   final int? createdAt;
   @override
   @JsonKey(name: 'user')
-  final UserDataDto? user;
+  final UserDto? user;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final AniActivity? activity;
@@ -314,7 +314,7 @@ abstract class _ActivityReplyNotificationDto
       @JsonKey(name: 'activityId') final int? activityId,
       @JsonKey(name: 'context') final String? context,
       @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDataDto? user,
+      @JsonKey(name: 'user') final UserDto? user,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final AniActivity? activity}) = _$_ActivityReplyNotificationDto;
 
@@ -341,7 +341,7 @@ abstract class _ActivityReplyNotificationDto
   int? get createdAt;
   @override
   @JsonKey(name: 'user')
-  UserDataDto? get user;
+  UserDto? get user;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   AniActivity? get activity;

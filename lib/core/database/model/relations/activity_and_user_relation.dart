@@ -22,10 +22,10 @@ class ActivityAndUserRelation {
 
     switch (dto) {
       case ListActivityDto():
-        user = UserEntity.fromNetworkModel(dto.user!);
+        user = UserEntity.fromDto(dto.user!);
         media = MediaEntity.fromNetworkModel(dto.media!);
       case TextActivityDto():
-        user = UserEntity.fromNetworkModel(dto.user!);
+        user = UserEntity.fromDto(dto.user!);
       default:
         throw Exception('Invalid type');
     }

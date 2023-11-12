@@ -1,5 +1,5 @@
 import 'package:aniflow/core/database/model/user_entity.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.freezed.dart';
@@ -26,8 +26,8 @@ class UserModel with _$UserModel {
     }
   }
 
-  static UserModel fromDto(UserDataDto dto) {
-    final entity = UserEntity.fromNetworkModel(dto);
+  static UserModel fromDto(UserDto dto) {
+    final entity = UserEntity.fromDto(dto);
     return UserModel.fromEntity(entity)!;
   }
 }

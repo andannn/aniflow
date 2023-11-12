@@ -32,7 +32,7 @@ mixin _$FollowingNotificationDto {
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
-  UserDataDto? get user => throw _privateConstructorUsedError;
+  UserDto? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,9 +52,9 @@ abstract class $FollowingNotificationDtoCopyWith<$Res> {
       @JsonKey(name: 'userId') int? userId,
       @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDto? user});
 
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -102,18 +102,18 @@ class _$FollowingNotificationDtoCopyWithImpl<$Res,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataDtoCopyWith<$Res>? get user {
+  $UserDtoCopyWith<$Res>? get user {
     if (_value.user == null) {
       return null;
     }
 
-    return $UserDataDtoCopyWith<$Res>(_value.user!, (value) {
+    return $UserDtoCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -134,10 +134,10 @@ abstract class _$$_FollowingNotificationDtoCopyWith<$Res>
       @JsonKey(name: 'userId') int? userId,
       @JsonKey(name: 'context') String? context,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDto? user});
 
   @override
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -183,7 +183,7 @@ class __$$_FollowingNotificationDtoCopyWithImpl<$Res>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
     ));
   }
 }
@@ -219,7 +219,7 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
   final int? createdAt;
   @override
   @JsonKey(name: 'user')
-  final UserDataDto? user;
+  final UserDto? user;
 
   @override
   String toString() {
@@ -267,7 +267,7 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
           @JsonKey(name: 'userId') final int? userId,
           @JsonKey(name: 'context') final String? context,
           @JsonKey(name: 'createdAt') final int? createdAt,
-          @JsonKey(name: 'user') final UserDataDto? user}) =
+          @JsonKey(name: 'user') final UserDto? user}) =
       _$_FollowingNotificationDto;
 
   factory _FollowingNotificationDto.fromJson(Map<String, dynamic> json) =
@@ -290,7 +290,7 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
   int? get createdAt;
   @override
   @JsonKey(name: 'user')
-  UserDataDto? get user;
+  UserDto? get user;
   @override
   @JsonKey(ignore: true)
   _$$_FollowingNotificationDtoCopyWith<_$_FollowingNotificationDto>

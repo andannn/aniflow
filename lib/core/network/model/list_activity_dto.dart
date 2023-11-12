@@ -1,7 +1,7 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'list_activity_dto.freezed.dart';
@@ -23,7 +23,7 @@ class ListActivityDto extends AniActivity with _$ListActivityDto {
     @JsonKey(name: 'likeCount') int? likeCount,
     @JsonKey(name: 'isPinned') bool? isPinned,
     @JsonKey(name: 'createdAt') int? createdAt,
-    @JsonKey(name: 'user') UserDataDto? user,
+    @JsonKey(name: 'user') UserDto? user,
     @JsonKey(name: 'media') MediaDto? media,
   }) = _ListActivityDto;
 

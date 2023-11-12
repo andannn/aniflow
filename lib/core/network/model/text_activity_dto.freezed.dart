@@ -43,7 +43,7 @@ mixin _$TextActivityDto {
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
-  UserDataDto? get user => throw _privateConstructorUsedError;
+  UserDto? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -69,9 +69,9 @@ abstract class $TextActivityDtoCopyWith<$Res> {
       @JsonKey(name: 'likeCount') int? likeCount,
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDto? user});
 
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -148,18 +148,18 @@ class _$TextActivityDtoCopyWithImpl<$Res, $Val extends TextActivityDto>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserDataDtoCopyWith<$Res>? get user {
+  $UserDtoCopyWith<$Res>? get user {
     if (_value.user == null) {
       return null;
     }
 
-    return $UserDataDtoCopyWith<$Res>(_value.user!, (value) {
+    return $UserDtoCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -185,10 +185,10 @@ abstract class _$$_TextActivityDtoCopyWith<$Res>
       @JsonKey(name: 'likeCount') int? likeCount,
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDataDto? user});
+      @JsonKey(name: 'user') UserDto? user});
 
   @override
-  $UserDataDtoCopyWith<$Res>? get user;
+  $UserDtoCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -263,7 +263,7 @@ class __$$_TextActivityDtoCopyWithImpl<$Res>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserDataDto?,
+              as UserDto?,
     ));
   }
 }
@@ -323,7 +323,7 @@ class _$_TextActivityDto implements _TextActivityDto {
   final int? createdAt;
   @override
   @JsonKey(name: 'user')
-  final UserDataDto? user;
+  final UserDto? user;
 
   @override
   String toString() {
@@ -398,7 +398,7 @@ abstract class _TextActivityDto implements TextActivityDto {
       @JsonKey(name: 'likeCount') final int? likeCount,
       @JsonKey(name: 'isPinned') final bool? isPinned,
       @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDataDto? user}) = _$_TextActivityDto;
+      @JsonKey(name: 'user') final UserDto? user}) = _$_TextActivityDto;
 
   factory _TextActivityDto.fromJson(Map<String, dynamic> json) =
       _$_TextActivityDto.fromJson;
@@ -438,7 +438,7 @@ abstract class _TextActivityDto implements TextActivityDto {
   int? get createdAt;
   @override
   @JsonKey(name: 'user')
-  UserDataDto? get user;
+  UserDto? get user;
   @override
   @JsonKey(ignore: true)
   _$$_TextActivityDtoCopyWith<_$_TextActivityDto> get copyWith =>

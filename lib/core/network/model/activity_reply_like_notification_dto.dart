@@ -3,7 +3,7 @@
 import 'package:aniflow/core/data/model/notification_type.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/notification.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'activity_reply_like_notification_dto.freezed.dart';
@@ -20,7 +20,7 @@ class ActivityReplyLikeNotificationDto extends AniNotification
     @JsonKey(name: 'activityId') int? activityId,
     @JsonKey(name: 'context') String? context,
     @JsonKey(name: 'createdAt') int? createdAt,
-    @JsonKey(name: 'user') UserDataDto? user,
+    @JsonKey(name: 'user') UserDto? user,
     @JsonKey(includeFromJson: false, includeToJson: false)
     AniActivity? activity,
   }) = _ActivityReplyLikeNotificationDto;

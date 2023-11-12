@@ -1,5 +1,5 @@
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_entity.freezed.dart';
@@ -18,7 +18,7 @@ class UserEntity with _$UserEntity {
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
       _$$_UserEntityFromJson(json);
 
-  static UserEntity fromNetworkModel(UserDataDto model) => UserEntity(
+  static UserEntity fromDto(UserDto model) => UserEntity(
     id: model.id.toString(),
     name: model.name,
     avatar: model.avatar['large']!,

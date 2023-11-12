@@ -7,10 +7,6 @@ abstract class SettingsRepository {
 
   Future setAnimeSeasonParam(AnimeSeasonParam param);
 
-  DateTime? getLastSuccessSyncTime();
-
-  Future setLastSuccessSync(DateTime time);
-
   Stream<MediaType> getMediaTypeStream();
 
   MediaType getMediaType();
@@ -34,13 +30,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
     await preferences.setCurrentSeason(param.season);
     await preferences.setCurrentSeasonYear(param.seasonYear);
   }
-
-  @override
-  DateTime? getLastSuccessSyncTime() => preferences.getLastSuccessSync();
-
-  @override
-  Future setLastSuccessSync(DateTime time) =>
-      preferences.setLastSuccessSync(time);
 
   @override
   Stream<MediaType> getMediaTypeStream() =>

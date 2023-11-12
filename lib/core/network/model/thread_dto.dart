@@ -1,4 +1,4 @@
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'thread_dto.freezed.dart';
@@ -9,7 +9,7 @@ part 'thread_dto.g.dart';
 class ThreadDto with _$ThreadDto {
   factory ThreadDto({
     @Default(-1) @JsonKey(name: 'id') int id,
-    @JsonKey(name: 'user') UserDataDto? user,
+    @JsonKey(name: 'user') UserDto? user,
     @JsonKey(name: 'body') String? body,
     @JsonKey(name: 'replyCommentId') int? replyCommentId,
     @JsonKey(name: 'replyCount') int? replyCount,

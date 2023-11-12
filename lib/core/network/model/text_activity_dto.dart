@@ -1,6 +1,6 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'text_activity_dto.freezed.dart';
@@ -21,7 +21,7 @@ class TextActivityDto extends AniActivity with _$TextActivityDto {
   @JsonKey(name: 'likeCount') int? likeCount,
   @JsonKey(name: 'isPinned') bool? isPinned,
   @JsonKey(name: 'createdAt') int? createdAt,
-  @JsonKey(name: 'user') UserDataDto? user,
+  @JsonKey(name: 'user') UserDto? user,
   }) = _TextActivityDto;
 
   factory TextActivityDto.fromJson(Map<String, dynamic> json) =>

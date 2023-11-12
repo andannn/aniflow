@@ -6,4 +6,14 @@ String get userContentQueryGraphql => '''
             medium
           }
           bannerImage
+          options {
+            titleLanguage
+            displayAdultContent
+            airingNotifications
+            profileColor
+            timezone
+            activityMergeTime
+            staffNameLanguage
+            restrictMessagesToFollowing
+          }
 ''';

@@ -24,7 +24,7 @@ _$_ListActivityDto _$$_ListActivityDtoFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] as int?,
       user: json['user'] == null
           ? null
-          : UserDataDto.fromJson(json['user'] as Map<String, dynamic>),
+          : UserDto.fromJson(json['user'] as Map<String, dynamic>),
       media: json['media'] == null
           ? null
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),

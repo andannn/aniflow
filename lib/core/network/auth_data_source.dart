@@ -8,7 +8,7 @@ import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/notification.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -47,7 +47,7 @@ class AuthDataSource {
     return true;
   }
 
-  Future<UserDataDto> getUserDataDto() async {
+  Future<UserDto> getUserDataDto() async {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
           queryParameters: {'query': userInfoMotionGraphQLString},
@@ -55,7 +55,7 @@ class AuthDataSource {
         );
 
     final resultJson = response.data['data']['UpdateUser'];
-    return UserDataDto.fromJson(resultJson);
+    return UserDto.fromJson(resultJson);
   }
 
   Future<MediaListDto> saveMediaToMediaList(
