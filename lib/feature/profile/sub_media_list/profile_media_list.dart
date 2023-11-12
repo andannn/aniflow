@@ -9,7 +9,7 @@ import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.da
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
-import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
+import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:flutter/material.dart';

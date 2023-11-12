@@ -7,6 +7,7 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
@@ -115,11 +116,14 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   late StreamSubscription _authSub;
 
   MediaType _mediaType = MediaType.anime;
-  bool? _isLogIn;
+
+  UserModel? userModel;
+
+  bool get isLogIn => userModel != null;
 
   bool get isAnime => _mediaType == MediaType.anime;
 
-  List<TopLevelNavigation> get _topLevelNavigationList => _isLogIn == true
+  List<TopLevelNavigation> get _topLevelNavigationList => isLogIn
       ? [
           TopLevelNavigation.discover,
           TopLevelNavigation.track,
@@ -152,7 +156,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
     _authSub =
         authRepository.getAuthedUserStream().distinct().listen((userData) {
       setState(() {
-        _isLogIn = userData != null;
+        userModel = userData;
       });
     });
   }
@@ -170,7 +174,7 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
   Widget build(BuildContext context) {
     globalContext = context;
 
-    if (_isLogIn == null) {
+    if (userModel == null) {
       /// user login state is unknown.
       return const SizedBox();
     }
@@ -225,8 +229,12 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
     final currentIndex = TopLevelNavigation.values.indexOf(selected);
     return NavigationBar(
       destinations: navigationList
-          .map((navigation) => navigation.toBottomNavigationBarItem(
-              isSelected: navigation == selected))
+          .map(
+            (navigation) => _buildNavigationBarItem(
+              navigation,
+              isSelected: navigation == selected,
+            ),
+          )
           .toList(),
       onDestinationSelected: (index) {
         if (currentIndex != index) {
@@ -235,6 +243,37 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
       },
       selectedIndex: currentIndex,
     );
+  }
+
+  Widget _buildNavigationBarItem(TopLevelNavigation item,
+      {required bool isSelected}) {
+    if (item == TopLevelNavigation.profile) {
+      final profileColor = userModel?.profileColor;
+      final themeData = profileColor != null
+          ? Theme.of(context).copyWith(
+              colorScheme: ColorScheme.fromSeed(seedColor: profileColor))
+          : null;
+      return themeData != null
+          ? Theme(
+              data: themeData,
+              child: NavigationDestination(
+                label: item.iconTextId,
+                icon: Icon(item.unSelectedIcon),
+                selectedIcon: Icon(item.selectedIcon),
+              ),
+            )
+          : NavigationDestination(
+              label: item.iconTextId,
+              icon: Icon(item.unSelectedIcon),
+              selectedIcon: Icon(item.selectedIcon),
+            );
+    } else {
+      return NavigationDestination(
+        label: item.iconTextId,
+        icon: Icon(item.unSelectedIcon),
+        selectedIcon: Icon(item.selectedIcon),
+      );
+    }
   }
 
   Widget _buildTopFloatingActionButton() {

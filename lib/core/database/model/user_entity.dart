@@ -13,15 +13,17 @@ class UserEntity with _$UserEntity {
     @Default('') @JsonKey(name: UserDataTableColumns.name) String name,
     @Default('') @JsonKey(name: UserDataTableColumns.avatarImage) String avatar,
     @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage,
+    @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor,
   }) = _UserEntity;
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
       _$$_UserEntityFromJson(json);
 
   static UserEntity fromDto(UserDto model) => UserEntity(
-    id: model.id.toString(),
-    name: model.name,
-    avatar: model.avatar['large']!,
-    bannerImage: model.bannerImage
-  );
+        id: model.id.toString(),
+        name: model.name,
+        avatar: model.avatar['large']!,
+        bannerImage: model.bannerImage,
+        profileColor: model.options?.profileColor,
+      );
 }

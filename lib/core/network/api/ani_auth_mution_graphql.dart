@@ -13,7 +13,7 @@ String get userInfoMotionGraphQLString =>
 '''
 mutation UpdateUserMutation {
   UpdateUser {
-    $userContentQueryGraphql
+    $userContentWithSettingsQueryGraphql
   }
 }
 ''';

@@ -5,9 +5,9 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
-import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
-import 'package:aniflow/feature/profile/boc/profile_state.dart';
-import 'package:aniflow/feature/profile/boc/profile_tab_category.dart';
+import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
+import 'package:aniflow/feature/profile/bloc/profile_state.dart';
+import 'package:aniflow/feature/profile/bloc/profile_tab_category.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
@@ -61,62 +61,75 @@ class _ProfilePageContent extends StatelessWidget {
         if (userState == null) {
           return const SizedBox();
         } else {
-          return MultiBlocProvider(providers: [
-            BlocProvider(
-              create: (BuildContext context) => FavoriteAnimePagingBloc(
-                userState.id,
-                favoriteRepository: context.read<FavoriteRepository>(),
+          final profileColor = userState.profileColor;
+          final themeData = profileColor != null
+              ? Theme.of(context).copyWith(
+                  colorScheme: ColorScheme.fromSeed(seedColor: profileColor))
+              : null;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (BuildContext context) => FavoriteAnimePagingBloc(
+                  userState.id,
+                  favoriteRepository: context.read<FavoriteRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => FavoriteMangaPagingBloc(
-                userState.id,
-                favoriteRepository: context.read<FavoriteRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => FavoriteMangaPagingBloc(
+                  userState.id,
+                  favoriteRepository: context.read<FavoriteRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => FavoriteCharacterPagingBloc(
-                userState.id,
-                favoriteRepository: context.read<FavoriteRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => FavoriteCharacterPagingBloc(
+                  userState.id,
+                  favoriteRepository: context.read<FavoriteRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => FavoriteStaffPagingBloc(
-                userState.id,
-                favoriteRepository: context.read<FavoriteRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => FavoriteStaffPagingBloc(
+                  userState.id,
+                  favoriteRepository: context.read<FavoriteRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => WatchingAnimeListPagingBloc(
-                userState.id,
-                mediaListRepository: context.read<MediaListRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => WatchingAnimeListPagingBloc(
+                  userState.id,
+                  mediaListRepository: context.read<MediaListRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => DroppedAnimeListPagingBloc(
-                userState.id,
-                mediaListRepository: context.read<MediaListRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => DroppedAnimeListPagingBloc(
+                  userState.id,
+                  mediaListRepository: context.read<MediaListRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => CompleteAnimeListPagingBloc(
-                userState.id,
-                mediaListRepository: context.read<MediaListRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => CompleteAnimeListPagingBloc(
+                  userState.id,
+                  mediaListRepository: context.read<MediaListRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => ReadingMangaListPagingBloc(
-                userState.id,
-                mediaListRepository: context.read<MediaListRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => ReadingMangaListPagingBloc(
+                  userState.id,
+                  mediaListRepository: context.read<MediaListRepository>(),
+                ),
               ),
-            ),
-            BlocProvider(
-              create: (BuildContext context) => DroppedMangaListPagingBloc(
-                userState.id,
-                mediaListRepository: context.read<MediaListRepository>(),
+              BlocProvider(
+                create: (BuildContext context) => DroppedMangaListPagingBloc(
+                  userState.id,
+                  mediaListRepository: context.read<MediaListRepository>(),
+                ),
               ),
-            ),
-          ], child: _UserProfile(userState: userState));
+            ],
+            child: themeData != null
+                ? Theme(
+                    data: themeData,
+                    child: _UserProfile(userState: userState),
+                  )
+                : _UserProfile(userState: userState),
+          );
         }
       },
     );

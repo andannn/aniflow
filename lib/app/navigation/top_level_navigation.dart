@@ -34,15 +34,6 @@ enum TopLevelNavigation {
 }
 
 extension TopLevelNavigationEx on TopLevelNavigation {
-  NavigationDestination toBottomNavigationBarItem({required bool isSelected}) {
-    final icon = isSelected ? selectedIcon : unSelectedIcon;
-    return NavigationDestination(
-      label: iconTextId,
-      icon: Icon(icon),
-      selectedIcon: Icon(selectedIcon),
-    );
-  }
-
   AniFlowRoutePath toRoutePath() {
     switch (this) {
       case TopLevelNavigation.discover:

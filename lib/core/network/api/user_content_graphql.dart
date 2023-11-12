@@ -6,6 +6,16 @@ String get userContentQueryGraphql => '''
             medium
           }
           bannerImage
+''';
+
+String get userContentWithSettingsQueryGraphql => '''
+          id
+          name
+          avatar {
+            large
+            medium
+          }
+          bannerImage
           options {
             titleLanguage
             displayAdultContent

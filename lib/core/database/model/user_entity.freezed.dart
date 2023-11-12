@@ -28,6 +28,8 @@ mixin _$UserEntity {
   String get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: UserDataTableColumns.bannerImage)
   String? get bannerImage => throw _privateConstructorUsedError;
+  @JsonKey(name: UserDataTableColumns.profileColor)
+  String? get profileColor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +47,8 @@ abstract class $UserEntityCopyWith<$Res> {
       {@JsonKey(name: UserDataTableColumns.id) String id,
       @JsonKey(name: UserDataTableColumns.name) String name,
       @JsonKey(name: UserDataTableColumns.avatarImage) String avatar,
-      @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage});
+      @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage,
+      @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor});
 }
 
 /// @nodoc
@@ -65,6 +68,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? name = null,
     Object? avatar = null,
     Object? bannerImage = freezed,
+    Object? profileColor = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -83,6 +87,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      profileColor: freezed == profileColor
+          ? _value.profileColor
+          : profileColor // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -99,7 +107,8 @@ abstract class _$$_UserEntityCopyWith<$Res>
       {@JsonKey(name: UserDataTableColumns.id) String id,
       @JsonKey(name: UserDataTableColumns.name) String name,
       @JsonKey(name: UserDataTableColumns.avatarImage) String avatar,
-      @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage});
+      @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage,
+      @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor});
 }
 
 /// @nodoc
@@ -117,6 +126,7 @@ class __$$_UserEntityCopyWithImpl<$Res>
     Object? name = null,
     Object? avatar = null,
     Object? bannerImage = freezed,
+    Object? profileColor = freezed,
   }) {
     return _then(_$_UserEntity(
       id: null == id
@@ -135,6 +145,10 @@ class __$$_UserEntityCopyWithImpl<$Res>
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      profileColor: freezed == profileColor
+          ? _value.profileColor
+          : profileColor // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -146,7 +160,8 @@ class _$_UserEntity implements _UserEntity {
       {@JsonKey(name: UserDataTableColumns.id) this.id = '',
       @JsonKey(name: UserDataTableColumns.name) this.name = '',
       @JsonKey(name: UserDataTableColumns.avatarImage) this.avatar = '',
-      @JsonKey(name: UserDataTableColumns.bannerImage) this.bannerImage});
+      @JsonKey(name: UserDataTableColumns.bannerImage) this.bannerImage,
+      @JsonKey(name: UserDataTableColumns.profileColor) this.profileColor});
 
   factory _$_UserEntity.fromJson(Map<String, dynamic> json) =>
       _$$_UserEntityFromJson(json);
@@ -163,10 +178,13 @@ class _$_UserEntity implements _UserEntity {
   @override
   @JsonKey(name: UserDataTableColumns.bannerImage)
   final String? bannerImage;
+  @override
+  @JsonKey(name: UserDataTableColumns.profileColor)
+  final String? profileColor;
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage)';
+    return 'UserEntity(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, profileColor: $profileColor)';
   }
 
   @override
@@ -178,12 +196,15 @@ class _$_UserEntity implements _UserEntity {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.bannerImage, bannerImage) ||
-                other.bannerImage == bannerImage));
+                other.bannerImage == bannerImage) &&
+            (identical(other.profileColor, profileColor) ||
+                other.profileColor == profileColor));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, avatar, bannerImage);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, avatar, bannerImage, profileColor);
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +226,9 @@ abstract class _UserEntity implements UserEntity {
       @JsonKey(name: UserDataTableColumns.name) final String name,
       @JsonKey(name: UserDataTableColumns.avatarImage) final String avatar,
       @JsonKey(name: UserDataTableColumns.bannerImage)
-      final String? bannerImage}) = _$_UserEntity;
+      final String? bannerImage,
+      @JsonKey(name: UserDataTableColumns.profileColor)
+      final String? profileColor}) = _$_UserEntity;
 
   factory _UserEntity.fromJson(Map<String, dynamic> json) =
       _$_UserEntity.fromJson;
@@ -222,6 +245,9 @@ abstract class _UserEntity implements UserEntity {
   @override
   @JsonKey(name: UserDataTableColumns.bannerImage)
   String? get bannerImage;
+  @override
+  @JsonKey(name: UserDataTableColumns.profileColor)
+  String? get profileColor;
   @override
   @JsonKey(ignore: true)
   _$$_UserEntityCopyWith<_$_UserEntity> get copyWith =>

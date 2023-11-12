@@ -240,13 +240,14 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     emit(state.copyWith(userData: event.userData));
 
     if (event.userData != null) {
-      _userId = event.userData!.id;
+      if (_userId != event.userData!.id) {
+        /// user id changed, start listen following anime changed.
+        _userId = event.userData!.id;
+        _startListenFollowingIds();
 
-      /// user login, start listen following anime changed.
-      _startListenFollowingIds();
-
-      /// post event to sync user anime list.
-      unawaited(_syncAllMediaList(event.userData!.id));
+        /// post event to sync user anime list.
+        unawaited(_syncAllMediaList(event.userData!.id));
+      }
     } else {
       /// user logout, cancel following stream.
       await _trackedMediaIdsSub?.cancel();

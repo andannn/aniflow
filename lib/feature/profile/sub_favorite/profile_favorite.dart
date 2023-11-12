@@ -11,7 +11,7 @@ import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.da
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
-import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
+import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
