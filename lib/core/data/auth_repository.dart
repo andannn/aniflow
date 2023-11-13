@@ -131,6 +131,7 @@ class AuthRepositoryImpl implements AuthRepository {
     await preferences.setAniListSettings(settings);
 
     try {
+//TODO: thinking about cancel following operation when network task canceled.
       final user = await authDataSource.updateUserSettings(
         UpdateUserMotionParam(
           titleLanguage: userTitleLanguage,
