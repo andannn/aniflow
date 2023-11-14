@@ -7,9 +7,9 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:dio/dio.dart';
 
-class WatchingAnimeListPagingBloc
-    extends PagingBloc<MediaListItemModel> {
+class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   WatchingAnimeListPagingBloc(
     this.userId, {
     required MediaListRepository mediaListRepository,
@@ -20,14 +20,18 @@ class WatchingAnimeListPagingBloc
   final MediaListRepository _mediaListRepository;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _mediaListRepository.getMediaListByPage(
       status: [MediaListStatus.planning, MediaListStatus.current],
       type: MediaType.anime,
       userId: userId,
       page: page,
       perPage: Config.profilePageDefaultPerPageCount,
+      token: cancelToken,
     );
   }
 }
@@ -43,20 +47,23 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   final MediaListRepository _mediaListRepository;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _mediaListRepository.getMediaListByPage(
       status: [MediaListStatus.dropped],
       type: MediaType.anime,
       userId: userId,
       page: page,
       perPage: Config.profilePageDefaultPerPageCount,
+      token: cancelToken,
     );
   }
 }
 
-class CompleteAnimeListPagingBloc
-    extends PagingBloc<MediaListItemModel> {
+class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   CompleteAnimeListPagingBloc(
     this.userId, {
     required MediaListRepository mediaListRepository,
@@ -67,14 +74,18 @@ class CompleteAnimeListPagingBloc
   final MediaListRepository _mediaListRepository;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _mediaListRepository.getMediaListByPage(
       status: [MediaListStatus.completed],
       type: MediaType.anime,
       userId: userId,
       page: page,
       perPage: Config.profilePageDefaultPerPageCount,
+      token: cancelToken,
     );
   }
 }

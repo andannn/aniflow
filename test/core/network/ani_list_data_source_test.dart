@@ -9,6 +9,7 @@ import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:country_code/country_code.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,6 +30,28 @@ void main() {
               type: MediaType.anime,
               status: MediaStatus.finished,
               animeSort: [MediaSort.trending]));
+    });
+    test('test_network_cancel', () async {
+      DioException? exception;
+      try {
+        final cancelToken = CancelToken();
+        await Future.wait([
+          AniListDataSource().getNetworkAnimePage(
+              page: 1,
+              perPage: 10,
+              token: cancelToken,
+              param: AnimePageQueryParam(
+                  seasonYear: 2023,
+                  season: AnimeSeason.summer,
+                  type: MediaType.anime,
+                  status: MediaStatus.finished,
+                  animeSort: [MediaSort.trending])),
+          Future(() => cancelToken.cancel())
+        ]);
+      } on DioException catch (e) {
+        exception = e;
+      }
+      expect(exception!.type, equals(DioExceptionType.cancel));
     });
     test('get_media_with_countryCode', () async {
       await AniListDataSource().getNetworkAnimePage(
@@ -55,7 +78,7 @@ void main() {
 
     test('get_airing_schedule', () async {
       await AniListDataSource().getAiringSchedules(
-        AiringSchedulesQueryParam(
+        param: AiringSchedulesQueryParam(
             airingAtGreater: 1696953600, airingAtLesser: 1697039999),
       );
     });

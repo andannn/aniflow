@@ -7,6 +7,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/refresh_paging_bloc.dart';
+import 'package:dio/dio.dart';
 
 class FavoriteMangaPagingBloc extends RefreshPagingBloc<MediaModel> {
   FavoriteMangaPagingBloc(
@@ -20,13 +21,14 @@ class FavoriteMangaPagingBloc extends RefreshPagingBloc<MediaModel> {
 
   @override
   Future<LoadResult<List<MediaModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+      {required int page, bool isRefresh = false, CancelToken? cancelToken}) {
     return _favoriteRepository.loadFavoriteMediaByPage(
       type: MediaType.manga,
       userId: userId,
       loadType: isRefresh
           ? const Refresh(Config.profilePageDefaultPerPageCount)
           : Append(page: page, perPage: Config.profilePageDefaultPerPageCount),
+      token: cancelToken,
     );
   }
 }

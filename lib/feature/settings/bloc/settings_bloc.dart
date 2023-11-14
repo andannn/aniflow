@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 
 sealed class SettingEvent {}
 
@@ -42,6 +43,8 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
 
   StreamSubscription? _settingsSub;
 
+  final Map<String, CancelToken> _cancelTokenMap = {};
+
   @override
   Future<void> close() {
     _settingsSub?.cancel();
@@ -63,14 +66,27 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   }
 
   FutureOr<void> _onListOptionChanged(
-      OnListOptionChanged event, Emitter<SettingsState> emit) {
+      OnListOptionChanged event, Emitter<SettingsState> emit) async {
     final setting = event.setting;
     switch (setting) {
       case UserTitleLanguage():
-        _authRepository.updateUserSettings(userTitleLanguage: setting);
+         unawaited(_authRepository.updateUserSettings(
+          userTitleLanguage: setting,
+          token: _cancelRequestAndReturnNewToken(setting.runtimeType),
+        ));
       case DisplayAdultContent():
-        _authRepository.updateUserSettings(displayAdultContent: setting.isOn);
+         unawaited(_authRepository.updateUserSettings(
+          displayAdultContent: setting.isOn,
+          token: _cancelRequestAndReturnNewToken(setting.runtimeType),
+        ));
     }
+  }
+
+  CancelToken _cancelRequestAndReturnNewToken(Type settingType) {
+    _cancelTokenMap[settingType.toString()]?.cancel();
+    final newCancelToken = CancelToken();
+    _cancelTokenMap[settingType.toString()] = newCancelToken;
+    return newCancelToken;
   }
 }
 

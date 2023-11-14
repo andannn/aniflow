@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:dio/dio.dart';
 
 class NotificationPagingBloc extends PagingBloc<NotificationModel> {
   NotificationPagingBloc({
@@ -17,11 +18,16 @@ class NotificationPagingBloc extends PagingBloc<NotificationModel> {
   final NotificationCategory _category;
 
   @override
-  Future<LoadResult<List<NotificationModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<NotificationModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _repository.loadNotificationsByPage(
-        page: page,
-        perPage: Config.notificationPageDefaultPerPageCount,
-        category: _category);
+      page: page,
+      perPage: Config.notificationPageDefaultPerPageCount,
+      category: _category,
+      token: cancelToken,
+    );
   }
 }

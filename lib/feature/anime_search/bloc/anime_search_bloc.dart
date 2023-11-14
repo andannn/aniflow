@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 
 class OnSearchStringCommit<T> extends PagingEvent<T> {
   final String searchString;
@@ -39,14 +40,18 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
   }
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadPage(
-      {required int page, bool isRefresh = false}) async {
+  Future<LoadResult<List<MediaModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) async {
     if (_searchString == null) return LoadError(Exception("No search string"));
     return _searchRepository.loadMediaSearchResultByPage(
       page: page,
       perPage: Config.defaultPerPageCount,
       type: mediaType!,
       search: _searchString!,
+      token: cancelToken,
     );
   }
 

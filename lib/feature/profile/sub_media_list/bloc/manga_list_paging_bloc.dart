@@ -7,9 +7,9 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:dio/dio.dart';
 
-class ReadingMangaListPagingBloc
-    extends PagingBloc<MediaListItemModel> {
+class ReadingMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
   ReadingMangaListPagingBloc(
     this.userId, {
     required MediaListRepository mediaListRepository,
@@ -20,19 +20,23 @@ class ReadingMangaListPagingBloc
   final MediaListRepository _mediaListRepository;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _mediaListRepository.getMediaListByPage(
       status: [MediaListStatus.planning, MediaListStatus.current],
       type: MediaType.manga,
       userId: userId,
       page: page,
       perPage: Config.profilePageDefaultPerPageCount,
+      token: cancelToken,
     );
   }
 }
-class DroppedMangaListPagingBloc
-    extends PagingBloc<MediaListItemModel> {
+
+class DroppedMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
   DroppedMangaListPagingBloc(
     this.userId, {
     required MediaListRepository mediaListRepository,
@@ -43,14 +47,18 @@ class DroppedMangaListPagingBloc
   final MediaListRepository _mediaListRepository;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _mediaListRepository.getMediaListByPage(
       status: [MediaListStatus.dropped],
       type: MediaType.manga,
       userId: userId,
       page: page,
       perPage: Config.profilePageDefaultPerPageCount,
+      token: cancelToken,
     );
   }
 }

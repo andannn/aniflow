@@ -27,7 +27,8 @@ void main() {
 
     test('save_media_list_motion', () async {
       try {
-        await authDataSource.saveMediaToMediaList(MediaListMutationParam(
+        await authDataSource.saveMediaToMediaList(
+            param: MediaListMutationParam(
           entryId: 1,
           mediaId: 2,
           progress: 3,
@@ -40,7 +41,7 @@ void main() {
     });
 
     test('notification_query', () async {
-      await authDataSource.getNotifications(NotificationQueryParam(
+      await authDataSource.getNotifications(param: NotificationQueryParam(
           page: 1, perPage: 2, type: [NotificationType.relatedMediaAddition]));
     });
   });

@@ -11,8 +11,8 @@ import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
-import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _clientId = '14409';
@@ -27,8 +27,11 @@ abstract class AuthRepository {
 
   Stream<UserModel?> getAuthedUserStream();
 
-  Future<LoadResult> updateUserSettings(
-      {UserTitleLanguage? userTitleLanguage, bool? displayAdultContent});
+  Future<LoadResult> updateUserSettings({
+    UserTitleLanguage? userTitleLanguage,
+    bool? displayAdultContent,
+    CancelToken? token,
+  });
 
   Future logout();
 
@@ -70,7 +73,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         /// retrieve user data from ani list api;
-        final userDto = await authDataSource.getAuthenUserDataDto();
+        final userDto = await authDataSource.getAuthedUserDataDto();
         final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
         await preferences.setAuthedUserId(userEntity.id);
@@ -119,32 +122,38 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<LoadResult> updateUserSettings(
-      {UserTitleLanguage? userTitleLanguage, bool? displayAdultContent}) async {
-    AniListSettings settings = preferences.getAniListSettings();
+  Future<LoadResult> updateUserSettings({
+    UserTitleLanguage? userTitleLanguage,
+    bool? displayAdultContent,
+    CancelToken? token,
+  }) async {
+    AniListSettings oldSettings = preferences.getAniListSettings();
+    AniListSettings newSettings = preferences.getAniListSettings();
     if (userTitleLanguage != null) {
-      settings = settings.copyWith(userTitleLanguage: userTitleLanguage);
+      newSettings = newSettings.copyWith(userTitleLanguage: userTitleLanguage);
     }
     if (displayAdultContent != null) {
-      settings = settings.copyWith(displayAdultContent: displayAdultContent);
+      newSettings =
+          newSettings.copyWith(displayAdultContent: displayAdultContent);
     }
-    await preferences.setAniListSettings(settings);
+    await preferences.setAniListSettings(newSettings);
 
     try {
-//TODO: thinking about cancel following operation when network task canceled.
       final user = await authDataSource.updateUserSettings(
-        UpdateUserMotionParam(
+        param: UpdateUserMotionParam(
           titleLanguage: userTitleLanguage,
           displayAdultContent: displayAdultContent,
         ),
+        token: token,
       );
+
       /// update setting again after network motion success.
       await preferences
           .setAniListSettings(AniListSettings.fromDto(user.options!));
       return LoadSuccess(data: null);
-    } on NetworkException catch (exception) {
+    } on Exception catch (exception) {
       /// revert setting changed when network error.
-      await preferences.setAniListSettings(settings);
+      await preferences.setAniListSettings(oldSettings);
       return LoadError(exception);
     }
   }

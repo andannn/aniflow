@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 
 abstract class PagingEvent<T> {}
 
@@ -38,6 +40,14 @@ abstract class PagingBloc<T>
     add(OnInit());
   }
 
+  CancelToken? _cancelToken;
+
+  @override
+  Future<void> close() {
+    _cancelToken?.cancel();
+    return super.close();
+  }
+
   Future<void> onInit(
       OnInit<T> event, Emitter<PagingState<List<T>>> emit) async {
     emit(state.toLoading());
@@ -46,21 +56,32 @@ abstract class PagingBloc<T>
     await createLoadPageTask(page: 1, isRefresh: false);
   }
 
-  Future<LoadResult<List<T>>> loadPage(
-      {required int page, bool isRefresh = false});
+  Future<LoadResult<List<T>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  });
 
-  Future<bool> createLoadPageTask(
+  Future createLoadPageTask(
       {int page = 1, bool isRefresh = false}) async {
-    final LoadResult result = await loadPage(page: page, isRefresh: isRefresh);
+    _cancelToken ??= CancelToken();
+    final LoadResult result = await loadPage(
+      page: page,
+      isRefresh: isRefresh,
+      cancelToken: _cancelToken,
+    );
     switch (result) {
       case LoadSuccess<List<T>>(data: final data):
         add(_OnPageLoadedEvent(data, page, isRefresh));
-        return true;
       case LoadError<List<T>>(exception: final exception):
+        if (exception is DioException &&
+            exception.type == DioExceptionType.cancel) {
+          logger.d('Page loading is canceled ${exception.message}');
+          return;
+        }
+
         add(_OnPageErrorEvent(exception));
-        return false;
       default:
-        return false;
     }
   }
 
@@ -88,6 +109,7 @@ abstract class PagingBloc<T>
 
   FutureOr<void> _onPageErrorEvent(
       _OnPageErrorEvent<T> event, Emitter<PagingState<List<T>>> emit) {
+
     emit(state.toError(event.exception));
   }
 

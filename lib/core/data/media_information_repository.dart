@@ -35,17 +35,20 @@ abstract class MediaInformationRepository {
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,
     required LoadType loadType,
+    CancelToken? token,
   });
 
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId({
     required String animeId,
     required LoadType loadType,
+    CancelToken? token,
   });
 
   Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId({
     required String animeId,
     required LoadType loadType,
+    CancelToken? token,
   });
 
   Stream<MediaModel> getDetailAnimeInfoStream(String id);
@@ -59,8 +62,12 @@ abstract class MediaInformationRepository {
   /// Refresh airing schedule data in range of [now - dayAgo, not + dayAfter].
   /// The ani list api restrict the count to 50. so maybe we can only get
   /// one or two days airing schedule when using this method.
-  Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
-      {int dayAgo = 0, int dayAfter = 0});
+  Future<LoadResult<void>> refreshAiringSchedule(
+    DateTime now, {
+    int dayAgo = 0,
+    int dayAfter = 0,
+    CancelToken? token,
+  });
 }
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
@@ -70,13 +77,17 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory(
-      {required MediaCategory category, required LoadType loadType}) {
+  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
+    required MediaCategory category,
+    required LoadType loadType,
+    CancelToken? token,
+  }) {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getNetworkAnimePage(
         page: page,
         perPage: perPage,
+        token: token,
         param: createAnimePageQueryParam(
           category,
           preferences.getCurrentSeason(),
@@ -95,12 +106,18 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   @override
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
-      loadCharacterPageByAnimeId(
-          {required String animeId, required LoadType loadType}) async {
+      loadCharacterPageByAnimeId({
+    required String animeId,
+    required LoadType loadType,
+    CancelToken? token,
+  }) async {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
-          animeId: int.parse(animeId), page: page, perPage: perPage),
+          animeId: int.parse(animeId),
+          page: page,
+          perPage: perPage,
+          token: token),
       onClearDbCache: () => animeDao.clearMediaCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
           mediaId: int.parse(animeId), entities: entities),
@@ -119,12 +136,19 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   }
 
   @override
-  Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId(
-      {required String animeId, required LoadType loadType}) {
+  Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId({
+    required String animeId,
+    required LoadType loadType,
+    CancelToken? token,
+  }) {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getStaffPage(
-          animeId: int.parse(animeId), page: page, perPage: perPage),
+        animeId: int.parse(animeId),
+        page: page,
+        perPage: perPage,
+        token: token,
+      ),
       onClearDbCache: () async {},
       onInsertEntityToDB: (entities) => animeDao.insertStaffRelationEntities(
           mediaId: int.parse(animeId), entities: entities),
@@ -243,16 +267,21 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   }
 
   @override
-  Future<LoadResult<void>> refreshAiringSchedule(DateTime now,
-      {int dayAgo = 0, int dayAfter = 0}) async {
+  Future<LoadResult<void>> refreshAiringSchedule(
+    DateTime now, {
+    int dayAgo = 0,
+    int dayAfter = 0,
+    CancelToken? token,
+  }) async {
     try {
       final (startMs, endMs) =
           TimeUtil.getTimeRange(now, daysAgo: dayAgo, daysAfter: dayAfter);
 
       /// Get all airing schedule from network source.
       final networkResults = await aniListDataSource.getAiringSchedules(
-        AiringSchedulesQueryParam(
+        param: AiringSchedulesQueryParam(
             airingAtGreater: startMs ~/ 1000, airingAtLesser: endMs ~/ 1000),
+        token: token,
       );
 
       /// insert airing schedule data to db.

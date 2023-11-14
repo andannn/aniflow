@@ -9,13 +9,16 @@ import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
+import 'package:dio/dio.dart';
 
 abstract class SearchRepository {
-  Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage(
-      {required int page,
-      required int perPage,
-      required String search,
-      required MediaType type});
+  Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage({
+    required int page,
+    required int perPage,
+    required String search,
+    required MediaType type,
+    CancelToken? token,
+  });
 }
 
 class SearchRepositoryImpl implements SearchRepository {
@@ -23,11 +26,13 @@ class SearchRepositoryImpl implements SearchRepository {
   final MediaInformationDao dao = AniflowDatabase().getMediaInformationDaoDao();
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage(
-      {required int page,
-      required int perPage,
-      required String search,
-      required MediaType type}) {
+  Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage({
+    required int page,
+    required int perPage,
+    required String search,
+    required MediaType type,
+    CancelToken? token,
+  }) {
     return LoadPageUtil.loadPageWithoutDBCache(
       page: page,
       perPage: perPage,
@@ -36,6 +41,7 @@ class SearchRepositoryImpl implements SearchRepository {
         perPage: perPage,
         type: type,
         search: search,
+        token: token,
       ),
       mapDtoToModel: (MediaDto dto) => MediaModel.fromDto(dto),
       onInsertEntityToDB: (List<MediaDto> dto) async {
