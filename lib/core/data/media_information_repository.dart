@@ -92,6 +92,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           category,
           preferences.getCurrentSeason(),
           preferences.getCurrentSeasonYear(),
+          preferences.getAniListSettings().displayAdultContent
         ),
       ),
       onGetEntityFromDB: (page, perPage) =>

@@ -65,6 +65,7 @@ class AniListDataSource {
     final hasAnimeSort = param.animeSort.isNotEmpty;
     final hasAnimeFormat = param.animeFormat.isNotEmpty;
     final hasCountryCode = param.countryCode != null;
+    final hasIsAdult = param.isAdult != null;
     final variablesMap = <String, dynamic>{
       'page': page,
       'perPage': perPage,
@@ -90,6 +91,9 @@ class AniListDataSource {
     }
     if (hasCountryCode) {
       variablesMap['countryCode'] = param.countryCode!.alpha2;
+    }
+    if (hasIsAdult) {
+      variablesMap['isAdult'] = param.isAdult;
     }
 
     return AniListDio().dio.post(

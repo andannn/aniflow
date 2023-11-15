@@ -184,7 +184,8 @@ class AniFlowPreferences {
   }
 
   AniListSettings getAniListSettings() {
-    final jsonString = _preference.getString(_UserDataKey.aniListSettingsKey)!;
+    final jsonString =
+        _preference.getString(_UserDataKey.aniListSettingsKey) ?? '{}';
     return AniListSettings.fromJson(jsonDecode(jsonString));
   }
 

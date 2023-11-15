@@ -23,14 +23,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 /// context of app root.
 BuildContext? globalContext;
 
-class AnimeTrackerApp extends StatefulWidget {
-  const AnimeTrackerApp({super.key});
+class AniFlowApp extends StatefulWidget {
+  const AniFlowApp({super.key});
 
   @override
-  State<StatefulWidget> createState() => AnimeTrackerAppState();
+  State<StatefulWidget> createState() => AniFlowAppState();
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<AniFlowAppState>()?.restartApp();
+  }
 }
 
-class AnimeTrackerAppState extends State<AnimeTrackerApp> {
+class AniFlowAppState extends State<AniFlowApp> {
+  var key = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -46,52 +52,63 @@ class AnimeTrackerAppState extends State<AnimeTrackerApp> {
     super.dispose();
   }
 
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(
-      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        ColorScheme lightColorScheme;
-        ColorScheme darkColorScheme;
+    return Builder(
+      key: key,
+      builder: (context) {
+        return DynamicColorBuilder(
+          builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+            ColorScheme lightColorScheme;
+            ColorScheme darkColorScheme;
 
-        if (lightDynamic != null && darkDynamic != null) {
-          lightColorScheme = lightDynamic.harmonized();
-          darkColorScheme = darkDynamic.harmonized();
-        } else {
-          // Otherwise, use fallback schemes.
-          lightColorScheme = ColorScheme.fromSeed(
-            seedColor: brandColor,
-          );
-          darkColorScheme = ColorScheme.fromSeed(
-            seedColor: brandColor,
-            brightness: Brightness.dark,
-          );
-        }
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightColorScheme,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkColorScheme,
-          ),
-          localizationsDelegates: [
-            AnimeTrackerLocalizationsDelegate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('es'),
-            Locale('zh'),
-            Locale('Jpan'),
-            Locale('ja'),
-          ],
-          home: const AnimeTrackerAppScaffold(),
+            if (lightDynamic != null && darkDynamic != null) {
+              lightColorScheme = lightDynamic.harmonized();
+              darkColorScheme = darkDynamic.harmonized();
+            } else {
+              // Otherwise, use fallback schemes.
+              lightColorScheme = ColorScheme.fromSeed(
+                seedColor: brandColor,
+              );
+              darkColorScheme = ColorScheme.fromSeed(
+                seedColor: brandColor,
+                brightness: Brightness.dark,
+              );
+            }
+            return MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                useMaterial3: true,
+                colorScheme: lightColorScheme,
+              ),
+              darkTheme: ThemeData(
+                useMaterial3: true,
+                colorScheme: darkColorScheme,
+              ),
+              localizationsDelegates: [
+                AnimeTrackerLocalizationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en'),
+                Locale('es'),
+                Locale('zh'),
+                Locale('Jpan'),
+                Locale('ja'),
+              ],
+              home: const AnimeTrackerAppScaffold(),
+            );
+          },
         );
-      },
+      }
     );
   }
 }

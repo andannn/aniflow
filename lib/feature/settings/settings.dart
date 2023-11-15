@@ -1,7 +1,9 @@
+import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
+import 'package:aniflow/feature/common/dialog/restart_app_dialog.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
@@ -90,10 +92,16 @@ class _MediaSettingsPageContent extends StatelessWidget {
                 child: _createSettingItem(
                   context,
                   settingItems[index],
-                  onSettingChanged: (setting) {
+                  onSettingChanged: (setting) async {
                     context
                         .read<SettingsBloc>()
                         .add(OnListOptionChanged(setting));
+
+                    final isAccepted = await showRestartAppDialog(context);
+                    if (isAccepted == true) {
+                      // ignore: use_build_context_synchronously
+                      AniFlowApp.restartApp(context);
+                    }
                   },
                 ),
               );
