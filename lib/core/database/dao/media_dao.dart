@@ -94,11 +94,18 @@ mixin MediaCategoryCrossRefColumns {
 /// [Tables.characterTable]
 mixin CharacterColumns {
   static const String id = 'character_id';
-  static const String voiceActorId = 'character_voice_actor_id';
-  static const String role = 'character_role';
   static const String image = 'character_image';
   static const String nameEnglish = 'character_name_english';
   static const String nameNative = 'character_name_native';
+}
+
+/// [Tables.characterVoiceActorCrossRefTable]
+mixin CharacterVoiceActorCrossRefColumns {
+  static const String id = 'character_voice_actor_cross_id';
+  static const String characterId = 'character_voice_actor_cross_character_id';
+  static const String staffId = 'character_voice_actor_cross_staff_id';
+  static const String role = 'character_voice_actor_cross_role';
+  static const String language = 'character_voice_actor_cross_language';
 }
 
 /// [Tables.staffTable]
@@ -175,7 +182,7 @@ abstract class MediaInformationDao {
 
   Future<MediaWithDetailInfo> getDetailMediaInfo(String id);
 
-  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+  Future<List<CharacterAndVoiceActorRelationEntity>> getCharacterOfMediaByPage(
       String animeId,
       {required int page,
       int perPage = Config.defaultPerPageCount});
@@ -214,7 +221,7 @@ abstract class MediaInformationDao {
 
   Future insertCharacterVoiceActors(
       {required int mediaId,
-      required List<CharacterAndVoiceActorRelation> entities});
+      required List<CharacterAndVoiceActorRelationEntity> entities});
 
   Future insertCharacters({required List<CharacterEntity> entities});
 
@@ -300,7 +307,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+  Future<List<CharacterAndVoiceActorRelationEntity>> getCharacterOfMediaByPage(
       String animeId,
       {required int page,
       int perPage = Config.defaultPerPageCount}) async {
@@ -309,8 +316,8 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     final characterSql = 'select * from ${Tables.characterTable} as c '
         'join ${Tables.mediaCharacterCrossRefTable} as ac '
         '  on c.${CharacterColumns.id} = ac.${CharacterCrossRefColumns.characterId} '
-        'left join ${Tables.staffTable} as v '
-        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
+        // 'left join ${Tables.staffTable} as v '
+        // '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
         'where ac.${CharacterCrossRefColumns.mediaId} = \'$animeId\' '
         'order by ${CharacterCrossRefColumns.timeStamp} asc '
         'limit $limit '
@@ -318,7 +325,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     List characterResults = await database.aniflowDB.rawQuery(characterSql);
     return characterResults
         .map(
-          (e) => CharacterAndVoiceActorRelation(
+          (e) => CharacterAndVoiceActorRelationEntity(
             characterEntity: CharacterEntity.fromJson(e),
             voiceActorEntity: StaffEntity.fromJson(e),
           ),
@@ -505,7 +512,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   @override
   Future insertCharacterVoiceActors(
       {required int mediaId,
-      required List<CharacterAndVoiceActorRelation> entities}) async {
+      required List<CharacterAndVoiceActorRelationEntity> entities}) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       if (entity.voiceActorEntity != null) {
@@ -530,6 +537,20 @@ class MediaInformationDaoImpl extends MediaInformationDao {
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+      if (entity.voiceActorEntity != null) {
+        batch.insert(
+          Tables.characterVoiceActorCrossRefTable,
+          {
+            CharacterVoiceActorCrossRefColumns.characterId:
+                entity.characterEntity.id,
+            CharacterVoiceActorCrossRefColumns.staffId:
+                entity.voiceActorEntity!.id,
+            CharacterVoiceActorCrossRefColumns.role: entity.role,
+            CharacterVoiceActorCrossRefColumns.language: entity.language,
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
     }
     return await batch.commit(noResult: true);
   }

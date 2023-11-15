@@ -82,7 +82,6 @@ void main() {
     final dummyCharacterData = [
       CharacterEntity(
         id: '2736',
-        voiceActorId: '95084',
         image:
             'https://s4.anilist.co/file/anilistcdn/character/large/b2736-0Eoluq9UxXu4.png',
         nameEnglish: 'Grencia Mars Elijah Guo Eckener',
@@ -90,7 +89,6 @@ void main() {
       ),
       CharacterEntity(
         id: '6694',
-        voiceActorId: '95262',
         image:
             'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
         nameEnglish: 'Judy',
@@ -98,7 +96,6 @@ void main() {
       ),
       CharacterEntity(
         id: '2334',
-        voiceActorId: '95262',
         image:
             'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
         nameEnglish: 'Jack',
@@ -247,11 +244,11 @@ void main() {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
       await animeDao.insertCharacterVoiceActors(mediaId: 5784, entities: [
-        CharacterAndVoiceActorRelation(
+        CharacterAndVoiceActorRelationEntity(
             characterEntity: dummyCharacterData[0], voiceActorEntity: null),
-        CharacterAndVoiceActorRelation(
+        CharacterAndVoiceActorRelationEntity(
             characterEntity: dummyCharacterData[1], voiceActorEntity: null),
-        CharacterAndVoiceActorRelation(
+        CharacterAndVoiceActorRelationEntity(
             characterEntity: dummyCharacterData[2], voiceActorEntity: null),
       ]);
 

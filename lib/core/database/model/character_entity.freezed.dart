@@ -22,10 +22,6 @@ CharacterEntity _$CharacterEntityFromJson(Map<String, dynamic> json) {
 mixin _$CharacterEntity {
   @JsonKey(name: CharacterColumns.id)
   String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: CharacterColumns.voiceActorId)
-  String? get voiceActorId => throw _privateConstructorUsedError;
-  @JsonKey(name: CharacterColumns.role)
-  CharacterRole? get role => throw _privateConstructorUsedError;
   @JsonKey(name: CharacterColumns.image)
   String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: CharacterColumns.nameEnglish)
@@ -47,8 +43,6 @@ abstract class $CharacterEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
-      @JsonKey(name: CharacterColumns.voiceActorId) String? voiceActorId,
-      @JsonKey(name: CharacterColumns.role) CharacterRole? role,
       @JsonKey(name: CharacterColumns.image) String? image,
       @JsonKey(name: CharacterColumns.nameEnglish) String? nameEnglish,
       @JsonKey(name: CharacterColumns.nameNative) String? nameNative});
@@ -68,8 +62,6 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? voiceActorId = freezed,
-    Object? role = freezed,
     Object? image = freezed,
     Object? nameEnglish = freezed,
     Object? nameNative = freezed,
@@ -79,14 +71,6 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      voiceActorId: freezed == voiceActorId
-          ? _value.voiceActorId
-          : voiceActorId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      role: freezed == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as CharacterRole?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -113,8 +97,6 @@ abstract class _$$_CharacterEntityCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
-      @JsonKey(name: CharacterColumns.voiceActorId) String? voiceActorId,
-      @JsonKey(name: CharacterColumns.role) CharacterRole? role,
       @JsonKey(name: CharacterColumns.image) String? image,
       @JsonKey(name: CharacterColumns.nameEnglish) String? nameEnglish,
       @JsonKey(name: CharacterColumns.nameNative) String? nameNative});
@@ -132,8 +114,6 @@ class __$$_CharacterEntityCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? voiceActorId = freezed,
-    Object? role = freezed,
     Object? image = freezed,
     Object? nameEnglish = freezed,
     Object? nameNative = freezed,
@@ -143,14 +123,6 @@ class __$$_CharacterEntityCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      voiceActorId: freezed == voiceActorId
-          ? _value.voiceActorId
-          : voiceActorId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      role: freezed == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as CharacterRole?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -172,8 +144,6 @@ class __$$_CharacterEntityCopyWithImpl<$Res>
 class _$_CharacterEntity implements _CharacterEntity {
   _$_CharacterEntity(
       {@JsonKey(name: CharacterColumns.id) this.id = '',
-      @JsonKey(name: CharacterColumns.voiceActorId) this.voiceActorId,
-      @JsonKey(name: CharacterColumns.role) this.role,
       @JsonKey(name: CharacterColumns.image) this.image = '',
       @JsonKey(name: CharacterColumns.nameEnglish) this.nameEnglish,
       @JsonKey(name: CharacterColumns.nameNative) this.nameNative});
@@ -184,12 +154,6 @@ class _$_CharacterEntity implements _CharacterEntity {
   @override
   @JsonKey(name: CharacterColumns.id)
   final String id;
-  @override
-  @JsonKey(name: CharacterColumns.voiceActorId)
-  final String? voiceActorId;
-  @override
-  @JsonKey(name: CharacterColumns.role)
-  final CharacterRole? role;
   @override
   @JsonKey(name: CharacterColumns.image)
   final String? image;
@@ -202,7 +166,7 @@ class _$_CharacterEntity implements _CharacterEntity {
 
   @override
   String toString() {
-    return 'CharacterEntity(id: $id, voiceActorId: $voiceActorId, role: $role, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'CharacterEntity(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
   }
 
   @override
@@ -211,9 +175,6 @@ class _$_CharacterEntity implements _CharacterEntity {
         (other.runtimeType == runtimeType &&
             other is _$_CharacterEntity &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.voiceActorId, voiceActorId) ||
-                other.voiceActorId == voiceActorId) &&
-            (identical(other.role, role) || other.role == role) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.nameEnglish, nameEnglish) ||
                 other.nameEnglish == nameEnglish) &&
@@ -223,8 +184,8 @@ class _$_CharacterEntity implements _CharacterEntity {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, voiceActorId, role, image, nameEnglish, nameNative);
+  int get hashCode =>
+      Object.hash(runtimeType, id, image, nameEnglish, nameNative);
 
   @JsonKey(ignore: true)
   @override
@@ -243,8 +204,6 @@ class _$_CharacterEntity implements _CharacterEntity {
 abstract class _CharacterEntity implements CharacterEntity {
   factory _CharacterEntity(
       {@JsonKey(name: CharacterColumns.id) final String id,
-      @JsonKey(name: CharacterColumns.voiceActorId) final String? voiceActorId,
-      @JsonKey(name: CharacterColumns.role) final CharacterRole? role,
       @JsonKey(name: CharacterColumns.image) final String? image,
       @JsonKey(name: CharacterColumns.nameEnglish) final String? nameEnglish,
       @JsonKey(name: CharacterColumns.nameNative)
@@ -256,12 +215,6 @@ abstract class _CharacterEntity implements CharacterEntity {
   @override
   @JsonKey(name: CharacterColumns.id)
   String get id;
-  @override
-  @JsonKey(name: CharacterColumns.voiceActorId)
-  String? get voiceActorId;
-  @override
-  @JsonKey(name: CharacterColumns.role)
-  CharacterRole? get role;
   @override
   @JsonKey(name: CharacterColumns.image)
   String? get image;

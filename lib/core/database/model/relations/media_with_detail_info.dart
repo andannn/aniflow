@@ -6,7 +6,7 @@ import 'package:aniflow/core/database/model/relations/staff_and_role_relation.da
 
 class MediaWithDetailInfo {
   final MediaEntity mediaEntity;
-  final List<CharacterAndVoiceActorRelation> characterAndVoiceActors;
+  final List<CharacterAndVoiceActorRelationEntity> characterAndVoiceActors;
   final List<StaffAndRoleRelation> staffs;
   final List<MediaExternalLinkEntity> externalLinks;
   final List<MediaRelationEntity> mediaRelations;

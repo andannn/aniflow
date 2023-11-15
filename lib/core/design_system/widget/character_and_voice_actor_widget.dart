@@ -48,7 +48,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                   Text(model.characterModel.nameNative, style: style),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(
-                    model.characterModel.role.getCharacterRoleString(context),
+                    model.role?.getCharacterRoleString(context) ?? '',
                     style: style,
                   ),
                 ],
@@ -64,7 +64,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(model.voiceActorModel.nameNative, style: style),
+                  Text(model.voiceActorModel?.nameNative ?? '', style: style),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text('Japanese', style: style),
                 ],
@@ -77,7 +77,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
               child: AFNetworkImage(
-                imageUrl: model.voiceActorModel.image,
+                imageUrl: model.voiceActorModel?.image ?? '',
               ),
             ),
           ),

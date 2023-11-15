@@ -18,6 +18,8 @@ mixin Tables {
   static const String animeCategoryCrossRefTable =
       'anime_category_cross_ref_table';
   static const String characterTable = 'character_table';
+  static const String characterVoiceActorCrossRefTable =
+      'character_voice_actor_cross_ref_table';
   static const String mediaCharacterCrossRefTable =
       'media_character_cross_ref_table';
   static const String mediaStaffCrossRefTable = 'media_staff_cross_ref_table';
@@ -153,13 +155,22 @@ class AniflowDatabase {
 
     batch.execute('create table if not exists ${Tables.characterTable} ('
         '${CharacterColumns.id} text primary key,'
-        '${CharacterColumns.voiceActorId} text,'
-        '${CharacterColumns.role} text,'
         '${CharacterColumns.image} text,'
         '${CharacterColumns.nameEnglish} text,'
-        '${CharacterColumns.nameNative} text,'
-        'foreign key (${CharacterColumns.voiceActorId}) references ${Tables.staffTable} (${StaffColumns.id})'
+        '${CharacterColumns.nameNative} text'
         ')');
+
+    batch.execute(
+        'create table if not exists ${Tables.characterVoiceActorCrossRefTable} ('
+            '${CharacterVoiceActorCrossRefColumns.id} integer primary key autoincrement,'
+            '${CharacterVoiceActorCrossRefColumns.characterId} text,'
+            '${CharacterVoiceActorCrossRefColumns.staffId} text,'
+            '${CharacterVoiceActorCrossRefColumns.role} text,'
+            '${CharacterVoiceActorCrossRefColumns.language} text,'
+            'unique (${CharacterVoiceActorCrossRefColumns.characterId}, ${CharacterVoiceActorCrossRefColumns.staffId}),'
+            'foreign key (${CharacterVoiceActorCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id}),'
+            'foreign key (${CharacterVoiceActorCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
+            ')');
 
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
@@ -200,8 +211,7 @@ class AniflowDatabase {
         'foreign key (${MediaListTableColumns.userId}) references ${Tables.userDataTable} (${UserDataTableColumns.id})'
         ')');
 
-    batch.execute(
-        'create table if not exists ${Tables.airingSchedulesTable} ('
+    batch.execute('create table if not exists ${Tables.airingSchedulesTable} ('
         '${AiringSchedulesColumns.id} text primary key,'
         '${AiringSchedulesColumns.mediaId} text,'
         '${AiringSchedulesColumns.airingAt} integer,'
@@ -231,8 +241,7 @@ class AniflowDatabase {
         'unique (${FavoriteInfoTableColumn.favoriteType},${FavoriteInfoTableColumn.infoId},${FavoriteInfoTableColumn.userId})'
         ')');
 
-    batch.execute(
-        'create table if not exists ${Tables.mediaRelationCrossRef} ('
+    batch.execute('create table if not exists ${Tables.mediaRelationCrossRef} ('
         '${MediaRelationCrossRefColumnValues.ownerId} text,'
         '${MediaRelationCrossRefColumnValues.relationId} text,'
         '${MediaRelationCrossRefColumnValues.relationType} text,'
