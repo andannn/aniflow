@@ -7,9 +7,10 @@ import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
-import 'package:aniflow/feature/profile/boc/profile_bloc.dart';
+import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:flutter/material.dart';
@@ -255,7 +256,9 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
       BuildContext context, MediaList type, MediaListItemModel model) {
     return MediaPreviewItem(
       coverImage: model.animeModel!.coverImage,
-      title: model.animeModel!.title!.getLocalTitle(context),
+      title: model.animeModel!.title!.getTitle(AniFlowPreferences()
+          .getAniListSettings()
+          .userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
         AFRouterDelegate.of(context)

@@ -12,6 +12,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -194,6 +195,7 @@ extension MediaNotificationEx on MediaNotification {
     ];
   }
 }
+
 extension ListActivityModelEx on ListActivityModel {
   List<TextSpan> createTextSpanList(BuildContext buildContext,
       {required VoidCallback onMediaClick}) {
@@ -201,7 +203,8 @@ extension ListActivityModelEx on ListActivityModel {
     return [
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
-        text: media.title!.getLocalTitle(buildContext),
+        text: media.title!.getTitle(
+            AniFlowPreferences().getAniListSettings().userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,
       ),

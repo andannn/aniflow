@@ -1,28 +1,34 @@
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/activity_scope_category.dart';
+import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
-import 'package:aniflow/core/shared_preference/model/user_setting_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-mixin UserDataKey {
+mixin _UserDataKey {
   static const currentSeasonYear = "current_season_year";
   static const currentSeason = "current_season";
-  static const showSuggestBoard = "show_suggest_board";
-  static const lastSuccessSync = "last_success_sync";
   static const authToken = "auth_token";
   static const authExpiredTime = "auth_expired_time";
-
-  /// user settings.
   static const authedUserId = "authed_userId";
-  static const displayAdultContent = "display_adult_content";
+
+  /// [MediaType]
   static const currentMediaType = "currentMediaType";
+
+  /// [ActivityScopeCategory]
   static const activityScope = "activity_scope";
+
+  /// [ActivityFilterType]
   static const activityFilter = "activity_filter";
+
+  /// ani-list settings. [AniListSettings]
+  static const aniListSettingsKey = 'ani_list_settings_key';
 }
 
 class AniFlowPreferences {
@@ -38,87 +44,59 @@ class AniFlowPreferences {
   final _activityScopeChangeNotifier = ValueNotifier(0);
   final _activityFilterChangeNotifier = ValueNotifier(0);
   final _userIdChangeNotifier = ValueNotifier(0);
+  final _aniListSettingChangeNotifier = ValueNotifier(0);
 
   Future init() async {
     _preference = await SharedPreferences.getInstance();
   }
 
   Future setCurrentSeason(AnimeSeason season) {
-    return _preference.setString(UserDataKey.currentSeason, season.toString());
+    return _preference.setString(_UserDataKey.currentSeason, season.toString());
   }
 
   AnimeSeason getCurrentSeason() {
-    final seasonString = _preference.getString(UserDataKey.currentSeason) ?? '';
+    final seasonString =
+        _preference.getString(_UserDataKey.currentSeason) ?? '';
     return AnimeSeason.values.firstWhere((e) => e.toString() == seasonString,
         orElse: () => AnimeSeason.spring);
   }
 
   Future setCurrentSeasonYear(int seasonYear) {
-    return _preference.setInt(UserDataKey.currentSeasonYear, seasonYear);
+    return _preference.setInt(_UserDataKey.currentSeasonYear, seasonYear);
   }
 
   int getCurrentSeasonYear() {
-    return _preference.getInt(UserDataKey.currentSeasonYear) ?? -1;
-  }
-
-  Future setIsNeedShowSuggestBoard(bool showSuggestBoard) {
-    return _preference.setBool(UserDataKey.showSuggestBoard, showSuggestBoard);
-  }
-
-  bool isNeedShowSuggestBoard() {
-    return _preference.getBool(UserDataKey.showSuggestBoard) ?? false;
-  }
-
-  Future setLastSuccessSync(DateTime dateTime) {
-    return _preference.setString(
-        UserDataKey.lastSuccessSync, dateTime.toIso8601String());
-  }
-
-  DateTime? getLastSuccessSync() {
-    final result = _preference.getString(UserDataKey.lastSuccessSync) ?? '';
-    return DateTime.tryParse(result);
+    return _preference.getInt(_UserDataKey.currentSeasonYear) ?? -1;
   }
 
   Future setAuthToken(String? authToken) {
     if (authToken != null) {
-      return _preference.setString(UserDataKey.authToken, authToken);
+      return _preference.setString(_UserDataKey.authToken, authToken);
     } else {
-      return _preference.remove(UserDataKey.authToken);
+      return _preference.remove(_UserDataKey.authToken);
     }
   }
 
   String getAuthToken() {
-    return _preference.getString(UserDataKey.authToken) ?? '';
+    return _preference.getString(_UserDataKey.authToken) ?? '';
   }
 
   Future setAuthExpiredTime(DateTime? dateTime) {
     if (dateTime != null) {
       return _preference.setString(
-          UserDataKey.authExpiredTime, dateTime.toIso8601String());
+          _UserDataKey.authExpiredTime, dateTime.toIso8601String());
     } else {
-      return _preference.remove(UserDataKey.authExpiredTime);
+      return _preference.remove(_UserDataKey.authExpiredTime);
     }
   }
 
   DateTime? getAuthExpiredTime() {
-    final result = _preference.getString(UserDataKey.authExpiredTime) ?? '';
+    final result = _preference.getString(_UserDataKey.authExpiredTime) ?? '';
     return DateTime.tryParse(result);
   }
 
-  UserSettingModel getUserSettingModel() {
-    return UserSettingModel(
-      displayAdultContent:
-          _preference.getBool(UserDataKey.displayAdultContent) ?? false,
-    );
-  }
-
-  Future setIsDisplayAdultContent(bool isDisplayAdultContent) {
-    return _preference.setBool(
-        UserDataKey.displayAdultContent, isDisplayAdultContent);
-  }
-
   MediaType getCurrentMediaType() => MediaType.fromString(
-        _preference.getString(UserDataKey.currentMediaType) ??
+        _preference.getString(_UserDataKey.currentMediaType) ??
             MediaType.anime.jsonString,
       );
 
@@ -129,7 +107,7 @@ class AniFlowPreferences {
 
   Future setCurrentMediaType(MediaType mediaType) async {
     final isChanged = await _preference.setString(
-        UserDataKey.currentMediaType, mediaType.jsonString);
+        _UserDataKey.currentMediaType, mediaType.jsonString);
 
     if (isChanged) {
       _mediaTypeChangeNotifier.notifyChanged();
@@ -138,7 +116,7 @@ class AniFlowPreferences {
 
   Future setActivityScopeCategory(ActivityScopeCategory category) async {
     final isChanged = await _preference.setString(
-        UserDataKey.activityScope, category.toJson());
+        _UserDataKey.activityScope, category.toJson());
 
     if (isChanged) {
       _activityScopeChangeNotifier.notifyChanged();
@@ -147,7 +125,7 @@ class AniFlowPreferences {
 
   ActivityScopeCategory getActivityScopeCategory() {
     return ActivityScopeCategory.fromJson(
-        _preference.getString(UserDataKey.activityScope) ??
+        _preference.getString(_UserDataKey.activityScope) ??
             ActivityScopeCategory.global.toJson());
   }
 
@@ -159,7 +137,7 @@ class AniFlowPreferences {
 
   Future setActivityFilterType(ActivityFilterType category) async {
     final isChanged = await _preference.setString(
-        UserDataKey.activityFilter, category.toJson());
+        _UserDataKey.activityFilter, category.toJson());
 
     if (isChanged) {
       _activityFilterChangeNotifier.notifyChanged();
@@ -168,7 +146,7 @@ class AniFlowPreferences {
 
   ActivityFilterType getActivityFilterType() {
     return ActivityFilterType.fromJson(
-        _preference.getString(UserDataKey.activityFilter) ??
+        _preference.getString(_UserDataKey.activityFilter) ??
             ActivityFilterType.all.toJson());
   }
 
@@ -180,7 +158,7 @@ class AniFlowPreferences {
 
   Future setAuthedUserId(String userId) async {
     bool isChanged =
-        await _preference.setString(UserDataKey.authedUserId, userId);
+        await _preference.setString(_UserDataKey.authedUserId, userId);
 
     if (isChanged) {
       _userIdChangeNotifier.notifyChanged();
@@ -188,12 +166,31 @@ class AniFlowPreferences {
   }
 
   Future clearAuthedUserId() async {
-    await _preference.remove(UserDataKey.authedUserId);
+    await _preference.remove(_UserDataKey.authedUserId);
     _userIdChangeNotifier.notifyChanged();
   }
 
-  String? getAuthedUserId() => _preference.getString(UserDataKey.authedUserId);
+  String? getAuthedUserId() => _preference.getString(_UserDataKey.authedUserId);
 
   Stream<String?> getAuthedUserStream() => StreamUtil.createStream(
       _userIdChangeNotifier, () => Future.value(getAuthedUserId()));
+
+  Future setAniListSettings(AniListSettings setting) async {
+    bool isChanged = await _preference.setString(
+        _UserDataKey.aniListSettingsKey, jsonEncode(setting.toJson()));
+    if (isChanged) {
+      _aniListSettingChangeNotifier.notifyChanged();
+    }
+  }
+
+  AniListSettings getAniListSettings() {
+    final jsonString =
+        _preference.getString(_UserDataKey.aniListSettingsKey) ?? '{}';
+    return AniListSettings.fromJson(jsonDecode(jsonString));
+  }
+
+  Stream<AniListSettings> getAniListSettingsStream() {
+    return StreamUtil.createStream(_aniListSettingChangeNotifier,
+        () => Future.value(getAniListSettings()));
+  }
 }

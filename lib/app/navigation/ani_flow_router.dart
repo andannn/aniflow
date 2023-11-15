@@ -27,11 +27,14 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   bool get showFloatingButton =>
       _backStack.last is DiscoverRoutePath || _backStack.last is TrackRoutePath;
 
-  static AFRouterDelegate of(context) =>
-      Router.of(context).routerDelegate as AFRouterDelegate;
+  static BuildContext? _routerContext;
+
+  static AFRouterDelegate of([BuildContext? context]) =>
+      Router.of(context ?? _routerContext!).routerDelegate as AFRouterDelegate;
 
   @override
   Widget build(BuildContext context) {
+    _routerContext = context;
     return Navigator(
       key: navigatorKey,
       pages: _backStack.map((path) => path.generatePage()).toList(),

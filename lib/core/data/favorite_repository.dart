@@ -18,16 +18,27 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:dio/dio.dart';
 
 abstract class FavoriteRepository {
-  Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage(
-      {required MediaType type, required LoadType loadType, String? userId});
+  Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
+    required MediaType type,
+    required LoadType loadType,
+    String? userId,
+    CancelToken? token,
+  });
 
-  Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage(
-      {required LoadType loadType, String? userId});
+  Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage({
+    required LoadType loadType,
+    String? userId,
+    CancelToken? token,
+  });
 
-  Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage(
-      {required LoadType loadType, String? userId});
+  Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage({
+    required LoadType loadType,
+    String? userId,
+    CancelToken? token,
+  });
 }
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -40,10 +51,12 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   final favoriteDao = AniflowDatabase().getFavoriteDao();
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage(
-      {required MediaType type,
-      required LoadType loadType,
-      String? userId}) async {
+  Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
+    required MediaType type,
+    required LoadType loadType,
+    String? userId,
+    CancelToken? token,
+  }) async {
     userId ??= preferences.getAuthedUserId();
     if (userId == null) {
       return LoadError(const UnauthorizedException());
@@ -58,6 +71,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
             userId: userId!,
             page: page,
             perPage: perPage,
+            token: token,
           );
         } else {
           return aniListDataSource.getFavoriteMangaMedia(
@@ -87,8 +101,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage(
-      {required LoadType loadType, String? userId}) async {
+  Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage({
+    required LoadType loadType,
+    String? userId,
+    CancelToken? token,
+  }) async {
     userId ??= preferences.getAuthedUserId();
     if (userId == null) {
       return LoadError(const UnauthorizedException());
@@ -102,6 +119,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
           userId: userId!,
           page: page,
           perPage: perPage,
+          token: token,
         );
       },
       onInsertEntityToDB: (List<CharacterEntity> entities) async {
@@ -119,8 +137,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage(
-      {required LoadType loadType, String? userId}) async {
+  Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage({
+    required LoadType loadType,
+    String? userId,
+    CancelToken? token,
+  }) async {
     userId ??= preferences.getAuthedUserId();
     if (userId == null) {
       return LoadError(const UnauthorizedException());
@@ -133,6 +154,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
           userId: userId!,
           page: page,
           perPage: perPage,
+          token: token,
         );
       },
       onInsertEntityToDB: (List<StaffEntity> entities) async {

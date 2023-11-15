@@ -215,9 +215,10 @@ class MediaListDaoImpl extends MediaListDao {
       String userId, List<MediaListStatus> status, MediaType type) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(
-        changeSource,
-        () => getMediaListByPage(userId, status,
-            type: type, page: 1, perPage: null));
+      changeSource,
+      () => getMediaListByPage(userId, status,
+          type: type, page: 1, perPage: null),
+    );
   }
 
   @override

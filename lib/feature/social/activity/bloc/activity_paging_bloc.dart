@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/refresh_paging_bloc.dart';
+import 'package:dio/dio.dart';
 
 class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
   ActivityPagingBloc({
@@ -22,14 +23,18 @@ class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
   final ActivityFilterType _filterType;
 
   @override
-  Future<LoadResult<List<ActivityModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<ActivityModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _repository.loadActivitiesByPage(
-        loadType: isRefresh
-            ? const Refresh(Config.activityPageDefaultPerPageCount)
-            : Append(
-                page: page, perPage: Config.activityPageDefaultPerPageCount),
-        filterType: _filterType,
-        scopeType: _userType);
+      loadType: isRefresh
+          ? const Refresh(Config.activityPageDefaultPerPageCount)
+          : Append(page: page, perPage: Config.activityPageDefaultPerPageCount),
+      filterType: _filterType,
+      scopeType: _userType,
+      token: cancelToken
+    );
   }
 }

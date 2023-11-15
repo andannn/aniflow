@@ -13,13 +13,16 @@ import 'package:aniflow/core/database/model/relations/activity_and_user_relation
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class ActivityRepository {
-  Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage(
-      {required LoadType loadType,
-      required ActivityFilterType filterType,
-      required ActivityScopeCategory scopeType});
+  Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
+    required LoadType loadType,
+    required ActivityFilterType filterType,
+    required ActivityScopeCategory scopeType,
+    CancelToken? token,
+  });
 
   Future setActivityFilterType(ActivityFilterType type);
 
@@ -34,10 +37,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
-  Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage(
-      {required LoadType loadType,
-      required ActivityFilterType filterType,
-      required ActivityScopeCategory scopeType}) async {
+  Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
+    required LoadType loadType,
+    required ActivityFilterType filterType,
+    required ActivityScopeCategory scopeType,
+    CancelToken? token,
+  }) async {
     final categoryKey = (filterType, scopeType).combineJsonKey;
     return LoadPageUtil.loadPage(
       type: loadType,
@@ -72,6 +77,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
             type: type,
             hasRepliesOrTypeText: hasRepliesOrTypeText,
           ),
+          token: token,
         );
       },
       onClearDbCache: () => activityDao.clearActivityEntities(categoryKey),

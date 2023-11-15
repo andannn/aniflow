@@ -54,12 +54,6 @@ class DiscoverScreen extends StatelessWidget {
             title: Text(AFLocalizations.of(context).discover),
             actions: [
               LoadingIndicator(isLoading: isLoading),
-              IconButton(
-                onPressed: () {
-                  AFRouterDelegate.of(context).navigateToNotification();
-                },
-                icon: const Icon(Icons.notifications_none),
-              ),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
                 child: IconButton(
@@ -164,41 +158,46 @@ class _MediaCategoryPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget itemBuilder(MediaModel model) {
+      final language =
+          context.read<DiscoverBloc>().state.settings?.userTitleLanguage;
       return MediaPreviewItem(
         width: 160,
         textStyle: Theme.of(context).textTheme.titleSmall,
         coverImage: model.coverImage,
-        title: model.title!.getLocalTitle(context),
+        title: model.title!.getTitle(language),
         isFollowing: model.isFollowing,
         titleVerticalPadding: 5,
         onClick: () => onAnimeClick?.call(model.id),
       );
     }
 
-    return Column(children: [
-      _buildTitleBar(context),
-      const SizedBox(height: 4),
-      Container(
-        child: isLoading && animeModels.isEmpty
-            ? Container(
-                constraints: const BoxConstraints(maxHeight: 260),
-                child: _buildLoadingDummyWidget(),
-              )
-            : SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children:
-                          animeModels.map((item) => itemBuilder(item)).toList(),
+    return Column(
+      children: [
+        _buildTitleBar(context),
+        const SizedBox(height: 4),
+        Container(
+          child: isLoading && animeModels.isEmpty
+              ? Container(
+                  constraints: const BoxConstraints(maxHeight: 260),
+                  child: _buildLoadingDummyWidget(),
+                )
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: animeModels
+                            .map((item) => itemBuilder(item))
+                            .toList(),
+                      ),
                     ),
                   ),
                 ),
-              ),
-      ),
-    ]);
+        ),
+      ],
+    );
   }
 
   Widget _buildTitleBar(BuildContext context) {

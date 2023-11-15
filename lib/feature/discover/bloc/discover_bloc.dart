@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
@@ -43,6 +44,12 @@ class _OnUserDataChanged extends DiscoverEvent {
   final UserModel? userData;
 }
 
+class _OnAniListSettingsChanged extends DiscoverEvent {
+  _OnAniListSettingsChanged(this.settings);
+
+  final AniListSettings settings;
+}
+
 class _OnTrackingMediaIdsChanged extends DiscoverEvent {
   _OnTrackingMediaIdsChanged(this.ids);
 
@@ -79,6 +86,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
+    on<_OnAniListSettingsChanged>(_onAniListSettingsChanged);
     on<_OnTrackingMediaIdsChanged>(_onTrackingMediaIdsChanged);
     on<_OnMediaTypeChanged>(_onMediaTypeChanged);
     on<_OnLoadStateChanged>(_onLoadStateChanged);
@@ -92,6 +100,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   final MediaListRepository _mediaListRepository;
 
   StreamSubscription? _userDataSub;
+  StreamSubscription? _settingsSub;
   StreamSubscription? _mediaTypeSub;
   StreamSubscription? _trackedMediaIdsSub;
 
@@ -101,15 +110,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   final Set<MediaType> _syncedMediaTypes = {};
 
   @override
-  void onChange(Change<DiscoverUiState> change) {
-    super.onChange(change);
-  }
-
-  @override
   Future<void> close() {
     _userDataSub?.cancel();
     _trackedMediaIdsSub?.cancel();
     _mediaTypeSub?.cancel();
+    _settingsSub?.cancel();
 
     return super.close();
   }
@@ -137,6 +142,12 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       (mediaType) {
         logger.d(mediaType);
         add(_OnMediaTypeChanged(mediaType));
+      },
+    );
+
+    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
+      (settings) {
+        add(_OnAniListSettingsChanged(settings));
       },
     );
   }
@@ -237,20 +248,24 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
   Future<void> _onUserDataChanged(
       _OnUserDataChanged event, Emitter<DiscoverUiState> emit) async {
-    emit(state.copyWith(userData: event.userData));
-
     if (event.userData != null) {
-      _userId = event.userData!.id;
+      if (_userId != event.userData!.id) {
+        /// user id changed, start listen following anime changed.
+        _userId = event.userData!.id;
+        _startListenFollowingIds();
 
-      /// user login, start listen following anime changed.
-      _startListenFollowingIds();
+        /// post event to sync user anime list.
+        unawaited(_syncAllMediaList(event.userData!.id));
 
-      /// post event to sync user anime list.
-      unawaited(_syncAllMediaList(event.userData!.id));
+        /// post event to update user settings.
+        unawaited(_authRepository.updateUserSettings());
+      }
     } else {
       /// user logout, cancel following stream.
       await _trackedMediaIdsSub?.cancel();
     }
+
+    emit(state.copyWith(userData: event.userData));
   }
 
   FutureOr<void> _onTrackingMediaIdsChanged(
@@ -295,5 +310,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
           status: [MediaListStatus.current, MediaListStatus.planning],
           mediaType: MediaType.anime),
     ]);
+  }
+
+  FutureOr<void> _onAniListSettingsChanged(
+      _OnAniListSettingsChanged event, Emitter<DiscoverUiState> emit) {
+    emit(state.copyWith(settings: event.settings));
   }
 }

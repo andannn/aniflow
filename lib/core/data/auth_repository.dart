@@ -1,13 +1,18 @@
 import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
+import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/setting/user_title_language.dart';
+import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _clientId = '14409';
@@ -22,7 +27,15 @@ abstract class AuthRepository {
 
   Stream<UserModel?> getAuthedUserStream();
 
+  Future<LoadResult> updateUserSettings({
+    UserTitleLanguage? userTitleLanguage,
+    bool? displayAdultContent,
+    CancelToken? token,
+  });
+
   Future logout();
+
+  Stream<AniListSettings> getAniListSettingsStream();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -55,14 +68,17 @@ class AuthRepositoryImpl implements AuthRepository {
         await preferences.setAuthToken(authResult.token);
         await preferences.setAuthExpiredTime(
           DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime),
+            DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
+          ),
         );
 
         /// retrieve user data from ani list api;
-        final userDto = await authDataSource.getUserDataDto();
-        final userEntity = UserEntity.fromNetworkModel(userDto);
+        final userDto = await authDataSource.getAuthedUserDataDto();
+        final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
         await preferences.setAuthedUserId(userEntity.id);
+        await preferences
+            .setAniListSettings(AniListSettings.fromDto(userDto.options!));
 
         /// login success.
         return true;
@@ -90,7 +106,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Stream<UserModel?> getAuthedUserStream() {
     Stream<String?> userIdStream = preferences.getAuthedUserStream();
-
     return userIdStream.asyncMap((userId) async {
       if (userId == null) {
         return null;
@@ -99,5 +114,47 @@ class AuthRepositoryImpl implements AuthRepository {
         return UserModel.fromEntity(userEntity);
       }
     });
+  }
+
+  @override
+  Stream<AniListSettings> getAniListSettingsStream() {
+    return preferences.getAniListSettingsStream();
+  }
+
+  @override
+  Future<LoadResult> updateUserSettings({
+    UserTitleLanguage? userTitleLanguage,
+    bool? displayAdultContent,
+    CancelToken? token,
+  }) async {
+    AniListSettings oldSettings = preferences.getAniListSettings();
+    AniListSettings newSettings = preferences.getAniListSettings();
+    if (userTitleLanguage != null) {
+      newSettings = newSettings.copyWith(userTitleLanguage: userTitleLanguage);
+    }
+    if (displayAdultContent != null) {
+      newSettings =
+          newSettings.copyWith(displayAdultContent: displayAdultContent);
+    }
+    await preferences.setAniListSettings(newSettings);
+
+    try {
+      final user = await authDataSource.updateUserSettings(
+        param: UpdateUserMotionParam(
+          titleLanguage: userTitleLanguage,
+          displayAdultContent: displayAdultContent,
+        ),
+        token: token,
+      );
+
+      /// update setting again after network motion success.
+      await preferences
+          .setAniListSettings(AniListSettings.fromDto(user.options!));
+      return LoadSuccess(data: null);
+    } on Exception catch (exception) {
+      /// revert setting changed when network error.
+      await preferences.setAniListSettings(oldSettings);
+      return LoadError(exception);
+    }
   }
 }

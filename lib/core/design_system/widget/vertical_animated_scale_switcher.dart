@@ -1,4 +1,4 @@
-import 'package:aniflow/core/design_system/animetion/scale_transaction_animetion.dart';
+import 'package:aniflow/core/design_system/animation/scale_transaction_animation.dart';
 import 'package:flutter/material.dart';
 
 class VerticalScaleSwitcher extends StatelessWidget {

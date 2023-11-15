@@ -23,7 +23,7 @@ _$_TextActivityDto _$$_TextActivityDtoFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] as int?,
       user: json['user'] == null
           ? null
-          : UserDataDto.fromJson(json['user'] as Map<String, dynamic>),
+          : UserDto.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TextActivityDtoToJson(_$_TextActivityDto instance) =>

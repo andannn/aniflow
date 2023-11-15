@@ -12,6 +12,7 @@ _$_UserEntity _$$_UserEntityFromJson(Map<String, dynamic> json) =>
       name: json['user_data_name'] as String? ?? '',
       avatar: json['user_data_avatar_image'] as String? ?? '',
       bannerImage: json['user_data_banner_image'] as String?,
+      profileColor: json['user_data_profile_color'] as String?,
     );
 
 Map<String, dynamic> _$$_UserEntityToJson(_$_UserEntity instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$_UserEntityToJson(_$_UserEntity instance) =>
       'user_data_name': instance.name,
       'user_data_avatar_image': instance.avatar,
       'user_data_banner_image': instance.bannerImage,
+      'user_data_profile_color': instance.profileColor,
     };

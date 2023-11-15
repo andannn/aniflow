@@ -18,7 +18,7 @@ _$_ActivityReplySubscribedNotificationDto
           createdAt: json['createdAt'] as int?,
           user: json['user'] == null
               ? null
-              : UserDataDto.fromJson(json['user'] as Map<String, dynamic>),
+              : UserDto.fromJson(json['user'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$_ActivityReplySubscribedNotificationDtoToJson(

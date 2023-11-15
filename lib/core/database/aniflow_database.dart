@@ -147,7 +147,9 @@ class AniflowDatabase {
         '${UserDataTableColumns.id} text primary key,'
         '${UserDataTableColumns.name} text,'
         '${UserDataTableColumns.avatarImage} text,'
-        '${UserDataTableColumns.bannerImage} text)');
+        '${UserDataTableColumns.bannerImage} text,'
+        '${UserDataTableColumns.profileColor} text'
+        ')');
 
     batch.execute('create table if not exists ${Tables.characterTable} ('
         '${CharacterColumns.id} text primary key,'

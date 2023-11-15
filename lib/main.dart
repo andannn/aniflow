@@ -54,5 +54,5 @@ void main() async {
     RepositoryProvider<NotificationRepository>(
       create: (context) => NotificationRepositoryImpl(),
     ),
-  ], child: const AnimeTrackerApp()));
+  ], child: const AniFlowApp()));
 }

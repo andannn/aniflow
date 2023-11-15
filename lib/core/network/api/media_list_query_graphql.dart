@@ -36,7 +36,7 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
           native
         }
         type
-        description(asHtml: true)
+        description(asHtml: false)
         episodes
         seasonYear
         season

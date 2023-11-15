@@ -10,7 +10,7 @@ _$_ThreadDto _$$_ThreadDtoFromJson(Map<String, dynamic> json) => _$_ThreadDto(
       id: json['id'] as int? ?? -1,
       user: json['user'] == null
           ? null
-          : UserDataDto.fromJson(json['user'] as Map<String, dynamic>),
+          : UserDto.fromJson(json['user'] as Map<String, dynamic>),
       body: json['body'] as String?,
       replyCommentId: json['replyCommentId'] as int?,
       replyCount: json['replyCount'] as int?,

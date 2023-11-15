@@ -28,6 +28,7 @@ abstract class MediaListRepository {
     required int page,
     required int perPage,
     String? userId,
+    CancelToken? token,
   });
 
   Stream<List<MediaListItemModel>> getMediaListStream(
@@ -36,10 +37,12 @@ abstract class MediaListRepository {
       required MediaType type});
 
   /// Sync mediaList by [mediaType] with 50 limit.
-  Future<LoadResult<void>> syncMediaList(
-      {String? userId,
-      List<MediaListStatus> status = const [],
-      MediaType? mediaType});
+  Future<LoadResult<void>> syncMediaList({
+    String? userId,
+    List<MediaListStatus> status = const [],
+    MediaType? mediaType,
+    CancelToken? token,
+  });
 
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
       {required String userId,
@@ -49,12 +52,14 @@ abstract class MediaListRepository {
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String animeId});
 
-  Future<LoadResult<void>> updateMediaList(
-      {required String animeId,
-      required MediaListStatus status,
-      String? entryId,
-      int? progress,
-      int? score});
+  Future<LoadResult<void>> updateMediaList({
+    required String animeId,
+    required MediaListStatus status,
+    String? entryId,
+    int? progress,
+    int? score,
+    CancelToken? cancelToken,
+  });
 }
 
 class MediaListRepositoryImpl extends MediaListRepository {
@@ -73,6 +78,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     required int page,
     required int perPage,
     String? userId,
+    CancelToken? token,
   }) async {
     final targetUserId = userId ?? preferences.getAuthedUserId();
     if (targetUserId == null) {
@@ -90,6 +96,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
             mediaType: type,
             status: status,
           ),
+          token: token,
         );
       },
       page: page,
@@ -104,10 +111,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Future<LoadResult<void>> syncMediaList(
-      {String? userId,
-      List<MediaListStatus> status = const [],
-      MediaType? mediaType}) async {
+  Future<LoadResult<void>> syncMediaList({
+    String? userId,
+    List<MediaListStatus> status = const [],
+    MediaType? mediaType,
+    CancelToken? token,
+  }) async {
     try {
       final targetUserId = userId ?? preferences.getAuthedUserId();
       if (targetUserId == null) {
@@ -124,9 +133,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
           status: status,
           userId: int.parse(targetUserId.toString()),
         ),
+        token: token,
       );
-
-      // await mediaListDao.deleteMediaListOfUser(targetUserId);
 
       /// insert data to db.
       final entities = networkAnimeList
@@ -169,12 +177,14 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }
 
   @override
-  Future<LoadResult<void>> updateMediaList(
-      {required String animeId,
-      required MediaListStatus status,
-      String? entryId,
-      int? progress,
-      int? score}) async {
+  Future<LoadResult<void>> updateMediaList({
+    required String animeId,
+    required MediaListStatus status,
+    String? entryId,
+    int? progress,
+    int? score,
+    CancelToken? cancelToken,
+  }) async {
     final entity =
         await mediaListDao.getMediaListItem(mediaId: animeId, entryId: entryId);
     final targetUserId = preferences.getAuthedUserId();
@@ -201,12 +211,15 @@ class MediaListRepositoryImpl extends MediaListRepository {
     try {
       /// post mutation to network and insert result to database.
       final result = await authDataSource.saveMediaToMediaList(
-          MediaListMutationParam(
-              entryId: int.tryParse(entryId ?? ''),
-              mediaId: int.parse(animeId),
-              progress: progress,
-              status: status,
-              score: 0));
+        param: MediaListMutationParam(
+          entryId: int.tryParse(entryId ?? ''),
+          mediaId: int.parse(animeId),
+          progress: progress,
+          status: status,
+          score: 0,
+        ),
+        token: cancelToken,
+      );
       final updateEntity = MediaListEntity.fromNetworkModel(result);
       await mediaListDao.insertMediaListEntities([updateEntity]);
       mediaListDao.notifyMediaListChanged(targetUserId);

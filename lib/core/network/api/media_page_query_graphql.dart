@@ -15,19 +15,26 @@ class AnimePageQueryParam {
   final MediaType type;
   final List<MediaSort> animeSort;
   final List<AnimeFormat> animeFormat;
+  final bool? isAdult;
 
-  AnimePageQueryParam(
-      {required this.type,
-      this.seasonYear,
-      this.season,
-      this.countryCode,
-      this.status,
-      this.animeSort = const [],
-      this.animeFormat = const []});
+  AnimePageQueryParam({
+    required this.type,
+    this.seasonYear,
+    this.season,
+    this.countryCode,
+    this.status,
+    this.animeSort = const [],
+    this.animeFormat = const [],
+    this.isAdult,
+  });
 }
 
 AnimePageQueryParam createAnimePageQueryParam(
-    MediaCategory category, AnimeSeason currentSeason, int currentSeasonYear) {
+  MediaCategory category,
+  AnimeSeason currentSeason,
+  int currentSeasonYear,
+  bool showAdultContents,
+) {
   MediaStatus? status;
   AnimeSeasonParam? seasonParam;
   MediaType type = getMediaTypeByCategory(category);
@@ -84,13 +91,14 @@ AnimePageQueryParam createAnimePageQueryParam(
     status: status,
     animeSort: sorts,
     animeFormat: format,
+    isAdult: showAdultContents == false ? false: null,
   );
 }
 
 String get animeListQueryGraphQLString => '''
-query (\$page: Int, \$perPage: Int, \$type: MediaType, \$countryCode: CountryCode, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat]) {
+query (\$page: Int, \$perPage: Int, \$type: MediaType, \$countryCode: CountryCode, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat], \$isAdult: Boolean) {
   Page(page: \$page, perPage: \$perPage) {
-    media: media(type: \$type, countryOfOrigin: \$countryCode, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in) {
+    media: media(type: \$type, countryOfOrigin: \$countryCode, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in, isAdult: \$isAdult) {
       $mediaContentQueryGraphql
     }
   }

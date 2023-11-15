@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/refresh_paging_bloc.dart';
+import 'package:dio/dio.dart';
 
 class FavoriteCharacterPagingBloc extends RefreshPagingBloc<CharacterModel> {
   FavoriteCharacterPagingBloc(
@@ -18,13 +19,17 @@ class FavoriteCharacterPagingBloc extends RefreshPagingBloc<CharacterModel> {
   final FavoriteRepository _favoriteRepository;
 
   @override
-  Future<LoadResult<List<CharacterModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<CharacterModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _favoriteRepository.loadFavoriteCharacterByPage(
       userId: userId,
       loadType: isRefresh
           ? const Refresh(Config.profilePageDefaultPerPageCount)
           : Append(page: page, perPage: Config.profilePageDefaultPerPageCount),
+      token: cancelToken,
     );
   }
 }

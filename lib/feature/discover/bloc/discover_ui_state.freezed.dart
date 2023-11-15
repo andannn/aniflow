@@ -21,6 +21,7 @@ mixin _$DiscoverUiState {
       throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
   UserModel? get userData => throw _privateConstructorUsedError;
+  AniListSettings? get settings => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DiscoverUiStateCopyWith<DiscoverUiState> get copyWith =>
@@ -37,9 +38,11 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
       {bool isLoading,
       Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       MediaType currentMediaType,
-      UserModel? userData});
+      UserModel? userData,
+      AniListSettings? settings});
 
   $UserModelCopyWith<$Res>? get userData;
+  $AniListSettingsCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -59,6 +62,7 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
     Object? categoryMediaMap = null,
     Object? currentMediaType = null,
     Object? userData = freezed,
+    Object? settings = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -77,6 +81,10 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      settings: freezed == settings
+          ? _value.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as AniListSettings?,
     ) as $Val);
   }
 
@@ -89,6 +97,18 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
 
     return $UserModelCopyWith<$Res>(_value.userData!, (value) {
       return _then(_value.copyWith(userData: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AniListSettingsCopyWith<$Res>? get settings {
+    if (_value.settings == null) {
+      return null;
+    }
+
+    return $AniListSettingsCopyWith<$Res>(_value.settings!, (value) {
+      return _then(_value.copyWith(settings: value) as $Val);
     });
   }
 }
@@ -105,10 +125,13 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
       {bool isLoading,
       Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       MediaType currentMediaType,
-      UserModel? userData});
+      UserModel? userData,
+      AniListSettings? settings});
 
   @override
   $UserModelCopyWith<$Res>? get userData;
+  @override
+  $AniListSettingsCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -126,6 +149,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
     Object? categoryMediaMap = null,
     Object? currentMediaType = null,
     Object? userData = freezed,
+    Object? settings = freezed,
   }) {
     return _then(_$_DiscoverUiState(
       isLoading: null == isLoading
@@ -144,6 +168,10 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      settings: freezed == settings
+          ? _value.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as AniListSettings?,
     ));
   }
 }
@@ -164,7 +192,8 @@ class _$_DiscoverUiState implements _DiscoverUiState {
         MediaCategory.topManhwa: PageLoading(data: [], page: 1)
       },
       this.currentMediaType = MediaType.anime,
-      this.userData})
+      this.userData,
+      this.settings})
       : _categoryMediaMap = categoryMediaMap;
 
   @override
@@ -184,10 +213,12 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   final MediaType currentMediaType;
   @override
   final UserModel? userData;
+  @override
+  final AniListSettings? settings;
 
   @override
   String toString() {
-    return 'DiscoverUiState(isLoading: $isLoading, categoryMediaMap: $categoryMediaMap, currentMediaType: $currentMediaType, userData: $userData)';
+    return 'DiscoverUiState(isLoading: $isLoading, categoryMediaMap: $categoryMediaMap, currentMediaType: $currentMediaType, userData: $userData, settings: $settings)';
   }
 
   @override
@@ -202,7 +233,9 @@ class _$_DiscoverUiState implements _DiscoverUiState {
             (identical(other.currentMediaType, currentMediaType) ||
                 other.currentMediaType == currentMediaType) &&
             (identical(other.userData, userData) ||
-                other.userData == userData));
+                other.userData == userData) &&
+            (identical(other.settings, settings) ||
+                other.settings == settings));
   }
 
   @override
@@ -211,7 +244,8 @@ class _$_DiscoverUiState implements _DiscoverUiState {
       isLoading,
       const DeepCollectionEquality().hash(_categoryMediaMap),
       currentMediaType,
-      userData);
+      userData,
+      settings);
 
   @JsonKey(ignore: true)
   @override
@@ -225,7 +259,8 @@ abstract class _DiscoverUiState implements DiscoverUiState {
       {final bool isLoading,
       final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       final MediaType currentMediaType,
-      final UserModel? userData}) = _$_DiscoverUiState;
+      final UserModel? userData,
+      final AniListSettings? settings}) = _$_DiscoverUiState;
 
   @override
   bool get isLoading;
@@ -235,6 +270,8 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   MediaType get currentMediaType;
   @override
   UserModel? get userData;
+  @override
+  AniListSettings? get settings;
   @override
   @JsonKey(ignore: true)
   _$$_DiscoverUiStateCopyWith<_$_DiscoverUiState> get copyWith =>

@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:dio/dio.dart';
 
 class CharacterPageBloc extends PagingBloc<CharacterAndVoiceActorModel> {
   CharacterPageBloc(
@@ -19,12 +20,14 @@ class CharacterPageBloc extends PagingBloc<CharacterAndVoiceActorModel> {
 
   @override
   Future<LoadResult<List<CharacterAndVoiceActorModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+      {required int page, bool isRefresh = false,
+        CancelToken? cancelToken,}) {
     return _mediaInfoRepository.loadCharacterPageByAnimeId(
       animeId: animeId,
       loadType: isRefresh
           ? const Refresh()
           : Append(page: page, perPage: Config.defaultPerPageCount),
+      token: cancelToken,
     );
   }
 }

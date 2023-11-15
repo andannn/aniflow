@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_title_modle.freezed.dart';
@@ -18,15 +18,26 @@ class MediaTitle with _$MediaTitle {
 }
 
 extension MediaTitleEx on MediaTitle {
-  String getLocalTitle(BuildContext context) {
-    final appLocale = Localizations.localeOf(context);
-    switch (appLocale.languageCode) {
-      case 'Jpan':
-      case 'ja':
-      case 'zh':
-        return native;
+  String getTitle(UserTitleLanguage? language) {
+    String title = '';
+    switch (language) {
+      case UserTitleLanguage.romaji:
+        title = romaji;
+      case UserTitleLanguage.english:
+        title = english;
+      case UserTitleLanguage.native:
+        title = native;
       default:
-        return english.isNotEmpty ? english : romaji;
     }
+    if (title.isEmpty) {
+      title = native;
+    }
+    if (title.isEmpty) {
+      title = romaji;
+    }
+    if (title.isEmpty) {
+      title = english;
+    }
+    return title;
   }
 }

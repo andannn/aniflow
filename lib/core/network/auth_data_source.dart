@@ -8,7 +8,7 @@ import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/notification.dart';
-import 'package:aniflow/core/network/model/user_data_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -47,19 +47,47 @@ class AuthDataSource {
     return true;
   }
 
-  Future<UserDataDto> getUserDataDto() async {
+  Future<UserDto> getAuthedUserDataDto() async {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
-          queryParameters: {'query': userInfoMotionGraphQLString},
+          queryParameters: {'query': updateUserMotionGraphQLString},
           options: createQueryOptions(_token),
         );
 
     final resultJson = response.data['data']['UpdateUser'];
-    return UserDataDto.fromJson(resultJson);
+    return UserDto.fromJson(resultJson);
   }
 
-  Future<MediaListDto> saveMediaToMediaList(
-      MediaListMutationParam param) async {
+  Future<UserDto> updateUserSettings({
+    required UpdateUserMotionParam param,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = updateUserMotionGraphQLString;
+    final hasTitleLanguage = param.titleLanguage != null;
+    final hasDisplayAdultContent = param.displayAdultContent != null;
+    final variablesMap = <String, dynamic>{};
+    if (hasTitleLanguage) {
+      variablesMap['titleLanguage'] = param.titleLanguage;
+    }
+    if (hasDisplayAdultContent) {
+      variablesMap['displayAdultContent'] = param.displayAdultContent;
+    }
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+          cancelToken: token,
+        );
+
+    final resultJson = response.data['data']['UpdateUser'];
+    return UserDto.fromJson(resultJson);
+  }
+
+  Future<MediaListDto> saveMediaToMediaList({
+    required MediaListMutationParam param,
+    CancelToken? token,
+  }) async {
     final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,
     };
@@ -76,48 +104,44 @@ class AuthDataSource {
       variablesMap['score'] = param.score;
     }
 
-    try {
-      final response = await AniListDio().dio.post(
-            AniListDio.aniListUrl,
-            data: {
-              'query': saveMediaListMotionGraphQLString,
-              'variables': variablesMap,
-            },
-            options: createQueryOptions(_token),
-          );
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          data: {
+            'query': saveMediaListMotionGraphQLString,
+            'variables': variablesMap,
+          },
+          options: createQueryOptions(_token),
+          cancelToken: token,
+        );
 
-      Map<String, dynamic> resultJson =
-          response.data['data']['SaveMediaListEntry'];
-      return MediaListDto.fromJson(resultJson);
-    } on DioException catch (e) {
-      throw e.covertToNetWorkException();
-    }
+    Map<String, dynamic> resultJson =
+        response.data['data']['SaveMediaListEntry'];
+    return MediaListDto.fromJson(resultJson);
   }
 
-  Future<List<AniNotification>> getNotifications(
-      NotificationQueryParam param) async {
+  Future<List<AniNotification>> getNotifications({
+    required NotificationQueryParam param,
+    CancelToken? token,
+  }) async {
     final variablesMap = <String, dynamic>{
       'page': param.page,
       'perPage': param.perPage,
       'type_in': param.type.map((e) => e.typeName).toList(),
     };
 
-    try {
-      final response = await AniListDio().dio.post(
-        AniListDio.aniListUrl,
-        options: _createQueryOptions(),
-        data: {
-          'query': notificationQueryGraphql,
-          'variables': variablesMap,
-        },
-      );
-      List resultJson = response.data['data']['Page']['notifications'];
-      return resultJson
-          .map((e) => AniNotification.mapToAniNotification(e))
-          .toList();
-    } on DioException catch (e) {
-      throw e.covertToNetWorkException();
-    }
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          options: _createQueryOptions(),
+          data: {
+            'query': notificationQueryGraphql,
+            'variables': variablesMap,
+          },
+          cancelToken: token,
+        );
+    List resultJson = response.data['data']['Page']['notifications'];
+    return resultJson
+        .map((e) => AniNotification.mapToAniNotification(e))
+        .toList();
   }
 
   Options _createQueryOptions() {

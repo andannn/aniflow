@@ -11,6 +11,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 
 class _OnTrackingAnimeIdsChanged<T> extends PagingEvent<T> {
   final Set<String> ids;
@@ -76,13 +77,17 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   }
 
   @override
-  Future<LoadResult<List<MediaModel>>> loadPage(
-      {required int page, bool isRefresh = false}) {
+  Future<LoadResult<List<MediaModel>>> loadPage({
+    required int page,
+    bool isRefresh = false,
+    CancelToken? cancelToken,
+  }) {
     return _mediaInfoRepository.loadMediaPageByCategory(
       category: category,
       loadType: isRefresh
           ? const Refresh()
           : Append(page: page, perPage: Config.defaultPerPageCount),
+      token: cancelToken,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter/material.dart';
 
 class AiringMediaItem extends StatelessWidget {
@@ -18,6 +19,7 @@ class AiringMediaItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model.animeModel,
+        language: AniFlowPreferences().getAniListSettings().userTitleLanguage,
         watchInfoTextColor: colorScheme.primary,
         watchingInfo: _buildWatchingInfoLabel(model),
         titleMaxLines: null,

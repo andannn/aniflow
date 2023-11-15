@@ -1,14 +1,17 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
+import 'package:aniflow/feature/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum _OptionColumn {
   settings,
+  notification,
   about;
 }
 
@@ -114,10 +117,14 @@ class _AuthDialogContent extends StatelessWidget {
       case _OptionColumn.about:
         iconData = Icons.info_outline;
         label = 'About';
+      case _OptionColumn.notification:
+        iconData = Icons.notifications_none;
+        label = 'Notification';
     }
     final color = Theme.of(context).colorScheme.onSurfaceVariant;
     return InkWell(
       onTap: () => _onOptionTap(context, option, userData),
+      customBorder: const StadiumBorder(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 10),
         child: Row(
@@ -143,6 +150,11 @@ class _AuthDialogContent extends StatelessWidget {
       BuildContext context, _OptionColumn option, UserModel? userData) {
     switch (option) {
       case _OptionColumn.settings:
+        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).push(SettingsPageRoute());
+      case _OptionColumn.notification:
+        Navigator.pop(context);
+        AFRouterDelegate.of().navigateToNotification();
       case _OptionColumn.about:
     }
   }
