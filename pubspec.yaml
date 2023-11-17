@@ -72,6 +72,9 @@ dependencies:
   connectivity_plus: ^5.0.1
   flutter_rating_bar: ^4.0.1
   flutter_emoji: ^2.5.1
+  firebase_core: ^2.22.0
+  firebase_analytics: ^10.7.0
+  firebase_crashlytics: ^3.4.6
 
 dev_dependencies:
   flutter_test:
