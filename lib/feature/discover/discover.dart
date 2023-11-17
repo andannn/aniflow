@@ -130,7 +130,7 @@ class DiscoverScreen extends StatelessWidget {
         category: category,
         animeModels: animeModels,
         isLoading: isLoading,
-        onMoreClick: () {
+        onMoreClick: () async {
           AFRouterDelegate.of(context).navigateToAnimeList(category);
         },
         onAnimeClick: (id) {
