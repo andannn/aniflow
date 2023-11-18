@@ -9,16 +9,14 @@ class StaffModel with _$StaffModel {
     @Default('') String id,
     @Default('') String voiceActorId,
     @Default('') String image,
-    @Default('') String nameEnglish,
-    @Default('') String nameNative,
+    @Default('') String name,
   }) = _StaffModel;
 
   static StaffModel fromDatabaseEntity(StaffEntity entity) {
     return StaffModel(
       id: entity.id,
       image: entity.image ?? '',
-      nameEnglish: entity.nameEnglish ?? '',
-      nameNative: entity.nameNative ?? '',
+      name: entity.name ?? '',
     );
   }
 }

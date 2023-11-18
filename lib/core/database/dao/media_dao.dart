@@ -97,8 +97,7 @@ mixin MediaCategoryCrossRefColumns {
 mixin CharacterColumns {
   static const String id = 'character_id';
   static const String image = 'character_image';
-  static const String nameEnglish = 'character_name_english';
-  static const String nameNative = 'character_name_native';
+  static const String name = 'character_name';
 }
 
 /// [Tables.characterVoiceActorCrossRefTable]
@@ -114,8 +113,7 @@ mixin CharacterVoiceActorCrossRefColumns {
 mixin StaffColumns {
   static const String id = 'staff_id';
   static const String image = 'staff_image';
-  static const String nameEnglish = 'staff_name_english';
-  static const String nameNative = 'staff_name_native';
+  static const String name = 'staff_name';
 }
 
 /// [Tables.mediaCharacterCrossRefTable]

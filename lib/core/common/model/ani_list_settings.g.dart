@@ -14,6 +14,9 @@ _$AniListSettingsImpl _$$AniListSettingsImplFromJson(
           ? UserTitleLanguage.native
           : UserTitleLanguage.fromJson(
               json['user_title_language_key'] as String),
+      userStaffNameLanguage: $enumDecodeNullable(
+              _$UserStaffNameLanguageEnumMap, json['userStaffNameLanguage']) ??
+          UserStaffNameLanguage.native,
     );
 
 Map<String, dynamic> _$$AniListSettingsImplToJson(
@@ -21,4 +24,11 @@ Map<String, dynamic> _$$AniListSettingsImplToJson(
     <String, dynamic>{
       'display_adult_content_key': instance.displayAdultContent,
       'user_title_language_key': instance.userTitleLanguage,
+      'userStaffNameLanguage': instance.userStaffNameLanguage,
     };
+
+const _$UserStaffNameLanguageEnumMap = {
+  UserStaffNameLanguage.romajiWestern: 'ROMAJI_WESTERN',
+  UserStaffNameLanguage.romaji: 'ROMAJI',
+  UserStaffNameLanguage.native: 'NATIVE',
+};

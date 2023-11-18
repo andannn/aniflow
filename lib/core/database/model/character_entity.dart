@@ -12,9 +12,7 @@ class CharacterEntity with _$CharacterEntity {
   factory CharacterEntity({
     @Default('') @JsonKey(name: CharacterColumns.id) String id,
     @Default('') @JsonKey(name: CharacterColumns.image) String? image,
-    @JsonKey(name: CharacterColumns.nameEnglish)
-    String? nameEnglish,
-    @JsonKey(name: CharacterColumns.nameNative) String? nameNative,
+    @JsonKey(name: CharacterColumns.name) String? name,
   }) = _CharacterEntity;
 
   factory CharacterEntity.fromJson(Map<String, dynamic> json) =>
@@ -24,8 +22,7 @@ class CharacterEntity with _$CharacterEntity {
     return CharacterEntity(
       id: e.characterNode!.id.toString(),
       image: e.characterNode!.image['large'],
-      nameNative: e.characterNode!.name['native'],
-      nameEnglish: e.characterNode!.name['full'],
+      name: e.characterNode!.name['userPreferred'],
     );
   }
 
@@ -33,8 +30,7 @@ class CharacterEntity with _$CharacterEntity {
     return CharacterEntity(
       id: e.id.toString(),
       image: e.image['large'],
-      nameNative: e.name['native'],
-      nameEnglish: e.name['full'],
+      name: e.name['userPreferred'],
     );
   }
 }

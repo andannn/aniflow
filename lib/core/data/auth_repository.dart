@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -29,6 +30,7 @@ abstract class AuthRepository {
 
   Future<LoadResult> updateUserSettings({
     UserTitleLanguage? userTitleLanguage,
+    UserStaffNameLanguage? userStaffNameLanguage,
     bool? displayAdultContent,
     CancelToken? token,
   });
@@ -124,6 +126,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<LoadResult> updateUserSettings({
     UserTitleLanguage? userTitleLanguage,
+    UserStaffNameLanguage? userStaffNameLanguage,
     bool? displayAdultContent,
     CancelToken? token,
   }) async {
@@ -136,6 +139,10 @@ class AuthRepositoryImpl implements AuthRepository {
       newSettings =
           newSettings.copyWith(displayAdultContent: displayAdultContent);
     }
+    if (userStaffNameLanguage != null) {
+      newSettings =
+          newSettings.copyWith(userStaffNameLanguage: userStaffNameLanguage);
+    }
     await preferences.setAniListSettings(newSettings);
 
     try {
@@ -143,6 +150,7 @@ class AuthRepositoryImpl implements AuthRepository {
         param: UpdateUserMotionParam(
           titleLanguage: userTitleLanguage,
           displayAdultContent: displayAdultContent,
+          userStaffNameLanguage: userStaffNameLanguage
         ),
         token: token,
       );

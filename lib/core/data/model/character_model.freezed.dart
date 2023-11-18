@@ -18,8 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CharacterModel {
   String get id => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String get nameEnglish => throw _privateConstructorUsedError;
-  String get nameNative => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CharacterModelCopyWith<CharacterModel> get copyWith =>
@@ -32,7 +31,7 @@ abstract class $CharacterModelCopyWith<$Res> {
           CharacterModel value, $Res Function(CharacterModel) then) =
       _$CharacterModelCopyWithImpl<$Res, CharacterModel>;
   @useResult
-  $Res call({String id, String image, String nameEnglish, String nameNative});
+  $Res call({String id, String image, String name});
 }
 
 /// @nodoc
@@ -50,8 +49,7 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -62,13 +60,9 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -82,7 +76,7 @@ abstract class _$$CharacterModelImplCopyWith<$Res>
       __$$CharacterModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String image, String nameEnglish, String nameNative});
+  $Res call({String id, String image, String name});
 }
 
 /// @nodoc
@@ -98,8 +92,7 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
     return _then(_$CharacterModelImpl(
       id: null == id
@@ -110,13 +103,9 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -125,11 +114,7 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CharacterModelImpl implements _CharacterModel {
-  _$CharacterModelImpl(
-      {this.id = '',
-      this.image = '',
-      this.nameEnglish = '',
-      this.nameNative = ''});
+  _$CharacterModelImpl({this.id = '', this.image = '', this.name = ''});
 
   @override
   @JsonKey()
@@ -139,14 +124,11 @@ class _$CharacterModelImpl implements _CharacterModel {
   final String image;
   @override
   @JsonKey()
-  final String nameEnglish;
-  @override
-  @JsonKey()
-  final String nameNative;
+  final String name;
 
   @override
   String toString() {
-    return 'CharacterModel(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'CharacterModel(id: $id, image: $image, name: $name)';
   }
 
   @override
@@ -156,15 +138,11 @@ class _$CharacterModelImpl implements _CharacterModel {
             other is _$CharacterModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.nameEnglish, nameEnglish) ||
-                other.nameEnglish == nameEnglish) &&
-            (identical(other.nameNative, nameNative) ||
-                other.nameNative == nameNative));
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, image, nameEnglish, nameNative);
+  int get hashCode => Object.hash(runtimeType, id, image, name);
 
   @JsonKey(ignore: true)
   @override
@@ -178,17 +156,14 @@ abstract class _CharacterModel implements CharacterModel {
   factory _CharacterModel(
       {final String id,
       final String image,
-      final String nameEnglish,
-      final String nameNative}) = _$CharacterModelImpl;
+      final String name}) = _$CharacterModelImpl;
 
   @override
   String get id;
   @override
   String get image;
   @override
-  String get nameEnglish;
-  @override
-  String get nameNative;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>

@@ -22,6 +22,9 @@ UserOptions _$UserOptionsFromJson(Map<String, dynamic> json) {
 mixin _$UserOptions {
   @JsonKey(name: 'titleLanguage')
   UserTitleLanguage? get titleLanguage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'staffNameLanguage')
+  UserStaffNameLanguage? get staffNameLanguage =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'displayAdultContent')
   bool get displayAdultContent => throw _privateConstructorUsedError;
   @JsonKey(name: 'airingNotifications')
@@ -45,6 +48,8 @@ abstract class $UserOptionsCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'titleLanguage') UserTitleLanguage? titleLanguage,
+      @JsonKey(name: 'staffNameLanguage')
+      UserStaffNameLanguage? staffNameLanguage,
       @JsonKey(name: 'displayAdultContent') bool displayAdultContent,
       @JsonKey(name: 'airingNotifications') bool airingNotifications,
       @JsonKey(name: 'profileColor') String? profileColor,
@@ -65,6 +70,7 @@ class _$UserOptionsCopyWithImpl<$Res, $Val extends UserOptions>
   @override
   $Res call({
     Object? titleLanguage = freezed,
+    Object? staffNameLanguage = freezed,
     Object? displayAdultContent = null,
     Object? airingNotifications = null,
     Object? profileColor = freezed,
@@ -75,6 +81,10 @@ class _$UserOptionsCopyWithImpl<$Res, $Val extends UserOptions>
           ? _value.titleLanguage
           : titleLanguage // ignore: cast_nullable_to_non_nullable
               as UserTitleLanguage?,
+      staffNameLanguage: freezed == staffNameLanguage
+          ? _value.staffNameLanguage
+          : staffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage?,
       displayAdultContent: null == displayAdultContent
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
@@ -105,6 +115,8 @@ abstract class _$$UserOptionsImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'titleLanguage') UserTitleLanguage? titleLanguage,
+      @JsonKey(name: 'staffNameLanguage')
+      UserStaffNameLanguage? staffNameLanguage,
       @JsonKey(name: 'displayAdultContent') bool displayAdultContent,
       @JsonKey(name: 'airingNotifications') bool airingNotifications,
       @JsonKey(name: 'profileColor') String? profileColor,
@@ -123,6 +135,7 @@ class __$$UserOptionsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? titleLanguage = freezed,
+    Object? staffNameLanguage = freezed,
     Object? displayAdultContent = null,
     Object? airingNotifications = null,
     Object? profileColor = freezed,
@@ -133,6 +146,10 @@ class __$$UserOptionsImplCopyWithImpl<$Res>
           ? _value.titleLanguage
           : titleLanguage // ignore: cast_nullable_to_non_nullable
               as UserTitleLanguage?,
+      staffNameLanguage: freezed == staffNameLanguage
+          ? _value.staffNameLanguage
+          : staffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage?,
       displayAdultContent: null == displayAdultContent
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
@@ -158,6 +175,7 @@ class __$$UserOptionsImplCopyWithImpl<$Res>
 class _$UserOptionsImpl implements _UserOptions {
   _$UserOptionsImpl(
       {@JsonKey(name: 'titleLanguage') this.titleLanguage,
+      @JsonKey(name: 'staffNameLanguage') this.staffNameLanguage,
       @JsonKey(name: 'displayAdultContent') this.displayAdultContent = false,
       @JsonKey(name: 'airingNotifications') this.airingNotifications = false,
       @JsonKey(name: 'profileColor') this.profileColor,
@@ -169,6 +187,9 @@ class _$UserOptionsImpl implements _UserOptions {
   @override
   @JsonKey(name: 'titleLanguage')
   final UserTitleLanguage? titleLanguage;
+  @override
+  @JsonKey(name: 'staffNameLanguage')
+  final UserStaffNameLanguage? staffNameLanguage;
   @override
   @JsonKey(name: 'displayAdultContent')
   final bool displayAdultContent;
@@ -184,7 +205,7 @@ class _$UserOptionsImpl implements _UserOptions {
 
   @override
   String toString() {
-    return 'UserOptions(titleLanguage: $titleLanguage, displayAdultContent: $displayAdultContent, airingNotifications: $airingNotifications, profileColor: $profileColor, activityMergeTime: $activityMergeTime)';
+    return 'UserOptions(titleLanguage: $titleLanguage, staffNameLanguage: $staffNameLanguage, displayAdultContent: $displayAdultContent, airingNotifications: $airingNotifications, profileColor: $profileColor, activityMergeTime: $activityMergeTime)';
   }
 
   @override
@@ -194,6 +215,8 @@ class _$UserOptionsImpl implements _UserOptions {
             other is _$UserOptionsImpl &&
             (identical(other.titleLanguage, titleLanguage) ||
                 other.titleLanguage == titleLanguage) &&
+            (identical(other.staffNameLanguage, staffNameLanguage) ||
+                other.staffNameLanguage == staffNameLanguage) &&
             (identical(other.displayAdultContent, displayAdultContent) ||
                 other.displayAdultContent == displayAdultContent) &&
             (identical(other.airingNotifications, airingNotifications) ||
@@ -209,6 +232,7 @@ class _$UserOptionsImpl implements _UserOptions {
   int get hashCode => Object.hash(
       runtimeType,
       titleLanguage,
+      staffNameLanguage,
       displayAdultContent,
       airingNotifications,
       profileColor,
@@ -231,6 +255,8 @@ class _$UserOptionsImpl implements _UserOptions {
 abstract class _UserOptions implements UserOptions {
   factory _UserOptions(
       {@JsonKey(name: 'titleLanguage') final UserTitleLanguage? titleLanguage,
+      @JsonKey(name: 'staffNameLanguage')
+      final UserStaffNameLanguage? staffNameLanguage,
       @JsonKey(name: 'displayAdultContent') final bool displayAdultContent,
       @JsonKey(name: 'airingNotifications') final bool airingNotifications,
       @JsonKey(name: 'profileColor') final String? profileColor,
@@ -243,6 +269,9 @@ abstract class _UserOptions implements UserOptions {
   @override
   @JsonKey(name: 'titleLanguage')
   UserTitleLanguage? get titleLanguage;
+  @override
+  @JsonKey(name: 'staffNameLanguage')
+  UserStaffNameLanguage? get staffNameLanguage;
   @override
   @JsonKey(name: 'displayAdultContent')
   bool get displayAdultContent;

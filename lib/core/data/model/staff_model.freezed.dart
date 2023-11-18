@@ -19,8 +19,7 @@ mixin _$StaffModel {
   String get id => throw _privateConstructorUsedError;
   String get voiceActorId => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String get nameEnglish => throw _privateConstructorUsedError;
-  String get nameNative => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StaffModelCopyWith<StaffModel> get copyWith =>
@@ -33,12 +32,7 @@ abstract class $StaffModelCopyWith<$Res> {
           StaffModel value, $Res Function(StaffModel) then) =
       _$StaffModelCopyWithImpl<$Res, StaffModel>;
   @useResult
-  $Res call(
-      {String id,
-      String voiceActorId,
-      String image,
-      String nameEnglish,
-      String nameNative});
+  $Res call({String id, String voiceActorId, String image, String name});
 }
 
 /// @nodoc
@@ -57,8 +51,7 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
     Object? id = null,
     Object? voiceActorId = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,13 +66,9 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -93,12 +82,7 @@ abstract class _$$StaffModelImplCopyWith<$Res>
       __$$StaffModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String voiceActorId,
-      String image,
-      String nameEnglish,
-      String nameNative});
+  $Res call({String id, String voiceActorId, String image, String name});
 }
 
 /// @nodoc
@@ -115,8 +99,7 @@ class __$$StaffModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? voiceActorId = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
     return _then(_$StaffModelImpl(
       id: null == id
@@ -131,13 +114,9 @@ class __$$StaffModelImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -147,11 +126,7 @@ class __$$StaffModelImplCopyWithImpl<$Res>
 
 class _$StaffModelImpl implements _StaffModel {
   _$StaffModelImpl(
-      {this.id = '',
-      this.voiceActorId = '',
-      this.image = '',
-      this.nameEnglish = '',
-      this.nameNative = ''});
+      {this.id = '', this.voiceActorId = '', this.image = '', this.name = ''});
 
   @override
   @JsonKey()
@@ -164,14 +139,11 @@ class _$StaffModelImpl implements _StaffModel {
   final String image;
   @override
   @JsonKey()
-  final String nameEnglish;
-  @override
-  @JsonKey()
-  final String nameNative;
+  final String name;
 
   @override
   String toString() {
-    return 'StaffModel(id: $id, voiceActorId: $voiceActorId, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'StaffModel(id: $id, voiceActorId: $voiceActorId, image: $image, name: $name)';
   }
 
   @override
@@ -183,15 +155,11 @@ class _$StaffModelImpl implements _StaffModel {
             (identical(other.voiceActorId, voiceActorId) ||
                 other.voiceActorId == voiceActorId) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.nameEnglish, nameEnglish) ||
-                other.nameEnglish == nameEnglish) &&
-            (identical(other.nameNative, nameNative) ||
-                other.nameNative == nameNative));
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, voiceActorId, image, nameEnglish, nameNative);
+  int get hashCode => Object.hash(runtimeType, id, voiceActorId, image, name);
 
   @JsonKey(ignore: true)
   @override
@@ -205,8 +173,7 @@ abstract class _StaffModel implements StaffModel {
       {final String id,
       final String voiceActorId,
       final String image,
-      final String nameEnglish,
-      final String nameNative}) = _$StaffModelImpl;
+      final String name}) = _$StaffModelImpl;
 
   @override
   String get id;
@@ -215,9 +182,7 @@ abstract class _StaffModel implements StaffModel {
   @override
   String get image;
   @override
-  String get nameEnglish;
-  @override
-  String get nameNative;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>

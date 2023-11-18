@@ -24,10 +24,8 @@ mixin _$CharacterEntity {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: CharacterColumns.image)
   String? get image => throw _privateConstructorUsedError;
-  @JsonKey(name: CharacterColumns.nameEnglish)
-  String? get nameEnglish => throw _privateConstructorUsedError;
-  @JsonKey(name: CharacterColumns.nameNative)
-  String? get nameNative => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.name)
+  String? get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +42,7 @@ abstract class $CharacterEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
       @JsonKey(name: CharacterColumns.image) String? image,
-      @JsonKey(name: CharacterColumns.nameEnglish) String? nameEnglish,
-      @JsonKey(name: CharacterColumns.nameNative) String? nameNative});
+      @JsonKey(name: CharacterColumns.name) String? name});
 }
 
 /// @nodoc
@@ -63,8 +60,7 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
   $Res call({
     Object? id = null,
     Object? image = freezed,
-    Object? nameEnglish = freezed,
-    Object? nameNative = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,13 +71,9 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      nameEnglish: freezed == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nameNative: freezed == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -98,8 +90,7 @@ abstract class _$$CharacterEntityImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
       @JsonKey(name: CharacterColumns.image) String? image,
-      @JsonKey(name: CharacterColumns.nameEnglish) String? nameEnglish,
-      @JsonKey(name: CharacterColumns.nameNative) String? nameNative});
+      @JsonKey(name: CharacterColumns.name) String? name});
 }
 
 /// @nodoc
@@ -115,8 +106,7 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = freezed,
-    Object? nameEnglish = freezed,
-    Object? nameNative = freezed,
+    Object? name = freezed,
   }) {
     return _then(_$CharacterEntityImpl(
       id: null == id
@@ -127,13 +117,9 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      nameEnglish: freezed == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nameNative: freezed == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -145,8 +131,7 @@ class _$CharacterEntityImpl implements _CharacterEntity {
   _$CharacterEntityImpl(
       {@JsonKey(name: CharacterColumns.id) this.id = '',
       @JsonKey(name: CharacterColumns.image) this.image = '',
-      @JsonKey(name: CharacterColumns.nameEnglish) this.nameEnglish,
-      @JsonKey(name: CharacterColumns.nameNative) this.nameNative});
+      @JsonKey(name: CharacterColumns.name) this.name});
 
   factory _$CharacterEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$CharacterEntityImplFromJson(json);
@@ -158,15 +143,12 @@ class _$CharacterEntityImpl implements _CharacterEntity {
   @JsonKey(name: CharacterColumns.image)
   final String? image;
   @override
-  @JsonKey(name: CharacterColumns.nameEnglish)
-  final String? nameEnglish;
-  @override
-  @JsonKey(name: CharacterColumns.nameNative)
-  final String? nameNative;
+  @JsonKey(name: CharacterColumns.name)
+  final String? name;
 
   @override
   String toString() {
-    return 'CharacterEntity(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'CharacterEntity(id: $id, image: $image, name: $name)';
   }
 
   @override
@@ -176,16 +158,12 @@ class _$CharacterEntityImpl implements _CharacterEntity {
             other is _$CharacterEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.nameEnglish, nameEnglish) ||
-                other.nameEnglish == nameEnglish) &&
-            (identical(other.nameNative, nameNative) ||
-                other.nameNative == nameNative));
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, image, nameEnglish, nameNative);
+  int get hashCode => Object.hash(runtimeType, id, image, name);
 
   @JsonKey(ignore: true)
   @override
@@ -204,11 +182,10 @@ class _$CharacterEntityImpl implements _CharacterEntity {
 
 abstract class _CharacterEntity implements CharacterEntity {
   factory _CharacterEntity(
-      {@JsonKey(name: CharacterColumns.id) final String id,
-      @JsonKey(name: CharacterColumns.image) final String? image,
-      @JsonKey(name: CharacterColumns.nameEnglish) final String? nameEnglish,
-      @JsonKey(name: CharacterColumns.nameNative)
-      final String? nameNative}) = _$CharacterEntityImpl;
+          {@JsonKey(name: CharacterColumns.id) final String id,
+          @JsonKey(name: CharacterColumns.image) final String? image,
+          @JsonKey(name: CharacterColumns.name) final String? name}) =
+      _$CharacterEntityImpl;
 
   factory _CharacterEntity.fromJson(Map<String, dynamic> json) =
       _$CharacterEntityImpl.fromJson;
@@ -220,11 +197,8 @@ abstract class _CharacterEntity implements CharacterEntity {
   @JsonKey(name: CharacterColumns.image)
   String? get image;
   @override
-  @JsonKey(name: CharacterColumns.nameEnglish)
-  String? get nameEnglish;
-  @override
-  @JsonKey(name: CharacterColumns.nameNative)
-  String? get nameNative;
+  @JsonKey(name: CharacterColumns.name)
+  String? get name;
   @override
   @JsonKey(ignore: true)
   _$$CharacterEntityImplCopyWith<_$CharacterEntityImpl> get copyWith =>

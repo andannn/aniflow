@@ -65,12 +65,16 @@ class AuthDataSource {
     final queryGraphQL = updateUserMotionGraphQLString;
     final hasTitleLanguage = param.titleLanguage != null;
     final hasDisplayAdultContent = param.displayAdultContent != null;
+    final hasUserStaffNameLanguage = param.userStaffNameLanguage != null;
     final variablesMap = <String, dynamic>{};
     if (hasTitleLanguage) {
       variablesMap['titleLanguage'] = param.titleLanguage;
     }
     if (hasDisplayAdultContent) {
       variablesMap['displayAdultContent'] = param.displayAdultContent;
+    }
+    if (hasUserStaffNameLanguage) {
+      variablesMap['userStaffNameLanguage'] = param.userStaffNameLanguage;
     }
 
     final response = await AniListDio().dio.post(

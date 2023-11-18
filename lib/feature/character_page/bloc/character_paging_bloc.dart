@@ -9,9 +9,11 @@ import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/refresh_paging_bloc.dart';
 import 'package:dio/dio.dart';
 
-class CharacterPagingBloc extends RefreshPagingBloc<CharacterAndVoiceActorModel> {
+class CharacterPagingBloc
+    extends RefreshPagingBloc<CharacterAndVoiceActorModel> {
   CharacterPagingBloc(
-    this.animeId, this.staffLanguage, {
+    this.animeId,
+    this.staffLanguage, {
     required MediaInformationRepository aniListRepository,
   })  : _mediaInfoRepository = aniListRepository,
         super(const PageInit(data: []));

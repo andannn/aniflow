@@ -24,10 +24,8 @@ mixin _$StaffEntity {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: StaffColumns.image)
   String? get image => throw _privateConstructorUsedError;
-  @JsonKey(name: StaffColumns.nameEnglish)
-  String? get nameEnglish => throw _privateConstructorUsedError;
-  @JsonKey(name: StaffColumns.nameNative)
-  String? get nameNative => throw _privateConstructorUsedError;
+  @JsonKey(name: StaffColumns.name)
+  String? get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +42,7 @@ abstract class $StaffEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: StaffColumns.id) String id,
       @JsonKey(name: StaffColumns.image) String? image,
-      @JsonKey(name: StaffColumns.nameEnglish) String? nameEnglish,
-      @JsonKey(name: StaffColumns.nameNative) String? nameNative});
+      @JsonKey(name: StaffColumns.name) String? name});
 }
 
 /// @nodoc
@@ -63,8 +60,7 @@ class _$StaffEntityCopyWithImpl<$Res, $Val extends StaffEntity>
   $Res call({
     Object? id = null,
     Object? image = freezed,
-    Object? nameEnglish = freezed,
-    Object? nameNative = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,13 +71,9 @@ class _$StaffEntityCopyWithImpl<$Res, $Val extends StaffEntity>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      nameEnglish: freezed == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nameNative: freezed == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -98,8 +90,7 @@ abstract class _$$StaffEntityImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: StaffColumns.id) String id,
       @JsonKey(name: StaffColumns.image) String? image,
-      @JsonKey(name: StaffColumns.nameEnglish) String? nameEnglish,
-      @JsonKey(name: StaffColumns.nameNative) String? nameNative});
+      @JsonKey(name: StaffColumns.name) String? name});
 }
 
 /// @nodoc
@@ -115,8 +106,7 @@ class __$$StaffEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = freezed,
-    Object? nameEnglish = freezed,
-    Object? nameNative = freezed,
+    Object? name = freezed,
   }) {
     return _then(_$StaffEntityImpl(
       id: null == id
@@ -127,13 +117,9 @@ class __$$StaffEntityImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      nameEnglish: freezed == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String?,
-      nameNative: freezed == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -145,8 +131,7 @@ class _$StaffEntityImpl implements _StaffEntity {
   _$StaffEntityImpl(
       {@JsonKey(name: StaffColumns.id) this.id = '',
       @JsonKey(name: StaffColumns.image) this.image,
-      @JsonKey(name: StaffColumns.nameEnglish) this.nameEnglish,
-      @JsonKey(name: StaffColumns.nameNative) this.nameNative});
+      @JsonKey(name: StaffColumns.name) this.name});
 
   factory _$StaffEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$StaffEntityImplFromJson(json);
@@ -158,15 +143,12 @@ class _$StaffEntityImpl implements _StaffEntity {
   @JsonKey(name: StaffColumns.image)
   final String? image;
   @override
-  @JsonKey(name: StaffColumns.nameEnglish)
-  final String? nameEnglish;
-  @override
-  @JsonKey(name: StaffColumns.nameNative)
-  final String? nameNative;
+  @JsonKey(name: StaffColumns.name)
+  final String? name;
 
   @override
   String toString() {
-    return 'StaffEntity(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'StaffEntity(id: $id, image: $image, name: $name)';
   }
 
   @override
@@ -176,16 +158,12 @@ class _$StaffEntityImpl implements _StaffEntity {
             other is _$StaffEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.nameEnglish, nameEnglish) ||
-                other.nameEnglish == nameEnglish) &&
-            (identical(other.nameNative, nameNative) ||
-                other.nameNative == nameNative));
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, image, nameEnglish, nameNative);
+  int get hashCode => Object.hash(runtimeType, id, image, name);
 
   @JsonKey(ignore: true)
   @override
@@ -205,8 +183,7 @@ abstract class _StaffEntity implements StaffEntity {
   factory _StaffEntity(
           {@JsonKey(name: StaffColumns.id) final String id,
           @JsonKey(name: StaffColumns.image) final String? image,
-          @JsonKey(name: StaffColumns.nameEnglish) final String? nameEnglish,
-          @JsonKey(name: StaffColumns.nameNative) final String? nameNative}) =
+          @JsonKey(name: StaffColumns.name) final String? name}) =
       _$StaffEntityImpl;
 
   factory _StaffEntity.fromJson(Map<String, dynamic> json) =
@@ -219,11 +196,8 @@ abstract class _StaffEntity implements StaffEntity {
   @JsonKey(name: StaffColumns.image)
   String? get image;
   @override
-  @JsonKey(name: StaffColumns.nameEnglish)
-  String? get nameEnglish;
-  @override
-  @JsonKey(name: StaffColumns.nameNative)
-  String? get nameNative;
+  @JsonKey(name: StaffColumns.name)
+  String? get name;
   @override
   @JsonKey(ignore: true)
   _$$StaffEntityImplCopyWith<_$StaffEntityImpl> get copyWith =>

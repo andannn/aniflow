@@ -13,8 +13,7 @@ class StaffEntity with _$StaffEntity {
   factory StaffEntity({
     @Default('') @JsonKey(name: StaffColumns.id) String id,
     @JsonKey(name: StaffColumns.image) String? image,
-    @JsonKey(name: StaffColumns.nameEnglish) String? nameEnglish,
-    @JsonKey(name: StaffColumns.nameNative) String? nameNative,
+    @JsonKey(name: StaffColumns.name) String? name,
   }) = _StaffEntity;
 
   factory StaffEntity.fromJson(Map<String, dynamic> json) =>
@@ -28,8 +27,7 @@ class StaffEntity with _$StaffEntity {
     return StaffEntity(
       id: e.voiceActors[0].id.toString(),
       image: e.voiceActors[0].image['large'],
-      nameNative: e.voiceActors[0].name['native'],
-      nameEnglish: e.voiceActors[0].name['full']!,
+      name: e.voiceActors[0].name['userPreferred'],
     );
   }
 
@@ -41,8 +39,7 @@ class StaffEntity with _$StaffEntity {
     return StaffEntity(
       id: e.id.toString(),
       image: e.image['large'],
-      nameNative: e.name['native'],
-      nameEnglish: e.name['full']!,
+      name: e.name['userPreferred'],
     );
   }
 }

@@ -8,16 +8,14 @@ class CharacterModel with _$CharacterModel {
   factory CharacterModel({
     @Default('') String id,
     @Default('') String image,
-    @Default('') String nameEnglish,
-    @Default('') String nameNative,
+    @Default('') String name,
   }) = _CharacterModel;
 
   static CharacterModel fromDatabaseEntity(CharacterEntity entity) {
     return CharacterModel(
       id: entity.id,
       image: entity.image ?? '',
-      nameEnglish: entity.nameEnglish ?? '',
-      nameNative: entity.nameNative ?? '',
+      name: entity.name ?? '',
     );
   }
 }

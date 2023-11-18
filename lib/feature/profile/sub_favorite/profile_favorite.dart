@@ -195,11 +195,11 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         id = model.id;
       case FavoriteType.character:
         coverImage = (model as CharacterModel).image;
-        title = model.nameNative;
+        title = model.name;
         id = model.id;
       case FavoriteType.staff:
         coverImage = (model as StaffModel).image;
-        title = model.nameNative;
+        title = model.name;
         id = model.id;
     }
     return MediaPreviewItem(

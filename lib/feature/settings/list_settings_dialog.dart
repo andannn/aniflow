@@ -49,7 +49,6 @@ class SettingsDialog<T> extends StatelessWidget {
                       Navigator.of(context).pop(setting);
                     },
                   ))
-              .toList()
         ],
       ),
     );

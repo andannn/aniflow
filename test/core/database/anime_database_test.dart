@@ -86,19 +86,17 @@ void main() {
         id: '95084',
         image:
             'https://s4.anilist.co/file/anilistcdn/staff/large/n95084-RTrZSU38POPF.png',
-        nameNative: '若本規夫',
-        nameEnglish: 'Norio Wakamoto',
+        name: '若本規夫',
       ),
       StaffEntity(
         id: '95262',
         image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-        nameNative: '堀内賢雄',
-        nameEnglish: 'Kenyuu Horiuchi',
+        name: '堀内賢雄',
       ),
       StaffEntity(
         id: '95346',
         image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-        nameEnglish: 'Character A',
+        name: 'Character A',
       ),
     ];
 
@@ -108,12 +106,12 @@ void main() {
             id: '2334',
             image:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
-            nameEnglish: 'Jack',
+            name: 'Jack',
           ),
           voiceActorEntity: StaffEntity(
             id: '95346',
             image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-            nameEnglish: 'Character A',
+            name: 'Character A',
           ),
           language: StaffLanguage.japanese,
           role: CharacterRole.background),
@@ -122,14 +120,12 @@ void main() {
             id: '6694',
             image:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
-            nameEnglish: 'Judy',
-            nameNative: 'ジュディ',
+            name: 'Judy',
           ),
           voiceActorEntity: StaffEntity(
             id: '95262',
             image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-            nameNative: '堀内賢雄',
-            nameEnglish: 'Kenyuu Horiuchi',
+            name: '堀内賢雄',
           ),
           language: StaffLanguage.japanese,
           role: CharacterRole.background),

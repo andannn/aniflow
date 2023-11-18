@@ -1,9 +1,10 @@
+import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_staff_name_language.g.dart';
 
 @JsonEnum(alwaysCreate: true)
-enum UserStaffNameLanguage {
+enum UserStaffNameLanguage implements Setting{
   /// The romanization of the staff or character's native name
   /// with western name ordering
   @JsonValue('ROMAJI_WESTERN')

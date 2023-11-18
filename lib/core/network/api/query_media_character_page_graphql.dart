@@ -21,6 +21,7 @@ query (\$id: Int, \$page: Int, \$perPage: Int, \$staffLanguage: StaffLanguage) {
           name {
             full
             native
+            userPreferred
           }
         }
         voiceActors(language: \$staffLanguage, sort: LANGUAGE) {
@@ -32,6 +33,7 @@ query (\$id: Int, \$page: Int, \$perPage: Int, \$staffLanguage: StaffLanguage) {
           name {
             full
             native
+            userPreferred
           }
         }
       }

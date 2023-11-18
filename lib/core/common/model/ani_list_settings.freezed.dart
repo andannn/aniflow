@@ -24,6 +24,8 @@ mixin _$AniListSettings {
   bool get displayAdultContent => throw _privateConstructorUsedError;
   @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
   UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,8 @@ abstract class $AniListSettingsCopyWith<$Res> {
       {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
       bool displayAdultContent,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
-      UserTitleLanguage userTitleLanguage});
+      UserTitleLanguage userTitleLanguage,
+      UserStaffNameLanguage userStaffNameLanguage});
 }
 
 /// @nodoc
@@ -59,6 +62,7 @@ class _$AniListSettingsCopyWithImpl<$Res, $Val extends AniListSettings>
   $Res call({
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
+    Object? userStaffNameLanguage = null,
   }) {
     return _then(_value.copyWith(
       displayAdultContent: null == displayAdultContent
@@ -69,6 +73,10 @@ class _$AniListSettingsCopyWithImpl<$Res, $Val extends AniListSettings>
           ? _value.userTitleLanguage
           : userTitleLanguage // ignore: cast_nullable_to_non_nullable
               as UserTitleLanguage,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
     ) as $Val);
   }
 }
@@ -85,7 +93,8 @@ abstract class _$$AniListSettingsImplCopyWith<$Res>
       {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
       bool displayAdultContent,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
-      UserTitleLanguage userTitleLanguage});
+      UserTitleLanguage userTitleLanguage,
+      UserStaffNameLanguage userStaffNameLanguage});
 }
 
 /// @nodoc
@@ -101,6 +110,7 @@ class __$$AniListSettingsImplCopyWithImpl<$Res>
   $Res call({
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
+    Object? userStaffNameLanguage = null,
   }) {
     return _then(_$AniListSettingsImpl(
       displayAdultContent: null == displayAdultContent
@@ -111,6 +121,10 @@ class __$$AniListSettingsImplCopyWithImpl<$Res>
           ? _value.userTitleLanguage
           : userTitleLanguage // ignore: cast_nullable_to_non_nullable
               as UserTitleLanguage,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
     ));
   }
 }
@@ -122,7 +136,8 @@ class _$AniListSettingsImpl implements _AniListSettings {
       {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
       this.displayAdultContent = false,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
-      this.userTitleLanguage = UserTitleLanguage.native});
+      this.userTitleLanguage = UserTitleLanguage.native,
+      this.userStaffNameLanguage = UserStaffNameLanguage.native});
 
   factory _$AniListSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$AniListSettingsImplFromJson(json);
@@ -133,10 +148,13 @@ class _$AniListSettingsImpl implements _AniListSettings {
   @override
   @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
   final UserTitleLanguage userTitleLanguage;
+  @override
+  @JsonKey()
+  final UserStaffNameLanguage userStaffNameLanguage;
 
   @override
   String toString() {
-    return 'AniListSettings(displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage)';
+    return 'AniListSettings(displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage)';
   }
 
   @override
@@ -147,13 +165,15 @@ class _$AniListSettingsImpl implements _AniListSettings {
             (identical(other.displayAdultContent, displayAdultContent) ||
                 other.displayAdultContent == displayAdultContent) &&
             (identical(other.userTitleLanguage, userTitleLanguage) ||
-                other.userTitleLanguage == userTitleLanguage));
+                other.userTitleLanguage == userTitleLanguage) &&
+            (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
+                other.userStaffNameLanguage == userStaffNameLanguage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, displayAdultContent, userTitleLanguage);
+  int get hashCode => Object.hash(runtimeType, displayAdultContent,
+      userTitleLanguage, userStaffNameLanguage);
 
   @JsonKey(ignore: true)
   @override
@@ -172,10 +192,12 @@ class _$AniListSettingsImpl implements _AniListSettings {
 
 abstract class _AniListSettings implements AniListSettings {
   factory _AniListSettings(
-      {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
-      final bool displayAdultContent,
-      @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
-      final UserTitleLanguage userTitleLanguage}) = _$AniListSettingsImpl;
+          {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
+          final bool displayAdultContent,
+          @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
+          final UserTitleLanguage userTitleLanguage,
+          final UserStaffNameLanguage userStaffNameLanguage}) =
+      _$AniListSettingsImpl;
 
   factory _AniListSettings.fromJson(Map<String, dynamic> json) =
       _$AniListSettingsImpl.fromJson;
@@ -186,6 +208,8 @@ abstract class _AniListSettings implements AniListSettings {
   @override
   @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
   UserTitleLanguage get userTitleLanguage;
+  @override
+  UserStaffNameLanguage get userStaffNameLanguage;
   @override
   @JsonKey(ignore: true)
   _$$AniListSettingsImplCopyWith<_$AniListSettingsImpl> get copyWith =>
