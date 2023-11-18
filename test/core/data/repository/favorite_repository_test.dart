@@ -3,6 +3,7 @@ import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -16,6 +17,7 @@ void main() {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
       SharedPreferences.setMockInitialValues({});
+      await AniFlowPreferences().init();
       await animeDatabase.initDatabase(path: inMemoryDatabasePath);
     });
 
