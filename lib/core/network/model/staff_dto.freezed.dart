@@ -79,10 +79,11 @@ class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
 }
 
 /// @nodoc
-abstract class _$$_StaffDtoCopyWith<$Res> implements $StaffDtoCopyWith<$Res> {
-  factory _$$_StaffDtoCopyWith(
-          _$_StaffDto value, $Res Function(_$_StaffDto) then) =
-      __$$_StaffDtoCopyWithImpl<$Res>;
+abstract class _$$StaffDtoImplCopyWith<$Res>
+    implements $StaffDtoCopyWith<$Res> {
+  factory _$$StaffDtoImplCopyWith(
+          _$StaffDtoImpl value, $Res Function(_$StaffDtoImpl) then) =
+      __$$StaffDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -92,11 +93,11 @@ abstract class _$$_StaffDtoCopyWith<$Res> implements $StaffDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_StaffDtoCopyWithImpl<$Res>
-    extends _$StaffDtoCopyWithImpl<$Res, _$_StaffDto>
-    implements _$$_StaffDtoCopyWith<$Res> {
-  __$$_StaffDtoCopyWithImpl(
-      _$_StaffDto _value, $Res Function(_$_StaffDto) _then)
+class __$$StaffDtoImplCopyWithImpl<$Res>
+    extends _$StaffDtoCopyWithImpl<$Res, _$StaffDtoImpl>
+    implements _$$StaffDtoImplCopyWith<$Res> {
+  __$$StaffDtoImplCopyWithImpl(
+      _$StaffDtoImpl _value, $Res Function(_$StaffDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +107,7 @@ class __$$_StaffDtoCopyWithImpl<$Res>
     Object? image = null,
     Object? name = null,
   }) {
-    return _then(_$_StaffDto(
+    return _then(_$StaffDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -125,16 +126,16 @@ class __$$_StaffDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StaffDto implements _StaffDto {
-  _$_StaffDto(
+class _$StaffDtoImpl implements _StaffDto {
+  _$StaffDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'image') final Map<String, String?> image = const {},
       @JsonKey(name: 'name') final Map<String, String?> name = const {}})
       : _image = image,
         _name = name;
 
-  factory _$_StaffDto.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffDtoFromJson(json);
+  factory _$StaffDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StaffDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -166,7 +167,7 @@ class _$_StaffDto implements _StaffDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StaffDto &&
+            other is _$StaffDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._image, _image) &&
             const DeepCollectionEquality().equals(other._name, _name));
@@ -183,12 +184,12 @@ class _$_StaffDto implements _StaffDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StaffDtoCopyWith<_$_StaffDto> get copyWith =>
-      __$$_StaffDtoCopyWithImpl<_$_StaffDto>(this, _$identity);
+  _$$StaffDtoImplCopyWith<_$StaffDtoImpl> get copyWith =>
+      __$$StaffDtoImplCopyWithImpl<_$StaffDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StaffDtoToJson(
+    return _$$StaffDtoImplToJson(
       this,
     );
   }
@@ -198,9 +199,10 @@ abstract class _StaffDto implements StaffDto {
   factory _StaffDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'image') final Map<String, String?> image,
-      @JsonKey(name: 'name') final Map<String, String?> name}) = _$_StaffDto;
+      @JsonKey(name: 'name') final Map<String, String?> name}) = _$StaffDtoImpl;
 
-  factory _StaffDto.fromJson(Map<String, dynamic> json) = _$_StaffDto.fromJson;
+  factory _StaffDto.fromJson(Map<String, dynamic> json) =
+      _$StaffDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -213,6 +215,6 @@ abstract class _StaffDto implements StaffDto {
   Map<String, String?> get name;
   @override
   @JsonKey(ignore: true)
-  _$$_StaffDtoCopyWith<_$_StaffDto> get copyWith =>
+  _$$StaffDtoImplCopyWith<_$StaffDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

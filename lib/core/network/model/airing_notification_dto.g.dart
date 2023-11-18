@@ -6,9 +6,9 @@ part of 'airing_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AiringNotificationDto _$$_AiringNotificationDtoFromJson(
+_$AiringNotificationDtoImpl _$$AiringNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_AiringNotificationDto(
+    _$AiringNotificationDtoImpl(
       id: json['id'] as int? ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       animeId: json['animeId'] as int?,
@@ -23,8 +23,8 @@ _$_AiringNotificationDto _$$_AiringNotificationDtoFromJson(
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_AiringNotificationDtoToJson(
-        _$_AiringNotificationDto instance) =>
+Map<String, dynamic> _$$AiringNotificationDtoImplToJson(
+        _$AiringNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

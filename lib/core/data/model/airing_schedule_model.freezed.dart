@@ -75,22 +75,22 @@ class _$AiringScheduleModelCopyWithImpl<$Res, $Val extends AiringScheduleModel>
 }
 
 /// @nodoc
-abstract class _$$_AiringScheduleModelCopyWith<$Res>
+abstract class _$$AiringScheduleModelImplCopyWith<$Res>
     implements $AiringScheduleModelCopyWith<$Res> {
-  factory _$$_AiringScheduleModelCopyWith(_$_AiringScheduleModel value,
-          $Res Function(_$_AiringScheduleModel) then) =
-      __$$_AiringScheduleModelCopyWithImpl<$Res>;
+  factory _$$AiringScheduleModelImplCopyWith(_$AiringScheduleModelImpl value,
+          $Res Function(_$AiringScheduleModelImpl) then) =
+      __$$AiringScheduleModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, int? airingAt, int? timeUntilAiring, int? episode});
 }
 
 /// @nodoc
-class __$$_AiringScheduleModelCopyWithImpl<$Res>
-    extends _$AiringScheduleModelCopyWithImpl<$Res, _$_AiringScheduleModel>
-    implements _$$_AiringScheduleModelCopyWith<$Res> {
-  __$$_AiringScheduleModelCopyWithImpl(_$_AiringScheduleModel _value,
-      $Res Function(_$_AiringScheduleModel) _then)
+class __$$AiringScheduleModelImplCopyWithImpl<$Res>
+    extends _$AiringScheduleModelCopyWithImpl<$Res, _$AiringScheduleModelImpl>
+    implements _$$AiringScheduleModelImplCopyWith<$Res> {
+  __$$AiringScheduleModelImplCopyWithImpl(_$AiringScheduleModelImpl _value,
+      $Res Function(_$AiringScheduleModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_AiringScheduleModelCopyWithImpl<$Res>
     Object? timeUntilAiring = freezed,
     Object? episode = freezed,
   }) {
-    return _then(_$_AiringScheduleModel(
+    return _then(_$AiringScheduleModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -124,8 +124,8 @@ class __$$_AiringScheduleModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AiringScheduleModel implements _AiringScheduleModel {
-  _$_AiringScheduleModel(
+class _$AiringScheduleModelImpl implements _AiringScheduleModel {
+  _$AiringScheduleModelImpl(
       {this.id = '', this.airingAt, this.timeUntilAiring, this.episode});
 
   @override
@@ -147,7 +147,7 @@ class _$_AiringScheduleModel implements _AiringScheduleModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AiringScheduleModel &&
+            other is _$AiringScheduleModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.airingAt, airingAt) ||
                 other.airingAt == airingAt) &&
@@ -163,8 +163,8 @@ class _$_AiringScheduleModel implements _AiringScheduleModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AiringScheduleModelCopyWith<_$_AiringScheduleModel> get copyWith =>
-      __$$_AiringScheduleModelCopyWithImpl<_$_AiringScheduleModel>(
+  _$$AiringScheduleModelImplCopyWith<_$AiringScheduleModelImpl> get copyWith =>
+      __$$AiringScheduleModelImplCopyWithImpl<_$AiringScheduleModelImpl>(
           this, _$identity);
 }
 
@@ -173,7 +173,7 @@ abstract class _AiringScheduleModel implements AiringScheduleModel {
       {final String id,
       final int? airingAt,
       final int? timeUntilAiring,
-      final int? episode}) = _$_AiringScheduleModel;
+      final int? episode}) = _$AiringScheduleModelImpl;
 
   @override
   String get id;
@@ -185,6 +185,6 @@ abstract class _AiringScheduleModel implements AiringScheduleModel {
   int? get episode;
   @override
   @JsonKey(ignore: true)
-  _$$_AiringScheduleModelCopyWith<_$_AiringScheduleModel> get copyWith =>
+  _$$AiringScheduleModelImplCopyWith<_$AiringScheduleModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -24,5 +24,5 @@ class ThreadDto with _$ThreadDto {
   }) = _ThreadDto;
 
   factory ThreadDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ThreadDtoFromJson(json);
+      _$$ThreadDtoImplFromJson(json);
 }

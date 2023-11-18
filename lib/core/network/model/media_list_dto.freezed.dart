@@ -126,11 +126,11 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
 }
 
 /// @nodoc
-abstract class _$$_MediaListDtoCopyWith<$Res>
+abstract class _$$MediaListDtoImplCopyWith<$Res>
     implements $MediaListDtoCopyWith<$Res> {
-  factory _$$_MediaListDtoCopyWith(
-          _$_MediaListDto value, $Res Function(_$_MediaListDto) then) =
-      __$$_MediaListDtoCopyWithImpl<$Res>;
+  factory _$$MediaListDtoImplCopyWith(
+          _$MediaListDtoImpl value, $Res Function(_$MediaListDtoImpl) then) =
+      __$$MediaListDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -147,11 +147,11 @@ abstract class _$$_MediaListDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaListDtoCopyWithImpl<$Res>
-    extends _$MediaListDtoCopyWithImpl<$Res, _$_MediaListDto>
-    implements _$$_MediaListDtoCopyWith<$Res> {
-  __$$_MediaListDtoCopyWithImpl(
-      _$_MediaListDto _value, $Res Function(_$_MediaListDto) _then)
+class __$$MediaListDtoImplCopyWithImpl<$Res>
+    extends _$MediaListDtoCopyWithImpl<$Res, _$MediaListDtoImpl>
+    implements _$$MediaListDtoImplCopyWith<$Res> {
+  __$$MediaListDtoImplCopyWithImpl(
+      _$MediaListDtoImpl _value, $Res Function(_$MediaListDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -165,7 +165,7 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? media = freezed,
   }) {
-    return _then(_$_MediaListDto(
+    return _then(_$MediaListDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -200,8 +200,8 @@ class __$$_MediaListDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaListDto implements _MediaListDto {
-  _$_MediaListDto(
+class _$MediaListDtoImpl implements _MediaListDto {
+  _$MediaListDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'userId') this.userId = -1,
       @JsonKey(name: 'score') this.score,
@@ -210,8 +210,8 @@ class _$_MediaListDto implements _MediaListDto {
       @JsonKey(name: 'updatedAt') this.updatedAt = -1,
       @JsonKey(name: 'media') this.media});
 
-  factory _$_MediaListDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaListDtoFromJson(json);
+  factory _$MediaListDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaListDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -244,7 +244,7 @@ class _$_MediaListDto implements _MediaListDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaListDto &&
+            other is _$MediaListDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.score, score) || other.score == score) &&
@@ -264,12 +264,12 @@ class _$_MediaListDto implements _MediaListDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaListDtoCopyWith<_$_MediaListDto> get copyWith =>
-      __$$_MediaListDtoCopyWithImpl<_$_MediaListDto>(this, _$identity);
+  _$$MediaListDtoImplCopyWith<_$MediaListDtoImpl> get copyWith =>
+      __$$MediaListDtoImplCopyWithImpl<_$MediaListDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaListDtoToJson(
+    return _$$MediaListDtoImplToJson(
       this,
     );
   }
@@ -283,10 +283,10 @@ abstract class _MediaListDto implements MediaListDto {
       @JsonKey(name: 'status') final MediaListStatus? status,
       @JsonKey(name: 'progress') final int progress,
       @JsonKey(name: 'updatedAt') final int updatedAt,
-      @JsonKey(name: 'media') final MediaDto? media}) = _$_MediaListDto;
+      @JsonKey(name: 'media') final MediaDto? media}) = _$MediaListDtoImpl;
 
   factory _MediaListDto.fromJson(Map<String, dynamic> json) =
-      _$_MediaListDto.fromJson;
+      _$MediaListDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -311,6 +311,6 @@ abstract class _MediaListDto implements MediaListDto {
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaListDtoCopyWith<_$_MediaListDto> get copyWith =>
+  _$$MediaListDtoImplCopyWith<_$MediaListDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

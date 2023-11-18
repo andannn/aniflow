@@ -17,7 +17,7 @@ class AniListSettings with _$AniListSettings {
   }) = _AniListSettings;
 
   factory AniListSettings.fromJson(Map<String, dynamic> json) =>
-      _$$_AniListSettingsFromJson(json);
+      _$$AniListSettingsImplFromJson(json);
 
   static AniListSettings fromDto(UserOptions dto) {
     return AniListSettings(

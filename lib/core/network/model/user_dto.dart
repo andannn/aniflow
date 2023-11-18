@@ -15,5 +15,5 @@ class UserDto with _$UserDto {
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
-      _$$_UserDtoFromJson(json);
+      _$$UserDtoImplFromJson(json);
 }

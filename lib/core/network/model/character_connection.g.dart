@@ -6,9 +6,9 @@ part of 'character_connection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CharacterConnection _$$_CharacterConnectionFromJson(
+_$CharacterConnectionImpl _$$CharacterConnectionImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CharacterConnection(
+    _$CharacterConnectionImpl(
       pageInfo: json['pageInfo'] == null
           ? null
           : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
@@ -18,8 +18,8 @@ _$_CharacterConnection _$$_CharacterConnectionFromJson(
           const [],
     );
 
-Map<String, dynamic> _$$_CharacterConnectionToJson(
-        _$_CharacterConnection instance) =>
+Map<String, dynamic> _$$CharacterConnectionImplToJson(
+        _$CharacterConnectionImpl instance) =>
     <String, dynamic>{
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,

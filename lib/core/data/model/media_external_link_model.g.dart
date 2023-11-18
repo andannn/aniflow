@@ -6,9 +6,9 @@ part of 'media_external_link_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaExternalLinkModel _$$_MediaExternalLinkModelFromJson(
+_$MediaExternalLinkModelImpl _$$MediaExternalLinkModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_MediaExternalLinkModel(
+    _$MediaExternalLinkModelImpl(
       url: json['url'] as String? ?? '',
       site: json['site'] as String? ?? '',
       type: $enumDecodeNullable(_$MediaExternalLinkTypeEnumMap, json['type']) ??
@@ -18,8 +18,8 @@ _$_MediaExternalLinkModel _$$_MediaExternalLinkModelFromJson(
       color: json['color'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_MediaExternalLinkModelToJson(
-        _$_MediaExternalLinkModel instance) =>
+Map<String, dynamic> _$$MediaExternalLinkModelImplToJson(
+        _$MediaExternalLinkModelImpl instance) =>
     <String, dynamic>{
       'url': instance.url,
       'site': instance.site,

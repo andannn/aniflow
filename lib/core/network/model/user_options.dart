@@ -20,5 +20,5 @@ class UserOptions with _$UserOptions {
   }) = _UserOptions;
 
   factory UserOptions.fromJson(Map<String, dynamic> json) =>
-      _$$_UserOptionsFromJson(json);
+      _$$UserOptionsImplFromJson(json);
 }

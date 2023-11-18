@@ -18,7 +18,7 @@ class MediaExternalLinkModel with _$MediaExternalLinkModel {
   }) = _MediaExternalLinkModel;
 
   factory MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaExternalLinkModelFromJson(json);
+      _$$MediaExternalLinkModelImplFromJson(json);
 
   static MediaExternalLinkModel fromEntity(MediaExternalLinkEntity entity) {
     return MediaExternalLinkModel(

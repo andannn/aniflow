@@ -16,5 +16,5 @@ class MediaEdge with _$MediaEdge {
   }) = _MediaEdge;
 
   factory MediaEdge.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaEdgeFromJson(json);
+      _$$MediaEdgeImplFromJson(json);
 }

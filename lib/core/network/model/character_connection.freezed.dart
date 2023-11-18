@@ -86,11 +86,11 @@ class _$CharacterConnectionCopyWithImpl<$Res, $Val extends CharacterConnection>
 }
 
 /// @nodoc
-abstract class _$$_CharacterConnectionCopyWith<$Res>
+abstract class _$$CharacterConnectionImplCopyWith<$Res>
     implements $CharacterConnectionCopyWith<$Res> {
-  factory _$$_CharacterConnectionCopyWith(_$_CharacterConnection value,
-          $Res Function(_$_CharacterConnection) then) =
-      __$$_CharacterConnectionCopyWithImpl<$Res>;
+  factory _$$CharacterConnectionImplCopyWith(_$CharacterConnectionImpl value,
+          $Res Function(_$CharacterConnectionImpl) then) =
+      __$$CharacterConnectionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_CharacterConnectionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CharacterConnectionCopyWithImpl<$Res>
-    extends _$CharacterConnectionCopyWithImpl<$Res, _$_CharacterConnection>
-    implements _$$_CharacterConnectionCopyWith<$Res> {
-  __$$_CharacterConnectionCopyWithImpl(_$_CharacterConnection _value,
-      $Res Function(_$_CharacterConnection) _then)
+class __$$CharacterConnectionImplCopyWithImpl<$Res>
+    extends _$CharacterConnectionCopyWithImpl<$Res, _$CharacterConnectionImpl>
+    implements _$$CharacterConnectionImplCopyWith<$Res> {
+  __$$CharacterConnectionImplCopyWithImpl(_$CharacterConnectionImpl _value,
+      $Res Function(_$CharacterConnectionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +115,7 @@ class __$$_CharacterConnectionCopyWithImpl<$Res>
     Object? pageInfo = freezed,
     Object? edges = null,
   }) {
-    return _then(_$_CharacterConnection(
+    return _then(_$CharacterConnectionImpl(
       pageInfo: freezed == pageInfo
           ? _value.pageInfo
           : pageInfo // ignore: cast_nullable_to_non_nullable
@@ -130,14 +130,14 @@ class __$$_CharacterConnectionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CharacterConnection implements _CharacterConnection {
-  _$_CharacterConnection(
+class _$CharacterConnectionImpl implements _CharacterConnection {
+  _$CharacterConnectionImpl(
       {@JsonKey(name: 'pageInfo') this.pageInfo,
       @JsonKey(name: 'edges') final List<CharacterEdge> edges = const []})
       : _edges = edges;
 
-  factory _$_CharacterConnection.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterConnectionFromJson(json);
+  factory _$CharacterConnectionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CharacterConnectionImplFromJson(json);
 
   @override
   @JsonKey(name: 'pageInfo')
@@ -160,7 +160,7 @@ class _$_CharacterConnection implements _CharacterConnection {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterConnection &&
+            other is _$CharacterConnectionImpl &&
             (identical(other.pageInfo, pageInfo) ||
                 other.pageInfo == pageInfo) &&
             const DeepCollectionEquality().equals(other._edges, _edges));
@@ -174,13 +174,13 @@ class _$_CharacterConnection implements _CharacterConnection {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterConnectionCopyWith<_$_CharacterConnection> get copyWith =>
-      __$$_CharacterConnectionCopyWithImpl<_$_CharacterConnection>(
+  _$$CharacterConnectionImplCopyWith<_$CharacterConnectionImpl> get copyWith =>
+      __$$CharacterConnectionImplCopyWithImpl<_$CharacterConnectionImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CharacterConnectionToJson(
+    return _$$CharacterConnectionImplToJson(
       this,
     );
   }
@@ -190,10 +190,10 @@ abstract class _CharacterConnection implements CharacterConnection {
   factory _CharacterConnection(
           {@JsonKey(name: 'pageInfo') final PageInfo? pageInfo,
           @JsonKey(name: 'edges') final List<CharacterEdge> edges}) =
-      _$_CharacterConnection;
+      _$CharacterConnectionImpl;
 
   factory _CharacterConnection.fromJson(Map<String, dynamic> json) =
-      _$_CharacterConnection.fromJson;
+      _$CharacterConnectionImpl.fromJson;
 
   @override
   @JsonKey(name: 'pageInfo')
@@ -203,6 +203,6 @@ abstract class _CharacterConnection implements CharacterConnection {
   List<CharacterEdge> get edges;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterConnectionCopyWith<_$_CharacterConnection> get copyWith =>
+  _$$CharacterConnectionImplCopyWith<_$CharacterConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

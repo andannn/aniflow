@@ -108,12 +108,12 @@ class _$MediaDeletionNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MediaDeletionNotificationDtoCopyWith<$Res>
+abstract class _$$MediaDeletionNotificationDtoImplCopyWith<$Res>
     implements $MediaDeletionNotificationDtoCopyWith<$Res> {
-  factory _$$_MediaDeletionNotificationDtoCopyWith(
-          _$_MediaDeletionNotificationDto value,
-          $Res Function(_$_MediaDeletionNotificationDto) then) =
-      __$$_MediaDeletionNotificationDtoCopyWithImpl<$Res>;
+  factory _$$MediaDeletionNotificationDtoImplCopyWith(
+          _$MediaDeletionNotificationDtoImpl value,
+          $Res Function(_$MediaDeletionNotificationDtoImpl) then) =
+      __$$MediaDeletionNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,13 +126,13 @@ abstract class _$$_MediaDeletionNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaDeletionNotificationDtoCopyWithImpl<$Res>
+class __$$MediaDeletionNotificationDtoImplCopyWithImpl<$Res>
     extends _$MediaDeletionNotificationDtoCopyWithImpl<$Res,
-        _$_MediaDeletionNotificationDto>
-    implements _$$_MediaDeletionNotificationDtoCopyWith<$Res> {
-  __$$_MediaDeletionNotificationDtoCopyWithImpl(
-      _$_MediaDeletionNotificationDto _value,
-      $Res Function(_$_MediaDeletionNotificationDto) _then)
+        _$MediaDeletionNotificationDtoImpl>
+    implements _$$MediaDeletionNotificationDtoImplCopyWith<$Res> {
+  __$$MediaDeletionNotificationDtoImplCopyWithImpl(
+      _$MediaDeletionNotificationDtoImpl _value,
+      $Res Function(_$MediaDeletionNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +145,7 @@ class __$$_MediaDeletionNotificationDtoCopyWithImpl<$Res>
     Object? context = freezed,
     Object? createdAt = freezed,
   }) {
-    return _then(_$_MediaDeletionNotificationDto(
+    return _then(_$MediaDeletionNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -176,8 +176,9 @@ class __$$_MediaDeletionNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaDeletionNotificationDto implements _MediaDeletionNotificationDto {
-  _$_MediaDeletionNotificationDto(
+class _$MediaDeletionNotificationDtoImpl
+    implements _MediaDeletionNotificationDto {
+  _$MediaDeletionNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'deletedMediaTitle') this.deletedMediaTitle,
@@ -185,8 +186,9 @@ class _$_MediaDeletionNotificationDto implements _MediaDeletionNotificationDto {
       @JsonKey(name: 'context') this.context,
       @JsonKey(name: 'createdAt') this.createdAt});
 
-  factory _$_MediaDeletionNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaDeletionNotificationDtoFromJson(json);
+  factory _$MediaDeletionNotificationDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MediaDeletionNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -216,7 +218,7 @@ class _$_MediaDeletionNotificationDto implements _MediaDeletionNotificationDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaDeletionNotificationDto &&
+            other is _$MediaDeletionNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.deletedMediaTitle, deletedMediaTitle) ||
@@ -235,13 +237,14 @@ class _$_MediaDeletionNotificationDto implements _MediaDeletionNotificationDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaDeletionNotificationDtoCopyWith<_$_MediaDeletionNotificationDto>
-      get copyWith => __$$_MediaDeletionNotificationDtoCopyWithImpl<
-          _$_MediaDeletionNotificationDto>(this, _$identity);
+  _$$MediaDeletionNotificationDtoImplCopyWith<
+          _$MediaDeletionNotificationDtoImpl>
+      get copyWith => __$$MediaDeletionNotificationDtoImplCopyWithImpl<
+          _$MediaDeletionNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaDeletionNotificationDtoToJson(
+    return _$$MediaDeletionNotificationDtoImplToJson(
       this,
     );
   }
@@ -256,10 +259,10 @@ abstract class _MediaDeletionNotificationDto
           @JsonKey(name: 'reason') final String? reason,
           @JsonKey(name: 'context') final String? context,
           @JsonKey(name: 'createdAt') final int? createdAt}) =
-      _$_MediaDeletionNotificationDto;
+      _$MediaDeletionNotificationDtoImpl;
 
   factory _MediaDeletionNotificationDto.fromJson(Map<String, dynamic> json) =
-      _$_MediaDeletionNotificationDto.fromJson;
+      _$MediaDeletionNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -281,6 +284,7 @@ abstract class _MediaDeletionNotificationDto
   int? get createdAt;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaDeletionNotificationDtoCopyWith<_$_MediaDeletionNotificationDto>
+  _$$MediaDeletionNotificationDtoImplCopyWith<
+          _$MediaDeletionNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

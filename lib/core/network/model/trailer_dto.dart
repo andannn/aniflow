@@ -14,5 +14,5 @@ class TrailerDto with _$TrailerDto {
   }) = _TrailerDto;
 
   factory TrailerDto.fromJson(Map<String, dynamic> json) =>
-      _$$_TrailerDtoFromJson(json);
+      _$$TrailerDtoImplFromJson(json);
 }

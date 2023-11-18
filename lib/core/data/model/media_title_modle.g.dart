@@ -6,14 +6,14 @@ part of 'media_title_modle.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaTitle _$$_MediaTitleFromJson(Map<String, dynamic> json) =>
-    _$_MediaTitle(
+_$MediaTitleImpl _$$MediaTitleImplFromJson(Map<String, dynamic> json) =>
+    _$MediaTitleImpl(
       romaji: json['romaji'] as String? ?? '',
       english: json['english'] as String? ?? '',
       native: json['native'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_MediaTitleToJson(_$_MediaTitle instance) =>
+Map<String, dynamic> _$$MediaTitleImplToJson(_$MediaTitleImpl instance) =>
     <String, dynamic>{
       'romaji': instance.romaji,
       'english': instance.english,

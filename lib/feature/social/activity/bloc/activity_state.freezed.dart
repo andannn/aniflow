@@ -73,11 +73,11 @@ class _$ActivityStateCopyWithImpl<$Res, $Val extends ActivityState>
 }
 
 /// @nodoc
-abstract class _$$_ActivityStateCopyWith<$Res>
+abstract class _$$ActivityStateImplCopyWith<$Res>
     implements $ActivityStateCopyWith<$Res> {
-  factory _$$_ActivityStateCopyWith(
-          _$_ActivityState value, $Res Function(_$_ActivityState) then) =
-      __$$_ActivityStateCopyWithImpl<$Res>;
+  factory _$$ActivityStateImplCopyWith(
+          _$ActivityStateImpl value, $Res Function(_$ActivityStateImpl) then) =
+      __$$ActivityStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -87,11 +87,11 @@ abstract class _$$_ActivityStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ActivityStateCopyWithImpl<$Res>
-    extends _$ActivityStateCopyWithImpl<$Res, _$_ActivityState>
-    implements _$$_ActivityStateCopyWith<$Res> {
-  __$$_ActivityStateCopyWithImpl(
-      _$_ActivityState _value, $Res Function(_$_ActivityState) _then)
+class __$$ActivityStateImplCopyWithImpl<$Res>
+    extends _$ActivityStateCopyWithImpl<$Res, _$ActivityStateImpl>
+    implements _$$ActivityStateImplCopyWith<$Res> {
+  __$$ActivityStateImplCopyWithImpl(
+      _$ActivityStateImpl _value, $Res Function(_$ActivityStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_ActivityStateCopyWithImpl<$Res>
     Object? filterType = freezed,
     Object? scopeCategory = freezed,
   }) {
-    return _then(_$_ActivityState(
+    return _then(_$ActivityStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -120,8 +120,8 @@ class __$$_ActivityStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ActivityState implements _ActivityState {
-  _$_ActivityState(
+class _$ActivityStateImpl implements _ActivityState {
+  _$ActivityStateImpl(
       {this.isLoading = true, this.filterType, this.scopeCategory});
 
   @override
@@ -141,7 +141,7 @@ class _$_ActivityState implements _ActivityState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActivityState &&
+            other is _$ActivityStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.filterType, filterType) ||
@@ -157,15 +157,15 @@ class _$_ActivityState implements _ActivityState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivityStateCopyWith<_$_ActivityState> get copyWith =>
-      __$$_ActivityStateCopyWithImpl<_$_ActivityState>(this, _$identity);
+  _$$ActivityStateImplCopyWith<_$ActivityStateImpl> get copyWith =>
+      __$$ActivityStateImplCopyWithImpl<_$ActivityStateImpl>(this, _$identity);
 }
 
 abstract class _ActivityState implements ActivityState {
   factory _ActivityState(
       {final bool isLoading,
       final ActivityFilterType? filterType,
-      final ActivityScopeCategory? scopeCategory}) = _$_ActivityState;
+      final ActivityScopeCategory? scopeCategory}) = _$ActivityStateImpl;
 
   @override
   bool get isLoading;
@@ -175,6 +175,6 @@ abstract class _ActivityState implements ActivityState {
   ActivityScopeCategory? get scopeCategory;
   @override
   @JsonKey(ignore: true)
-  _$$_ActivityStateCopyWith<_$_ActivityState> get copyWith =>
+  _$$ActivityStateImplCopyWith<_$ActivityStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

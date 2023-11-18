@@ -18,7 +18,7 @@ class CharacterEntity with _$CharacterEntity {
   }) = _CharacterEntity;
 
   factory CharacterEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterEntityFromJson(json);
+      _$$CharacterEntityImplFromJson(json);
 
   static CharacterEntity fromNetworkModel(CharacterEdge e) {
     return CharacterEntity(

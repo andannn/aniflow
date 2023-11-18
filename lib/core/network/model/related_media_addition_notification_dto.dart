@@ -21,5 +21,5 @@ class RelatedMediaAdditionNotificationDto extends AniNotification
 
   factory RelatedMediaAdditionNotificationDto.fromJson(
           Map<String, dynamic> json) =>
-      _$$_RelatedMediaAdditionNotificationDtoFromJson(json);
+      _$$RelatedMediaAdditionNotificationDtoImplFromJson(json);
 }

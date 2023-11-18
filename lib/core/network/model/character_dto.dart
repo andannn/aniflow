@@ -13,5 +13,5 @@ class CharacterDto with _$CharacterDto {
   }) = _CharacterDto;
 
   factory CharacterDto.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterDtoFromJson(json);
+      _$$CharacterDtoImplFromJson(json);
 }

@@ -136,12 +136,12 @@ class _$MediaMergeNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MediaMergeNotificationDtoCopyWith<$Res>
+abstract class _$$MediaMergeNotificationDtoImplCopyWith<$Res>
     implements $MediaMergeNotificationDtoCopyWith<$Res> {
-  factory _$$_MediaMergeNotificationDtoCopyWith(
-          _$_MediaMergeNotificationDto value,
-          $Res Function(_$_MediaMergeNotificationDto) then) =
-      __$$_MediaMergeNotificationDtoCopyWithImpl<$Res>;
+  factory _$$MediaMergeNotificationDtoImplCopyWith(
+          _$MediaMergeNotificationDtoImpl value,
+          $Res Function(_$MediaMergeNotificationDtoImpl) then) =
+      __$$MediaMergeNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -159,13 +159,13 @@ abstract class _$$_MediaMergeNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaMergeNotificationDtoCopyWithImpl<$Res>
+class __$$MediaMergeNotificationDtoImplCopyWithImpl<$Res>
     extends _$MediaMergeNotificationDtoCopyWithImpl<$Res,
-        _$_MediaMergeNotificationDto>
-    implements _$$_MediaMergeNotificationDtoCopyWith<$Res> {
-  __$$_MediaMergeNotificationDtoCopyWithImpl(
-      _$_MediaMergeNotificationDto _value,
-      $Res Function(_$_MediaMergeNotificationDto) _then)
+        _$MediaMergeNotificationDtoImpl>
+    implements _$$MediaMergeNotificationDtoImplCopyWith<$Res> {
+  __$$MediaMergeNotificationDtoImplCopyWithImpl(
+      _$MediaMergeNotificationDtoImpl _value,
+      $Res Function(_$MediaMergeNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -180,7 +180,7 @@ class __$$_MediaMergeNotificationDtoCopyWithImpl<$Res>
     Object? context = freezed,
     Object? media = freezed,
   }) {
-    return _then(_$_MediaMergeNotificationDto(
+    return _then(_$MediaMergeNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -219,8 +219,8 @@ class __$$_MediaMergeNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
-  _$_MediaMergeNotificationDto(
+class _$MediaMergeNotificationDtoImpl implements _MediaMergeNotificationDto {
+  _$MediaMergeNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'mediaId') this.mediaId,
@@ -231,8 +231,8 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
       @JsonKey(name: 'media') this.media})
       : _deletedMediaTitle = deletedMediaTitle;
 
-  factory _$_MediaMergeNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaMergeNotificationDtoFromJson(json);
+  factory _$MediaMergeNotificationDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaMergeNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -277,7 +277,7 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaMergeNotificationDto &&
+            other is _$MediaMergeNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
@@ -306,13 +306,13 @@ class _$_MediaMergeNotificationDto implements _MediaMergeNotificationDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaMergeNotificationDtoCopyWith<_$_MediaMergeNotificationDto>
-      get copyWith => __$$_MediaMergeNotificationDtoCopyWithImpl<
-          _$_MediaMergeNotificationDto>(this, _$identity);
+  _$$MediaMergeNotificationDtoImplCopyWith<_$MediaMergeNotificationDtoImpl>
+      get copyWith => __$$MediaMergeNotificationDtoImplCopyWithImpl<
+          _$MediaMergeNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaMergeNotificationDtoToJson(
+    return _$$MediaMergeNotificationDtoImplToJson(
       this,
     );
   }
@@ -328,10 +328,10 @@ abstract class _MediaMergeNotificationDto implements MediaMergeNotificationDto {
       @JsonKey(name: 'reason') final String? reason,
       @JsonKey(name: 'context') final String? context,
       @JsonKey(name: 'media')
-      final MediaDto? media}) = _$_MediaMergeNotificationDto;
+      final MediaDto? media}) = _$MediaMergeNotificationDtoImpl;
 
   factory _MediaMergeNotificationDto.fromJson(Map<String, dynamic> json) =
-      _$_MediaMergeNotificationDto.fromJson;
+      _$MediaMergeNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -359,6 +359,6 @@ abstract class _MediaMergeNotificationDto implements MediaMergeNotificationDto {
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaMergeNotificationDtoCopyWith<_$_MediaMergeNotificationDto>
+  _$$MediaMergeNotificationDtoImplCopyWith<_$MediaMergeNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

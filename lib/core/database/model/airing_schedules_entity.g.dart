@@ -6,9 +6,9 @@ part of 'airing_schedules_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AiringSchedulesEntity _$$_AiringSchedulesEntityFromJson(
+_$AiringSchedulesEntityImpl _$$AiringSchedulesEntityImplFromJson(
         Map<String, dynamic> json) =>
-    _$_AiringSchedulesEntity(
+    _$AiringSchedulesEntityImpl(
       id: json['airing_schedules_id'] as String? ?? '',
       mediaId: json['airing_schedules_media_id'] as String? ?? '',
       airingAt: json['airing_schedules_airing_at'] as int?,
@@ -16,8 +16,8 @@ _$_AiringSchedulesEntity _$$_AiringSchedulesEntityFromJson(
       episode: json['airing_schedules_episode'] as int?,
     );
 
-Map<String, dynamic> _$$_AiringSchedulesEntityToJson(
-        _$_AiringSchedulesEntity instance) =>
+Map<String, dynamic> _$$AiringSchedulesEntityImplToJson(
+        _$AiringSchedulesEntityImpl instance) =>
     <String, dynamic>{
       'airing_schedules_id': instance.id,
       'airing_schedules_media_id': instance.mediaId,

@@ -6,8 +6,9 @@ part of 'staff_connection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_StaffConnection _$$_StaffConnectionFromJson(Map<String, dynamic> json) =>
-    _$_StaffConnection(
+_$StaffConnectionImpl _$$StaffConnectionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$StaffConnectionImpl(
       pageInfo: json['pageInfo'] == null
           ? null
           : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
@@ -17,7 +18,8 @@ _$_StaffConnection _$$_StaffConnectionFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$_StaffConnectionToJson(_$_StaffConnection instance) =>
+Map<String, dynamic> _$$StaffConnectionImplToJson(
+        _$StaffConnectionImpl instance) =>
     <String, dynamic>{
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,

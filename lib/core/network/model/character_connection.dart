@@ -13,5 +13,5 @@ class CharacterConnection with _$CharacterConnection {
   }) = _CharacterConnection;
 
   factory CharacterConnection.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterConnectionFromJson(json);
+      _$$CharacterConnectionImplFromJson(json);
 }

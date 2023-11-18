@@ -6,9 +6,9 @@ part of 'activity_reply_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ActivityReplyNotificationDto _$$_ActivityReplyNotificationDtoFromJson(
+_$ActivityReplyNotificationDtoImpl _$$ActivityReplyNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ActivityReplyNotificationDto(
+    _$ActivityReplyNotificationDtoImpl(
       id: json['id'] as int? ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       userId: json['userId'] as int?,
@@ -20,8 +20,8 @@ _$_ActivityReplyNotificationDto _$$_ActivityReplyNotificationDtoFromJson(
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_ActivityReplyNotificationDtoToJson(
-        _$_ActivityReplyNotificationDto instance) =>
+Map<String, dynamic> _$$ActivityReplyNotificationDtoImplToJson(
+        _$ActivityReplyNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

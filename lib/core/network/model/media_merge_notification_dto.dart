@@ -23,5 +23,5 @@ class MediaMergeNotificationDto extends AniNotification
 
   factory MediaMergeNotificationDto.fromJson(
           Map<String, dynamic> json) =>
-      _$$_MediaMergeNotificationDtoFromJson(json);
+      _$$MediaMergeNotificationDtoImplFromJson(json);
 }

@@ -88,11 +88,11 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
 }
 
 /// @nodoc
-abstract class _$$_CharacterEntityCopyWith<$Res>
+abstract class _$$CharacterEntityImplCopyWith<$Res>
     implements $CharacterEntityCopyWith<$Res> {
-  factory _$$_CharacterEntityCopyWith(
-          _$_CharacterEntity value, $Res Function(_$_CharacterEntity) then) =
-      __$$_CharacterEntityCopyWithImpl<$Res>;
+  factory _$$CharacterEntityImplCopyWith(_$CharacterEntityImpl value,
+          $Res Function(_$CharacterEntityImpl) then) =
+      __$$CharacterEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -103,11 +103,11 @@ abstract class _$$_CharacterEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CharacterEntityCopyWithImpl<$Res>
-    extends _$CharacterEntityCopyWithImpl<$Res, _$_CharacterEntity>
-    implements _$$_CharacterEntityCopyWith<$Res> {
-  __$$_CharacterEntityCopyWithImpl(
-      _$_CharacterEntity _value, $Res Function(_$_CharacterEntity) _then)
+class __$$CharacterEntityImplCopyWithImpl<$Res>
+    extends _$CharacterEntityCopyWithImpl<$Res, _$CharacterEntityImpl>
+    implements _$$CharacterEntityImplCopyWith<$Res> {
+  __$$CharacterEntityImplCopyWithImpl(
+      _$CharacterEntityImpl _value, $Res Function(_$CharacterEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_CharacterEntityCopyWithImpl<$Res>
     Object? nameEnglish = freezed,
     Object? nameNative = freezed,
   }) {
-    return _then(_$_CharacterEntity(
+    return _then(_$CharacterEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -141,15 +141,15 @@ class __$$_CharacterEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CharacterEntity implements _CharacterEntity {
-  _$_CharacterEntity(
+class _$CharacterEntityImpl implements _CharacterEntity {
+  _$CharacterEntityImpl(
       {@JsonKey(name: CharacterColumns.id) this.id = '',
       @JsonKey(name: CharacterColumns.image) this.image = '',
       @JsonKey(name: CharacterColumns.nameEnglish) this.nameEnglish,
       @JsonKey(name: CharacterColumns.nameNative) this.nameNative});
 
-  factory _$_CharacterEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterEntityFromJson(json);
+  factory _$CharacterEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CharacterEntityImplFromJson(json);
 
   @override
   @JsonKey(name: CharacterColumns.id)
@@ -173,7 +173,7 @@ class _$_CharacterEntity implements _CharacterEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterEntity &&
+            other is _$CharacterEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.nameEnglish, nameEnglish) ||
@@ -190,12 +190,13 @@ class _$_CharacterEntity implements _CharacterEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterEntityCopyWith<_$_CharacterEntity> get copyWith =>
-      __$$_CharacterEntityCopyWithImpl<_$_CharacterEntity>(this, _$identity);
+  _$$CharacterEntityImplCopyWith<_$CharacterEntityImpl> get copyWith =>
+      __$$CharacterEntityImplCopyWithImpl<_$CharacterEntityImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CharacterEntityToJson(
+    return _$$CharacterEntityImplToJson(
       this,
     );
   }
@@ -207,10 +208,10 @@ abstract class _CharacterEntity implements CharacterEntity {
       @JsonKey(name: CharacterColumns.image) final String? image,
       @JsonKey(name: CharacterColumns.nameEnglish) final String? nameEnglish,
       @JsonKey(name: CharacterColumns.nameNative)
-      final String? nameNative}) = _$_CharacterEntity;
+      final String? nameNative}) = _$CharacterEntityImpl;
 
   factory _CharacterEntity.fromJson(Map<String, dynamic> json) =
-      _$_CharacterEntity.fromJson;
+      _$CharacterEntityImpl.fromJson;
 
   @override
   @JsonKey(name: CharacterColumns.id)
@@ -226,6 +227,6 @@ abstract class _CharacterEntity implements CharacterEntity {
   String? get nameNative;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterEntityCopyWith<_$_CharacterEntity> get copyWith =>
+  _$$CharacterEntityImplCopyWith<_$CharacterEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

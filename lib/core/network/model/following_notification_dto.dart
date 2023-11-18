@@ -20,5 +20,5 @@ class FollowingNotificationDto extends AniNotification
   }) = _FollowingNotificationDto;
 
   factory FollowingNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_FollowingNotificationDtoFromJson(json);
+      _$$FollowingNotificationDtoImplFromJson(json);
 }

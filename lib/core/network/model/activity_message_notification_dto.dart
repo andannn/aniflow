@@ -23,7 +23,7 @@ class ActivityMessageNotificationDto extends AniNotification
   }) = _ActivityMessageNotificationDto;
 
   factory ActivityMessageNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ActivityMessageNotificationDtoFromJson(json);
+      _$$ActivityMessageNotificationDtoImplFromJson(json);
 
   static ActivityMessageNotificationDto fromJsonWithActivity(
       Map<String, dynamic> json) {

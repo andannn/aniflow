@@ -18,7 +18,7 @@ class StaffEntity with _$StaffEntity {
   }) = _StaffEntity;
 
   factory StaffEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffEntityFromJson(json);
+      _$$StaffEntityImplFromJson(json);
 
   static StaffEntity? fromVoiceActorDto(CharacterEdge e) {
     if (e.voiceActors.isEmpty) {

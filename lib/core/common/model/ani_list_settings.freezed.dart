@@ -74,11 +74,11 @@ class _$AniListSettingsCopyWithImpl<$Res, $Val extends AniListSettings>
 }
 
 /// @nodoc
-abstract class _$$_AniListSettingsCopyWith<$Res>
+abstract class _$$AniListSettingsImplCopyWith<$Res>
     implements $AniListSettingsCopyWith<$Res> {
-  factory _$$_AniListSettingsCopyWith(
-          _$_AniListSettings value, $Res Function(_$_AniListSettings) then) =
-      __$$_AniListSettingsCopyWithImpl<$Res>;
+  factory _$$AniListSettingsImplCopyWith(_$AniListSettingsImpl value,
+          $Res Function(_$AniListSettingsImpl) then) =
+      __$$AniListSettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -89,11 +89,11 @@ abstract class _$$_AniListSettingsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AniListSettingsCopyWithImpl<$Res>
-    extends _$AniListSettingsCopyWithImpl<$Res, _$_AniListSettings>
-    implements _$$_AniListSettingsCopyWith<$Res> {
-  __$$_AniListSettingsCopyWithImpl(
-      _$_AniListSettings _value, $Res Function(_$_AniListSettings) _then)
+class __$$AniListSettingsImplCopyWithImpl<$Res>
+    extends _$AniListSettingsCopyWithImpl<$Res, _$AniListSettingsImpl>
+    implements _$$AniListSettingsImplCopyWith<$Res> {
+  __$$AniListSettingsImplCopyWithImpl(
+      _$AniListSettingsImpl _value, $Res Function(_$AniListSettingsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -102,7 +102,7 @@ class __$$_AniListSettingsCopyWithImpl<$Res>
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
   }) {
-    return _then(_$_AniListSettings(
+    return _then(_$AniListSettingsImpl(
       displayAdultContent: null == displayAdultContent
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
@@ -117,15 +117,15 @@ class __$$_AniListSettingsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AniListSettings implements _AniListSettings {
-  _$_AniListSettings(
+class _$AniListSettingsImpl implements _AniListSettings {
+  _$AniListSettingsImpl(
       {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
       this.displayAdultContent = false,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
       this.userTitleLanguage = UserTitleLanguage.native});
 
-  factory _$_AniListSettings.fromJson(Map<String, dynamic> json) =>
-      _$$_AniListSettingsFromJson(json);
+  factory _$AniListSettingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AniListSettingsImplFromJson(json);
 
   @override
   @JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
@@ -143,7 +143,7 @@ class _$_AniListSettings implements _AniListSettings {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AniListSettings &&
+            other is _$AniListSettingsImpl &&
             (identical(other.displayAdultContent, displayAdultContent) ||
                 other.displayAdultContent == displayAdultContent) &&
             (identical(other.userTitleLanguage, userTitleLanguage) ||
@@ -158,12 +158,13 @@ class _$_AniListSettings implements _AniListSettings {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AniListSettingsCopyWith<_$_AniListSettings> get copyWith =>
-      __$$_AniListSettingsCopyWithImpl<_$_AniListSettings>(this, _$identity);
+  _$$AniListSettingsImplCopyWith<_$AniListSettingsImpl> get copyWith =>
+      __$$AniListSettingsImplCopyWithImpl<_$AniListSettingsImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AniListSettingsToJson(
+    return _$$AniListSettingsImplToJson(
       this,
     );
   }
@@ -174,10 +175,10 @@ abstract class _AniListSettings implements AniListSettings {
       {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
       final bool displayAdultContent,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
-      final UserTitleLanguage userTitleLanguage}) = _$_AniListSettings;
+      final UserTitleLanguage userTitleLanguage}) = _$AniListSettingsImpl;
 
   factory _AniListSettings.fromJson(Map<String, dynamic> json) =
-      _$_AniListSettings.fromJson;
+      _$AniListSettingsImpl.fromJson;
 
   @override
   @JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
@@ -187,6 +188,6 @@ abstract class _AniListSettings implements AniListSettings {
   UserTitleLanguage get userTitleLanguage;
   @override
   @JsonKey(ignore: true)
-  _$$_AniListSettingsCopyWith<_$_AniListSettings> get copyWith =>
+  _$$AniListSettingsImplCopyWith<_$AniListSettingsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

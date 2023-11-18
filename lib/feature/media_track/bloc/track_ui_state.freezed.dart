@@ -100,11 +100,11 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
 }
 
 /// @nodoc
-abstract class _$$_TrackUiStateCopyWith<$Res>
+abstract class _$$TrackUiStateImplCopyWith<$Res>
     implements $TrackUiStateCopyWith<$Res> {
-  factory _$$_TrackUiStateCopyWith(
-          _$_TrackUiState value, $Res Function(_$_TrackUiState) then) =
-      __$$_TrackUiStateCopyWithImpl<$Res>;
+  factory _$$TrackUiStateImplCopyWith(
+          _$TrackUiStateImpl value, $Res Function(_$TrackUiStateImpl) then) =
+      __$$TrackUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -119,11 +119,11 @@ abstract class _$$_TrackUiStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TrackUiStateCopyWithImpl<$Res>
-    extends _$TrackUiStateCopyWithImpl<$Res, _$_TrackUiState>
-    implements _$$_TrackUiStateCopyWith<$Res> {
-  __$$_TrackUiStateCopyWithImpl(
-      _$_TrackUiState _value, $Res Function(_$_TrackUiState) _then)
+class __$$TrackUiStateImplCopyWithImpl<$Res>
+    extends _$TrackUiStateCopyWithImpl<$Res, _$TrackUiStateImpl>
+    implements _$$TrackUiStateImplCopyWith<$Res> {
+  __$$TrackUiStateImplCopyWithImpl(
+      _$TrackUiStateImpl _value, $Res Function(_$TrackUiStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -135,7 +135,7 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
     Object? animeLoadState = null,
     Object? settings = freezed,
   }) {
-    return _then(_$_TrackUiState(
+    return _then(_$TrackUiStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -162,8 +162,8 @@ class __$$_TrackUiStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TrackUiState implements _TrackUiState {
-  _$_TrackUiState(
+class _$TrackUiStateImpl implements _TrackUiState {
+  _$TrackUiStateImpl(
       {this.isLoading = false,
       this.showReleasedOnly = false,
       this.currentMediaType = MediaType.anime,
@@ -194,7 +194,7 @@ class _$_TrackUiState implements _TrackUiState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TrackUiState &&
+            other is _$TrackUiStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.showReleasedOnly, showReleasedOnly) ||
@@ -214,8 +214,8 @@ class _$_TrackUiState implements _TrackUiState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TrackUiStateCopyWith<_$_TrackUiState> get copyWith =>
-      __$$_TrackUiStateCopyWithImpl<_$_TrackUiState>(this, _$identity);
+  _$$TrackUiStateImplCopyWith<_$TrackUiStateImpl> get copyWith =>
+      __$$TrackUiStateImplCopyWithImpl<_$TrackUiStateImpl>(this, _$identity);
 }
 
 abstract class _TrackUiState implements TrackUiState {
@@ -224,7 +224,7 @@ abstract class _TrackUiState implements TrackUiState {
       final bool showReleasedOnly,
       final MediaType currentMediaType,
       final MediaListLoadState animeLoadState,
-      final AniListSettings? settings}) = _$_TrackUiState;
+      final AniListSettings? settings}) = _$TrackUiStateImpl;
 
   @override
   bool get isLoading;
@@ -238,6 +238,6 @@ abstract class _TrackUiState implements TrackUiState {
   AniListSettings? get settings;
   @override
   @JsonKey(ignore: true)
-  _$$_TrackUiStateCopyWith<_$_TrackUiState> get copyWith =>
+  _$$TrackUiStateImplCopyWith<_$TrackUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

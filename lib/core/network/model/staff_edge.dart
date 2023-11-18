@@ -12,5 +12,5 @@ class StaffEdge with _$StaffEdge {
   }) = _StaffEdge;
 
   factory StaffEdge.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffEdgeFromJson(json);
+      _$$StaffEdgeImplFromJson(json);
 }

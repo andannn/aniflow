@@ -6,8 +6,9 @@ part of 'ani_list_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AniListSettings _$$_AniListSettingsFromJson(Map<String, dynamic> json) =>
-    _$_AniListSettings(
+_$AniListSettingsImpl _$$AniListSettingsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AniListSettingsImpl(
       displayAdultContent: json['display_adult_content_key'] as bool? ?? false,
       userTitleLanguage: json['user_title_language_key'] == null
           ? UserTitleLanguage.native
@@ -15,7 +16,8 @@ _$_AniListSettings _$$_AniListSettingsFromJson(Map<String, dynamic> json) =>
               json['user_title_language_key'] as String),
     );
 
-Map<String, dynamic> _$$_AniListSettingsToJson(_$_AniListSettings instance) =>
+Map<String, dynamic> _$$AniListSettingsImplToJson(
+        _$AniListSettingsImpl instance) =>
     <String, dynamic>{
       'display_adult_content_key': instance.displayAdultContent,
       'user_title_language_key': instance.userTitleLanguage,

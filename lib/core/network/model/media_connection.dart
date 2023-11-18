@@ -14,5 +14,5 @@ class MediaConnection with _$MediaConnection {
   }) = _MediaConnection;
 
   factory MediaConnection.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaConnectionFromJson(json);
+      _$$MediaConnectionImplFromJson(json);
 }

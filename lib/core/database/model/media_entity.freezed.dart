@@ -266,11 +266,11 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
 }
 
 /// @nodoc
-abstract class _$$_MediaEntityCopyWith<$Res>
+abstract class _$$MediaEntityImplCopyWith<$Res>
     implements $MediaEntityCopyWith<$Res> {
-  factory _$$_MediaEntityCopyWith(
-          _$_MediaEntity value, $Res Function(_$_MediaEntity) then) =
-      __$$_MediaEntityCopyWithImpl<$Res>;
+  factory _$$MediaEntityImplCopyWith(
+          _$MediaEntityImpl value, $Res Function(_$MediaEntityImpl) then) =
+      __$$MediaEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -305,11 +305,11 @@ abstract class _$$_MediaEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaEntityCopyWithImpl<$Res>
-    extends _$MediaEntityCopyWithImpl<$Res, _$_MediaEntity>
-    implements _$$_MediaEntityCopyWith<$Res> {
-  __$$_MediaEntityCopyWithImpl(
-      _$_MediaEntity _value, $Res Function(_$_MediaEntity) _then)
+class __$$MediaEntityImplCopyWithImpl<$Res>
+    extends _$MediaEntityCopyWithImpl<$Res, _$MediaEntityImpl>
+    implements _$$MediaEntityImplCopyWith<$Res> {
+  __$$MediaEntityImplCopyWithImpl(
+      _$MediaEntityImpl _value, $Res Function(_$MediaEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -342,7 +342,7 @@ class __$$_MediaEntityCopyWithImpl<$Res>
     Object? timeUntilAiring = freezed,
     Object? nextAiringEpisode = freezed,
   }) {
-    return _then(_$_MediaEntity(
+    return _then(_$MediaEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -453,8 +453,8 @@ class __$$_MediaEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaEntity implements _MediaEntity {
-  _$_MediaEntity(
+class _$MediaEntityImpl implements _MediaEntity {
+  _$MediaEntityImpl(
       {@JsonKey(name: MediaTableColumns.id) this.id = '',
       @JsonKey(name: MediaTableColumns.type) this.type,
       @JsonKey(name: MediaTableColumns.englishTitle) this.englishTitle = '',
@@ -484,8 +484,8 @@ class _$_MediaEntity implements _MediaEntity {
       @JsonKey(name: MediaTableColumns.nextAiringEpisode)
       this.nextAiringEpisode});
 
-  factory _$_MediaEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaEntityFromJson(json);
+  factory _$MediaEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaEntityImplFromJson(json);
 
   @override
   @JsonKey(name: MediaTableColumns.id)
@@ -575,7 +575,7 @@ class _$_MediaEntity implements _MediaEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaEntity &&
+            other is _$MediaEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.englishTitle, englishTitle) ||
@@ -658,12 +658,12 @@ class _$_MediaEntity implements _MediaEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaEntityCopyWith<_$_MediaEntity> get copyWith =>
-      __$$_MediaEntityCopyWithImpl<_$_MediaEntity>(this, _$identity);
+  _$$MediaEntityImplCopyWith<_$MediaEntityImpl> get copyWith =>
+      __$$MediaEntityImplCopyWithImpl<_$MediaEntityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaEntityToJson(
+    return _$$MediaEntityImplToJson(
       this,
     );
   }
@@ -701,10 +701,10 @@ abstract class _MediaEntity implements MediaEntity {
       @JsonKey(name: MediaTableColumns.timeUntilAiring)
       final int? timeUntilAiring,
       @JsonKey(name: MediaTableColumns.nextAiringEpisode)
-      final int? nextAiringEpisode}) = _$_MediaEntity;
+      final int? nextAiringEpisode}) = _$MediaEntityImpl;
 
   factory _MediaEntity.fromJson(Map<String, dynamic> json) =
-      _$_MediaEntity.fromJson;
+      _$MediaEntityImpl.fromJson;
 
   @override
   @JsonKey(name: MediaTableColumns.id)
@@ -786,6 +786,6 @@ abstract class _MediaEntity implements MediaEntity {
   int? get nextAiringEpisode;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaEntityCopyWith<_$_MediaEntity> get copyWith =>
+  _$$MediaEntityImplCopyWith<_$MediaEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

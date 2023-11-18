@@ -86,11 +86,11 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
 }
 
 /// @nodoc
-abstract class _$$_StaffModelCopyWith<$Res>
+abstract class _$$StaffModelImplCopyWith<$Res>
     implements $StaffModelCopyWith<$Res> {
-  factory _$$_StaffModelCopyWith(
-          _$_StaffModel value, $Res Function(_$_StaffModel) then) =
-      __$$_StaffModelCopyWithImpl<$Res>;
+  factory _$$StaffModelImplCopyWith(
+          _$StaffModelImpl value, $Res Function(_$StaffModelImpl) then) =
+      __$$StaffModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_StaffModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StaffModelCopyWithImpl<$Res>
-    extends _$StaffModelCopyWithImpl<$Res, _$_StaffModel>
-    implements _$$_StaffModelCopyWith<$Res> {
-  __$$_StaffModelCopyWithImpl(
-      _$_StaffModel _value, $Res Function(_$_StaffModel) _then)
+class __$$StaffModelImplCopyWithImpl<$Res>
+    extends _$StaffModelCopyWithImpl<$Res, _$StaffModelImpl>
+    implements _$$StaffModelImplCopyWith<$Res> {
+  __$$StaffModelImplCopyWithImpl(
+      _$StaffModelImpl _value, $Res Function(_$StaffModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_StaffModelCopyWithImpl<$Res>
     Object? nameEnglish = null,
     Object? nameNative = null,
   }) {
-    return _then(_$_StaffModel(
+    return _then(_$StaffModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_StaffModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StaffModel implements _StaffModel {
-  _$_StaffModel(
+class _$StaffModelImpl implements _StaffModel {
+  _$StaffModelImpl(
       {this.id = '',
       this.voiceActorId = '',
       this.image = '',
@@ -178,7 +178,7 @@ class _$_StaffModel implements _StaffModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StaffModel &&
+            other is _$StaffModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.voiceActorId, voiceActorId) ||
                 other.voiceActorId == voiceActorId) &&
@@ -196,8 +196,8 @@ class _$_StaffModel implements _StaffModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StaffModelCopyWith<_$_StaffModel> get copyWith =>
-      __$$_StaffModelCopyWithImpl<_$_StaffModel>(this, _$identity);
+  _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>
+      __$$StaffModelImplCopyWithImpl<_$StaffModelImpl>(this, _$identity);
 }
 
 abstract class _StaffModel implements StaffModel {
@@ -206,7 +206,7 @@ abstract class _StaffModel implements StaffModel {
       final String voiceActorId,
       final String image,
       final String nameEnglish,
-      final String nameNative}) = _$_StaffModel;
+      final String nameNative}) = _$StaffModelImpl;
 
   @override
   String get id;
@@ -220,6 +220,6 @@ abstract class _StaffModel implements StaffModel {
   String get nameNative;
   @override
   @JsonKey(ignore: true)
-  _$$_StaffModelCopyWith<_$_StaffModel> get copyWith =>
+  _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

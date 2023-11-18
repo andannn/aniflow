@@ -20,7 +20,7 @@ class MediaListEntity with _$MediaListEntity {
   }) = _MediaListEntity;
 
   factory MediaListEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaListEntityFromJson(json);
+      _$$MediaListEntityImplFromJson(json);
 
   static MediaListEntity fromNetworkModel(MediaListDto dto) {
     return MediaListEntity(

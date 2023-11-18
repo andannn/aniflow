@@ -96,11 +96,11 @@ class _$UserOptionsCopyWithImpl<$Res, $Val extends UserOptions>
 }
 
 /// @nodoc
-abstract class _$$_UserOptionsCopyWith<$Res>
+abstract class _$$UserOptionsImplCopyWith<$Res>
     implements $UserOptionsCopyWith<$Res> {
-  factory _$$_UserOptionsCopyWith(
-          _$_UserOptions value, $Res Function(_$_UserOptions) then) =
-      __$$_UserOptionsCopyWithImpl<$Res>;
+  factory _$$UserOptionsImplCopyWith(
+          _$UserOptionsImpl value, $Res Function(_$UserOptionsImpl) then) =
+      __$$UserOptionsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,11 +112,11 @@ abstract class _$$_UserOptionsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UserOptionsCopyWithImpl<$Res>
-    extends _$UserOptionsCopyWithImpl<$Res, _$_UserOptions>
-    implements _$$_UserOptionsCopyWith<$Res> {
-  __$$_UserOptionsCopyWithImpl(
-      _$_UserOptions _value, $Res Function(_$_UserOptions) _then)
+class __$$UserOptionsImplCopyWithImpl<$Res>
+    extends _$UserOptionsCopyWithImpl<$Res, _$UserOptionsImpl>
+    implements _$$UserOptionsImplCopyWith<$Res> {
+  __$$UserOptionsImplCopyWithImpl(
+      _$UserOptionsImpl _value, $Res Function(_$UserOptionsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +128,7 @@ class __$$_UserOptionsCopyWithImpl<$Res>
     Object? profileColor = freezed,
     Object? activityMergeTime = freezed,
   }) {
-    return _then(_$_UserOptions(
+    return _then(_$UserOptionsImpl(
       titleLanguage: freezed == titleLanguage
           ? _value.titleLanguage
           : titleLanguage // ignore: cast_nullable_to_non_nullable
@@ -155,16 +155,16 @@ class __$$_UserOptionsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserOptions implements _UserOptions {
-  _$_UserOptions(
+class _$UserOptionsImpl implements _UserOptions {
+  _$UserOptionsImpl(
       {@JsonKey(name: 'titleLanguage') this.titleLanguage,
       @JsonKey(name: 'displayAdultContent') this.displayAdultContent = false,
       @JsonKey(name: 'airingNotifications') this.airingNotifications = false,
       @JsonKey(name: 'profileColor') this.profileColor,
       @JsonKey(name: 'activityMergeTime') this.activityMergeTime});
 
-  factory _$_UserOptions.fromJson(Map<String, dynamic> json) =>
-      _$$_UserOptionsFromJson(json);
+  factory _$UserOptionsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserOptionsImplFromJson(json);
 
   @override
   @JsonKey(name: 'titleLanguage')
@@ -191,7 +191,7 @@ class _$_UserOptions implements _UserOptions {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserOptions &&
+            other is _$UserOptionsImpl &&
             (identical(other.titleLanguage, titleLanguage) ||
                 other.titleLanguage == titleLanguage) &&
             (identical(other.displayAdultContent, displayAdultContent) ||
@@ -217,12 +217,12 @@ class _$_UserOptions implements _UserOptions {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserOptionsCopyWith<_$_UserOptions> get copyWith =>
-      __$$_UserOptionsCopyWithImpl<_$_UserOptions>(this, _$identity);
+  _$$UserOptionsImplCopyWith<_$UserOptionsImpl> get copyWith =>
+      __$$UserOptionsImplCopyWithImpl<_$UserOptionsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserOptionsToJson(
+    return _$$UserOptionsImplToJson(
       this,
     );
   }
@@ -235,10 +235,10 @@ abstract class _UserOptions implements UserOptions {
       @JsonKey(name: 'airingNotifications') final bool airingNotifications,
       @JsonKey(name: 'profileColor') final String? profileColor,
       @JsonKey(name: 'activityMergeTime')
-      final int? activityMergeTime}) = _$_UserOptions;
+      final int? activityMergeTime}) = _$UserOptionsImpl;
 
   factory _UserOptions.fromJson(Map<String, dynamic> json) =
-      _$_UserOptions.fromJson;
+      _$UserOptionsImpl.fromJson;
 
   @override
   @JsonKey(name: 'titleLanguage')
@@ -257,6 +257,6 @@ abstract class _UserOptions implements UserOptions {
   int? get activityMergeTime;
   @override
   @JsonKey(ignore: true)
-  _$$_UserOptionsCopyWith<_$_UserOptions> get copyWith =>
+  _$$UserOptionsImplCopyWith<_$UserOptionsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

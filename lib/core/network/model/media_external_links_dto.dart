@@ -17,5 +17,5 @@ class MediaExternalLinkDto with _$MediaExternalLinkDto {
   }) = _MediaExternalLinkDto;
 
   factory MediaExternalLinkDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaExternalLinkDtoFromJson(json);
+      _$$MediaExternalLinkDtoImplFromJson(json);
 }

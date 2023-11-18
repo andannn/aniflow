@@ -75,22 +75,22 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
 }
 
 /// @nodoc
-abstract class _$$_CharacterModelCopyWith<$Res>
+abstract class _$$CharacterModelImplCopyWith<$Res>
     implements $CharacterModelCopyWith<$Res> {
-  factory _$$_CharacterModelCopyWith(
-          _$_CharacterModel value, $Res Function(_$_CharacterModel) then) =
-      __$$_CharacterModelCopyWithImpl<$Res>;
+  factory _$$CharacterModelImplCopyWith(_$CharacterModelImpl value,
+          $Res Function(_$CharacterModelImpl) then) =
+      __$$CharacterModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String image, String nameEnglish, String nameNative});
 }
 
 /// @nodoc
-class __$$_CharacterModelCopyWithImpl<$Res>
-    extends _$CharacterModelCopyWithImpl<$Res, _$_CharacterModel>
-    implements _$$_CharacterModelCopyWith<$Res> {
-  __$$_CharacterModelCopyWithImpl(
-      _$_CharacterModel _value, $Res Function(_$_CharacterModel) _then)
+class __$$CharacterModelImplCopyWithImpl<$Res>
+    extends _$CharacterModelCopyWithImpl<$Res, _$CharacterModelImpl>
+    implements _$$CharacterModelImplCopyWith<$Res> {
+  __$$CharacterModelImplCopyWithImpl(
+      _$CharacterModelImpl _value, $Res Function(_$CharacterModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_CharacterModelCopyWithImpl<$Res>
     Object? nameEnglish = null,
     Object? nameNative = null,
   }) {
-    return _then(_$_CharacterModel(
+    return _then(_$CharacterModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -124,8 +124,8 @@ class __$$_CharacterModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CharacterModel implements _CharacterModel {
-  _$_CharacterModel(
+class _$CharacterModelImpl implements _CharacterModel {
+  _$CharacterModelImpl(
       {this.id = '',
       this.image = '',
       this.nameEnglish = '',
@@ -153,7 +153,7 @@ class _$_CharacterModel implements _CharacterModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterModel &&
+            other is _$CharacterModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.nameEnglish, nameEnglish) ||
@@ -169,8 +169,9 @@ class _$_CharacterModel implements _CharacterModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterModelCopyWith<_$_CharacterModel> get copyWith =>
-      __$$_CharacterModelCopyWithImpl<_$_CharacterModel>(this, _$identity);
+  _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
+      __$$CharacterModelImplCopyWithImpl<_$CharacterModelImpl>(
+          this, _$identity);
 }
 
 abstract class _CharacterModel implements CharacterModel {
@@ -178,7 +179,7 @@ abstract class _CharacterModel implements CharacterModel {
       {final String id,
       final String image,
       final String nameEnglish,
-      final String nameNative}) = _$_CharacterModel;
+      final String nameNative}) = _$CharacterModelImpl;
 
   @override
   String get id;
@@ -190,6 +191,6 @@ abstract class _CharacterModel implements CharacterModel {
   String get nameNative;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterModelCopyWith<_$_CharacterModel> get copyWith =>
+  _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -21,5 +21,5 @@ class AiringNotificationDto extends AniNotification
   }) = _AiringNotificationDto;
 
   factory AiringNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringNotificationDtoFromJson(json);
+      _$$AiringNotificationDtoImplFromJson(json);
 }

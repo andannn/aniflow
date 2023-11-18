@@ -6,9 +6,9 @@ part of 'following_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_FollowingNotificationDto _$$_FollowingNotificationDtoFromJson(
+_$FollowingNotificationDtoImpl _$$FollowingNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_FollowingNotificationDto(
+    _$FollowingNotificationDtoImpl(
       id: json['id'] as int? ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       userId: json['userId'] as int?,
@@ -19,8 +19,8 @@ _$_FollowingNotificationDto _$$_FollowingNotificationDtoFromJson(
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_FollowingNotificationDtoToJson(
-        _$_FollowingNotificationDto instance) =>
+Map<String, dynamic> _$$FollowingNotificationDtoImplToJson(
+        _$FollowingNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

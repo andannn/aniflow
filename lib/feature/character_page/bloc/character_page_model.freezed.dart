@@ -57,22 +57,22 @@ class _$CharacterPageStateCopyWithImpl<$Res, $Val extends CharacterPageState>
 }
 
 /// @nodoc
-abstract class _$$_CharacterPageStateCopyWith<$Res>
+abstract class _$$CharacterPageStateImplCopyWith<$Res>
     implements $CharacterPageStateCopyWith<$Res> {
-  factory _$$_CharacterPageStateCopyWith(_$_CharacterPageState value,
-          $Res Function(_$_CharacterPageState) then) =
-      __$$_CharacterPageStateCopyWithImpl<$Res>;
+  factory _$$CharacterPageStateImplCopyWith(_$CharacterPageStateImpl value,
+          $Res Function(_$CharacterPageStateImpl) then) =
+      __$$CharacterPageStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({StaffLanguage language});
 }
 
 /// @nodoc
-class __$$_CharacterPageStateCopyWithImpl<$Res>
-    extends _$CharacterPageStateCopyWithImpl<$Res, _$_CharacterPageState>
-    implements _$$_CharacterPageStateCopyWith<$Res> {
-  __$$_CharacterPageStateCopyWithImpl(
-      _$_CharacterPageState _value, $Res Function(_$_CharacterPageState) _then)
+class __$$CharacterPageStateImplCopyWithImpl<$Res>
+    extends _$CharacterPageStateCopyWithImpl<$Res, _$CharacterPageStateImpl>
+    implements _$$CharacterPageStateImplCopyWith<$Res> {
+  __$$CharacterPageStateImplCopyWithImpl(_$CharacterPageStateImpl _value,
+      $Res Function(_$CharacterPageStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_CharacterPageStateCopyWithImpl<$Res>
   $Res call({
     Object? language = null,
   }) {
-    return _then(_$_CharacterPageState(
+    return _then(_$CharacterPageStateImpl(
       language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_CharacterPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CharacterPageState implements _CharacterPageState {
-  _$_CharacterPageState({this.language = StaffLanguage.japanese});
+class _$CharacterPageStateImpl implements _CharacterPageState {
+  _$CharacterPageStateImpl({this.language = StaffLanguage.japanese});
 
   @override
   @JsonKey()
@@ -107,7 +107,7 @@ class _$_CharacterPageState implements _CharacterPageState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterPageState &&
+            other is _$CharacterPageStateImpl &&
             (identical(other.language, language) ||
                 other.language == language));
   }
@@ -118,19 +118,19 @@ class _$_CharacterPageState implements _CharacterPageState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterPageStateCopyWith<_$_CharacterPageState> get copyWith =>
-      __$$_CharacterPageStateCopyWithImpl<_$_CharacterPageState>(
+  _$$CharacterPageStateImplCopyWith<_$CharacterPageStateImpl> get copyWith =>
+      __$$CharacterPageStateImplCopyWithImpl<_$CharacterPageStateImpl>(
           this, _$identity);
 }
 
 abstract class _CharacterPageState implements CharacterPageState {
   factory _CharacterPageState({final StaffLanguage language}) =
-      _$_CharacterPageState;
+      _$CharacterPageStateImpl;
 
   @override
   StaffLanguage get language;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterPageStateCopyWith<_$_CharacterPageState> get copyWith =>
+  _$$CharacterPageStateImplCopyWith<_$CharacterPageStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

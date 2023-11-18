@@ -6,8 +6,9 @@ part of 'text_activity_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TextActivityDto _$$_TextActivityDtoFromJson(Map<String, dynamic> json) =>
-    _$_TextActivityDto(
+_$TextActivityDtoImpl _$$TextActivityDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TextActivityDtoImpl(
       id: json['id'] as int?,
       text: json['text'] as String?,
       userId: json['userId'] as int?,
@@ -26,7 +27,8 @@ _$_TextActivityDto _$$_TextActivityDtoFromJson(Map<String, dynamic> json) =>
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_TextActivityDtoToJson(_$_TextActivityDto instance) =>
+Map<String, dynamic> _$$TextActivityDtoImplToJson(
+        _$TextActivityDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'text': instance.text,

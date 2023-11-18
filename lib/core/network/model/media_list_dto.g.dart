@@ -6,8 +6,8 @@ part of 'media_list_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaListDto _$$_MediaListDtoFromJson(Map<String, dynamic> json) =>
-    _$_MediaListDto(
+_$MediaListDtoImpl _$$MediaListDtoImplFromJson(Map<String, dynamic> json) =>
+    _$MediaListDtoImpl(
       id: json['id'] as int? ?? -1,
       userId: json['userId'] as int? ?? -1,
       score: json['score'] as int?,
@@ -19,7 +19,7 @@ _$_MediaListDto _$$_MediaListDtoFromJson(Map<String, dynamic> json) =>
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_MediaListDtoToJson(_$_MediaListDto instance) =>
+Map<String, dynamic> _$$MediaListDtoImplToJson(_$MediaListDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,

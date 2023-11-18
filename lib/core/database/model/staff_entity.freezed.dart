@@ -88,11 +88,11 @@ class _$StaffEntityCopyWithImpl<$Res, $Val extends StaffEntity>
 }
 
 /// @nodoc
-abstract class _$$_StaffEntityCopyWith<$Res>
+abstract class _$$StaffEntityImplCopyWith<$Res>
     implements $StaffEntityCopyWith<$Res> {
-  factory _$$_StaffEntityCopyWith(
-          _$_StaffEntity value, $Res Function(_$_StaffEntity) then) =
-      __$$_StaffEntityCopyWithImpl<$Res>;
+  factory _$$StaffEntityImplCopyWith(
+          _$StaffEntityImpl value, $Res Function(_$StaffEntityImpl) then) =
+      __$$StaffEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -103,11 +103,11 @@ abstract class _$$_StaffEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StaffEntityCopyWithImpl<$Res>
-    extends _$StaffEntityCopyWithImpl<$Res, _$_StaffEntity>
-    implements _$$_StaffEntityCopyWith<$Res> {
-  __$$_StaffEntityCopyWithImpl(
-      _$_StaffEntity _value, $Res Function(_$_StaffEntity) _then)
+class __$$StaffEntityImplCopyWithImpl<$Res>
+    extends _$StaffEntityCopyWithImpl<$Res, _$StaffEntityImpl>
+    implements _$$StaffEntityImplCopyWith<$Res> {
+  __$$StaffEntityImplCopyWithImpl(
+      _$StaffEntityImpl _value, $Res Function(_$StaffEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_StaffEntityCopyWithImpl<$Res>
     Object? nameEnglish = freezed,
     Object? nameNative = freezed,
   }) {
-    return _then(_$_StaffEntity(
+    return _then(_$StaffEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -141,15 +141,15 @@ class __$$_StaffEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StaffEntity implements _StaffEntity {
-  _$_StaffEntity(
+class _$StaffEntityImpl implements _StaffEntity {
+  _$StaffEntityImpl(
       {@JsonKey(name: StaffColumns.id) this.id = '',
       @JsonKey(name: StaffColumns.image) this.image,
       @JsonKey(name: StaffColumns.nameEnglish) this.nameEnglish,
       @JsonKey(name: StaffColumns.nameNative) this.nameNative});
 
-  factory _$_StaffEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffEntityFromJson(json);
+  factory _$StaffEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StaffEntityImplFromJson(json);
 
   @override
   @JsonKey(name: StaffColumns.id)
@@ -173,7 +173,7 @@ class _$_StaffEntity implements _StaffEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StaffEntity &&
+            other is _$StaffEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.nameEnglish, nameEnglish) ||
@@ -190,12 +190,12 @@ class _$_StaffEntity implements _StaffEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StaffEntityCopyWith<_$_StaffEntity> get copyWith =>
-      __$$_StaffEntityCopyWithImpl<_$_StaffEntity>(this, _$identity);
+  _$$StaffEntityImplCopyWith<_$StaffEntityImpl> get copyWith =>
+      __$$StaffEntityImplCopyWithImpl<_$StaffEntityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StaffEntityToJson(
+    return _$$StaffEntityImplToJson(
       this,
     );
   }
@@ -207,10 +207,10 @@ abstract class _StaffEntity implements StaffEntity {
           @JsonKey(name: StaffColumns.image) final String? image,
           @JsonKey(name: StaffColumns.nameEnglish) final String? nameEnglish,
           @JsonKey(name: StaffColumns.nameNative) final String? nameNative}) =
-      _$_StaffEntity;
+      _$StaffEntityImpl;
 
   factory _StaffEntity.fromJson(Map<String, dynamic> json) =
-      _$_StaffEntity.fromJson;
+      _$StaffEntityImpl.fromJson;
 
   @override
   @JsonKey(name: StaffColumns.id)
@@ -226,6 +226,6 @@ abstract class _StaffEntity implements StaffEntity {
   String? get nameNative;
   @override
   @JsonKey(ignore: true)
-  _$$_StaffEntityCopyWith<_$_StaffEntity> get copyWith =>
+  _$$StaffEntityImplCopyWith<_$StaffEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -29,7 +29,7 @@ class ActivityEntity with _$ActivityEntity {
   }) = _ActivityEntity;
 
   factory ActivityEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_ActivityEntityFromJson(json);
+      _$$ActivityEntityImplFromJson(json);
 
   static ActivityEntity fromDto(AniActivity dto) {
     switch (dto) {

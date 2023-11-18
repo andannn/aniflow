@@ -130,12 +130,12 @@ class _$MediaDataChangeNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MediaDataChangeNotificationDtoCopyWith<$Res>
+abstract class _$$MediaDataChangeNotificationDtoImplCopyWith<$Res>
     implements $MediaDataChangeNotificationDtoCopyWith<$Res> {
-  factory _$$_MediaDataChangeNotificationDtoCopyWith(
-          _$_MediaDataChangeNotificationDto value,
-          $Res Function(_$_MediaDataChangeNotificationDto) then) =
-      __$$_MediaDataChangeNotificationDtoCopyWithImpl<$Res>;
+  factory _$$MediaDataChangeNotificationDtoImplCopyWith(
+          _$MediaDataChangeNotificationDtoImpl value,
+          $Res Function(_$MediaDataChangeNotificationDtoImpl) then) =
+      __$$MediaDataChangeNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -152,13 +152,13 @@ abstract class _$$_MediaDataChangeNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaDataChangeNotificationDtoCopyWithImpl<$Res>
+class __$$MediaDataChangeNotificationDtoImplCopyWithImpl<$Res>
     extends _$MediaDataChangeNotificationDtoCopyWithImpl<$Res,
-        _$_MediaDataChangeNotificationDto>
-    implements _$$_MediaDataChangeNotificationDtoCopyWith<$Res> {
-  __$$_MediaDataChangeNotificationDtoCopyWithImpl(
-      _$_MediaDataChangeNotificationDto _value,
-      $Res Function(_$_MediaDataChangeNotificationDto) _then)
+        _$MediaDataChangeNotificationDtoImpl>
+    implements _$$MediaDataChangeNotificationDtoImplCopyWith<$Res> {
+  __$$MediaDataChangeNotificationDtoImplCopyWithImpl(
+      _$MediaDataChangeNotificationDtoImpl _value,
+      $Res Function(_$MediaDataChangeNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -172,7 +172,7 @@ class __$$_MediaDataChangeNotificationDtoCopyWithImpl<$Res>
     Object? reason = freezed,
     Object? media = freezed,
   }) {
-    return _then(_$_MediaDataChangeNotificationDto(
+    return _then(_$MediaDataChangeNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -207,9 +207,9 @@ class __$$_MediaDataChangeNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaDataChangeNotificationDto
+class _$MediaDataChangeNotificationDtoImpl
     implements _MediaDataChangeNotificationDto {
-  _$_MediaDataChangeNotificationDto(
+  _$MediaDataChangeNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'mediaId') this.mediaId,
@@ -218,9 +218,9 @@ class _$_MediaDataChangeNotificationDto
       @JsonKey(name: 'reason') this.reason,
       @JsonKey(name: 'media') this.media});
 
-  factory _$_MediaDataChangeNotificationDto.fromJson(
+  factory _$MediaDataChangeNotificationDtoImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_MediaDataChangeNotificationDtoFromJson(json);
+      _$$MediaDataChangeNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -253,7 +253,7 @@ class _$_MediaDataChangeNotificationDto
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaDataChangeNotificationDto &&
+            other is _$MediaDataChangeNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
@@ -272,13 +272,14 @@ class _$_MediaDataChangeNotificationDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaDataChangeNotificationDtoCopyWith<_$_MediaDataChangeNotificationDto>
-      get copyWith => __$$_MediaDataChangeNotificationDtoCopyWithImpl<
-          _$_MediaDataChangeNotificationDto>(this, _$identity);
+  _$$MediaDataChangeNotificationDtoImplCopyWith<
+          _$MediaDataChangeNotificationDtoImpl>
+      get copyWith => __$$MediaDataChangeNotificationDtoImplCopyWithImpl<
+          _$MediaDataChangeNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaDataChangeNotificationDtoToJson(
+    return _$$MediaDataChangeNotificationDtoImplToJson(
       this,
     );
   }
@@ -294,10 +295,10 @@ abstract class _MediaDataChangeNotificationDto
           @JsonKey(name: 'createdAt') final int? createdAt,
           @JsonKey(name: 'reason') final String? reason,
           @JsonKey(name: 'media') final MediaDto? media}) =
-      _$_MediaDataChangeNotificationDto;
+      _$MediaDataChangeNotificationDtoImpl;
 
   factory _MediaDataChangeNotificationDto.fromJson(Map<String, dynamic> json) =
-      _$_MediaDataChangeNotificationDto.fromJson;
+      _$MediaDataChangeNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -322,6 +323,7 @@ abstract class _MediaDataChangeNotificationDto
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaDataChangeNotificationDtoCopyWith<_$_MediaDataChangeNotificationDto>
+  _$$MediaDataChangeNotificationDtoImplCopyWith<
+          _$MediaDataChangeNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

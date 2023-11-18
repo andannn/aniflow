@@ -6,8 +6,8 @@ part of 'user_options.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UserOptions _$$_UserOptionsFromJson(Map<String, dynamic> json) =>
-    _$_UserOptions(
+_$UserOptionsImpl _$$UserOptionsImplFromJson(Map<String, dynamic> json) =>
+    _$UserOptionsImpl(
       titleLanguage: json['titleLanguage'] == null
           ? null
           : UserTitleLanguage.fromJson(json['titleLanguage'] as String),
@@ -17,7 +17,7 @@ _$_UserOptions _$$_UserOptionsFromJson(Map<String, dynamic> json) =>
       activityMergeTime: json['activityMergeTime'] as int?,
     );
 
-Map<String, dynamic> _$$_UserOptionsToJson(_$_UserOptions instance) =>
+Map<String, dynamic> _$$UserOptionsImplToJson(_$UserOptionsImpl instance) =>
     <String, dynamic>{
       'titleLanguage': instance.titleLanguage,
       'displayAdultContent': instance.displayAdultContent,

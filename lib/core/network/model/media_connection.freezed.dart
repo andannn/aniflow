@@ -86,11 +86,11 @@ class _$MediaConnectionCopyWithImpl<$Res, $Val extends MediaConnection>
 }
 
 /// @nodoc
-abstract class _$$_MediaConnectionCopyWith<$Res>
+abstract class _$$MediaConnectionImplCopyWith<$Res>
     implements $MediaConnectionCopyWith<$Res> {
-  factory _$$_MediaConnectionCopyWith(
-          _$_MediaConnection value, $Res Function(_$_MediaConnection) then) =
-      __$$_MediaConnectionCopyWithImpl<$Res>;
+  factory _$$MediaConnectionImplCopyWith(_$MediaConnectionImpl value,
+          $Res Function(_$MediaConnectionImpl) then) =
+      __$$MediaConnectionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_MediaConnectionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaConnectionCopyWithImpl<$Res>
-    extends _$MediaConnectionCopyWithImpl<$Res, _$_MediaConnection>
-    implements _$$_MediaConnectionCopyWith<$Res> {
-  __$$_MediaConnectionCopyWithImpl(
-      _$_MediaConnection _value, $Res Function(_$_MediaConnection) _then)
+class __$$MediaConnectionImplCopyWithImpl<$Res>
+    extends _$MediaConnectionCopyWithImpl<$Res, _$MediaConnectionImpl>
+    implements _$$MediaConnectionImplCopyWith<$Res> {
+  __$$MediaConnectionImplCopyWithImpl(
+      _$MediaConnectionImpl _value, $Res Function(_$MediaConnectionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +115,7 @@ class __$$_MediaConnectionCopyWithImpl<$Res>
     Object? pageInfo = freezed,
     Object? edges = null,
   }) {
-    return _then(_$_MediaConnection(
+    return _then(_$MediaConnectionImpl(
       pageInfo: freezed == pageInfo
           ? _value.pageInfo
           : pageInfo // ignore: cast_nullable_to_non_nullable
@@ -130,14 +130,14 @@ class __$$_MediaConnectionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaConnection implements _MediaConnection {
-  _$_MediaConnection(
+class _$MediaConnectionImpl implements _MediaConnection {
+  _$MediaConnectionImpl(
       {@JsonKey(name: 'pageInfo') this.pageInfo,
       @JsonKey(name: 'edges') final List<MediaEdge> edges = const []})
       : _edges = edges;
 
-  factory _$_MediaConnection.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaConnectionFromJson(json);
+  factory _$MediaConnectionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaConnectionImplFromJson(json);
 
   @override
   @JsonKey(name: 'pageInfo')
@@ -160,7 +160,7 @@ class _$_MediaConnection implements _MediaConnection {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaConnection &&
+            other is _$MediaConnectionImpl &&
             (identical(other.pageInfo, pageInfo) ||
                 other.pageInfo == pageInfo) &&
             const DeepCollectionEquality().equals(other._edges, _edges));
@@ -174,12 +174,13 @@ class _$_MediaConnection implements _MediaConnection {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaConnectionCopyWith<_$_MediaConnection> get copyWith =>
-      __$$_MediaConnectionCopyWithImpl<_$_MediaConnection>(this, _$identity);
+  _$$MediaConnectionImplCopyWith<_$MediaConnectionImpl> get copyWith =>
+      __$$MediaConnectionImplCopyWithImpl<_$MediaConnectionImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaConnectionToJson(
+    return _$$MediaConnectionImplToJson(
       this,
     );
   }
@@ -189,10 +190,10 @@ abstract class _MediaConnection implements MediaConnection {
   factory _MediaConnection(
           {@JsonKey(name: 'pageInfo') final PageInfo? pageInfo,
           @JsonKey(name: 'edges') final List<MediaEdge> edges}) =
-      _$_MediaConnection;
+      _$MediaConnectionImpl;
 
   factory _MediaConnection.fromJson(Map<String, dynamic> json) =
-      _$_MediaConnection.fromJson;
+      _$MediaConnectionImpl.fromJson;
 
   @override
   @JsonKey(name: 'pageInfo')
@@ -202,6 +203,6 @@ abstract class _MediaConnection implements MediaConnection {
   List<MediaEdge> get edges;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaConnectionCopyWith<_$_MediaConnection> get copyWith =>
+  _$$MediaConnectionImplCopyWith<_$MediaConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

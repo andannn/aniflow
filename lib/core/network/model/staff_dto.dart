@@ -13,5 +13,5 @@ class StaffDto with _$StaffDto {
   }) = _StaffDto;
 
   factory StaffDto.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffDtoFromJson(json);
+      _$$StaffDtoImplFromJson(json);
 }

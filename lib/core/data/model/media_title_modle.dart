@@ -14,7 +14,7 @@ class MediaTitle with _$MediaTitle {
   }) = _MediaTitle;
 
   factory MediaTitle.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaTitleFromJson(json);
+      _$$MediaTitleImplFromJson(json);
 }
 
 extension MediaTitleEx on MediaTitle {

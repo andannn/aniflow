@@ -168,11 +168,11 @@ class _$ActivityEntityCopyWithImpl<$Res, $Val extends ActivityEntity>
 }
 
 /// @nodoc
-abstract class _$$_ActivityEntityCopyWith<$Res>
+abstract class _$$ActivityEntityImplCopyWith<$Res>
     implements $ActivityEntityCopyWith<$Res> {
-  factory _$$_ActivityEntityCopyWith(
-          _$_ActivityEntity value, $Res Function(_$_ActivityEntity) then) =
-      __$$_ActivityEntityCopyWithImpl<$Res>;
+  factory _$$ActivityEntityImplCopyWith(_$ActivityEntityImpl value,
+          $Res Function(_$ActivityEntityImpl) then) =
+      __$$ActivityEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -193,11 +193,11 @@ abstract class _$$_ActivityEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ActivityEntityCopyWithImpl<$Res>
-    extends _$ActivityEntityCopyWithImpl<$Res, _$_ActivityEntity>
-    implements _$$_ActivityEntityCopyWith<$Res> {
-  __$$_ActivityEntityCopyWithImpl(
-      _$_ActivityEntity _value, $Res Function(_$_ActivityEntity) _then)
+class __$$ActivityEntityImplCopyWithImpl<$Res>
+    extends _$ActivityEntityCopyWithImpl<$Res, _$ActivityEntityImpl>
+    implements _$$ActivityEntityImplCopyWith<$Res> {
+  __$$ActivityEntityImplCopyWithImpl(
+      _$ActivityEntityImpl _value, $Res Function(_$ActivityEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -218,7 +218,7 @@ class __$$_ActivityEntityCopyWithImpl<$Res>
     Object? isPinned = freezed,
     Object? createdAt = freezed,
   }) {
-    return _then(_$_ActivityEntity(
+    return _then(_$ActivityEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -281,8 +281,8 @@ class __$$_ActivityEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ActivityEntity implements _ActivityEntity {
-  _$_ActivityEntity(
+class _$ActivityEntityImpl implements _ActivityEntity {
+  _$ActivityEntityImpl(
       {@JsonKey(name: ActivityTableColumns.id) this.id = '',
       @JsonKey(name: ActivityTableColumns.userId) this.userId = '',
       @JsonKey(name: ActivityTableColumns.mediaId) this.mediaId,
@@ -298,8 +298,8 @@ class _$_ActivityEntity implements _ActivityEntity {
       @JsonKey(name: ActivityTableColumns.isPinned) this.isPinned,
       @JsonKey(name: ActivityTableColumns.createdAt) this.createdAt});
 
-  factory _$_ActivityEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_ActivityEntityFromJson(json);
+  factory _$ActivityEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ActivityEntityImplFromJson(json);
 
   @override
   @JsonKey(name: ActivityTableColumns.id)
@@ -353,7 +353,7 @@ class _$_ActivityEntity implements _ActivityEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActivityEntity &&
+            other is _$ActivityEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
@@ -398,12 +398,13 @@ class _$_ActivityEntity implements _ActivityEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivityEntityCopyWith<_$_ActivityEntity> get copyWith =>
-      __$$_ActivityEntityCopyWithImpl<_$_ActivityEntity>(this, _$identity);
+  _$$ActivityEntityImplCopyWith<_$ActivityEntityImpl> get copyWith =>
+      __$$ActivityEntityImplCopyWithImpl<_$ActivityEntityImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ActivityEntityToJson(
+    return _$$ActivityEntityImplToJson(
       this,
     );
   }
@@ -425,10 +426,10 @@ abstract class _ActivityEntity implements ActivityEntity {
       @JsonKey(name: ActivityTableColumns.likeCount) final int? likeCount,
       @JsonKey(name: ActivityTableColumns.isPinned) final int? isPinned,
       @JsonKey(name: ActivityTableColumns.createdAt)
-      final int? createdAt}) = _$_ActivityEntity;
+      final int? createdAt}) = _$ActivityEntityImpl;
 
   factory _ActivityEntity.fromJson(Map<String, dynamic> json) =
-      _$_ActivityEntity.fromJson;
+      _$ActivityEntityImpl.fromJson;
 
   @override
   @JsonKey(name: ActivityTableColumns.id)
@@ -474,6 +475,6 @@ abstract class _ActivityEntity implements ActivityEntity {
   int? get createdAt;
   @override
   @JsonKey(ignore: true)
-  _$$_ActivityEntityCopyWith<_$_ActivityEntity> get copyWith =>
+  _$$ActivityEntityImplCopyWith<_$ActivityEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

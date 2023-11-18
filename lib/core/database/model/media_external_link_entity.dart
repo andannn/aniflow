@@ -22,7 +22,7 @@ class MediaExternalLinkEntity with _$MediaExternalLinkEntity {
   }) = _MediaExternalLinkEntity;
 
   factory MediaExternalLinkEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaExternalLinkEntityFromJson(json);
+      _$$MediaExternalLinkEntityImplFromJson(json);
 
   static MediaExternalLinkEntity fromDto(
       MediaExternalLinkDto dto, String animeId) {

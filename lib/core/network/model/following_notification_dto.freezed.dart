@@ -120,12 +120,12 @@ class _$FollowingNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_FollowingNotificationDtoCopyWith<$Res>
+abstract class _$$FollowingNotificationDtoImplCopyWith<$Res>
     implements $FollowingNotificationDtoCopyWith<$Res> {
-  factory _$$_FollowingNotificationDtoCopyWith(
-          _$_FollowingNotificationDto value,
-          $Res Function(_$_FollowingNotificationDto) then) =
-      __$$_FollowingNotificationDtoCopyWithImpl<$Res>;
+  factory _$$FollowingNotificationDtoImplCopyWith(
+          _$FollowingNotificationDtoImpl value,
+          $Res Function(_$FollowingNotificationDtoImpl) then) =
+      __$$FollowingNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -141,12 +141,13 @@ abstract class _$$_FollowingNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FollowingNotificationDtoCopyWithImpl<$Res>
+class __$$FollowingNotificationDtoImplCopyWithImpl<$Res>
     extends _$FollowingNotificationDtoCopyWithImpl<$Res,
-        _$_FollowingNotificationDto>
-    implements _$$_FollowingNotificationDtoCopyWith<$Res> {
-  __$$_FollowingNotificationDtoCopyWithImpl(_$_FollowingNotificationDto _value,
-      $Res Function(_$_FollowingNotificationDto) _then)
+        _$FollowingNotificationDtoImpl>
+    implements _$$FollowingNotificationDtoImplCopyWith<$Res> {
+  __$$FollowingNotificationDtoImplCopyWithImpl(
+      _$FollowingNotificationDtoImpl _value,
+      $Res Function(_$FollowingNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +160,7 @@ class __$$_FollowingNotificationDtoCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? user = freezed,
   }) {
-    return _then(_$_FollowingNotificationDto(
+    return _then(_$FollowingNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -190,8 +191,8 @@ class __$$_FollowingNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FollowingNotificationDto implements _FollowingNotificationDto {
-  _$_FollowingNotificationDto(
+class _$FollowingNotificationDtoImpl implements _FollowingNotificationDto {
+  _$FollowingNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'userId') this.userId,
@@ -199,8 +200,8 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
       @JsonKey(name: 'createdAt') this.createdAt,
       @JsonKey(name: 'user') this.user});
 
-  factory _$_FollowingNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_FollowingNotificationDtoFromJson(json);
+  factory _$FollowingNotificationDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FollowingNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -230,7 +231,7 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FollowingNotificationDto &&
+            other is _$FollowingNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -248,13 +249,13 @@ class _$_FollowingNotificationDto implements _FollowingNotificationDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FollowingNotificationDtoCopyWith<_$_FollowingNotificationDto>
-      get copyWith => __$$_FollowingNotificationDtoCopyWithImpl<
-          _$_FollowingNotificationDto>(this, _$identity);
+  _$$FollowingNotificationDtoImplCopyWith<_$FollowingNotificationDtoImpl>
+      get copyWith => __$$FollowingNotificationDtoImplCopyWithImpl<
+          _$FollowingNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FollowingNotificationDtoToJson(
+    return _$$FollowingNotificationDtoImplToJson(
       this,
     );
   }
@@ -268,10 +269,10 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
           @JsonKey(name: 'context') final String? context,
           @JsonKey(name: 'createdAt') final int? createdAt,
           @JsonKey(name: 'user') final UserDto? user}) =
-      _$_FollowingNotificationDto;
+      _$FollowingNotificationDtoImpl;
 
   factory _FollowingNotificationDto.fromJson(Map<String, dynamic> json) =
-      _$_FollowingNotificationDto.fromJson;
+      _$FollowingNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -293,6 +294,6 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
   UserDto? get user;
   @override
   @JsonKey(ignore: true)
-  _$$_FollowingNotificationDtoCopyWith<_$_FollowingNotificationDto>
+  _$$FollowingNotificationDtoImplCopyWith<_$FollowingNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

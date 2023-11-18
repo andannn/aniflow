@@ -6,8 +6,9 @@ part of 'media_list_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaListEntity _$$_MediaListEntityFromJson(Map<String, dynamic> json) =>
-    _$_MediaListEntity(
+_$MediaListEntityImpl _$$MediaListEntityImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MediaListEntityImpl(
       id: json['media_list_id'] as String? ?? '',
       userId: json['media_list_user_id'] as String?,
       animeId: json['media_list_media_id'] as String?,
@@ -18,7 +19,8 @@ _$_MediaListEntity _$$_MediaListEntityFromJson(Map<String, dynamic> json) =>
       updatedAt: json['media_list_updatedAt'] as int?,
     );
 
-Map<String, dynamic> _$$_MediaListEntityToJson(_$_MediaListEntity instance) =>
+Map<String, dynamic> _$$MediaListEntityImplToJson(
+        _$MediaListEntityImpl instance) =>
     <String, dynamic>{
       'media_list_id': instance.id,
       'media_list_user_id': instance.userId,

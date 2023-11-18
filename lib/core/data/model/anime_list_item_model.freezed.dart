@@ -107,11 +107,11 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
 }
 
 /// @nodoc
-abstract class _$$_MediaListItemModelCopyWith<$Res>
+abstract class _$$MediaListItemModelImplCopyWith<$Res>
     implements $MediaListItemModelCopyWith<$Res> {
-  factory _$$_MediaListItemModelCopyWith(_$_MediaListItemModel value,
-          $Res Function(_$_MediaListItemModel) then) =
-      __$$_MediaListItemModelCopyWithImpl<$Res>;
+  factory _$$MediaListItemModelImplCopyWith(_$MediaListItemModelImpl value,
+          $Res Function(_$MediaListItemModelImpl) then) =
+      __$$MediaListItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,11 +127,11 @@ abstract class _$$_MediaListItemModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaListItemModelCopyWithImpl<$Res>
-    extends _$MediaListItemModelCopyWithImpl<$Res, _$_MediaListItemModel>
-    implements _$$_MediaListItemModelCopyWith<$Res> {
-  __$$_MediaListItemModelCopyWithImpl(
-      _$_MediaListItemModel _value, $Res Function(_$_MediaListItemModel) _then)
+class __$$MediaListItemModelImplCopyWithImpl<$Res>
+    extends _$MediaListItemModelCopyWithImpl<$Res, _$MediaListItemModelImpl>
+    implements _$$MediaListItemModelImplCopyWith<$Res> {
+  __$$MediaListItemModelImplCopyWithImpl(_$MediaListItemModelImpl _value,
+      $Res Function(_$MediaListItemModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,7 +144,7 @@ class __$$_MediaListItemModelCopyWithImpl<$Res>
     Object? progress = freezed,
     Object? animeModel = freezed,
   }) {
-    return _then(_$_MediaListItemModel(
+    return _then(_$MediaListItemModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -175,8 +175,8 @@ class __$$_MediaListItemModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MediaListItemModel implements _MediaListItemModel {
-  _$_MediaListItemModel(
+class _$MediaListItemModelImpl implements _MediaListItemModel {
+  _$MediaListItemModelImpl(
       {this.id = '',
       this.status,
       this.score,
@@ -207,7 +207,7 @@ class _$_MediaListItemModel implements _MediaListItemModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaListItemModel &&
+            other is _$MediaListItemModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.score, score) || other.score == score) &&
@@ -226,8 +226,8 @@ class _$_MediaListItemModel implements _MediaListItemModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaListItemModelCopyWith<_$_MediaListItemModel> get copyWith =>
-      __$$_MediaListItemModelCopyWithImpl<_$_MediaListItemModel>(
+  _$$MediaListItemModelImplCopyWith<_$MediaListItemModelImpl> get copyWith =>
+      __$$MediaListItemModelImplCopyWithImpl<_$MediaListItemModelImpl>(
           this, _$identity);
 }
 
@@ -238,7 +238,7 @@ abstract class _MediaListItemModel implements MediaListItemModel {
       final int? score,
       final int? updatedAt,
       final int? progress,
-      final MediaModel? animeModel}) = _$_MediaListItemModel;
+      final MediaModel? animeModel}) = _$MediaListItemModelImpl;
 
   @override
   String get id;
@@ -254,6 +254,6 @@ abstract class _MediaListItemModel implements MediaListItemModel {
   MediaModel? get animeModel;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaListItemModelCopyWith<_$_MediaListItemModel> get copyWith =>
+  _$$MediaListItemModelImplCopyWith<_$MediaListItemModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -15,5 +15,5 @@ class CharacterEdge with _$CharacterEdge {
   }) = _CharacterEdge;
 
   factory CharacterEdge.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterEdgeFromJson(json);
+      _$$CharacterEdgeImplFromJson(json);
 }

@@ -25,5 +25,5 @@ class TextActivityDto extends AniActivity with _$TextActivityDto {
   }) = _TextActivityDto;
 
   factory TextActivityDto.fromJson(Map<String, dynamic> json) =>
-      _$$_TextActivityDtoFromJson(json);
+      _$$TextActivityDtoImplFromJson(json);
 }
