@@ -123,12 +123,12 @@ class _$RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RelatedMediaAdditionNotificationDtoCopyWith<$Res>
+abstract class _$$RelatedMediaAdditionNotificationDtoImplCopyWith<$Res>
     implements $RelatedMediaAdditionNotificationDtoCopyWith<$Res> {
-  factory _$$_RelatedMediaAdditionNotificationDtoCopyWith(
-          _$_RelatedMediaAdditionNotificationDto value,
-          $Res Function(_$_RelatedMediaAdditionNotificationDto) then) =
-      __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res>;
+  factory _$$RelatedMediaAdditionNotificationDtoImplCopyWith(
+          _$RelatedMediaAdditionNotificationDtoImpl value,
+          $Res Function(_$RelatedMediaAdditionNotificationDtoImpl) then) =
+      __$$RelatedMediaAdditionNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -144,13 +144,13 @@ abstract class _$$_RelatedMediaAdditionNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res>
+class __$$RelatedMediaAdditionNotificationDtoImplCopyWithImpl<$Res>
     extends _$RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res,
-        _$_RelatedMediaAdditionNotificationDto>
-    implements _$$_RelatedMediaAdditionNotificationDtoCopyWith<$Res> {
-  __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl(
-      _$_RelatedMediaAdditionNotificationDto _value,
-      $Res Function(_$_RelatedMediaAdditionNotificationDto) _then)
+        _$RelatedMediaAdditionNotificationDtoImpl>
+    implements _$$RelatedMediaAdditionNotificationDtoImplCopyWith<$Res> {
+  __$$RelatedMediaAdditionNotificationDtoImplCopyWithImpl(
+      _$RelatedMediaAdditionNotificationDtoImpl _value,
+      $Res Function(_$RelatedMediaAdditionNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -163,7 +163,7 @@ class __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? media = freezed,
   }) {
-    return _then(_$_RelatedMediaAdditionNotificationDto(
+    return _then(_$RelatedMediaAdditionNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -194,9 +194,9 @@ class __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_RelatedMediaAdditionNotificationDto
+class _$RelatedMediaAdditionNotificationDtoImpl
     implements _RelatedMediaAdditionNotificationDto {
-  _$_RelatedMediaAdditionNotificationDto(
+  _$RelatedMediaAdditionNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'mediaId') this.mediaId,
@@ -204,9 +204,9 @@ class _$_RelatedMediaAdditionNotificationDto
       @JsonKey(name: 'createdAt') this.createdAt,
       @JsonKey(name: 'media') this.media});
 
-  factory _$_RelatedMediaAdditionNotificationDto.fromJson(
+  factory _$RelatedMediaAdditionNotificationDtoImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_RelatedMediaAdditionNotificationDtoFromJson(json);
+      _$$RelatedMediaAdditionNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -236,7 +236,7 @@ class _$_RelatedMediaAdditionNotificationDto
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RelatedMediaAdditionNotificationDto &&
+            other is _$RelatedMediaAdditionNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
@@ -254,14 +254,14 @@ class _$_RelatedMediaAdditionNotificationDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RelatedMediaAdditionNotificationDtoCopyWith<
-          _$_RelatedMediaAdditionNotificationDto>
-      get copyWith => __$$_RelatedMediaAdditionNotificationDtoCopyWithImpl<
-          _$_RelatedMediaAdditionNotificationDto>(this, _$identity);
+  _$$RelatedMediaAdditionNotificationDtoImplCopyWith<
+          _$RelatedMediaAdditionNotificationDtoImpl>
+      get copyWith => __$$RelatedMediaAdditionNotificationDtoImplCopyWithImpl<
+          _$RelatedMediaAdditionNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RelatedMediaAdditionNotificationDtoToJson(
+    return _$$RelatedMediaAdditionNotificationDtoImplToJson(
       this,
     );
   }
@@ -276,11 +276,11 @@ abstract class _RelatedMediaAdditionNotificationDto
           @JsonKey(name: 'context') final String? context,
           @JsonKey(name: 'createdAt') final int? createdAt,
           @JsonKey(name: 'media') final MediaDto? media}) =
-      _$_RelatedMediaAdditionNotificationDto;
+      _$RelatedMediaAdditionNotificationDtoImpl;
 
   factory _RelatedMediaAdditionNotificationDto.fromJson(
           Map<String, dynamic> json) =
-      _$_RelatedMediaAdditionNotificationDto.fromJson;
+      _$RelatedMediaAdditionNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -302,7 +302,7 @@ abstract class _RelatedMediaAdditionNotificationDto
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_RelatedMediaAdditionNotificationDtoCopyWith<
-          _$_RelatedMediaAdditionNotificationDto>
+  _$$RelatedMediaAdditionNotificationDtoImplCopyWith<
+          _$RelatedMediaAdditionNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

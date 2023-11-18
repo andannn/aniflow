@@ -13,5 +13,5 @@ class AnimeRank with _$AnimeRank {
   }) = _AnimeRank;
 
   factory AnimeRank.fromJson(Map<String, dynamic> json) =>
-      _$$_AnimeRankFromJson(json);
+      _$$AnimeRankImplFromJson(json);
 }

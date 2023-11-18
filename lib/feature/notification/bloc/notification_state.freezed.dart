@@ -57,22 +57,22 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
 }
 
 /// @nodoc
-abstract class _$$_NotificationStateCopyWith<$Res>
+abstract class _$$NotificationStateImplCopyWith<$Res>
     implements $NotificationStateCopyWith<$Res> {
-  factory _$$_NotificationStateCopyWith(_$_NotificationState value,
-          $Res Function(_$_NotificationState) then) =
-      __$$_NotificationStateCopyWithImpl<$Res>;
+  factory _$$NotificationStateImplCopyWith(_$NotificationStateImpl value,
+          $Res Function(_$NotificationStateImpl) then) =
+      __$$NotificationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({NotificationCategory category});
 }
 
 /// @nodoc
-class __$$_NotificationStateCopyWithImpl<$Res>
-    extends _$NotificationStateCopyWithImpl<$Res, _$_NotificationState>
-    implements _$$_NotificationStateCopyWith<$Res> {
-  __$$_NotificationStateCopyWithImpl(
-      _$_NotificationState _value, $Res Function(_$_NotificationState) _then)
+class __$$NotificationStateImplCopyWithImpl<$Res>
+    extends _$NotificationStateCopyWithImpl<$Res, _$NotificationStateImpl>
+    implements _$$NotificationStateImplCopyWith<$Res> {
+  __$$NotificationStateImplCopyWithImpl(_$NotificationStateImpl _value,
+      $Res Function(_$NotificationStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_NotificationStateCopyWithImpl<$Res>
   $Res call({
     Object? category = null,
   }) {
-    return _then(_$_NotificationState(
+    return _then(_$NotificationStateImpl(
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_NotificationStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_NotificationState implements _NotificationState {
-  _$_NotificationState({this.category = NotificationCategory.all});
+class _$NotificationStateImpl implements _NotificationState {
+  _$NotificationStateImpl({this.category = NotificationCategory.all});
 
   @override
   @JsonKey()
@@ -107,7 +107,7 @@ class _$_NotificationState implements _NotificationState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NotificationState &&
+            other is _$NotificationStateImpl &&
             (identical(other.category, category) ||
                 other.category == category));
   }
@@ -118,19 +118,19 @@ class _$_NotificationState implements _NotificationState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NotificationStateCopyWith<_$_NotificationState> get copyWith =>
-      __$$_NotificationStateCopyWithImpl<_$_NotificationState>(
+  _$$NotificationStateImplCopyWith<_$NotificationStateImpl> get copyWith =>
+      __$$NotificationStateImplCopyWithImpl<_$NotificationStateImpl>(
           this, _$identity);
 }
 
 abstract class _NotificationState implements NotificationState {
   factory _NotificationState({final NotificationCategory category}) =
-      _$_NotificationState;
+      _$NotificationStateImpl;
 
   @override
   NotificationCategory get category;
   @override
   @JsonKey(ignore: true)
-  _$$_NotificationStateCopyWith<_$_NotificationState> get copyWith =>
+  _$$NotificationStateImplCopyWith<_$NotificationStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

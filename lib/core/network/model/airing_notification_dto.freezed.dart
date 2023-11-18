@@ -128,11 +128,12 @@ class _$AiringNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AiringNotificationDtoCopyWith<$Res>
+abstract class _$$AiringNotificationDtoImplCopyWith<$Res>
     implements $AiringNotificationDtoCopyWith<$Res> {
-  factory _$$_AiringNotificationDtoCopyWith(_$_AiringNotificationDto value,
-          $Res Function(_$_AiringNotificationDto) then) =
-      __$$_AiringNotificationDtoCopyWithImpl<$Res>;
+  factory _$$AiringNotificationDtoImplCopyWith(
+          _$AiringNotificationDtoImpl value,
+          $Res Function(_$AiringNotificationDtoImpl) then) =
+      __$$AiringNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -149,11 +150,12 @@ abstract class _$$_AiringNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AiringNotificationDtoCopyWithImpl<$Res>
-    extends _$AiringNotificationDtoCopyWithImpl<$Res, _$_AiringNotificationDto>
-    implements _$$_AiringNotificationDtoCopyWith<$Res> {
-  __$$_AiringNotificationDtoCopyWithImpl(_$_AiringNotificationDto _value,
-      $Res Function(_$_AiringNotificationDto) _then)
+class __$$AiringNotificationDtoImplCopyWithImpl<$Res>
+    extends _$AiringNotificationDtoCopyWithImpl<$Res,
+        _$AiringNotificationDtoImpl>
+    implements _$$AiringNotificationDtoImplCopyWith<$Res> {
+  __$$AiringNotificationDtoImplCopyWithImpl(_$AiringNotificationDtoImpl _value,
+      $Res Function(_$AiringNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -167,7 +169,7 @@ class __$$_AiringNotificationDtoCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? media = freezed,
   }) {
-    return _then(_$_AiringNotificationDto(
+    return _then(_$AiringNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -202,8 +204,8 @@ class __$$_AiringNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AiringNotificationDto implements _AiringNotificationDto {
-  _$_AiringNotificationDto(
+class _$AiringNotificationDtoImpl implements _AiringNotificationDto {
+  _$AiringNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'animeId') this.animeId,
@@ -213,8 +215,8 @@ class _$_AiringNotificationDto implements _AiringNotificationDto {
       @JsonKey(name: 'media') this.media})
       : _contexts = contexts;
 
-  factory _$_AiringNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringNotificationDtoFromJson(json);
+  factory _$AiringNotificationDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AiringNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -253,7 +255,7 @@ class _$_AiringNotificationDto implements _AiringNotificationDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AiringNotificationDto &&
+            other is _$AiringNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.animeId, animeId) || other.animeId == animeId) &&
@@ -272,13 +274,13 @@ class _$_AiringNotificationDto implements _AiringNotificationDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AiringNotificationDtoCopyWith<_$_AiringNotificationDto> get copyWith =>
-      __$$_AiringNotificationDtoCopyWithImpl<_$_AiringNotificationDto>(
-          this, _$identity);
+  _$$AiringNotificationDtoImplCopyWith<_$AiringNotificationDtoImpl>
+      get copyWith => __$$AiringNotificationDtoImplCopyWithImpl<
+          _$AiringNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AiringNotificationDtoToJson(
+    return _$$AiringNotificationDtoImplToJson(
       this,
     );
   }
@@ -293,10 +295,10 @@ abstract class _AiringNotificationDto implements AiringNotificationDto {
           @JsonKey(name: 'contexts') final List<String> contexts,
           @JsonKey(name: 'createdAt') final int? createdAt,
           @JsonKey(name: 'media') final MediaDto? media}) =
-      _$_AiringNotificationDto;
+      _$AiringNotificationDtoImpl;
 
   factory _AiringNotificationDto.fromJson(Map<String, dynamic> json) =
-      _$_AiringNotificationDto.fromJson;
+      _$AiringNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -321,6 +323,6 @@ abstract class _AiringNotificationDto implements AiringNotificationDto {
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_AiringNotificationDtoCopyWith<_$_AiringNotificationDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AiringNotificationDtoImplCopyWith<_$AiringNotificationDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

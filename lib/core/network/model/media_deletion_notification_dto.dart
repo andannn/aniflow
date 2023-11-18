@@ -20,5 +20,5 @@ class MediaDeletionNotificationDto extends AniNotification
 
   factory MediaDeletionNotificationDto.fromJson(
           Map<String, dynamic> json) =>
-      _$$_MediaDeletionNotificationDtoFromJson(json);
+      _$$MediaDeletionNotificationDtoImplFromJson(json);
 }

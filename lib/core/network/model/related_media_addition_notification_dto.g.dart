@@ -6,10 +6,10 @@ part of 'related_media_addition_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_RelatedMediaAdditionNotificationDto
-    _$$_RelatedMediaAdditionNotificationDtoFromJson(
+_$RelatedMediaAdditionNotificationDtoImpl
+    _$$RelatedMediaAdditionNotificationDtoImplFromJson(
             Map<String, dynamic> json) =>
-        _$_RelatedMediaAdditionNotificationDto(
+        _$RelatedMediaAdditionNotificationDtoImpl(
           id: json['id'] as int? ?? -1,
           type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
           mediaId: json['mediaId'] as int?,
@@ -20,8 +20,8 @@ _$_RelatedMediaAdditionNotificationDto
               : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
         );
 
-Map<String, dynamic> _$$_RelatedMediaAdditionNotificationDtoToJson(
-        _$_RelatedMediaAdditionNotificationDto instance) =>
+Map<String, dynamic> _$$RelatedMediaAdditionNotificationDtoImplToJson(
+        _$RelatedMediaAdditionNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

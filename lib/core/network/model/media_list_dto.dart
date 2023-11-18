@@ -19,5 +19,5 @@ class MediaListDto with _$MediaListDto {
   }) = _MediaListDto;
 
   factory MediaListDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaListDtoFromJson(json);
+      _$$MediaListDtoImplFromJson(json);
 }

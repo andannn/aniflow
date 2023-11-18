@@ -6,9 +6,9 @@ part of 'media_deletion_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaDeletionNotificationDto _$$_MediaDeletionNotificationDtoFromJson(
+_$MediaDeletionNotificationDtoImpl _$$MediaDeletionNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_MediaDeletionNotificationDto(
+    _$MediaDeletionNotificationDtoImpl(
       id: json['id'] as int? ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       deletedMediaTitle: json['deletedMediaTitle'] as String?,
@@ -17,8 +17,8 @@ _$_MediaDeletionNotificationDto _$$_MediaDeletionNotificationDtoFromJson(
       createdAt: json['createdAt'] as int?,
     );
 
-Map<String, dynamic> _$$_MediaDeletionNotificationDtoToJson(
-        _$_MediaDeletionNotificationDto instance) =>
+Map<String, dynamic> _$$MediaDeletionNotificationDtoImplToJson(
+        _$MediaDeletionNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

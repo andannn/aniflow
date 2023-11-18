@@ -6,9 +6,9 @@ part of 'media_external_link_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaExternalLinkEntity _$$_MediaExternalLinkEntityFromJson(
+_$MediaExternalLinkEntityImpl _$$MediaExternalLinkEntityImplFromJson(
         Map<String, dynamic> json) =>
-    _$_MediaExternalLinkEntity(
+    _$MediaExternalLinkEntityImpl(
       id: json['external_link_id'] as String? ?? '',
       animeId: json['external_link_media_id'] as String? ?? '',
       url: json['external_link_url'] as String?,
@@ -19,8 +19,8 @@ _$_MediaExternalLinkEntity _$$_MediaExternalLinkEntityFromJson(
       icon: json['external_link_icon'] as String?,
     );
 
-Map<String, dynamic> _$$_MediaExternalLinkEntityToJson(
-        _$_MediaExternalLinkEntity instance) =>
+Map<String, dynamic> _$$MediaExternalLinkEntityImplToJson(
+        _$MediaExternalLinkEntityImpl instance) =>
     <String, dynamic>{
       'external_link_id': instance.id,
       'external_link_media_id': instance.animeId,

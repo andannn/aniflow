@@ -6,8 +6,8 @@ part of 'activity_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ActivityEntity _$$_ActivityEntityFromJson(Map<String, dynamic> json) =>
-    _$_ActivityEntity(
+_$ActivityEntityImpl _$$ActivityEntityImplFromJson(Map<String, dynamic> json) =>
+    _$ActivityEntityImpl(
       id: json['activity_id'] as String? ?? '',
       userId: json['activity_userId'] as String? ?? '',
       mediaId: json['activity_mediaId'] as String?,
@@ -24,7 +24,8 @@ _$_ActivityEntity _$$_ActivityEntityFromJson(Map<String, dynamic> json) =>
       createdAt: json['activity_createdAt'] as int?,
     );
 
-Map<String, dynamic> _$$_ActivityEntityToJson(_$_ActivityEntity instance) =>
+Map<String, dynamic> _$$ActivityEntityImplToJson(
+        _$ActivityEntityImpl instance) =>
     <String, dynamic>{
       'activity_id': instance.id,
       'activity_userId': instance.userId,

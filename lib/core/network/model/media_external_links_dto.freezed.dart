@@ -113,11 +113,11 @@ class _$MediaExternalLinkDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MediaExternalLinkDtoCopyWith<$Res>
+abstract class _$$MediaExternalLinkDtoImplCopyWith<$Res>
     implements $MediaExternalLinkDtoCopyWith<$Res> {
-  factory _$$_MediaExternalLinkDtoCopyWith(_$_MediaExternalLinkDto value,
-          $Res Function(_$_MediaExternalLinkDto) then) =
-      __$$_MediaExternalLinkDtoCopyWithImpl<$Res>;
+  factory _$$MediaExternalLinkDtoImplCopyWith(_$MediaExternalLinkDtoImpl value,
+          $Res Function(_$MediaExternalLinkDtoImpl) then) =
+      __$$MediaExternalLinkDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_MediaExternalLinkDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaExternalLinkDtoCopyWithImpl<$Res>
-    extends _$MediaExternalLinkDtoCopyWithImpl<$Res, _$_MediaExternalLinkDto>
-    implements _$$_MediaExternalLinkDtoCopyWith<$Res> {
-  __$$_MediaExternalLinkDtoCopyWithImpl(_$_MediaExternalLinkDto _value,
-      $Res Function(_$_MediaExternalLinkDto) _then)
+class __$$MediaExternalLinkDtoImplCopyWithImpl<$Res>
+    extends _$MediaExternalLinkDtoCopyWithImpl<$Res, _$MediaExternalLinkDtoImpl>
+    implements _$$MediaExternalLinkDtoImplCopyWith<$Res> {
+  __$$MediaExternalLinkDtoImplCopyWithImpl(_$MediaExternalLinkDtoImpl _value,
+      $Res Function(_$MediaExternalLinkDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,7 +149,7 @@ class __$$_MediaExternalLinkDtoCopyWithImpl<$Res>
     Object? color = freezed,
     Object? icon = freezed,
   }) {
-    return _then(_$_MediaExternalLinkDto(
+    return _then(_$MediaExternalLinkDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ class __$$_MediaExternalLinkDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaExternalLinkDto implements _MediaExternalLinkDto {
-  _$_MediaExternalLinkDto(
+class _$MediaExternalLinkDtoImpl implements _MediaExternalLinkDto {
+  _$MediaExternalLinkDtoImpl(
       {@JsonKey(name: 'id') this.id,
       @JsonKey(name: 'url') this.url,
       @JsonKey(name: 'site') this.site,
@@ -194,8 +194,8 @@ class _$_MediaExternalLinkDto implements _MediaExternalLinkDto {
       @JsonKey(name: 'color') this.color,
       @JsonKey(name: 'icon') this.icon});
 
-  factory _$_MediaExternalLinkDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaExternalLinkDtoFromJson(json);
+  factory _$MediaExternalLinkDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaExternalLinkDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -228,7 +228,7 @@ class _$_MediaExternalLinkDto implements _MediaExternalLinkDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaExternalLinkDto &&
+            other is _$MediaExternalLinkDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.site, site) || other.site == site) &&
@@ -246,13 +246,14 @@ class _$_MediaExternalLinkDto implements _MediaExternalLinkDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaExternalLinkDtoCopyWith<_$_MediaExternalLinkDto> get copyWith =>
-      __$$_MediaExternalLinkDtoCopyWithImpl<_$_MediaExternalLinkDto>(
-          this, _$identity);
+  _$$MediaExternalLinkDtoImplCopyWith<_$MediaExternalLinkDtoImpl>
+      get copyWith =>
+          __$$MediaExternalLinkDtoImplCopyWithImpl<_$MediaExternalLinkDtoImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaExternalLinkDtoToJson(
+    return _$$MediaExternalLinkDtoImplToJson(
       this,
     );
   }
@@ -266,10 +267,10 @@ abstract class _MediaExternalLinkDto implements MediaExternalLinkDto {
       @JsonKey(name: 'type') final String? type,
       @JsonKey(name: 'siteId') final int? siteId,
       @JsonKey(name: 'color') final String? color,
-      @JsonKey(name: 'icon') final String? icon}) = _$_MediaExternalLinkDto;
+      @JsonKey(name: 'icon') final String? icon}) = _$MediaExternalLinkDtoImpl;
 
   factory _MediaExternalLinkDto.fromJson(Map<String, dynamic> json) =
-      _$_MediaExternalLinkDto.fromJson;
+      _$MediaExternalLinkDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -294,6 +295,6 @@ abstract class _MediaExternalLinkDto implements MediaExternalLinkDto {
   String? get icon;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaExternalLinkDtoCopyWith<_$_MediaExternalLinkDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MediaExternalLinkDtoImplCopyWith<_$MediaExternalLinkDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

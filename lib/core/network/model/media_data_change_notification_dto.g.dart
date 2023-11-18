@@ -6,22 +6,22 @@ part of 'media_data_change_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaDataChangeNotificationDto _$$_MediaDataChangeNotificationDtoFromJson(
-        Map<String, dynamic> json) =>
-    _$_MediaDataChangeNotificationDto(
-      id: json['id'] as int? ?? -1,
-      type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-      mediaId: json['mediaId'] as int?,
-      context: json['context'] as String?,
-      createdAt: json['createdAt'] as int?,
-      reason: json['reason'] as String?,
-      media: json['media'] == null
-          ? null
-          : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
-    );
+_$MediaDataChangeNotificationDtoImpl
+    _$$MediaDataChangeNotificationDtoImplFromJson(Map<String, dynamic> json) =>
+        _$MediaDataChangeNotificationDtoImpl(
+          id: json['id'] as int? ?? -1,
+          type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
+          mediaId: json['mediaId'] as int?,
+          context: json['context'] as String?,
+          createdAt: json['createdAt'] as int?,
+          reason: json['reason'] as String?,
+          media: json['media'] == null
+              ? null
+              : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
+        );
 
-Map<String, dynamic> _$$_MediaDataChangeNotificationDtoToJson(
-        _$_MediaDataChangeNotificationDto instance) =>
+Map<String, dynamic> _$$MediaDataChangeNotificationDtoImplToJson(
+        _$MediaDataChangeNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

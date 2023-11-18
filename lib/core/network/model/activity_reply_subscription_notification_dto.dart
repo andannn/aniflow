@@ -24,7 +24,7 @@ class ActivityReplySubscribedNotificationDto extends AniNotification
 
   factory ActivityReplySubscribedNotificationDto.fromJson(
           Map<String, dynamic> json) =>
-      _$$_ActivityReplySubscribedNotificationDtoFromJson(json);
+      _$$ActivityReplySubscribedNotificationDtoImplFromJson(json);
 
   static ActivityReplySubscribedNotificationDto fromJsonWithActivity(
       Map<String, dynamic> json) {

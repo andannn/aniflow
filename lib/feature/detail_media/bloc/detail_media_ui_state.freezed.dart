@@ -77,11 +77,11 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
 }
 
 /// @nodoc
-abstract class _$$_DetailMediaUiStateCopyWith<$Res>
+abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
     implements $DetailMediaUiStateCopyWith<$Res> {
-  factory _$$_DetailMediaUiStateCopyWith(_$_DetailMediaUiState value,
-          $Res Function(_$_DetailMediaUiState) then) =
-      __$$_DetailMediaUiStateCopyWithImpl<$Res>;
+  factory _$$DetailMediaUiStateImplCopyWith(_$DetailMediaUiStateImpl value,
+          $Res Function(_$DetailMediaUiStateImpl) then) =
+      __$$DetailMediaUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({dynamic isLoading, MediaModel? detailAnimeModel});
@@ -91,11 +91,11 @@ abstract class _$$_DetailMediaUiStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DetailMediaUiStateCopyWithImpl<$Res>
-    extends _$DetailMediaUiStateCopyWithImpl<$Res, _$_DetailMediaUiState>
-    implements _$$_DetailMediaUiStateCopyWith<$Res> {
-  __$$_DetailMediaUiStateCopyWithImpl(
-      _$_DetailMediaUiState _value, $Res Function(_$_DetailMediaUiState) _then)
+class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
+    extends _$DetailMediaUiStateCopyWithImpl<$Res, _$DetailMediaUiStateImpl>
+    implements _$$DetailMediaUiStateImplCopyWith<$Res> {
+  __$$DetailMediaUiStateImplCopyWithImpl(_$DetailMediaUiStateImpl _value,
+      $Res Function(_$DetailMediaUiStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +104,7 @@ class __$$_DetailMediaUiStateCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? detailAnimeModel = freezed,
   }) {
-    return _then(_$_DetailMediaUiState(
+    return _then(_$DetailMediaUiStateImpl(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
@@ -116,8 +116,8 @@ class __$$_DetailMediaUiStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DetailMediaUiState implements _DetailMediaUiState {
-  _$_DetailMediaUiState({this.isLoading = false, this.detailAnimeModel});
+class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
+  _$DetailMediaUiStateImpl({this.isLoading = false, this.detailAnimeModel});
 
   @override
   @JsonKey()
@@ -134,7 +134,7 @@ class _$_DetailMediaUiState implements _DetailMediaUiState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DetailMediaUiState &&
+            other is _$DetailMediaUiStateImpl &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             (identical(other.detailAnimeModel, detailAnimeModel) ||
                 other.detailAnimeModel == detailAnimeModel));
@@ -147,15 +147,15 @@ class _$_DetailMediaUiState implements _DetailMediaUiState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DetailMediaUiStateCopyWith<_$_DetailMediaUiState> get copyWith =>
-      __$$_DetailMediaUiStateCopyWithImpl<_$_DetailMediaUiState>(
+  _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
+      __$$DetailMediaUiStateImplCopyWithImpl<_$DetailMediaUiStateImpl>(
           this, _$identity);
 }
 
 abstract class _DetailMediaUiState implements DetailMediaUiState {
   factory _DetailMediaUiState(
       {final dynamic isLoading,
-      final MediaModel? detailAnimeModel}) = _$_DetailMediaUiState;
+      final MediaModel? detailAnimeModel}) = _$DetailMediaUiStateImpl;
 
   @override
   dynamic get isLoading;
@@ -163,6 +163,6 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   MediaModel? get detailAnimeModel;
   @override
   @JsonKey(ignore: true)
-  _$$_DetailMediaUiStateCopyWith<_$_DetailMediaUiState> get copyWith =>
+  _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

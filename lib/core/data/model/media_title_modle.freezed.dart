@@ -80,11 +80,11 @@ class _$MediaTitleCopyWithImpl<$Res, $Val extends MediaTitle>
 }
 
 /// @nodoc
-abstract class _$$_MediaTitleCopyWith<$Res>
+abstract class _$$MediaTitleImplCopyWith<$Res>
     implements $MediaTitleCopyWith<$Res> {
-  factory _$$_MediaTitleCopyWith(
-          _$_MediaTitle value, $Res Function(_$_MediaTitle) then) =
-      __$$_MediaTitleCopyWithImpl<$Res>;
+  factory _$$MediaTitleImplCopyWith(
+          _$MediaTitleImpl value, $Res Function(_$MediaTitleImpl) then) =
+      __$$MediaTitleImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_MediaTitleCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaTitleCopyWithImpl<$Res>
-    extends _$MediaTitleCopyWithImpl<$Res, _$_MediaTitle>
-    implements _$$_MediaTitleCopyWith<$Res> {
-  __$$_MediaTitleCopyWithImpl(
-      _$_MediaTitle _value, $Res Function(_$_MediaTitle) _then)
+class __$$MediaTitleImplCopyWithImpl<$Res>
+    extends _$MediaTitleCopyWithImpl<$Res, _$MediaTitleImpl>
+    implements _$$MediaTitleImplCopyWith<$Res> {
+  __$$MediaTitleImplCopyWithImpl(
+      _$MediaTitleImpl _value, $Res Function(_$MediaTitleImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$_MediaTitleCopyWithImpl<$Res>
     Object? english = null,
     Object? native = null,
   }) {
-    return _then(_$_MediaTitle(
+    return _then(_$MediaTitleImpl(
       romaji: null == romaji
           ? _value.romaji
           : romaji // ignore: cast_nullable_to_non_nullable
@@ -127,14 +127,14 @@ class __$$_MediaTitleCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaTitle implements _MediaTitle {
-  _$_MediaTitle(
+class _$MediaTitleImpl implements _MediaTitle {
+  _$MediaTitleImpl(
       {@JsonKey(name: 'romaji') this.romaji = '',
       @JsonKey(name: 'english') this.english = '',
       @JsonKey(name: 'native') this.native = ''});
 
-  factory _$_MediaTitle.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaTitleFromJson(json);
+  factory _$MediaTitleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaTitleImplFromJson(json);
 
   @override
   @JsonKey(name: 'romaji')
@@ -155,7 +155,7 @@ class _$_MediaTitle implements _MediaTitle {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaTitle &&
+            other is _$MediaTitleImpl &&
             (identical(other.romaji, romaji) || other.romaji == romaji) &&
             (identical(other.english, english) || other.english == english) &&
             (identical(other.native, native) || other.native == native));
@@ -168,12 +168,12 @@ class _$_MediaTitle implements _MediaTitle {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaTitleCopyWith<_$_MediaTitle> get copyWith =>
-      __$$_MediaTitleCopyWithImpl<_$_MediaTitle>(this, _$identity);
+  _$$MediaTitleImplCopyWith<_$MediaTitleImpl> get copyWith =>
+      __$$MediaTitleImplCopyWithImpl<_$MediaTitleImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaTitleToJson(
+    return _$$MediaTitleImplToJson(
       this,
     );
   }
@@ -183,10 +183,10 @@ abstract class _MediaTitle implements MediaTitle {
   factory _MediaTitle(
       {@JsonKey(name: 'romaji') final String romaji,
       @JsonKey(name: 'english') final String english,
-      @JsonKey(name: 'native') final String native}) = _$_MediaTitle;
+      @JsonKey(name: 'native') final String native}) = _$MediaTitleImpl;
 
   factory _MediaTitle.fromJson(Map<String, dynamic> json) =
-      _$_MediaTitle.fromJson;
+      _$MediaTitleImpl.fromJson;
 
   @override
   @JsonKey(name: 'romaji')
@@ -199,6 +199,6 @@ abstract class _MediaTitle implements MediaTitle {
   String get native;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaTitleCopyWith<_$_MediaTitle> get copyWith =>
+  _$$MediaTitleImplCopyWith<_$MediaTitleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

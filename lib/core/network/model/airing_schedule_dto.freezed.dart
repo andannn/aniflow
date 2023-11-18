@@ -118,11 +118,11 @@ class _$AiringScheduleDtoCopyWithImpl<$Res, $Val extends AiringScheduleDto>
 }
 
 /// @nodoc
-abstract class _$$_AiringScheduleDtoCopyWith<$Res>
+abstract class _$$AiringScheduleDtoImplCopyWith<$Res>
     implements $AiringScheduleDtoCopyWith<$Res> {
-  factory _$$_AiringScheduleDtoCopyWith(_$_AiringScheduleDto value,
-          $Res Function(_$_AiringScheduleDto) then) =
-      __$$_AiringScheduleDtoCopyWithImpl<$Res>;
+  factory _$$AiringScheduleDtoImplCopyWith(_$AiringScheduleDtoImpl value,
+          $Res Function(_$AiringScheduleDtoImpl) then) =
+      __$$AiringScheduleDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -138,11 +138,11 @@ abstract class _$$_AiringScheduleDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AiringScheduleDtoCopyWithImpl<$Res>
-    extends _$AiringScheduleDtoCopyWithImpl<$Res, _$_AiringScheduleDto>
-    implements _$$_AiringScheduleDtoCopyWith<$Res> {
-  __$$_AiringScheduleDtoCopyWithImpl(
-      _$_AiringScheduleDto _value, $Res Function(_$_AiringScheduleDto) _then)
+class __$$AiringScheduleDtoImplCopyWithImpl<$Res>
+    extends _$AiringScheduleDtoCopyWithImpl<$Res, _$AiringScheduleDtoImpl>
+    implements _$$AiringScheduleDtoImplCopyWith<$Res> {
+  __$$AiringScheduleDtoImplCopyWithImpl(_$AiringScheduleDtoImpl _value,
+      $Res Function(_$AiringScheduleDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -155,7 +155,7 @@ class __$$_AiringScheduleDtoCopyWithImpl<$Res>
     Object? episode = freezed,
     Object? media = freezed,
   }) {
-    return _then(_$_AiringScheduleDto(
+    return _then(_$AiringScheduleDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -186,8 +186,8 @@ class __$$_AiringScheduleDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AiringScheduleDto implements _AiringScheduleDto {
-  _$_AiringScheduleDto(
+class _$AiringScheduleDtoImpl implements _AiringScheduleDto {
+  _$AiringScheduleDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'mediaId') this.mediaId,
       @JsonKey(name: 'airingAt') this.airingAt,
@@ -195,8 +195,8 @@ class _$_AiringScheduleDto implements _AiringScheduleDto {
       @JsonKey(name: 'episode') this.episode,
       @JsonKey(name: 'media') this.media});
 
-  factory _$_AiringScheduleDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringScheduleDtoFromJson(json);
+  factory _$AiringScheduleDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AiringScheduleDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -226,7 +226,7 @@ class _$_AiringScheduleDto implements _AiringScheduleDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AiringScheduleDto &&
+            other is _$AiringScheduleDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
             (identical(other.airingAt, airingAt) ||
@@ -245,13 +245,13 @@ class _$_AiringScheduleDto implements _AiringScheduleDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AiringScheduleDtoCopyWith<_$_AiringScheduleDto> get copyWith =>
-      __$$_AiringScheduleDtoCopyWithImpl<_$_AiringScheduleDto>(
+  _$$AiringScheduleDtoImplCopyWith<_$AiringScheduleDtoImpl> get copyWith =>
+      __$$AiringScheduleDtoImplCopyWithImpl<_$AiringScheduleDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AiringScheduleDtoToJson(
+    return _$$AiringScheduleDtoImplToJson(
       this,
     );
   }
@@ -264,10 +264,10 @@ abstract class _AiringScheduleDto implements AiringScheduleDto {
       @JsonKey(name: 'airingAt') final int? airingAt,
       @JsonKey(name: 'timeUntilAiring') final int? timeUntilAiring,
       @JsonKey(name: 'episode') final int? episode,
-      @JsonKey(name: 'media') final MediaDto? media}) = _$_AiringScheduleDto;
+      @JsonKey(name: 'media') final MediaDto? media}) = _$AiringScheduleDtoImpl;
 
   factory _AiringScheduleDto.fromJson(Map<String, dynamic> json) =
-      _$_AiringScheduleDto.fromJson;
+      _$AiringScheduleDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -289,6 +289,6 @@ abstract class _AiringScheduleDto implements AiringScheduleDto {
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_AiringScheduleDtoCopyWith<_$_AiringScheduleDto> get copyWith =>
+  _$$AiringScheduleDtoImplCopyWith<_$AiringScheduleDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -156,8 +156,7 @@ class AniflowDatabase {
     batch.execute('create table if not exists ${Tables.characterTable} ('
         '${CharacterColumns.id} text primary key,'
         '${CharacterColumns.image} text,'
-        '${CharacterColumns.nameEnglish} text,'
-        '${CharacterColumns.nameNative} text'
+        '${CharacterColumns.name} text'
         ')');
 
     batch.execute(
@@ -175,8 +174,7 @@ class AniflowDatabase {
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
         '${StaffColumns.image} text,'
-        '${StaffColumns.nameEnglish} text,'
-        '${StaffColumns.nameNative} text)');
+        '${StaffColumns.name} text)');
 
     batch.execute(
         'create table if not exists ${Tables.mediaCharacterCrossRefTable} ('

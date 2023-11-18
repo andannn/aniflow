@@ -195,11 +195,11 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
 }
 
 /// @nodoc
-abstract class _$$_ListActivityDtoCopyWith<$Res>
+abstract class _$$ListActivityDtoImplCopyWith<$Res>
     implements $ListActivityDtoCopyWith<$Res> {
-  factory _$$_ListActivityDtoCopyWith(
-          _$_ListActivityDto value, $Res Function(_$_ListActivityDto) then) =
-      __$$_ListActivityDtoCopyWithImpl<$Res>;
+  factory _$$ListActivityDtoImplCopyWith(_$ListActivityDtoImpl value,
+          $Res Function(_$ListActivityDtoImpl) then) =
+      __$$ListActivityDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -225,11 +225,11 @@ abstract class _$$_ListActivityDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ListActivityDtoCopyWithImpl<$Res>
-    extends _$ListActivityDtoCopyWithImpl<$Res, _$_ListActivityDto>
-    implements _$$_ListActivityDtoCopyWith<$Res> {
-  __$$_ListActivityDtoCopyWithImpl(
-      _$_ListActivityDto _value, $Res Function(_$_ListActivityDto) _then)
+class __$$ListActivityDtoImplCopyWithImpl<$Res>
+    extends _$ListActivityDtoCopyWithImpl<$Res, _$ListActivityDtoImpl>
+    implements _$$ListActivityDtoImplCopyWith<$Res> {
+  __$$ListActivityDtoImplCopyWithImpl(
+      _$ListActivityDtoImpl _value, $Res Function(_$ListActivityDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -250,7 +250,7 @@ class __$$_ListActivityDtoCopyWithImpl<$Res>
     Object? user = freezed,
     Object? media = freezed,
   }) {
-    return _then(_$_ListActivityDto(
+    return _then(_$ListActivityDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -313,8 +313,8 @@ class __$$_ListActivityDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ListActivityDto implements _ListActivityDto {
-  _$_ListActivityDto(
+class _$ListActivityDtoImpl implements _ListActivityDto {
+  _$ListActivityDtoImpl(
       {@JsonKey(name: 'id') this.id,
       @JsonKey(name: 'status') this.status,
       @JsonKey(name: 'progress') this.progress,
@@ -330,8 +330,8 @@ class _$_ListActivityDto implements _ListActivityDto {
       @JsonKey(name: 'user') this.user,
       @JsonKey(name: 'media') this.media});
 
-  factory _$_ListActivityDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ListActivityDtoFromJson(json);
+  factory _$ListActivityDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListActivityDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -385,7 +385,7 @@ class _$_ListActivityDto implements _ListActivityDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ListActivityDto &&
+            other is _$ListActivityDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.progress, progress) ||
@@ -430,12 +430,13 @@ class _$_ListActivityDto implements _ListActivityDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ListActivityDtoCopyWith<_$_ListActivityDto> get copyWith =>
-      __$$_ListActivityDtoCopyWithImpl<_$_ListActivityDto>(this, _$identity);
+  _$$ListActivityDtoImplCopyWith<_$ListActivityDtoImpl> get copyWith =>
+      __$$ListActivityDtoImplCopyWithImpl<_$ListActivityDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ListActivityDtoToJson(
+    return _$$ListActivityDtoImplToJson(
       this,
     );
   }
@@ -456,10 +457,10 @@ abstract class _ListActivityDto implements ListActivityDto {
       @JsonKey(name: 'isPinned') final bool? isPinned,
       @JsonKey(name: 'createdAt') final int? createdAt,
       @JsonKey(name: 'user') final UserDto? user,
-      @JsonKey(name: 'media') final MediaDto? media}) = _$_ListActivityDto;
+      @JsonKey(name: 'media') final MediaDto? media}) = _$ListActivityDtoImpl;
 
   factory _ListActivityDto.fromJson(Map<String, dynamic> json) =
-      _$_ListActivityDto.fromJson;
+      _$ListActivityDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -505,6 +506,6 @@ abstract class _ListActivityDto implements ListActivityDto {
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_ListActivityDtoCopyWith<_$_ListActivityDto> get copyWith =>
+  _$$ListActivityDtoImplCopyWith<_$ListActivityDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

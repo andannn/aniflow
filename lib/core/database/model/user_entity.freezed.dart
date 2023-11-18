@@ -96,11 +96,11 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
 }
 
 /// @nodoc
-abstract class _$$_UserEntityCopyWith<$Res>
+abstract class _$$UserEntityImplCopyWith<$Res>
     implements $UserEntityCopyWith<$Res> {
-  factory _$$_UserEntityCopyWith(
-          _$_UserEntity value, $Res Function(_$_UserEntity) then) =
-      __$$_UserEntityCopyWithImpl<$Res>;
+  factory _$$UserEntityImplCopyWith(
+          _$UserEntityImpl value, $Res Function(_$UserEntityImpl) then) =
+      __$$UserEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,11 +112,11 @@ abstract class _$$_UserEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UserEntityCopyWithImpl<$Res>
-    extends _$UserEntityCopyWithImpl<$Res, _$_UserEntity>
-    implements _$$_UserEntityCopyWith<$Res> {
-  __$$_UserEntityCopyWithImpl(
-      _$_UserEntity _value, $Res Function(_$_UserEntity) _then)
+class __$$UserEntityImplCopyWithImpl<$Res>
+    extends _$UserEntityCopyWithImpl<$Res, _$UserEntityImpl>
+    implements _$$UserEntityImplCopyWith<$Res> {
+  __$$UserEntityImplCopyWithImpl(
+      _$UserEntityImpl _value, $Res Function(_$UserEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +128,7 @@ class __$$_UserEntityCopyWithImpl<$Res>
     Object? bannerImage = freezed,
     Object? profileColor = freezed,
   }) {
-    return _then(_$_UserEntity(
+    return _then(_$UserEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -155,16 +155,16 @@ class __$$_UserEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserEntity implements _UserEntity {
-  _$_UserEntity(
+class _$UserEntityImpl implements _UserEntity {
+  _$UserEntityImpl(
       {@JsonKey(name: UserDataTableColumns.id) this.id = '',
       @JsonKey(name: UserDataTableColumns.name) this.name = '',
       @JsonKey(name: UserDataTableColumns.avatarImage) this.avatar = '',
       @JsonKey(name: UserDataTableColumns.bannerImage) this.bannerImage,
       @JsonKey(name: UserDataTableColumns.profileColor) this.profileColor});
 
-  factory _$_UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_UserEntityFromJson(json);
+  factory _$UserEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserEntityImplFromJson(json);
 
   @override
   @JsonKey(name: UserDataTableColumns.id)
@@ -191,7 +191,7 @@ class _$_UserEntity implements _UserEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserEntity &&
+            other is _$UserEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
@@ -209,12 +209,12 @@ class _$_UserEntity implements _UserEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserEntityCopyWith<_$_UserEntity> get copyWith =>
-      __$$_UserEntityCopyWithImpl<_$_UserEntity>(this, _$identity);
+  _$$UserEntityImplCopyWith<_$UserEntityImpl> get copyWith =>
+      __$$UserEntityImplCopyWithImpl<_$UserEntityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserEntityToJson(
+    return _$$UserEntityImplToJson(
       this,
     );
   }
@@ -228,10 +228,10 @@ abstract class _UserEntity implements UserEntity {
       @JsonKey(name: UserDataTableColumns.bannerImage)
       final String? bannerImage,
       @JsonKey(name: UserDataTableColumns.profileColor)
-      final String? profileColor}) = _$_UserEntity;
+      final String? profileColor}) = _$UserEntityImpl;
 
   factory _UserEntity.fromJson(Map<String, dynamic> json) =
-      _$_UserEntity.fromJson;
+      _$UserEntityImpl.fromJson;
 
   @override
   @JsonKey(name: UserDataTableColumns.id)
@@ -250,6 +250,6 @@ abstract class _UserEntity implements UserEntity {
   String? get profileColor;
   @override
   @JsonKey(ignore: true)
-  _$$_UserEntityCopyWith<_$_UserEntity> get copyWith =>
+  _$$UserEntityImplCopyWith<_$UserEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

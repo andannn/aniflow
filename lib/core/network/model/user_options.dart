@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,6 +10,8 @@ part 'user_options.g.dart';
 class UserOptions with _$UserOptions {
   factory UserOptions({
     @JsonKey(name: 'titleLanguage') UserTitleLanguage? titleLanguage,
+    @JsonKey(name: 'staffNameLanguage')
+    UserStaffNameLanguage? staffNameLanguage,
     @Default(false)
     @JsonKey(name: 'displayAdultContent')
     bool displayAdultContent,
@@ -20,5 +23,5 @@ class UserOptions with _$UserOptions {
   }) = _UserOptions;
 
   factory UserOptions.fromJson(Map<String, dynamic> json) =>
-      _$$_UserOptionsFromJson(json);
+      _$$UserOptionsImplFromJson(json);
 }

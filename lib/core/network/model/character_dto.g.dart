@@ -6,8 +6,8 @@ part of 'character_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CharacterDto _$$_CharacterDtoFromJson(Map<String, dynamic> json) =>
-    _$_CharacterDto(
+_$CharacterDtoImpl _$$CharacterDtoImplFromJson(Map<String, dynamic> json) =>
+    _$CharacterDtoImpl(
       id: json['id'] as int? ?? -1,
       image: (json['image'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String?),
@@ -19,7 +19,7 @@ _$_CharacterDto _$$_CharacterDtoFromJson(Map<String, dynamic> json) =>
           const {},
     );
 
-Map<String, dynamic> _$$_CharacterDtoToJson(_$_CharacterDto instance) =>
+Map<String, dynamic> _$$CharacterDtoImplToJson(_$CharacterDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'image': instance.image,

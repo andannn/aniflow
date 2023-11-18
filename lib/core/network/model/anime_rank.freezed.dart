@@ -79,10 +79,11 @@ class _$AnimeRankCopyWithImpl<$Res, $Val extends AnimeRank>
 }
 
 /// @nodoc
-abstract class _$$_AnimeRankCopyWith<$Res> implements $AnimeRankCopyWith<$Res> {
-  factory _$$_AnimeRankCopyWith(
-          _$_AnimeRank value, $Res Function(_$_AnimeRank) then) =
-      __$$_AnimeRankCopyWithImpl<$Res>;
+abstract class _$$AnimeRankImplCopyWith<$Res>
+    implements $AnimeRankCopyWith<$Res> {
+  factory _$$AnimeRankImplCopyWith(
+          _$AnimeRankImpl value, $Res Function(_$AnimeRankImpl) then) =
+      __$$AnimeRankImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -92,11 +93,11 @@ abstract class _$$_AnimeRankCopyWith<$Res> implements $AnimeRankCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AnimeRankCopyWithImpl<$Res>
-    extends _$AnimeRankCopyWithImpl<$Res, _$_AnimeRank>
-    implements _$$_AnimeRankCopyWith<$Res> {
-  __$$_AnimeRankCopyWithImpl(
-      _$_AnimeRank _value, $Res Function(_$_AnimeRank) _then)
+class __$$AnimeRankImplCopyWithImpl<$Res>
+    extends _$AnimeRankCopyWithImpl<$Res, _$AnimeRankImpl>
+    implements _$$AnimeRankImplCopyWith<$Res> {
+  __$$AnimeRankImplCopyWithImpl(
+      _$AnimeRankImpl _value, $Res Function(_$AnimeRankImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +107,7 @@ class __$$_AnimeRankCopyWithImpl<$Res>
     Object? type = freezed,
     Object? allTime = freezed,
   }) {
-    return _then(_$_AnimeRank(
+    return _then(_$AnimeRankImpl(
       rank: freezed == rank
           ? _value.rank
           : rank // ignore: cast_nullable_to_non_nullable
@@ -125,14 +126,14 @@ class __$$_AnimeRankCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AnimeRank implements _AnimeRank {
-  _$_AnimeRank(
+class _$AnimeRankImpl implements _AnimeRank {
+  _$AnimeRankImpl(
       {@JsonKey(name: 'rank') this.rank,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'allTime') this.allTime});
 
-  factory _$_AnimeRank.fromJson(Map<String, dynamic> json) =>
-      _$$_AnimeRankFromJson(json);
+  factory _$AnimeRankImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AnimeRankImplFromJson(json);
 
   @override
   @JsonKey(name: 'rank')
@@ -153,7 +154,7 @@ class _$_AnimeRank implements _AnimeRank {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AnimeRank &&
+            other is _$AnimeRankImpl &&
             (identical(other.rank, rank) || other.rank == rank) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.allTime, allTime) || other.allTime == allTime));
@@ -166,12 +167,12 @@ class _$_AnimeRank implements _AnimeRank {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnimeRankCopyWith<_$_AnimeRank> get copyWith =>
-      __$$_AnimeRankCopyWithImpl<_$_AnimeRank>(this, _$identity);
+  _$$AnimeRankImplCopyWith<_$AnimeRankImpl> get copyWith =>
+      __$$AnimeRankImplCopyWithImpl<_$AnimeRankImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AnimeRankToJson(
+    return _$$AnimeRankImplToJson(
       this,
     );
   }
@@ -181,10 +182,10 @@ abstract class _AnimeRank implements AnimeRank {
   factory _AnimeRank(
       {@JsonKey(name: 'rank') final int? rank,
       @JsonKey(name: 'type') final String? type,
-      @JsonKey(name: 'allTime') final bool? allTime}) = _$_AnimeRank;
+      @JsonKey(name: 'allTime') final bool? allTime}) = _$AnimeRankImpl;
 
   factory _AnimeRank.fromJson(Map<String, dynamic> json) =
-      _$_AnimeRank.fromJson;
+      _$AnimeRankImpl.fromJson;
 
   @override
   @JsonKey(name: 'rank')
@@ -197,6 +198,6 @@ abstract class _AnimeRank implements AnimeRank {
   bool? get allTime;
   @override
   @JsonKey(ignore: true)
-  _$$_AnimeRankCopyWith<_$_AnimeRank> get copyWith =>
+  _$$AnimeRankImplCopyWith<_$AnimeRankImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

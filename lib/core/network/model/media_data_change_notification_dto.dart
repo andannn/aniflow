@@ -21,5 +21,5 @@ class MediaDataChangeNotificationDto extends AniNotification
   }) = _MediaDataChangeNotificationDto;
 
   factory MediaDataChangeNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaDataChangeNotificationDtoFromJson(json);
+      _$$MediaDataChangeNotificationDtoImplFromJson(json);
 }

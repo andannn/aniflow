@@ -19,8 +19,7 @@ mixin _$StaffModel {
   String get id => throw _privateConstructorUsedError;
   String get voiceActorId => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String get nameEnglish => throw _privateConstructorUsedError;
-  String get nameNative => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StaffModelCopyWith<StaffModel> get copyWith =>
@@ -33,12 +32,7 @@ abstract class $StaffModelCopyWith<$Res> {
           StaffModel value, $Res Function(StaffModel) then) =
       _$StaffModelCopyWithImpl<$Res, StaffModel>;
   @useResult
-  $Res call(
-      {String id,
-      String voiceActorId,
-      String image,
-      String nameEnglish,
-      String nameNative});
+  $Res call({String id, String voiceActorId, String image, String name});
 }
 
 /// @nodoc
@@ -57,8 +51,7 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
     Object? id = null,
     Object? voiceActorId = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,40 +66,31 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_StaffModelCopyWith<$Res>
+abstract class _$$StaffModelImplCopyWith<$Res>
     implements $StaffModelCopyWith<$Res> {
-  factory _$$_StaffModelCopyWith(
-          _$_StaffModel value, $Res Function(_$_StaffModel) then) =
-      __$$_StaffModelCopyWithImpl<$Res>;
+  factory _$$StaffModelImplCopyWith(
+          _$StaffModelImpl value, $Res Function(_$StaffModelImpl) then) =
+      __$$StaffModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String voiceActorId,
-      String image,
-      String nameEnglish,
-      String nameNative});
+  $Res call({String id, String voiceActorId, String image, String name});
 }
 
 /// @nodoc
-class __$$_StaffModelCopyWithImpl<$Res>
-    extends _$StaffModelCopyWithImpl<$Res, _$_StaffModel>
-    implements _$$_StaffModelCopyWith<$Res> {
-  __$$_StaffModelCopyWithImpl(
-      _$_StaffModel _value, $Res Function(_$_StaffModel) _then)
+class __$$StaffModelImplCopyWithImpl<$Res>
+    extends _$StaffModelCopyWithImpl<$Res, _$StaffModelImpl>
+    implements _$$StaffModelImplCopyWith<$Res> {
+  __$$StaffModelImplCopyWithImpl(
+      _$StaffModelImpl _value, $Res Function(_$StaffModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,10 +99,9 @@ class __$$_StaffModelCopyWithImpl<$Res>
     Object? id = null,
     Object? voiceActorId = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
-    return _then(_$_StaffModel(
+    return _then(_$StaffModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -131,13 +114,9 @@ class __$$_StaffModelCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -145,13 +124,9 @@ class __$$_StaffModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StaffModel implements _StaffModel {
-  _$_StaffModel(
-      {this.id = '',
-      this.voiceActorId = '',
-      this.image = '',
-      this.nameEnglish = '',
-      this.nameNative = ''});
+class _$StaffModelImpl implements _StaffModel {
+  _$StaffModelImpl(
+      {this.id = '', this.voiceActorId = '', this.image = '', this.name = ''});
 
   @override
   @JsonKey()
@@ -164,40 +139,33 @@ class _$_StaffModel implements _StaffModel {
   final String image;
   @override
   @JsonKey()
-  final String nameEnglish;
-  @override
-  @JsonKey()
-  final String nameNative;
+  final String name;
 
   @override
   String toString() {
-    return 'StaffModel(id: $id, voiceActorId: $voiceActorId, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'StaffModel(id: $id, voiceActorId: $voiceActorId, image: $image, name: $name)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StaffModel &&
+            other is _$StaffModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.voiceActorId, voiceActorId) ||
                 other.voiceActorId == voiceActorId) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.nameEnglish, nameEnglish) ||
-                other.nameEnglish == nameEnglish) &&
-            (identical(other.nameNative, nameNative) ||
-                other.nameNative == nameNative));
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, voiceActorId, image, nameEnglish, nameNative);
+  int get hashCode => Object.hash(runtimeType, id, voiceActorId, image, name);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StaffModelCopyWith<_$_StaffModel> get copyWith =>
-      __$$_StaffModelCopyWithImpl<_$_StaffModel>(this, _$identity);
+  _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>
+      __$$StaffModelImplCopyWithImpl<_$StaffModelImpl>(this, _$identity);
 }
 
 abstract class _StaffModel implements StaffModel {
@@ -205,8 +173,7 @@ abstract class _StaffModel implements StaffModel {
       {final String id,
       final String voiceActorId,
       final String image,
-      final String nameEnglish,
-      final String nameNative}) = _$_StaffModel;
+      final String name}) = _$StaffModelImpl;
 
   @override
   String get id;
@@ -215,11 +182,9 @@ abstract class _StaffModel implements StaffModel {
   @override
   String get image;
   @override
-  String get nameEnglish;
-  @override
-  String get nameNative;
+  String get name;
   @override
   @JsonKey(ignore: true)
-  _$$_StaffModelCopyWith<_$_StaffModel> get copyWith =>
+  _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -66,11 +66,11 @@ class _$AiringScheduleStateCopyWithImpl<$Res, $Val extends AiringScheduleState>
 }
 
 /// @nodoc
-abstract class _$$_AiringScheduleStateCopyWith<$Res>
+abstract class _$$AiringScheduleStateImplCopyWith<$Res>
     implements $AiringScheduleStateCopyWith<$Res> {
-  factory _$$_AiringScheduleStateCopyWith(_$_AiringScheduleState value,
-          $Res Function(_$_AiringScheduleState) then) =
-      __$$_AiringScheduleStateCopyWithImpl<$Res>;
+  factory _$$AiringScheduleStateImplCopyWith(_$AiringScheduleStateImpl value,
+          $Res Function(_$AiringScheduleStateImpl) then) =
+      __$$AiringScheduleStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -79,11 +79,11 @@ abstract class _$$_AiringScheduleStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AiringScheduleStateCopyWithImpl<$Res>
-    extends _$AiringScheduleStateCopyWithImpl<$Res, _$_AiringScheduleState>
-    implements _$$_AiringScheduleStateCopyWith<$Res> {
-  __$$_AiringScheduleStateCopyWithImpl(_$_AiringScheduleState _value,
-      $Res Function(_$_AiringScheduleState) _then)
+class __$$AiringScheduleStateImplCopyWithImpl<$Res>
+    extends _$AiringScheduleStateCopyWithImpl<$Res, _$AiringScheduleStateImpl>
+    implements _$$AiringScheduleStateImplCopyWith<$Res> {
+  __$$AiringScheduleStateImplCopyWithImpl(_$AiringScheduleStateImpl _value,
+      $Res Function(_$AiringScheduleStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_AiringScheduleStateCopyWithImpl<$Res>
     Object? scheduleKeys = null,
     Object? schedulePageMap = null,
   }) {
-    return _then(_$_AiringScheduleState(
+    return _then(_$AiringScheduleStateImpl(
       scheduleKeys: null == scheduleKeys
           ? _value._scheduleKeys
           : scheduleKeys // ignore: cast_nullable_to_non_nullable
@@ -107,8 +107,8 @@ class __$$_AiringScheduleStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AiringScheduleState implements _AiringScheduleState {
-  _$_AiringScheduleState(
+class _$AiringScheduleStateImpl implements _AiringScheduleState {
+  _$AiringScheduleStateImpl(
       {final List<SchedulePageKey> scheduleKeys = const [],
       final Map<SchedulePageKey, SchedulePageState> schedulePageMap = const {}})
       : _scheduleKeys = scheduleKeys,
@@ -141,7 +141,7 @@ class _$_AiringScheduleState implements _AiringScheduleState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AiringScheduleState &&
+            other is _$AiringScheduleStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._scheduleKeys, _scheduleKeys) &&
             const DeepCollectionEquality()
@@ -157,8 +157,8 @@ class _$_AiringScheduleState implements _AiringScheduleState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AiringScheduleStateCopyWith<_$_AiringScheduleState> get copyWith =>
-      __$$_AiringScheduleStateCopyWithImpl<_$_AiringScheduleState>(
+  _$$AiringScheduleStateImplCopyWith<_$AiringScheduleStateImpl> get copyWith =>
+      __$$AiringScheduleStateImplCopyWithImpl<_$AiringScheduleStateImpl>(
           this, _$identity);
 }
 
@@ -166,7 +166,7 @@ abstract class _AiringScheduleState implements AiringScheduleState {
   factory _AiringScheduleState(
           {final List<SchedulePageKey> scheduleKeys,
           final Map<SchedulePageKey, SchedulePageState> schedulePageMap}) =
-      _$_AiringScheduleState;
+      _$AiringScheduleStateImpl;
 
   @override
   List<SchedulePageKey> get scheduleKeys;
@@ -174,6 +174,6 @@ abstract class _AiringScheduleState implements AiringScheduleState {
   Map<SchedulePageKey, SchedulePageState> get schedulePageMap;
   @override
   @JsonKey(ignore: true)
-  _$$_AiringScheduleStateCopyWith<_$_AiringScheduleState> get copyWith =>
+  _$$AiringScheduleStateImplCopyWith<_$AiringScheduleStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

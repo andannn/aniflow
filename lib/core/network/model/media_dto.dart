@@ -45,5 +45,5 @@ class MediaDto with _$MediaDto {
   }) = _MediaDto;
 
   factory MediaDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaDtoFromJson(json);
+      _$$MediaDtoImplFromJson(json);
 }

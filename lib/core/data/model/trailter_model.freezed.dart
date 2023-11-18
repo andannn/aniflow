@@ -69,22 +69,22 @@ class _$TrailerModelCopyWithImpl<$Res, $Val extends TrailerModel>
 }
 
 /// @nodoc
-abstract class _$$_TrailerModelCopyWith<$Res>
+abstract class _$$TrailerModelImplCopyWith<$Res>
     implements $TrailerModelCopyWith<$Res> {
-  factory _$$_TrailerModelCopyWith(
-          _$_TrailerModel value, $Res Function(_$_TrailerModel) then) =
-      __$$_TrailerModelCopyWithImpl<$Res>;
+  factory _$$TrailerModelImplCopyWith(
+          _$TrailerModelImpl value, $Res Function(_$TrailerModelImpl) then) =
+      __$$TrailerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? id, String? site, String? thumbnail});
 }
 
 /// @nodoc
-class __$$_TrailerModelCopyWithImpl<$Res>
-    extends _$TrailerModelCopyWithImpl<$Res, _$_TrailerModel>
-    implements _$$_TrailerModelCopyWith<$Res> {
-  __$$_TrailerModelCopyWithImpl(
-      _$_TrailerModel _value, $Res Function(_$_TrailerModel) _then)
+class __$$TrailerModelImplCopyWithImpl<$Res>
+    extends _$TrailerModelCopyWithImpl<$Res, _$TrailerModelImpl>
+    implements _$$TrailerModelImplCopyWith<$Res> {
+  __$$TrailerModelImplCopyWithImpl(
+      _$TrailerModelImpl _value, $Res Function(_$TrailerModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_TrailerModelCopyWithImpl<$Res>
     Object? site = freezed,
     Object? thumbnail = freezed,
   }) {
-    return _then(_$_TrailerModel(
+    return _then(_$TrailerModelImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_TrailerModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TrailerModel implements _TrailerModel {
-  _$_TrailerModel({this.id = '', this.site = '', this.thumbnail = ''});
+class _$TrailerModelImpl implements _TrailerModel {
+  _$TrailerModelImpl({this.id = '', this.site = '', this.thumbnail = ''});
 
   @override
   @JsonKey()
@@ -135,7 +135,7 @@ class _$_TrailerModel implements _TrailerModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TrailerModel &&
+            other is _$TrailerModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.site, site) || other.site == site) &&
             (identical(other.thumbnail, thumbnail) ||
@@ -148,15 +148,15 @@ class _$_TrailerModel implements _TrailerModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TrailerModelCopyWith<_$_TrailerModel> get copyWith =>
-      __$$_TrailerModelCopyWithImpl<_$_TrailerModel>(this, _$identity);
+  _$$TrailerModelImplCopyWith<_$TrailerModelImpl> get copyWith =>
+      __$$TrailerModelImplCopyWithImpl<_$TrailerModelImpl>(this, _$identity);
 }
 
 abstract class _TrailerModel implements TrailerModel {
   factory _TrailerModel(
       {final String? id,
       final String? site,
-      final String? thumbnail}) = _$_TrailerModel;
+      final String? thumbnail}) = _$TrailerModelImpl;
 
   @override
   String? get id;
@@ -166,6 +166,6 @@ abstract class _TrailerModel implements TrailerModel {
   String? get thumbnail;
   @override
   @JsonKey(ignore: true)
-  _$$_TrailerModelCopyWith<_$_TrailerModel> get copyWith =>
+  _$$TrailerModelImplCopyWith<_$TrailerModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

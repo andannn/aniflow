@@ -6,22 +6,22 @@ part of 'activity_message_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ActivityMessageNotificationDto _$$_ActivityMessageNotificationDtoFromJson(
-        Map<String, dynamic> json) =>
-    _$_ActivityMessageNotificationDto(
-      id: json['id'] as int? ?? -1,
-      type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-      userId: json['userId'] as int?,
-      activityId: json['activityId'] as int?,
-      context: json['context'] as String?,
-      createdAt: json['createdAt'] as int?,
-      user: json['user'] == null
-          ? null
-          : UserDto.fromJson(json['user'] as Map<String, dynamic>),
-    );
+_$ActivityMessageNotificationDtoImpl
+    _$$ActivityMessageNotificationDtoImplFromJson(Map<String, dynamic> json) =>
+        _$ActivityMessageNotificationDtoImpl(
+          id: json['id'] as int? ?? -1,
+          type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
+          userId: json['userId'] as int?,
+          activityId: json['activityId'] as int?,
+          context: json['context'] as String?,
+          createdAt: json['createdAt'] as int?,
+          user: json['user'] == null
+              ? null
+              : UserDto.fromJson(json['user'] as Map<String, dynamic>),
+        );
 
-Map<String, dynamic> _$$_ActivityMessageNotificationDtoToJson(
-        _$_ActivityMessageNotificationDto instance) =>
+Map<String, dynamic> _$$ActivityMessageNotificationDtoImplToJson(
+        _$ActivityMessageNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

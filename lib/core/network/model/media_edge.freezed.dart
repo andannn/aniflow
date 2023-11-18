@@ -85,10 +85,11 @@ class _$MediaEdgeCopyWithImpl<$Res, $Val extends MediaEdge>
 }
 
 /// @nodoc
-abstract class _$$_MediaEdgeCopyWith<$Res> implements $MediaEdgeCopyWith<$Res> {
-  factory _$$_MediaEdgeCopyWith(
-          _$_MediaEdge value, $Res Function(_$_MediaEdge) then) =
-      __$$_MediaEdgeCopyWithImpl<$Res>;
+abstract class _$$MediaEdgeImplCopyWith<$Res>
+    implements $MediaEdgeCopyWith<$Res> {
+  factory _$$MediaEdgeImplCopyWith(
+          _$MediaEdgeImpl value, $Res Function(_$MediaEdgeImpl) then) =
+      __$$MediaEdgeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -100,11 +101,11 @@ abstract class _$$_MediaEdgeCopyWith<$Res> implements $MediaEdgeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MediaEdgeCopyWithImpl<$Res>
-    extends _$MediaEdgeCopyWithImpl<$Res, _$_MediaEdge>
-    implements _$$_MediaEdgeCopyWith<$Res> {
-  __$$_MediaEdgeCopyWithImpl(
-      _$_MediaEdge _value, $Res Function(_$_MediaEdge) _then)
+class __$$MediaEdgeImplCopyWithImpl<$Res>
+    extends _$MediaEdgeCopyWithImpl<$Res, _$MediaEdgeImpl>
+    implements _$$MediaEdgeImplCopyWith<$Res> {
+  __$$MediaEdgeImplCopyWithImpl(
+      _$MediaEdgeImpl _value, $Res Function(_$MediaEdgeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,7 +114,7 @@ class __$$_MediaEdgeCopyWithImpl<$Res>
     Object? relationType = null,
     Object? media = freezed,
   }) {
-    return _then(_$_MediaEdge(
+    return _then(_$MediaEdgeImpl(
       relationType: null == relationType
           ? _value.relationType
           : relationType // ignore: cast_nullable_to_non_nullable
@@ -128,13 +129,13 @@ class __$$_MediaEdgeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaEdge implements _MediaEdge {
-  _$_MediaEdge(
+class _$MediaEdgeImpl implements _MediaEdge {
+  _$MediaEdgeImpl(
       {@JsonKey(name: 'relationType') this.relationType = MediaRelation.other,
       @JsonKey(name: 'node') this.media});
 
-  factory _$_MediaEdge.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaEdgeFromJson(json);
+  factory _$MediaEdgeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaEdgeImplFromJson(json);
 
   @override
   @JsonKey(name: 'relationType')
@@ -152,7 +153,7 @@ class _$_MediaEdge implements _MediaEdge {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaEdge &&
+            other is _$MediaEdgeImpl &&
             (identical(other.relationType, relationType) ||
                 other.relationType == relationType) &&
             (identical(other.media, media) || other.media == media));
@@ -165,12 +166,12 @@ class _$_MediaEdge implements _MediaEdge {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaEdgeCopyWith<_$_MediaEdge> get copyWith =>
-      __$$_MediaEdgeCopyWithImpl<_$_MediaEdge>(this, _$identity);
+  _$$MediaEdgeImplCopyWith<_$MediaEdgeImpl> get copyWith =>
+      __$$MediaEdgeImplCopyWithImpl<_$MediaEdgeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaEdgeToJson(
+    return _$$MediaEdgeImplToJson(
       this,
     );
   }
@@ -179,10 +180,10 @@ class _$_MediaEdge implements _MediaEdge {
 abstract class _MediaEdge implements MediaEdge {
   factory _MediaEdge(
       {@JsonKey(name: 'relationType') final MediaRelation relationType,
-      @JsonKey(name: 'node') final MediaDto? media}) = _$_MediaEdge;
+      @JsonKey(name: 'node') final MediaDto? media}) = _$MediaEdgeImpl;
 
   factory _MediaEdge.fromJson(Map<String, dynamic> json) =
-      _$_MediaEdge.fromJson;
+      _$MediaEdgeImpl.fromJson;
 
   @override
   @JsonKey(name: 'relationType')
@@ -192,6 +193,6 @@ abstract class _MediaEdge implements MediaEdge {
   MediaDto? get media;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaEdgeCopyWith<_$_MediaEdge> get copyWith =>
+  _$$MediaEdgeImplCopyWith<_$MediaEdgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

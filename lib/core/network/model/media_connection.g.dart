@@ -6,8 +6,9 @@ part of 'media_connection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaConnection _$$_MediaConnectionFromJson(Map<String, dynamic> json) =>
-    _$_MediaConnection(
+_$MediaConnectionImpl _$$MediaConnectionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MediaConnectionImpl(
       pageInfo: json['pageInfo'] == null
           ? null
           : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
@@ -17,7 +18,8 @@ _$_MediaConnection _$$_MediaConnectionFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$_MediaConnectionToJson(_$_MediaConnection instance) =>
+Map<String, dynamic> _$$MediaConnectionImplToJson(
+        _$MediaConnectionImpl instance) =>
     <String, dynamic>{
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,

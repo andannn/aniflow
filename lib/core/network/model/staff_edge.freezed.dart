@@ -85,10 +85,11 @@ class _$StaffEdgeCopyWithImpl<$Res, $Val extends StaffEdge>
 }
 
 /// @nodoc
-abstract class _$$_StaffEdgeCopyWith<$Res> implements $StaffEdgeCopyWith<$Res> {
-  factory _$$_StaffEdgeCopyWith(
-          _$_StaffEdge value, $Res Function(_$_StaffEdge) then) =
-      __$$_StaffEdgeCopyWithImpl<$Res>;
+abstract class _$$StaffEdgeImplCopyWith<$Res>
+    implements $StaffEdgeCopyWith<$Res> {
+  factory _$$StaffEdgeImplCopyWith(
+          _$StaffEdgeImpl value, $Res Function(_$StaffEdgeImpl) then) =
+      __$$StaffEdgeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -100,11 +101,11 @@ abstract class _$$_StaffEdgeCopyWith<$Res> implements $StaffEdgeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_StaffEdgeCopyWithImpl<$Res>
-    extends _$StaffEdgeCopyWithImpl<$Res, _$_StaffEdge>
-    implements _$$_StaffEdgeCopyWith<$Res> {
-  __$$_StaffEdgeCopyWithImpl(
-      _$_StaffEdge _value, $Res Function(_$_StaffEdge) _then)
+class __$$StaffEdgeImplCopyWithImpl<$Res>
+    extends _$StaffEdgeCopyWithImpl<$Res, _$StaffEdgeImpl>
+    implements _$$StaffEdgeImplCopyWith<$Res> {
+  __$$StaffEdgeImplCopyWithImpl(
+      _$StaffEdgeImpl _value, $Res Function(_$StaffEdgeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,7 +114,7 @@ class __$$_StaffEdgeCopyWithImpl<$Res>
     Object? role = freezed,
     Object? staffNode = freezed,
   }) {
-    return _then(_$_StaffEdge(
+    return _then(_$StaffEdgeImpl(
       role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -128,13 +129,13 @@ class __$$_StaffEdgeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StaffEdge implements _StaffEdge {
-  _$_StaffEdge(
+class _$StaffEdgeImpl implements _StaffEdge {
+  _$StaffEdgeImpl(
       {@JsonKey(name: 'role') this.role,
       @JsonKey(name: 'node') this.staffNode});
 
-  factory _$_StaffEdge.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffEdgeFromJson(json);
+  factory _$StaffEdgeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StaffEdgeImplFromJson(json);
 
   @override
   @JsonKey(name: 'role')
@@ -152,7 +153,7 @@ class _$_StaffEdge implements _StaffEdge {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StaffEdge &&
+            other is _$StaffEdgeImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.staffNode, staffNode) ||
                 other.staffNode == staffNode));
@@ -165,12 +166,12 @@ class _$_StaffEdge implements _StaffEdge {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StaffEdgeCopyWith<_$_StaffEdge> get copyWith =>
-      __$$_StaffEdgeCopyWithImpl<_$_StaffEdge>(this, _$identity);
+  _$$StaffEdgeImplCopyWith<_$StaffEdgeImpl> get copyWith =>
+      __$$StaffEdgeImplCopyWithImpl<_$StaffEdgeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StaffEdgeToJson(
+    return _$$StaffEdgeImplToJson(
       this,
     );
   }
@@ -179,10 +180,10 @@ class _$_StaffEdge implements _StaffEdge {
 abstract class _StaffEdge implements StaffEdge {
   factory _StaffEdge(
       {@JsonKey(name: 'role') final String? role,
-      @JsonKey(name: 'node') final StaffDto? staffNode}) = _$_StaffEdge;
+      @JsonKey(name: 'node') final StaffDto? staffNode}) = _$StaffEdgeImpl;
 
   factory _StaffEdge.fromJson(Map<String, dynamic> json) =
-      _$_StaffEdge.fromJson;
+      _$StaffEdgeImpl.fromJson;
 
   @override
   @JsonKey(name: 'role')
@@ -192,6 +193,6 @@ abstract class _StaffEdge implements StaffEdge {
   StaffDto? get staffNode;
   @override
   @JsonKey(ignore: true)
-  _$$_StaffEdgeCopyWith<_$_StaffEdge> get copyWith =>
+  _$$StaffEdgeImplCopyWith<_$StaffEdgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

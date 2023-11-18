@@ -70,8 +70,7 @@ query (\$id: Int) {
             medium
           }
           name {
-            full
-            native
+            userPreferred
           }
         }
         voiceActors(language: JAPANESE, sort: LANGUAGE) {
@@ -83,6 +82,7 @@ query (\$id: Int) {
           name {
             full
             native
+            userPreferred
           }
         }
       }

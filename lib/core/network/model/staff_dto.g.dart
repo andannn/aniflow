@@ -6,7 +6,8 @@ part of 'staff_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_StaffDto _$$_StaffDtoFromJson(Map<String, dynamic> json) => _$_StaffDto(
+_$StaffDtoImpl _$$StaffDtoImplFromJson(Map<String, dynamic> json) =>
+    _$StaffDtoImpl(
       id: json['id'] as int? ?? -1,
       image: (json['image'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String?),
@@ -18,7 +19,7 @@ _$_StaffDto _$$_StaffDtoFromJson(Map<String, dynamic> json) => _$_StaffDto(
           const {},
     );
 
-Map<String, dynamic> _$$_StaffDtoToJson(_$_StaffDto instance) =>
+Map<String, dynamic> _$$StaffDtoImplToJson(_$StaffDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'image': instance.image,

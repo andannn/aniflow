@@ -112,11 +112,11 @@ class _$MediaListEntityCopyWithImpl<$Res, $Val extends MediaListEntity>
 }
 
 /// @nodoc
-abstract class _$$_MediaListEntityCopyWith<$Res>
+abstract class _$$MediaListEntityImplCopyWith<$Res>
     implements $MediaListEntityCopyWith<$Res> {
-  factory _$$_MediaListEntityCopyWith(
-          _$_MediaListEntity value, $Res Function(_$_MediaListEntity) then) =
-      __$$_MediaListEntityCopyWithImpl<$Res>;
+  factory _$$MediaListEntityImplCopyWith(_$MediaListEntityImpl value,
+          $Res Function(_$MediaListEntityImpl) then) =
+      __$$MediaListEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -130,11 +130,11 @@ abstract class _$$_MediaListEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaListEntityCopyWithImpl<$Res>
-    extends _$MediaListEntityCopyWithImpl<$Res, _$_MediaListEntity>
-    implements _$$_MediaListEntityCopyWith<$Res> {
-  __$$_MediaListEntityCopyWithImpl(
-      _$_MediaListEntity _value, $Res Function(_$_MediaListEntity) _then)
+class __$$MediaListEntityImplCopyWithImpl<$Res>
+    extends _$MediaListEntityCopyWithImpl<$Res, _$MediaListEntityImpl>
+    implements _$$MediaListEntityImplCopyWith<$Res> {
+  __$$MediaListEntityImplCopyWithImpl(
+      _$MediaListEntityImpl _value, $Res Function(_$MediaListEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -148,7 +148,7 @@ class __$$_MediaListEntityCopyWithImpl<$Res>
     Object? score = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$_MediaListEntity(
+    return _then(_$MediaListEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -183,8 +183,8 @@ class __$$_MediaListEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaListEntity implements _MediaListEntity {
-  _$_MediaListEntity(
+class _$MediaListEntityImpl implements _MediaListEntity {
+  _$MediaListEntityImpl(
       {@JsonKey(name: MediaListTableColumns.id) this.id = '',
       @JsonKey(name: MediaListTableColumns.userId) this.userId,
       @JsonKey(name: MediaListTableColumns.mediaId) this.animeId,
@@ -193,8 +193,8 @@ class _$_MediaListEntity implements _MediaListEntity {
       @JsonKey(name: MediaListTableColumns.score) this.score,
       @JsonKey(name: MediaListTableColumns.updatedAt) this.updatedAt});
 
-  factory _$_MediaListEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaListEntityFromJson(json);
+  factory _$MediaListEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaListEntityImplFromJson(json);
 
   @override
   @JsonKey(name: MediaListTableColumns.id)
@@ -227,7 +227,7 @@ class _$_MediaListEntity implements _MediaListEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaListEntity &&
+            other is _$MediaListEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.animeId, animeId) || other.animeId == animeId) &&
@@ -247,12 +247,13 @@ class _$_MediaListEntity implements _MediaListEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaListEntityCopyWith<_$_MediaListEntity> get copyWith =>
-      __$$_MediaListEntityCopyWithImpl<_$_MediaListEntity>(this, _$identity);
+  _$$MediaListEntityImplCopyWith<_$MediaListEntityImpl> get copyWith =>
+      __$$MediaListEntityImplCopyWithImpl<_$MediaListEntityImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaListEntityToJson(
+    return _$$MediaListEntityImplToJson(
       this,
     );
   }
@@ -268,10 +269,10 @@ abstract class _MediaListEntity implements MediaListEntity {
       @JsonKey(name: MediaListTableColumns.progress) final int? progress,
       @JsonKey(name: MediaListTableColumns.score) final int? score,
       @JsonKey(name: MediaListTableColumns.updatedAt)
-      final int? updatedAt}) = _$_MediaListEntity;
+      final int? updatedAt}) = _$MediaListEntityImpl;
 
   factory _MediaListEntity.fromJson(Map<String, dynamic> json) =
-      _$_MediaListEntity.fromJson;
+      _$MediaListEntityImpl.fromJson;
 
   @override
   @JsonKey(name: MediaListTableColumns.id)
@@ -296,6 +297,6 @@ abstract class _MediaListEntity implements MediaListEntity {
   int? get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaListEntityCopyWith<_$_MediaListEntity> get copyWith =>
+  _$$MediaListEntityImplCopyWith<_$MediaListEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

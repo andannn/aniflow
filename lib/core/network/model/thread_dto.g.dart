@@ -6,7 +6,8 @@ part of 'thread_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ThreadDto _$$_ThreadDtoFromJson(Map<String, dynamic> json) => _$_ThreadDto(
+_$ThreadDtoImpl _$$ThreadDtoImplFromJson(Map<String, dynamic> json) =>
+    _$ThreadDtoImpl(
       id: json['id'] as int? ?? -1,
       user: json['user'] == null
           ? null
@@ -24,7 +25,7 @@ _$_ThreadDto _$$_ThreadDtoFromJson(Map<String, dynamic> json) => _$_ThreadDto(
       isLocked: json['isLocked'] as bool?,
     );
 
-Map<String, dynamic> _$$_ThreadDtoToJson(_$_ThreadDto instance) =>
+Map<String, dynamic> _$$ThreadDtoImplToJson(_$ThreadDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user': instance.user,

@@ -6,7 +6,8 @@ part of 'media_edge.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaEdge _$$_MediaEdgeFromJson(Map<String, dynamic> json) => _$_MediaEdge(
+_$MediaEdgeImpl _$$MediaEdgeImplFromJson(Map<String, dynamic> json) =>
+    _$MediaEdgeImpl(
       relationType: json['relationType'] == null
           ? MediaRelation.other
           : MediaRelation.fromJson(json['relationType'] as String),
@@ -15,7 +16,7 @@ _$_MediaEdge _$$_MediaEdgeFromJson(Map<String, dynamic> json) => _$_MediaEdge(
           : MediaDto.fromJson(json['node'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_MediaEdgeToJson(_$_MediaEdge instance) =>
+Map<String, dynamic> _$$MediaEdgeImplToJson(_$MediaEdgeImpl instance) =>
     <String, dynamic>{
       'relationType': instance.relationType,
       'node': instance.media,

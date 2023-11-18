@@ -131,12 +131,12 @@ class _$ActivityLikeNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ActivityLikeNotificationDtoCopyWith<$Res>
+abstract class _$$ActivityLikeNotificationDtoImplCopyWith<$Res>
     implements $ActivityLikeNotificationDtoCopyWith<$Res> {
-  factory _$$_ActivityLikeNotificationDtoCopyWith(
-          _$_ActivityLikeNotificationDto value,
-          $Res Function(_$_ActivityLikeNotificationDto) then) =
-      __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>;
+  factory _$$ActivityLikeNotificationDtoImplCopyWith(
+          _$ActivityLikeNotificationDtoImpl value,
+          $Res Function(_$ActivityLikeNotificationDtoImpl) then) =
+      __$$ActivityLikeNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -154,13 +154,13 @@ abstract class _$$_ActivityLikeNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>
+class __$$ActivityLikeNotificationDtoImplCopyWithImpl<$Res>
     extends _$ActivityLikeNotificationDtoCopyWithImpl<$Res,
-        _$_ActivityLikeNotificationDto>
-    implements _$$_ActivityLikeNotificationDtoCopyWith<$Res> {
-  __$$_ActivityLikeNotificationDtoCopyWithImpl(
-      _$_ActivityLikeNotificationDto _value,
-      $Res Function(_$_ActivityLikeNotificationDto) _then)
+        _$ActivityLikeNotificationDtoImpl>
+    implements _$$ActivityLikeNotificationDtoImplCopyWith<$Res> {
+  __$$ActivityLikeNotificationDtoImplCopyWithImpl(
+      _$ActivityLikeNotificationDtoImpl _value,
+      $Res Function(_$ActivityLikeNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -174,7 +174,7 @@ class __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>
     Object? user = freezed,
     Object? activity = freezed,
   }) {
-    return _then(_$_ActivityLikeNotificationDto(
+    return _then(_$ActivityLikeNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -209,8 +209,9 @@ class __$$_ActivityLikeNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
-  _$_ActivityLikeNotificationDto(
+class _$ActivityLikeNotificationDtoImpl
+    implements _ActivityLikeNotificationDto {
+  _$ActivityLikeNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'userId') this.userId,
@@ -219,8 +220,9 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
       @JsonKey(name: 'user') this.user,
       @JsonKey(includeFromJson: false, includeToJson: false) this.activity});
 
-  factory _$_ActivityLikeNotificationDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ActivityLikeNotificationDtoFromJson(json);
+  factory _$ActivityLikeNotificationDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ActivityLikeNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -253,7 +255,7 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActivityLikeNotificationDto &&
+            other is _$ActivityLikeNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -273,13 +275,13 @@ class _$_ActivityLikeNotificationDto implements _ActivityLikeNotificationDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivityLikeNotificationDtoCopyWith<_$_ActivityLikeNotificationDto>
-      get copyWith => __$$_ActivityLikeNotificationDtoCopyWithImpl<
-          _$_ActivityLikeNotificationDto>(this, _$identity);
+  _$$ActivityLikeNotificationDtoImplCopyWith<_$ActivityLikeNotificationDtoImpl>
+      get copyWith => __$$ActivityLikeNotificationDtoImplCopyWithImpl<
+          _$ActivityLikeNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ActivityLikeNotificationDtoToJson(
+    return _$$ActivityLikeNotificationDtoImplToJson(
       this,
     );
   }
@@ -295,10 +297,10 @@ abstract class _ActivityLikeNotificationDto
       @JsonKey(name: 'createdAt') final int? createdAt,
       @JsonKey(name: 'user') final UserDto? user,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final AniActivity? activity}) = _$_ActivityLikeNotificationDto;
+      final AniActivity? activity}) = _$ActivityLikeNotificationDtoImpl;
 
   factory _ActivityLikeNotificationDto.fromJson(Map<String, dynamic> json) =
-      _$_ActivityLikeNotificationDto.fromJson;
+      _$ActivityLikeNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -323,6 +325,6 @@ abstract class _ActivityLikeNotificationDto
   AniActivity? get activity;
   @override
   @JsonKey(ignore: true)
-  _$$_ActivityLikeNotificationDtoCopyWith<_$_ActivityLikeNotificationDto>
+  _$$ActivityLikeNotificationDtoImplCopyWith<_$ActivityLikeNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

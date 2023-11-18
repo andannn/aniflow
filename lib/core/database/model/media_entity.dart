@@ -52,7 +52,7 @@ class MediaEntity with _$MediaEntity {
   }) = _MediaEntity;
 
   factory MediaEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaEntityFromJson(json);
+      _$$MediaEntityImplFromJson(json);
 
   static MediaEntity fromNetworkModel(MediaDto model) =>
       MediaEntity(

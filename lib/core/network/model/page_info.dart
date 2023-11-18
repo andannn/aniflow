@@ -14,5 +14,5 @@ class PageInfo with _$PageInfo {
   }) = _PageInfo;
 
   factory PageInfo.fromJson(Map<String, dynamic> json) =>
-      _$$_PageInfoFromJson(json);
+      _$$PageInfoImplFromJson(json);
 }

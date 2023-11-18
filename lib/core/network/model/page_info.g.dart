@@ -6,7 +6,8 @@ part of 'page_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PageInfo _$$_PageInfoFromJson(Map<String, dynamic> json) => _$_PageInfo(
+_$PageInfoImpl _$$PageInfoImplFromJson(Map<String, dynamic> json) =>
+    _$PageInfoImpl(
       total: json['total'] as int? ?? -1,
       perPage: json['perPage'] as int? ?? -1,
       currentPage: json['currentPage'] as int? ?? -1,
@@ -14,7 +15,7 @@ _$_PageInfo _$$_PageInfoFromJson(Map<String, dynamic> json) => _$_PageInfo(
       hasNextPage: json['hasNextPage'] as bool? ?? true,
     );
 
-Map<String, dynamic> _$$_PageInfoToJson(_$_PageInfo instance) =>
+Map<String, dynamic> _$$PageInfoImplToJson(_$PageInfoImpl instance) =>
     <String, dynamic>{
       'total': instance.total,
       'perPage': instance.perPage,

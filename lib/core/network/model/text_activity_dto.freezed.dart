@@ -166,11 +166,11 @@ class _$TextActivityDtoCopyWithImpl<$Res, $Val extends TextActivityDto>
 }
 
 /// @nodoc
-abstract class _$$_TextActivityDtoCopyWith<$Res>
+abstract class _$$TextActivityDtoImplCopyWith<$Res>
     implements $TextActivityDtoCopyWith<$Res> {
-  factory _$$_TextActivityDtoCopyWith(
-          _$_TextActivityDto value, $Res Function(_$_TextActivityDto) then) =
-      __$$_TextActivityDtoCopyWithImpl<$Res>;
+  factory _$$TextActivityDtoImplCopyWith(_$TextActivityDtoImpl value,
+          $Res Function(_$TextActivityDtoImpl) then) =
+      __$$TextActivityDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -192,11 +192,11 @@ abstract class _$$_TextActivityDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TextActivityDtoCopyWithImpl<$Res>
-    extends _$TextActivityDtoCopyWithImpl<$Res, _$_TextActivityDto>
-    implements _$$_TextActivityDtoCopyWith<$Res> {
-  __$$_TextActivityDtoCopyWithImpl(
-      _$_TextActivityDto _value, $Res Function(_$_TextActivityDto) _then)
+class __$$TextActivityDtoImplCopyWithImpl<$Res>
+    extends _$TextActivityDtoCopyWithImpl<$Res, _$TextActivityDtoImpl>
+    implements _$$TextActivityDtoImplCopyWith<$Res> {
+  __$$TextActivityDtoImplCopyWithImpl(
+      _$TextActivityDtoImpl _value, $Res Function(_$TextActivityDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -215,7 +215,7 @@ class __$$_TextActivityDtoCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? user = freezed,
   }) {
-    return _then(_$_TextActivityDto(
+    return _then(_$TextActivityDtoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -270,8 +270,8 @@ class __$$_TextActivityDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TextActivityDto implements _TextActivityDto {
-  _$_TextActivityDto(
+class _$TextActivityDtoImpl implements _TextActivityDto {
+  _$TextActivityDtoImpl(
       {@JsonKey(name: 'id') this.id,
       @JsonKey(name: 'text') this.text,
       @JsonKey(name: 'userId') this.userId,
@@ -285,8 +285,8 @@ class _$_TextActivityDto implements _TextActivityDto {
       @JsonKey(name: 'createdAt') this.createdAt,
       @JsonKey(name: 'user') this.user});
 
-  factory _$_TextActivityDto.fromJson(Map<String, dynamic> json) =>
-      _$$_TextActivityDtoFromJson(json);
+  factory _$TextActivityDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TextActivityDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -334,7 +334,7 @@ class _$_TextActivityDto implements _TextActivityDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TextActivityDto &&
+            other is _$TextActivityDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -374,12 +374,13 @@ class _$_TextActivityDto implements _TextActivityDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TextActivityDtoCopyWith<_$_TextActivityDto> get copyWith =>
-      __$$_TextActivityDtoCopyWithImpl<_$_TextActivityDto>(this, _$identity);
+  _$$TextActivityDtoImplCopyWith<_$TextActivityDtoImpl> get copyWith =>
+      __$$TextActivityDtoImplCopyWithImpl<_$TextActivityDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TextActivityDtoToJson(
+    return _$$TextActivityDtoImplToJson(
       this,
     );
   }
@@ -398,10 +399,10 @@ abstract class _TextActivityDto implements TextActivityDto {
       @JsonKey(name: 'likeCount') final int? likeCount,
       @JsonKey(name: 'isPinned') final bool? isPinned,
       @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDto? user}) = _$_TextActivityDto;
+      @JsonKey(name: 'user') final UserDto? user}) = _$TextActivityDtoImpl;
 
   factory _TextActivityDto.fromJson(Map<String, dynamic> json) =
-      _$_TextActivityDto.fromJson;
+      _$TextActivityDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -441,6 +442,6 @@ abstract class _TextActivityDto implements TextActivityDto {
   UserDto? get user;
   @override
   @JsonKey(ignore: true)
-  _$$_TextActivityDtoCopyWith<_$_TextActivityDto> get copyWith =>
+  _$$TextActivityDtoImplCopyWith<_$TextActivityDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

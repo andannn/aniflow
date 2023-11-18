@@ -321,10 +321,11 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
 }
 
 /// @nodoc
-abstract class _$$_MediaDtoCopyWith<$Res> implements $MediaDtoCopyWith<$Res> {
-  factory _$$_MediaDtoCopyWith(
-          _$_MediaDto value, $Res Function(_$_MediaDto) then) =
-      __$$_MediaDtoCopyWithImpl<$Res>;
+abstract class _$$MediaDtoImplCopyWith<$Res>
+    implements $MediaDtoCopyWith<$Res> {
+  factory _$$MediaDtoImplCopyWith(
+          _$MediaDtoImpl value, $Res Function(_$MediaDtoImpl) then) =
+      __$$MediaDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -368,11 +369,11 @@ abstract class _$$_MediaDtoCopyWith<$Res> implements $MediaDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MediaDtoCopyWithImpl<$Res>
-    extends _$MediaDtoCopyWithImpl<$Res, _$_MediaDto>
-    implements _$$_MediaDtoCopyWith<$Res> {
-  __$$_MediaDtoCopyWithImpl(
-      _$_MediaDto _value, $Res Function(_$_MediaDto) _then)
+class __$$MediaDtoImplCopyWithImpl<$Res>
+    extends _$MediaDtoCopyWithImpl<$Res, _$MediaDtoImpl>
+    implements _$$MediaDtoImplCopyWith<$Res> {
+  __$$MediaDtoImplCopyWithImpl(
+      _$MediaDtoImpl _value, $Res Function(_$MediaDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -402,7 +403,7 @@ class __$$_MediaDtoCopyWithImpl<$Res>
     Object? relations = freezed,
     Object? externalLinks = null,
   }) {
-    return _then(_$_MediaDto(
+    return _then(_$MediaDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -501,8 +502,8 @@ class __$$_MediaDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaDto implements _MediaDto {
-  _$_MediaDto(
+class _$MediaDtoImpl implements _MediaDto {
+  _$MediaDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'type') this.type,
@@ -533,8 +534,8 @@ class _$_MediaDto implements _MediaDto {
         _rankings = rankings,
         _externalLinks = externalLinks;
 
-  factory _$_MediaDto.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaDtoFromJson(json);
+  factory _$MediaDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -638,7 +639,7 @@ class _$_MediaDto implements _MediaDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaDto &&
+            other is _$MediaDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
@@ -708,12 +709,12 @@ class _$_MediaDto implements _MediaDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaDtoCopyWith<_$_MediaDto> get copyWith =>
-      __$$_MediaDtoCopyWithImpl<_$_MediaDto>(this, _$identity);
+  _$$MediaDtoImplCopyWith<_$MediaDtoImpl> get copyWith =>
+      __$$MediaDtoImplCopyWithImpl<_$MediaDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaDtoToJson(
+    return _$$MediaDtoImplToJson(
       this,
     );
   }
@@ -745,9 +746,10 @@ abstract class _MediaDto implements MediaDto {
       @JsonKey(name: 'staff') final StaffConnection? staff,
       @JsonKey(name: 'relations') final MediaConnection? relations,
       @JsonKey(name: 'externalLinks')
-      final List<MediaExternalLinkDto> externalLinks}) = _$_MediaDto;
+      final List<MediaExternalLinkDto> externalLinks}) = _$MediaDtoImpl;
 
-  factory _MediaDto.fromJson(Map<String, dynamic> json) = _$_MediaDto.fromJson;
+  factory _MediaDto.fromJson(Map<String, dynamic> json) =
+      _$MediaDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -820,6 +822,6 @@ abstract class _MediaDto implements MediaDto {
   List<MediaExternalLinkDto> get externalLinks;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaDtoCopyWith<_$_MediaDto> get copyWith =>
+  _$$MediaDtoImplCopyWith<_$MediaDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

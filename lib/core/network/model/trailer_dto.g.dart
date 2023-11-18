@@ -6,14 +6,14 @@ part of 'trailer_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TrailerDto _$$_TrailerDtoFromJson(Map<String, dynamic> json) =>
-    _$_TrailerDto(
+_$TrailerDtoImpl _$$TrailerDtoImplFromJson(Map<String, dynamic> json) =>
+    _$TrailerDtoImpl(
       id: json['id'] as String? ?? '',
       site: json['site'] as String? ?? '',
       thumbnail: json['thumbnail'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_TrailerDtoToJson(_$_TrailerDto instance) =>
+Map<String, dynamic> _$$TrailerDtoImplToJson(_$TrailerDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'site': instance.site,

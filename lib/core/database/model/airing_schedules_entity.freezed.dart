@@ -99,11 +99,12 @@ class _$AiringSchedulesEntityCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AiringSchedulesEntityCopyWith<$Res>
+abstract class _$$AiringSchedulesEntityImplCopyWith<$Res>
     implements $AiringSchedulesEntityCopyWith<$Res> {
-  factory _$$_AiringSchedulesEntityCopyWith(_$_AiringSchedulesEntity value,
-          $Res Function(_$_AiringSchedulesEntity) then) =
-      __$$_AiringSchedulesEntityCopyWithImpl<$Res>;
+  factory _$$AiringSchedulesEntityImplCopyWith(
+          _$AiringSchedulesEntityImpl value,
+          $Res Function(_$AiringSchedulesEntityImpl) then) =
+      __$$AiringSchedulesEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +117,12 @@ abstract class _$$_AiringSchedulesEntityCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AiringSchedulesEntityCopyWithImpl<$Res>
-    extends _$AiringSchedulesEntityCopyWithImpl<$Res, _$_AiringSchedulesEntity>
-    implements _$$_AiringSchedulesEntityCopyWith<$Res> {
-  __$$_AiringSchedulesEntityCopyWithImpl(_$_AiringSchedulesEntity _value,
-      $Res Function(_$_AiringSchedulesEntity) _then)
+class __$$AiringSchedulesEntityImplCopyWithImpl<$Res>
+    extends _$AiringSchedulesEntityCopyWithImpl<$Res,
+        _$AiringSchedulesEntityImpl>
+    implements _$$AiringSchedulesEntityImplCopyWith<$Res> {
+  __$$AiringSchedulesEntityImplCopyWithImpl(_$AiringSchedulesEntityImpl _value,
+      $Res Function(_$AiringSchedulesEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -132,7 +134,7 @@ class __$$_AiringSchedulesEntityCopyWithImpl<$Res>
     Object? timeUntilAiring = freezed,
     Object? episode = freezed,
   }) {
-    return _then(_$_AiringSchedulesEntity(
+    return _then(_$AiringSchedulesEntityImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -159,8 +161,8 @@ class __$$_AiringSchedulesEntityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AiringSchedulesEntity implements _AiringSchedulesEntity {
-  _$_AiringSchedulesEntity(
+class _$AiringSchedulesEntityImpl implements _AiringSchedulesEntity {
+  _$AiringSchedulesEntityImpl(
       {@JsonKey(name: AiringSchedulesColumns.id) this.id = '',
       @JsonKey(name: AiringSchedulesColumns.mediaId) this.mediaId = '',
       @JsonKey(name: AiringSchedulesColumns.airingAt) this.airingAt,
@@ -168,8 +170,8 @@ class _$_AiringSchedulesEntity implements _AiringSchedulesEntity {
       this.timeUntilAiring,
       @JsonKey(name: AiringSchedulesColumns.episode) this.episode});
 
-  factory _$_AiringSchedulesEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringSchedulesEntityFromJson(json);
+  factory _$AiringSchedulesEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AiringSchedulesEntityImplFromJson(json);
 
   @override
   @JsonKey(name: AiringSchedulesColumns.id)
@@ -196,7 +198,7 @@ class _$_AiringSchedulesEntity implements _AiringSchedulesEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AiringSchedulesEntity &&
+            other is _$AiringSchedulesEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
             (identical(other.airingAt, airingAt) ||
@@ -214,13 +216,13 @@ class _$_AiringSchedulesEntity implements _AiringSchedulesEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AiringSchedulesEntityCopyWith<_$_AiringSchedulesEntity> get copyWith =>
-      __$$_AiringSchedulesEntityCopyWithImpl<_$_AiringSchedulesEntity>(
-          this, _$identity);
+  _$$AiringSchedulesEntityImplCopyWith<_$AiringSchedulesEntityImpl>
+      get copyWith => __$$AiringSchedulesEntityImplCopyWithImpl<
+          _$AiringSchedulesEntityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AiringSchedulesEntityToJson(
+    return _$$AiringSchedulesEntityImplToJson(
       this,
     );
   }
@@ -234,10 +236,10 @@ abstract class _AiringSchedulesEntity implements AiringSchedulesEntity {
           @JsonKey(name: AiringSchedulesColumns.timeUntilAiring)
           final int? timeUntilAiring,
           @JsonKey(name: AiringSchedulesColumns.episode) final int? episode}) =
-      _$_AiringSchedulesEntity;
+      _$AiringSchedulesEntityImpl;
 
   factory _AiringSchedulesEntity.fromJson(Map<String, dynamic> json) =
-      _$_AiringSchedulesEntity.fromJson;
+      _$AiringSchedulesEntityImpl.fromJson;
 
   @override
   @JsonKey(name: AiringSchedulesColumns.id)
@@ -256,6 +258,6 @@ abstract class _AiringSchedulesEntity implements AiringSchedulesEntity {
   int? get episode;
   @override
   @JsonKey(ignore: true)
-  _$$_AiringSchedulesEntityCopyWith<_$_AiringSchedulesEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AiringSchedulesEntityImplCopyWith<_$AiringSchedulesEntityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -43,7 +43,7 @@ class StaffItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.staff.nameNative, style: style),
+                  Text(model.staff.name, style: style),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(
                     model.role,

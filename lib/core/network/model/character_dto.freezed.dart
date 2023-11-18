@@ -80,11 +80,11 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
 }
 
 /// @nodoc
-abstract class _$$_CharacterDtoCopyWith<$Res>
+abstract class _$$CharacterDtoImplCopyWith<$Res>
     implements $CharacterDtoCopyWith<$Res> {
-  factory _$$_CharacterDtoCopyWith(
-          _$_CharacterDto value, $Res Function(_$_CharacterDto) then) =
-      __$$_CharacterDtoCopyWithImpl<$Res>;
+  factory _$$CharacterDtoImplCopyWith(
+          _$CharacterDtoImpl value, $Res Function(_$CharacterDtoImpl) then) =
+      __$$CharacterDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_CharacterDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CharacterDtoCopyWithImpl<$Res>
-    extends _$CharacterDtoCopyWithImpl<$Res, _$_CharacterDto>
-    implements _$$_CharacterDtoCopyWith<$Res> {
-  __$$_CharacterDtoCopyWithImpl(
-      _$_CharacterDto _value, $Res Function(_$_CharacterDto) _then)
+class __$$CharacterDtoImplCopyWithImpl<$Res>
+    extends _$CharacterDtoCopyWithImpl<$Res, _$CharacterDtoImpl>
+    implements _$$CharacterDtoImplCopyWith<$Res> {
+  __$$CharacterDtoImplCopyWithImpl(
+      _$CharacterDtoImpl _value, $Res Function(_$CharacterDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$_CharacterDtoCopyWithImpl<$Res>
     Object? image = null,
     Object? name = null,
   }) {
-    return _then(_$_CharacterDto(
+    return _then(_$CharacterDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -127,16 +127,16 @@ class __$$_CharacterDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CharacterDto implements _CharacterDto {
-  _$_CharacterDto(
+class _$CharacterDtoImpl implements _CharacterDto {
+  _$CharacterDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'image') final Map<String, String?> image = const {},
       @JsonKey(name: 'name') final Map<String, String?> name = const {}})
       : _image = image,
         _name = name;
 
-  factory _$_CharacterDto.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterDtoFromJson(json);
+  factory _$CharacterDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CharacterDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -168,7 +168,7 @@ class _$_CharacterDto implements _CharacterDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterDto &&
+            other is _$CharacterDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._image, _image) &&
             const DeepCollectionEquality().equals(other._name, _name));
@@ -185,12 +185,12 @@ class _$_CharacterDto implements _CharacterDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterDtoCopyWith<_$_CharacterDto> get copyWith =>
-      __$$_CharacterDtoCopyWithImpl<_$_CharacterDto>(this, _$identity);
+  _$$CharacterDtoImplCopyWith<_$CharacterDtoImpl> get copyWith =>
+      __$$CharacterDtoImplCopyWithImpl<_$CharacterDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CharacterDtoToJson(
+    return _$$CharacterDtoImplToJson(
       this,
     );
   }
@@ -201,10 +201,10 @@ abstract class _CharacterDto implements CharacterDto {
           {@JsonKey(name: 'id') final int id,
           @JsonKey(name: 'image') final Map<String, String?> image,
           @JsonKey(name: 'name') final Map<String, String?> name}) =
-      _$_CharacterDto;
+      _$CharacterDtoImpl;
 
   factory _CharacterDto.fromJson(Map<String, dynamic> json) =
-      _$_CharacterDto.fromJson;
+      _$CharacterDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -217,6 +217,6 @@ abstract class _CharacterDto implements CharacterDto {
   Map<String, String?> get name;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterDtoCopyWith<_$_CharacterDto> get copyWith =>
+  _$$CharacterDtoImplCopyWith<_$CharacterDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

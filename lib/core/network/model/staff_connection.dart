@@ -14,5 +14,5 @@ class StaffConnection with _$StaffConnection {
   }) = _StaffConnection;
 
   factory StaffConnection.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffConnectionFromJson(json);
+      _$$StaffConnectionImplFromJson(json);
 }

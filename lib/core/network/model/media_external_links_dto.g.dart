@@ -6,9 +6,9 @@ part of 'media_external_links_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaExternalLinkDto _$$_MediaExternalLinkDtoFromJson(
+_$MediaExternalLinkDtoImpl _$$MediaExternalLinkDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_MediaExternalLinkDto(
+    _$MediaExternalLinkDtoImpl(
       id: json['id'] as int?,
       url: json['url'] as String?,
       site: json['site'] as String?,
@@ -18,8 +18,8 @@ _$_MediaExternalLinkDto _$$_MediaExternalLinkDtoFromJson(
       icon: json['icon'] as String?,
     );
 
-Map<String, dynamic> _$$_MediaExternalLinkDtoToJson(
-        _$_MediaExternalLinkDto instance) =>
+Map<String, dynamic> _$$MediaExternalLinkDtoImplToJson(
+        _$MediaExternalLinkDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'url': instance.url,

@@ -28,5 +28,5 @@ class ListActivityDto extends AniActivity with _$ListActivityDto {
   }) = _ListActivityDto;
 
   factory ListActivityDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ListActivityDtoFromJson(json);
+      _$$ListActivityDtoImplFromJson(json);
 }

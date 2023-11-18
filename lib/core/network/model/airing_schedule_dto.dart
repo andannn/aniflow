@@ -16,5 +16,5 @@ class AiringScheduleDto with _$AiringScheduleDto {
   }) = _AiringScheduleDto;
 
   factory AiringScheduleDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringScheduleDtoFromJson(json);
+      _$$AiringScheduleDtoImplFromJson(json);
 }

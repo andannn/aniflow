@@ -141,12 +141,12 @@ class _$ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ActivityReplySubscribedNotificationDtoCopyWith<$Res>
+abstract class _$$ActivityReplySubscribedNotificationDtoImplCopyWith<$Res>
     implements $ActivityReplySubscribedNotificationDtoCopyWith<$Res> {
-  factory _$$_ActivityReplySubscribedNotificationDtoCopyWith(
-          _$_ActivityReplySubscribedNotificationDto value,
-          $Res Function(_$_ActivityReplySubscribedNotificationDto) then) =
-      __$$_ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res>;
+  factory _$$ActivityReplySubscribedNotificationDtoImplCopyWith(
+          _$ActivityReplySubscribedNotificationDtoImpl value,
+          $Res Function(_$ActivityReplySubscribedNotificationDtoImpl) then) =
+      __$$ActivityReplySubscribedNotificationDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -165,13 +165,13 @@ abstract class _$$_ActivityReplySubscribedNotificationDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res>
+class __$$ActivityReplySubscribedNotificationDtoImplCopyWithImpl<$Res>
     extends _$ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res,
-        _$_ActivityReplySubscribedNotificationDto>
-    implements _$$_ActivityReplySubscribedNotificationDtoCopyWith<$Res> {
-  __$$_ActivityReplySubscribedNotificationDtoCopyWithImpl(
-      _$_ActivityReplySubscribedNotificationDto _value,
-      $Res Function(_$_ActivityReplySubscribedNotificationDto) _then)
+        _$ActivityReplySubscribedNotificationDtoImpl>
+    implements _$$ActivityReplySubscribedNotificationDtoImplCopyWith<$Res> {
+  __$$ActivityReplySubscribedNotificationDtoImplCopyWithImpl(
+      _$ActivityReplySubscribedNotificationDtoImpl _value,
+      $Res Function(_$ActivityReplySubscribedNotificationDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -186,7 +186,7 @@ class __$$_ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res>
     Object? user = freezed,
     Object? activity = freezed,
   }) {
-    return _then(_$_ActivityReplySubscribedNotificationDto(
+    return _then(_$ActivityReplySubscribedNotificationDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -225,9 +225,9 @@ class __$$_ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ActivityReplySubscribedNotificationDto
+class _$ActivityReplySubscribedNotificationDtoImpl
     implements _ActivityReplySubscribedNotificationDto {
-  _$_ActivityReplySubscribedNotificationDto(
+  _$ActivityReplySubscribedNotificationDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'userId') this.userId,
@@ -237,9 +237,9 @@ class _$_ActivityReplySubscribedNotificationDto
       @JsonKey(name: 'user') this.user,
       @JsonKey(includeFromJson: false, includeToJson: false) this.activity});
 
-  factory _$_ActivityReplySubscribedNotificationDto.fromJson(
+  factory _$ActivityReplySubscribedNotificationDtoImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_ActivityReplySubscribedNotificationDtoFromJson(json);
+      _$$ActivityReplySubscribedNotificationDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -275,7 +275,7 @@ class _$_ActivityReplySubscribedNotificationDto
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActivityReplySubscribedNotificationDto &&
+            other is _$ActivityReplySubscribedNotificationDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -297,14 +297,15 @@ class _$_ActivityReplySubscribedNotificationDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivityReplySubscribedNotificationDtoCopyWith<
-          _$_ActivityReplySubscribedNotificationDto>
-      get copyWith => __$$_ActivityReplySubscribedNotificationDtoCopyWithImpl<
-          _$_ActivityReplySubscribedNotificationDto>(this, _$identity);
+  _$$ActivityReplySubscribedNotificationDtoImplCopyWith<
+          _$ActivityReplySubscribedNotificationDtoImpl>
+      get copyWith =>
+          __$$ActivityReplySubscribedNotificationDtoImplCopyWithImpl<
+              _$ActivityReplySubscribedNotificationDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ActivityReplySubscribedNotificationDtoToJson(
+    return _$$ActivityReplySubscribedNotificationDtoImplToJson(
       this,
     );
   }
@@ -313,19 +314,20 @@ class _$_ActivityReplySubscribedNotificationDto
 abstract class _ActivityReplySubscribedNotificationDto
     implements ActivityReplySubscribedNotificationDto {
   factory _ActivityReplySubscribedNotificationDto(
-      {@JsonKey(name: 'id') final int id,
-      @JsonKey(name: 'type') final NotificationType? type,
-      @JsonKey(name: 'userId') final int? userId,
-      @JsonKey(name: 'activityId') final int? activityId,
-      @JsonKey(name: 'context') final String? context,
-      @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDto? user,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      final AniActivity? activity}) = _$_ActivityReplySubscribedNotificationDto;
+          {@JsonKey(name: 'id') final int id,
+          @JsonKey(name: 'type') final NotificationType? type,
+          @JsonKey(name: 'userId') final int? userId,
+          @JsonKey(name: 'activityId') final int? activityId,
+          @JsonKey(name: 'context') final String? context,
+          @JsonKey(name: 'createdAt') final int? createdAt,
+          @JsonKey(name: 'user') final UserDto? user,
+          @JsonKey(includeFromJson: false, includeToJson: false)
+          final AniActivity? activity}) =
+      _$ActivityReplySubscribedNotificationDtoImpl;
 
   factory _ActivityReplySubscribedNotificationDto.fromJson(
           Map<String, dynamic> json) =
-      _$_ActivityReplySubscribedNotificationDto.fromJson;
+      _$ActivityReplySubscribedNotificationDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -353,7 +355,7 @@ abstract class _ActivityReplySubscribedNotificationDto
   AniActivity? get activity;
   @override
   @JsonKey(ignore: true)
-  _$$_ActivityReplySubscribedNotificationDtoCopyWith<
-          _$_ActivityReplySubscribedNotificationDto>
+  _$$ActivityReplySubscribedNotificationDtoImplCopyWith<
+          _$ActivityReplySubscribedNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

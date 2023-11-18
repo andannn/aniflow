@@ -6,11 +6,9 @@ part of 'character_edge.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CharacterEdge _$$_CharacterEdgeFromJson(Map<String, dynamic> json) =>
-    _$_CharacterEdge(
-      role: json['role'] == null
-          ? null
-          : CharacterRole.fromJson(json['role'] as String),
+_$CharacterEdgeImpl _$$CharacterEdgeImplFromJson(Map<String, dynamic> json) =>
+    _$CharacterEdgeImpl(
+      role: $enumDecodeNullable(_$CharacterRoleEnumMap, json['role']),
       characterNode: json['node'] == null
           ? null
           : CharacterDto.fromJson(json['node'] as Map<String, dynamic>),
@@ -20,9 +18,15 @@ _$_CharacterEdge _$$_CharacterEdgeFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$_CharacterEdgeToJson(_$_CharacterEdge instance) =>
+Map<String, dynamic> _$$CharacterEdgeImplToJson(_$CharacterEdgeImpl instance) =>
     <String, dynamic>{
       'role': instance.role,
       'node': instance.characterNode,
       'voiceActors': instance.voiceActors,
     };
+
+const _$CharacterRoleEnumMap = {
+  CharacterRole.main: 'MAIN',
+  CharacterRole.supporting: 'SUPPORTING',
+  CharacterRole.background: 'BACKGROUND',
+};

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
@@ -70,13 +71,18 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
     final setting = event.setting;
     switch (setting) {
       case UserTitleLanguage():
-         unawaited(_authRepository.updateUserSettings(
+        unawaited(_authRepository.updateUserSettings(
           userTitleLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
         ));
       case DisplayAdultContent():
-         unawaited(_authRepository.updateUserSettings(
+        unawaited(_authRepository.updateUserSettings(
           displayAdultContent: setting.isOn,
+          token: _cancelRequestAndReturnNewToken(setting.runtimeType),
+        ));
+      case UserStaffNameLanguage():
+        unawaited(_authRepository.updateUserSettings(
+          userStaffNameLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
         ));
     }
@@ -96,6 +102,8 @@ extension SettingsStateEx on SettingsState {
   List<SettingCategory> _buildSettingCategoryList() {
     final selectedTitleLanguage =
         settings?.userTitleLanguage ?? UserTitleLanguage.native;
+    final selectedUserStaffNameLanguage =
+        settings?.userStaffNameLanguage ?? UserStaffNameLanguage.native;
     final isDisplayAdultContent = settings?.displayAdultContent ?? false;
 
     return [
@@ -110,6 +118,14 @@ extension SettingsStateEx on SettingsState {
             title: 'Title Language',
             selectedOption: selectedTitleLanguage._createSettingOption(),
             options: UserTitleLanguage.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+          ListSettingItem(
+            title: 'Staff & Character Name Language',
+            selectedOption:
+                selectedUserStaffNameLanguage._createSettingOption(),
+            options: UserStaffNameLanguage.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
@@ -138,6 +154,22 @@ extension on UserTitleLanguage {
             setting: this, description: 'English (Attack on Titan)');
       case UserTitleLanguage.native:
         return SettingOption(setting: this, description: 'Native (進撃の巨人)');
+    }
+  }
+}
+
+extension on UserStaffNameLanguage {
+  SettingOption<UserStaffNameLanguage> _createSettingOption() {
+    switch (this) {
+      case UserStaffNameLanguage.romaji:
+        return SettingOption(
+            setting: this,
+            description: 'Romaji, Western Order (Atsumi Tanezaki)');
+      case UserStaffNameLanguage.romajiWestern:
+        return SettingOption(
+            setting: this, description: 'Romaji (Tanezaki Atsumi)');
+      case UserStaffNameLanguage.native:
+        return SettingOption(setting: this, description: 'Native (種﨑敦美)');
     }
   }
 }

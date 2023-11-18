@@ -17,7 +17,7 @@ class UserEntity with _$UserEntity {
   }) = _UserEntity;
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_UserEntityFromJson(json);
+      _$$UserEntityImplFromJson(json);
 
   static UserEntity fromDto(UserDto model) => UserEntity(
         id: model.id.toString(),

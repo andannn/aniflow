@@ -94,11 +94,11 @@ class _$CharacterEdgeCopyWithImpl<$Res, $Val extends CharacterEdge>
 }
 
 /// @nodoc
-abstract class _$$_CharacterEdgeCopyWith<$Res>
+abstract class _$$CharacterEdgeImplCopyWith<$Res>
     implements $CharacterEdgeCopyWith<$Res> {
-  factory _$$_CharacterEdgeCopyWith(
-          _$_CharacterEdge value, $Res Function(_$_CharacterEdge) then) =
-      __$$_CharacterEdgeCopyWithImpl<$Res>;
+  factory _$$CharacterEdgeImplCopyWith(
+          _$CharacterEdgeImpl value, $Res Function(_$CharacterEdgeImpl) then) =
+      __$$CharacterEdgeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -111,11 +111,11 @@ abstract class _$$_CharacterEdgeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CharacterEdgeCopyWithImpl<$Res>
-    extends _$CharacterEdgeCopyWithImpl<$Res, _$_CharacterEdge>
-    implements _$$_CharacterEdgeCopyWith<$Res> {
-  __$$_CharacterEdgeCopyWithImpl(
-      _$_CharacterEdge _value, $Res Function(_$_CharacterEdge) _then)
+class __$$CharacterEdgeImplCopyWithImpl<$Res>
+    extends _$CharacterEdgeCopyWithImpl<$Res, _$CharacterEdgeImpl>
+    implements _$$CharacterEdgeImplCopyWith<$Res> {
+  __$$CharacterEdgeImplCopyWithImpl(
+      _$CharacterEdgeImpl _value, $Res Function(_$CharacterEdgeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -125,7 +125,7 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
     Object? characterNode = freezed,
     Object? voiceActors = null,
   }) {
-    return _then(_$_CharacterEdge(
+    return _then(_$CharacterEdgeImpl(
       role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -144,16 +144,16 @@ class __$$_CharacterEdgeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CharacterEdge implements _CharacterEdge {
-  _$_CharacterEdge(
+class _$CharacterEdgeImpl implements _CharacterEdge {
+  _$CharacterEdgeImpl(
       {@JsonKey(name: 'role') this.role,
       @JsonKey(name: 'node') this.characterNode,
       @JsonKey(name: 'voiceActors')
       final List<StaffDto> voiceActors = const []})
       : _voiceActors = voiceActors;
 
-  factory _$_CharacterEdge.fromJson(Map<String, dynamic> json) =>
-      _$$_CharacterEdgeFromJson(json);
+  factory _$CharacterEdgeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CharacterEdgeImplFromJson(json);
 
   @override
   @JsonKey(name: 'role')
@@ -179,7 +179,7 @@ class _$_CharacterEdge implements _CharacterEdge {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterEdge &&
+            other is _$CharacterEdgeImpl &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.characterNode, characterNode) ||
                 other.characterNode == characterNode) &&
@@ -195,12 +195,12 @@ class _$_CharacterEdge implements _CharacterEdge {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterEdgeCopyWith<_$_CharacterEdge> get copyWith =>
-      __$$_CharacterEdgeCopyWithImpl<_$_CharacterEdge>(this, _$identity);
+  _$$CharacterEdgeImplCopyWith<_$CharacterEdgeImpl> get copyWith =>
+      __$$CharacterEdgeImplCopyWithImpl<_$CharacterEdgeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CharacterEdgeToJson(
+    return _$$CharacterEdgeImplToJson(
       this,
     );
   }
@@ -211,10 +211,10 @@ abstract class _CharacterEdge implements CharacterEdge {
           {@JsonKey(name: 'role') final CharacterRole? role,
           @JsonKey(name: 'node') final CharacterDto? characterNode,
           @JsonKey(name: 'voiceActors') final List<StaffDto> voiceActors}) =
-      _$_CharacterEdge;
+      _$CharacterEdgeImpl;
 
   factory _CharacterEdge.fromJson(Map<String, dynamic> json) =
-      _$_CharacterEdge.fromJson;
+      _$CharacterEdgeImpl.fromJson;
 
   @override
   @JsonKey(name: 'role')
@@ -227,6 +227,6 @@ abstract class _CharacterEdge implements CharacterEdge {
   List<StaffDto> get voiceActors;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterEdgeCopyWith<_$_CharacterEdge> get copyWith =>
+  _$$CharacterEdgeImplCopyWith<_$CharacterEdgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

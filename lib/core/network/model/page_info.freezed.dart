@@ -95,10 +95,11 @@ class _$PageInfoCopyWithImpl<$Res, $Val extends PageInfo>
 }
 
 /// @nodoc
-abstract class _$$_PageInfoCopyWith<$Res> implements $PageInfoCopyWith<$Res> {
-  factory _$$_PageInfoCopyWith(
-          _$_PageInfo value, $Res Function(_$_PageInfo) then) =
-      __$$_PageInfoCopyWithImpl<$Res>;
+abstract class _$$PageInfoImplCopyWith<$Res>
+    implements $PageInfoCopyWith<$Res> {
+  factory _$$PageInfoImplCopyWith(
+          _$PageInfoImpl value, $Res Function(_$PageInfoImpl) then) =
+      __$$PageInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,11 +111,11 @@ abstract class _$$_PageInfoCopyWith<$Res> implements $PageInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PageInfoCopyWithImpl<$Res>
-    extends _$PageInfoCopyWithImpl<$Res, _$_PageInfo>
-    implements _$$_PageInfoCopyWith<$Res> {
-  __$$_PageInfoCopyWithImpl(
-      _$_PageInfo _value, $Res Function(_$_PageInfo) _then)
+class __$$PageInfoImplCopyWithImpl<$Res>
+    extends _$PageInfoCopyWithImpl<$Res, _$PageInfoImpl>
+    implements _$$PageInfoImplCopyWith<$Res> {
+  __$$PageInfoImplCopyWithImpl(
+      _$PageInfoImpl _value, $Res Function(_$PageInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -126,7 +127,7 @@ class __$$_PageInfoCopyWithImpl<$Res>
     Object? lastPage = null,
     Object? hasNextPage = null,
   }) {
-    return _then(_$_PageInfo(
+    return _then(_$PageInfoImpl(
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -153,16 +154,16 @@ class __$$_PageInfoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PageInfo implements _PageInfo {
-  _$_PageInfo(
+class _$PageInfoImpl implements _PageInfo {
+  _$PageInfoImpl(
       {@JsonKey(name: 'total') this.total = -1,
       @JsonKey(name: 'perPage') this.perPage = -1,
       @JsonKey(name: 'currentPage') this.currentPage = -1,
       @JsonKey(name: 'lastPage') this.lastPage = -1,
       @JsonKey(name: 'hasNextPage') this.hasNextPage = true});
 
-  factory _$_PageInfo.fromJson(Map<String, dynamic> json) =>
-      _$$_PageInfoFromJson(json);
+  factory _$PageInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PageInfoImplFromJson(json);
 
   @override
   @JsonKey(name: 'total')
@@ -189,7 +190,7 @@ class _$_PageInfo implements _PageInfo {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PageInfo &&
+            other is _$PageInfoImpl &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.perPage, perPage) || other.perPage == perPage) &&
             (identical(other.currentPage, currentPage) ||
@@ -208,12 +209,12 @@ class _$_PageInfo implements _PageInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PageInfoCopyWith<_$_PageInfo> get copyWith =>
-      __$$_PageInfoCopyWithImpl<_$_PageInfo>(this, _$identity);
+  _$$PageInfoImplCopyWith<_$PageInfoImpl> get copyWith =>
+      __$$PageInfoImplCopyWithImpl<_$PageInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PageInfoToJson(
+    return _$$PageInfoImplToJson(
       this,
     );
   }
@@ -225,9 +226,10 @@ abstract class _PageInfo implements PageInfo {
       @JsonKey(name: 'perPage') final int perPage,
       @JsonKey(name: 'currentPage') final int currentPage,
       @JsonKey(name: 'lastPage') final int lastPage,
-      @JsonKey(name: 'hasNextPage') final bool hasNextPage}) = _$_PageInfo;
+      @JsonKey(name: 'hasNextPage') final bool hasNextPage}) = _$PageInfoImpl;
 
-  factory _PageInfo.fromJson(Map<String, dynamic> json) = _$_PageInfo.fromJson;
+  factory _PageInfo.fromJson(Map<String, dynamic> json) =
+      _$PageInfoImpl.fromJson;
 
   @override
   @JsonKey(name: 'total')
@@ -246,6 +248,6 @@ abstract class _PageInfo implements PageInfo {
   bool get hasNextPage;
   @override
   @JsonKey(ignore: true)
-  _$$_PageInfoCopyWith<_$_PageInfo> get copyWith =>
+  _$$PageInfoImplCopyWith<_$PageInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

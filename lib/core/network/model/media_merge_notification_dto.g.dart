@@ -6,9 +6,9 @@ part of 'media_merge_notification_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaMergeNotificationDto _$$_MediaMergeNotificationDtoFromJson(
+_$MediaMergeNotificationDtoImpl _$$MediaMergeNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_MediaMergeNotificationDto(
+    _$MediaMergeNotificationDtoImpl(
       id: json['id'] as int? ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       mediaId: json['mediaId'] as String?,
@@ -23,8 +23,8 @@ _$_MediaMergeNotificationDto _$$_MediaMergeNotificationDtoFromJson(
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_MediaMergeNotificationDtoToJson(
-        _$_MediaMergeNotificationDto instance) =>
+Map<String, dynamic> _$$MediaMergeNotificationDtoImplToJson(
+        _$MediaMergeNotificationDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$NotificationTypeEnumMap[instance.type],

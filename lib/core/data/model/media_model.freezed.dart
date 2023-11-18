@@ -262,11 +262,11 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
 }
 
 /// @nodoc
-abstract class _$$_MediaModelCopyWith<$Res>
+abstract class _$$MediaModelImplCopyWith<$Res>
     implements $MediaModelCopyWith<$Res> {
-  factory _$$_MediaModelCopyWith(
-          _$_MediaModel value, $Res Function(_$_MediaModel) then) =
-      __$$_MediaModelCopyWithImpl<$Res>;
+  factory _$$MediaModelImplCopyWith(
+          _$MediaModelImpl value, $Res Function(_$MediaModelImpl) then) =
+      __$$MediaModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -304,11 +304,11 @@ abstract class _$$_MediaModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaModelCopyWithImpl<$Res>
-    extends _$MediaModelCopyWithImpl<$Res, _$_MediaModel>
-    implements _$$_MediaModelCopyWith<$Res> {
-  __$$_MediaModelCopyWithImpl(
-      _$_MediaModel _value, $Res Function(_$_MediaModel) _then)
+class __$$MediaModelImplCopyWithImpl<$Res>
+    extends _$MediaModelCopyWithImpl<$Res, _$MediaModelImpl>
+    implements _$$MediaModelImplCopyWith<$Res> {
+  __$$MediaModelImplCopyWithImpl(
+      _$MediaModelImpl _value, $Res Function(_$MediaModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -341,7 +341,7 @@ class __$$_MediaModelCopyWithImpl<$Res>
     Object? externalLinks = null,
     Object? relations = null,
   }) {
-    return _then(_$_MediaModel(
+    return _then(_$MediaModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -452,8 +452,8 @@ class __$$_MediaModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MediaModel implements _MediaModel {
-  _$_MediaModel(
+class _$MediaModelImpl implements _MediaModel {
+  _$MediaModelImpl(
       {this.id = '',
       this.title,
       this.type = MediaType.anime,
@@ -597,7 +597,7 @@ class _$_MediaModel implements _MediaModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaModel &&
+            other is _$MediaModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
@@ -677,8 +677,8 @@ class _$_MediaModel implements _MediaModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaModelCopyWith<_$_MediaModel> get copyWith =>
-      __$$_MediaModelCopyWithImpl<_$_MediaModel>(this, _$identity);
+  _$$MediaModelImplCopyWith<_$MediaModelImpl> get copyWith =>
+      __$$MediaModelImplCopyWithImpl<_$MediaModelImpl>(this, _$identity);
 }
 
 abstract class _MediaModel implements MediaModel {
@@ -708,7 +708,7 @@ abstract class _MediaModel implements MediaModel {
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       final List<StaffAndRoleModel> staffs,
       final List<MediaExternalLinkModel> externalLinks,
-      final List<MediaRelationModel> relations}) = _$_MediaModel;
+      final List<MediaRelationModel> relations}) = _$MediaModelImpl;
 
   @override
   String get id;
@@ -764,6 +764,6 @@ abstract class _MediaModel implements MediaModel {
   List<MediaRelationModel> get relations;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaModelCopyWith<_$_MediaModel> get copyWith =>
+  _$$MediaModelImplCopyWith<_$MediaModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

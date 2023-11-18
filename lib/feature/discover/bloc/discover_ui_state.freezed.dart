@@ -114,11 +114,11 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
 }
 
 /// @nodoc
-abstract class _$$_DiscoverUiStateCopyWith<$Res>
+abstract class _$$DiscoverUiStateImplCopyWith<$Res>
     implements $DiscoverUiStateCopyWith<$Res> {
-  factory _$$_DiscoverUiStateCopyWith(
-          _$_DiscoverUiState value, $Res Function(_$_DiscoverUiState) then) =
-      __$$_DiscoverUiStateCopyWithImpl<$Res>;
+  factory _$$DiscoverUiStateImplCopyWith(_$DiscoverUiStateImpl value,
+          $Res Function(_$DiscoverUiStateImpl) then) =
+      __$$DiscoverUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -135,11 +135,11 @@ abstract class _$$_DiscoverUiStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DiscoverUiStateCopyWithImpl<$Res>
-    extends _$DiscoverUiStateCopyWithImpl<$Res, _$_DiscoverUiState>
-    implements _$$_DiscoverUiStateCopyWith<$Res> {
-  __$$_DiscoverUiStateCopyWithImpl(
-      _$_DiscoverUiState _value, $Res Function(_$_DiscoverUiState) _then)
+class __$$DiscoverUiStateImplCopyWithImpl<$Res>
+    extends _$DiscoverUiStateCopyWithImpl<$Res, _$DiscoverUiStateImpl>
+    implements _$$DiscoverUiStateImplCopyWith<$Res> {
+  __$$DiscoverUiStateImplCopyWithImpl(
+      _$DiscoverUiStateImpl _value, $Res Function(_$DiscoverUiStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -151,7 +151,7 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
     Object? userData = freezed,
     Object? settings = freezed,
   }) {
-    return _then(_$_DiscoverUiState(
+    return _then(_$DiscoverUiStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -178,8 +178,8 @@ class __$$_DiscoverUiStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DiscoverUiState implements _DiscoverUiState {
-  _$_DiscoverUiState(
+class _$DiscoverUiStateImpl implements _DiscoverUiState {
+  _$DiscoverUiStateImpl(
       {this.isLoading = false,
       final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap =
           const {
@@ -225,7 +225,7 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DiscoverUiState &&
+            other is _$DiscoverUiStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
@@ -250,8 +250,9 @@ class _$_DiscoverUiState implements _DiscoverUiState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DiscoverUiStateCopyWith<_$_DiscoverUiState> get copyWith =>
-      __$$_DiscoverUiStateCopyWithImpl<_$_DiscoverUiState>(this, _$identity);
+  _$$DiscoverUiStateImplCopyWith<_$DiscoverUiStateImpl> get copyWith =>
+      __$$DiscoverUiStateImplCopyWithImpl<_$DiscoverUiStateImpl>(
+          this, _$identity);
 }
 
 abstract class _DiscoverUiState implements DiscoverUiState {
@@ -260,7 +261,7 @@ abstract class _DiscoverUiState implements DiscoverUiState {
       final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       final MediaType currentMediaType,
       final UserModel? userData,
-      final AniListSettings? settings}) = _$_DiscoverUiState;
+      final AniListSettings? settings}) = _$DiscoverUiStateImpl;
 
   @override
   bool get isLoading;
@@ -274,6 +275,6 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   AniListSettings? get settings;
   @override
   @JsonKey(ignore: true)
-  _$$_DiscoverUiStateCopyWith<_$_DiscoverUiState> get copyWith =>
+  _$$DiscoverUiStateImplCopyWith<_$DiscoverUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

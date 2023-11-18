@@ -100,11 +100,12 @@ class _$MediaExternalLinkModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MediaExternalLinkModelCopyWith<$Res>
+abstract class _$$MediaExternalLinkModelImplCopyWith<$Res>
     implements $MediaExternalLinkModelCopyWith<$Res> {
-  factory _$$_MediaExternalLinkModelCopyWith(_$_MediaExternalLinkModel value,
-          $Res Function(_$_MediaExternalLinkModel) then) =
-      __$$_MediaExternalLinkModelCopyWithImpl<$Res>;
+  factory _$$MediaExternalLinkModelImplCopyWith(
+          _$MediaExternalLinkModelImpl value,
+          $Res Function(_$MediaExternalLinkModelImpl) then) =
+      __$$MediaExternalLinkModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,12 +118,13 @@ abstract class _$$_MediaExternalLinkModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MediaExternalLinkModelCopyWithImpl<$Res>
+class __$$MediaExternalLinkModelImplCopyWithImpl<$Res>
     extends _$MediaExternalLinkModelCopyWithImpl<$Res,
-        _$_MediaExternalLinkModel>
-    implements _$$_MediaExternalLinkModelCopyWith<$Res> {
-  __$$_MediaExternalLinkModelCopyWithImpl(_$_MediaExternalLinkModel _value,
-      $Res Function(_$_MediaExternalLinkModel) _then)
+        _$MediaExternalLinkModelImpl>
+    implements _$$MediaExternalLinkModelImplCopyWith<$Res> {
+  __$$MediaExternalLinkModelImplCopyWithImpl(
+      _$MediaExternalLinkModelImpl _value,
+      $Res Function(_$MediaExternalLinkModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -135,7 +137,7 @@ class __$$_MediaExternalLinkModelCopyWithImpl<$Res>
     Object? icon = null,
     Object? color = null,
   }) {
-    return _then(_$_MediaExternalLinkModel(
+    return _then(_$MediaExternalLinkModelImpl(
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -166,8 +168,8 @@ class __$$_MediaExternalLinkModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
-  _$_MediaExternalLinkModel(
+class _$MediaExternalLinkModelImpl implements _MediaExternalLinkModel {
+  _$MediaExternalLinkModelImpl(
       {this.url = '',
       this.site = '',
       this.type = MediaExternalLinkType.info,
@@ -175,8 +177,8 @@ class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
       this.icon = '',
       this.color = ''});
 
-  factory _$_MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =>
-      _$$_MediaExternalLinkModelFromJson(json);
+  factory _$MediaExternalLinkModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MediaExternalLinkModelImplFromJson(json);
 
   @override
   @JsonKey()
@@ -206,7 +208,7 @@ class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MediaExternalLinkModel &&
+            other is _$MediaExternalLinkModelImpl &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.site, site) || other.site == site) &&
             (identical(other.type, type) || other.type == type) &&
@@ -223,13 +225,13 @@ class _$_MediaExternalLinkModel implements _MediaExternalLinkModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MediaExternalLinkModelCopyWith<_$_MediaExternalLinkModel> get copyWith =>
-      __$$_MediaExternalLinkModelCopyWithImpl<_$_MediaExternalLinkModel>(
-          this, _$identity);
+  _$$MediaExternalLinkModelImplCopyWith<_$MediaExternalLinkModelImpl>
+      get copyWith => __$$MediaExternalLinkModelImplCopyWithImpl<
+          _$MediaExternalLinkModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MediaExternalLinkModelToJson(
+    return _$$MediaExternalLinkModelImplToJson(
       this,
     );
   }
@@ -242,10 +244,10 @@ abstract class _MediaExternalLinkModel implements MediaExternalLinkModel {
       final MediaExternalLinkType type,
       final int siteId,
       final String icon,
-      final String color}) = _$_MediaExternalLinkModel;
+      final String color}) = _$MediaExternalLinkModelImpl;
 
   factory _MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =
-      _$_MediaExternalLinkModel.fromJson;
+      _$MediaExternalLinkModelImpl.fromJson;
 
   @override
   String get url;
@@ -261,6 +263,6 @@ abstract class _MediaExternalLinkModel implements MediaExternalLinkModel {
   String get color;
   @override
   @JsonKey(ignore: true)
-  _$$_MediaExternalLinkModelCopyWith<_$_MediaExternalLinkModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MediaExternalLinkModelImplCopyWith<_$MediaExternalLinkModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

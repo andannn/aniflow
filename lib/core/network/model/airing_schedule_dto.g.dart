@@ -6,8 +6,9 @@ part of 'airing_schedule_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AiringScheduleDto _$$_AiringScheduleDtoFromJson(Map<String, dynamic> json) =>
-    _$_AiringScheduleDto(
+_$AiringScheduleDtoImpl _$$AiringScheduleDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AiringScheduleDtoImpl(
       id: json['id'] as int? ?? -1,
       mediaId: json['mediaId'] as int?,
       airingAt: json['airingAt'] as int?,
@@ -18,8 +19,8 @@ _$_AiringScheduleDto _$$_AiringScheduleDtoFromJson(Map<String, dynamic> json) =>
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_AiringScheduleDtoToJson(
-        _$_AiringScheduleDto instance) =>
+Map<String, dynamic> _$$AiringScheduleDtoImplToJson(
+        _$AiringScheduleDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'mediaId': instance.mediaId,

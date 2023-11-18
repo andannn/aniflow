@@ -66,11 +66,11 @@ class _$ScheduleCategoryCopyWithImpl<$Res, $Val extends ScheduleCategory>
 }
 
 /// @nodoc
-abstract class _$$_ScheduleCategoryCopyWith<$Res>
+abstract class _$$ScheduleCategoryImplCopyWith<$Res>
     implements $ScheduleCategoryCopyWith<$Res> {
-  factory _$$_ScheduleCategoryCopyWith(
-          _$_ScheduleCategory value, $Res Function(_$_ScheduleCategory) then) =
-      __$$_ScheduleCategoryCopyWithImpl<$Res>;
+  factory _$$ScheduleCategoryImplCopyWith(_$ScheduleCategoryImpl value,
+          $Res Function(_$ScheduleCategoryImpl) then) =
+      __$$ScheduleCategoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -79,11 +79,11 @@ abstract class _$$_ScheduleCategoryCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ScheduleCategoryCopyWithImpl<$Res>
-    extends _$ScheduleCategoryCopyWithImpl<$Res, _$_ScheduleCategory>
-    implements _$$_ScheduleCategoryCopyWith<$Res> {
-  __$$_ScheduleCategoryCopyWithImpl(
-      _$_ScheduleCategory _value, $Res Function(_$_ScheduleCategory) _then)
+class __$$ScheduleCategoryImplCopyWithImpl<$Res>
+    extends _$ScheduleCategoryCopyWithImpl<$Res, _$ScheduleCategoryImpl>
+    implements _$$ScheduleCategoryImplCopyWith<$Res> {
+  __$$ScheduleCategoryImplCopyWithImpl(_$ScheduleCategoryImpl _value,
+      $Res Function(_$ScheduleCategoryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_ScheduleCategoryCopyWithImpl<$Res>
     Object? timeOfDayHeader = freezed,
     Object? schedules = null,
   }) {
-    return _then(_$_ScheduleCategory(
+    return _then(_$ScheduleCategoryImpl(
       timeOfDayHeader: freezed == timeOfDayHeader
           ? _value.timeOfDayHeader
           : timeOfDayHeader // ignore: cast_nullable_to_non_nullable
@@ -107,8 +107,8 @@ class __$$_ScheduleCategoryCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ScheduleCategory implements _ScheduleCategory {
-  _$_ScheduleCategory(
+class _$ScheduleCategoryImpl implements _ScheduleCategory {
+  _$ScheduleCategoryImpl(
       {this.timeOfDayHeader,
       final List<AiringScheduleAndAnimeModel> schedules = const []})
       : _schedules = schedules;
@@ -133,7 +133,7 @@ class _$_ScheduleCategory implements _ScheduleCategory {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ScheduleCategory &&
+            other is _$ScheduleCategoryImpl &&
             (identical(other.timeOfDayHeader, timeOfDayHeader) ||
                 other.timeOfDayHeader == timeOfDayHeader) &&
             const DeepCollectionEquality()
@@ -147,14 +147,16 @@ class _$_ScheduleCategory implements _ScheduleCategory {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ScheduleCategoryCopyWith<_$_ScheduleCategory> get copyWith =>
-      __$$_ScheduleCategoryCopyWithImpl<_$_ScheduleCategory>(this, _$identity);
+  _$$ScheduleCategoryImplCopyWith<_$ScheduleCategoryImpl> get copyWith =>
+      __$$ScheduleCategoryImplCopyWithImpl<_$ScheduleCategoryImpl>(
+          this, _$identity);
 }
 
 abstract class _ScheduleCategory implements ScheduleCategory {
   factory _ScheduleCategory(
-      {final TimeOfDay? timeOfDayHeader,
-      final List<AiringScheduleAndAnimeModel> schedules}) = _$_ScheduleCategory;
+          {final TimeOfDay? timeOfDayHeader,
+          final List<AiringScheduleAndAnimeModel> schedules}) =
+      _$ScheduleCategoryImpl;
 
   @override
   TimeOfDay? get timeOfDayHeader;
@@ -162,6 +164,6 @@ abstract class _ScheduleCategory implements ScheduleCategory {
   List<AiringScheduleAndAnimeModel> get schedules;
   @override
   @JsonKey(ignore: true)
-  _$$_ScheduleCategoryCopyWith<_$_ScheduleCategory> get copyWith =>
+  _$$ScheduleCategoryImplCopyWith<_$ScheduleCategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -45,7 +45,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.characterModel.nameNative, style: style),
+                  Text(model.characterModel.name, style: style),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(
                     model.role?.getCharacterRoleString(context) ?? '',
@@ -64,7 +64,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(model.voiceActorModel?.nameNative ?? '', style: style),
+                  Text(model.voiceActorModel?.name ?? '', style: style),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(model.staffLanguage?.label(context) ?? '',
                       style: style),

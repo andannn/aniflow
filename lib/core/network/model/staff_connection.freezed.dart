@@ -86,11 +86,11 @@ class _$StaffConnectionCopyWithImpl<$Res, $Val extends StaffConnection>
 }
 
 /// @nodoc
-abstract class _$$_StaffConnectionCopyWith<$Res>
+abstract class _$$StaffConnectionImplCopyWith<$Res>
     implements $StaffConnectionCopyWith<$Res> {
-  factory _$$_StaffConnectionCopyWith(
-          _$_StaffConnection value, $Res Function(_$_StaffConnection) then) =
-      __$$_StaffConnectionCopyWithImpl<$Res>;
+  factory _$$StaffConnectionImplCopyWith(_$StaffConnectionImpl value,
+          $Res Function(_$StaffConnectionImpl) then) =
+      __$$StaffConnectionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_StaffConnectionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StaffConnectionCopyWithImpl<$Res>
-    extends _$StaffConnectionCopyWithImpl<$Res, _$_StaffConnection>
-    implements _$$_StaffConnectionCopyWith<$Res> {
-  __$$_StaffConnectionCopyWithImpl(
-      _$_StaffConnection _value, $Res Function(_$_StaffConnection) _then)
+class __$$StaffConnectionImplCopyWithImpl<$Res>
+    extends _$StaffConnectionCopyWithImpl<$Res, _$StaffConnectionImpl>
+    implements _$$StaffConnectionImplCopyWith<$Res> {
+  __$$StaffConnectionImplCopyWithImpl(
+      _$StaffConnectionImpl _value, $Res Function(_$StaffConnectionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +115,7 @@ class __$$_StaffConnectionCopyWithImpl<$Res>
     Object? pageInfo = freezed,
     Object? edges = null,
   }) {
-    return _then(_$_StaffConnection(
+    return _then(_$StaffConnectionImpl(
       pageInfo: freezed == pageInfo
           ? _value.pageInfo
           : pageInfo // ignore: cast_nullable_to_non_nullable
@@ -130,14 +130,14 @@ class __$$_StaffConnectionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StaffConnection implements _StaffConnection {
-  _$_StaffConnection(
+class _$StaffConnectionImpl implements _StaffConnection {
+  _$StaffConnectionImpl(
       {@JsonKey(name: 'pageInfo') this.pageInfo,
       @JsonKey(name: 'edges') final List<StaffEdge> edges = const []})
       : _edges = edges;
 
-  factory _$_StaffConnection.fromJson(Map<String, dynamic> json) =>
-      _$$_StaffConnectionFromJson(json);
+  factory _$StaffConnectionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StaffConnectionImplFromJson(json);
 
   @override
   @JsonKey(name: 'pageInfo')
@@ -160,7 +160,7 @@ class _$_StaffConnection implements _StaffConnection {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StaffConnection &&
+            other is _$StaffConnectionImpl &&
             (identical(other.pageInfo, pageInfo) ||
                 other.pageInfo == pageInfo) &&
             const DeepCollectionEquality().equals(other._edges, _edges));
@@ -174,12 +174,13 @@ class _$_StaffConnection implements _StaffConnection {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StaffConnectionCopyWith<_$_StaffConnection> get copyWith =>
-      __$$_StaffConnectionCopyWithImpl<_$_StaffConnection>(this, _$identity);
+  _$$StaffConnectionImplCopyWith<_$StaffConnectionImpl> get copyWith =>
+      __$$StaffConnectionImplCopyWithImpl<_$StaffConnectionImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StaffConnectionToJson(
+    return _$$StaffConnectionImplToJson(
       this,
     );
   }
@@ -189,10 +190,10 @@ abstract class _StaffConnection implements StaffConnection {
   factory _StaffConnection(
           {@JsonKey(name: 'pageInfo') final PageInfo? pageInfo,
           @JsonKey(name: 'edges') final List<StaffEdge> edges}) =
-      _$_StaffConnection;
+      _$StaffConnectionImpl;
 
   factory _StaffConnection.fromJson(Map<String, dynamic> json) =
-      _$_StaffConnection.fromJson;
+      _$StaffConnectionImpl.fromJson;
 
   @override
   @JsonKey(name: 'pageInfo')
@@ -202,6 +203,6 @@ abstract class _StaffConnection implements StaffConnection {
   List<StaffEdge> get edges;
   @override
   @JsonKey(ignore: true)
-  _$$_StaffConnectionCopyWith<_$_StaffConnection> get copyWith =>
+  _$$StaffConnectionImplCopyWith<_$StaffConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

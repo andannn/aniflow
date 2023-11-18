@@ -80,11 +80,11 @@ class _$TrailerDtoCopyWithImpl<$Res, $Val extends TrailerDto>
 }
 
 /// @nodoc
-abstract class _$$_TrailerDtoCopyWith<$Res>
+abstract class _$$TrailerDtoImplCopyWith<$Res>
     implements $TrailerDtoCopyWith<$Res> {
-  factory _$$_TrailerDtoCopyWith(
-          _$_TrailerDto value, $Res Function(_$_TrailerDto) then) =
-      __$$_TrailerDtoCopyWithImpl<$Res>;
+  factory _$$TrailerDtoImplCopyWith(
+          _$TrailerDtoImpl value, $Res Function(_$TrailerDtoImpl) then) =
+      __$$TrailerDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_TrailerDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TrailerDtoCopyWithImpl<$Res>
-    extends _$TrailerDtoCopyWithImpl<$Res, _$_TrailerDto>
-    implements _$$_TrailerDtoCopyWith<$Res> {
-  __$$_TrailerDtoCopyWithImpl(
-      _$_TrailerDto _value, $Res Function(_$_TrailerDto) _then)
+class __$$TrailerDtoImplCopyWithImpl<$Res>
+    extends _$TrailerDtoCopyWithImpl<$Res, _$TrailerDtoImpl>
+    implements _$$TrailerDtoImplCopyWith<$Res> {
+  __$$TrailerDtoImplCopyWithImpl(
+      _$TrailerDtoImpl _value, $Res Function(_$TrailerDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$_TrailerDtoCopyWithImpl<$Res>
     Object? site = null,
     Object? thumbnail = null,
   }) {
-    return _then(_$_TrailerDto(
+    return _then(_$TrailerDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -127,14 +127,14 @@ class __$$_TrailerDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TrailerDto implements _TrailerDto {
-  _$_TrailerDto(
+class _$TrailerDtoImpl implements _TrailerDto {
+  _$TrailerDtoImpl(
       {@JsonKey(name: 'id') this.id = '',
       @JsonKey(name: 'site') this.site = '',
       @JsonKey(name: 'thumbnail') this.thumbnail = ''});
 
-  factory _$_TrailerDto.fromJson(Map<String, dynamic> json) =>
-      _$$_TrailerDtoFromJson(json);
+  factory _$TrailerDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TrailerDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -155,7 +155,7 @@ class _$_TrailerDto implements _TrailerDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TrailerDto &&
+            other is _$TrailerDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.site, site) || other.site == site) &&
             (identical(other.thumbnail, thumbnail) ||
@@ -169,12 +169,12 @@ class _$_TrailerDto implements _TrailerDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TrailerDtoCopyWith<_$_TrailerDto> get copyWith =>
-      __$$_TrailerDtoCopyWithImpl<_$_TrailerDto>(this, _$identity);
+  _$$TrailerDtoImplCopyWith<_$TrailerDtoImpl> get copyWith =>
+      __$$TrailerDtoImplCopyWithImpl<_$TrailerDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TrailerDtoToJson(
+    return _$$TrailerDtoImplToJson(
       this,
     );
   }
@@ -184,10 +184,10 @@ abstract class _TrailerDto implements TrailerDto {
   factory _TrailerDto(
       {@JsonKey(name: 'id') final String id,
       @JsonKey(name: 'site') final String site,
-      @JsonKey(name: 'thumbnail') final String thumbnail}) = _$_TrailerDto;
+      @JsonKey(name: 'thumbnail') final String thumbnail}) = _$TrailerDtoImpl;
 
   factory _TrailerDto.fromJson(Map<String, dynamic> json) =
-      _$_TrailerDto.fromJson;
+      _$TrailerDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -200,6 +200,6 @@ abstract class _TrailerDto implements TrailerDto {
   String get thumbnail;
   @override
   @JsonKey(ignore: true)
-  _$$_TrailerDtoCopyWith<_$_TrailerDto> get copyWith =>
+  _$$TrailerDtoImplCopyWith<_$TrailerDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

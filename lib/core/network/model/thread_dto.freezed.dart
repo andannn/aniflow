@@ -173,10 +173,11 @@ class _$ThreadDtoCopyWithImpl<$Res, $Val extends ThreadDto>
 }
 
 /// @nodoc
-abstract class _$$_ThreadDtoCopyWith<$Res> implements $ThreadDtoCopyWith<$Res> {
-  factory _$$_ThreadDtoCopyWith(
-          _$_ThreadDto value, $Res Function(_$_ThreadDto) then) =
-      __$$_ThreadDtoCopyWithImpl<$Res>;
+abstract class _$$ThreadDtoImplCopyWith<$Res>
+    implements $ThreadDtoCopyWith<$Res> {
+  factory _$$ThreadDtoImplCopyWith(
+          _$ThreadDtoImpl value, $Res Function(_$ThreadDtoImpl) then) =
+      __$$ThreadDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -199,11 +200,11 @@ abstract class _$$_ThreadDtoCopyWith<$Res> implements $ThreadDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ThreadDtoCopyWithImpl<$Res>
-    extends _$ThreadDtoCopyWithImpl<$Res, _$_ThreadDto>
-    implements _$$_ThreadDtoCopyWith<$Res> {
-  __$$_ThreadDtoCopyWithImpl(
-      _$_ThreadDto _value, $Res Function(_$_ThreadDto) _then)
+class __$$ThreadDtoImplCopyWithImpl<$Res>
+    extends _$ThreadDtoCopyWithImpl<$Res, _$ThreadDtoImpl>
+    implements _$$ThreadDtoImplCopyWith<$Res> {
+  __$$ThreadDtoImplCopyWithImpl(
+      _$ThreadDtoImpl _value, $Res Function(_$ThreadDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -223,7 +224,7 @@ class __$$_ThreadDtoCopyWithImpl<$Res>
     Object? siteUrl = freezed,
     Object? isLocked = freezed,
   }) {
-    return _then(_$_ThreadDto(
+    return _then(_$ThreadDtoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -282,8 +283,8 @@ class __$$_ThreadDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ThreadDto implements _ThreadDto {
-  _$_ThreadDto(
+class _$ThreadDtoImpl implements _ThreadDto {
+  _$ThreadDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'user') this.user,
       @JsonKey(name: 'body') this.body,
@@ -298,8 +299,8 @@ class _$_ThreadDto implements _ThreadDto {
       @JsonKey(name: 'siteUrl') this.siteUrl,
       @JsonKey(name: 'isLocked') this.isLocked});
 
-  factory _$_ThreadDto.fromJson(Map<String, dynamic> json) =>
-      _$$_ThreadDtoFromJson(json);
+  factory _$ThreadDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ThreadDtoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -350,7 +351,7 @@ class _$_ThreadDto implements _ThreadDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ThreadDto &&
+            other is _$ThreadDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.body, body) || other.body == body) &&
@@ -395,12 +396,12 @@ class _$_ThreadDto implements _ThreadDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ThreadDtoCopyWith<_$_ThreadDto> get copyWith =>
-      __$$_ThreadDtoCopyWithImpl<_$_ThreadDto>(this, _$identity);
+  _$$ThreadDtoImplCopyWith<_$ThreadDtoImpl> get copyWith =>
+      __$$ThreadDtoImplCopyWithImpl<_$ThreadDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ThreadDtoToJson(
+    return _$$ThreadDtoImplToJson(
       this,
     );
   }
@@ -420,10 +421,10 @@ abstract class _ThreadDto implements ThreadDto {
       @JsonKey(name: 'createdAt') final int? createdAt,
       @JsonKey(name: 'updatedAt') final int? updatedAt,
       @JsonKey(name: 'siteUrl') final String? siteUrl,
-      @JsonKey(name: 'isLocked') final bool? isLocked}) = _$_ThreadDto;
+      @JsonKey(name: 'isLocked') final bool? isLocked}) = _$ThreadDtoImpl;
 
   factory _ThreadDto.fromJson(Map<String, dynamic> json) =
-      _$_ThreadDto.fromJson;
+      _$ThreadDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -466,6 +467,6 @@ abstract class _ThreadDto implements ThreadDto {
   bool? get isLocked;
   @override
   @JsonKey(ignore: true)
-  _$$_ThreadDtoCopyWith<_$_ThreadDto> get copyWith =>
+  _$$ThreadDtoImplCopyWith<_$ThreadDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -18,8 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CharacterModel {
   String get id => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String get nameEnglish => throw _privateConstructorUsedError;
-  String get nameNative => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CharacterModelCopyWith<CharacterModel> get copyWith =>
@@ -32,7 +31,7 @@ abstract class $CharacterModelCopyWith<$Res> {
           CharacterModel value, $Res Function(CharacterModel) then) =
       _$CharacterModelCopyWithImpl<$Res, CharacterModel>;
   @useResult
-  $Res call({String id, String image, String nameEnglish, String nameNative});
+  $Res call({String id, String image, String name});
 }
 
 /// @nodoc
@@ -50,8 +49,7 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -62,35 +60,31 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_CharacterModelCopyWith<$Res>
+abstract class _$$CharacterModelImplCopyWith<$Res>
     implements $CharacterModelCopyWith<$Res> {
-  factory _$$_CharacterModelCopyWith(
-          _$_CharacterModel value, $Res Function(_$_CharacterModel) then) =
-      __$$_CharacterModelCopyWithImpl<$Res>;
+  factory _$$CharacterModelImplCopyWith(_$CharacterModelImpl value,
+          $Res Function(_$CharacterModelImpl) then) =
+      __$$CharacterModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String image, String nameEnglish, String nameNative});
+  $Res call({String id, String image, String name});
 }
 
 /// @nodoc
-class __$$_CharacterModelCopyWithImpl<$Res>
-    extends _$CharacterModelCopyWithImpl<$Res, _$_CharacterModel>
-    implements _$$_CharacterModelCopyWith<$Res> {
-  __$$_CharacterModelCopyWithImpl(
-      _$_CharacterModel _value, $Res Function(_$_CharacterModel) _then)
+class __$$CharacterModelImplCopyWithImpl<$Res>
+    extends _$CharacterModelCopyWithImpl<$Res, _$CharacterModelImpl>
+    implements _$$CharacterModelImplCopyWith<$Res> {
+  __$$CharacterModelImplCopyWithImpl(
+      _$CharacterModelImpl _value, $Res Function(_$CharacterModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,10 +92,9 @@ class __$$_CharacterModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? nameEnglish = null,
-    Object? nameNative = null,
+    Object? name = null,
   }) {
-    return _then(_$_CharacterModel(
+    return _then(_$CharacterModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -110,13 +103,9 @@ class __$$_CharacterModelCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      nameEnglish: null == nameEnglish
-          ? _value.nameEnglish
-          : nameEnglish // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameNative: null == nameNative
-          ? _value.nameNative
-          : nameNative // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -124,12 +113,8 @@ class __$$_CharacterModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CharacterModel implements _CharacterModel {
-  _$_CharacterModel(
-      {this.id = '',
-      this.image = '',
-      this.nameEnglish = '',
-      this.nameNative = ''});
+class _$CharacterModelImpl implements _CharacterModel {
+  _$CharacterModelImpl({this.id = '', this.image = '', this.name = ''});
 
   @override
   @JsonKey()
@@ -139,57 +124,48 @@ class _$_CharacterModel implements _CharacterModel {
   final String image;
   @override
   @JsonKey()
-  final String nameEnglish;
-  @override
-  @JsonKey()
-  final String nameNative;
+  final String name;
 
   @override
   String toString() {
-    return 'CharacterModel(id: $id, image: $image, nameEnglish: $nameEnglish, nameNative: $nameNative)';
+    return 'CharacterModel(id: $id, image: $image, name: $name)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CharacterModel &&
+            other is _$CharacterModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.nameEnglish, nameEnglish) ||
-                other.nameEnglish == nameEnglish) &&
-            (identical(other.nameNative, nameNative) ||
-                other.nameNative == nameNative));
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, image, nameEnglish, nameNative);
+  int get hashCode => Object.hash(runtimeType, id, image, name);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CharacterModelCopyWith<_$_CharacterModel> get copyWith =>
-      __$$_CharacterModelCopyWithImpl<_$_CharacterModel>(this, _$identity);
+  _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
+      __$$CharacterModelImplCopyWithImpl<_$CharacterModelImpl>(
+          this, _$identity);
 }
 
 abstract class _CharacterModel implements CharacterModel {
   factory _CharacterModel(
       {final String id,
       final String image,
-      final String nameEnglish,
-      final String nameNative}) = _$_CharacterModel;
+      final String name}) = _$CharacterModelImpl;
 
   @override
   String get id;
   @override
   String get image;
   @override
-  String get nameEnglish;
-  @override
-  String get nameNative;
+  String get name;
   @override
   @JsonKey(ignore: true)
-  _$$_CharacterModelCopyWith<_$_CharacterModel> get copyWith =>
+  _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

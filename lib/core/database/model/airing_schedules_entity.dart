@@ -17,7 +17,7 @@ class AiringSchedulesEntity with _$AiringSchedulesEntity {
   }) = _AiringSchedulesEntity;
 
   factory AiringSchedulesEntity.fromJson(Map<String, dynamic> json) =>
-      _$$_AiringSchedulesEntityFromJson(json);
+      _$$AiringSchedulesEntityImplFromJson(json);
 
   static AiringSchedulesEntity fromDto(AiringScheduleDto dto) {
     return AiringSchedulesEntity(

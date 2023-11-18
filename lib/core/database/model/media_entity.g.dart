@@ -6,8 +6,8 @@ part of 'media_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MediaEntity _$$_MediaEntityFromJson(Map<String, dynamic> json) =>
-    _$_MediaEntity(
+_$MediaEntityImpl _$$MediaEntityImplFromJson(Map<String, dynamic> json) =>
+    _$MediaEntityImpl(
       id: json['id'] as String? ?? '',
       type: json['media_type'] as String?,
       englishTitle: json['english_title'] as String? ?? '',
@@ -36,7 +36,7 @@ _$_MediaEntity _$$_MediaEntityFromJson(Map<String, dynamic> json) =>
       nextAiringEpisode: json['nextAiringEpisode'] as int?,
     );
 
-Map<String, dynamic> _$$_MediaEntityToJson(_$_MediaEntity instance) =>
+Map<String, dynamic> _$$MediaEntityImplToJson(_$MediaEntityImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'media_type': instance.type,
