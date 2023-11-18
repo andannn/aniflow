@@ -42,6 +42,7 @@ abstract class MediaInformationRepository {
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId({
     required String animeId,
+    required StaffLanguage language,
     required LoadType loadType,
     CancelToken? token,
   });
@@ -110,26 +111,32 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       loadCharacterPageByAnimeId({
     required String animeId,
     required LoadType loadType,
+    required StaffLanguage language,
     CancelToken? token,
   }) async {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
-          animeId: int.parse(animeId),
-          page: page,
-          perPage: perPage,
-          token: token),
+        animeId: int.parse(animeId),
+        language: language,
+        page: page,
+        perPage: perPage,
+        token: token,
+      ),
       onClearDbCache: () => animeDao.clearMediaCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
           mediaId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfMediaByPage(
         animeId.toString(),
+        staffLanguage: language,
         page: page,
         perPage: perPage,
       ),
       mapDtoToEntity: (dto) => CharacterAndVoiceActorRelationEntity(
         characterEntity: CharacterEntity.fromNetworkModel(dto),
         voiceActorEntity: StaffEntity.fromVoiceActorDto(dto),
+        role: dto.role,
+        language: language,
       ),
       mapEntityToModel: (entity) =>
           CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
@@ -197,12 +204,11 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
             characterAndVoiceActors = characters
                 .map(
                   (e) => CharacterAndVoiceActorRelationEntity(
-                    characterEntity: CharacterEntity.fromNetworkModel(e),
-                    voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
-                    role: e.role,
-                    // only fetch japanese voice actor in detail page.
-                    language: StaffLanguage.japanese
-                  ),
+                      characterEntity: CharacterEntity.fromNetworkModel(e),
+                      voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
+                      role: e.role,
+                      // only fetch japanese voice actor in detail page.
+                      language: StaffLanguage.japanese),
                 )
                 .toList();
 

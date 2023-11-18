@@ -1,33 +1,26 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/load_result.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
-import 'package:dio/dio.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/feature/character_page/bloc/character_page_model.dart';
+import 'package:bloc/bloc.dart';
 
-class CharacterPageBloc extends PagingBloc<CharacterAndVoiceActorModel> {
-  CharacterPageBloc(
-    this.animeId, {
-    required MediaInformationRepository aniListRepository,
-  })  : _mediaInfoRepository = aniListRepository,
-        super(const PageInit(data: []));
+sealed class CharacterPageEvent {}
 
-  final String animeId;
-  final MediaInformationRepository _mediaInfoRepository;
+class OnStaffLanguageChanged extends CharacterPageEvent {
+  OnStaffLanguageChanged({required this.staffLanguage});
 
-  @override
-  Future<LoadResult<List<CharacterAndVoiceActorModel>>> loadPage(
-      {required int page, bool isRefresh = false,
-        CancelToken? cancelToken,}) {
-    return _mediaInfoRepository.loadCharacterPageByAnimeId(
-      animeId: animeId,
-      loadType: isRefresh
-          ? const Refresh()
-          : Append(page: page, perPage: Config.defaultPerPageCount),
-      token: cancelToken,
-    );
+  final StaffLanguage staffLanguage;
+}
+
+class CharacterPageBloc extends Bloc<CharacterPageEvent, CharacterPageState> {
+  CharacterPageBloc() : super(CharacterPageState()) {
+    on<OnStaffLanguageChanged>(_onStaffLanguageChanged);
+  }
+
+  FutureOr<void> _onStaffLanguageChanged(
+    OnStaffLanguageChanged event,
+    Emitter<CharacterPageState> emit,
+  ) {
+    emit(state.copyWith(language: event.staffLanguage));
   }
 }

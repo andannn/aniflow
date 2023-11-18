@@ -2,6 +2,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
@@ -84,8 +85,11 @@ void main() {
     });
 
     test('get_characters', () async {
-      await AniListDataSource()
-          .getCharacterPage(animeId: 140501, page: 1, perPage: 3);
+      await AniListDataSource().getCharacterPage(
+          animeId: 140501,
+          page: 1,
+          perPage: 3,
+          language: StaffLanguage.japanese);
     });
 
     test('get_staffs', () async {

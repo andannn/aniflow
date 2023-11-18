@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
@@ -108,6 +109,7 @@ class AniListDataSource {
 
   Future<List<CharacterEdge>> getCharacterPage({
     required int animeId,
+    required StaffLanguage language,
     required int page,
     required int perPage,
     CancelToken? token,
@@ -117,6 +119,7 @@ class AniListDataSource {
       'id': animeId,
       'page': page,
       'perPage': perPage,
+      'staffLanguage': language.toJson(),
     };
     final response = await AniListDio().dio.post(
       AniListDio.aniListUrl,

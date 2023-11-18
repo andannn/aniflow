@@ -66,7 +66,8 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                 children: [
                   Text(model.voiceActorModel?.nameNative ?? '', style: style),
                   const Expanded(flex: 1, child: SizedBox()),
-                  Text('Japanese', style: style),
+                  Text(model.staffLanguage?.label(context) ?? '',
+                      style: style),
                 ],
               ),
             ),

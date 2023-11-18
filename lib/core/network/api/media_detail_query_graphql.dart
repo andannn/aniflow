@@ -53,7 +53,7 @@ query (\$id: Int) {
       episode
       timeUntilAiring
     }
-    characters(page: 1, perPage: 9, sort: FAVOURITES_DESC) {
+    characters(page: 1, perPage: 9, sort: RELEVANCE) {
       pageInfo {
         total
         perPage

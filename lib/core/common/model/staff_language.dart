@@ -6,38 +6,27 @@ part 'staff_language.g.dart';
 enum StaffLanguage {
   @JsonValue('JAPANESE')
   japanese,
-
   @JsonValue('ENGLISH')
   english,
-
   @JsonValue('KOREAN')
   korean,
-
   @JsonValue('ITALIAN')
   italian,
-
   @JsonValue('SPANISH')
   spanish,
-
   @JsonValue('PORTUGUESE')
   portuguese,
-
   @JsonValue('FRENCH')
   french,
-
   @JsonValue('GERMAN')
   german,
-
   @JsonValue('HEBREW')
   hebrew,
-
   @JsonValue('HUNGARIAN')
   hungarian;
 
   String toJson() => _$StaffLanguageEnumMap[this]!;
 
-  factory StaffLanguage.fromJson(String json) =>
-      _$StaffLanguageEnumMap
-          .map((key, value) => MapEntry(value, key))[json]!;
+  static StaffLanguage? fromJson(String? json) =>
+      _$StaffLanguageEnumMap.map((key, value) => MapEntry(value, key))[json];
 }
-

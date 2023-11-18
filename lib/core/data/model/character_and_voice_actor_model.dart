@@ -19,15 +19,16 @@ class CharacterAndVoiceActorModel {
 
   static CharacterAndVoiceActorModel fromDatabaseEntity(
       CharacterAndVoiceActorRelationEntity entity) {
+    final hasVoiceActor = entity.voiceActorEntity != null;
     return CharacterAndVoiceActorModel(
       characterModel: CharacterModel.fromDatabaseEntity(
         entity.characterEntity,
       ),
-      voiceActorModel: entity.voiceActorEntity == null
-          ? null
-          : StaffModel.fromDatabaseEntity(entity.voiceActorEntity!),
+      voiceActorModel: hasVoiceActor
+          ? StaffModel.fromDatabaseEntity(entity.voiceActorEntity!)
+          : null,
       role: entity.role,
-      staffLanguage: entity.language,
+      staffLanguage: hasVoiceActor ? entity.language : null
     );
   }
 }
