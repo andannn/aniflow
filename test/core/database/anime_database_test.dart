@@ -1,5 +1,7 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_relation.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
@@ -79,32 +81,6 @@ void main() {
       ],
     );
 
-    final dummyCharacterData = [
-      CharacterEntity(
-        id: '2736',
-        voiceActorId: '95084',
-        image:
-            'https://s4.anilist.co/file/anilistcdn/character/large/b2736-0Eoluq9UxXu4.png',
-        nameEnglish: 'Grencia Mars Elijah Guo Eckener',
-        nameNative: 'グレン',
-      ),
-      CharacterEntity(
-        id: '6694',
-        voiceActorId: '95262',
-        image:
-            'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
-        nameEnglish: 'Judy',
-        nameNative: 'ジュディ',
-      ),
-      CharacterEntity(
-        id: '2334',
-        voiceActorId: '95262',
-        image:
-            'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
-        nameEnglish: 'Jack',
-      ),
-    ];
-
     final dummyVoiceActorData = [
       StaffEntity(
         id: '95084',
@@ -126,10 +102,38 @@ void main() {
       ),
     ];
 
-    // final dummyStaff = [
-    //   StaffEntity(id: '1234', nameEnglish: 'nameA'),
-    //   StaffEntity(id: '4567', nameEnglish: 'nameB'),
-    // ];
+    final dummyCharacterVoiceActerRelations = [
+      CharacterAndVoiceActorRelationEntity(
+          characterEntity: CharacterEntity(
+            id: '2334',
+            image:
+                'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
+            nameEnglish: 'Jack',
+          ),
+          voiceActorEntity: StaffEntity(
+            id: '95346',
+            image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+            nameEnglish: 'Character A',
+          ),
+          language: StaffLanguage.japanese,
+          role: CharacterRole.background),
+      CharacterAndVoiceActorRelationEntity(
+          characterEntity: CharacterEntity(
+            id: '6694',
+            image:
+                'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
+            nameEnglish: 'Judy',
+            nameNative: 'ジュディ',
+          ),
+          voiceActorEntity: StaffEntity(
+            id: '95262',
+            image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+            nameNative: '堀内賢雄',
+            nameEnglish: 'Kenyuu Horiuchi',
+          ),
+          language: StaffLanguage.japanese,
+          role: CharacterRole.background),
+    ];
 
     final dummyAiringSchedule = [
       AiringSchedulesEntity(id: '122', mediaId: '5784', airingAt: 1),
@@ -246,14 +250,8 @@ void main() {
     test('query_character_page', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
 
-      await animeDao.insertCharacterVoiceActors(mediaId: 5784, entities: [
-        CharacterAndVoiceActorRelation(
-            characterEntity: dummyCharacterData[0], voiceActorEntity: null),
-        CharacterAndVoiceActorRelation(
-            characterEntity: dummyCharacterData[1], voiceActorEntity: null),
-        CharacterAndVoiceActorRelation(
-            characterEntity: dummyCharacterData[2], voiceActorEntity: null),
-      ]);
+      await animeDao.insertCharacterVoiceActors(
+          mediaId: 5784, entities: dummyCharacterVoiceActerRelations);
 
       await animeDao.getCharacterOfMediaByPage('5784', page: 1);
     });

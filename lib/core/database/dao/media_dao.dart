@@ -1,7 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_relation.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -94,11 +96,18 @@ mixin MediaCategoryCrossRefColumns {
 /// [Tables.characterTable]
 mixin CharacterColumns {
   static const String id = 'character_id';
-  static const String voiceActorId = 'character_voice_actor_id';
-  static const String role = 'character_role';
   static const String image = 'character_image';
   static const String nameEnglish = 'character_name_english';
   static const String nameNative = 'character_name_native';
+}
+
+/// [Tables.characterVoiceActorCrossRefTable]
+mixin CharacterVoiceActorCrossRefColumns {
+  static const String id = 'character_voice_actor_cross_id';
+  static const String characterId = 'character_voice_actor_cross_character_id';
+  static const String staffId = 'character_voice_actor_cross_staff_id';
+  static const String role = 'character_voice_actor_cross_role';
+  static const String language = 'character_voice_actor_cross_language';
 }
 
 /// [Tables.staffTable]
@@ -175,9 +184,10 @@ abstract class MediaInformationDao {
 
   Future<MediaWithDetailInfo> getDetailMediaInfo(String id);
 
-  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+  Future<List<CharacterAndVoiceActorRelationEntity>> getCharacterOfMediaByPage(
       String animeId,
       {required int page,
+      StaffLanguage staffLanguage = StaffLanguage.japanese,
       int perPage = Config.defaultPerPageCount});
 
   Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
@@ -214,7 +224,7 @@ abstract class MediaInformationDao {
 
   Future insertCharacterVoiceActors(
       {required int mediaId,
-      required List<CharacterAndVoiceActorRelation> entities});
+      required List<CharacterAndVoiceActorRelationEntity> entities});
 
   Future insertCharacters({required List<CharacterEntity> entities});
 
@@ -300,27 +310,36 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+  Future<List<CharacterAndVoiceActorRelationEntity>> getCharacterOfMediaByPage(
       String animeId,
       {required int page,
+      StaffLanguage staffLanguage = StaffLanguage.japanese,
       int perPage = Config.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    final characterSql = 'select * from ${Tables.characterTable} as c '
+    final characterSql = 'select * from ${Tables.characterTable} as c \n'
         'join ${Tables.mediaCharacterCrossRefTable} as ac '
-        '  on c.${CharacterColumns.id} = ac.${CharacterCrossRefColumns.characterId} '
-        'left join ${Tables.staffTable} as v '
-        '  on c.${CharacterColumns.voiceActorId} = v.${StaffColumns.id} '
-        'where ac.${CharacterCrossRefColumns.mediaId} = \'$animeId\' '
-        'order by ${CharacterCrossRefColumns.timeStamp} asc '
-        'limit $limit '
-        'offset $offset ';
-    List characterResults = await database.aniflowDB.rawQuery(characterSql);
+        '  on c.${CharacterColumns.id} = ac.${CharacterCrossRefColumns.characterId} \n'
+        'left join ${Tables.characterVoiceActorCrossRefTable} as cv \n'
+        '  on c.${CharacterColumns.id} = cv.${CharacterVoiceActorCrossRefColumns.characterId} \n'
+        '    and cv.${CharacterVoiceActorCrossRefColumns.language} = \'${staffLanguage.toJson()}\' \n'
+        'left join ${Tables.staffTable} as v \n'
+        '  on cv.${CharacterVoiceActorCrossRefColumns.staffId} = v.${StaffColumns.id} \n'
+        'where ac.${CharacterCrossRefColumns.mediaId} = \'$animeId\' \n'
+        'order by ${CharacterCrossRefColumns.timeStamp} asc \n'
+        'limit $limit \n'
+        'offset $offset \n';
+    List<Map<String, dynamic>> characterResults =
+        await database.aniflowDB.rawQuery(characterSql);
     return characterResults
         .map(
-          (e) => CharacterAndVoiceActorRelation(
+          (e) => CharacterAndVoiceActorRelationEntity(
             characterEntity: CharacterEntity.fromJson(e),
             voiceActorEntity: StaffEntity.fromJson(e),
+            language: StaffLanguage.fromJson(
+                e[CharacterVoiceActorCrossRefColumns.language]),
+            role: CharacterRole.fromJson(
+                e[CharacterVoiceActorCrossRefColumns.role]),
           ),
         )
         .toList();
@@ -505,7 +524,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   @override
   Future insertCharacterVoiceActors(
       {required int mediaId,
-      required List<CharacterAndVoiceActorRelation> entities}) async {
+      required List<CharacterAndVoiceActorRelationEntity> entities}) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       if (entity.voiceActorEntity != null) {
@@ -530,6 +549,21 @@ class MediaInformationDaoImpl extends MediaInformationDao {
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+      if (entity.voiceActorEntity != null) {
+        batch.insert(
+          Tables.characterVoiceActorCrossRefTable,
+          {
+            CharacterVoiceActorCrossRefColumns.characterId:
+                entity.characterEntity.id,
+            CharacterVoiceActorCrossRefColumns.staffId:
+                entity.voiceActorEntity!.id,
+            CharacterVoiceActorCrossRefColumns.role: entity.role?.toJson(),
+            CharacterVoiceActorCrossRefColumns.language:
+                entity.language?.toJson(),
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
     }
     return await batch.commit(noResult: true);
   }

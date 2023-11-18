@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -210,4 +211,18 @@ extension ListActivityModelEx on ListActivityModel {
       ),
     ];
   }
+}
+extension StaffLanguageEx on StaffLanguage {
+  String label(BuildContext context) => switch (this) {
+    StaffLanguage.japanese => 'Japanese',
+    StaffLanguage.english => 'English',
+    StaffLanguage.korean => 'Korean',
+    StaffLanguage.french => 'French',
+    StaffLanguage.german => 'German',
+    StaffLanguage.italian => 'Italian',
+    StaffLanguage.spanish => 'Spanish',
+    StaffLanguage.portuguese => 'Portuguese',
+    StaffLanguage.hebrew => 'Hebrew',
+    StaffLanguage.hungarian => 'Hungarian',
+  };
 }

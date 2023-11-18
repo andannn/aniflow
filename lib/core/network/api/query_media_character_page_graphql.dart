@@ -1,8 +1,8 @@
 String get characterPageGraphql =>
 '''
-query (\$id: Int, \$page: Int, \$perPage: Int) {
+query (\$id: Int, \$page: Int, \$perPage: Int, \$staffLanguage: StaffLanguage) {
   Media(id: \$id) {
-    characters(page: \$page, perPage: \$perPage, sort: FAVOURITES_DESC) {
+    characters(page: \$page, perPage: \$perPage, sort: RELEVANCE) {
       pageInfo {
         total
         perPage
@@ -23,7 +23,7 @@ query (\$id: Int, \$page: Int, \$perPage: Int) {
             native
           }
         }
-        voiceActors(language: JAPANESE, sort: LANGUAGE) {
+        voiceActors(language: \$staffLanguage, sort: LANGUAGE) {
           id
           image {
             large

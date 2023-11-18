@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -41,6 +42,7 @@ abstract class MediaInformationRepository {
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId({
     required String animeId,
+    required StaffLanguage language,
     required LoadType loadType,
     CancelToken? token,
   });
@@ -89,11 +91,10 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         perPage: perPage,
         token: token,
         param: createAnimePageQueryParam(
-          category,
-          preferences.getCurrentSeason(),
-          preferences.getCurrentSeasonYear(),
-          preferences.getAniListSettings().displayAdultContent
-        ),
+            category,
+            preferences.getCurrentSeason(),
+            preferences.getCurrentSeasonYear(),
+            preferences.getAniListSettings().displayAdultContent),
       ),
       onGetEntityFromDB: (page, perPage) =>
           animeDao.getMediaByPage(category, page: page, perPage: perPage),
@@ -110,26 +111,32 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       loadCharacterPageByAnimeId({
     required String animeId,
     required LoadType loadType,
+    required StaffLanguage language,
     CancelToken? token,
   }) async {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (page, perPage) => aniListDataSource.getCharacterPage(
-          animeId: int.parse(animeId),
-          page: page,
-          perPage: perPage,
-          token: token),
+        animeId: int.parse(animeId),
+        language: language,
+        page: page,
+        perPage: perPage,
+        token: token,
+      ),
       onClearDbCache: () => animeDao.clearMediaCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) => animeDao.insertCharacterVoiceActors(
           mediaId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => animeDao.getCharacterOfMediaByPage(
         animeId.toString(),
+        staffLanguage: language,
         page: page,
         perPage: perPage,
       ),
-      mapDtoToEntity: (dto) => CharacterAndVoiceActorRelation(
+      mapDtoToEntity: (dto) => CharacterAndVoiceActorRelationEntity(
         characterEntity: CharacterEntity.fromNetworkModel(dto),
         voiceActorEntity: StaffEntity.fromVoiceActorDto(dto),
+        role: dto.role,
+        language: language,
       ),
       mapEntityToModel: (entity) =>
           CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
@@ -193,13 +200,15 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         await animeDao.clearMediaCharacterCrossRef(id);
 
         /// inset character entities to db.
-        final List<CharacterAndVoiceActorRelation> characterAndVoiceActors =
-            characters
+        final List<CharacterAndVoiceActorRelationEntity>
+            characterAndVoiceActors = characters
                 .map(
-                  (e) => CharacterAndVoiceActorRelation(
-                    characterEntity: CharacterEntity.fromNetworkModel(e),
-                    voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
-                  ),
+                  (e) => CharacterAndVoiceActorRelationEntity(
+                      characterEntity: CharacterEntity.fromNetworkModel(e),
+                      voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
+                      role: e.role,
+                      // only fetch japanese voice actor in detail page.
+                      language: StaffLanguage.japanese),
                 )
                 .toList();
 
