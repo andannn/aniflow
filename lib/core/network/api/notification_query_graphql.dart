@@ -18,7 +18,7 @@ class NotificationQueryParam {
 String get notificationQueryGraphql => '''
 query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
   Page(page: \$page, perPage: \$perPage) {
-    notifications(type_in: \$type_in) {
+    notifications(type_in: \$type_in, resetNotificationCount: true) {
       __typename
       ... on AiringNotification {
         id

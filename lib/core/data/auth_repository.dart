@@ -38,6 +38,8 @@ abstract class AuthRepository {
   Future logout();
 
   Stream<AniListSettings> getAniListSettingsStream();
+
+  Future<LoadResult> syncUserCondition();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -162,6 +164,25 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Exception catch (exception) {
       /// revert setting changed when network error.
       await preferences.setAniListSettings(oldSettings);
+      return LoadError(exception);
+    }
+  }
+
+  @override
+  Future<LoadResult> syncUserCondition() async {
+    final userId = preferences.getAuthedUserId();
+    if (userId == null) {
+      return LoadError(Exception('No user'));
+    }
+
+    try {
+      final userDto = await authDataSource.getAuthedUserDataDto();
+      final userEntity = UserEntity.fromDto(userDto);
+      await userDataDao.updateUserData(userEntity);
+      await preferences
+          .setAniListSettings(AniListSettings.fromDto(userDto.options!));
+      return LoadSuccess(data: null);
+    } on Exception catch (exception) {
       return LoadError(exception);
     }
   }

@@ -30,6 +30,8 @@ mixin _$UserEntity {
   String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: UserDataTableColumns.profileColor)
   String? get profileColor => throw _privateConstructorUsedError;
+  @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+  int? get unreadNotificationCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +50,9 @@ abstract class $UserEntityCopyWith<$Res> {
       @JsonKey(name: UserDataTableColumns.name) String name,
       @JsonKey(name: UserDataTableColumns.avatarImage) String avatar,
       @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage,
-      @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor});
+      @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor,
+      @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+      int? unreadNotificationCount});
 }
 
 /// @nodoc
@@ -69,6 +73,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? avatar = null,
     Object? bannerImage = freezed,
     Object? profileColor = freezed,
+    Object? unreadNotificationCount = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -91,6 +96,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
           ? _value.profileColor
           : profileColor // ignore: cast_nullable_to_non_nullable
               as String?,
+      unreadNotificationCount: freezed == unreadNotificationCount
+          ? _value.unreadNotificationCount
+          : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -108,7 +117,9 @@ abstract class _$$UserEntityImplCopyWith<$Res>
       @JsonKey(name: UserDataTableColumns.name) String name,
       @JsonKey(name: UserDataTableColumns.avatarImage) String avatar,
       @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage,
-      @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor});
+      @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor,
+      @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+      int? unreadNotificationCount});
 }
 
 /// @nodoc
@@ -127,6 +138,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
     Object? avatar = null,
     Object? bannerImage = freezed,
     Object? profileColor = freezed,
+    Object? unreadNotificationCount = freezed,
   }) {
     return _then(_$UserEntityImpl(
       id: null == id
@@ -149,6 +161,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
           ? _value.profileColor
           : profileColor // ignore: cast_nullable_to_non_nullable
               as String?,
+      unreadNotificationCount: freezed == unreadNotificationCount
+          ? _value.unreadNotificationCount
+          : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -161,7 +177,9 @@ class _$UserEntityImpl implements _UserEntity {
       @JsonKey(name: UserDataTableColumns.name) this.name = '',
       @JsonKey(name: UserDataTableColumns.avatarImage) this.avatar = '',
       @JsonKey(name: UserDataTableColumns.bannerImage) this.bannerImage,
-      @JsonKey(name: UserDataTableColumns.profileColor) this.profileColor});
+      @JsonKey(name: UserDataTableColumns.profileColor) this.profileColor,
+      @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+      this.unreadNotificationCount});
 
   factory _$UserEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserEntityImplFromJson(json);
@@ -181,10 +199,13 @@ class _$UserEntityImpl implements _UserEntity {
   @override
   @JsonKey(name: UserDataTableColumns.profileColor)
   final String? profileColor;
+  @override
+  @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+  final int? unreadNotificationCount;
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, profileColor: $profileColor)';
+    return 'UserEntity(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, profileColor: $profileColor, unreadNotificationCount: $unreadNotificationCount)';
   }
 
   @override
@@ -198,13 +219,16 @@ class _$UserEntityImpl implements _UserEntity {
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
             (identical(other.profileColor, profileColor) ||
-                other.profileColor == profileColor));
+                other.profileColor == profileColor) &&
+            (identical(
+                    other.unreadNotificationCount, unreadNotificationCount) ||
+                other.unreadNotificationCount == unreadNotificationCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, avatar, bannerImage, profileColor);
+  int get hashCode => Object.hash(runtimeType, id, name, avatar, bannerImage,
+      profileColor, unreadNotificationCount);
 
   @JsonKey(ignore: true)
   @override
@@ -228,7 +252,9 @@ abstract class _UserEntity implements UserEntity {
       @JsonKey(name: UserDataTableColumns.bannerImage)
       final String? bannerImage,
       @JsonKey(name: UserDataTableColumns.profileColor)
-      final String? profileColor}) = _$UserEntityImpl;
+      final String? profileColor,
+      @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+      final int? unreadNotificationCount}) = _$UserEntityImpl;
 
   factory _UserEntity.fromJson(Map<String, dynamic> json) =
       _$UserEntityImpl.fromJson;
@@ -248,6 +274,9 @@ abstract class _UserEntity implements UserEntity {
   @override
   @JsonKey(name: UserDataTableColumns.profileColor)
   String? get profileColor;
+  @override
+  @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+  int? get unreadNotificationCount;
   @override
   @JsonKey(ignore: true)
   _$$UserEntityImplCopyWith<_$UserEntityImpl> get copyWith =>

@@ -3,6 +3,7 @@ import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
@@ -47,6 +48,9 @@ class DiscoverScreen extends StatelessWidget {
         final currentMediaType = state.currentMediaType;
 
         final userData = state.userData;
+        final hasUnreadNotification =
+            userData != null && userData.unreadNotificationCount != 0;
+        logger.d('userData ${userData?.unreadNotificationCount}');
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
         return Scaffold(
@@ -68,7 +72,36 @@ class DiscoverScreen extends StatelessWidget {
                 child: IconButton(
                   onPressed: () => showAuthDialog(context),
                   icon: isLoggedIn
-                      ? buildAvatarIcon(context, userData!.avatar)
+                      ? Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            buildAvatarIcon(context, userData!.avatar),
+                            hasUnreadNotification
+                                ? Positioned(
+                                    right: -2,
+                                    top: -2,
+                                    child: Container(
+                                      constraints: const BoxConstraints(
+                                        minHeight: 20,
+                                        minWidth: 20,
+                                      ),
+                                      decoration: const ShapeDecoration(
+                                        color: Colors.red,
+                                        shape: StadiumBorder(),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          userData.unreadNotificationCount
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox()
+                          ],
+                        )
                       : const Icon(Icons.person_outline),
                 ),
               )

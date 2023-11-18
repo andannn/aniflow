@@ -28,6 +28,8 @@ mixin _$UserDto {
   Map<String, String> get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
   String? get bannerImage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'unreadNotificationCount')
+  int get unreadNotificationCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'options')
   UserOptions? get options => throw _privateConstructorUsedError;
 
@@ -46,6 +48,7 @@ abstract class $UserDtoCopyWith<$Res> {
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'avatar') Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') String? bannerImage,
+      @JsonKey(name: 'unreadNotificationCount') int unreadNotificationCount,
       @JsonKey(name: 'options') UserOptions? options});
 
   $UserOptionsCopyWith<$Res>? get options;
@@ -68,6 +71,7 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     Object? name = null,
     Object? avatar = null,
     Object? bannerImage = freezed,
+    Object? unreadNotificationCount = null,
     Object? options = freezed,
   }) {
     return _then(_value.copyWith(
@@ -87,6 +91,10 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      unreadNotificationCount: null == unreadNotificationCount
+          ? _value.unreadNotificationCount
+          : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
+              as int,
       options: freezed == options
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
@@ -119,6 +127,7 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'avatar') Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') String? bannerImage,
+      @JsonKey(name: 'unreadNotificationCount') int unreadNotificationCount,
       @JsonKey(name: 'options') UserOptions? options});
 
   @override
@@ -140,6 +149,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
     Object? name = null,
     Object? avatar = null,
     Object? bannerImage = freezed,
+    Object? unreadNotificationCount = null,
     Object? options = freezed,
   }) {
     return _then(_$UserDtoImpl(
@@ -159,6 +169,10 @@ class __$$UserDtoImplCopyWithImpl<$Res>
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      unreadNotificationCount: null == unreadNotificationCount
+          ? _value.unreadNotificationCount
+          : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
+              as int,
       options: freezed == options
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
@@ -175,6 +189,8 @@ class _$UserDtoImpl implements _UserDto {
       @JsonKey(name: 'name') this.name = '',
       @JsonKey(name: 'avatar') final Map<String, String> avatar = const {},
       @JsonKey(name: 'bannerImage') this.bannerImage = '',
+      @JsonKey(name: 'unreadNotificationCount')
+      this.unreadNotificationCount = 0,
       @JsonKey(name: 'options') this.options})
       : _avatar = avatar;
 
@@ -200,12 +216,15 @@ class _$UserDtoImpl implements _UserDto {
   @JsonKey(name: 'bannerImage')
   final String? bannerImage;
   @override
+  @JsonKey(name: 'unreadNotificationCount')
+  final int unreadNotificationCount;
+  @override
   @JsonKey(name: 'options')
   final UserOptions? options;
 
   @override
   String toString() {
-    return 'UserDto(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, options: $options)';
+    return 'UserDto(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, unreadNotificationCount: $unreadNotificationCount, options: $options)';
   }
 
   @override
@@ -218,13 +237,22 @@ class _$UserDtoImpl implements _UserDto {
             const DeepCollectionEquality().equals(other._avatar, _avatar) &&
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
+            (identical(
+                    other.unreadNotificationCount, unreadNotificationCount) ||
+                other.unreadNotificationCount == unreadNotificationCount) &&
             (identical(other.options, options) || other.options == options));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name,
-      const DeepCollectionEquality().hash(_avatar), bannerImage, options);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      const DeepCollectionEquality().hash(_avatar),
+      bannerImage,
+      unreadNotificationCount,
+      options);
 
   @JsonKey(ignore: true)
   @override
@@ -246,6 +274,8 @@ abstract class _UserDto implements UserDto {
       @JsonKey(name: 'name') final String name,
       @JsonKey(name: 'avatar') final Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') final String? bannerImage,
+      @JsonKey(name: 'unreadNotificationCount')
+      final int unreadNotificationCount,
       @JsonKey(name: 'options') final UserOptions? options}) = _$UserDtoImpl;
 
   factory _UserDto.fromJson(Map<String, dynamic> json) = _$UserDtoImpl.fromJson;
@@ -262,6 +292,9 @@ abstract class _UserDto implements UserDto {
   @override
   @JsonKey(name: 'bannerImage')
   String? get bannerImage;
+  @override
+  @JsonKey(name: 'unreadNotificationCount')
+  int get unreadNotificationCount;
   @override
   @JsonKey(name: 'options')
   UserOptions? get options;

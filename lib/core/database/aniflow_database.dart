@@ -150,6 +150,7 @@ class AniflowDatabase {
         '${UserDataTableColumns.name} text,'
         '${UserDataTableColumns.avatarImage} text,'
         '${UserDataTableColumns.bannerImage} text,'
+        '${UserDataTableColumns.unreadNotificationCount} integer,'
         '${UserDataTableColumns.profileColor} text'
         ')');
 
