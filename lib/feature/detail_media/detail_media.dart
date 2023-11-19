@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -80,19 +81,27 @@ class _DetailAnimePageContent extends StatelessWidget {
         }
         final isFollowing = model.isFollowing;
         final isLoading = state.isLoading;
+        final stateString = state.mediaListItem.stateString;
+        final hasDescription = stateString.isNotEmpty;
+        final statusIcon = state.mediaListItem.statusIcon;
+
+        void floatingButtonClickAction() {
+          context
+              .read<DetailAnimeBloc>()
+              .add(OnToggleFollowState(isFollow: !isFollowing));
+        }
+
         return Scaffold(
-          floatingActionButton: FloatingActionButton.extended(
-            icon: Icon(
-              isFollowing ? Icons.favorite_outlined : Icons.favorite_border,
-            ),
-            label: const Text('Follow'),
-            isExtended: false,
-            onPressed: () {
-              context
-                  .read<DetailAnimeBloc>()
-                  .add(OnToggleFollowState(isFollow: !isFollowing));
-            },
-          ),
+          floatingActionButton: hasDescription
+              ? FloatingActionButton.extended(
+                  icon: Icon(statusIcon),
+                  label: Text(stateString),
+                  onPressed: floatingButtonClickAction,
+                )
+              : FloatingActionButton(
+                  onPressed: floatingButtonClickAction,
+                  child: Icon(statusIcon),
+                ),
           body: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,
             slivers: [

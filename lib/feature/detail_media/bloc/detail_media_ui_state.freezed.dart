@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DetailMediaUiState {
   dynamic get isLoading => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
+  MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailMediaUiStateCopyWith<DetailMediaUiState> get copyWith =>
@@ -30,9 +31,13 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
           DetailMediaUiState value, $Res Function(DetailMediaUiState) then) =
       _$DetailMediaUiStateCopyWithImpl<$Res, DetailMediaUiState>;
   @useResult
-  $Res call({dynamic isLoading, MediaModel? detailAnimeModel});
+  $Res call(
+      {dynamic isLoading,
+      MediaModel? detailAnimeModel,
+      MediaListItemModel? mediaListItem});
 
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
+  $MediaListItemModelCopyWith<$Res>? get mediaListItem;
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
   $Res call({
     Object? isLoading = freezed,
     Object? detailAnimeModel = freezed,
+    Object? mediaListItem = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: freezed == isLoading
@@ -60,6 +66,10 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
               as MediaModel?,
+      mediaListItem: freezed == mediaListItem
+          ? _value.mediaListItem
+          : mediaListItem // ignore: cast_nullable_to_non_nullable
+              as MediaListItemModel?,
     ) as $Val);
   }
 
@@ -74,6 +84,18 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
       return _then(_value.copyWith(detailAnimeModel: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaListItemModelCopyWith<$Res>? get mediaListItem {
+    if (_value.mediaListItem == null) {
+      return null;
+    }
+
+    return $MediaListItemModelCopyWith<$Res>(_value.mediaListItem!, (value) {
+      return _then(_value.copyWith(mediaListItem: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -84,10 +106,15 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
       __$$DetailMediaUiStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic isLoading, MediaModel? detailAnimeModel});
+  $Res call(
+      {dynamic isLoading,
+      MediaModel? detailAnimeModel,
+      MediaListItemModel? mediaListItem});
 
   @override
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
+  @override
+  $MediaListItemModelCopyWith<$Res>? get mediaListItem;
 }
 
 /// @nodoc
@@ -103,6 +130,7 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = freezed,
     Object? detailAnimeModel = freezed,
+    Object? mediaListItem = freezed,
   }) {
     return _then(_$DetailMediaUiStateImpl(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
@@ -110,6 +138,10 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
               as MediaModel?,
+      mediaListItem: freezed == mediaListItem
+          ? _value.mediaListItem
+          : mediaListItem // ignore: cast_nullable_to_non_nullable
+              as MediaListItemModel?,
     ));
   }
 }
@@ -117,17 +149,20 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
-  _$DetailMediaUiStateImpl({this.isLoading = false, this.detailAnimeModel});
+  _$DetailMediaUiStateImpl(
+      {this.isLoading = false, this.detailAnimeModel, this.mediaListItem});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
   final MediaModel? detailAnimeModel;
+  @override
+  final MediaListItemModel? mediaListItem;
 
   @override
   String toString() {
-    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel)';
+    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem)';
   }
 
   @override
@@ -137,12 +172,17 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
             other is _$DetailMediaUiStateImpl &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             (identical(other.detailAnimeModel, detailAnimeModel) ||
-                other.detailAnimeModel == detailAnimeModel));
+                other.detailAnimeModel == detailAnimeModel) &&
+            (identical(other.mediaListItem, mediaListItem) ||
+                other.mediaListItem == mediaListItem));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(isLoading), detailAnimeModel);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(isLoading),
+      detailAnimeModel,
+      mediaListItem);
 
   @JsonKey(ignore: true)
   @override
@@ -155,12 +195,15 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
 abstract class _DetailMediaUiState implements DetailMediaUiState {
   factory _DetailMediaUiState(
       {final dynamic isLoading,
-      final MediaModel? detailAnimeModel}) = _$DetailMediaUiStateImpl;
+      final MediaModel? detailAnimeModel,
+      final MediaListItemModel? mediaListItem}) = _$DetailMediaUiStateImpl;
 
   @override
   dynamic get isLoading;
   @override
   MediaModel? get detailAnimeModel;
+  @override
+  MediaListItemModel? get mediaListItem;
   @override
   @JsonKey(ignore: true)
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>

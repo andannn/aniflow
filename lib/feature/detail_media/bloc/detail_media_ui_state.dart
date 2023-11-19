@@ -1,3 +1,4 @@
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -8,5 +9,6 @@ class DetailMediaUiState with _$DetailMediaUiState {
   factory DetailMediaUiState({
     @Default(false) isLoading,
     MediaModel? detailAnimeModel,
+    MediaListItemModel? mediaListItem,
   }) = _DetailMediaUiState;
 }

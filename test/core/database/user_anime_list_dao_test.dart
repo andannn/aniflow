@@ -127,12 +127,12 @@ void main() {
       final dao = animeDatabase.getMediaListDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
 
-      final isTracking =
-          await dao.getIsTrackingByUserAndId(userId: '22', mediaId: '33');
+      final isTracking = await dao.getMediaListTrackingByUserAndId(
+          userId: '22', mediaId: '33');
       expect(isTracking, equals(true));
 
-      final isTracking2 =
-          await dao.getIsTrackingByUserAndId(userId: '12', mediaId: '33');
+      final isTracking2 = await dao.getMediaListTrackingByUserAndId(
+          userId: '12', mediaId: '33');
       expect(isTracking2, equals(false));
     });
 
