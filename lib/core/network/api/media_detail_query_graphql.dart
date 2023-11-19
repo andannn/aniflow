@@ -17,6 +17,7 @@ query (\$id: Int) {
     genres
     status
     hashtag
+    isFavourite
     externalLinks {
       id
       url

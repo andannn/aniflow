@@ -65,6 +65,8 @@ mixin _$MediaDto {
   StaffConnection? get staff => throw _privateConstructorUsedError;
   @JsonKey(name: 'relations')
   MediaConnection? get relations => throw _privateConstructorUsedError;
+  @JsonKey(name: 'isFavourite')
+  bool? get isFavourite => throw _privateConstructorUsedError;
   @JsonKey(name: 'externalLinks')
   List<MediaExternalLinkDto> get externalLinks =>
       throw _privateConstructorUsedError;
@@ -103,6 +105,7 @@ abstract class $MediaDtoCopyWith<$Res> {
       @JsonKey(name: 'characters') CharacterConnection? characters,
       @JsonKey(name: 'staff') StaffConnection? staff,
       @JsonKey(name: 'relations') MediaConnection? relations,
+      @JsonKey(name: 'isFavourite') bool? isFavourite,
       @JsonKey(name: 'externalLinks')
       List<MediaExternalLinkDto> externalLinks});
 
@@ -149,6 +152,7 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     Object? characters = freezed,
     Object? staff = freezed,
     Object? relations = freezed,
+    Object? isFavourite = freezed,
     Object? externalLinks = null,
   }) {
     return _then(_value.copyWith(
@@ -240,6 +244,10 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
           ? _value.relations
           : relations // ignore: cast_nullable_to_non_nullable
               as MediaConnection?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
       externalLinks: null == externalLinks
           ? _value.externalLinks
           : externalLinks // ignore: cast_nullable_to_non_nullable
@@ -351,6 +359,7 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
       @JsonKey(name: 'characters') CharacterConnection? characters,
       @JsonKey(name: 'staff') StaffConnection? staff,
       @JsonKey(name: 'relations') MediaConnection? relations,
+      @JsonKey(name: 'isFavourite') bool? isFavourite,
       @JsonKey(name: 'externalLinks')
       List<MediaExternalLinkDto> externalLinks});
 
@@ -401,6 +410,7 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
     Object? characters = freezed,
     Object? staff = freezed,
     Object? relations = freezed,
+    Object? isFavourite = freezed,
     Object? externalLinks = null,
   }) {
     return _then(_$MediaDtoImpl(
@@ -492,6 +502,10 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
           ? _value.relations
           : relations // ignore: cast_nullable_to_non_nullable
               as MediaConnection?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
       externalLinks: null == externalLinks
           ? _value._externalLinks
           : externalLinks // ignore: cast_nullable_to_non_nullable
@@ -527,6 +541,7 @@ class _$MediaDtoImpl implements _MediaDto {
       @JsonKey(name: 'characters') this.characters,
       @JsonKey(name: 'staff') this.staff,
       @JsonKey(name: 'relations') this.relations,
+      @JsonKey(name: 'isFavourite') this.isFavourite,
       @JsonKey(name: 'externalLinks')
       final List<MediaExternalLinkDto> externalLinks = const []})
       : _coverImage = coverImage,
@@ -621,6 +636,9 @@ class _$MediaDtoImpl implements _MediaDto {
   @override
   @JsonKey(name: 'relations')
   final MediaConnection? relations;
+  @override
+  @JsonKey(name: 'isFavourite')
+  final bool? isFavourite;
   final List<MediaExternalLinkDto> _externalLinks;
   @override
   @JsonKey(name: 'externalLinks')
@@ -632,7 +650,7 @@ class _$MediaDtoImpl implements _MediaDto {
 
   @override
   String toString() {
-    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, relations: $relations, externalLinks: $externalLinks)';
+    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
   }
 
   @override
@@ -673,6 +691,8 @@ class _$MediaDtoImpl implements _MediaDto {
             (identical(other.staff, staff) || other.staff == staff) &&
             (identical(other.relations, relations) ||
                 other.relations == relations) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
             const DeepCollectionEquality()
                 .equals(other._externalLinks, _externalLinks));
   }
@@ -703,6 +723,7 @@ class _$MediaDtoImpl implements _MediaDto {
         characters,
         staff,
         relations,
+        isFavourite,
         const DeepCollectionEquality().hash(_externalLinks)
       ]);
 
@@ -745,6 +766,7 @@ abstract class _MediaDto implements MediaDto {
       @JsonKey(name: 'characters') final CharacterConnection? characters,
       @JsonKey(name: 'staff') final StaffConnection? staff,
       @JsonKey(name: 'relations') final MediaConnection? relations,
+      @JsonKey(name: 'isFavourite') final bool? isFavourite,
       @JsonKey(name: 'externalLinks')
       final List<MediaExternalLinkDto> externalLinks}) = _$MediaDtoImpl;
 
@@ -817,6 +839,9 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'relations')
   MediaConnection? get relations;
+  @override
+  @JsonKey(name: 'isFavourite')
+  bool? get isFavourite;
   @override
   @JsonKey(name: 'externalLinks')
   List<MediaExternalLinkDto> get externalLinks;

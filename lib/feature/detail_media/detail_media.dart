@@ -5,7 +5,9 @@ import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -59,6 +61,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
         aniListRepository: context.read<MediaInformationRepository>(),
         authRepository: context.read<AuthRepository>(),
         animeTrackListRepository: context.read<MediaListRepository>(),
+        favoriteRepository: context.read<FavoriteRepository>(),
       ),
       child: const Scaffold(body: _DetailAnimePageContent()),
     );
@@ -84,6 +87,7 @@ class _DetailAnimePageContent extends StatelessWidget {
         final stateString = state.mediaListItem.stateString;
         final hasDescription = stateString.isNotEmpty;
         final statusIcon = state.mediaListItem.statusIcon;
+        final isFavorite = model.isFavourite ?? false;
 
         void floatingButtonClickAction() {
           context
@@ -91,7 +95,37 @@ class _DetailAnimePageContent extends StatelessWidget {
               .add(OnToggleFollowState(isFollow: !isFollowing));
         }
 
+        logger.d(isFavorite);
         return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.maybePop(context);
+              },
+            ),
+            title: AutoSizeText(
+              model.title!.getTitle(
+                  AniFlowPreferences().getAniListSettings().userTitleLanguage),
+              maxLines: 2,
+            ),
+            actions: [
+              isLoading
+                  ? LoadingIndicator(isLoading: isLoading)
+                  : IconButton(
+                      onPressed: () {
+                        context.read<DetailAnimeBloc>().add(
+                              OnToggleFavoriteState(
+                                  isAnime: true, mediaId: model.id),
+                            );
+                      },
+                      icon: isFavorite
+                          ? const Icon(Icons.favorite, color: Colors.red)
+                          : const Icon(Icons.favorite_outline),
+                    ),
+              const SizedBox(width: 10),
+            ],
+          ),
           floatingActionButton: hasDescription
               ? FloatingActionButton.extended(
                   icon: Icon(statusIcon),
@@ -105,25 +139,6 @@ class _DetailAnimePageContent extends StatelessWidget {
           body: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,
             slivers: [
-              SliverAppBar(
-                pinned: true,
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.maybePop(context);
-                  },
-                ),
-                title: AutoSizeText(
-                  model.title!.getTitle(AniFlowPreferences()
-                      .getAniListSettings()
-                      .userTitleLanguage),
-                  maxLines: 2,
-                ),
-                actions: [
-                  LoadingIndicator(isLoading: isLoading),
-                  const SizedBox(width: 10),
-                ],
-              ),
               SliverToBoxAdapter(
                 child: _buildBannerSectionSection(context, model.bannerImage),
               ),

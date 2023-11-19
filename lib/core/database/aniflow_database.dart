@@ -120,6 +120,7 @@ class AniflowDatabase {
         '${MediaTableColumns.trailerId} text,'
         '${MediaTableColumns.trailerSite} text,'
         '${MediaTableColumns.trailerThumbnail} text,'
+        '${MediaTableColumns.isFavourite} integer,'
         '${MediaTableColumns.episodes} integer,'
         '${MediaTableColumns.seasonYear} integer,'
         '${MediaTableColumns.genres} text,'

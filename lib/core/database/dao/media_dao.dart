@@ -43,6 +43,7 @@ mixin MediaTableColumns {
   static const String trailerId = 'trailer_id';
   static const String trailerSite = 'trailer_site';
   static const String trailerThumbnail = 'trailer_thumbnail';
+  static const String isFavourite = 'isFavourite';
   static const String genres = 'genres';
   static const String popularRanking = 'popular_ranking';
   static const String ratedRanking = 'rated_ranking';
@@ -179,6 +180,8 @@ abstract class MediaInformationDao {
 
   Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
       {required int page, int perPage = Config.defaultPerPageCount});
+
+  Future<MediaEntity> getMedia(String id);
 
   Future<MediaWithDetailInfo> getDetailMediaInfo(String id);
 
@@ -358,6 +361,17 @@ class MediaInformationDaoImpl extends MediaInformationDao {
 
     List staffResults = await database.aniflowDB.rawQuery(staffSql);
     return staffResults.map((e) => StaffAndRoleRelation.fromJson(e)).toList();
+  }
+
+  @override
+  Future<MediaEntity> getMedia(String id) async {
+    final animeJson = await database.aniflowDB.query(
+      Tables.mediaTable,
+      where: '${MediaTableColumns.id}=$id',
+      limit: 1,
+    );
+
+    return MediaEntity.fromJson(animeJson.first);
   }
 
   @override

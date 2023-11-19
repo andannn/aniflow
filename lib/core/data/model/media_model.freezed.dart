@@ -36,6 +36,7 @@ mixin _$MediaModel {
   List<String> get genres => throw _privateConstructorUsedError;
   int? get episodes => throw _privateConstructorUsedError;
   int? get timeUntilAiring => throw _privateConstructorUsedError;
+  bool? get isFavourite => throw _privateConstructorUsedError;
   int? get nextAiringEpisode => throw _privateConstructorUsedError;
   bool get isFollowing => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
@@ -77,6 +78,7 @@ abstract class $MediaModelCopyWith<$Res> {
       List<String> genres,
       int? episodes,
       int? timeUntilAiring,
+      bool? isFavourite,
       int? nextAiringEpisode,
       bool isFollowing,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
@@ -121,6 +123,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? genres = null,
     Object? episodes = freezed,
     Object? timeUntilAiring = freezed,
+    Object? isFavourite = freezed,
     Object? nextAiringEpisode = freezed,
     Object? isFollowing = null,
     Object? characterAndVoiceActors = null,
@@ -209,6 +212,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.timeUntilAiring
           : timeUntilAiring // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
       nextAiringEpisode: freezed == nextAiringEpisode
           ? _value.nextAiringEpisode
           : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
@@ -290,6 +297,7 @@ abstract class _$$MediaModelImplCopyWith<$Res>
       List<String> genres,
       int? episodes,
       int? timeUntilAiring,
+      bool? isFavourite,
       int? nextAiringEpisode,
       bool isFollowing,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
@@ -334,6 +342,7 @@ class __$$MediaModelImplCopyWithImpl<$Res>
     Object? genres = null,
     Object? episodes = freezed,
     Object? timeUntilAiring = freezed,
+    Object? isFavourite = freezed,
     Object? nextAiringEpisode = freezed,
     Object? isFollowing = null,
     Object? characterAndVoiceActors = null,
@@ -422,6 +431,10 @@ class __$$MediaModelImplCopyWithImpl<$Res>
           ? _value.timeUntilAiring
           : timeUntilAiring // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool?,
       nextAiringEpisode: freezed == nextAiringEpisode
           ? _value.nextAiringEpisode
           : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
@@ -474,6 +487,7 @@ class _$MediaModelImpl implements _MediaModel {
       final List<String> genres = const [],
       this.episodes,
       this.timeUntilAiring,
+      this.isFavourite,
       this.nextAiringEpisode,
       this.isFollowing = false,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
@@ -547,6 +561,8 @@ class _$MediaModelImpl implements _MediaModel {
   @override
   final int? timeUntilAiring;
   @override
+  final bool? isFavourite;
+  @override
   final int? nextAiringEpisode;
   @override
   @JsonKey()
@@ -590,7 +606,7 @@ class _$MediaModelImpl implements _MediaModel {
 
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, isFavourite: $isFavourite, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations)';
   }
 
   @override
@@ -630,6 +646,8 @@ class _$MediaModelImpl implements _MediaModel {
                 other.episodes == episodes) &&
             (identical(other.timeUntilAiring, timeUntilAiring) ||
                 other.timeUntilAiring == timeUntilAiring) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
             (identical(other.nextAiringEpisode, nextAiringEpisode) ||
                 other.nextAiringEpisode == nextAiringEpisode) &&
             (identical(other.isFollowing, isFollowing) ||
@@ -666,6 +684,7 @@ class _$MediaModelImpl implements _MediaModel {
         const DeepCollectionEquality().hash(_genres),
         episodes,
         timeUntilAiring,
+        isFavourite,
         nextAiringEpisode,
         isFollowing,
         const DeepCollectionEquality().hash(_characterAndVoiceActors),
@@ -703,6 +722,7 @@ abstract class _MediaModel implements MediaModel {
       final List<String> genres,
       final int? episodes,
       final int? timeUntilAiring,
+      final bool? isFavourite,
       final int? nextAiringEpisode,
       final bool isFollowing,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors,
@@ -750,6 +770,8 @@ abstract class _MediaModel implements MediaModel {
   int? get episodes;
   @override
   int? get timeUntilAiring;
+  @override
+  bool? get isFavourite;
   @override
   int? get nextAiringEpisode;
   @override
