@@ -118,12 +118,8 @@ void main() {
     });
 
     test('toggle_favorite_', () async {
-       try {
-         await AniListDataSource().toggleFavorite(
-             ToggleFavoriteMutationParam(animeId: 162694), CancelToken());
-       } catch(e) {
-         print(e);
-       }
+      await AniListDataSource().toggleFavorite(
+          ToggleFavoriteMutationParam(animeId: 162694), CancelToken());
     });
   });
 }

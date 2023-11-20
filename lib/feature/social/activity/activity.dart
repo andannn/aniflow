@@ -7,10 +7,12 @@ import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
+import 'package:aniflow/core/design_system/widget/short_num_label_icon_button.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_bloc.dart';
+import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_state.dart';
 import 'package:flutter/material.dart';
@@ -201,17 +203,63 @@ class ActivityPageContent extends StatelessWidget {
   }
 
   Widget _buildActivityItem(BuildContext context, ActivityModel model) {
-    return Column(
+    return ActivityItem(
+      model: model,
+      onMediaClick: (id) {
+        AFRouterDelegate.of(context).navigateToDetailMedia(id);
+      },
+      onUserIconClick: (id) {
+        AFRouterDelegate.of(context).navigateToUserProfile(id);
+      },
+      onBuildActivityStatusWidget: (activityId) =>
+          _ActivityItemBlocProvider(activityId: activityId),
+    );
+  }
+}
+
+class _ActivityItemBlocProvider extends StatelessWidget {
+  const _ActivityItemBlocProvider({required this.activityId});
+
+  final String activityId;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => ActivityStatusBloc(
+        activityId: activityId,
+        repository: context.read<ActivityRepository>(),
+      ),
+      child: const ActivityItemContent(),
+    );
+  }
+}
+
+class ActivityItemContent extends StatelessWidget {
+  const ActivityItemContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<ActivityStatusBloc>().state;
+    if (state == null) {
+      return const SizedBox();
+    }
+
+    final defaultColor =
+    Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8);
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ActivityItem(
-          model: model,
-          onMediaClick: (id) {
-            AFRouterDelegate.of(context).navigateToDetailMedia(id);
-          },
-          onUserIconClick: (id) {
-            AFRouterDelegate.of(context).navigateToUserProfile(id);
-          },
+        ShortNumLabelIconButton(
+          icon: Icons.messenger_outline_rounded,
+          count: state.replyCount,
+          color: defaultColor,
+          onClick: () {},
+        ),
+        ShortNumLabelIconButton(
+          icon: state.isLiked ? Icons.favorite : Icons.favorite_outline,
+          color: state.isLiked ? Colors.red : defaultColor,
+          count: state.likeCount,
+          onClick: () {},
         ),
       ],
     );

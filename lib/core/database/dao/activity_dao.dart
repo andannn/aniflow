@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
@@ -8,6 +9,8 @@ import 'package:aniflow/core/database/model/activity_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.activityTable]
@@ -34,6 +37,17 @@ mixin ActivityFilterTypeCrossRefColumns {
   static const String category = 'activity_filter_type_cross_filter_category';
 }
 
+class ActivityStatusRecord {
+  ActivityStatusRecord(
+      {required this.likeCount,
+      required this.replyCount,
+      required this.isLiked});
+
+  final int likeCount;
+  final int replyCount;
+  final bool isLiked;
+}
+
 abstract class ActivityDao {
   Future upsertActivityEntities(
       List<ActivityAndUserRelation> entities, String category);
@@ -42,12 +56,17 @@ abstract class ActivityDao {
       [int page, int perPage, String category]);
 
   Future clearActivityEntities(String category);
+
+  Stream<ActivityStatusRecord?> getActivityStream(String id);
 }
 
 class ActivityDaoImpl extends ActivityDao {
   final AniflowDatabase database;
 
   ActivityDaoImpl(this.database);
+
+  /// ActivityId to notifiers dict.
+  final Map<String, ValueNotifier<int>> _notifiers = {};
 
   @override
   Future upsertActivityEntities(
@@ -125,5 +144,34 @@ class ActivityDaoImpl extends ActivityDao {
   Future clearActivityEntities(String category) {
     return database.aniflowDB.delete(Tables.activityFilterTypeCrossRef,
         where: '${ActivityFilterTypeCrossRefColumns.category}=\'$category\'');
+  }
+
+  @override
+  Stream<ActivityStatusRecord?> getActivityStream(String id) {
+    final changeSource = _notifiers.putIfAbsent(id, () => ValueNotifier(0));
+    return StreamUtil.createStream(changeSource, () => _getActivityStatus(id));
+  }
+
+  Future<ActivityStatusRecord?> _getActivityStatus(String id) async {
+    String sql = 'select '
+        'a.${ActivityTableColumns.likeCount},'
+        'a.${ActivityTableColumns.replyCount},'
+        'a.${ActivityTableColumns.isLiked} '
+        'from ${Tables.activityTable} as a '
+        'where a.${ActivityTableColumns.id} = \'$id\' '
+        'limit 1 ';
+
+    final List<Map<String, dynamic>> result =
+        await database.aniflowDB.rawQuery(sql);
+
+    final jsonMap = result.firstOrNull;
+
+    if (jsonMap == null) return null;
+
+    return ActivityStatusRecord(
+      likeCount: jsonMap[ActivityTableColumns.likeCount] as int,
+      replyCount: jsonMap[ActivityTableColumns.replyCount] as int,
+      isLiked: (jsonMap[ActivityTableColumns.isLiked] as int).toBoolean(),
+    );
   }
 }

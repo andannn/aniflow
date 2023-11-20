@@ -14,7 +14,22 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
+
+class ActivityStatus extends Equatable {
+  final int replyCount;
+  final int likeCount;
+  final bool isLiked;
+
+  const ActivityStatus(
+      {required this.replyCount,
+      required this.likeCount,
+      required this.isLiked});
+
+  @override
+  List<Object?> get props => [replyCount, likeCount, isLiked];
+}
 
 abstract class ActivityRepository {
   Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
@@ -29,6 +44,8 @@ abstract class ActivityRepository {
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory);
 
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream();
+
+  Stream<ActivityStatus?> getActivityStatusStream(String id);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -106,4 +123,16 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
       preferences.setActivityScopeCategory(scopeCategory);
+
+  @override
+  Stream<ActivityStatus?> getActivityStatusStream(String id) =>
+      activityDao.getActivityStream(id).map(
+            (entity) => entity == null
+                ? null
+                : ActivityStatus(
+                    likeCount: entity.likeCount,
+                    replyCount: entity.replyCount,
+                    isLiked: entity.isLiked,
+                  ),
+          );
 }
