@@ -1,7 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
+import 'package:aniflow/core/data/model/shortcut/activity_status_record.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
@@ -37,17 +39,6 @@ mixin ActivityFilterTypeCrossRefColumns {
   static const String category = 'activity_filter_type_cross_filter_category';
 }
 
-class ActivityStatusRecord {
-  ActivityStatusRecord(
-      {required this.likeCount,
-      required this.replyCount,
-      required this.isLiked});
-
-  final int likeCount;
-  final int replyCount;
-  final bool isLiked;
-}
-
 abstract class ActivityDao {
   Future upsertActivityEntities(
       List<ActivityAndUserRelation> entities, String category);
@@ -58,6 +49,10 @@ abstract class ActivityDao {
   Future clearActivityEntities(String category);
 
   Stream<ActivityStatusRecord?> getActivityStream(String id);
+
+  Future<ActivityStatusRecord?> getActivityStatus(String id);
+
+  Future updateActivityStatus(String id, ActivityStatusRecord record);
 }
 
 class ActivityDaoImpl extends ActivityDao {
@@ -149,10 +144,11 @@ class ActivityDaoImpl extends ActivityDao {
   @override
   Stream<ActivityStatusRecord?> getActivityStream(String id) {
     final changeSource = _notifiers.putIfAbsent(id, () => ValueNotifier(0));
-    return StreamUtil.createStream(changeSource, () => _getActivityStatus(id));
+    return StreamUtil.createStream(changeSource, () => getActivityStatus(id));
   }
 
-  Future<ActivityStatusRecord?> _getActivityStatus(String id) async {
+  @override
+  Future<ActivityStatusRecord?> getActivityStatus(String id) async {
     String sql = 'select '
         'a.${ActivityTableColumns.likeCount},'
         'a.${ActivityTableColumns.replyCount},'
@@ -173,5 +169,20 @@ class ActivityDaoImpl extends ActivityDao {
       replyCount: jsonMap[ActivityTableColumns.replyCount] as int,
       isLiked: (jsonMap[ActivityTableColumns.isLiked] as int).toBoolean(),
     );
+  }
+
+  @override
+  Future updateActivityStatus(String id, ActivityStatusRecord record) async {
+    await database.aniflowDB.update(
+      Tables.activityTable,
+      {
+        ActivityTableColumns.likeCount: record.likeCount,
+        ActivityTableColumns.replyCount: record.replyCount,
+        ActivityTableColumns.isLiked: record.isLiked.toInteger(),
+      },
+      where: '${ActivityTableColumns.id} = $id',
+    );
+
+    _notifiers[id]?.notifyChanged();
   }
 }

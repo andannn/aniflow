@@ -12,6 +12,7 @@ import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
+import 'package:aniflow/core/network/model/likeable_type.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -46,6 +47,8 @@ abstract class ActivityRepository {
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream();
 
   Stream<ActivityStatus?> getActivityStatusStream(String id);
+
+  Future<LoadResult> toggleActivityLike(String id, CancelToken token);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -135,4 +138,26 @@ class ActivityRepositoryImpl implements ActivityRepository {
                     isLiked: entity.isLiked,
                   ),
           );
+
+  @override
+  Future<LoadResult> toggleActivityLike(String id, CancelToken token) async {
+    final activityStatus = await activityDao.getActivityStatus(id);
+
+    if (activityStatus == null) {
+      return LoadError(Exception('Invalid id'));
+    }
+
+    final isLike = activityStatus.isLiked;
+    try {
+      final newStatus = activityStatus.copyWith(isLiked: !isLike);
+      await activityDao.updateActivityStatus(id, newStatus);
+
+      await aniListDataSource.toggleSocialContentLike(
+          id, LikeableType.activity, token);
+      return LoadSuccess(data: null);
+    } on Exception catch (exception) {
+      await activityDao.updateActivityStatus(id, activityStatus);
+      return LoadError(exception);
+    }
+  }
 }
