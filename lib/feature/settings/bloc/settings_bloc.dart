@@ -6,7 +6,9 @@ import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
+import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:bloc/bloc.dart';
@@ -69,22 +71,29 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   FutureOr<void> _onListOptionChanged(
       OnListOptionChanged event, Emitter<SettingsState> emit) async {
     final setting = event.setting;
+    LoadResult result;
     switch (setting) {
       case UserTitleLanguage():
-        unawaited(_authRepository.updateUserSettings(
+        result = await _authRepository.updateUserSettings(
           userTitleLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
-        ));
+        );
       case DisplayAdultContent():
-        unawaited(_authRepository.updateUserSettings(
+        result = await _authRepository.updateUserSettings(
           displayAdultContent: setting.isOn,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
-        ));
+        );
       case UserStaffNameLanguage():
-        unawaited(_authRepository.updateUserSettings(
+        result = await _authRepository.updateUserSettings(
           userStaffNameLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
-        ));
+        );
+      default:
+        throw 'Invalid type';
+    }
+
+    if (result is LoadError) {
+      ErrorHandler.handleException(exception: result.exception);
     }
   }
 

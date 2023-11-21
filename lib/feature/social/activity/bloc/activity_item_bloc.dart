@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:aniflow/core/data/activity_repository.dart';
+import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 
@@ -46,10 +48,15 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
   }
 
   FutureOr<void> _onToggleActivityLike(
-      OnToggleActivityLike event, Emitter<ActivityStatus?> emit) {
+      OnToggleActivityLike event, Emitter<ActivityStatus?> emit) async {
     _toggleLikeCancelToken?.cancel();
     _toggleLikeCancelToken = CancelToken();
 
-    _repository.toggleActivityLike(_activityId, _toggleLikeCancelToken!);
+    LoadResult result = await _repository.toggleActivityLike(
+        _activityId, _toggleLikeCancelToken!);
+
+    if (result is LoadError) {
+      ErrorHandler.handleException(exception: result.exception);
+    }
   }
 }

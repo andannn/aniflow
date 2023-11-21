@@ -227,7 +227,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       await mediaListDao.insertMediaListEntities([updateEntity]);
       mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
-    } on NetworkException catch (exception) {
+    } on Exception catch (exception) {
       /// network error happened.
       /// revert the changes in database.
       if (entity != null) {

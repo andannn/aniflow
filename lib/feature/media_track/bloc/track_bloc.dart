@@ -11,6 +11,7 @@ import 'package:aniflow/core/data/model/extension/media_list_item_model_extensio
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
+import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:bloc/bloc.dart';
@@ -126,10 +127,11 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     add(_OnLoadStateChanged(isLoading: true));
     final result =
         await _animeTrackListRepository.syncMediaList(userId: userId);
-    if (result is LoadError) {
-      /// load error, show snack bar msg.
-    }
     add(_OnLoadStateChanged(isLoading: false));
+
+    if (result is LoadError) {
+      ErrorHandler.handleException(exception: result.exception);
+    }
   }
 
   Future<void> _onUserStateChanged(
@@ -220,7 +222,9 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         animeId: event.animeId, status: status, progress: event.progress);
     add(_OnLoadStateChanged(isLoading: false));
 
-    if (result is LoadSuccess) {
+    if (result is LoadError) {
+      ErrorHandler.handleException(exception: result.exception);
+    } else {
       if (isFinished) {
 //TODO: change to score dialog.
         showSnackBarMessage(
@@ -233,8 +237,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
           duration: SnackBarDuration.short,
         );
       }
-    } else {
-//TODO: show error msg.
     }
   }
 
