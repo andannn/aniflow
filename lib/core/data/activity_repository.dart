@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/common/model/extension/activity_type_extension.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
+import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -147,17 +148,27 @@ class ActivityRepositoryImpl implements ActivityRepository {
       return LoadError(Exception('Invalid id'));
     }
 
-    final isLike = activityStatus.isLiked;
-    try {
-      final newStatus = activityStatus.copyWith(isLiked: !isLike);
-      await activityDao.updateActivityStatus(id, newStatus);
-
-      await aniListDataSource.toggleSocialContentLike(
-          id, LikeableType.activity, token);
-      return LoadSuccess(data: null);
-    } on Exception catch (exception) {
-      await activityDao.updateActivityStatus(id, activityStatus);
-      return LoadError(exception);
-    }
+    return NetworkUtil.postMutationAndRevertWhenException(
+      initialModel: activityStatus,
+      onModifyModel: (status) {
+        final likeCount = activityStatus.likeCount;
+        final newLike = !activityStatus.isLiked;
+        return activityStatus.copyWith(
+          isLiked: newLike,
+          likeCount: newLike
+              ? (likeCount + 1).clamp(0, 9999)
+              : (likeCount - 1).clamp(0, 9999),
+        );
+      },
+      onSaveLocal: (status) => activityDao.updateActivityStatus(id, status),
+      onSyncWithRemote: (status) async {
+        await aniListDataSource.toggleSocialContentLike(
+          id,
+          LikeableType.activity,
+          token,
+        );
+        return null;
+      },
+    );
   }
 }

@@ -5,13 +5,13 @@ mixin NetworkUtil {
   /// Local data source will be applied immediately, and when local data source
   /// can be reset when network error happened.
   static Future<LoadResult> postMutationAndRevertWhenException<T>({
-    required T model,
+    required T initialModel,
     required T Function(T) onModifyModel,
     required Future Function(T) onSaveLocal,
-    required Future<T> Function(T) onSyncWithRemote,
+    required Future<T?> Function(T) onSyncWithRemote,
   }) async {
-    final oldModel = model;
-    final newModel = onModifyModel(model);
+    final oldModel = initialModel;
+    final newModel = onModifyModel(initialModel);
 
     try {
       /// save local cache first.
@@ -21,7 +21,9 @@ mixin NetworkUtil {
       final networkResult = await onSyncWithRemote(newModel);
 
       /// update local again after network motion success.
-      await onSaveLocal(networkResult);
+      if (networkResult != null) {
+        await onSaveLocal(networkResult);
+      }
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
       /// revert changed when network error.

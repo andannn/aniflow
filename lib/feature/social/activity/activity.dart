@@ -211,14 +211,16 @@ class ActivityPageContent extends StatelessWidget {
       onUserIconClick: (id) {
         AFRouterDelegate.of(context).navigateToUserProfile(id);
       },
-      onBuildActivityStatusWidget: (activityId) =>
-          _ActivityItemBlocProvider(activityId: activityId),
+      onBuildActivityStatusWidget: (activityId) => _ActivityStatusBlocProvider(
+        key: ValueKey('activity_status_$activityId'),
+        activityId: activityId,
+      ),
     );
   }
 }
 
-class _ActivityItemBlocProvider extends StatelessWidget {
-  const _ActivityItemBlocProvider({required this.activityId});
+class _ActivityStatusBlocProvider extends StatelessWidget {
+  const _ActivityStatusBlocProvider({required this.activityId, super.key});
 
   final String activityId;
 
@@ -245,7 +247,7 @@ class ActivityItemContent extends StatelessWidget {
     }
 
     final defaultColor =
-    Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8);
+        Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -259,7 +261,9 @@ class ActivityItemContent extends StatelessWidget {
           icon: state.isLiked ? Icons.favorite : Icons.favorite_outline,
           color: state.isLiked ? Colors.red : defaultColor,
           count: state.likeCount,
-          onClick: () {},
+          onClick: () {
+            context.read<ActivityStatusBloc>().add(OnToggleActivityLike());
+          },
         ),
       ],
     );

@@ -134,7 +134,7 @@ class AuthRepositoryImpl implements AuthRepository {
     CancelToken? token,
   }) {
     return NetworkUtil.postMutationAndRevertWhenException(
-      model: preferences.getAniListSettings(),
+      initialModel: preferences.getAniListSettings(),
       onModifyModel: (settings) {
         var newSettings = settings.copyWith();
         if (userTitleLanguage != null) {
