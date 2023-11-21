@@ -64,6 +64,8 @@ mixin _$MediaEntity {
   String? get genres => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.trailerThumbnail)
   String? get trailerThumbnail => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.isFavourite)
+  int? get isFavourite => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.popularRanking)
   int? get popularRanking => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.ratedRanking)
@@ -109,6 +111,7 @@ abstract class $MediaEntityCopyWith<$Res> {
       @JsonKey(name: MediaTableColumns.genres) String? genres,
       @JsonKey(name: MediaTableColumns.trailerThumbnail)
       String? trailerThumbnail,
+      @JsonKey(name: MediaTableColumns.isFavourite) int? isFavourite,
       @JsonKey(name: MediaTableColumns.popularRanking) int? popularRanking,
       @JsonKey(name: MediaTableColumns.ratedRanking) int? ratedRanking,
       @JsonKey(name: MediaTableColumns.timeUntilAiring) int? timeUntilAiring,
@@ -151,6 +154,7 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
     Object? status = freezed,
     Object? genres = freezed,
     Object? trailerThumbnail = freezed,
+    Object? isFavourite = freezed,
     Object? popularRanking = freezed,
     Object? ratedRanking = freezed,
     Object? timeUntilAiring = freezed,
@@ -245,6 +249,10 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
           ? _value.trailerThumbnail
           : trailerThumbnail // ignore: cast_nullable_to_non_nullable
               as String?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as int?,
       popularRanking: freezed == popularRanking
           ? _value.popularRanking
           : popularRanking // ignore: cast_nullable_to_non_nullable
@@ -297,6 +305,7 @@ abstract class _$$MediaEntityImplCopyWith<$Res>
       @JsonKey(name: MediaTableColumns.genres) String? genres,
       @JsonKey(name: MediaTableColumns.trailerThumbnail)
       String? trailerThumbnail,
+      @JsonKey(name: MediaTableColumns.isFavourite) int? isFavourite,
       @JsonKey(name: MediaTableColumns.popularRanking) int? popularRanking,
       @JsonKey(name: MediaTableColumns.ratedRanking) int? ratedRanking,
       @JsonKey(name: MediaTableColumns.timeUntilAiring) int? timeUntilAiring,
@@ -337,6 +346,7 @@ class __$$MediaEntityImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? genres = freezed,
     Object? trailerThumbnail = freezed,
+    Object? isFavourite = freezed,
     Object? popularRanking = freezed,
     Object? ratedRanking = freezed,
     Object? timeUntilAiring = freezed,
@@ -431,6 +441,10 @@ class __$$MediaEntityImplCopyWithImpl<$Res>
           ? _value.trailerThumbnail
           : trailerThumbnail // ignore: cast_nullable_to_non_nullable
               as String?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as int?,
       popularRanking: freezed == popularRanking
           ? _value.popularRanking
           : popularRanking // ignore: cast_nullable_to_non_nullable
@@ -478,6 +492,7 @@ class _$MediaEntityImpl implements _MediaEntity {
       @JsonKey(name: MediaTableColumns.status) this.status,
       @JsonKey(name: MediaTableColumns.genres) this.genres,
       @JsonKey(name: MediaTableColumns.trailerThumbnail) this.trailerThumbnail,
+      @JsonKey(name: MediaTableColumns.isFavourite) this.isFavourite,
       @JsonKey(name: MediaTableColumns.popularRanking) this.popularRanking,
       @JsonKey(name: MediaTableColumns.ratedRanking) this.ratedRanking,
       @JsonKey(name: MediaTableColumns.timeUntilAiring) this.timeUntilAiring,
@@ -554,6 +569,9 @@ class _$MediaEntityImpl implements _MediaEntity {
   @JsonKey(name: MediaTableColumns.trailerThumbnail)
   final String? trailerThumbnail;
   @override
+  @JsonKey(name: MediaTableColumns.isFavourite)
+  final int? isFavourite;
+  @override
   @JsonKey(name: MediaTableColumns.popularRanking)
   final int? popularRanking;
   @override
@@ -568,7 +586,7 @@ class _$MediaEntityImpl implements _MediaEntity {
 
   @override
   String toString() {
-    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
+    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, isFavourite: $isFavourite, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
   }
 
   @override
@@ -613,6 +631,8 @@ class _$MediaEntityImpl implements _MediaEntity {
             (identical(other.genres, genres) || other.genres == genres) &&
             (identical(other.trailerThumbnail, trailerThumbnail) ||
                 other.trailerThumbnail == trailerThumbnail) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
             (identical(other.popularRanking, popularRanking) ||
                 other.popularRanking == popularRanking) &&
             (identical(other.ratedRanking, ratedRanking) ||
@@ -649,6 +669,7 @@ class _$MediaEntityImpl implements _MediaEntity {
         status,
         genres,
         trailerThumbnail,
+        isFavourite,
         popularRanking,
         ratedRanking,
         timeUntilAiring,
@@ -695,6 +716,7 @@ abstract class _MediaEntity implements MediaEntity {
       @JsonKey(name: MediaTableColumns.genres) final String? genres,
       @JsonKey(name: MediaTableColumns.trailerThumbnail)
       final String? trailerThumbnail,
+      @JsonKey(name: MediaTableColumns.isFavourite) final int? isFavourite,
       @JsonKey(name: MediaTableColumns.popularRanking)
       final int? popularRanking,
       @JsonKey(name: MediaTableColumns.ratedRanking) final int? ratedRanking,
@@ -772,6 +794,9 @@ abstract class _MediaEntity implements MediaEntity {
   @override
   @JsonKey(name: MediaTableColumns.trailerThumbnail)
   String? get trailerThumbnail;
+  @override
+  @JsonKey(name: MediaTableColumns.isFavourite)
+  int? get isFavourite;
   @override
   @JsonKey(name: MediaTableColumns.popularRanking)
   int? get popularRanking;

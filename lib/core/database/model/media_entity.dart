@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -45,6 +46,7 @@ class MediaEntity with _$MediaEntity {
     @JsonKey(name: MediaTableColumns.status) MediaStatus? status,
     @JsonKey(name: MediaTableColumns.genres) String? genres,
     @JsonKey(name: MediaTableColumns.trailerThumbnail) String? trailerThumbnail,
+    @JsonKey(name: MediaTableColumns.isFavourite) int? isFavourite,
     @JsonKey(name: MediaTableColumns.popularRanking) int? popularRanking,
     @JsonKey(name: MediaTableColumns.ratedRanking) int? ratedRanking,
     @JsonKey(name: MediaTableColumns.timeUntilAiring) int? timeUntilAiring,
@@ -76,6 +78,7 @@ class MediaEntity with _$MediaEntity {
         episodes: model.episodes,
         season: model.season,
         seasonYear: model.seasonYear,
+        isFavourite: model.isFavourite.toInteger(),
         status: model.status,
         timeUntilAiring: model.nextAiringEpisode?.timeUntilAiring,
         nextAiringEpisode: model.nextAiringEpisode?.episode,

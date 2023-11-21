@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 
 sealed class DetailAnimeEvent {}
 
@@ -19,16 +22,23 @@ class _OnDetailAnimeModelChangedEvent extends DetailAnimeEvent {
   final MediaModel model;
 }
 
-class _OnTrackingStateChanged extends DetailAnimeEvent {
-  _OnTrackingStateChanged({required this.isTracking});
+class _OnMediaListItemChanged extends DetailAnimeEvent {
+  _OnMediaListItemChanged({required this.mediaListItemModel});
 
-  final bool isTracking;
+  final MediaListItemModel? mediaListItemModel;
 }
 
 class OnToggleFollowState extends DetailAnimeEvent {
   OnToggleFollowState({required this.isFollow});
 
   final bool isFollow;
+}
+
+class OnToggleFavoriteState extends DetailAnimeEvent {
+  OnToggleFavoriteState({required this.isAnime, required this.mediaId});
+
+  final bool isAnime;
+  final String mediaId;
 }
 
 class _OnLoadingStateChanged extends DetailAnimeEvent {
@@ -42,14 +52,17 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     required this.animeId,
     required MediaInformationRepository aniListRepository,
     required AuthRepository authRepository,
+    required FavoriteRepository favoriteRepository,
     required MediaListRepository animeTrackListRepository,
   })  : _aniListRepository = aniListRepository,
         _animeTrackListRepository = animeTrackListRepository,
+        _favoriteRepository = favoriteRepository,
         _authRepository = authRepository,
         super(DetailMediaUiState()) {
     on<_OnDetailAnimeModelChangedEvent>(_onDetailAnimeModelChangedEvent);
-    on<_OnTrackingStateChanged>(_onTrackingStateChanged);
+    on<_OnMediaListItemChanged>(_onMediaListItemChanged);
     on<OnToggleFollowState>(_onToggleFollowState);
+    on<OnToggleFavoriteState>(_onToggleFavoriteState);
     on<_OnLoadingStateChanged>(_onLoadingStateChanged);
 
     _init();
@@ -58,11 +71,13 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   final String animeId;
   final MediaInformationRepository _aniListRepository;
   final MediaListRepository _animeTrackListRepository;
+  final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
 
   StreamSubscription? _detailAnimeSub;
   StreamSubscription? _isTrackingSub;
-  bool _isTracking = false;
+
+  CancelToken? _cancelToken;
 
   void _init() async {
     _detailAnimeSub =
@@ -75,11 +90,11 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
       _isTrackingSub = _animeTrackListRepository
-          .getIsTrackingByUserAndIdStream(
+          .getMediaListItemByUserAndIdStream(
               userId: userData.id, animeId: animeId)
           .listen(
-        (isTracking) {
-          add(_OnTrackingStateChanged(isTracking: isTracking));
+        (item) {
+          add(_OnMediaListItemChanged(mediaListItemModel: item));
         },
       );
     }
@@ -93,6 +108,8 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   Future<void> close() {
     _detailAnimeSub?.cancel();
     _isTrackingSub?.cancel();
+
+    _cancelToken?.cancel();
 
     return super.close();
   }
@@ -113,23 +130,6 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     Emitter<DetailMediaUiState> emit,
   ) {
     emit(state.copyWith(detailAnimeModel: event.model));
-
-    emit(
-      state.copyWith(
-        detailAnimeModel: event.model.copyWith(isFollowing: _isTracking),
-      ),
-    );
-  }
-
-  FutureOr<void> _onTrackingStateChanged(
-      _OnTrackingStateChanged event, Emitter<DetailMediaUiState> emit) {
-    _isTracking = event.isTracking;
-    emit(
-      state.copyWith(
-        detailAnimeModel:
-            state.detailAnimeModel?.copyWith(isFollowing: event.isTracking),
-      ),
-    );
   }
 
   Future<void> _onToggleFollowState(
@@ -164,5 +164,26 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   FutureOr<void> _onLoadingStateChanged(
       _OnLoadingStateChanged event, Emitter<DetailMediaUiState> emit) {
     emit(state.copyWith(isLoading: event.isLoading));
+  }
+
+  FutureOr<void> _onMediaListItemChanged(
+      _OnMediaListItemChanged event, Emitter<DetailMediaUiState> emit) {
+    emit(state.copyWith(mediaListItem: event.mediaListItemModel));
+  }
+
+  FutureOr<void> _onToggleFavoriteState(
+      OnToggleFavoriteState event, Emitter<DetailMediaUiState> emit) async {
+    final isAnime = event.isAnime;
+    final mediaId = event.mediaId;
+
+    _cancelToken?.cancel();
+    _cancelToken = CancelToken();
+    if (isAnime) {
+      unawaited(
+          _favoriteRepository.toggleFavoriteAnime(mediaId, _cancelToken!));
+    } else {
+      unawaited(
+          _favoriteRepository.toggleFavoriteManga(mediaId, _cancelToken!));
+    }
   }
 }

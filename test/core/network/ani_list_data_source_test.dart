@@ -3,11 +3,13 @@ import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:country_code/country_code.dart';
 import 'package:dio/dio.dart';
@@ -17,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   group('ani_list_data_source_api_test', () {
     setUp(() async {
+      isUnitTest = true;
       SharedPreferences.setMockInitialValues({});
       await AniFlowPreferences().init();
     });
@@ -112,6 +115,11 @@ void main() {
     test('get_favorite_staff', () async {
       await AniListDataSource()
           .getFavoriteAnimeMedia(userId: '6378393', page: 1, perPage: 10);
+    });
+
+    test('toggle_favorite_', () async {
+      await AniListDataSource().toggleFavorite(
+          ToggleFavoriteMutationParam(animeId: 162694), CancelToken());
     });
   });
 }

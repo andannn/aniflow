@@ -39,6 +39,7 @@ class MediaDto with _$MediaDto {
     @JsonKey(name: 'characters') CharacterConnection? characters,
     @JsonKey(name: 'staff') StaffConnection? staff,
     @JsonKey(name: 'relations') MediaConnection? relations,
+    @JsonKey(name: 'isFavourite') bool? isFavourite,
     @Default([])
     @JsonKey(name: 'externalLinks')
     List<MediaExternalLinkDto> externalLinks,

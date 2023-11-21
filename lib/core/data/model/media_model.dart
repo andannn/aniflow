@@ -12,6 +12,7 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -40,6 +41,7 @@ class MediaModel with _$MediaModel {
     @Default([]) List<String> genres,
     int? episodes,
     int? timeUntilAiring,
+    bool? isFavourite,
     int? nextAiringEpisode,
     @Default(false) bool isFollowing,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
@@ -74,6 +76,7 @@ class MediaModel with _$MediaModel {
       popularRank: model.popularRanking,
       nextAiringEpisode: model.nextAiringEpisode,
       timeUntilAiring: model.timeUntilAiring,
+      isFavourite: model.isFavourite.toBoolean(),
       genres: model.genres != null
           ? (jsonDecode(model.genres!) as List<dynamic>?)
                   ?.map((e) => e)

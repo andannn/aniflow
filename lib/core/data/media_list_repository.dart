@@ -49,7 +49,7 @@ abstract class MediaListRepository {
       required List<MediaListStatus> status,
       required MediaType type});
 
-  Stream<bool> getIsTrackingByUserAndIdStream(
+  Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
       {required String userId, required String animeId});
 
   Future<LoadResult<void>> updateMediaList({
@@ -60,6 +60,10 @@ abstract class MediaListRepository {
     int? score,
     CancelToken? cancelToken,
   });
+
+  Stream<bool> getIsReleasedOnlyStream();
+
+  void setIsReleasedOnly(bool isShowReleasedOnly);
 }
 
 class MediaListRepositoryImpl extends MediaListRepository {
@@ -155,9 +159,19 @@ class MediaListRepositoryImpl extends MediaListRepository {
       required String userId,
       required MediaType type}) {
     return mediaListDao.getMediaListStream(userId, status, type).map(
-          (models) => models
-              .map((e) => MediaListItemModel.fromDataBaseModel(e))
-              .toList(),
+          (models) =>
+              models.map((e) => MediaListItemModel.fromRelation(e)).toList(),
+        );
+  }
+
+  @override
+  Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
+      {required String userId, required String animeId}) {
+    return mediaListDao
+        .getMediaListEntityByUserAndIdStream(userId: userId, mediaId: animeId)
+        .map(
+          (entity) =>
+              entity != null ? MediaListItemModel.fromEntity(entity) : null,
         );
   }
 
@@ -167,13 +181,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
       required List<MediaListStatus> status,
       required MediaType type}) {
     return mediaListDao.getMediaListMediaIdsByUserStream(userId, status, type);
-  }
-
-  @override
-  Stream<bool> getIsTrackingByUserAndIdStream(
-      {required String userId, required String animeId}) {
-    return mediaListDao.getIsTrackingByUserAndIdStream(
-        userId: userId, mediaId: animeId);
   }
 
   @override
@@ -224,7 +231,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       await mediaListDao.insertMediaListEntities([updateEntity]);
       mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
-    } on NetworkException catch (exception) {
+    } on Exception catch (exception) {
       /// network error happened.
       /// revert the changes in database.
       if (entity != null) {
@@ -234,4 +241,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
       return LoadError(exception);
     }
   }
+
+  @override
+  Stream<bool> getIsReleasedOnlyStream() =>
+      preferences.getIsShowReleaseOnlyStream();
+
+  @override
+  void setIsReleasedOnly(bool isShowReleasedOnly) =>
+      preferences.setIsShowReleaseOnly(isShowReleasedOnly);
 }

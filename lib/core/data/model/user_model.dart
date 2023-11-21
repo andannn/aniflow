@@ -13,6 +13,7 @@ class UserModel with _$UserModel {
     @Default('') String avatar,
     String? bannerImage,
     Color? profileColor,
+    @Default(0) int unreadNotificationCount,
   }) = _UserModel;
 
   static UserModel? fromEntity(UserEntity? model) {
@@ -25,6 +26,7 @@ class UserModel with _$UserModel {
         avatar: model.avatar,
         bannerImage: model.bannerImage,
         profileColor: ProfileColorDict.fromDict(model.profileColor),
+        unreadNotificationCount: model.unreadNotificationCount ?? 0,
       );
     }
   }

@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/common/model/extension/activity_type_extension.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
+import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -12,9 +13,25 @@ import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
+import 'package:aniflow/core/network/model/likeable_type.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:rxdart/rxdart.dart';
+
+class ActivityStatus extends Equatable {
+  final int replyCount;
+  final int likeCount;
+  final bool isLiked;
+
+  const ActivityStatus(
+      {required this.replyCount,
+      required this.likeCount,
+      required this.isLiked});
+
+  @override
+  List<Object?> get props => [replyCount, likeCount, isLiked];
+}
 
 abstract class ActivityRepository {
   Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
@@ -29,6 +46,10 @@ abstract class ActivityRepository {
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory);
 
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream();
+
+  Stream<ActivityStatus?> getActivityStatusStream(String id);
+
+  Future<LoadResult> toggleActivityLike(String id, CancelToken token);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -106,4 +127,48 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
       preferences.setActivityScopeCategory(scopeCategory);
+
+  @override
+  Stream<ActivityStatus?> getActivityStatusStream(String id) =>
+      activityDao.getActivityStream(id).map(
+            (entity) => entity == null
+                ? null
+                : ActivityStatus(
+                    likeCount: entity.likeCount,
+                    replyCount: entity.replyCount,
+                    isLiked: entity.isLiked,
+                  ),
+          );
+
+  @override
+  Future<LoadResult> toggleActivityLike(String id, CancelToken token) async {
+    final activityStatus = await activityDao.getActivityStatus(id);
+
+    if (activityStatus == null) {
+      return LoadError(Exception('Invalid id'));
+    }
+
+    return NetworkUtil.postMutationAndRevertWhenException(
+      initialModel: activityStatus,
+      onModifyModel: (status) {
+        final likeCount = activityStatus.likeCount;
+        final newLike = !activityStatus.isLiked;
+        return activityStatus.copyWith(
+          isLiked: newLike,
+          likeCount: newLike
+              ? (likeCount + 1).clamp(0, 9999)
+              : (likeCount - 1).clamp(0, 9999),
+        );
+      },
+      onSaveLocal: (status) => activityDao.updateActivityStatus(id, status),
+      onSyncWithRemote: (status) async {
+        await aniListDataSource.toggleSocialContentLike(
+          id,
+          LikeableType.activity,
+          token,
+        );
+        return null;
+      },
+    );
+  }
 }

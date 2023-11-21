@@ -14,11 +14,14 @@ import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
+import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:sqflite/sqflite.dart';
 
 abstract class FavoriteRepository {
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
@@ -39,6 +42,14 @@ abstract class FavoriteRepository {
     String? userId,
     CancelToken? token,
   });
+
+  Future<LoadResult> toggleFavoriteManga(String id, CancelToken token);
+
+  Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token);
+
+  Future<LoadResult> toggleFavoriteCharacter(String id, CancelToken token);
+
+  Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token);
 }
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -169,5 +180,48 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       mapDtoToEntity: (dto) => StaffEntity.fromStaffDto(dto),
       mapEntityToModel: (entity) => StaffModel.fromDatabaseEntity(entity),
     );
+  }
+
+  @override
+  Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token) async {
+    final animeEntity = await mediaInfoDao.getMedia(id);
+    final isFavourite = animeEntity.isFavourite.toBoolean();
+    try {
+      /// apply favorite status to local db first.
+      final newAnime =
+          animeEntity.copyWith(isFavourite: (!isFavourite).toInteger());
+      await mediaInfoDao.upsertMediaInformation([newAnime],
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      mediaInfoDao.notifyMediaDetailInfoChanged();
+
+      /// post network mutation request .
+      await aniListDataSource.toggleFavorite(
+          ToggleFavoriteMutationParam(animeId: int.parse(id)), token);
+      return LoadSuccess(data: null);
+    } on Exception catch (exception) {
+      /// reset favorite status when error.
+      await mediaInfoDao.upsertMediaInformation([animeEntity],
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      mediaInfoDao.notifyMediaDetailInfoChanged();
+      return LoadError(exception);
+    }
+  }
+
+  @override
+  Future<LoadResult> toggleFavoriteCharacter(String id, CancelToken token) {
+    // TODO: implement toggleFavoriteCharacter
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<LoadResult> toggleFavoriteManga(String id, CancelToken token) {
+    // TODO: implement toggleFavoriteManga
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token) {
+    // TODO: implement toggleFavoriteStaff
+    throw UnimplementedError();
   }
 }

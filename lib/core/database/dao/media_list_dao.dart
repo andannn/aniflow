@@ -46,10 +46,13 @@ abstract class MediaListDao {
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
       String userId, List<MediaListStatus> status, MediaType type);
 
-  Future<bool> getIsTrackingByUserAndId(
+  Future<MediaListEntity?> getMediaListTrackingByUserAndId(
       {required String userId, required String mediaId});
 
   Stream<bool> getIsTrackingByUserAndIdStream(
+      {required String userId, required String mediaId});
+
+  Stream<MediaListEntity?> getMediaListEntityByUserAndIdStream(
       {required String userId, required String mediaId});
 
   Future insertMediaListEntities(List<MediaListEntity> entities);
@@ -159,7 +162,7 @@ class MediaListDaoImpl extends MediaListDao {
   }
 
   @override
-  Future<bool> getIsTrackingByUserAndId(
+  Future<MediaListEntity?> getMediaListTrackingByUserAndId(
       {required String userId, required String mediaId}) async {
     final status = [MediaListStatus.planning, MediaListStatus.current];
     String statusParam = '';
@@ -170,15 +173,15 @@ class MediaListDaoImpl extends MediaListDao {
       }
     }
 
-    String sql =
-        'select ${MediaListTableColumns.id} from ${Tables.mediaListTable} '
+    String sql = 'select * from ${Tables.mediaListTable} '
         'where ${MediaListTableColumns.mediaId}=\'$mediaId\' '
         '  and ${MediaListTableColumns.userId}=\'$userId\' '
         '  and ${MediaListTableColumns.status} in ($statusParam) '
         'limit 1 ';
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
-    return result.isNotEmpty;
+    final jsonOrNull = result.firstOrNull;
+    return jsonOrNull != null ? MediaListEntity.fromJson(jsonOrNull) : null;
   }
 
   @override
@@ -206,8 +209,21 @@ class MediaListDaoImpl extends MediaListDao {
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String mediaId}) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
-    return StreamUtil.createStream(changeSource,
-        () => getIsTrackingByUserAndId(userId: userId, mediaId: mediaId));
+    return StreamUtil.createStream(changeSource, () async {
+      final mediaListItemOrNull = await getMediaListTrackingByUserAndId(
+          userId: userId, mediaId: mediaId);
+      return mediaListItemOrNull != null;
+    });
+  }
+
+  @override
+  Stream<MediaListEntity?> getMediaListEntityByUserAndIdStream(
+      {required String userId, required String mediaId}) {
+    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
+    return StreamUtil.createStream(
+      changeSource,
+      () => getMediaListTrackingByUserAndId(userId: userId, mediaId: mediaId),
+    );
   }
 
   @override

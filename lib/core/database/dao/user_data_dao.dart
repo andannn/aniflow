@@ -12,6 +12,8 @@ mixin UserDataTableColumns {
   static const String avatarImage = 'user_data_avatar_image';
   static const String bannerImage = 'user_data_banner_image';
   static const String profileColor = 'user_data_profile_color';
+  static const String unreadNotificationCount =
+      'user_data_unread_notification_count';
 }
 
 abstract class UserDataDao {

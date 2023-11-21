@@ -52,6 +52,7 @@ _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
       relations: json['relations'] == null
           ? null
           : MediaConnection.fromJson(json['relations'] as Map<String, dynamic>),
+      isFavourite: json['isFavourite'] as bool?,
       externalLinks: (json['externalLinks'] as List<dynamic>?)
               ?.map((e) =>
                   MediaExternalLinkDto.fromJson(e as Map<String, dynamic>))
@@ -83,6 +84,7 @@ Map<String, dynamic> _$$MediaDtoImplToJson(_$MediaDtoImpl instance) =>
       'characters': instance.characters,
       'staff': instance.staff,
       'relations': instance.relations,
+      'isFavourite': instance.isFavourite,
       'externalLinks': instance.externalLinks,
     };
 

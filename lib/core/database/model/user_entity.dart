@@ -14,6 +14,8 @@ class UserEntity with _$UserEntity {
     @Default('') @JsonKey(name: UserDataTableColumns.avatarImage) String avatar,
     @JsonKey(name: UserDataTableColumns.bannerImage) String? bannerImage,
     @JsonKey(name: UserDataTableColumns.profileColor) String? profileColor,
+    @JsonKey(name: UserDataTableColumns.unreadNotificationCount)
+    int? unreadNotificationCount,
   }) = _UserEntity;
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
@@ -25,5 +27,6 @@ class UserEntity with _$UserEntity {
         avatar: model.avatar['large']!,
         bannerImage: model.bannerImage,
         profileColor: model.options?.profileColor,
+        unreadNotificationCount: model.unreadNotificationCount,
       );
 }

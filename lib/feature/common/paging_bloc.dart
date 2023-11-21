@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -109,8 +110,8 @@ abstract class PagingBloc<T>
 
   FutureOr<void> _onPageErrorEvent(
       _OnPageErrorEvent<T> event, Emitter<PagingState<List<T>>> emit) {
-
     emit(state.toError(event.exception));
+    ErrorHandler.handleException(exception: event.exception);
   }
 
   FutureOr<void> _onRequestLoadPageEvent(

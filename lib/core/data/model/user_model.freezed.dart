@@ -21,6 +21,7 @@ mixin _$UserModel {
   String get avatar => throw _privateConstructorUsedError;
   String? get bannerImage => throw _privateConstructorUsedError;
   Color? get profileColor => throw _privateConstructorUsedError;
+  int get unreadNotificationCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserModelCopyWith<UserModel> get copyWith =>
@@ -37,7 +38,8 @@ abstract class $UserModelCopyWith<$Res> {
       String name,
       String avatar,
       String? bannerImage,
-      Color? profileColor});
+      Color? profileColor,
+      int unreadNotificationCount});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? avatar = null,
     Object? bannerImage = freezed,
     Object? profileColor = freezed,
+    Object? unreadNotificationCount = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -80,6 +83,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.profileColor
           : profileColor // ignore: cast_nullable_to_non_nullable
               as Color?,
+      unreadNotificationCount: null == unreadNotificationCount
+          ? _value.unreadNotificationCount
+          : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -97,7 +104,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String name,
       String avatar,
       String? bannerImage,
-      Color? profileColor});
+      Color? profileColor,
+      int unreadNotificationCount});
 }
 
 /// @nodoc
@@ -116,6 +124,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? avatar = null,
     Object? bannerImage = freezed,
     Object? profileColor = freezed,
+    Object? unreadNotificationCount = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -138,6 +147,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.profileColor
           : profileColor // ignore: cast_nullable_to_non_nullable
               as Color?,
+      unreadNotificationCount: null == unreadNotificationCount
+          ? _value.unreadNotificationCount
+          : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -150,7 +163,8 @@ class _$UserModelImpl implements _UserModel {
       this.name = '',
       this.avatar = '',
       this.bannerImage,
-      this.profileColor});
+      this.profileColor,
+      this.unreadNotificationCount = 0});
 
   @override
   @JsonKey()
@@ -165,10 +179,13 @@ class _$UserModelImpl implements _UserModel {
   final String? bannerImage;
   @override
   final Color? profileColor;
+  @override
+  @JsonKey()
+  final int unreadNotificationCount;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, profileColor: $profileColor)';
+    return 'UserModel(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, profileColor: $profileColor, unreadNotificationCount: $unreadNotificationCount)';
   }
 
   @override
@@ -182,12 +199,15 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
             (identical(other.profileColor, profileColor) ||
-                other.profileColor == profileColor));
+                other.profileColor == profileColor) &&
+            (identical(
+                    other.unreadNotificationCount, unreadNotificationCount) ||
+                other.unreadNotificationCount == unreadNotificationCount));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, avatar, bannerImage, profileColor);
+  int get hashCode => Object.hash(runtimeType, id, name, avatar, bannerImage,
+      profileColor, unreadNotificationCount);
 
   @JsonKey(ignore: true)
   @override
@@ -202,7 +222,8 @@ abstract class _UserModel implements UserModel {
       final String name,
       final String avatar,
       final String? bannerImage,
-      final Color? profileColor}) = _$UserModelImpl;
+      final Color? profileColor,
+      final int unreadNotificationCount}) = _$UserModelImpl;
 
   @override
   String get id;
@@ -214,6 +235,8 @@ abstract class _UserModel implements UserModel {
   String? get bannerImage;
   @override
   Color? get profileColor;
+  @override
+  int get unreadNotificationCount;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

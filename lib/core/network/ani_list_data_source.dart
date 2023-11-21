@@ -3,6 +3,7 @@
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
@@ -11,6 +12,7 @@ import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
+import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart';
@@ -20,6 +22,7 @@ import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
+import 'package:aniflow/core/network/model/likeable_type.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
@@ -45,10 +48,10 @@ class AniListDataSource {
       'id': id,
     };
     final response = await AniListDio().dio.post(
-      AniListDio.aniListUrl,
-      data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
-    );
+          AniListDio.aniListUrl,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
 
     final resultJson = response.data['data']['Media'];
     final MediaDto detailAnimeDto = MediaDto.fromJson(resultJson);
@@ -402,5 +405,53 @@ class AniListDataSource {
         resultJson.map((e) => AniActivity.mapToAniActivity(e)).toList();
 
     return activities;
+  }
+
+  Future toggleFavorite(
+      ToggleFavoriteMutationParam param, CancelToken token) async {
+    final queryGraphQL = toggleFavoriteMutationGraphQl;
+    final variablesMap = <String, dynamic>{};
+    if (param.animeId != null) {
+      variablesMap['animeId'] = param.animeId;
+    }
+    if (param.mangaId != null) {
+      variablesMap['mangaId'] = param.mangaId;
+    }
+    if (param.characterId != null) {
+      variablesMap['characterId'] = param.characterId;
+    }
+    if (param.staffId != null) {
+      variablesMap['staffId'] = param.staffId;
+    }
+    if (param.studioId != null) {
+      variablesMap['studioId'] = param.studioId;
+    }
+    await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {
+            'query': queryGraphQL,
+            'variables': variablesMap,
+          },
+          options: createQueryOptions(_token),
+        );
+  }
+
+  Future toggleSocialContentLike(
+      String id, LikeableType type, CancelToken token) async {
+    final queryGraphQL = activityLikeMutationGraphql;
+    final variablesMap = <String, dynamic>{
+      'id' : id,
+      'type': type
+    };
+    await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {
+            'query': queryGraphQL,
+            'variables': variablesMap,
+          },
+          options: createQueryOptions(_token),
+        );
   }
 }

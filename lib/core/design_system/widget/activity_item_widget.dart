@@ -2,19 +2,20 @@ import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
-import 'package:aniflow/core/design_system/widget/short_num_label_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ActivityItem extends StatelessWidget {
-  const ActivityItem({required this.model,
-    super.key,
-    this.onMediaClick,
-    this.onUserIconClick});
+  const ActivityItem(
+      {required this.model,
+      required this.onBuildActivityStatusWidget, super.key,
+      this.onMediaClick,
+      this.onUserIconClick});
 
   final ActivityModel model;
   final Function(String mediaId)? onMediaClick;
   final Function(String userId)? onUserIconClick;
+  final Widget Function(String activityId) onBuildActivityStatusWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +29,8 @@ class ActivityItem extends StatelessWidget {
   }
 
   Widget _buildListActivity(BuildContext context, ListActivityModel activity) {
-    final colorScheme = Theme
-        .of(context)
-        .colorScheme;
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       constraints: const BoxConstraints(minHeight: 120),
       child: Card(
@@ -99,12 +96,7 @@ class ActivityItem extends StatelessWidget {
                           const Expanded(child: SizedBox()),
                           Padding(
                             padding: const EdgeInsets.only(right: 10.0),
-                            child: _buildReplyLikeStateSection(
-                              context,
-                              activity.isLiked,
-                              activity.likeCount,
-                              activity.replyCount,
-                            ),
+                            child: onBuildActivityStatusWidget(activity.id),
                           )
                         ],
                       ),
@@ -121,12 +113,8 @@ class ActivityItem extends StatelessWidget {
   }
 
   Widget _buildTextActivity(BuildContext context, TextActivityModel activity) {
-    final colorScheme = Theme
-        .of(context)
-        .colorScheme;
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Card(
       elevation: 0,
       color: colorScheme.surfaceVariant,
@@ -166,44 +154,12 @@ class ActivityItem extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10.0),
               child: Align(
                 alignment: Alignment.centerRight,
-                child: _buildReplyLikeStateSection(
-                  context,
-                  activity.isLiked,
-                  activity.likeCount,
-                  activity.replyCount,
-                ),
+                child: onBuildActivityStatusWidget(activity.id),
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildReplyLikeStateSection(BuildContext context, bool isLike,
-      int likeCount, int repliedCount) {
-    final defaultColor =
-    Theme
-        .of(context)
-        .colorScheme
-        .onSurfaceVariant
-        .withOpacity(0.8);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ShortNumLabelIconButton(
-          icon: Icons.messenger_outline_rounded,
-          count: repliedCount,
-          color: defaultColor,
-          onClick: () {},
-        ),
-        ShortNumLabelIconButton(
-          icon: isLike ? Icons.favorite : Icons.favorite_outline,
-          color: isLike ? Colors.red : defaultColor,
-          count: repliedCount,
-          onClick: () {},
-        ),
-      ],
     );
   }
 }
