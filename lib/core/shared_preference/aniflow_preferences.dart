@@ -29,6 +29,8 @@ mixin _UserDataKey {
 
   /// ani-list settings. [AniListSettings]
   static const aniListSettingsKey = 'ani_list_settings_key';
+
+  static const showReleasedOnlyKey = 'show_released_only_key';
 }
 
 class AniFlowPreferences {
@@ -45,6 +47,7 @@ class AniFlowPreferences {
   final _activityFilterChangeNotifier = ValueNotifier(0);
   final _userIdChangeNotifier = ValueNotifier(0);
   final _aniListSettingChangeNotifier = ValueNotifier(0);
+  final _showReleasedOnlyChangeNotifier = ValueNotifier(0);
 
   Future init() async {
     _preference = await SharedPreferences.getInstance();
@@ -192,5 +195,22 @@ class AniFlowPreferences {
   Stream<AniListSettings> getAniListSettingsStream() {
     return StreamUtil.createStream(_aniListSettingChangeNotifier,
         () => Future.value(getAniListSettings()));
+  }
+
+  Future setIsShowReleaseOnly(bool showReleasedOnly) async {
+    bool isChanged = await _preference.setBool(
+        _UserDataKey.showReleasedOnlyKey, showReleasedOnly);
+    if (isChanged) {
+      _showReleasedOnlyChangeNotifier.notifyChanged();
+    }
+  }
+
+  bool getIsShowReleaseOnly() {
+    return _preference.getBool(_UserDataKey.showReleasedOnlyKey) ?? false;
+  }
+
+  Stream<bool> getIsShowReleaseOnlyStream() {
+    return StreamUtil.createStream(_showReleasedOnlyChangeNotifier,
+        () => Future.value(getIsShowReleaseOnly()));
   }
 }

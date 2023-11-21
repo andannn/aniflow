@@ -43,9 +43,7 @@ class _OnAniListSettingsChanged extends TrackEvent {
   final AniListSettings settings;
 }
 
-class OnToggleShowFollowOnly extends TrackEvent {
-  OnToggleShowFollowOnly();
-}
+class OnToggleShowFollowOnly extends TrackEvent {}
 
 class OnAnimeMarkWatched extends TrackEvent {
   final String animeId;
@@ -64,21 +62,31 @@ class _OnMediaTypeChanged extends TrackEvent {
   final MediaType mediaType;
 }
 
+class _OnShowFollowOnlyStateChanged extends TrackEvent {
+  _OnShowFollowOnlyStateChanged(this.isShowFollowOnly);
+
+  final bool isShowFollowOnly;
+}
+
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
       {required MediaListRepository mediaListRepository,
       required AuthRepository authRepository,
       required SettingsRepository settingsRepository})
-      : _animeTrackListRepository = mediaListRepository,
+      : _mediaListRepository = mediaListRepository,
         _settingsRepository = settingsRepository,
         _authRepository = authRepository,
         super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
-    on<_OnLoadStateChanged>(_onLoadStateChanged);
+    on<_OnLoadStateChanged>(
+        (event, emit) => emit(state.copyWith(isLoading: event.isLoading)));
     on<_OnWatchingAnimeListChanged>(_onWatchingAnimeListChanged);
     on<_OnMediaTypeChanged>(_onMediaTypeChanged);
-    on<_OnAniListSettingsChanged>(_onAniListSettingsChanged);
-    on<OnToggleShowFollowOnly>(_onToggleShowReleasedOnly);
+    on<_OnAniListSettingsChanged>(
+        (event, emit) => emit(state.copyWith(settings: event.settings)));
+    on<_OnShowFollowOnlyStateChanged>(_onShowFollowOnlyStateChanged);
+    on<OnToggleShowFollowOnly>((_, __) =>
+        _mediaListRepository.setIsReleasedOnly(!state.showReleasedOnly));
     on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
 
     _init();
@@ -88,7 +96,8 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   StreamSubscription? _userStateSub;
   StreamSubscription? _mediaTypeSub;
   StreamSubscription? _settingsSub;
-  final MediaListRepository _animeTrackListRepository;
+  StreamSubscription? _showReleasedOnlySub;
+  final MediaListRepository _mediaListRepository;
   final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
   String? _userId;
@@ -112,6 +121,13 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         add(_OnAniListSettingsChanged(settings));
       },
     );
+
+    _showReleasedOnlySub ??= _mediaListRepository
+        .getIsReleasedOnlyStream()
+        .distinct()
+        .listen((showReleasedOnly) {
+      add(_OnShowFollowOnlyStateChanged(showReleasedOnly));
+    });
   }
 
   @override
@@ -120,13 +136,13 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     _userStateSub?.cancel();
     _mediaTypeSub?.cancel();
     _settingsSub?.cancel();
+    _showReleasedOnlySub?.cancel();
     return super.close();
   }
 
   Future syncUserAnimeList({String? userId}) async {
     add(_OnLoadStateChanged(isLoading: true));
-    final result =
-        await _animeTrackListRepository.syncMediaList(userId: userId);
+    final result = await _mediaListRepository.syncMediaList(userId: userId);
     add(_OnLoadStateChanged(isLoading: false));
 
     if (result is LoadError) {
@@ -152,11 +168,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     }
   }
 
-  FutureOr<void> _onLoadStateChanged(
-      _OnLoadStateChanged event, Emitter<TrackUiState> emit) {
-    emit(state.copyWith(isLoading: event.isLoading));
-  }
-
   FutureOr<void> _onWatchingAnimeListChanged(
       _OnWatchingAnimeListChanged event, Emitter<TrackUiState> emit) {
     final loadState = state.animeLoadState;
@@ -177,16 +188,16 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     ));
   }
 
-  FutureOr<void> _onToggleShowReleasedOnly(
-      OnToggleShowFollowOnly event, Emitter<TrackUiState> emit) {
+  FutureOr<void> _onShowFollowOnlyStateChanged(
+      _OnShowFollowOnlyStateChanged event, Emitter<TrackUiState> emit) {
+    final needShowReleasedOnly = event.isShowFollowOnly;
+    emit(state.copyWith(showReleasedOnly: needShowReleasedOnly));
+
     final loadState = state.animeLoadState;
     if (loadState is MediaStateNoUser || loadState is MediaStateInitState) {
       /// no login, or not loaded, just return.
       return null;
     }
-
-    final needShowReleasedOnly = !state.showReleasedOnly;
-    emit(state.copyWith(showReleasedOnly: needShowReleasedOnly));
 
     /// trim anime list if needed.
     final animeList = _getTrimmedMediaList(needShowReleasedOnly);
@@ -218,7 +229,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         isFinished ? MediaListStatus.completed : MediaListStatus.current;
 
     add(_OnLoadStateChanged(isLoading: true));
-    final result = await _animeTrackListRepository.updateMediaList(
+    final result = await _mediaListRepository.updateMediaList(
         animeId: event.animeId, status: status, progress: event.progress);
     add(_OnLoadStateChanged(isLoading: false));
 
@@ -256,17 +267,12 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     if (userId == null) return;
 
     await _userContentSub?.cancel();
-    _userContentSub = _animeTrackListRepository.getMediaListStream(
+    _userContentSub = _mediaListRepository.getMediaListStream(
       status: [MediaListStatus.planning, MediaListStatus.current],
       type: state.currentMediaType,
       userId: userId,
     ).listen((animeList) {
       add(_OnWatchingAnimeListChanged(animeList: animeList));
     });
-  }
-
-  FutureOr<void> _onAniListSettingsChanged(
-      _OnAniListSettingsChanged event, Emitter<TrackUiState> emit) {
-    emit(state.copyWith(settings: event.settings));
   }
 }

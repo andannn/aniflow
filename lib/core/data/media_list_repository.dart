@@ -60,6 +60,10 @@ abstract class MediaListRepository {
     int? score,
     CancelToken? cancelToken,
   });
+
+  Stream<bool> getIsReleasedOnlyStream();
+
+  void setIsReleasedOnly(bool isShowReleasedOnly);
 }
 
 class MediaListRepositoryImpl extends MediaListRepository {
@@ -237,4 +241,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
       return LoadError(exception);
     }
   }
+
+  @override
+  Stream<bool> getIsReleasedOnlyStream() =>
+      preferences.getIsShowReleaseOnlyStream();
+
+  @override
+  void setIsReleasedOnly(bool isShowReleasedOnly) =>
+      preferences.setIsShowReleaseOnly(isShowReleasedOnly);
 }
