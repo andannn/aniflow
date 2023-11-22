@@ -38,7 +38,6 @@ linter:
     - implicit_call_tearoffs
     - invalid_case_patterns
     - prefer_void_to_null
-    - always_put_required_named_parameters_first
     - avoid_init_to_null
     - avoid_renaming_method_parameters
     - avoid_shadowing_type_parameters

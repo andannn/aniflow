@@ -30,6 +30,14 @@ mixin _$MediaListEntity {
   MediaListStatus? get status => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.progress)
   int? get progress => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaListTableColumns.progressVolumes)
+  int? get progressVolumes => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaListTableColumns.notes)
+  String? get notes => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaListTableColumns.startedAt)
+  int? get startedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaListTableColumns.completedAt)
+  int? get completedAt => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.score)
   int? get score => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.updatedAt)
@@ -53,6 +61,11 @@ abstract class $MediaListEntityCopyWith<$Res> {
       @JsonKey(name: MediaListTableColumns.mediaId) String? animeId,
       @JsonKey(name: MediaListTableColumns.status) MediaListStatus? status,
       @JsonKey(name: MediaListTableColumns.progress) int? progress,
+      @JsonKey(name: MediaListTableColumns.progressVolumes)
+      int? progressVolumes,
+      @JsonKey(name: MediaListTableColumns.notes) String? notes,
+      @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
+      @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
       @JsonKey(name: MediaListTableColumns.score) int? score,
       @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt});
 }
@@ -75,6 +88,10 @@ class _$MediaListEntityCopyWithImpl<$Res, $Val extends MediaListEntity>
     Object? animeId = freezed,
     Object? status = freezed,
     Object? progress = freezed,
+    Object? progressVolumes = freezed,
+    Object? notes = freezed,
+    Object? startedAt = freezed,
+    Object? completedAt = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -98,6 +115,22 @@ class _$MediaListEntityCopyWithImpl<$Res, $Val extends MediaListEntity>
       progress: freezed == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
+      progressVolumes: freezed == progressVolumes
+          ? _value.progressVolumes
+          : progressVolumes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
               as int?,
       score: freezed == score
           ? _value.score
@@ -125,6 +158,11 @@ abstract class _$$MediaListEntityImplCopyWith<$Res>
       @JsonKey(name: MediaListTableColumns.mediaId) String? animeId,
       @JsonKey(name: MediaListTableColumns.status) MediaListStatus? status,
       @JsonKey(name: MediaListTableColumns.progress) int? progress,
+      @JsonKey(name: MediaListTableColumns.progressVolumes)
+      int? progressVolumes,
+      @JsonKey(name: MediaListTableColumns.notes) String? notes,
+      @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
+      @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
       @JsonKey(name: MediaListTableColumns.score) int? score,
       @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt});
 }
@@ -145,6 +183,10 @@ class __$$MediaListEntityImplCopyWithImpl<$Res>
     Object? animeId = freezed,
     Object? status = freezed,
     Object? progress = freezed,
+    Object? progressVolumes = freezed,
+    Object? notes = freezed,
+    Object? startedAt = freezed,
+    Object? completedAt = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -169,6 +211,22 @@ class __$$MediaListEntityImplCopyWithImpl<$Res>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as int?,
+      progressVolumes: freezed == progressVolumes
+          ? _value.progressVolumes
+          : progressVolumes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as int?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -190,6 +248,11 @@ class _$MediaListEntityImpl implements _MediaListEntity {
       @JsonKey(name: MediaListTableColumns.mediaId) this.animeId,
       @JsonKey(name: MediaListTableColumns.status) this.status,
       @JsonKey(name: MediaListTableColumns.progress) this.progress,
+      @JsonKey(name: MediaListTableColumns.progressVolumes)
+      this.progressVolumes,
+      @JsonKey(name: MediaListTableColumns.notes) this.notes,
+      @JsonKey(name: MediaListTableColumns.startedAt) this.startedAt,
+      @JsonKey(name: MediaListTableColumns.completedAt) this.completedAt,
       @JsonKey(name: MediaListTableColumns.score) this.score,
       @JsonKey(name: MediaListTableColumns.updatedAt) this.updatedAt});
 
@@ -212,6 +275,18 @@ class _$MediaListEntityImpl implements _MediaListEntity {
   @JsonKey(name: MediaListTableColumns.progress)
   final int? progress;
   @override
+  @JsonKey(name: MediaListTableColumns.progressVolumes)
+  final int? progressVolumes;
+  @override
+  @JsonKey(name: MediaListTableColumns.notes)
+  final String? notes;
+  @override
+  @JsonKey(name: MediaListTableColumns.startedAt)
+  final int? startedAt;
+  @override
+  @JsonKey(name: MediaListTableColumns.completedAt)
+  final int? completedAt;
+  @override
   @JsonKey(name: MediaListTableColumns.score)
   final int? score;
   @override
@@ -220,7 +295,7 @@ class _$MediaListEntityImpl implements _MediaListEntity {
 
   @override
   String toString() {
-    return 'MediaListEntity(id: $id, userId: $userId, animeId: $animeId, status: $status, progress: $progress, score: $score, updatedAt: $updatedAt)';
+    return 'MediaListEntity(id: $id, userId: $userId, animeId: $animeId, status: $status, progress: $progress, progressVolumes: $progressVolumes, notes: $notes, startedAt: $startedAt, completedAt: $completedAt, score: $score, updatedAt: $updatedAt)';
   }
 
   @override
@@ -234,6 +309,13 @@ class _$MediaListEntityImpl implements _MediaListEntity {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
+            (identical(other.progressVolumes, progressVolumes) ||
+                other.progressVolumes == progressVolumes) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt));
@@ -242,7 +324,18 @@ class _$MediaListEntityImpl implements _MediaListEntity {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, userId, animeId, status, progress, score, updatedAt);
+      runtimeType,
+      id,
+      userId,
+      animeId,
+      status,
+      progress,
+      progressVolumes,
+      notes,
+      startedAt,
+      completedAt,
+      score,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -267,6 +360,11 @@ abstract class _MediaListEntity implements MediaListEntity {
       @JsonKey(name: MediaListTableColumns.status)
       final MediaListStatus? status,
       @JsonKey(name: MediaListTableColumns.progress) final int? progress,
+      @JsonKey(name: MediaListTableColumns.progressVolumes)
+      final int? progressVolumes,
+      @JsonKey(name: MediaListTableColumns.notes) final String? notes,
+      @JsonKey(name: MediaListTableColumns.startedAt) final int? startedAt,
+      @JsonKey(name: MediaListTableColumns.completedAt) final int? completedAt,
       @JsonKey(name: MediaListTableColumns.score) final int? score,
       @JsonKey(name: MediaListTableColumns.updatedAt)
       final int? updatedAt}) = _$MediaListEntityImpl;
@@ -289,6 +387,18 @@ abstract class _MediaListEntity implements MediaListEntity {
   @override
   @JsonKey(name: MediaListTableColumns.progress)
   int? get progress;
+  @override
+  @JsonKey(name: MediaListTableColumns.progressVolumes)
+  int? get progressVolumes;
+  @override
+  @JsonKey(name: MediaListTableColumns.notes)
+  String? get notes;
+  @override
+  @JsonKey(name: MediaListTableColumns.startedAt)
+  int? get startedAt;
+  @override
+  @JsonKey(name: MediaListTableColumns.completedAt)
+  int? get completedAt;
   @override
   @JsonKey(name: MediaListTableColumns.score)
   int? get score;

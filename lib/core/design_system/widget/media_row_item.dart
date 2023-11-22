@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 class MediaRowItem extends StatelessWidget {
   const MediaRowItem(
       {required this.model,
-      required this.onClick,
       required this.language,
+      this.onClick,
       this.watchInfoTextColor,
       this.watchingInfo,
       super.key,
@@ -19,7 +19,7 @@ class MediaRowItem extends StatelessWidget {
 
   final MediaModel model;
   final String? watchingInfo;
-  final VoidCallback onClick;
+  final VoidCallback? onClick;
   final Color? watchInfoTextColor;
   final int? titleMaxLines;
   final UserTitleLanguage language;

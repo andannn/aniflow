@@ -21,6 +21,10 @@ mixin _$MediaListItemModel {
   int? get score => throw _privateConstructorUsedError;
   int? get updatedAt => throw _privateConstructorUsedError;
   int? get progress => throw _privateConstructorUsedError;
+  int? get progressVolumes => throw _privateConstructorUsedError;
+  DateTime? get startedAt => throw _privateConstructorUsedError;
+  DateTime? get completedAt => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
   MediaModel? get animeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -40,6 +44,10 @@ abstract class $MediaListItemModelCopyWith<$Res> {
       int? score,
       int? updatedAt,
       int? progress,
+      int? progressVolumes,
+      DateTime? startedAt,
+      DateTime? completedAt,
+      String? notes,
       MediaModel? animeModel});
 
   $MediaModelCopyWith<$Res>? get animeModel;
@@ -63,6 +71,10 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
     Object? score = freezed,
     Object? updatedAt = freezed,
     Object? progress = freezed,
+    Object? progressVolumes = freezed,
+    Object? startedAt = freezed,
+    Object? completedAt = freezed,
+    Object? notes = freezed,
     Object? animeModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -86,6 +98,22 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as int?,
+      progressVolumes: freezed == progressVolumes
+          ? _value.progressVolumes
+          : progressVolumes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
@@ -120,6 +148,10 @@ abstract class _$$MediaListItemModelImplCopyWith<$Res>
       int? score,
       int? updatedAt,
       int? progress,
+      int? progressVolumes,
+      DateTime? startedAt,
+      DateTime? completedAt,
+      String? notes,
       MediaModel? animeModel});
 
   @override
@@ -142,6 +174,10 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
     Object? score = freezed,
     Object? updatedAt = freezed,
     Object? progress = freezed,
+    Object? progressVolumes = freezed,
+    Object? startedAt = freezed,
+    Object? completedAt = freezed,
+    Object? notes = freezed,
     Object? animeModel = freezed,
   }) {
     return _then(_$MediaListItemModelImpl(
@@ -165,6 +201,22 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as int?,
+      progressVolumes: freezed == progressVolumes
+          ? _value.progressVolumes
+          : progressVolumes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
@@ -182,6 +234,10 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
       this.score,
       this.updatedAt,
       this.progress,
+      this.progressVolumes,
+      this.startedAt,
+      this.completedAt,
+      this.notes,
       this.animeModel});
 
   @override
@@ -196,11 +252,19 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
   @override
   final int? progress;
   @override
+  final int? progressVolumes;
+  @override
+  final DateTime? startedAt;
+  @override
+  final DateTime? completedAt;
+  @override
+  final String? notes;
+  @override
   final MediaModel? animeModel;
 
   @override
   String toString() {
-    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, animeModel: $animeModel)';
+    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, progressVolumes: $progressVolumes, startedAt: $startedAt, completedAt: $completedAt, notes: $notes, animeModel: $animeModel)';
   }
 
   @override
@@ -215,13 +279,20 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
                 other.updatedAt == updatedAt) &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
+            (identical(other.progressVolumes, progressVolumes) ||
+                other.progressVolumes == progressVolumes) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.animeModel, animeModel) ||
                 other.animeModel == animeModel));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, status, score, updatedAt, progress, animeModel);
+  int get hashCode => Object.hash(runtimeType, id, status, score, updatedAt,
+      progress, progressVolumes, startedAt, completedAt, notes, animeModel);
 
   @JsonKey(ignore: true)
   @override
@@ -238,6 +309,10 @@ abstract class _MediaListItemModel implements MediaListItemModel {
       final int? score,
       final int? updatedAt,
       final int? progress,
+      final int? progressVolumes,
+      final DateTime? startedAt,
+      final DateTime? completedAt,
+      final String? notes,
       final MediaModel? animeModel}) = _$MediaListItemModelImpl;
 
   @override
@@ -250,6 +325,14 @@ abstract class _MediaListItemModel implements MediaListItemModel {
   int? get updatedAt;
   @override
   int? get progress;
+  @override
+  int? get progressVolumes;
+  @override
+  DateTime? get startedAt;
+  @override
+  DateTime? get completedAt;
+  @override
+  String? get notes;
   @override
   MediaModel? get animeModel;
   @override

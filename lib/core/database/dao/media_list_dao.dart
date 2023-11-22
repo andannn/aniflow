@@ -21,6 +21,10 @@ mixin MediaListTableColumns {
   static const String mediaId = 'media_list_media_id';
   static const String status = 'media_list_status';
   static const String progress = 'media_list_progress';
+  static const String progressVolumes = 'media_list_progress_volumes';
+  static const String notes = 'media_list_notes';
+  static const String startedAt = 'media_list_started_at';
+  static const String completedAt = 'media_list_completed_at';
   static const String score = 'media_list_score';
   static const String updatedAt = 'media_list_updatedAt';
 }

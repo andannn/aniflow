@@ -16,6 +16,10 @@ class MediaListItemModel with _$MediaListItemModel {
     int? score,
     int? updatedAt,
     int? progress,
+    int? progressVolumes,
+    DateTime? startedAt,
+    DateTime? completedAt,
+    String? notes,
     MediaModel? animeModel,
   }) = _MediaListItemModel;
 
@@ -32,6 +36,14 @@ class MediaListItemModel with _$MediaListItemModel {
       score: entity.score,
       progress: entity.progress,
       updatedAt: entity.updatedAt,
+      notes: entity.notes,
+      progressVolumes: entity.progressVolumes,
+      startedAt: entity.startedAt != null
+          ? DateTime.fromMillisecondsSinceEpoch(entity.startedAt!)
+          : null,
+      completedAt: entity.completedAt != null
+          ? DateTime.fromMillisecondsSinceEpoch(entity.completedAt!)
+          : null,
     );
   }
 
@@ -41,13 +53,9 @@ class MediaListItemModel with _$MediaListItemModel {
   }
 }
 
-extension MediaListItemModelState on MediaListItemModel? {
+extension MediaListItemModelState on MediaListStatus {
   String get stateString {
-    if (this == null) {
-      return '';
-    }
-
-    switch (this!.status!) {
+    switch (this) {
       case MediaListStatus.current:
         return 'Tracking';
       case MediaListStatus.completed:
@@ -62,11 +70,7 @@ extension MediaListItemModelState on MediaListItemModel? {
   }
 
   IconData get statusIcon {
-    if (this == null) {
-      return Icons.add;
-    }
-
-    switch (this!.status!) {
+    switch (this) {
       case MediaListStatus.current:
         return Icons.incomplete_circle;
       case MediaListStatus.completed:

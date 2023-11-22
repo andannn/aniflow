@@ -28,6 +28,17 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
       notes
       userId
       updatedAt
+      progressVolumes
+      startedAt {
+        year
+        month
+        day
+      }
+      completedAt {
+        year
+        month
+        day
+      }
       media {
         id
         title {

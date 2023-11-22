@@ -1,5 +1,6 @@
 
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -14,7 +15,11 @@ class MediaListDto with _$MediaListDto {
     @JsonKey(name: 'score') int? score,
     @JsonKey(name: 'status') MediaListStatus? status,
     @Default(-1) @JsonKey(name: 'progress') int progress,
+    @Default(-1) @JsonKey(name: 'progressVolumes') int progressVolumes,
+    @JsonKey(name: 'notes') String? notes,
     @Default(-1) @JsonKey(name: 'updatedAt') int updatedAt,
+    @JsonKey(name: 'startedAt') FuzzyDateDto? startedAt,
+    @JsonKey(name: 'completedAt') FuzzyDateDto? completedAt,
     @JsonKey(name: 'media') MediaDto? media,
   }) = _MediaListDto;
 

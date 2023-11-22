@@ -5,7 +5,6 @@ import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -29,6 +28,7 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/feature/detail_media/update_media_list_bottom_sheet.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +56,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => DetailAnimeBloc(
+      create: (context) => DetailMediaBloc(
         animeId: animeId,
         aniListRepository: context.read<MediaInformationRepository>(),
         authRepository: context.read<AuthRepository>(),
@@ -76,26 +76,26 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailAnimeBloc, DetailMediaUiState>(
+    return BlocBuilder<DetailMediaBloc, DetailMediaUiState>(
       builder: (context, state) {
         final model = state.detailAnimeModel;
         if (model == null) {
           return const SizedBox();
         }
-        final isFollowing = model.isFollowing;
         final isLoading = state.isLoading;
-        final stateString = state.mediaListItem.stateString;
+        final stateString = state.mediaListItem?.status?.stateString ?? '';
         final hasDescription = stateString.isNotEmpty;
-        final statusIcon = state.mediaListItem.statusIcon;
+        final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite ?? false;
 
         void floatingButtonClickAction() {
-          context
-              .read<DetailAnimeBloc>()
-              .add(OnToggleFollowState(isFollow: !isFollowing));
+          showUpdateMediaListBottomSheet(
+            context,
+            listItemModel: state.mediaListItem,
+            media: state.detailAnimeModel!,
+          );
         }
 
-        logger.d(isFavorite);
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -114,7 +114,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   ? LoadingIndicator(isLoading: isLoading)
                   : IconButton(
                       onPressed: () {
-                        context.read<DetailAnimeBloc>().add(
+                        context.read<DetailMediaBloc>().add(
                               OnToggleFavoriteState(
                                   isAnime: true, mediaId: model.id),
                             );
@@ -342,7 +342,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToCharacterList(
-                        context.read<DetailAnimeBloc>().animeId);
+                        context.read<DetailMediaBloc>().animeId);
                   },
                   child: const Text('More'),
                 ),
@@ -410,7 +410,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToStaffList(
-                        context.read<DetailAnimeBloc>().animeId);
+                        context.read<DetailMediaBloc>().animeId);
                   },
                   child: const Text('More'),
                 ),

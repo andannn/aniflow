@@ -13,7 +13,15 @@ _$MediaListDtoImpl _$$MediaListDtoImplFromJson(Map<String, dynamic> json) =>
       score: json['score'] as int?,
       status: $enumDecodeNullable(_$MediaListStatusEnumMap, json['status']),
       progress: json['progress'] as int? ?? -1,
+      progressVolumes: json['progressVolumes'] as int? ?? -1,
+      notes: json['notes'] as String?,
       updatedAt: json['updatedAt'] as int? ?? -1,
+      startedAt: json['startedAt'] == null
+          ? null
+          : FuzzyDateDto.fromJson(json['startedAt'] as Map<String, dynamic>),
+      completedAt: json['completedAt'] == null
+          ? null
+          : FuzzyDateDto.fromJson(json['completedAt'] as Map<String, dynamic>),
       media: json['media'] == null
           ? null
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
@@ -26,7 +34,11 @@ Map<String, dynamic> _$$MediaListDtoImplToJson(_$MediaListDtoImpl instance) =>
       'score': instance.score,
       'status': _$MediaListStatusEnumMap[instance.status],
       'progress': instance.progress,
+      'progressVolumes': instance.progressVolumes,
+      'notes': instance.notes,
       'updatedAt': instance.updatedAt,
+      'startedAt': instance.startedAt,
+      'completedAt': instance.completedAt,
       'media': instance.media,
     };
 

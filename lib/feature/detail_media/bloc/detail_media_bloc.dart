@@ -47,8 +47,8 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
   final bool isLoading;
 }
 
-class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
-  DetailAnimeBloc({
+class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
+  DetailMediaBloc({
     required this.animeId,
     required MediaInformationRepository aniListRepository,
     required AuthRepository authRepository,
