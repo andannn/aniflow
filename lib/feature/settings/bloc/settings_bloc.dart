@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
@@ -89,6 +90,11 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
           userStaffNameLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
         );
+      case ScoreFormat():
+        result = await _authRepository.updateUserSettings(
+          scoreFormat: setting,
+          token: _cancelRequestAndReturnNewToken(setting.runtimeType),
+        );
       default:
         throw 'Invalid type';
     }
@@ -115,6 +121,7 @@ extension SettingsStateEx on SettingsState {
     final selectedUserStaffNameLanguage =
         settings?.userStaffNameLanguage ?? UserStaffNameLanguage.native;
     final isDisplayAdultContent = settings?.displayAdultContent ?? false;
+    final selectedScoreFormat = settings?.scoreFormat ?? ScoreFormat.point100;
 
     return [
       SettingCategory(
@@ -147,7 +154,15 @@ extension SettingsStateEx on SettingsState {
       ),
       SettingCategory(
         title: 'Lists',
-        settingItems: [],
+        settingItems: [
+          ListSettingItem(
+            title: 'Scoring System',
+            selectedOption: selectedScoreFormat._createSettingOption(),
+            options: ScoreFormat.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+        ],
       ),
       SettingCategory(
         title: 'About',
@@ -188,4 +203,32 @@ extension on UserStaffNameLanguage {
         return SettingOption(setting: this, description: 'Native (種﨑敦美)');
     }
   }
+}
+
+extension on ScoreFormat {
+  SettingOption<ScoreFormat> _createSettingOption() {
+    switch (this) {
+      case ScoreFormat.point100:
+        return SettingOption(setting: this, description: '100 Point (55/100)');
+      case ScoreFormat.point10Decimal:
+        return SettingOption(
+            setting: this, description: '10 Point Decimal (5.5/10)');
+      case ScoreFormat.point10:
+        return SettingOption(setting: this, description: '10 Point (5/10)');
+      case ScoreFormat.point5:
+        return SettingOption(setting: this, description: '5 Star (3/5)');
+      case ScoreFormat.point3:
+        return SettingOption(setting: this, description: '3 Point Smiley :)');
+    }
+  }
+}
+
+extension SettingNeedRestart on Setting {
+  bool get needRestart => switch (this) {
+        DisplayAdultContent() => true,
+        UserTitleLanguage() => false,
+        UserStaffNameLanguage() => false,
+        ScoreFormat() => false,
+        _ => false,
+      };
 }

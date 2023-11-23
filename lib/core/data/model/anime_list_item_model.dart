@@ -14,7 +14,7 @@ class MediaListItemModel with _$MediaListItemModel {
   factory MediaListItemModel({
     @Default('') String id,
     MediaListStatus? status,
-    int? score,
+    double? score,
     int? updatedAt,
     int? progress,
     int? progressVolumes,

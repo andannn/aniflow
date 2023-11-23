@@ -209,7 +209,7 @@ class AniflowDatabase {
         '${MediaListTableColumns.notes} text,'
         '${MediaListTableColumns.startedAt} integer,'
         '${MediaListTableColumns.completedAt} integer,'
-        '${MediaListTableColumns.score} integer,'
+        '${MediaListTableColumns.score} real,'
         '${MediaListTableColumns.updatedAt} integer,'
         '${MediaListTableColumns.repeat} integer,'
         '${MediaListTableColumns.private} integer,'

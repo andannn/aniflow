@@ -39,7 +39,7 @@ mixin _$MediaListEntity {
   @JsonKey(name: MediaListTableColumns.completedAt)
   int? get completedAt => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.score)
-  int? get score => throw _privateConstructorUsedError;
+  double? get score => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.updatedAt)
   int? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.repeat)
@@ -70,7 +70,7 @@ abstract class $MediaListEntityCopyWith<$Res> {
       @JsonKey(name: MediaListTableColumns.notes) String? notes,
       @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
-      @JsonKey(name: MediaListTableColumns.score) int? score,
+      @JsonKey(name: MediaListTableColumns.score) double? score,
       @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt,
       @JsonKey(name: MediaListTableColumns.repeat) int? repeat,
       @JsonKey(name: MediaListTableColumns.private) int? private});
@@ -143,7 +143,7 @@ class _$MediaListEntityCopyWithImpl<$Res, $Val extends MediaListEntity>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -179,7 +179,7 @@ abstract class _$$MediaListEntityImplCopyWith<$Res>
       @JsonKey(name: MediaListTableColumns.notes) String? notes,
       @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
-      @JsonKey(name: MediaListTableColumns.score) int? score,
+      @JsonKey(name: MediaListTableColumns.score) double? score,
       @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt,
       @JsonKey(name: MediaListTableColumns.repeat) int? repeat,
       @JsonKey(name: MediaListTableColumns.private) int? private});
@@ -250,7 +250,7 @@ class __$$MediaListEntityImplCopyWithImpl<$Res>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -318,7 +318,7 @@ class _$MediaListEntityImpl implements _MediaListEntity {
   final int? completedAt;
   @override
   @JsonKey(name: MediaListTableColumns.score)
-  final int? score;
+  final double? score;
   @override
   @JsonKey(name: MediaListTableColumns.updatedAt)
   final int? updatedAt;
@@ -405,7 +405,7 @@ abstract class _MediaListEntity implements MediaListEntity {
       @JsonKey(name: MediaListTableColumns.notes) final String? notes,
       @JsonKey(name: MediaListTableColumns.startedAt) final int? startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) final int? completedAt,
-      @JsonKey(name: MediaListTableColumns.score) final int? score,
+      @JsonKey(name: MediaListTableColumns.score) final double? score,
       @JsonKey(name: MediaListTableColumns.updatedAt) final int? updatedAt,
       @JsonKey(name: MediaListTableColumns.repeat) final int? repeat,
       @JsonKey(name: MediaListTableColumns.private)
@@ -443,7 +443,7 @@ abstract class _MediaListEntity implements MediaListEntity {
   int? get completedAt;
   @override
   @JsonKey(name: MediaListTableColumns.score)
-  int? get score;
+  double? get score;
   @override
   @JsonKey(name: MediaListTableColumns.updatedAt)
   int? get updatedAt;

@@ -19,6 +19,10 @@ _$UserDtoImpl _$$UserDtoImplFromJson(Map<String, dynamic> json) =>
       options: json['options'] == null
           ? null
           : UserOptions.fromJson(json['options'] as Map<String, dynamic>),
+      mediaListOptions: json['mediaListOptions'] == null
+          ? null
+          : MediaListOptionDto.fromJson(
+              json['mediaListOptions'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
@@ -29,4 +33,5 @@ Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
       'bannerImage': instance.bannerImage,
       'unreadNotificationCount': instance.unreadNotificationCount,
       'options': instance.options,
+      'mediaListOptions': instance.mediaListOptions,
     };

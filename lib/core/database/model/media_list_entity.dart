@@ -21,7 +21,7 @@ class MediaListEntity with _$MediaListEntity {
     @JsonKey(name: MediaListTableColumns.notes) String? notes,
     @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
     @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
-    @JsonKey(name: MediaListTableColumns.score) int? score,
+    @JsonKey(name: MediaListTableColumns.score) double? score,
     @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt,
     @JsonKey(name: MediaListTableColumns.repeat) int? repeat,
     @JsonKey(name: MediaListTableColumns.private) int? private,

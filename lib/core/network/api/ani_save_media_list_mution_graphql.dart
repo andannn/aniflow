@@ -21,7 +21,7 @@ class MediaListMutationParam {
   final int? progress;
   final int? progressVolumes;
   final MediaListStatus? status;
-  final int? score;
+  final double? score;
   final int? repeat;
   final bool private;
   final String? notes;

@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 
 class UserAnimeListPageQueryParam {
@@ -7,22 +8,24 @@ class UserAnimeListPageQueryParam {
   final int userId;
   final List<MediaListStatus> status;
   final MediaType? mediaType;
+  final ScoreFormat format;
 
-  UserAnimeListPageQueryParam(
-      {required this.page,
-      required this.userId,
-      this.perPage,
-      this.mediaType,
-      this.status = const []});
+  UserAnimeListPageQueryParam({
+    required this.page,
+    required this.userId,
+    this.perPage,
+    this.mediaType,
+    this.status = const [],
+    required this.format,
+  });
 }
 
 String get userAnimeListGraphQLString => '''
-query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus], \$type: MediaType){
+query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus], \$type: MediaType, \$format: ScoreFormat){
   Page(page: \$page, perPage: \$perPage) {
     mediaList(userId: \$userId, type: \$type, status_in: \$status_in) {
       id
       status
-      score
       progress
       priority
       notes
@@ -30,6 +33,7 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
       private
       userId
       updatedAt
+      score(format: \$format)
       progressVolumes
       startedAt {
         year

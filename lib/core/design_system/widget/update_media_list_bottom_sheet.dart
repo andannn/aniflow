@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -19,7 +20,7 @@ class MediaListModifyResult {
       required this.completedAt,
       this.private = false});
 
-  final int? score;
+  final double? score;
   final int? progress;
   final int? progressVolumes;
   final int? repeat;
@@ -66,7 +67,7 @@ class UpdateMediaListBottomSheet extends StatefulWidget {
 
 class _UpdateMediaListBottomSheetState
     extends State<UpdateMediaListBottomSheet> {
-  int? score;
+  double? score;
   int? progress;
   int? progressVolumes;
   int? repeat;
@@ -117,7 +118,7 @@ class _UpdateMediaListBottomSheetState
               style: Theme.of(context)
                   .textTheme
                   .labelMedium
-                  ?.copyWith(color: colorScheme.primary),
+                  ?.copyWith(color: colorScheme.tertiary),
             ),
             const SizedBox(width: 24),
             child,
@@ -135,8 +136,7 @@ class _UpdateMediaListBottomSheetState
         const SizedBox(height: 16),
         Row(
           children: [
-            Flexible(
-              flex: 2,
+            Expanded(
               child: buildLabelWithChild(
                 label: 'Status',
                 child: DropdownButton(
@@ -169,34 +169,53 @@ class _UpdateMediaListBottomSheetState
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
+            const Expanded(child: SizedBox())
+            // Flexible(
+            //   flex: 1,
+            //   child: buildLabelWithChild(
+            //     label: 'Private',
+            //     child: Switch(
+            //       value: private,
+            //       onChanged: (isOn) {
+            //         setState(() {
+            //           private = isOn;
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // ),
+            // Flexible(
+            //   flex: 1,
+            //   child: buildLabelWithChild(
+            //     label: 'Delete',
+            //     child: IconButton.outlined(
+            //       onPressed: () {},
+            //       icon: const Icon(Icons.delete, color: Colors.red),
+            //     ),
+            //   ),
+            // )
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
               child: buildLabelWithChild(
-                label: 'Private',
-                child: Switch(
-                  value: private,
-                  onChanged: (isOn) {
+                label: 'Score',
+                child: ScoringWidget(
+                  format: AniFlowPreferences().getAniListSettings().scoreFormat,
+                  score: score ?? 0,
+                  onScoreChanged: (value) {
                     setState(() {
-                      private = isOn;
+                      score = value;
                     });
                   },
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
-              child: buildLabelWithChild(
-                label: 'Delete',
-                child: IconButton.outlined(
-                  onPressed: () {},
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                ),
-              ),
-            )
+            const SizedBox(),
           ],
         ),
-        const SizedBox(height: 8),
-        buildLabelWithChild(label: 'Score', child: const TextField()),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -321,5 +340,91 @@ class _UpdateMediaListBottomSheetState
         const SizedBox(width: 8),
       ],
     );
+  }
+}
+
+class ScoringWidget extends StatelessWidget {
+  const ScoringWidget(
+      {super.key,
+      required this.format,
+      required this.score,
+      required this.onScoreChanged});
+
+  final ScoreFormat format;
+  final double score;
+  final Function(double) onScoreChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    String scoreString;
+    switch (format) {
+      case ScoreFormat.point5:
+        scoreString = '${score.toInt()}/5';
+      case ScoreFormat.point3:
+        scoreString = '${score.toInt()}/3';
+      case ScoreFormat.point10Decimal:
+        scoreString = '$score/10';
+      case ScoreFormat.point100:
+        scoreString = '${score.toInt()}/100';
+      case ScoreFormat.point10:
+        scoreString = '${score.toInt()}/10';
+    }
+
+    void showScoreModifyDialog() {
+
+    }
+
+    Widget buildScoreValueContent() {
+      switch (format) {
+        case ScoreFormat.point5:
+          return TextButton.icon(
+            onPressed: showScoreModifyDialog,
+            label: Text(scoreString),
+            icon: _buildStartScoreRow(),
+          );
+        case ScoreFormat.point3:
+          return TextButton.icon(
+            onPressed: showScoreModifyDialog,
+            label: Text(scoreString),
+            icon: _buildFaceScoreRow(),
+          );
+        case ScoreFormat.point10Decimal:
+        case ScoreFormat.point100:
+        case ScoreFormat.point10:
+          return TextButton.icon(
+            onPressed: showScoreModifyDialog,
+            label: Text(scoreString),
+            icon: const Icon(Icons.rate_review),
+          );
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: buildScoreValueContent(),
+    );
+  }
+
+  Widget _buildStartScoreRow() {
+    final fullStartCount = score.toInt();
+    return Row(
+      children: [
+        for (var i = 0; i < 5; i++)
+          if (i < fullStartCount)
+            const Icon(Icons.star)
+          else
+            const Icon(Icons.star_border_outlined)
+      ],
+    );
+  }
+
+  Widget _buildFaceScoreRow() {
+    final scoreInt = score.toInt();
+    return switch (scoreInt) {
+      1 => const Icon(Icons.mood_bad),
+      2 => const Icon(Icons.face),
+      3 => const Icon(Icons.mood),
+      _ => const SizedBox(),
+    };
   }
 }

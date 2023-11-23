@@ -29,4 +29,7 @@ String get userContentWithSettingsQueryGraphql => '''
             staffNameLanguage
             restrictMessagesToFollowing
           }
+          mediaListOptions {
+            scoreFormat
+          }
 ''';

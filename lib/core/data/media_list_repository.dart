@@ -9,6 +9,7 @@ import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
@@ -59,7 +60,7 @@ abstract class MediaListRepository {
     String? entryId,
     int? progress,
     int? progressVolumes,
-    int? score,
+    double? score,
     int? repeat,
     bool private = false,
     String? notes,
@@ -101,12 +102,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
       onGetNetworkRes: (int page, int perPage) {
         return aniListDataSource.getUserMediaListPage(
           param: UserAnimeListPageQueryParam(
-            page: page,
-            perPage: perPage,
-            userId: int.parse(targetUserId),
-            mediaType: type,
-            status: status,
-          ),
+              page: page,
+              perPage: perPage,
+              userId: int.parse(targetUserId),
+              mediaType: type,
+              status: status,
+              format: AniFlowPreferences().getAniListSettings().scoreFormat),
           token: token,
         );
       },
@@ -143,6 +144,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
           mediaType: mediaType,
           status: status,
           userId: int.parse(targetUserId.toString()),
+          format: AniFlowPreferences().getAniListSettings().scoreFormat,
         ),
         token: token,
       );
@@ -197,7 +199,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     String? entryId,
     int? progress,
     int? progressVolumes,
-    int? score,
+    double? score,
     int? repeat,
     bool private = false,
     String? notes,
@@ -221,7 +223,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
       final updatedEntity = entity.copyWith(
         status: status,
         progress: progress ?? entity.progress,
-        score: score ?? entity.progress,
+        score: score ?? entity.score,
+        repeat: repeat ?? entity.repeat,
+        notes: notes ?? entity.notes,
+        startedAt: startedAt?.millisecondsSinceEpoch ?? entity.startedAt,
+        completedAt: completedAt?.millisecondsSinceEpoch ?? entity.completedAt,
+        private: private.toInteger() ?? entity.private,
         updatedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       );
       await mediaListDao.insertMediaListEntities([updatedEntity]);

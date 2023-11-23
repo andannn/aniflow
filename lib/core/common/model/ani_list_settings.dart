@@ -1,5 +1,7 @@
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
+import 'package:aniflow/core/network/model/media_list_option_dto.dart';
 import 'package:aniflow/core/network/model/user_options.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,19 +18,25 @@ class AniListSettings with _$AniListSettings {
     @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
     @Default(UserTitleLanguage.native)
     UserTitleLanguage userTitleLanguage,
+    @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
     @Default(UserStaffNameLanguage.native)
     UserStaffNameLanguage userStaffNameLanguage,
+    @JsonKey(name: AniListSettingsKeys.scoreFormat)
+    @Default(ScoreFormat.point100)
+    ScoreFormat scoreFormat,
   }) = _AniListSettings;
 
   factory AniListSettings.fromJson(Map<String, dynamic> json) =>
       _$$AniListSettingsImplFromJson(json);
 
-  static AniListSettings fromDto(UserOptions dto) {
+  static AniListSettings fromDto(
+      UserOptions optionDto, MediaListOptionDto listOptionDto) {
     return AniListSettings(
-      displayAdultContent: dto.displayAdultContent,
-      userTitleLanguage: dto.titleLanguage ?? UserTitleLanguage.native,
+      displayAdultContent: optionDto.displayAdultContent,
+      userTitleLanguage: optionDto.titleLanguage ?? UserTitleLanguage.native,
       userStaffNameLanguage:
-          dto.staffNameLanguage ?? UserStaffNameLanguage.native,
+          optionDto.staffNameLanguage ?? UserStaffNameLanguage.native,
+      scoreFormat: listOptionDto.scoreFormat ?? ScoreFormat.point100,
     );
   }
 }
@@ -36,4 +44,6 @@ class AniListSettings with _$AniListSettings {
 mixin AniListSettingsKeys {
   static const displayAdultContentKey = 'display_adult_content_key';
   static const userTitleLanguageKey = 'user_title_language_key';
+  static const userStaffNameLanguage = 'user_staff_name_language_key';
+  static const scoreFormat = 'score_format_key';
 }

@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MediaListItemModel {
   String get id => throw _privateConstructorUsedError;
   MediaListStatus? get status => throw _privateConstructorUsedError;
-  int? get score => throw _privateConstructorUsedError;
+  double? get score => throw _privateConstructorUsedError;
   int? get updatedAt => throw _privateConstructorUsedError;
   int? get progress => throw _privateConstructorUsedError;
   int? get progressVolumes => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $MediaListItemModelCopyWith<$Res> {
   $Res call(
       {String id,
       MediaListStatus? status,
-      int? score,
+      double? score,
       int? updatedAt,
       int? progress,
       int? progressVolumes,
@@ -95,7 +95,7 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -159,7 +159,7 @@ abstract class _$$MediaListItemModelImplCopyWith<$Res>
   $Res call(
       {String id,
       MediaListStatus? status,
-      int? score,
+      double? score,
       int? updatedAt,
       int? progress,
       int? progressVolumes,
@@ -210,7 +210,7 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -274,7 +274,7 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
   @override
   final MediaListStatus? status;
   @override
-  final int? score;
+  final double? score;
   @override
   final int? updatedAt;
   @override
@@ -353,7 +353,7 @@ abstract class _MediaListItemModel implements MediaListItemModel {
   factory _MediaListItemModel(
       {final String id,
       final MediaListStatus? status,
-      final int? score,
+      final double? score,
       final int? updatedAt,
       final int? progress,
       final int? progressVolumes,
@@ -369,7 +369,7 @@ abstract class _MediaListItemModel implements MediaListItemModel {
   @override
   MediaListStatus? get status;
   @override
-  int? get score;
+  double? get score;
   @override
   int? get updatedAt;
   @override

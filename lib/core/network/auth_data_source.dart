@@ -66,6 +66,7 @@ class AuthDataSource {
     final hasTitleLanguage = param.titleLanguage != null;
     final hasDisplayAdultContent = param.displayAdultContent != null;
     final hasUserStaffNameLanguage = param.userStaffNameLanguage != null;
+    final hasScoreFormat = param.scoreFormat != null;
     final variablesMap = <String, dynamic>{};
     if (hasTitleLanguage) {
       variablesMap['titleLanguage'] = param.titleLanguage;
@@ -75,6 +76,9 @@ class AuthDataSource {
     }
     if (hasUserStaffNameLanguage) {
       variablesMap['userStaffNameLanguage'] = param.userStaffNameLanguage;
+    }
+    if (hasScoreFormat) {
+      variablesMap['scoreFormat'] = param.scoreFormat;
     }
 
     final response = await AniListDio().dio.post(

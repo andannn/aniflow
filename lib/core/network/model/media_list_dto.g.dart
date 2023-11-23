@@ -10,7 +10,7 @@ _$MediaListDtoImpl _$$MediaListDtoImplFromJson(Map<String, dynamic> json) =>
     _$MediaListDtoImpl(
       id: json['id'] as int? ?? -1,
       userId: json['userId'] as int? ?? -1,
-      score: json['score'] as int?,
+      score: (json['score'] as num?)?.toDouble(),
       status: $enumDecodeNullable(_$MediaListStatusEnumMap, json['status']),
       progress: json['progress'] as int?,
       progressVolumes: json['progressVolumes'] as int?,

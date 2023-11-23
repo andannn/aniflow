@@ -179,6 +179,7 @@ class AniListDataSource {
     final variablesMap = <String, dynamic>{
       'page': param.page,
       'userId': param.userId,
+      'format': param.format,
     };
     if (hasStatus) {
       variablesMap['status_in'] =

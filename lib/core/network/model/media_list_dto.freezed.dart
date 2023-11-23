@@ -25,7 +25,7 @@ mixin _$MediaListDto {
   @JsonKey(name: 'userId')
   int get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'score')
-  int? get score => throw _privateConstructorUsedError;
+  double? get score => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
   MediaListStatus? get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'progress')
@@ -62,7 +62,7 @@ abstract class $MediaListDtoCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'userId') int userId,
-      @JsonKey(name: 'score') int? score,
+      @JsonKey(name: 'score') double? score,
       @JsonKey(name: 'status') MediaListStatus? status,
       @JsonKey(name: 'progress') int? progress,
       @JsonKey(name: 'progressVolumes') int? progressVolumes,
@@ -118,7 +118,7 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -210,7 +210,7 @@ abstract class _$$MediaListDtoImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'userId') int userId,
-      @JsonKey(name: 'score') int? score,
+      @JsonKey(name: 'score') double? score,
       @JsonKey(name: 'status') MediaListStatus? status,
       @JsonKey(name: 'progress') int? progress,
       @JsonKey(name: 'progressVolumes') int? progressVolumes,
@@ -267,7 +267,7 @@ class __$$MediaListDtoImplCopyWithImpl<$Res>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -341,7 +341,7 @@ class _$MediaListDtoImpl implements _MediaListDto {
   final int userId;
   @override
   @JsonKey(name: 'score')
-  final int? score;
+  final double? score;
   @override
   @JsonKey(name: 'status')
   final MediaListStatus? status;
@@ -439,7 +439,7 @@ abstract class _MediaListDto implements MediaListDto {
   factory _MediaListDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'userId') final int userId,
-      @JsonKey(name: 'score') final int? score,
+      @JsonKey(name: 'score') final double? score,
       @JsonKey(name: 'status') final MediaListStatus? status,
       @JsonKey(name: 'progress') final int? progress,
       @JsonKey(name: 'progressVolumes') final int? progressVolumes,
@@ -462,7 +462,7 @@ abstract class _MediaListDto implements MediaListDto {
   int get userId;
   @override
   @JsonKey(name: 'score')
-  int? get score;
+  double? get score;
   @override
   @JsonKey(name: 'status')
   MediaListStatus? get status;

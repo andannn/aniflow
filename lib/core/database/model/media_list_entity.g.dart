@@ -19,7 +19,7 @@ _$MediaListEntityImpl _$$MediaListEntityImplFromJson(
       notes: json['media_list_notes'] as String?,
       startedAt: json['media_list_started_at'] as int?,
       completedAt: json['media_list_completed_at'] as int?,
-      score: json['media_list_score'] as int?,
+      score: (json['media_list_score'] as num?)?.toDouble(),
       updatedAt: json['media_list_updatedAt'] as int?,
       repeat: json['media_list_repeat'] as int?,
       private: json['media_list_private'] as int?,

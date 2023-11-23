@@ -24,8 +24,11 @@ mixin _$AniListSettings {
   bool get displayAdultContent => throw _privateConstructorUsedError;
   @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
   UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
+  @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
   UserStaffNameLanguage get userStaffNameLanguage =>
       throw _privateConstructorUsedError;
+  @JsonKey(name: AniListSettingsKeys.scoreFormat)
+  ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +47,9 @@ abstract class $AniListSettingsCopyWith<$Res> {
       bool displayAdultContent,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
       UserTitleLanguage userTitleLanguage,
-      UserStaffNameLanguage userStaffNameLanguage});
+      @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
+      UserStaffNameLanguage userStaffNameLanguage,
+      @JsonKey(name: AniListSettingsKeys.scoreFormat) ScoreFormat scoreFormat});
 }
 
 /// @nodoc
@@ -63,6 +68,7 @@ class _$AniListSettingsCopyWithImpl<$Res, $Val extends AniListSettings>
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
+    Object? scoreFormat = null,
   }) {
     return _then(_value.copyWith(
       displayAdultContent: null == displayAdultContent
@@ -77,6 +83,10 @@ class _$AniListSettingsCopyWithImpl<$Res, $Val extends AniListSettings>
           ? _value.userStaffNameLanguage
           : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
               as UserStaffNameLanguage,
+      scoreFormat: null == scoreFormat
+          ? _value.scoreFormat
+          : scoreFormat // ignore: cast_nullable_to_non_nullable
+              as ScoreFormat,
     ) as $Val);
   }
 }
@@ -94,7 +104,9 @@ abstract class _$$AniListSettingsImplCopyWith<$Res>
       bool displayAdultContent,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
       UserTitleLanguage userTitleLanguage,
-      UserStaffNameLanguage userStaffNameLanguage});
+      @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
+      UserStaffNameLanguage userStaffNameLanguage,
+      @JsonKey(name: AniListSettingsKeys.scoreFormat) ScoreFormat scoreFormat});
 }
 
 /// @nodoc
@@ -111,6 +123,7 @@ class __$$AniListSettingsImplCopyWithImpl<$Res>
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
+    Object? scoreFormat = null,
   }) {
     return _then(_$AniListSettingsImpl(
       displayAdultContent: null == displayAdultContent
@@ -125,6 +138,10 @@ class __$$AniListSettingsImplCopyWithImpl<$Res>
           ? _value.userStaffNameLanguage
           : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
               as UserStaffNameLanguage,
+      scoreFormat: null == scoreFormat
+          ? _value.scoreFormat
+          : scoreFormat // ignore: cast_nullable_to_non_nullable
+              as ScoreFormat,
     ));
   }
 }
@@ -137,7 +154,10 @@ class _$AniListSettingsImpl implements _AniListSettings {
       this.displayAdultContent = false,
       @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
       this.userTitleLanguage = UserTitleLanguage.native,
-      this.userStaffNameLanguage = UserStaffNameLanguage.native});
+      @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
+      this.userStaffNameLanguage = UserStaffNameLanguage.native,
+      @JsonKey(name: AniListSettingsKeys.scoreFormat)
+      this.scoreFormat = ScoreFormat.point100});
 
   factory _$AniListSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$AniListSettingsImplFromJson(json);
@@ -149,12 +169,15 @@ class _$AniListSettingsImpl implements _AniListSettings {
   @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
   final UserTitleLanguage userTitleLanguage;
   @override
-  @JsonKey()
+  @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
   final UserStaffNameLanguage userStaffNameLanguage;
+  @override
+  @JsonKey(name: AniListSettingsKeys.scoreFormat)
+  final ScoreFormat scoreFormat;
 
   @override
   String toString() {
-    return 'AniListSettings(displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage)';
+    return 'AniListSettings(displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat)';
   }
 
   @override
@@ -167,13 +190,15 @@ class _$AniListSettingsImpl implements _AniListSettings {
             (identical(other.userTitleLanguage, userTitleLanguage) ||
                 other.userTitleLanguage == userTitleLanguage) &&
             (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
-                other.userStaffNameLanguage == userStaffNameLanguage));
+                other.userStaffNameLanguage == userStaffNameLanguage) &&
+            (identical(other.scoreFormat, scoreFormat) ||
+                other.scoreFormat == scoreFormat));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, displayAdultContent,
-      userTitleLanguage, userStaffNameLanguage);
+      userTitleLanguage, userStaffNameLanguage, scoreFormat);
 
   @JsonKey(ignore: true)
   @override
@@ -192,12 +217,14 @@ class _$AniListSettingsImpl implements _AniListSettings {
 
 abstract class _AniListSettings implements AniListSettings {
   factory _AniListSettings(
-          {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
-          final bool displayAdultContent,
-          @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
-          final UserTitleLanguage userTitleLanguage,
-          final UserStaffNameLanguage userStaffNameLanguage}) =
-      _$AniListSettingsImpl;
+      {@JsonKey(name: AniListSettingsKeys.displayAdultContentKey)
+      final bool displayAdultContent,
+      @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
+      final UserTitleLanguage userTitleLanguage,
+      @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
+      final UserStaffNameLanguage userStaffNameLanguage,
+      @JsonKey(name: AniListSettingsKeys.scoreFormat)
+      final ScoreFormat scoreFormat}) = _$AniListSettingsImpl;
 
   factory _AniListSettings.fromJson(Map<String, dynamic> json) =
       _$AniListSettingsImpl.fromJson;
@@ -209,7 +236,11 @@ abstract class _AniListSettings implements AniListSettings {
   @JsonKey(name: AniListSettingsKeys.userTitleLanguageKey)
   UserTitleLanguage get userTitleLanguage;
   @override
+  @JsonKey(name: AniListSettingsKeys.userStaffNameLanguage)
   UserStaffNameLanguage get userStaffNameLanguage;
+  @override
+  @JsonKey(name: AniListSettingsKeys.scoreFormat)
+  ScoreFormat get scoreFormat;
   @override
   @JsonKey(ignore: true)
   _$$AniListSettingsImplCopyWith<_$AniListSettingsImpl> get copyWith =>

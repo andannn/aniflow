@@ -1,3 +1,4 @@
+import 'package:aniflow/core/network/model/media_list_option_dto.dart';
 import 'package:aniflow/core/network/model/user_options.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,6 +17,7 @@ class UserDto with _$UserDto {
     @JsonKey(name: 'unreadNotificationCount')
     int unreadNotificationCount,
     @JsonKey(name: 'options') UserOptions? options,
+    @JsonKey(name: 'mediaListOptions') MediaListOptionDto? mediaListOptions,
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
