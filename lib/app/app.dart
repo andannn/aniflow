@@ -126,7 +126,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
   var currentNavigation = TopLevelNavigation.discover;
   var needHideNavigationBar = false;
-  var showFloatingButton = true;
   final userDataRepository = SettingsRepositoryImpl();
   final authRepository = AuthRepositoryImpl();
   late StreamSubscription _mediaTypeSub;
@@ -160,7 +159,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         currentNavigation =
             animeTrackerRouterDelegate.currentTopLevelNavigation;
         needHideNavigationBar = animeTrackerRouterDelegate.isTopRouteFullScreen;
-        showFloatingButton = animeTrackerRouterDelegate.showFloatingButton;
       });
     });
     _mediaTypeSub = userDataRepository.getMediaTypeStream().distinct().listen(
@@ -219,8 +217,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
           routerDelegate: animeTrackerRouterDelegate,
           backButtonDispatcher: RootBackButtonDispatcher(),
         ),
-        floatingActionButton:
-            showFloatingButton ? _buildTopFloatingActionButton() : null,
         bottomNavigationBar: VerticalScaleSwitcher(
           visible: !needHideNavigationBar,
           child: _animeTrackerNavigationBar(
@@ -287,21 +283,5 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         selectedIcon: Icon(item.selectedIcon),
       );
     }
-  }
-
-  Widget _buildTopFloatingActionButton() {
-    return FloatingActionButton.extended(
-      onPressed: () {
-        final repository = context.read<SettingsRepository>();
-        if (_mediaType == MediaType.manga) {
-          repository.setMediaType(MediaType.anime);
-        } else {
-          repository.setMediaType(MediaType.manga);
-        }
-      },
-      isExtended: true,
-      icon: isAnime ? const Icon(Icons.palette_rounded) : const Icon(Icons.map),
-      label: Text(isAnime ? 'Anime' : 'Manga'),
-    );
   }
 }

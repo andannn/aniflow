@@ -24,9 +24,6 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   bool get isTopRouteFullScreen => _backStack.last.isFullScreen;
 
-  bool get showFloatingButton =>
-      _backStack.last is DiscoverRoutePath || _backStack.last is TrackRoutePath;
-
   static BuildContext? _routerContext;
 
   static AFRouterDelegate of([BuildContext? context]) =>
