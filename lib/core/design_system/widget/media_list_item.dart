@@ -10,14 +10,16 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MediaListItem extends StatelessWidget {
   const MediaListItem(
-      {required this.model,
+      {super.key,
+      required this.model,
       required this.onMarkWatchedClick,
       required this.onClick,
       required this.language,
-      super.key});
+      required this.onLongPress});
 
   final MediaListItemModel model;
   final VoidCallback onClick;
+  final VoidCallback onLongPress;
   final VoidCallback onMarkWatchedClick;
   final UserTitleLanguage language;
 
@@ -43,6 +45,7 @@ class MediaListItem extends StatelessWidget {
                 ? colorScheme.primary
                 : colorScheme.secondary,
             onClick: onClick,
+            onLongPress: onLongPress,
           ),
         ),
       ),

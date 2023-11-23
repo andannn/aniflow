@@ -15,11 +15,13 @@ class MediaRowItem extends StatelessWidget {
       this.watchInfoTextColor,
       this.watchingInfo,
       super.key,
-      this.titleMaxLines = 2});
+      this.titleMaxLines = 2,
+      this.onLongPress});
 
   final MediaModel model;
   final String? watchingInfo;
   final VoidCallback? onClick;
+  final VoidCallback? onLongPress;
   final Color? watchInfoTextColor;
   final int? titleMaxLines;
   final UserTitleLanguage language;
@@ -31,6 +33,7 @@ class MediaRowItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: onClick,
+      onLongPress: onLongPress,
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,

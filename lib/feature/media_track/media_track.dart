@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
+import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
@@ -123,6 +124,20 @@ class _AnimeTrackPageContent extends StatelessWidget {
               progress: item.progress! + 1,
               totalEpisode: item.animeModel!.episodes));
           // mark watch
+        },
+        onLongPress: () async {
+          final bloc = context.read<TrackBloc>();
+          final result = await showUpdateMediaListBottomSheet(
+            context,
+            listItemModel: item,
+            media: item.animeModel!,
+          );
+
+          if (result != null) {
+            bloc.add(
+              OnMediaListModified(result: result, mediaId: item.animeModel!.id),
+            );
+          }
         },
         onClick: () {
           AFRouterDelegate.of(context).navigateToDetailMedia(

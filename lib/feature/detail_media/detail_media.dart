@@ -28,7 +28,7 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
-import 'package:aniflow/feature/detail_media/update_media_list_bottom_sheet.dart';
+import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -7,9 +7,9 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
-import 'package:aniflow/feature/detail_media/update_media_list_bottom_sheet.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 

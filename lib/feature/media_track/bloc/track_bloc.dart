@@ -11,6 +11,7 @@ import 'package:aniflow/core/data/model/extension/media_list_item_model_extensio
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
+import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
@@ -68,6 +69,13 @@ class _OnShowFollowOnlyStateChanged extends TrackEvent {
   final bool isShowFollowOnly;
 }
 
+class OnMediaListModified extends TrackEvent {
+  OnMediaListModified({required this.mediaId, required this.result});
+
+  final String mediaId;
+  final MediaListModifyResult result;
+}
+
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
       {required MediaListRepository mediaListRepository,
@@ -88,6 +96,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<OnToggleShowFollowOnly>((_, __) =>
         _mediaListRepository.setIsReleasedOnly(!state.showReleasedOnly));
     on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
+    on<OnMediaListModified>(_onMediaListModified);
 
     _init();
   }
@@ -274,5 +283,28 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     ).listen((animeList) {
       add(_OnWatchingAnimeListChanged(animeList: animeList));
     });
+  }
+
+  FutureOr<void> _onMediaListModified(
+      OnMediaListModified event, Emitter<TrackUiState> emit) async {
+    final state = event.result;
+    // add(_OnLoadingStateChanged(isLoading: true));
+    final result = await _mediaListRepository.updateMediaList(
+      animeId: event.mediaId,
+      status: state.status,
+      progress: state.progress,
+      progressVolumes: state.progressVolumes,
+      score: state.score,
+      private: state.private,
+      repeat: state.repeat,
+      notes: state.notes,
+      startedAt: state.startedAt,
+      completedAt: state.completedAt,
+    );
+    // add(_OnLoadingStateChanged(isLoading: false));
+
+    if (result is LoadError) {
+      ErrorHandler.handleException(exception: result.exception);
+    }
   }
 }
