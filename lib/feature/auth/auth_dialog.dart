@@ -12,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 enum _OptionColumn {
   settings,
   notification,
-  about;
 }
 
 Future showAuthDialog(BuildContext context) => showDialog(
@@ -114,9 +113,6 @@ class _AuthDialogContent extends StatelessWidget {
       case _OptionColumn.settings:
         iconData = Icons.settings_outlined;
         label = 'Settings';
-      case _OptionColumn.about:
-        iconData = Icons.info_outline;
-        label = 'About';
       case _OptionColumn.notification:
         iconData = Icons.notifications_none;
         label = 'Notification';
@@ -155,7 +151,6 @@ class _AuthDialogContent extends StatelessWidget {
       case _OptionColumn.notification:
         Navigator.pop(context);
         AFRouterDelegate.of().navigateToNotification();
-      case _OptionColumn.about:
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:aniflow/app/app.dart';
+import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
@@ -87,23 +88,28 @@ class _MediaSettingsPageContent extends StatelessWidget {
             itemCount: settingItems.length,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _createSettingItem(
-                  context,
-                  settingItems[index],
-                  onSettingChanged: (setting) async {
-                    context
-                        .read<SettingsBloc>()
-                        .add(OnListOptionChanged(setting));
+              return _createSettingItem(
+                context,
+                settingItems[index],
+                onSettingChanged: (setting) async {
+                  context
+                      .read<SettingsBloc>()
+                      .add(OnListOptionChanged(setting));
 
-                    final isAccepted = await showRestartAppDialog(context);
-                    if (isAccepted == true) {
-                      // ignore: use_build_context_synchronously
-                      AniFlowApp.restartApp(context);
-                    }
-                  },
-                ),
+                  final isAccepted = await showRestartAppDialog(context);
+                  if (isAccepted == true) {
+                    // ignore: use_build_context_synchronously
+                    AniFlowApp.restartApp(context);
+                  }
+                },
+                onSettingTap: (type) {
+                  if (type == About) {
+                    showAboutDialog(
+                      context: context,
+                      applicationName: 'AniFlow'
+                    );
+                  }
+                },
               );
             },
           )
@@ -113,14 +119,17 @@ class _MediaSettingsPageContent extends StatelessWidget {
   }
 
   Widget _createSettingItem<T extends Setting>(
-      BuildContext context, SettingItem<T> settingItem,
-      {required Function(Setting) onSettingChanged}) {
+    BuildContext context,
+    SettingItem<T> settingItem, {
+    required Function(Setting) onSettingChanged,
+    required Function(Type) onSettingTap,
+  }) {
     final textTheme = Theme.of(context).textTheme;
     switch (settingItem) {
       case SwitchSettingItem():
         final item = settingItem as SwitchSettingItem<BooleanSetting>;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
           child: Row(
             children: [
               Text(
@@ -129,10 +138,11 @@ class _MediaSettingsPageContent extends StatelessWidget {
               ),
               const Expanded(child: SizedBox()),
               Switch(
-                  value: item.current.isOn,
-                  onChanged: (isOn) {
-                    onSettingChanged(item.current.toggle());
-                  }),
+                value: item.current.isOn,
+                onChanged: (isOn) {
+                  onSettingChanged(item.current.toggle());
+                },
+              ),
             ],
           ),
         );
@@ -150,7 +160,7 @@ class _MediaSettingsPageContent extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -162,6 +172,23 @@ class _MediaSettingsPageContent extends StatelessWidget {
                 Text(
                   item.selectedOption.description,
                   style: textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        );
+      case SingleLineWithTapActionSettingItem():
+        return InkWell(
+          onTap: () {
+            onSettingTap.call(settingItem.type);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+            child: Row(
+              children: [
+                Text(
+                  settingItem.title,
+                  style: textTheme.headlineSmall,
                 ),
               ],
             ),

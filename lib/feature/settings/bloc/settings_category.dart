@@ -23,6 +23,14 @@ sealed class SettingItem<T extends Setting> {
   });
 }
 
+class SingleLineWithTapActionSettingItem<T extends Setting>
+    extends SettingItem<T> {
+  SingleLineWithTapActionSettingItem({
+    required super.title,
+    super.subTitle,
+  });
+}
+
 class SwitchSettingItem<T extends BooleanSetting> extends SettingItem {
   final T current;
 

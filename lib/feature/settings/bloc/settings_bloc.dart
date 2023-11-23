@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
@@ -147,6 +148,12 @@ extension SettingsStateEx on SettingsState {
       SettingCategory(
         title: 'Lists',
         settingItems: [],
+      ),
+      SettingCategory(
+        title: 'About',
+        settingItems: [
+          SingleLineWithTapActionSettingItem<About>(title: 'More Info')
+        ],
       ),
     ];
   }
