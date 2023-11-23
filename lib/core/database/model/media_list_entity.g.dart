@@ -21,6 +21,8 @@ _$MediaListEntityImpl _$$MediaListEntityImplFromJson(
       completedAt: json['media_list_completed_at'] as int?,
       score: json['media_list_score'] as int?,
       updatedAt: json['media_list_updatedAt'] as int?,
+      repeat: json['media_list_repeat'] as int?,
+      private: json['media_list_private'] as int?,
     );
 
 Map<String, dynamic> _$$MediaListEntityImplToJson(
@@ -37,6 +39,8 @@ Map<String, dynamic> _$$MediaListEntityImplToJson(
       'media_list_completed_at': instance.completedAt,
       'media_list_score': instance.score,
       'media_list_updatedAt': instance.updatedAt,
+      'media_list_repeat': instance.repeat,
+      'media_list_private': instance.private,
     };
 
 const _$MediaListStatusEnumMap = {

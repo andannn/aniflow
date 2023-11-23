@@ -26,6 +26,8 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
       progress
       priority
       notes
+      repeat
+      private
       userId
       updatedAt
       progressVolumes

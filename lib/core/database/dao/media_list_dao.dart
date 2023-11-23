@@ -27,6 +27,8 @@ mixin MediaListTableColumns {
   static const String completedAt = 'media_list_completed_at';
   static const String score = 'media_list_score';
   static const String updatedAt = 'media_list_updatedAt';
+  static const String repeat = 'media_list_repeat';
+  static const String private = 'media_list_private';
 }
 
 abstract class MediaListDao {

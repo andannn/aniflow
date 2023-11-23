@@ -7,6 +7,29 @@ import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter/material.dart';
 
+class MediaListModifyResult {
+  MediaListModifyResult(
+      {required this.score,
+      required this.progress,
+      required this.progressVolumes,
+      required this.repeat,
+      required this.status,
+      required this.notes,
+      required this.startedAt,
+      required this.completedAt,
+      this.private = false});
+
+  final int? score;
+  final int? progress;
+  final int? progressVolumes;
+  final int? repeat;
+  final MediaListStatus? status;
+  final String? notes;
+  final DateTime? startedAt;
+  final DateTime? completedAt;
+  final bool private;
+}
+
 class StatusModel {
   StatusModel({required this.status, required this.label, required this.icon});
 
@@ -15,12 +38,13 @@ class StatusModel {
   final IconData icon;
 }
 
-Future showUpdateMediaListBottomSheet(BuildContext context,
-        {required MediaModel media, MediaListItemModel? listItemModel}) =>
-    showModalBottomSheet(
+Future<MediaListModifyResult?> showUpdateMediaListBottomSheet(
+        BuildContext context,
+        {required MediaModel media,
+        MediaListItemModel? listItemModel}) =>
+    showModalBottomSheet<MediaListModifyResult>(
         context: context,
         isScrollControlled: true,
-        enableDrag: false,
         builder: (BuildContext context) {
           return UpdateMediaListBottomSheet(
             mediaListItem: listItemModel,
@@ -45,10 +69,12 @@ class _UpdateMediaListBottomSheetState
   int? score;
   int? progress;
   int? progressVolumes;
+  int? repeat;
   MediaListStatus? status;
   String? notes;
   DateTime? startedAt;
   DateTime? completedAt;
+  bool private = false;
 
   final List<StatusModel> statusModels = [
     ...MediaListStatus.values.map(
@@ -66,11 +92,13 @@ class _UpdateMediaListBottomSheetState
 
     score = widget.mediaListItem?.score;
     progress = widget.mediaListItem?.progress;
+    repeat = widget.mediaListItem?.repeat;
     status = widget.mediaListItem?.status;
     notes = widget.mediaListItem?.notes;
     progressVolumes = widget.mediaListItem?.progressVolumes;
     startedAt = widget.mediaListItem?.startedAt;
     completedAt = widget.mediaListItem?.completedAt;
+    private = widget.mediaListItem?.private ?? false;
   }
 
   @override
@@ -105,36 +133,67 @@ class _UpdateMediaListBottomSheetState
         _buildTopBarSection(context),
         const Divider(),
         const SizedBox(height: 16),
-        buildLabelWithChild(
-          label: 'Status',
-          child: DropdownButton(
-            value: status,
-            isExpanded: true,
-            hint: const Text('Status'),
-            iconSize: 0,
-            items: statusModels
-                .map(
-                  (e) => DropdownMenuItem(
-                    value: e.status,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(e.icon),
-                          const SizedBox(width: 8),
-                          Text(e.label),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-            onChanged: (status) {
-              setState(() {
-                this.status = status;
-              });
-            },
-          ),
+        Row(
+          children: [
+            Flexible(
+              flex: 2,
+              child: buildLabelWithChild(
+                label: 'Status',
+                child: DropdownButton(
+                  value: status,
+                  isExpanded: true,
+                  hint: const Text('Status'),
+                  iconSize: 0,
+                  items: statusModels
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e.status,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(e.icon),
+                                const SizedBox(width: 8),
+                                Text(e.label),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (status) {
+                    setState(() {
+                      this.status = status;
+                    });
+                  },
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: buildLabelWithChild(
+                label: 'Private',
+                child: Switch(
+                  value: private,
+                  onChanged: (isOn) {
+                    setState(() {
+                      private = isOn;
+                    });
+                  },
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: buildLabelWithChild(
+                label: 'Delete',
+                child: IconButton.outlined(
+                  onPressed: () {},
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                ),
+              ),
+            )
+          ],
         ),
         const SizedBox(height: 8),
         buildLabelWithChild(label: 'Score', child: const TextField()),
@@ -144,15 +203,33 @@ class _UpdateMediaListBottomSheetState
             Expanded(
               child: buildLabelWithChild(
                 label: 'Progress',
-                child: MaxLimitTextFiled(
-                  initialValue: progress ?? 0,
-                  maxValue: widget.mediaModel.episodes,
+                child: Builder(
+                  builder: (context) {
+                    final maxValue = widget.mediaModel.episodes;
+                    final suffix =
+                        maxValue != null ? '/${maxValue.toString()}' : '/?';
+                    return MaxLimitTextFiled(
+                      initialValue: progress ?? 0,
+                      maxValue: maxValue,
+                      suffixText: suffix,
+                      onValueApplied: (value) {
+                        progress = value;
+                      },
+                    );
+                  },
                 ),
               ),
             ),
             Expanded(
               child: buildLabelWithChild(
-                  label: 'Total Rewatches', child: const TextField()),
+                label: 'Total Rewatches',
+                child: MaxLimitTextFiled(
+                  initialValue: repeat ?? 0,
+                  onValueApplied: (value) {
+                    repeat = value;
+                  },
+                ),
+              ),
             ),
           ],
         ),
@@ -226,7 +303,18 @@ class _UpdateMediaListBottomSheetState
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(null);
+            final result = MediaListModifyResult(
+              score: score,
+              progress: progress,
+              progressVolumes: progressVolumes,
+              repeat: repeat,
+              status: status,
+              notes: notes,
+              startedAt: startedAt,
+              completedAt: completedAt,
+              private: private,
+            );
+            Navigator.of(context).pop(result);
           },
           child: const Text('Apply'),
         ),

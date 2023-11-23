@@ -2,6 +2,7 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,6 +21,8 @@ class MediaListItemModel with _$MediaListItemModel {
     DateTime? startedAt,
     DateTime? completedAt,
     String? notes,
+    int? repeat,
+    @Default(false) bool private,
     MediaModel? animeModel,
   }) = _MediaListItemModel;
 
@@ -44,6 +47,8 @@ class MediaListItemModel with _$MediaListItemModel {
       completedAt: entity.completedAt != null
           ? DateTime.fromMillisecondsSinceEpoch(entity.completedAt!)
           : null,
+      repeat: entity.repeat,
+      private: entity.private.toBoolean(),
     );
   }
 

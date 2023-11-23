@@ -94,6 +94,7 @@ class AuthDataSource {
   }) async {
     final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,
+      'private': param.private,
     };
     if (param.entryId != null) {
       variablesMap['id'] = param.entryId;
@@ -104,8 +105,23 @@ class AuthDataSource {
     if (param.status != null) {
       variablesMap['status'] = param.status!.sqlTypeString;
     }
-    if (param.status != null) {
+    if (param.score != null) {
       variablesMap['score'] = param.score;
+    }
+    if (param.progressVolumes != null) {
+      variablesMap['progressVolumes'] = param.progressVolumes;
+    }
+    if (param.repeat != null) {
+      variablesMap['repeat'] = param.repeat;
+    }
+    if (param.notes != null) {
+      variablesMap['notes'] = param.notes;
+    }
+    if (param.startedAt != null) {
+      variablesMap['startedAt'] = param.startedAt!.toJson();
+    }
+    if (param.completedAt != null) {
+      variablesMap['completedAt'] = param.completedAt!.toJson();
     }
 
     final response = await AniListDio().dio.post(

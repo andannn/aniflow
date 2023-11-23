@@ -88,12 +88,17 @@ class _DetailAnimePageContent extends StatelessWidget {
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite ?? false;
 
-        void floatingButtonClickAction() {
-          showUpdateMediaListBottomSheet(
+        void floatingButtonClickAction() async {
+          final bloc = context.read<DetailMediaBloc>();
+          final result = await showUpdateMediaListBottomSheet(
             context,
             listItemModel: state.mediaListItem,
             media: state.detailAnimeModel!,
           );
+
+          if (result != null) {
+            bloc.add(OnMediaListModified(result: result));
+          }
         }
 
         return Scaffold(

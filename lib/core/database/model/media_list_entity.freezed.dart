@@ -42,6 +42,10 @@ mixin _$MediaListEntity {
   int? get score => throw _privateConstructorUsedError;
   @JsonKey(name: MediaListTableColumns.updatedAt)
   int? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaListTableColumns.repeat)
+  int? get repeat => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaListTableColumns.private)
+  int? get private => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -67,7 +71,9 @@ abstract class $MediaListEntityCopyWith<$Res> {
       @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
       @JsonKey(name: MediaListTableColumns.score) int? score,
-      @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt});
+      @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt,
+      @JsonKey(name: MediaListTableColumns.repeat) int? repeat,
+      @JsonKey(name: MediaListTableColumns.private) int? private});
 }
 
 /// @nodoc
@@ -94,6 +100,8 @@ class _$MediaListEntityCopyWithImpl<$Res, $Val extends MediaListEntity>
     Object? completedAt = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
+    Object? repeat = freezed,
+    Object? private = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -140,6 +148,14 @@ class _$MediaListEntityCopyWithImpl<$Res, $Val extends MediaListEntity>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as int?,
+      private: freezed == private
+          ? _value.private
+          : private // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -164,7 +180,9 @@ abstract class _$$MediaListEntityImplCopyWith<$Res>
       @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
       @JsonKey(name: MediaListTableColumns.score) int? score,
-      @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt});
+      @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt,
+      @JsonKey(name: MediaListTableColumns.repeat) int? repeat,
+      @JsonKey(name: MediaListTableColumns.private) int? private});
 }
 
 /// @nodoc
@@ -189,6 +207,8 @@ class __$$MediaListEntityImplCopyWithImpl<$Res>
     Object? completedAt = freezed,
     Object? score = freezed,
     Object? updatedAt = freezed,
+    Object? repeat = freezed,
+    Object? private = freezed,
   }) {
     return _then(_$MediaListEntityImpl(
       id: null == id
@@ -235,6 +255,14 @@ class __$$MediaListEntityImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as int?,
+      private: freezed == private
+          ? _value.private
+          : private // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -254,7 +282,9 @@ class _$MediaListEntityImpl implements _MediaListEntity {
       @JsonKey(name: MediaListTableColumns.startedAt) this.startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) this.completedAt,
       @JsonKey(name: MediaListTableColumns.score) this.score,
-      @JsonKey(name: MediaListTableColumns.updatedAt) this.updatedAt});
+      @JsonKey(name: MediaListTableColumns.updatedAt) this.updatedAt,
+      @JsonKey(name: MediaListTableColumns.repeat) this.repeat,
+      @JsonKey(name: MediaListTableColumns.private) this.private});
 
   factory _$MediaListEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$MediaListEntityImplFromJson(json);
@@ -292,10 +322,16 @@ class _$MediaListEntityImpl implements _MediaListEntity {
   @override
   @JsonKey(name: MediaListTableColumns.updatedAt)
   final int? updatedAt;
+  @override
+  @JsonKey(name: MediaListTableColumns.repeat)
+  final int? repeat;
+  @override
+  @JsonKey(name: MediaListTableColumns.private)
+  final int? private;
 
   @override
   String toString() {
-    return 'MediaListEntity(id: $id, userId: $userId, animeId: $animeId, status: $status, progress: $progress, progressVolumes: $progressVolumes, notes: $notes, startedAt: $startedAt, completedAt: $completedAt, score: $score, updatedAt: $updatedAt)';
+    return 'MediaListEntity(id: $id, userId: $userId, animeId: $animeId, status: $status, progress: $progress, progressVolumes: $progressVolumes, notes: $notes, startedAt: $startedAt, completedAt: $completedAt, score: $score, updatedAt: $updatedAt, repeat: $repeat, private: $private)';
   }
 
   @override
@@ -318,7 +354,9 @@ class _$MediaListEntityImpl implements _MediaListEntity {
                 other.completedAt == completedAt) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.repeat, repeat) || other.repeat == repeat) &&
+            (identical(other.private, private) || other.private == private));
   }
 
   @JsonKey(ignore: true)
@@ -335,7 +373,9 @@ class _$MediaListEntityImpl implements _MediaListEntity {
       startedAt,
       completedAt,
       score,
-      updatedAt);
+      updatedAt,
+      repeat,
+      private);
 
   @JsonKey(ignore: true)
   @override
@@ -366,8 +406,10 @@ abstract class _MediaListEntity implements MediaListEntity {
       @JsonKey(name: MediaListTableColumns.startedAt) final int? startedAt,
       @JsonKey(name: MediaListTableColumns.completedAt) final int? completedAt,
       @JsonKey(name: MediaListTableColumns.score) final int? score,
-      @JsonKey(name: MediaListTableColumns.updatedAt)
-      final int? updatedAt}) = _$MediaListEntityImpl;
+      @JsonKey(name: MediaListTableColumns.updatedAt) final int? updatedAt,
+      @JsonKey(name: MediaListTableColumns.repeat) final int? repeat,
+      @JsonKey(name: MediaListTableColumns.private)
+      final int? private}) = _$MediaListEntityImpl;
 
   factory _MediaListEntity.fromJson(Map<String, dynamic> json) =
       _$MediaListEntityImpl.fromJson;
@@ -405,6 +447,12 @@ abstract class _MediaListEntity implements MediaListEntity {
   @override
   @JsonKey(name: MediaListTableColumns.updatedAt)
   int? get updatedAt;
+  @override
+  @JsonKey(name: MediaListTableColumns.repeat)
+  int? get repeat;
+  @override
+  @JsonKey(name: MediaListTableColumns.private)
+  int? get private;
   @override
   @JsonKey(ignore: true)
   _$$MediaListEntityImplCopyWith<_$MediaListEntityImpl> get copyWith =>

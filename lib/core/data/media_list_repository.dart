@@ -13,6 +13,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
@@ -54,10 +55,16 @@ abstract class MediaListRepository {
 
   Future<LoadResult<void>> updateMediaList({
     required String animeId,
-    required MediaListStatus status,
+    MediaListStatus? status,
     String? entryId,
     int? progress,
+    int? progressVolumes,
     int? score,
+    int? repeat,
+    bool private = false,
+    String? notes,
+    DateTime? startedAt,
+    DateTime? completedAt,
     CancelToken? cancelToken,
   });
 
@@ -186,10 +193,16 @@ class MediaListRepositoryImpl extends MediaListRepository {
   @override
   Future<LoadResult<void>> updateMediaList({
     required String animeId,
-    required MediaListStatus status,
+    MediaListStatus? status,
     String? entryId,
     int? progress,
+    int? progressVolumes,
     int? score,
+    int? repeat,
+    bool private = false,
+    String? notes,
+    DateTime? startedAt,
+    DateTime? completedAt,
     CancelToken? cancelToken,
   }) async {
     final entity =
@@ -222,8 +235,14 @@ class MediaListRepositoryImpl extends MediaListRepository {
           entryId: int.tryParse(entryId ?? ''),
           mediaId: int.parse(animeId),
           progress: progress,
+          progressVolumes: progressVolumes,
           status: status,
-          score: 0,
+          repeat: repeat,
+          private: private,
+          notes: notes,
+          startedAt: startedAt.toFuzzyDateInput(),
+          completedAt: completedAt.toFuzzyDateInput(),
+          score: score,
         ),
         token: cancelToken,
       );

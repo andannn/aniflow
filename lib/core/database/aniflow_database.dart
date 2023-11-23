@@ -211,6 +211,8 @@ class AniflowDatabase {
         '${MediaListTableColumns.completedAt} integer,'
         '${MediaListTableColumns.score} integer,'
         '${MediaListTableColumns.updatedAt} integer,'
+        '${MediaListTableColumns.repeat} integer,'
+        '${MediaListTableColumns.private} integer,'
         'foreign key (${MediaListTableColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         'foreign key (${MediaListTableColumns.userId}) references ${Tables.userDataTable} (${UserDataTableColumns.id})'
         ')');

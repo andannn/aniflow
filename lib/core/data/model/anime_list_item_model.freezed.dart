@@ -25,6 +25,8 @@ mixin _$MediaListItemModel {
   DateTime? get startedAt => throw _privateConstructorUsedError;
   DateTime? get completedAt => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
+  int? get repeat => throw _privateConstructorUsedError;
+  bool get private => throw _privateConstructorUsedError;
   MediaModel? get animeModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -48,6 +50,8 @@ abstract class $MediaListItemModelCopyWith<$Res> {
       DateTime? startedAt,
       DateTime? completedAt,
       String? notes,
+      int? repeat,
+      bool private,
       MediaModel? animeModel});
 
   $MediaModelCopyWith<$Res>? get animeModel;
@@ -75,6 +79,8 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
     Object? startedAt = freezed,
     Object? completedAt = freezed,
     Object? notes = freezed,
+    Object? repeat = freezed,
+    Object? private = null,
     Object? animeModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -114,6 +120,14 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String?,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as int?,
+      private: null == private
+          ? _value.private
+          : private // ignore: cast_nullable_to_non_nullable
+              as bool,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
@@ -152,6 +166,8 @@ abstract class _$$MediaListItemModelImplCopyWith<$Res>
       DateTime? startedAt,
       DateTime? completedAt,
       String? notes,
+      int? repeat,
+      bool private,
       MediaModel? animeModel});
 
   @override
@@ -178,6 +194,8 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
     Object? startedAt = freezed,
     Object? completedAt = freezed,
     Object? notes = freezed,
+    Object? repeat = freezed,
+    Object? private = null,
     Object? animeModel = freezed,
   }) {
     return _then(_$MediaListItemModelImpl(
@@ -217,6 +235,14 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String?,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as int?,
+      private: null == private
+          ? _value.private
+          : private // ignore: cast_nullable_to_non_nullable
+              as bool,
       animeModel: freezed == animeModel
           ? _value.animeModel
           : animeModel // ignore: cast_nullable_to_non_nullable
@@ -238,6 +264,8 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
       this.startedAt,
       this.completedAt,
       this.notes,
+      this.repeat,
+      this.private = false,
       this.animeModel});
 
   @override
@@ -260,11 +288,16 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
   @override
   final String? notes;
   @override
+  final int? repeat;
+  @override
+  @JsonKey()
+  final bool private;
+  @override
   final MediaModel? animeModel;
 
   @override
   String toString() {
-    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, progressVolumes: $progressVolumes, startedAt: $startedAt, completedAt: $completedAt, notes: $notes, animeModel: $animeModel)';
+    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, progressVolumes: $progressVolumes, startedAt: $startedAt, completedAt: $completedAt, notes: $notes, repeat: $repeat, private: $private, animeModel: $animeModel)';
   }
 
   @override
@@ -286,13 +319,27 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.repeat, repeat) || other.repeat == repeat) &&
+            (identical(other.private, private) || other.private == private) &&
             (identical(other.animeModel, animeModel) ||
                 other.animeModel == animeModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, status, score, updatedAt,
-      progress, progressVolumes, startedAt, completedAt, notes, animeModel);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      status,
+      score,
+      updatedAt,
+      progress,
+      progressVolumes,
+      startedAt,
+      completedAt,
+      notes,
+      repeat,
+      private,
+      animeModel);
 
   @JsonKey(ignore: true)
   @override
@@ -313,6 +360,8 @@ abstract class _MediaListItemModel implements MediaListItemModel {
       final DateTime? startedAt,
       final DateTime? completedAt,
       final String? notes,
+      final int? repeat,
+      final bool private,
       final MediaModel? animeModel}) = _$MediaListItemModelImpl;
 
   @override
@@ -333,6 +382,10 @@ abstract class _MediaListItemModel implements MediaListItemModel {
   DateTime? get completedAt;
   @override
   String? get notes;
+  @override
+  int? get repeat;
+  @override
+  bool get private;
   @override
   MediaModel? get animeModel;
   @override
