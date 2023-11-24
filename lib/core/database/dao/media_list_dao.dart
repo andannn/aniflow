@@ -37,20 +37,20 @@ abstract class MediaListDao {
   Future<MediaListEntity?> getMediaListItem(
       {required String mediaId, String? entryId});
 
-  Future<List<MediaListAndMediaRelation>> getMediaListByPage(String userId,
-      List<MediaListStatus> status,
+  Future<List<MediaListAndMediaRelation>> getMediaListByPage(
+      String userId, List<MediaListStatus> status,
       {required MediaType type,
-        required int page,
-        int? perPage = Config.defaultPerPageCount});
+      required int page,
+      int? perPage = Config.defaultPerPageCount});
 
-  Future<Set<String>> getMediaListMediaIdsByUser(String userId,
-      List<MediaListStatus> status, MediaType type);
+  Future<Set<String>> getMediaListMediaIdsByUser(
+      String userId, List<MediaListStatus> status, MediaType type);
 
-  Stream<Set<String>> getMediaListMediaIdsByUserStream(String userId,
-      List<MediaListStatus> status, MediaType type);
+  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+      String userId, List<MediaListStatus> status, MediaType type);
 
-  Stream<List<MediaListAndMediaRelation>> getMediaListStream(String userId,
-      List<MediaListStatus> status, MediaType type);
+  Stream<List<MediaListAndMediaRelation>> getMediaListStream(
+      String userId, List<MediaListStatus> status, MediaType type);
 
   Future<MediaListEntity?> getMediaListTrackingByUserAndId(
       {required String userId, required String mediaId});
@@ -88,8 +88,8 @@ class MediaListDaoImpl extends MediaListDao {
   }
 
   @override
-  Future<List<MediaListAndMediaRelation>> getMediaListByPage(String userId,
-      List<MediaListStatus> status,
+  Future<List<MediaListAndMediaRelation>> getMediaListByPage(
+      String userId, List<MediaListStatus> status,
       {required MediaType type, required int page, int? perPage}) async {
     final int? limit = perPage;
     final int offset = (page - 1) * (perPage ?? 0);
@@ -114,19 +114,18 @@ class MediaListDaoImpl extends MediaListDao {
     }
 
     final List<Map<String, dynamic>> result =
-    await database.aniflowDB.rawQuery(sql);
+        await database.aniflowDB.rawQuery(sql);
     return result
-        .map((e) =>
-        MediaListAndMediaRelation(
-          mediaListEntity: MediaListEntity.fromJson(e),
-          mediaEntity: MediaEntity.fromJson(e),
-        ))
+        .map((e) => MediaListAndMediaRelation(
+              mediaListEntity: MediaListEntity.fromJson(e),
+              mediaEntity: MediaEntity.fromJson(e),
+            ))
         .toList();
   }
 
   @override
-  Future<Set<String>> getMediaListMediaIdsByUser(String userId,
-      List<MediaListStatus> status, MediaType type) async {
+  Future<Set<String>> getMediaListMediaIdsByUser(
+      String userId, List<MediaListStatus> status, MediaType type) async {
     String statusParam = '';
     for (var e in status) {
       statusParam += '\'${e.sqlTypeString}\'';
@@ -136,8 +135,7 @@ class MediaListDaoImpl extends MediaListDao {
     }
 
     String sql =
-        'select ${MediaListTableColumns.mediaId} from ${Tables
-        .mediaListTable} as ml '
+        'select ${MediaListTableColumns.mediaId} from ${Tables.mediaListTable} as ml '
         'join ${Tables.mediaTable} as m '
         '  on ml.${MediaListTableColumns.mediaId} = m.${MediaTableColumns.id} '
         'where ml.${MediaListTableColumns.status} in ($statusParam) '
@@ -145,7 +143,7 @@ class MediaListDaoImpl extends MediaListDao {
         '  and m.${MediaTableColumns.type}=\'${type.toJson()}\' ';
 
     final List<Map<String, dynamic>> result =
-    await database.aniflowDB.rawQuery(sql);
+        await database.aniflowDB.rawQuery(sql);
     return result
         .map((e) => (e[MediaListTableColumns.mediaId]).toString())
         .toSet();
@@ -162,7 +160,7 @@ class MediaListDaoImpl extends MediaListDao {
     sql += 'limit 1';
 
     List<Map<String, dynamic>> jsonResult =
-    await database.aniflowDB.rawQuery(sql);
+        await database.aniflowDB.rawQuery(sql);
     if (jsonResult.isNotEmpty) {
       return MediaListEntity.fromJson(jsonResult[0]);
     } else {
@@ -173,29 +171,20 @@ class MediaListDaoImpl extends MediaListDao {
   @override
   Future<MediaListEntity?> getMediaListTrackingByUserAndId(
       {required String userId, required String mediaId}) async {
-    final status = [MediaListStatus.planning, MediaListStatus.current];
-    String statusParam = '';
-    for (var e in status) {
-      statusParam += '\'${e.sqlTypeString}\'';
-      if (status.last != e) {
-        statusParam += ',';
-      }
-    }
-
     String sql = 'select * from ${Tables.mediaListTable} '
         'where ${MediaListTableColumns.mediaId}=\'$mediaId\' '
         '  and ${MediaListTableColumns.userId}=\'$userId\' '
-        '  and ${MediaListTableColumns.status} in ($statusParam) '
         'limit 1 ';
     final List<Map<String, dynamic>> result =
-    await database.aniflowDB.rawQuery(sql);
+        await database.aniflowDB.rawQuery(sql);
+
     final jsonOrNull = result.firstOrNull;
     return jsonOrNull != null ? MediaListEntity.fromJson(jsonOrNull) : null;
   }
 
   @override
-  Stream<Set<String>> getMediaListMediaIdsByUserStream(String userId,
-      List<MediaListStatus> status, MediaType type) {
+  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+      String userId, List<MediaListStatus> status, MediaType type) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(
         changeSource, () => getMediaListMediaIdsByUser(userId, status, type));
@@ -231,20 +220,18 @@ class MediaListDaoImpl extends MediaListDao {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(
       changeSource,
-          () =>
-          getMediaListTrackingByUserAndId(userId: userId, mediaId: mediaId),
+      () => getMediaListTrackingByUserAndId(userId: userId, mediaId: mediaId),
     );
   }
 
   @override
-  Stream<List<MediaListAndMediaRelation>> getMediaListStream(String userId,
-      List<MediaListStatus> status, MediaType type) {
+  Stream<List<MediaListAndMediaRelation>> getMediaListStream(
+      String userId, List<MediaListStatus> status, MediaType type) {
     final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
     return StreamUtil.createStream(
       changeSource,
-          () =>
-          getMediaListByPage(userId, status,
-              type: type, page: 1, perPage: null),
+      () => getMediaListByPage(userId, status,
+          type: type, page: 1, perPage: null),
     );
   }
 
