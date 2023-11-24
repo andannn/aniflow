@@ -20,10 +20,25 @@ class UserAnimeListPageQueryParam {
   });
 }
 
-String get userAnimeListGraphQLString => '''
+String get userMediaListGraphQLString => '''
 query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus], \$type: MediaType, \$format: ScoreFormat){
   Page(page: \$page, perPage: \$perPage) {
     mediaList(userId: \$userId, type: \$type, status_in: \$status_in) {
+      $mediaListContent
+    }
+  }
+}
+''';
+
+String get singleMediaListGraphQLString => '''
+query(\$mediaId: Int, \$userId: Int, \$format: ScoreFormat) {
+  MediaList(mediaId: \$mediaId, userId: \$userId) {
+    $mediaListContent
+  }
+}
+''';
+
+const mediaListContent = '''
       id
       status
       progress
@@ -75,7 +90,4 @@ query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus]
           timeUntilAiring
         }
       }
-    }
-  }
-}
 ''';

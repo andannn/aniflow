@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -19,6 +20,7 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sqflite/sqflite.dart';
 
 part 'model/media_list_status.dart';
 
@@ -44,6 +46,13 @@ abstract class MediaListRepository {
     List<MediaListStatus> status = const [],
     MediaType? mediaType,
     CancelToken? token,
+  });
+
+  Future<LoadResult> syncMediaListItem({
+    String? userId,
+    required String mediaId,
+    required ScoreFormat format,
+    required CancelToken token,
   });
 
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
@@ -155,6 +164,46 @@ class MediaListRepositoryImpl extends MediaListRepository {
           .toList();
       await mediaListDao.insertMediaListAndMediaRelations(entities);
 
+      mediaListDao.notifyMediaListChanged(targetUserId);
+      return LoadSuccess(data: null);
+    } on DioException catch (e) {
+      return LoadError(e);
+    }
+  }
+
+  @override
+  Future<LoadResult> syncMediaListItem({
+    String? userId,
+    required String mediaId,
+    required ScoreFormat format,
+    required CancelToken token,
+  }) async {
+    try {
+      final targetUserId = userId ?? preferences.getAuthedUserId();
+      if (targetUserId == null) {
+        /// No user.
+        return LoadError(Exception('no user'));
+      }
+
+      /// get all anime list items from network.
+      final networkMediaList = await aniListDataSource.getSingleMediaListItem(
+        userId: targetUserId,
+        mediaId: mediaId,
+        format: format,
+        token: token,
+      );
+
+      /// insert data to db.
+      final entity = networkMediaList != null
+          ? MediaListAndMediaRelation.fromDto(networkMediaList)
+          : null;
+
+      if (entity == null) {
+        return LoadError(Exception('No media list'));
+      }
+
+      await mediaListDao
+          .insertMediaListAndMediaRelations([entity], ConflictAlgorithm.ignore);
       mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on DioException catch (e) {

@@ -8,6 +8,7 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
@@ -48,13 +49,13 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
 
 class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   DetailMediaBloc({
-    required this.animeId,
+    required this.mediaId,
     required MediaInformationRepository aniListRepository,
     required AuthRepository authRepository,
     required FavoriteRepository favoriteRepository,
     required MediaListRepository animeTrackListRepository,
-  })  : _aniListRepository = aniListRepository,
-        _animeTrackListRepository = animeTrackListRepository,
+  })  : _mediaRepository = aniListRepository,
+        _mediaListRepository = animeTrackListRepository,
         _favoriteRepository = favoriteRepository,
         _authRepository = authRepository,
         super(DetailMediaUiState()) {
@@ -67,9 +68,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _init();
   }
 
-  final String animeId;
-  final MediaInformationRepository _aniListRepository;
-  final MediaListRepository _animeTrackListRepository;
+  final String mediaId;
+  final MediaInformationRepository _mediaRepository;
+  final MediaListRepository _mediaListRepository;
   final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
 
@@ -79,8 +80,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   CancelToken? _cancelToken;
 
   void _init() async {
-    _detailAnimeSub =
-        _aniListRepository.getDetailAnimeInfoStream(animeId).listen(
+    _detailAnimeSub = _mediaRepository.getDetailAnimeInfoStream(mediaId).listen(
       (animeModel) {
         add(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },
@@ -88,9 +88,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
     final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
-      _isTrackingSub = _animeTrackListRepository
+      _isTrackingSub = _mediaListRepository
           .getMediaListItemByUserAndIdStream(
-              userId: userData.id, animeId: animeId)
+              userId: userData.id, animeId: mediaId)
           .listen(
         (item) {
           add(_OnMediaListItemChanged(mediaListItemModel: item));
@@ -120,7 +120,14 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   void _startFetchDetailAnimeInfo() async {
     add(_OnLoadingStateChanged(isLoading: true));
-    await _aniListRepository.startFetchDetailAnimeInfo(animeId);
+    await Future.wait([
+      _mediaRepository.startFetchDetailAnimeInfo(mediaId),
+      _mediaListRepository.syncMediaListItem(
+        mediaId: mediaId,
+        format: AniFlowPreferences().getAniListSettings().scoreFormat,
+        token: CancelToken(),
+      ),
+    ]);
     add(_OnLoadingStateChanged(isLoading: false));
   }
 
@@ -136,8 +143,8 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     final state = event.result;
 
     add(_OnLoadingStateChanged(isLoading: true));
-    final result = await _animeTrackListRepository.updateMediaList(
-      animeId: animeId,
+    final result = await _mediaListRepository.updateMediaList(
+      animeId: mediaId,
       status: state.status,
       progress: state.progress,
       progressVolumes: state.progressVolumes,

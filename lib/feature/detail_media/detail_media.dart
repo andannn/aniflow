@@ -57,7 +57,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   Widget buildContent(BuildContext context) {
     return BlocProvider(
       create: (context) => DetailMediaBloc(
-        animeId: animeId,
+        mediaId: animeId,
         aniListRepository: context.read<MediaInformationRepository>(),
         authRepository: context.read<AuthRepository>(),
         animeTrackListRepository: context.read<MediaListRepository>(),
@@ -131,16 +131,18 @@ class _DetailAnimePageContent extends StatelessWidget {
               const SizedBox(width: 10),
             ],
           ),
-          floatingActionButton: hasDescription
-              ? FloatingActionButton.extended(
-                  icon: Icon(statusIcon),
-                  label: Text(stateString),
-                  onPressed: floatingButtonClickAction,
-                )
-              : FloatingActionButton(
-                  onPressed: floatingButtonClickAction,
-                  child: Icon(statusIcon),
-                ),
+          floatingActionButton: !isLoading
+              ? hasDescription
+                  ? FloatingActionButton.extended(
+                      icon: Icon(statusIcon),
+                      label: Text(stateString),
+                      onPressed: floatingButtonClickAction,
+                    )
+                  : FloatingActionButton(
+                      onPressed: floatingButtonClickAction,
+                      child: Icon(statusIcon),
+                    )
+              : const SizedBox(),
           body: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,
             slivers: [
@@ -347,7 +349,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToCharacterList(
-                        context.read<DetailMediaBloc>().animeId);
+                        context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),
@@ -415,7 +417,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToStaffList(
-                        context.read<DetailMediaBloc>().animeId);
+                        context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),

@@ -226,9 +226,9 @@ extension on ScoreFormat {
 extension SettingNeedRestart on Setting {
   bool get needRestart => switch (this) {
         DisplayAdultContent() => true,
+        ScoreFormat() => true,
         UserTitleLanguage() => false,
         UserStaffNameLanguage() => false,
-        ScoreFormat() => false,
         _ => false,
       };
 }

@@ -82,6 +82,11 @@ void main() {
       );
     });
 
+    test('get_single_media_list_item', () async {
+      await AniListDataSource().getSingleMediaListItem(
+          userId: '1212', mediaId: '3322', format: ScoreFormat.point10);
+    });
+
     test('get_airing_schedule', () async {
       await AniListDataSource().getAiringSchedules(
         param: AiringSchedulesQueryParam(

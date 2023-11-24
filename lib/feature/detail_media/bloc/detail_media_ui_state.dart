@@ -7,7 +7,7 @@ part 'detail_media_ui_state.freezed.dart';
 @freezed
 class DetailMediaUiState with _$DetailMediaUiState {
   factory DetailMediaUiState({
-    @Default(false) isLoading,
+    @Default(false) bool isLoading,
     MediaModel? detailAnimeModel,
     MediaListItemModel? mediaListItem,
   }) = _DetailMediaUiState;
