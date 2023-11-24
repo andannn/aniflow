@@ -2,6 +2,7 @@ import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/design_system/dialog/scoring_dialog.dart';
 import 'package:aniflow/core/design_system/widget/date_time_button.dart';
 import 'package:aniflow/core/design_system/widget/max_limit_text_filed.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
@@ -363,15 +364,19 @@ class ScoringWidget extends StatelessWidget {
       case ScoreFormat.point3:
         scoreString = '${score.toInt()}/3';
       case ScoreFormat.point10Decimal:
-        scoreString = '$score/10';
+        scoreString = '${score.toStringAsFixed(1)}/10';
       case ScoreFormat.point100:
         scoreString = '${score.toInt()}/100';
       case ScoreFormat.point10:
         scoreString = '${score.toInt()}/10';
     }
 
-    void showScoreModifyDialog() {
+    void showScoreModifyDialog() async {
+      final result = await showScoringDialog(context, format, score);
 
+      if (result != null && result != score) {
+        onScoreChanged.call(result);
+      }
     }
 
     Widget buildScoreValueContent() {
