@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
@@ -5,6 +7,7 @@ import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
@@ -42,8 +45,32 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   }
 }
 
-class _MediaSettingsPageContent extends StatelessWidget {
+class _MediaSettingsPageContent extends StatefulWidget {
   const _MediaSettingsPageContent();
+
+  @override
+  State<_MediaSettingsPageContent> createState() =>
+      _MediaSettingsPageContentState();
+}
+
+class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
+  late StreamSubscription themeSub;
+
+  @override
+  void initState() {
+    super.initState();
+    themeSub =
+        AniFlowPreferences().getThemeSettingStream().listen((setting) async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    themeSub.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +114,7 @@ class _MediaSettingsPageContent extends StatelessWidget {
           ListView.builder(
             itemCount: settingItems.length,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return _createSettingItem(
                 context,

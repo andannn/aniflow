@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -24,6 +25,12 @@ class _OnAniListSettingsChanged extends SettingEvent {
   final AniListSettings settings;
 }
 
+class _OnThemeSettingChanged extends SettingEvent {
+  _OnThemeSettingChanged(this.setting);
+
+  final ThemeSetting setting;
+}
+
 class OnListOptionChanged extends SettingEvent {
   OnListOptionChanged(this.setting);
 
@@ -37,7 +44,12 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   })  : _settingsRepository = settingsRepository,
         _authRepository = authRepository,
         super(SettingsState()) {
-    on<_OnAniListSettingsChanged>(_onAniListSettingsChanged);
+    on<_OnAniListSettingsChanged>(
+      (event, emit) => emit(state.copyWith(settings: event.settings)),
+    );
+    on<_OnThemeSettingChanged>(
+      (event, emit) => emit(state.copyWith(theme: event.setting)),
+    );
     on<OnListOptionChanged>(_onListOptionChanged);
 
     _init();
@@ -47,6 +59,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   final AuthRepository _authRepository;
 
   StreamSubscription? _settingsSub;
+  StreamSubscription? _themeSub;
 
   final Map<String, CancelToken> _cancelTokenMap = {};
 
@@ -57,23 +70,23 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   }
 
   void _init() async {
-    _settingsRepository;
     _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
       (settings) {
         add(_OnAniListSettingsChanged(settings));
       },
     );
-  }
 
-  FutureOr<void> _onAniListSettingsChanged(
-      _OnAniListSettingsChanged event, Emitter<SettingsState> emit) {
-    emit(state.copyWith(settings: event.settings));
+    _themeSub ??= _settingsRepository.getThemeSettingStream().listen(
+      (settings) {
+        add(_OnThemeSettingChanged(settings));
+      },
+    );
   }
 
   FutureOr<void> _onListOptionChanged(
       OnListOptionChanged event, Emitter<SettingsState> emit) async {
     final setting = event.setting;
-    LoadResult result;
+    LoadResult? result;
     switch (setting) {
       case UserTitleLanguage():
         result = await _authRepository.updateUserSettings(
@@ -95,6 +108,8 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
           scoreFormat: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
         );
+      case ThemeSetting():
+        await _settingsRepository.setThemeSetting(setting);
       default:
         throw 'Invalid type';
     }
@@ -122,11 +137,20 @@ extension SettingsStateEx on SettingsState {
         settings?.userStaffNameLanguage ?? UserStaffNameLanguage.native;
     final isDisplayAdultContent = settings?.displayAdultContent ?? false;
     final selectedScoreFormat = settings?.scoreFormat ?? ScoreFormat.point100;
+    final selectedTheme = theme;
 
     return [
       SettingCategory(
         title: 'Theme',
-        settingItems: [],
+        settingItems: [
+          ListSettingItem(
+            title: 'Dark mode preference',
+            selectedOption: selectedTheme._createSettingOption(),
+            options: ThemeSetting.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+        ],
       ),
       SettingCategory(
         title: 'Anime & Manga',
@@ -219,6 +243,19 @@ extension on ScoreFormat {
         return SettingOption(setting: this, description: '5 Star (3/5)');
       case ScoreFormat.point3:
         return SettingOption(setting: this, description: '3 Point Smiley :)');
+    }
+  }
+}
+
+extension on ThemeSetting {
+  SettingOption<ThemeSetting> _createSettingOption() {
+    switch (this) {
+      case ThemeSetting.dark:
+        return SettingOption(setting: this, description: 'Dark');
+      case ThemeSetting.light:
+        return SettingOption(setting: this, description: 'Light');
+      case ThemeSetting.system:
+        return SettingOption(setting: this, description: 'System default');
     }
   }
 }

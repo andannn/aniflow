@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SettingsState {
   AniListSettings? get settings => throw _privateConstructorUsedError;
+  ThemeSetting get theme => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({AniListSettings? settings});
+  $Res call({AniListSettings? settings, ThemeSetting theme});
 
   $AniListSettingsCopyWith<$Res>? get settings;
 }
@@ -48,12 +49,17 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   @override
   $Res call({
     Object? settings = freezed,
+    Object? theme = null,
   }) {
     return _then(_value.copyWith(
       settings: freezed == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as AniListSettings?,
+      theme: null == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeSetting,
     ) as $Val);
   }
 
@@ -78,7 +84,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AniListSettings? settings});
+  $Res call({AniListSettings? settings, ThemeSetting theme});
 
   @override
   $AniListSettingsCopyWith<$Res>? get settings;
@@ -96,12 +102,17 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? settings = freezed,
+    Object? theme = null,
   }) {
     return _then(_$SettingsStateImpl(
       settings: freezed == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as AniListSettings?,
+      theme: null == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeSetting,
     ));
   }
 }
@@ -109,14 +120,17 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SettingsStateImpl implements _SettingsState {
-  _$SettingsStateImpl({this.settings});
+  _$SettingsStateImpl({this.settings, this.theme = ThemeSetting.system});
 
   @override
   final AniListSettings? settings;
+  @override
+  @JsonKey()
+  final ThemeSetting theme;
 
   @override
   String toString() {
-    return 'SettingsState(settings: $settings)';
+    return 'SettingsState(settings: $settings, theme: $theme)';
   }
 
   @override
@@ -125,11 +139,12 @@ class _$SettingsStateImpl implements _SettingsState {
         (other.runtimeType == runtimeType &&
             other is _$SettingsStateImpl &&
             (identical(other.settings, settings) ||
-                other.settings == settings));
+                other.settings == settings) &&
+            (identical(other.theme, theme) || other.theme == theme));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, settings);
+  int get hashCode => Object.hash(runtimeType, settings, theme);
 
   @JsonKey(ignore: true)
   @override
@@ -139,11 +154,14 @@ class _$SettingsStateImpl implements _SettingsState {
 }
 
 abstract class _SettingsState implements SettingsState {
-  factory _SettingsState({final AniListSettings? settings}) =
-      _$SettingsStateImpl;
+  factory _SettingsState(
+      {final AniListSettings? settings,
+      final ThemeSetting theme}) = _$SettingsStateImpl;
 
   @override
   AniListSettings? get settings;
+  @override
+  ThemeSetting get theme;
   @override
   @JsonKey(ignore: true)
   _$$SettingsStateImplCopyWith<_$SettingsStateImpl> get copyWith =>
