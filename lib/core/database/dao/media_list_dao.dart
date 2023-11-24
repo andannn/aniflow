@@ -106,7 +106,7 @@ class MediaListDaoImpl extends MediaListDao {
         'on ua.${MediaListTableColumns.mediaId}=a.${MediaTableColumns.id} '
         'where ${MediaListTableColumns.status} in ($statusParam) '
         '  and ${MediaListTableColumns.userId}=\'$userId\' '
-        '  and a.${MediaTableColumns.type}=\'${type.jsonString}\' '
+        '  and a.${MediaTableColumns.type}=\'${type.toJson()}\' '
         'order by ${MediaListTableColumns.updatedAt} desc ';
     if (limit != null) {
       sql += 'limit $limit '
@@ -142,7 +142,7 @@ class MediaListDaoImpl extends MediaListDao {
         '  on ml.${MediaListTableColumns.mediaId} = m.${MediaTableColumns.id} '
         'where ml.${MediaListTableColumns.status} in ($statusParam) '
         '  and ml.${MediaListTableColumns.userId}=\'$userId\' '
-        '  and m.${MediaTableColumns.type}=\'${type.jsonString}\' ';
+        '  and m.${MediaTableColumns.type}=\'${type.toJson()}\' ';
 
     final List<Map<String, dynamic>> result =
     await database.aniflowDB.rawQuery(sql);

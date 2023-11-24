@@ -1,19 +1,22 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-@JsonEnum()
-enum MediaType {
+part 'media_type.g.dart';
+
+@JsonEnum(alwaysCreate: true)
+enum MediaType implements Setting {
   @JsonValue('ANIME')
-  anime('ANIME'),
+  anime,
   @JsonValue('MANGA')
-  manga('MANGA');
+  manga;
 
-  final String jsonString;
+  const MediaType();
 
-  const MediaType(this.jsonString);
+  String toJson() => _$MediaTypeEnumMap[this]!;
 
-  static MediaType fromString(String value) =>
-      MediaType.values.firstWhere((e) => e.jsonString == value);
+  static MediaType fromJson(String json) =>
+      _$MediaTypeEnumMap.map((key, value) => MapEntry(value, key))[json]!;
 }
 
 MediaType getMediaTypeByCategory(MediaCategory category) {

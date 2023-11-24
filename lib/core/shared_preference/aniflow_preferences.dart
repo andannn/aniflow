@@ -102,9 +102,9 @@ class AniFlowPreferences {
     return DateTime.tryParse(result);
   }
 
-  MediaType getCurrentMediaType() => MediaType.fromString(
+  MediaType getCurrentMediaType() => MediaType.fromJson(
         _preference.getString(_UserDataKey.currentMediaType) ??
-            MediaType.anime.jsonString,
+            MediaType.anime.toJson(),
       );
 
   Stream<MediaType> getCurrentMediaTypeStream() => StreamUtil.createStream(
@@ -114,7 +114,7 @@ class AniFlowPreferences {
 
   Future setCurrentMediaType(MediaType mediaType) async {
     final isChanged = await _preference.setString(
-        _UserDataKey.currentMediaType, mediaType.jsonString);
+        _UserDataKey.currentMediaType, mediaType.toJson());
 
     if (isChanged) {
       _mediaTypeChangeNotifier.notifyChanged();

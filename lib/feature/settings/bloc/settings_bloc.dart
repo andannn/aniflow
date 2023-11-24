@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
@@ -37,6 +38,12 @@ class OnListOptionChanged extends SettingEvent {
   final Setting setting;
 }
 
+class _OnMediaTypeChanged extends SettingEvent {
+  _OnMediaTypeChanged(this.type);
+
+  final MediaType type;
+}
+
 class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   SettingsBloc({
     required AuthRepository authRepository,
@@ -50,6 +57,9 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
     on<_OnThemeSettingChanged>(
       (event, emit) => emit(state.copyWith(theme: event.setting)),
     );
+    on<_OnMediaTypeChanged>(
+      (event, emit) => emit(state.copyWith(type: event.type)),
+    );
     on<OnListOptionChanged>(_onListOptionChanged);
 
     _init();
@@ -60,12 +70,15 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
 
   StreamSubscription? _settingsSub;
   StreamSubscription? _themeSub;
+  StreamSubscription? _mediaTypeSub;
 
   final Map<String, CancelToken> _cancelTokenMap = {};
 
   @override
   Future<void> close() {
     _settingsSub?.cancel();
+    _themeSub?.cancel();
+    _mediaTypeSub?.cancel();
     return super.close();
   }
 
@@ -79,6 +92,12 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
     _themeSub ??= _settingsRepository.getThemeSettingStream().listen(
       (settings) {
         add(_OnThemeSettingChanged(settings));
+      },
+    );
+
+    _mediaTypeSub ??= _settingsRepository.getMediaTypeStream().listen(
+      (type) {
+        add(_OnMediaTypeChanged(type));
       },
     );
   }
@@ -110,6 +129,9 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
         );
       case ThemeSetting():
         await _settingsRepository.setThemeSetting(setting);
+      case MediaType():
+        await _settingsRepository.setMediaType(setting);
+
       default:
         throw 'Invalid type';
     }
@@ -138,15 +160,23 @@ extension SettingsStateEx on SettingsState {
     final isDisplayAdultContent = settings?.displayAdultContent ?? false;
     final selectedScoreFormat = settings?.scoreFormat ?? ScoreFormat.point100;
     final selectedTheme = theme;
+    final selectedMediaType = type;
 
     return [
       SettingCategory(
-        title: 'Theme',
+        title: 'App',
         settingItems: [
           ListSettingItem(
             title: 'Dark mode preference',
             selectedOption: selectedTheme._createSettingOption(),
             options: ThemeSetting.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+          ListSettingItem(
+            title: 'Media contents',
+            selectedOption: selectedMediaType._createSettingOption(),
+            options: MediaType.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
@@ -256,6 +286,17 @@ extension on ThemeSetting {
         return SettingOption(setting: this, description: 'Light');
       case ThemeSetting.system:
         return SettingOption(setting: this, description: 'System default');
+    }
+  }
+}
+
+extension on MediaType {
+  SettingOption<MediaType> _createSettingOption() {
+    switch (this) {
+      case MediaType.anime:
+        return SettingOption(setting: this, description: 'Anime');
+      case MediaType.manga:
+        return SettingOption(setting: this, description: 'Manga');
     }
   }
 }

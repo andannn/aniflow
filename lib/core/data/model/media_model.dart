@@ -54,7 +54,7 @@ class MediaModel with _$MediaModel {
     return MediaModel(
       id: model.id,
       type: model.type != null
-          ? MediaType.fromString(model.type!)
+          ? MediaType.fromJson(model.type!)
           : MediaType.anime,
       title: MediaTitle(
         english: model.englishTitle,
