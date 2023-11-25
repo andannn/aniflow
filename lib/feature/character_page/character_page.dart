@@ -7,7 +7,6 @@ import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:aniflow/feature/character_page/bloc/character_paging_bloc.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -132,15 +131,9 @@ class _CharacterListPagingContent extends StatelessWidget {
             PagingState<List<CharacterAndVoiceActorModel>>>(
         builder: (context, state) {
       final pagingState = state;
-      return PagingContent(
+      return PagingContent<CharacterAndVoiceActorModel, CharacterPagingBloc>(
         pagingState: pagingState,
         onBuildItem: (context, model) => _buildListItems(context, model),
-        onRequestNewPage: () {
-          context.read<CharacterPagingBloc>().add(OnRequestLoadPageEvent());
-        },
-        onRetryLoadPage: () {
-          context.read<CharacterPagingBloc>().add(OnRetryLoadPageEvent());
-        },
       );
     });
   }

@@ -1,24 +1,24 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class PagingContent<Model> extends StatelessWidget {
+class PagingContent<MODEL,
+        BLOC extends Bloc<PagingEvent<MODEL>, PagingState<List<MODEL>>>>
+    extends StatelessWidget {
   const PagingContent({
     required this.onBuildItem,
     required this.pagingState,
-    required this.onRequestNewPage,
-    required this.onRetryLoadPage,
     super.key,
     this.gridDelegate,
   });
 
-  final Widget Function(BuildContext, Model) onBuildItem;
-  final VoidCallback onRequestNewPage;
-  final VoidCallback onRetryLoadPage;
+  final Widget Function(BuildContext, MODEL) onBuildItem;
 
-  final PagingState<List<Model>> pagingState;
+  final PagingState<List<MODEL>> pagingState;
   final SliverGridDelegate? gridDelegate;
 
   @override
@@ -51,8 +51,11 @@ class PagingContent<Model> extends StatelessWidget {
           visible: needDetectNewPageRequest,
           // show page loading detector widget.
           sliver: SliverToBoxAdapter(
-            child:
-                _RequestPageLoadingDetector(onRequestNewPage: onRequestNewPage),
+            child: _RequestPageLoadingDetector(
+              onRequestNewPage: () {
+                context.read<BLOC>().add(OnRequestLoadPageEvent());
+              },
+            ),
           ),
           replacementSliver: SliverToBoxAdapter(
             child: _buildPageBottomBar(context, pagingState),
@@ -69,7 +72,9 @@ class PagingContent<Model> extends StatelessWidget {
         child: buildPageBottomWidget(
           context: context,
           pagingState: pagingState,
-          onRetryLoadPage: onRetryLoadPage,
+          onRetryLoadPage: () {
+            context.read<BLOC>().add(OnRetryLoadPageEvent());
+          },
           onLoadMore: () {},
         ),
       ),

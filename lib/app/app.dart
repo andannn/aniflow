@@ -100,7 +100,6 @@ class AniFlowAppState extends State<AniFlowApp> {
               );
             }
             return MaterialApp(
-              title: 'Flutter Demo',
               themeMode: themeMode,
               theme: ThemeData(
                 useMaterial3: true,

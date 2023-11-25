@@ -16,6 +16,7 @@ import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
+import 'package:aniflow/feature/profile/sub_overview/profile_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -197,13 +198,14 @@ class _UserProfileState extends State<_UserProfile>
 
   Widget _buildPageByProfileCategory(ProfileTabType category) {
     switch (category) {
+      case ProfileTabType.overview:
+        return const ProfileOverviewPage();
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:
         return const ProfileMediaListTabPage(mediaType: MediaType.anime);
       case ProfileTabType.mangaList:
         return const ProfileMediaListTabPage(mediaType: MediaType.manga);
-      case ProfileTabType.reviews:
       case ProfileTabType.social:
         return const SizedBox();
     }

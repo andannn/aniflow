@@ -6,7 +6,6 @@ import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/search_anime_item.dart';
 import 'package:aniflow/feature/anime_search/bloc/anime_search_bloc.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,15 +53,9 @@ class _MediaSearchPageContent extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: PagingContent(
+            child: PagingContent<MediaModel, SearchPageBloc>(
               pagingState: state,
               onBuildItem: (context, model) => _buildListItems(context, model),
-              onRequestNewPage: () {
-                context.read<SearchPageBloc>().add(OnRequestLoadPageEvent());
-              },
-              onRetryLoadPage: () {
-                context.read<SearchPageBloc>().add(OnRetryLoadPageEvent());
-              },
             ),
           ),
         );

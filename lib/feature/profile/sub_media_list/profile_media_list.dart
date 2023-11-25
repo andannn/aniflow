@@ -5,14 +5,12 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
-import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
+import 'package:aniflow/feature/profile/title_with_items_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -81,6 +79,24 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
       droppedManga = context.watch<DroppedMangaListPagingBloc>().state;
     }
 
+    PagingState? getPagingStateByType(type) {
+      PagingState? state;
+      switch (type) {
+        case ReadingMangaList():
+          state = readingManga;
+        case DroppedMangaList():
+          state = droppedManga;
+        case WatchingAnimeList():
+          state = watchingAnime;
+        case CompletedAnimeList():
+          state = completeAnime;
+        case DroppedAnimeList():
+          state = droppedAnime;
+      }
+
+      return state;
+    }
+
     final isLoading = watchingAnime is PageLoading ||
         droppedAnime is PageLoading ||
         completeAnime is PageLoading ||
@@ -120,113 +136,21 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
           ),
           for (var type
               in isAnime ? _getAllAnimeListType() : _getAllMangaListType())
-            ..._buildMangaListCategory(context, type),
+            ...buildTitleBarWithContent(
+              context: context,
+              state: getPagingStateByType(type),
+              title: _buildTitle(context, type),
+              onBuildItem: (context, item) =>
+                  _buildGridItems(context, type, item),
+              onMoreClick: () {},
+            ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
         ],
       ),
     );
   }
 
-  List<Widget> _buildMangaListCategory(BuildContext context, MediaList type) {
-    final PagingState? state;
-    switch (type) {
-      case ReadingMangaList():
-        state = readingManga;
-      case DroppedMangaList():
-        state = droppedManga;
-      case WatchingAnimeList():
-        state = watchingAnime;
-      case CompletedAnimeList():
-        state = completeAnime;
-      case DroppedAnimeList():
-        state = droppedAnime;
-    }
-
-    if (state == null) return [const SliverToBoxAdapter()];
-
-    List items = state.data ?? [];
-
-    if (items.isEmpty) return [const SliverToBoxAdapter()];
-
-    return [
-      SliverToBoxAdapter(
-        child: VerticalScaleSwitcher(
-          visible: items.isNotEmpty,
-          child: _buildMangaListTitle(context, type),
-        ),
-      ),
-      SliverGrid.builder(
-        itemCount: items.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0 / 5.2,
-        ),
-        itemBuilder: (context, index) {
-          return _buildGridItems(context, type, items[index]);
-        },
-      ),
-      SliverToBoxAdapter(
-        child: Container(
-          height: 64,
-          alignment: Alignment.center,
-          child: buildPageSectionWidget(
-            context: context,
-            pagingState: state,
-            onRetryLoadPage: () {
-              switch (type) {
-                case ReadingMangaList():
-                  return context
-                      .read<ReadingMangaListPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case DroppedMangaList():
-                  return context
-                      .read<DroppedMangaListPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case WatchingAnimeList():
-                  return context
-                      .read<WatchingAnimeListPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case CompletedAnimeList():
-                  return context
-                      .read<CompleteAnimeListPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case DroppedAnimeList():
-                  return context
-                      .read<DroppedAnimeListPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-              }
-            },
-            onLoadMore: () {
-              switch (type) {
-                case ReadingMangaList():
-                  return context
-                      .read<ReadingMangaListPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case DroppedMangaList():
-                  return context
-                      .read<DroppedMangaListPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case WatchingAnimeList():
-                  return context
-                      .read<WatchingAnimeListPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case CompletedAnimeList():
-                  return context
-                      .read<CompleteAnimeListPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case DroppedAnimeList():
-                  return context
-                      .read<DroppedAnimeListPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-              }
-            },
-          ),
-        ),
-      ),
-    ];
-  }
-
-  Widget _buildMangaListTitle(BuildContext context, MediaList type) {
+  String _buildTitle(BuildContext context, MediaList type) {
     final String title;
     switch (type) {
       case ReadingMangaList():
@@ -241,24 +165,15 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
         title = 'Dropped';
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      child: Row(children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ]),
-    );
+    return title;
   }
 
   Widget _buildGridItems(
       BuildContext context, MediaList type, MediaListItemModel model) {
     return MediaPreviewItem(
       coverImage: model.animeModel!.coverImage,
-      title: model.animeModel!.title!.getTitle(AniFlowPreferences()
-          .getAniListSettings()
-          .userTitleLanguage),
+      title: model.animeModel!.title!.getTitle(
+          AniFlowPreferences().getAniListSettings().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
         AFRouterDelegate.of(context)

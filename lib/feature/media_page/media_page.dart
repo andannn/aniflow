@@ -8,7 +8,6 @@ import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart';
 import 'package:flutter/material.dart';
@@ -71,19 +70,13 @@ class _MediaListPageContent extends StatelessWidget {
             },
           ),
         ),
-        body: PagingContent(
+        body: PagingContent<MediaModel, AnimePageBloc>(
           pagingState: pagingState,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             childAspectRatio: 3.0 / 5.2,
           ),
           onBuildItem: (context, model) => _buildGridItems(context, model),
-          onRequestNewPage: () {
-            context.read<AnimePageBloc>().add(OnRequestLoadPageEvent());
-          },
-          onRetryLoadPage: () {
-            context.read<AnimePageBloc>().add(OnRetryLoadPageEvent());
-          },
         ),
       );
     });
@@ -93,9 +86,8 @@ class _MediaListPageContent extends StatelessWidget {
     return MediaPreviewItem(
       textStyle: Theme.of(context).textTheme.labelMedium,
       coverImage: model.coverImage,
-      title: model.title!.getTitle(AniFlowPreferences()
-          .getAniListSettings()
-          .userTitleLanguage),
+      title: model.title!.getTitle(
+          AniFlowPreferences().getAniListSettings().userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
         AFRouterDelegate.of(context).navigateToDetailMedia(

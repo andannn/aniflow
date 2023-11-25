@@ -7,16 +7,14 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
-import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
+import 'package:aniflow/feature/profile/title_with_items_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,6 +37,22 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     favoriteMangaState = context.watch<FavoriteMangaPagingBloc>().state;
     favoriteCharacterState = context.watch<FavoriteCharacterPagingBloc>().state;
     favoriteStaffState = context.watch<FavoriteStaffPagingBloc>().state;
+
+    PagingState? getPagingStateByType(type) {
+      PagingState? state;
+      switch (type) {
+        case FavoriteType.anime:
+          state = favoriteAnimeState;
+        case FavoriteType.manga:
+          state = favoriteMangaState;
+        case FavoriteType.character:
+          state = favoriteCharacterState;
+        case FavoriteType.staff:
+          state = favoriteStaffState;
+      }
+
+      return state;
+    }
 
     final isLoading = favoriteAnimeState is PageLoading ||
         favoriteMangaState is PageLoading ||
@@ -72,111 +86,17 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
           for (var type in FavoriteType.values)
-            ..._buildFavoriteCategory(context, type),
+            ...buildTitleBarWithContent(
+              context: context,
+              onBuildItem: (context, item) =>
+                  _buildGridItems(context, type, item),
+              title: type.getLocalString(context),
+              state: getPagingStateByType(type),
+              onMoreClick: () {},
+            ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
         ],
       ),
-    );
-  }
-
-  List<Widget> _buildFavoriteCategory(BuildContext context, FavoriteType type) {
-    final PagingState? state;
-    switch (type) {
-      case FavoriteType.anime:
-        state = favoriteAnimeState;
-      case FavoriteType.manga:
-        state = favoriteMangaState;
-      case FavoriteType.character:
-        state = favoriteCharacterState;
-      case FavoriteType.staff:
-        state = favoriteStaffState;
-    }
-
-    if (state == null) return [const SliverToBoxAdapter()];
-
-    List items = state.data ?? [];
-
-    if (items.isEmpty) return [const SliverToBoxAdapter()];
-
-    return [
-      SliverToBoxAdapter(
-        child: VerticalScaleSwitcher(
-          visible: items.isNotEmpty,
-          child: _buildFavoriteTitle(context, type),
-        ),
-      ),
-      SliverGrid.builder(
-        itemCount: items.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0 / 5.2,
-        ),
-        itemBuilder: (context, index) {
-          return _buildGridItems(context, type, items[index]);
-        },
-      ),
-      SliverToBoxAdapter(
-        child: Container(
-          height: 64,
-          alignment: Alignment.center,
-          child: buildPageSectionWidget(
-            context: context,
-            pagingState: state,
-            onRetryLoadPage: () {
-              switch (type) {
-                case FavoriteType.anime:
-                  context
-                      .read<FavoriteAnimePagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case FavoriteType.manga:
-                  context
-                      .read<FavoriteMangaPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case FavoriteType.character:
-                  context
-                      .read<FavoriteCharacterPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-                case FavoriteType.staff:
-                  context
-                      .read<FavoriteStaffPagingBloc>()
-                      .add(OnRetryLoadPageEvent());
-              }
-            },
-            onLoadMore: () {
-              switch (type) {
-                case FavoriteType.anime:
-                  context
-                      .read<FavoriteAnimePagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case FavoriteType.manga:
-                  context
-                      .read<FavoriteMangaPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case FavoriteType.character:
-                  context
-                      .read<FavoriteCharacterPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-                case FavoriteType.staff:
-                  context
-                      .read<FavoriteStaffPagingBloc>()
-                      .add(OnRequestLoadPageEvent());
-              }
-            },
-          ),
-        ),
-      ),
-    ];
-  }
-
-  Widget _buildFavoriteTitle(BuildContext context, FavoriteType type) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      child: Row(children: [
-        Text(
-          type.getLocalString(context),
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ]),
     );
   }
 
@@ -189,9 +109,8 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       case FavoriteType.anime:
       case FavoriteType.manga:
         coverImage = (model as MediaModel).coverImage;
-        title = model.title!.getTitle(AniFlowPreferences()
-            .getAniListSettings()
-            .userTitleLanguage);
+        title = model.title!.getTitle(
+            AniFlowPreferences().getAniListSettings().userTitleLanguage);
         id = model.id;
       case FavoriteType.character:
         coverImage = (model as CharacterModel).image;
