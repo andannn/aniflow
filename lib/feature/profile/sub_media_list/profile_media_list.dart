@@ -142,7 +142,15 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
               title: _buildTitle(context, type),
               onBuildItem: (context, item) =>
                   _buildGridItems(context, type, item),
-              onMoreClick: () {},
+              onMoreClick: () {
+                final userId = context.read<ProfileBloc>().state.userData?.id;
+                if (userId == null) {
+                  return;
+                }
+
+                AFRouterDelegate.of(context)
+                    .navigateToMediaListPage(type, userId);
+              },
             ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
         ],

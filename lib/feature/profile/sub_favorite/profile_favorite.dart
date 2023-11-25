@@ -92,7 +92,15 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   _buildGridItems(context, type, item),
               title: type.getLocalString(context),
               state: getPagingStateByType(type),
-              onMoreClick: () {},
+              onMoreClick: () {
+                final userId = context.read<ProfileBloc>().state.userData?.id;
+                if (userId == null) {
+                  return;
+                }
+
+                AFRouterDelegate.of(context)
+                    .navigateToFavoritePage(type, userId);
+              },
             ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
         ],
