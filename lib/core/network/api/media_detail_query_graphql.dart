@@ -1,3 +1,5 @@
+import 'package:aniflow/core/network/api/media_content_graphql.dart';
+
 String get mediaDetailQueryGraphQLString =>
 '''
 query (\$id: Int) {
@@ -113,30 +115,7 @@ query (\$id: Int) {
       }
     }
     relations {
-      edges {
-        relationType
-        node {
-          id
-          type
-          format
-          status
-          episodes
-          seasonYear
-          season
-          source
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          title {
-            romaji
-            english
-            native
-          }
-        }
-      }
+      $mediaConnectionQueryGraphql
     }
   }
 }

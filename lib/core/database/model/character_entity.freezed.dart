@@ -26,6 +26,22 @@ mixin _$CharacterEntity {
   String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: CharacterColumns.name)
   String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.description)
+  String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.gender)
+  String? get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.dateOfBirth)
+  int? get dateOfBirth => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.age)
+  String? get age => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.bloodType)
+  String? get bloodType => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.siteUrl)
+  String? get siteUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.favourites)
+  int? get favourites => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.isFavourite)
+  int? get isFavourite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +58,15 @@ abstract class $CharacterEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
       @JsonKey(name: CharacterColumns.image) String? image,
-      @JsonKey(name: CharacterColumns.name) String? name});
+      @JsonKey(name: CharacterColumns.name) String? name,
+      @JsonKey(name: CharacterColumns.description) String? description,
+      @JsonKey(name: CharacterColumns.gender) String? gender,
+      @JsonKey(name: CharacterColumns.dateOfBirth) int? dateOfBirth,
+      @JsonKey(name: CharacterColumns.age) String? age,
+      @JsonKey(name: CharacterColumns.bloodType) String? bloodType,
+      @JsonKey(name: CharacterColumns.siteUrl) String? siteUrl,
+      @JsonKey(name: CharacterColumns.favourites) int? favourites,
+      @JsonKey(name: CharacterColumns.isFavourite) int? isFavourite});
 }
 
 /// @nodoc
@@ -61,6 +85,14 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
     Object? id = null,
     Object? image = freezed,
     Object? name = freezed,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? dateOfBirth = freezed,
+    Object? age = freezed,
+    Object? bloodType = freezed,
+    Object? siteUrl = freezed,
+    Object? favourites = freezed,
+    Object? isFavourite = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,6 +107,38 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      favourites: freezed == favourites
+          ? _value.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -90,7 +154,15 @@ abstract class _$$CharacterEntityImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
       @JsonKey(name: CharacterColumns.image) String? image,
-      @JsonKey(name: CharacterColumns.name) String? name});
+      @JsonKey(name: CharacterColumns.name) String? name,
+      @JsonKey(name: CharacterColumns.description) String? description,
+      @JsonKey(name: CharacterColumns.gender) String? gender,
+      @JsonKey(name: CharacterColumns.dateOfBirth) int? dateOfBirth,
+      @JsonKey(name: CharacterColumns.age) String? age,
+      @JsonKey(name: CharacterColumns.bloodType) String? bloodType,
+      @JsonKey(name: CharacterColumns.siteUrl) String? siteUrl,
+      @JsonKey(name: CharacterColumns.favourites) int? favourites,
+      @JsonKey(name: CharacterColumns.isFavourite) int? isFavourite});
 }
 
 /// @nodoc
@@ -107,6 +179,14 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? image = freezed,
     Object? name = freezed,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? dateOfBirth = freezed,
+    Object? age = freezed,
+    Object? bloodType = freezed,
+    Object? siteUrl = freezed,
+    Object? favourites = freezed,
+    Object? isFavourite = freezed,
   }) {
     return _then(_$CharacterEntityImpl(
       id: null == id
@@ -121,6 +201,38 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      favourites: freezed == favourites
+          ? _value.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: freezed == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -131,7 +243,15 @@ class _$CharacterEntityImpl implements _CharacterEntity {
   _$CharacterEntityImpl(
       {@JsonKey(name: CharacterColumns.id) this.id = '',
       @JsonKey(name: CharacterColumns.image) this.image = '',
-      @JsonKey(name: CharacterColumns.name) this.name});
+      @JsonKey(name: CharacterColumns.name) this.name,
+      @JsonKey(name: CharacterColumns.description) this.description,
+      @JsonKey(name: CharacterColumns.gender) this.gender,
+      @JsonKey(name: CharacterColumns.dateOfBirth) this.dateOfBirth,
+      @JsonKey(name: CharacterColumns.age) this.age,
+      @JsonKey(name: CharacterColumns.bloodType) this.bloodType,
+      @JsonKey(name: CharacterColumns.siteUrl) this.siteUrl,
+      @JsonKey(name: CharacterColumns.favourites) this.favourites,
+      @JsonKey(name: CharacterColumns.isFavourite) this.isFavourite});
 
   factory _$CharacterEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$CharacterEntityImplFromJson(json);
@@ -145,10 +265,34 @@ class _$CharacterEntityImpl implements _CharacterEntity {
   @override
   @JsonKey(name: CharacterColumns.name)
   final String? name;
+  @override
+  @JsonKey(name: CharacterColumns.description)
+  final String? description;
+  @override
+  @JsonKey(name: CharacterColumns.gender)
+  final String? gender;
+  @override
+  @JsonKey(name: CharacterColumns.dateOfBirth)
+  final int? dateOfBirth;
+  @override
+  @JsonKey(name: CharacterColumns.age)
+  final String? age;
+  @override
+  @JsonKey(name: CharacterColumns.bloodType)
+  final String? bloodType;
+  @override
+  @JsonKey(name: CharacterColumns.siteUrl)
+  final String? siteUrl;
+  @override
+  @JsonKey(name: CharacterColumns.favourites)
+  final int? favourites;
+  @override
+  @JsonKey(name: CharacterColumns.isFavourite)
+  final int? isFavourite;
 
   @override
   String toString() {
-    return 'CharacterEntity(id: $id, image: $image, name: $name)';
+    return 'CharacterEntity(id: $id, image: $image, name: $name, description: $description, gender: $gender, dateOfBirth: $dateOfBirth, age: $age, bloodType: $bloodType, siteUrl: $siteUrl, favourites: $favourites, isFavourite: $isFavourite)';
   }
 
   @override
@@ -158,12 +302,26 @@ class _$CharacterEntityImpl implements _CharacterEntity {
             other is _$CharacterEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.dateOfBirth, dateOfBirth) ||
+                other.dateOfBirth == dateOfBirth) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.bloodType, bloodType) ||
+                other.bloodType == bloodType) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
+            (identical(other.favourites, favourites) ||
+                other.favourites == favourites) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, image, name);
+  int get hashCode => Object.hash(runtimeType, id, image, name, description,
+      gender, dateOfBirth, age, bloodType, siteUrl, favourites, isFavourite);
 
   @JsonKey(ignore: true)
   @override
@@ -182,10 +340,18 @@ class _$CharacterEntityImpl implements _CharacterEntity {
 
 abstract class _CharacterEntity implements CharacterEntity {
   factory _CharacterEntity(
-          {@JsonKey(name: CharacterColumns.id) final String id,
-          @JsonKey(name: CharacterColumns.image) final String? image,
-          @JsonKey(name: CharacterColumns.name) final String? name}) =
-      _$CharacterEntityImpl;
+      {@JsonKey(name: CharacterColumns.id) final String id,
+      @JsonKey(name: CharacterColumns.image) final String? image,
+      @JsonKey(name: CharacterColumns.name) final String? name,
+      @JsonKey(name: CharacterColumns.description) final String? description,
+      @JsonKey(name: CharacterColumns.gender) final String? gender,
+      @JsonKey(name: CharacterColumns.dateOfBirth) final int? dateOfBirth,
+      @JsonKey(name: CharacterColumns.age) final String? age,
+      @JsonKey(name: CharacterColumns.bloodType) final String? bloodType,
+      @JsonKey(name: CharacterColumns.siteUrl) final String? siteUrl,
+      @JsonKey(name: CharacterColumns.favourites) final int? favourites,
+      @JsonKey(name: CharacterColumns.isFavourite)
+      final int? isFavourite}) = _$CharacterEntityImpl;
 
   factory _CharacterEntity.fromJson(Map<String, dynamic> json) =
       _$CharacterEntityImpl.fromJson;
@@ -199,6 +365,30 @@ abstract class _CharacterEntity implements CharacterEntity {
   @override
   @JsonKey(name: CharacterColumns.name)
   String? get name;
+  @override
+  @JsonKey(name: CharacterColumns.description)
+  String? get description;
+  @override
+  @JsonKey(name: CharacterColumns.gender)
+  String? get gender;
+  @override
+  @JsonKey(name: CharacterColumns.dateOfBirth)
+  int? get dateOfBirth;
+  @override
+  @JsonKey(name: CharacterColumns.age)
+  String? get age;
+  @override
+  @JsonKey(name: CharacterColumns.bloodType)
+  String? get bloodType;
+  @override
+  @JsonKey(name: CharacterColumns.siteUrl)
+  String? get siteUrl;
+  @override
+  @JsonKey(name: CharacterColumns.favourites)
+  int? get favourites;
+  @override
+  @JsonKey(name: CharacterColumns.isFavourite)
+  int? get isFavourite;
   @override
   @JsonKey(ignore: true)
   _$$CharacterEntityImplCopyWith<_$CharacterEntityImpl> get copyWith =>

@@ -7,6 +7,7 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
+import 'package:aniflow/core/network/api/character_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
@@ -482,5 +483,26 @@ class AniListDataSource {
           },
           options: createQueryOptions(_token),
         );
+  }
+
+  Future<CharacterDto> getCharacterById({
+    required String characterId,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = characterDetailQueryGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'id': characterId,
+    };
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+    final Map<String, dynamic> resultJson = response.data['data']['Character'];
+    final characterDto = CharacterDto.fromJson(resultJson);
+
+    return characterDto;
   }
 }

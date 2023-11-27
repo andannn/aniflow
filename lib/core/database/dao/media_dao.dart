@@ -12,6 +12,7 @@ import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:aniflow/core/database/model/relations/airing_schedule_and_media_relation.dart';
+import 'package:aniflow/core/database/model/relations/character_and_releated_media.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
@@ -99,6 +100,14 @@ mixin CharacterColumns {
   static const String id = 'character_id';
   static const String image = 'character_image';
   static const String name = 'character_name';
+  static const String description = 'character_description';
+  static const String gender = 'character_gender';
+  static const String dateOfBirth = 'character_dateOfBirth';
+  static const String age = 'character_age';
+  static const String bloodType = 'character_blood_type';
+  static const String isFavourite = 'character_is_favourite';
+  static const String siteUrl = 'character_site_url';
+  static const String favourites = 'character_favourites';
 }
 
 /// [Tables.characterVoiceActorCrossRefTable]
@@ -165,6 +174,14 @@ mixin MediaRelationCrossRefColumnValues {
   static const String ownerId = 'media_relation_cross_ref_owner_media_id';
   static const String relationId = 'media_relation_cross_ref_relation_media_id';
   static const String relationType = 'media_staff_cross_ref_relation_type';
+}
+
+/// [Tables.characterAndRelatedMediaCrossRef]
+mixin CharacterAndRelatedMediaCrossRef {
+  static const String characterId =
+      'character_and_media_relation_cross_ref_character_id';
+  static const String mediaId =
+      'character_and_media_relation_cross_ref_media_id';
 }
 
 class MediaRelationCrossRef {
@@ -235,6 +252,10 @@ abstract class MediaInformationDao {
       {required int mediaId, required List<StaffAndRoleRelation> entities});
 
   Future insertStaffEntities(List<StaffEntity> entities);
+
+  Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity);
+
+  Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(String id);
 }
 
 class MediaInformationDaoImpl extends MediaInformationDao {
@@ -640,5 +661,51 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       );
     }
     return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity) async {
+    final batch = database.aniflowDB.batch();
+    batch.insert(
+      Tables.characterTable,
+      entity.character.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    for (final media in entity.medias) {
+      batch.insert(
+        Tables.mediaTable,
+        media.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+      batch.insert(
+        Tables.characterAndRelatedMediaCrossRef,
+        {
+          CharacterAndRelatedMediaCrossRef.characterId: entity.character.id,
+          CharacterAndRelatedMediaCrossRef.mediaId: media.id,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(
+    String id,
+  ) async {
+    final sql = 'select * from ${Tables.characterTable} as c \n'
+        'join ${Tables.characterAndRelatedMediaCrossRef} as cm \n'
+        '  on cm.${CharacterAndRelatedMediaCrossRef.characterId} = c.${CharacterColumns.id} \n'
+        'join ${Tables.mediaTable} as m \n'
+        '  on cm.${CharacterAndRelatedMediaCrossRef.mediaId} = m.${MediaTableColumns.id} \n'
+        'where cm.${CharacterAndRelatedMediaCrossRef.characterId} = $id \n';
+
+    List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
+
+    return CharacterAndRelatedMedia(
+      character: CharacterEntity.fromJson(results.first),
+      medias: results.map((e) => MediaEntity.fromJson(e)).toList(),
+    );
   }
 }

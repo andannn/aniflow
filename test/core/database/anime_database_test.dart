@@ -7,6 +7,7 @@ import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
+import 'package:aniflow/core/database/model/relations/character_and_releated_media.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
@@ -137,6 +138,7 @@ void main() {
       AiringSchedulesEntity(id: '142', mediaId: '4353', airingAt: 2),
       AiringSchedulesEntity(id: '152', mediaId: '9523', airingAt: 4),
     ];
+
     final dummyExternalLinks = [
       MediaExternalLinkEntity(
         id: '212',
@@ -149,6 +151,14 @@ void main() {
         site: 'bilibili',
       ),
     ];
+
+    final dummyCharacterAndRelatedMedia = CharacterAndRelatedMedia(
+      character: CharacterEntity(id: '4', name: 'character a'),
+      medias: [
+        MediaEntity(id: '1', nativeTitle: 'media a'),
+        MediaEntity(id: '2', nativeTitle: 'media b'),
+      ],
+    );
 
     setUp(() async {
       sqfliteFfiInit();
@@ -263,6 +273,17 @@ void main() {
       final res = await animeDao.getMediaRelations('4353');
       expect(res.map((e) => e.media),
           equals(dummyMediaRelation.medias.map((e) => e.media)));
+    });
+
+    test('insert_and_get_character_and_related_media', () async {
+      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      await animeDao
+          .insertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
+
+      final res = await animeDao.getCharacterAndRelatedMedia('4');
+
+      expect(res.character, equals(dummyCharacterAndRelatedMedia.character));
+      expect(res.medias, equals(dummyCharacterAndRelatedMedia.medias));
     });
   });
 }

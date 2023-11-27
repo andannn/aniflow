@@ -30,6 +30,8 @@ mixin Tables {
   static const String mediaExternalLickTable = 'media_external_link_table';
   static const String favoriteInfoTable = 'favorite_info_table';
   static const String mediaRelationCrossRef = 'media_relation_cross_ref_table';
+  static const String characterAndRelatedMediaCrossRef =
+      'character_and_related_media_cross_ref_table';
   static const String activityTable = 'activity_table';
   static const String activityFilterTypeCrossRef =
       'activity_filter_type_cross_ref_table';
@@ -158,20 +160,28 @@ class AniflowDatabase {
     batch.execute('create table if not exists ${Tables.characterTable} ('
         '${CharacterColumns.id} text primary key,'
         '${CharacterColumns.image} text,'
-        '${CharacterColumns.name} text'
+        '${CharacterColumns.name} text,'
+        '${CharacterColumns.description} text,'
+        '${CharacterColumns.gender} text,'
+        '${CharacterColumns.dateOfBirth} text,'
+        '${CharacterColumns.age} text,'
+        '${CharacterColumns.bloodType} text,'
+        '${CharacterColumns.isFavourite} text,'
+        '${CharacterColumns.siteUrl} text,'
+        '${CharacterColumns.favourites} integer'
         ')');
 
     batch.execute(
         'create table if not exists ${Tables.characterVoiceActorCrossRefTable} ('
-            '${CharacterVoiceActorCrossRefColumns.id} integer primary key autoincrement,'
-            '${CharacterVoiceActorCrossRefColumns.characterId} text,'
-            '${CharacterVoiceActorCrossRefColumns.staffId} text,'
-            '${CharacterVoiceActorCrossRefColumns.role} text,'
-            '${CharacterVoiceActorCrossRefColumns.language} text,'
-            'unique (${CharacterVoiceActorCrossRefColumns.characterId}, ${CharacterVoiceActorCrossRefColumns.staffId}),'
-            'foreign key (${CharacterVoiceActorCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id}),'
-            'foreign key (${CharacterVoiceActorCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
-            ')');
+        '${CharacterVoiceActorCrossRefColumns.id} integer primary key autoincrement,'
+        '${CharacterVoiceActorCrossRefColumns.characterId} text,'
+        '${CharacterVoiceActorCrossRefColumns.staffId} text,'
+        '${CharacterVoiceActorCrossRefColumns.role} text,'
+        '${CharacterVoiceActorCrossRefColumns.language} text,'
+        'unique (${CharacterVoiceActorCrossRefColumns.characterId}, ${CharacterVoiceActorCrossRefColumns.staffId}),'
+        'foreign key (${CharacterVoiceActorCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id}),'
+        'foreign key (${CharacterVoiceActorCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
+        ')');
 
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
@@ -284,16 +294,13 @@ class AniflowDatabase {
         'foreign key (${ActivityFilterTypeCrossRefColumns.activityId}) references ${Tables.activityTable} (${ActivityTableColumns.id})'
         ')');
 
-    batch.execute('create table if not exists parent_table ('
-        'parent_id text primary key,'
-        'name text'
-        ')');
-
-    batch.execute('create table if not exists child ('
-        'child_id text primary key,'
-        'parent_f_key text, '
-        'child_name text, '
-        'foreign key (parent_f_key) references parent_table (parent_id)'
+    batch.execute(
+        'create table if not exists ${Tables.characterAndRelatedMediaCrossRef} ('
+        '${CharacterAndRelatedMediaCrossRef.characterId} text,'
+        '${CharacterAndRelatedMediaCrossRef.mediaId} text,'
+        'primary key (${CharacterAndRelatedMediaCrossRef.characterId}, ${CharacterAndRelatedMediaCrossRef.mediaId}),'
+        'foreign key (${CharacterAndRelatedMediaCrossRef.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        'foreign key (${CharacterAndRelatedMediaCrossRef.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');
 
     await batch.commit(noResult: true);
