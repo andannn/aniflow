@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -9,14 +10,17 @@ import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sqflite/sqflite.dart';
 
 part 'model/media_list_status.dart';
 
@@ -44,6 +48,13 @@ abstract class MediaListRepository {
     CancelToken? token,
   });
 
+  Future<LoadResult> syncMediaListItem({
+    String? userId,
+    required String mediaId,
+    required ScoreFormat format,
+    required CancelToken token,
+  });
+
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
       {required String userId,
       required List<MediaListStatus> status,
@@ -54,10 +65,16 @@ abstract class MediaListRepository {
 
   Future<LoadResult<void>> updateMediaList({
     required String animeId,
-    required MediaListStatus status,
+    MediaListStatus? status,
     String? entryId,
     int? progress,
-    int? score,
+    int? progressVolumes,
+    double? score,
+    int? repeat,
+    bool private = false,
+    String? notes,
+    DateTime? startedAt,
+    DateTime? completedAt,
     CancelToken? cancelToken,
   });
 
@@ -94,12 +111,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
       onGetNetworkRes: (int page, int perPage) {
         return aniListDataSource.getUserMediaListPage(
           param: UserAnimeListPageQueryParam(
-            page: page,
-            perPage: perPage,
-            userId: int.parse(targetUserId),
-            mediaType: type,
-            status: status,
-          ),
+              page: page,
+              perPage: perPage,
+              userId: int.parse(targetUserId),
+              mediaType: type,
+              status: status,
+              format: AniFlowPreferences().getAniListSettings().scoreFormat),
           token: token,
         );
       },
@@ -136,6 +153,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
           mediaType: mediaType,
           status: status,
           userId: int.parse(targetUserId.toString()),
+          format: AniFlowPreferences().getAniListSettings().scoreFormat,
         ),
         token: token,
       );
@@ -146,6 +164,46 @@ class MediaListRepositoryImpl extends MediaListRepository {
           .toList();
       await mediaListDao.insertMediaListAndMediaRelations(entities);
 
+      mediaListDao.notifyMediaListChanged(targetUserId);
+      return LoadSuccess(data: null);
+    } on DioException catch (e) {
+      return LoadError(e);
+    }
+  }
+
+  @override
+  Future<LoadResult> syncMediaListItem({
+    String? userId,
+    required String mediaId,
+    required ScoreFormat format,
+    required CancelToken token,
+  }) async {
+    try {
+      final targetUserId = userId ?? preferences.getAuthedUserId();
+      if (targetUserId == null) {
+        /// No user.
+        return LoadError(Exception('no user'));
+      }
+
+      /// get all anime list items from network.
+      final networkMediaList = await aniListDataSource.getSingleMediaListItem(
+        userId: targetUserId,
+        mediaId: mediaId,
+        format: format,
+        token: token,
+      );
+
+      /// insert data to db.
+      final entity = networkMediaList != null
+          ? MediaListAndMediaRelation.fromDto(networkMediaList)
+          : null;
+
+      if (entity == null) {
+        return LoadError(Exception('No media list'));
+      }
+
+      await mediaListDao
+          .insertMediaListAndMediaRelations([entity], ConflictAlgorithm.ignore);
       mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
@@ -186,10 +244,16 @@ class MediaListRepositoryImpl extends MediaListRepository {
   @override
   Future<LoadResult<void>> updateMediaList({
     required String animeId,
-    required MediaListStatus status,
+    MediaListStatus? status,
     String? entryId,
     int? progress,
-    int? score,
+    int? progressVolumes,
+    double? score,
+    int? repeat,
+    bool private = false,
+    String? notes,
+    DateTime? startedAt,
+    DateTime? completedAt,
     CancelToken? cancelToken,
   }) async {
     final entity =
@@ -208,7 +272,12 @@ class MediaListRepositoryImpl extends MediaListRepository {
       final updatedEntity = entity.copyWith(
         status: status,
         progress: progress ?? entity.progress,
-        score: score ?? entity.progress,
+        score: score ?? entity.score,
+        repeat: repeat ?? entity.repeat,
+        notes: notes ?? entity.notes,
+        startedAt: startedAt?.millisecondsSinceEpoch ?? entity.startedAt,
+        completedAt: completedAt?.millisecondsSinceEpoch ?? entity.completedAt,
+        private: private.toInteger() ?? entity.private,
         updatedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       );
       await mediaListDao.insertMediaListEntities([updatedEntity]);
@@ -222,8 +291,14 @@ class MediaListRepositoryImpl extends MediaListRepository {
           entryId: int.tryParse(entryId ?? ''),
           mediaId: int.parse(animeId),
           progress: progress,
+          progressVolumes: progressVolumes,
           status: status,
-          score: 0,
+          repeat: repeat,
+          private: private,
+          notes: notes,
+          startedAt: startedAt.toFuzzyDateInput(),
+          completedAt: completedAt.toFuzzyDateInput(),
+          score: score,
         ),
         token: cancelToken,
       );

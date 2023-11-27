@@ -2,6 +2,7 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -76,6 +77,7 @@ void main() {
           perPage: 12,
           userId: 1,
           status: [MediaListStatus.completed, MediaListStatus.current],
+          format: ScoreFormat.point3,
         ),
       );
     });

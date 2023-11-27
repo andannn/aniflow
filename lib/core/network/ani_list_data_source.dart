@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
@@ -76,7 +77,7 @@ class AniListDataSource {
     final variablesMap = <String, dynamic>{
       'page': page,
       'perPage': perPage,
-      'type': param.type.jsonString,
+      'type': param.type.toJson(),
     };
 
     if (hasSeasonYear) {
@@ -172,13 +173,14 @@ class AniListDataSource {
     required UserAnimeListPageQueryParam param,
     CancelToken? token,
   }) async {
-    final queryGraphQL = userAnimeListGraphQLString;
+    final queryGraphQL = userMediaListGraphQLString;
     final hasStatus = param.status.isNotEmpty;
     final hasPerPage = param.perPage != null;
     final hasMediaType = param.mediaType != null;
     final variablesMap = <String, dynamic>{
       'page': param.page,
       'userId': param.userId,
+      'format': param.format,
     };
     if (hasStatus) {
       variablesMap['status_in'] =
@@ -188,7 +190,7 @@ class AniListDataSource {
       variablesMap['perPage'] = param.perPage;
     }
     if (hasMediaType) {
-      variablesMap['type'] = param.mediaType!.jsonString;
+      variablesMap['type'] = param.mediaType!.toJson();
     }
 
     final response = await AniListDio().dio.post(
@@ -203,6 +205,36 @@ class AniListDataSource {
         resultJson.map((e) => MediaListDto.fromJson(e)).toList();
 
     return animeList;
+  }
+
+  Future<MediaListDto?> getSingleMediaListItem({
+    required String userId,
+    required String mediaId,
+    required ScoreFormat format,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = singleMediaListGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'mediaId': mediaId,
+      'userId': userId,
+      'format': format.toJson(),
+    };
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+
+    final Map<String, dynamic> resultJson = response.data['data']['MediaList'];
+    final mediaList = MediaListDto.fromJson(resultJson);
+
+    if (mediaList.id == -1) {
+      return null;
+    } else {
+      return MediaListDto.fromJson(resultJson);
+    }
   }
 
   Future<List<AiringScheduleDto>> getAiringSchedules({
@@ -243,7 +275,7 @@ class AniListDataSource {
       'search': search,
       'page': page,
       'perPage': perPage,
-      'type': type.jsonString,
+      'type': type.toJson(),
     };
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
@@ -440,10 +472,7 @@ class AniListDataSource {
   Future toggleSocialContentLike(
       String id, LikeableType type, CancelToken token) async {
     final queryGraphQL = activityLikeMutationGraphql;
-    final variablesMap = <String, dynamic>{
-      'id' : id,
-      'type': type
-    };
+    final variablesMap = <String, dynamic>{'id': id, 'type': type};
     await AniListDio().dio.post(
           AniListDio.aniListUrl,
           cancelToken: token,

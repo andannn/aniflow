@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DetailMediaUiState {
-  dynamic get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
   MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
 
@@ -32,7 +32,7 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
       _$DetailMediaUiStateCopyWithImpl<$Res, DetailMediaUiState>;
   @useResult
   $Res call(
-      {dynamic isLoading,
+      {bool isLoading,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem});
 
@@ -53,15 +53,15 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: freezed == isLoading
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
@@ -107,7 +107,7 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {dynamic isLoading,
+      {bool isLoading,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem});
 
@@ -128,12 +128,15 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
   }) {
     return _then(_$DetailMediaUiStateImpl(
-      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
           : detailAnimeModel // ignore: cast_nullable_to_non_nullable
@@ -154,7 +157,7 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
 
   @override
   @JsonKey()
-  final dynamic isLoading;
+  final bool isLoading;
   @override
   final MediaModel? detailAnimeModel;
   @override
@@ -170,7 +173,8 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DetailMediaUiStateImpl &&
-            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.detailAnimeModel, detailAnimeModel) ||
                 other.detailAnimeModel == detailAnimeModel) &&
             (identical(other.mediaListItem, mediaListItem) ||
@@ -178,11 +182,8 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isLoading),
-      detailAnimeModel,
-      mediaListItem);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, detailAnimeModel, mediaListItem);
 
   @JsonKey(ignore: true)
   @override
@@ -194,12 +195,12 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
 
 abstract class _DetailMediaUiState implements DetailMediaUiState {
   factory _DetailMediaUiState(
-      {final dynamic isLoading,
+      {final bool isLoading,
       final MediaModel? detailAnimeModel,
       final MediaListItemModel? mediaListItem}) = _$DetailMediaUiStateImpl;
 
   @override
-  dynamic get isLoading;
+  bool get isLoading;
   @override
   MediaModel? get detailAnimeModel;
   @override

@@ -16,6 +16,7 @@ mixin TimeUtil {
     final days = duration.inDays;
     final hours = duration.inHours % 60;
     final minutes = duration.inMinutes % 60;
+    final seconds = duration.inSeconds % 60;
 
     if (days != 0) {
       result.add('$days days');
@@ -25,6 +26,9 @@ mixin TimeUtil {
     }
     if (minutes != 0) {
       result.add('$minutes minutes');
+    }
+    if (seconds != 0) {
+      result.add('$seconds seconds');
     }
     return result.firstOrNull;
   }

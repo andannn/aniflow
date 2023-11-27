@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -9,7 +7,9 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
+import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -28,10 +28,10 @@ class _OnMediaListItemChanged extends DetailAnimeEvent {
   final MediaListItemModel? mediaListItemModel;
 }
 
-class OnToggleFollowState extends DetailAnimeEvent {
-  OnToggleFollowState({required this.isFollow});
+class OnMediaListModified extends DetailAnimeEvent {
+  OnMediaListModified({required this.result});
 
-  final bool isFollow;
+  final MediaListModifyResult result;
 }
 
 class OnToggleFavoriteState extends DetailAnimeEvent {
@@ -47,30 +47,30 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
   final bool isLoading;
 }
 
-class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
-  DetailAnimeBloc({
-    required this.animeId,
+class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
+  DetailMediaBloc({
+    required this.mediaId,
     required MediaInformationRepository aniListRepository,
     required AuthRepository authRepository,
     required FavoriteRepository favoriteRepository,
     required MediaListRepository animeTrackListRepository,
-  })  : _aniListRepository = aniListRepository,
-        _animeTrackListRepository = animeTrackListRepository,
+  })  : _mediaRepository = aniListRepository,
+        _mediaListRepository = animeTrackListRepository,
         _favoriteRepository = favoriteRepository,
         _authRepository = authRepository,
         super(DetailMediaUiState()) {
     on<_OnDetailAnimeModelChangedEvent>(_onDetailAnimeModelChangedEvent);
     on<_OnMediaListItemChanged>(_onMediaListItemChanged);
-    on<OnToggleFollowState>(_onToggleFollowState);
+    on<OnMediaListModified>(_onMediaListModified);
     on<OnToggleFavoriteState>(_onToggleFavoriteState);
     on<_OnLoadingStateChanged>(_onLoadingStateChanged);
 
     _init();
   }
 
-  final String animeId;
-  final MediaInformationRepository _aniListRepository;
-  final MediaListRepository _animeTrackListRepository;
+  final String mediaId;
+  final MediaInformationRepository _mediaRepository;
+  final MediaListRepository _mediaListRepository;
   final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
 
@@ -80,8 +80,7 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   CancelToken? _cancelToken;
 
   void _init() async {
-    _detailAnimeSub =
-        _aniListRepository.getDetailAnimeInfoStream(animeId).listen(
+    _detailAnimeSub = _mediaRepository.getDetailAnimeInfoStream(mediaId).listen(
       (animeModel) {
         add(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },
@@ -89,9 +88,9 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
     final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
-      _isTrackingSub = _animeTrackListRepository
+      _isTrackingSub = _mediaListRepository
           .getMediaListItemByUserAndIdStream(
-              userId: userData.id, animeId: animeId)
+              userId: userData.id, animeId: mediaId)
           .listen(
         (item) {
           add(_OnMediaListItemChanged(mediaListItemModel: item));
@@ -121,7 +120,14 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   void _startFetchDetailAnimeInfo() async {
     add(_OnLoadingStateChanged(isLoading: true));
-    await _aniListRepository.startFetchDetailAnimeInfo(animeId);
+    await Future.wait([
+      _mediaRepository.startFetchDetailAnimeInfo(mediaId),
+      _mediaListRepository.syncMediaListItem(
+        mediaId: mediaId,
+        format: AniFlowPreferences().getAniListSettings().scoreFormat,
+        token: CancelToken(),
+      ),
+    ]);
     add(_OnLoadingStateChanged(isLoading: false));
   }
 
@@ -132,32 +138,27 @@ class DetailAnimeBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     emit(state.copyWith(detailAnimeModel: event.model));
   }
 
-  Future<void> _onToggleFollowState(
-      OnToggleFollowState event, Emitter<DetailMediaUiState> emit) async {
-    final status =
-        event.isFollow ? MediaListStatus.current : MediaListStatus.dropped;
+  Future<void> _onMediaListModified(
+      OnMediaListModified event, Emitter<DetailMediaUiState> emit) async {
+    final state = event.result;
 
     add(_OnLoadingStateChanged(isLoading: true));
-    final result = await _animeTrackListRepository.updateMediaList(
-        animeId: animeId, status: status);
+    final result = await _mediaListRepository.updateMediaList(
+      animeId: mediaId,
+      status: state.status,
+      progress: state.progress,
+      progressVolumes: state.progressVolumes,
+      score: state.score,
+      private: state.private,
+      repeat: state.repeat,
+      notes: state.notes,
+      startedAt: state.startedAt,
+      completedAt: state.completedAt,
+    );
     add(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
-      logger.d('toggle follow state failed');
-
-//TODO: show dialog.
-    } else {
-      if (event.isFollow) {
-        showSnackBarMessage(
-          label: AFLocalizations.of().followNewAnimation,
-          duration: SnackBarDuration.short,
-        );
-      } else {
-        showSnackBarMessage(
-          label: AFLocalizations.of().dropAnimation,
-          duration: SnackBarDuration.short,
-        );
-      }
+      ErrorHandler.handleException(exception: result.exception);
     }
   }
 

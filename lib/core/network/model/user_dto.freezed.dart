@@ -32,6 +32,9 @@ mixin _$UserDto {
   int get unreadNotificationCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'options')
   UserOptions? get options => throw _privateConstructorUsedError;
+  @JsonKey(name: 'mediaListOptions')
+  MediaListOptionDto? get mediaListOptions =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,9 +52,11 @@ abstract class $UserDtoCopyWith<$Res> {
       @JsonKey(name: 'avatar') Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'unreadNotificationCount') int unreadNotificationCount,
-      @JsonKey(name: 'options') UserOptions? options});
+      @JsonKey(name: 'options') UserOptions? options,
+      @JsonKey(name: 'mediaListOptions') MediaListOptionDto? mediaListOptions});
 
   $UserOptionsCopyWith<$Res>? get options;
+  $MediaListOptionDtoCopyWith<$Res>? get mediaListOptions;
 }
 
 /// @nodoc
@@ -73,6 +78,7 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     Object? bannerImage = freezed,
     Object? unreadNotificationCount = null,
     Object? options = freezed,
+    Object? mediaListOptions = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -99,6 +105,10 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
               as UserOptions?,
+      mediaListOptions: freezed == mediaListOptions
+          ? _value.mediaListOptions
+          : mediaListOptions // ignore: cast_nullable_to_non_nullable
+              as MediaListOptionDto?,
     ) as $Val);
   }
 
@@ -111,6 +121,18 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
 
     return $UserOptionsCopyWith<$Res>(_value.options!, (value) {
       return _then(_value.copyWith(options: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaListOptionDtoCopyWith<$Res>? get mediaListOptions {
+    if (_value.mediaListOptions == null) {
+      return null;
+    }
+
+    return $MediaListOptionDtoCopyWith<$Res>(_value.mediaListOptions!, (value) {
+      return _then(_value.copyWith(mediaListOptions: value) as $Val);
     });
   }
 }
@@ -128,10 +150,13 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
       @JsonKey(name: 'avatar') Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'unreadNotificationCount') int unreadNotificationCount,
-      @JsonKey(name: 'options') UserOptions? options});
+      @JsonKey(name: 'options') UserOptions? options,
+      @JsonKey(name: 'mediaListOptions') MediaListOptionDto? mediaListOptions});
 
   @override
   $UserOptionsCopyWith<$Res>? get options;
+  @override
+  $MediaListOptionDtoCopyWith<$Res>? get mediaListOptions;
 }
 
 /// @nodoc
@@ -151,6 +176,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
     Object? bannerImage = freezed,
     Object? unreadNotificationCount = null,
     Object? options = freezed,
+    Object? mediaListOptions = freezed,
   }) {
     return _then(_$UserDtoImpl(
       id: null == id
@@ -177,6 +203,10 @@ class __$$UserDtoImplCopyWithImpl<$Res>
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
               as UserOptions?,
+      mediaListOptions: freezed == mediaListOptions
+          ? _value.mediaListOptions
+          : mediaListOptions // ignore: cast_nullable_to_non_nullable
+              as MediaListOptionDto?,
     ));
   }
 }
@@ -191,7 +221,8 @@ class _$UserDtoImpl implements _UserDto {
       @JsonKey(name: 'bannerImage') this.bannerImage = '',
       @JsonKey(name: 'unreadNotificationCount')
       this.unreadNotificationCount = 0,
-      @JsonKey(name: 'options') this.options})
+      @JsonKey(name: 'options') this.options,
+      @JsonKey(name: 'mediaListOptions') this.mediaListOptions})
       : _avatar = avatar;
 
   factory _$UserDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -221,10 +252,13 @@ class _$UserDtoImpl implements _UserDto {
   @override
   @JsonKey(name: 'options')
   final UserOptions? options;
+  @override
+  @JsonKey(name: 'mediaListOptions')
+  final MediaListOptionDto? mediaListOptions;
 
   @override
   String toString() {
-    return 'UserDto(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, unreadNotificationCount: $unreadNotificationCount, options: $options)';
+    return 'UserDto(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, unreadNotificationCount: $unreadNotificationCount, options: $options, mediaListOptions: $mediaListOptions)';
   }
 
   @override
@@ -240,7 +274,9 @@ class _$UserDtoImpl implements _UserDto {
             (identical(
                     other.unreadNotificationCount, unreadNotificationCount) ||
                 other.unreadNotificationCount == unreadNotificationCount) &&
-            (identical(other.options, options) || other.options == options));
+            (identical(other.options, options) || other.options == options) &&
+            (identical(other.mediaListOptions, mediaListOptions) ||
+                other.mediaListOptions == mediaListOptions));
   }
 
   @JsonKey(ignore: true)
@@ -252,7 +288,8 @@ class _$UserDtoImpl implements _UserDto {
       const DeepCollectionEquality().hash(_avatar),
       bannerImage,
       unreadNotificationCount,
-      options);
+      options,
+      mediaListOptions);
 
   @JsonKey(ignore: true)
   @override
@@ -276,7 +313,9 @@ abstract class _UserDto implements UserDto {
       @JsonKey(name: 'bannerImage') final String? bannerImage,
       @JsonKey(name: 'unreadNotificationCount')
       final int unreadNotificationCount,
-      @JsonKey(name: 'options') final UserOptions? options}) = _$UserDtoImpl;
+      @JsonKey(name: 'options') final UserOptions? options,
+      @JsonKey(name: 'mediaListOptions')
+      final MediaListOptionDto? mediaListOptions}) = _$UserDtoImpl;
 
   factory _UserDto.fromJson(Map<String, dynamic> json) = _$UserDtoImpl.fromJson;
 
@@ -298,6 +337,9 @@ abstract class _UserDto implements UserDto {
   @override
   @JsonKey(name: 'options')
   UserOptions? get options;
+  @override
+  @JsonKey(name: 'mediaListOptions')
+  MediaListOptionDto? get mediaListOptions;
   @override
   @JsonKey(ignore: true)
   _$$UserDtoImplCopyWith<_$UserDtoImpl> get copyWith =>

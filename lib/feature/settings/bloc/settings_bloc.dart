@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -22,10 +26,22 @@ class _OnAniListSettingsChanged extends SettingEvent {
   final AniListSettings settings;
 }
 
+class _OnThemeSettingChanged extends SettingEvent {
+  _OnThemeSettingChanged(this.setting);
+
+  final ThemeSetting setting;
+}
+
 class OnListOptionChanged extends SettingEvent {
   OnListOptionChanged(this.setting);
 
   final Setting setting;
+}
+
+class _OnMediaTypeChanged extends SettingEvent {
+  _OnMediaTypeChanged(this.type);
+
+  final MediaType type;
 }
 
 class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
@@ -35,7 +51,15 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   })  : _settingsRepository = settingsRepository,
         _authRepository = authRepository,
         super(SettingsState()) {
-    on<_OnAniListSettingsChanged>(_onAniListSettingsChanged);
+    on<_OnAniListSettingsChanged>(
+      (event, emit) => emit(state.copyWith(settings: event.settings)),
+    );
+    on<_OnThemeSettingChanged>(
+      (event, emit) => emit(state.copyWith(theme: event.setting)),
+    );
+    on<_OnMediaTypeChanged>(
+      (event, emit) => emit(state.copyWith(type: event.type)),
+    );
     on<OnListOptionChanged>(_onListOptionChanged);
 
     _init();
@@ -45,33 +69,43 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   final AuthRepository _authRepository;
 
   StreamSubscription? _settingsSub;
+  StreamSubscription? _themeSub;
+  StreamSubscription? _mediaTypeSub;
 
   final Map<String, CancelToken> _cancelTokenMap = {};
 
   @override
   Future<void> close() {
     _settingsSub?.cancel();
+    _themeSub?.cancel();
+    _mediaTypeSub?.cancel();
     return super.close();
   }
 
   void _init() async {
-    _settingsRepository;
     _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
       (settings) {
         add(_OnAniListSettingsChanged(settings));
       },
     );
-  }
 
-  FutureOr<void> _onAniListSettingsChanged(
-      _OnAniListSettingsChanged event, Emitter<SettingsState> emit) {
-    emit(state.copyWith(settings: event.settings));
+    _themeSub ??= _settingsRepository.getThemeSettingStream().listen(
+      (settings) {
+        add(_OnThemeSettingChanged(settings));
+      },
+    );
+
+    _mediaTypeSub ??= _settingsRepository.getMediaTypeStream().listen(
+      (type) {
+        add(_OnMediaTypeChanged(type));
+      },
+    );
   }
 
   FutureOr<void> _onListOptionChanged(
       OnListOptionChanged event, Emitter<SettingsState> emit) async {
     final setting = event.setting;
-    LoadResult result;
+    LoadResult? result;
     switch (setting) {
       case UserTitleLanguage():
         result = await _authRepository.updateUserSettings(
@@ -88,6 +122,16 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
           userStaffNameLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
         );
+      case ScoreFormat():
+        result = await _authRepository.updateUserSettings(
+          scoreFormat: setting,
+          token: _cancelRequestAndReturnNewToken(setting.runtimeType),
+        );
+      case ThemeSetting():
+        await _settingsRepository.setThemeSetting(setting);
+      case MediaType():
+        await _settingsRepository.setMediaType(setting);
+
       default:
         throw 'Invalid type';
     }
@@ -114,11 +158,29 @@ extension SettingsStateEx on SettingsState {
     final selectedUserStaffNameLanguage =
         settings?.userStaffNameLanguage ?? UserStaffNameLanguage.native;
     final isDisplayAdultContent = settings?.displayAdultContent ?? false;
+    final selectedScoreFormat = settings?.scoreFormat ?? ScoreFormat.point100;
+    final selectedTheme = theme;
+    final selectedMediaType = type;
 
     return [
       SettingCategory(
-        title: 'Theme',
-        settingItems: [],
+        title: 'App',
+        settingItems: [
+          ListSettingItem(
+            title: 'Dark mode preference',
+            selectedOption: selectedTheme._createSettingOption(),
+            options: ThemeSetting.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+          ListSettingItem(
+            title: 'Media contents',
+            selectedOption: selectedMediaType._createSettingOption(),
+            options: MediaType.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+        ],
       ),
       SettingCategory(
         title: 'Anime & Manga',
@@ -146,7 +208,21 @@ extension SettingsStateEx on SettingsState {
       ),
       SettingCategory(
         title: 'Lists',
-        settingItems: [],
+        settingItems: [
+          ListSettingItem(
+            title: 'Scoring System',
+            selectedOption: selectedScoreFormat._createSettingOption(),
+            options: ScoreFormat.values
+                .map((e) => e._createSettingOption())
+                .toList(),
+          ),
+        ],
+      ),
+      SettingCategory(
+        title: 'About',
+        settingItems: [
+          SingleLineWithTapActionSettingItem<About>(title: 'More Info')
+        ],
       ),
     ];
   }
@@ -181,4 +257,56 @@ extension on UserStaffNameLanguage {
         return SettingOption(setting: this, description: 'Native (種﨑敦美)');
     }
   }
+}
+
+extension on ScoreFormat {
+  SettingOption<ScoreFormat> _createSettingOption() {
+    switch (this) {
+      case ScoreFormat.point100:
+        return SettingOption(setting: this, description: '100 Point (55/100)');
+      case ScoreFormat.point10Decimal:
+        return SettingOption(
+            setting: this, description: '10 Point Decimal (5.5/10)');
+      case ScoreFormat.point10:
+        return SettingOption(setting: this, description: '10 Point (5/10)');
+      case ScoreFormat.point5:
+        return SettingOption(setting: this, description: '5 Star (3/5)');
+      case ScoreFormat.point3:
+        return SettingOption(setting: this, description: '3 Point Smiley :)');
+    }
+  }
+}
+
+extension on ThemeSetting {
+  SettingOption<ThemeSetting> _createSettingOption() {
+    switch (this) {
+      case ThemeSetting.dark:
+        return SettingOption(setting: this, description: 'Dark');
+      case ThemeSetting.light:
+        return SettingOption(setting: this, description: 'Light');
+      case ThemeSetting.system:
+        return SettingOption(setting: this, description: 'System default');
+    }
+  }
+}
+
+extension on MediaType {
+  SettingOption<MediaType> _createSettingOption() {
+    switch (this) {
+      case MediaType.anime:
+        return SettingOption(setting: this, description: 'Anime');
+      case MediaType.manga:
+        return SettingOption(setting: this, description: 'Manga');
+    }
+  }
+}
+
+extension SettingNeedRestart on Setting {
+  bool get needRestart => switch (this) {
+        DisplayAdultContent() => true,
+        ScoreFormat() => true,
+        UserTitleLanguage() => false,
+        UserStaffNameLanguage() => false,
+        _ => false,
+      };
 }

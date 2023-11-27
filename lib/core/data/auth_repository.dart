@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
@@ -33,6 +34,7 @@ abstract class AuthRepository {
     UserTitleLanguage? userTitleLanguage,
     UserStaffNameLanguage? userStaffNameLanguage,
     bool? displayAdultContent,
+    ScoreFormat? scoreFormat,
     CancelToken? token,
   });
 
@@ -82,8 +84,9 @@ class AuthRepositoryImpl implements AuthRepository {
         final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
         await preferences.setAuthedUserId(userEntity.id);
-        await preferences
-            .setAniListSettings(AniListSettings.fromDto(userDto.options!));
+        await preferences.setAniListSettings(
+          AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
+        );
 
         /// login success.
         return true;
@@ -131,6 +134,7 @@ class AuthRepositoryImpl implements AuthRepository {
     UserTitleLanguage? userTitleLanguage,
     UserStaffNameLanguage? userStaffNameLanguage,
     bool? displayAdultContent,
+    ScoreFormat? scoreFormat,
     CancelToken? token,
   }) {
     return NetworkUtil.postMutationAndRevertWhenException(
@@ -149,18 +153,23 @@ class AuthRepositoryImpl implements AuthRepository {
           newSettings = newSettings.copyWith(
               userStaffNameLanguage: userStaffNameLanguage);
         }
+        if (scoreFormat != null) {
+          newSettings = newSettings.copyWith(scoreFormat: scoreFormat);
+        }
         return newSettings;
       },
       onSaveLocal: (settings) => preferences.setAniListSettings(settings),
       onSyncWithRemote: (settings) async {
-        final user =  await authDataSource.updateUserSettings(
+        final user = await authDataSource.updateUserSettings(
           param: UpdateUserMotionParam(
-              titleLanguage: userTitleLanguage,
-              displayAdultContent: displayAdultContent,
-              userStaffNameLanguage: userStaffNameLanguage),
+            titleLanguage: userTitleLanguage,
+            displayAdultContent: displayAdultContent,
+            userStaffNameLanguage: userStaffNameLanguage,
+            scoreFormat: scoreFormat
+          ),
           token: token,
         );
-        return AniListSettings.fromDto(user.options!);
+        return AniListSettings.fromDto(user.options!, user.mediaListOptions!);
       },
     );
   }
@@ -176,8 +185,9 @@ class AuthRepositoryImpl implements AuthRepository {
       final userDto = await authDataSource.getAuthedUserDataDto();
       final userEntity = UserEntity.fromDto(userDto);
       await userDataDao.updateUserData(userEntity);
-      await preferences
-          .setAniListSettings(AniListSettings.fromDto(userDto.options!));
+      await preferences.setAniListSettings(
+        AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
+      );
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
       return LoadError(exception);

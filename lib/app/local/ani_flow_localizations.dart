@@ -145,16 +145,16 @@ class EnAniFlowLocalizations extends AFLocalizations {
   String get retry => 'Retry';
 
   @override
-  String get fail => 'fail';
+  String get fail => 'Fail';
 
   @override
-  String get spring => 'spring';
+  String get spring => 'Spring';
 
   @override
-  String get summer => 'summer';
+  String get summer => 'Summer';
 
   @override
-  String get winter => 'winter';
+  String get winter => 'Winter';
 
   @override
   String get backgroundCharacter => 'Background';

@@ -21,8 +21,14 @@ mixin MediaListTableColumns {
   static const String mediaId = 'media_list_media_id';
   static const String status = 'media_list_status';
   static const String progress = 'media_list_progress';
+  static const String progressVolumes = 'media_list_progress_volumes';
+  static const String notes = 'media_list_notes';
+  static const String startedAt = 'media_list_started_at';
+  static const String completedAt = 'media_list_completed_at';
   static const String score = 'media_list_score';
   static const String updatedAt = 'media_list_updatedAt';
+  static const String repeat = 'media_list_repeat';
+  static const String private = 'media_list_private';
 }
 
 abstract class MediaListDao {
@@ -58,7 +64,8 @@ abstract class MediaListDao {
   Future insertMediaListEntities(List<MediaListEntity> entities);
 
   Future insertMediaListAndMediaRelations(
-      List<MediaListAndMediaRelation> entities);
+      List<MediaListAndMediaRelation> entities,
+      [ConflictAlgorithm mediaConflictAlgorithm = ConflictAlgorithm.replace]);
 
   Future deleteMediaListOfUser(String userId);
 
@@ -99,7 +106,7 @@ class MediaListDaoImpl extends MediaListDao {
         'on ua.${MediaListTableColumns.mediaId}=a.${MediaTableColumns.id} '
         'where ${MediaListTableColumns.status} in ($statusParam) '
         '  and ${MediaListTableColumns.userId}=\'$userId\' '
-        '  and a.${MediaTableColumns.type}=\'${type.jsonString}\' '
+        '  and a.${MediaTableColumns.type}=\'${type.toJson()}\' '
         'order by ${MediaListTableColumns.updatedAt} desc ';
     if (limit != null) {
       sql += 'limit $limit '
@@ -133,7 +140,7 @@ class MediaListDaoImpl extends MediaListDao {
         '  on ml.${MediaListTableColumns.mediaId} = m.${MediaTableColumns.id} '
         'where ml.${MediaListTableColumns.status} in ($statusParam) '
         '  and ml.${MediaListTableColumns.userId}=\'$userId\' '
-        '  and m.${MediaTableColumns.type}=\'${type.jsonString}\' ';
+        '  and m.${MediaTableColumns.type}=\'${type.toJson()}\' ';
 
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
@@ -164,22 +171,13 @@ class MediaListDaoImpl extends MediaListDao {
   @override
   Future<MediaListEntity?> getMediaListTrackingByUserAndId(
       {required String userId, required String mediaId}) async {
-    final status = [MediaListStatus.planning, MediaListStatus.current];
-    String statusParam = '';
-    for (var e in status) {
-      statusParam += '\'${e.sqlTypeString}\'';
-      if (status.last != e) {
-        statusParam += ',';
-      }
-    }
-
     String sql = 'select * from ${Tables.mediaListTable} '
         'where ${MediaListTableColumns.mediaId}=\'$mediaId\' '
         '  and ${MediaListTableColumns.userId}=\'$userId\' '
-        '  and ${MediaListTableColumns.status} in ($statusParam) '
         'limit 1 ';
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
+
     final jsonOrNull = result.firstOrNull;
     return jsonOrNull != null ? MediaListEntity.fromJson(jsonOrNull) : null;
   }
@@ -247,7 +245,9 @@ class MediaListDaoImpl extends MediaListDao {
 
   @override
   Future insertMediaListAndMediaRelations(
-      List<MediaListAndMediaRelation> entities) async {
+      List<MediaListAndMediaRelation> entities,
+      [ConflictAlgorithm mediaConflictAlgorithm =
+          ConflictAlgorithm.replace]) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       batch.insert(
@@ -258,7 +258,7 @@ class MediaListDaoImpl extends MediaListDao {
       batch.insert(
         Tables.mediaTable,
         entity.mediaEntity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        conflictAlgorithm: mediaConflictAlgorithm,
       );
     }
     return batch.commit(noResult: true);

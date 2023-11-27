@@ -25,13 +25,25 @@ mixin _$MediaListDto {
   @JsonKey(name: 'userId')
   int get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'score')
-  int? get score => throw _privateConstructorUsedError;
+  double? get score => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
   MediaListStatus? get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'progress')
-  int get progress => throw _privateConstructorUsedError;
+  int? get progress => throw _privateConstructorUsedError;
+  @JsonKey(name: 'progressVolumes')
+  int? get progressVolumes => throw _privateConstructorUsedError;
+  @JsonKey(name: 'notes')
+  String? get notes => throw _privateConstructorUsedError;
   @JsonKey(name: 'updatedAt')
   int get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'repeat')
+  int? get repeat => throw _privateConstructorUsedError;
+  @JsonKey(name: 'private')
+  bool get private => throw _privateConstructorUsedError;
+  @JsonKey(name: 'startedAt')
+  FuzzyDateDto? get startedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'completedAt')
+  FuzzyDateDto? get completedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
 
@@ -50,12 +62,20 @@ abstract class $MediaListDtoCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'userId') int userId,
-      @JsonKey(name: 'score') int? score,
+      @JsonKey(name: 'score') double? score,
       @JsonKey(name: 'status') MediaListStatus? status,
-      @JsonKey(name: 'progress') int progress,
+      @JsonKey(name: 'progress') int? progress,
+      @JsonKey(name: 'progressVolumes') int? progressVolumes,
+      @JsonKey(name: 'notes') String? notes,
       @JsonKey(name: 'updatedAt') int updatedAt,
+      @JsonKey(name: 'repeat') int? repeat,
+      @JsonKey(name: 'private') bool private,
+      @JsonKey(name: 'startedAt') FuzzyDateDto? startedAt,
+      @JsonKey(name: 'completedAt') FuzzyDateDto? completedAt,
       @JsonKey(name: 'media') MediaDto? media});
 
+  $FuzzyDateDtoCopyWith<$Res>? get startedAt;
+  $FuzzyDateDtoCopyWith<$Res>? get completedAt;
   $MediaDtoCopyWith<$Res>? get media;
 }
 
@@ -76,8 +96,14 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
     Object? userId = null,
     Object? score = freezed,
     Object? status = freezed,
-    Object? progress = null,
+    Object? progress = freezed,
+    Object? progressVolumes = freezed,
+    Object? notes = freezed,
     Object? updatedAt = null,
+    Object? repeat = freezed,
+    Object? private = null,
+    Object? startedAt = freezed,
+    Object? completedAt = freezed,
     Object? media = freezed,
   }) {
     return _then(_value.copyWith(
@@ -92,24 +118,72 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as MediaListStatus?,
-      progress: null == progress
+      progress: freezed == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      progressVolumes: freezed == progressVolumes
+          ? _value.progressVolumes
+          : progressVolumes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as int?,
+      private: null == private
+          ? _value.private
+          : private // ignore: cast_nullable_to_non_nullable
+              as bool,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as MediaDto?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FuzzyDateDtoCopyWith<$Res>? get startedAt {
+    if (_value.startedAt == null) {
+      return null;
+    }
+
+    return $FuzzyDateDtoCopyWith<$Res>(_value.startedAt!, (value) {
+      return _then(_value.copyWith(startedAt: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FuzzyDateDtoCopyWith<$Res>? get completedAt {
+    if (_value.completedAt == null) {
+      return null;
+    }
+
+    return $FuzzyDateDtoCopyWith<$Res>(_value.completedAt!, (value) {
+      return _then(_value.copyWith(completedAt: value) as $Val);
+    });
   }
 
   @override
@@ -136,12 +210,22 @@ abstract class _$$MediaListDtoImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'userId') int userId,
-      @JsonKey(name: 'score') int? score,
+      @JsonKey(name: 'score') double? score,
       @JsonKey(name: 'status') MediaListStatus? status,
-      @JsonKey(name: 'progress') int progress,
+      @JsonKey(name: 'progress') int? progress,
+      @JsonKey(name: 'progressVolumes') int? progressVolumes,
+      @JsonKey(name: 'notes') String? notes,
       @JsonKey(name: 'updatedAt') int updatedAt,
+      @JsonKey(name: 'repeat') int? repeat,
+      @JsonKey(name: 'private') bool private,
+      @JsonKey(name: 'startedAt') FuzzyDateDto? startedAt,
+      @JsonKey(name: 'completedAt') FuzzyDateDto? completedAt,
       @JsonKey(name: 'media') MediaDto? media});
 
+  @override
+  $FuzzyDateDtoCopyWith<$Res>? get startedAt;
+  @override
+  $FuzzyDateDtoCopyWith<$Res>? get completedAt;
   @override
   $MediaDtoCopyWith<$Res>? get media;
 }
@@ -161,8 +245,14 @@ class __$$MediaListDtoImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? score = freezed,
     Object? status = freezed,
-    Object? progress = null,
+    Object? progress = freezed,
+    Object? progressVolumes = freezed,
+    Object? notes = freezed,
     Object? updatedAt = null,
+    Object? repeat = freezed,
+    Object? private = null,
+    Object? startedAt = freezed,
+    Object? completedAt = freezed,
     Object? media = freezed,
   }) {
     return _then(_$MediaListDtoImpl(
@@ -177,19 +267,43 @@ class __$$MediaListDtoImplCopyWithImpl<$Res>
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as MediaListStatus?,
-      progress: null == progress
+      progress: freezed == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      progressVolumes: freezed == progressVolumes
+          ? _value.progressVolumes
+          : progressVolumes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as int?,
+      private: null == private
+          ? _value.private
+          : private // ignore: cast_nullable_to_non_nullable
+              as bool,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
@@ -206,8 +320,14 @@ class _$MediaListDtoImpl implements _MediaListDto {
       @JsonKey(name: 'userId') this.userId = -1,
       @JsonKey(name: 'score') this.score,
       @JsonKey(name: 'status') this.status,
-      @JsonKey(name: 'progress') this.progress = -1,
+      @JsonKey(name: 'progress') this.progress,
+      @JsonKey(name: 'progressVolumes') this.progressVolumes,
+      @JsonKey(name: 'notes') this.notes,
       @JsonKey(name: 'updatedAt') this.updatedAt = -1,
+      @JsonKey(name: 'repeat') this.repeat,
+      @JsonKey(name: 'private') this.private = false,
+      @JsonKey(name: 'startedAt') this.startedAt,
+      @JsonKey(name: 'completedAt') this.completedAt,
       @JsonKey(name: 'media') this.media});
 
   factory _$MediaListDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -221,23 +341,41 @@ class _$MediaListDtoImpl implements _MediaListDto {
   final int userId;
   @override
   @JsonKey(name: 'score')
-  final int? score;
+  final double? score;
   @override
   @JsonKey(name: 'status')
   final MediaListStatus? status;
   @override
   @JsonKey(name: 'progress')
-  final int progress;
+  final int? progress;
+  @override
+  @JsonKey(name: 'progressVolumes')
+  final int? progressVolumes;
+  @override
+  @JsonKey(name: 'notes')
+  final String? notes;
   @override
   @JsonKey(name: 'updatedAt')
   final int updatedAt;
+  @override
+  @JsonKey(name: 'repeat')
+  final int? repeat;
+  @override
+  @JsonKey(name: 'private')
+  final bool private;
+  @override
+  @JsonKey(name: 'startedAt')
+  final FuzzyDateDto? startedAt;
+  @override
+  @JsonKey(name: 'completedAt')
+  final FuzzyDateDto? completedAt;
   @override
   @JsonKey(name: 'media')
   final MediaDto? media;
 
   @override
   String toString() {
-    return 'MediaListDto(id: $id, userId: $userId, score: $score, status: $status, progress: $progress, updatedAt: $updatedAt, media: $media)';
+    return 'MediaListDto(id: $id, userId: $userId, score: $score, status: $status, progress: $progress, progressVolumes: $progressVolumes, notes: $notes, updatedAt: $updatedAt, repeat: $repeat, private: $private, startedAt: $startedAt, completedAt: $completedAt, media: $media)';
   }
 
   @override
@@ -251,15 +389,37 @@ class _$MediaListDtoImpl implements _MediaListDto {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
+            (identical(other.progressVolumes, progressVolumes) ||
+                other.progressVolumes == progressVolumes) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            (identical(other.repeat, repeat) || other.repeat == repeat) &&
+            (identical(other.private, private) || other.private == private) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
             (identical(other.media, media) || other.media == media));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, userId, score, status, progress, updatedAt, media);
+      runtimeType,
+      id,
+      userId,
+      score,
+      status,
+      progress,
+      progressVolumes,
+      notes,
+      updatedAt,
+      repeat,
+      private,
+      startedAt,
+      completedAt,
+      media);
 
   @JsonKey(ignore: true)
   @override
@@ -279,10 +439,16 @@ abstract class _MediaListDto implements MediaListDto {
   factory _MediaListDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'userId') final int userId,
-      @JsonKey(name: 'score') final int? score,
+      @JsonKey(name: 'score') final double? score,
       @JsonKey(name: 'status') final MediaListStatus? status,
-      @JsonKey(name: 'progress') final int progress,
+      @JsonKey(name: 'progress') final int? progress,
+      @JsonKey(name: 'progressVolumes') final int? progressVolumes,
+      @JsonKey(name: 'notes') final String? notes,
       @JsonKey(name: 'updatedAt') final int updatedAt,
+      @JsonKey(name: 'repeat') final int? repeat,
+      @JsonKey(name: 'private') final bool private,
+      @JsonKey(name: 'startedAt') final FuzzyDateDto? startedAt,
+      @JsonKey(name: 'completedAt') final FuzzyDateDto? completedAt,
       @JsonKey(name: 'media') final MediaDto? media}) = _$MediaListDtoImpl;
 
   factory _MediaListDto.fromJson(Map<String, dynamic> json) =
@@ -296,16 +462,34 @@ abstract class _MediaListDto implements MediaListDto {
   int get userId;
   @override
   @JsonKey(name: 'score')
-  int? get score;
+  double? get score;
   @override
   @JsonKey(name: 'status')
   MediaListStatus? get status;
   @override
   @JsonKey(name: 'progress')
-  int get progress;
+  int? get progress;
+  @override
+  @JsonKey(name: 'progressVolumes')
+  int? get progressVolumes;
+  @override
+  @JsonKey(name: 'notes')
+  String? get notes;
   @override
   @JsonKey(name: 'updatedAt')
   int get updatedAt;
+  @override
+  @JsonKey(name: 'repeat')
+  int? get repeat;
+  @override
+  @JsonKey(name: 'private')
+  bool get private;
+  @override
+  @JsonKey(name: 'startedAt')
+  FuzzyDateDto? get startedAt;
+  @override
+  @JsonKey(name: 'completedAt')
+  FuzzyDateDto? get completedAt;
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;

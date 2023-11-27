@@ -1,5 +1,7 @@
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,8 +17,14 @@ class MediaListEntity with _$MediaListEntity {
     @JsonKey(name: MediaListTableColumns.mediaId) String? animeId,
     @JsonKey(name: MediaListTableColumns.status) MediaListStatus? status,
     @JsonKey(name: MediaListTableColumns.progress) int? progress,
-    @JsonKey(name: MediaListTableColumns.score) int? score,
+    @JsonKey(name: MediaListTableColumns.progressVolumes) int? progressVolumes,
+    @JsonKey(name: MediaListTableColumns.notes) String? notes,
+    @JsonKey(name: MediaListTableColumns.startedAt) int? startedAt,
+    @JsonKey(name: MediaListTableColumns.completedAt) int? completedAt,
+    @JsonKey(name: MediaListTableColumns.score) double? score,
     @JsonKey(name: MediaListTableColumns.updatedAt) int? updatedAt,
+    @JsonKey(name: MediaListTableColumns.repeat) int? repeat,
+    @JsonKey(name: MediaListTableColumns.private) int? private,
   }) = _MediaListEntity;
 
   factory MediaListEntity.fromJson(Map<String, dynamic> json) =>
@@ -31,6 +39,12 @@ class MediaListEntity with _$MediaListEntity {
       score: dto.score,
       updatedAt: dto.updatedAt,
       progress: dto.progress,
+      progressVolumes: dto.progressVolumes,
+      notes: dto.notes,
+      startedAt: dto.startedAt.toDateTime()?.millisecondsSinceEpoch,
+      completedAt: dto.completedAt.toDateTime()?.millisecondsSinceEpoch,
+      repeat: dto.repeat,
+      private: dto.private.toInteger(),
     );
   }
 }

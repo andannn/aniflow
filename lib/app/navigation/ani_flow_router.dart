@@ -1,6 +1,8 @@
 import 'package:aniflow/app/navigation/ani_flow_route_path.dart';
 import 'package:aniflow/app/navigation/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/favorite_category.dart';
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:flutter/material.dart';
 
 class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
@@ -23,9 +25,6 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
       _backStack.whereType<TopLevelRoutePath>().last.topLevel;
 
   bool get isTopRouteFullScreen => _backStack.last.isFullScreen;
-
-  bool get showFloatingButton =>
-      _backStack.last is DiscoverRoutePath || _backStack.last is TrackRoutePath;
 
   static BuildContext? _routerContext;
 
@@ -109,6 +108,35 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   void navigateToUserProfile(String userId) {
     _pushAsSingleton(UserProfileRoutePath(userId));
   }
+
+  void navigateToFavoritePage(FavoriteType type, String userId) {
+    switch(type) {
+      case FavoriteType.anime:
+        _pushAsSingleton(FavoriteAnimePath(userId));
+      case FavoriteType.manga:
+        _pushAsSingleton(FavoriteMangaPath(userId));
+      case FavoriteType.character:
+        _pushAsSingleton(FavoriteCharacterPath(userId));
+      case FavoriteType.staff:
+        _pushAsSingleton(FavoriteStaffPath(userId));
+    }
+  }
+
+  void navigateToMediaListPage(MediaList type, String userId) {
+    switch(type) {
+      case WatchingAnimeList():
+        _pushAsSingleton(WatchingAnimePath(userId));
+      case CompletedAnimeList():
+        _pushAsSingleton(CompletedAnimePath(userId));
+      case DroppedAnimeList():
+        _pushAsSingleton(DroppedAnimePath(userId));
+      case ReadingMangaList():
+        _pushAsSingleton(ReadingMangaPath(userId));
+      case DroppedMangaList():
+        _pushAsSingleton(DroppedMangaPath(userId));
+    }
+  }
+
 
   void _pushAsSingleton(AniFlowRoutePath path) {
     if (_backStack.contains(path)) {

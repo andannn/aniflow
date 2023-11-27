@@ -4,6 +4,7 @@ import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/app/navigation/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -11,6 +12,7 @@ import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
@@ -36,6 +38,14 @@ class AniFlowApp extends StatefulWidget {
 
 class AniFlowAppState extends State<AniFlowApp> {
   var key = UniqueKey();
+  var setting = ThemeSetting.system;
+  late StreamSubscription themeSub;
+
+  ThemeMode get themeMode => switch (setting) {
+        ThemeSetting.dark => ThemeMode.dark,
+        ThemeSetting.light => ThemeMode.light,
+        ThemeSetting.system => ThemeMode.system,
+      };
 
   @override
   void initState() {
@@ -45,11 +55,19 @@ class AniFlowAppState extends State<AniFlowApp> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.transparent,
     ));
+
+    themeSub = AniFlowPreferences().getThemeSettingStream().listen((setting) {
+      setState(() {
+        this.setting = setting;
+      });
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+
+    themeSub.cancel();
   }
 
   void restartApp() {
@@ -82,7 +100,7 @@ class AniFlowAppState extends State<AniFlowApp> {
               );
             }
             return MaterialApp(
-              title: 'Flutter Demo',
+              themeMode: themeMode,
               theme: ThemeData(
                 useMaterial3: true,
                 colorScheme: lightColorScheme,
@@ -108,7 +126,7 @@ class AniFlowAppState extends State<AniFlowApp> {
             );
           },
         );
-      }
+      },
     );
   }
 }
@@ -126,7 +144,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
 
   var currentNavigation = TopLevelNavigation.discover;
   var needHideNavigationBar = false;
-  var showFloatingButton = true;
   final userDataRepository = SettingsRepositoryImpl();
   final authRepository = AuthRepositoryImpl();
   late StreamSubscription _mediaTypeSub;
@@ -160,7 +177,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         currentNavigation =
             animeTrackerRouterDelegate.currentTopLevelNavigation;
         needHideNavigationBar = animeTrackerRouterDelegate.isTopRouteFullScreen;
-        showFloatingButton = animeTrackerRouterDelegate.showFloatingButton;
       });
     });
     _mediaTypeSub = userDataRepository.getMediaTypeStream().distinct().listen(
@@ -219,8 +235,6 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
           routerDelegate: animeTrackerRouterDelegate,
           backButtonDispatcher: RootBackButtonDispatcher(),
         ),
-        floatingActionButton:
-            showFloatingButton ? _buildTopFloatingActionButton() : null,
         bottomNavigationBar: VerticalScaleSwitcher(
           visible: !needHideNavigationBar,
           child: _animeTrackerNavigationBar(
@@ -287,21 +301,5 @@ class _AnimeTrackerAppScaffoldState extends State<AnimeTrackerAppScaffold> {
         selectedIcon: Icon(item.selectedIcon),
       );
     }
-  }
-
-  Widget _buildTopFloatingActionButton() {
-    return FloatingActionButton.extended(
-      onPressed: () {
-        final repository = context.read<SettingsRepository>();
-        if (_mediaType == MediaType.manga) {
-          repository.setMediaType(MediaType.anime);
-        } else {
-          repository.setMediaType(MediaType.manga);
-        }
-      },
-      isExtended: true,
-      icon: isAnime ? const Icon(Icons.palette_rounded) : const Icon(Icons.map),
-      label: Text(isAnime ? 'Anime' : 'Manga'),
-    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 
 abstract class SettingsRepository {
@@ -12,6 +13,10 @@ abstract class SettingsRepository {
   MediaType getMediaType();
 
   Future setMediaType(MediaType type);
+
+  Stream<ThemeSetting> getThemeSettingStream();
+
+  Future setThemeSetting(ThemeSetting setting);
 }
 
 class SettingsRepositoryImpl implements SettingsRepository {
@@ -40,4 +45,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   MediaType getMediaType() => preferences.getCurrentMediaType();
+
+  @override
+  Stream<ThemeSetting> getThemeSettingStream() =>
+      preferences.getThemeSettingStream();
+
+  @override
+  Future setThemeSetting(ThemeSetting setting) =>
+      preferences.setThemeSetting(setting);
 }

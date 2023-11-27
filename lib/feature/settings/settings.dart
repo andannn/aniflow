@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:aniflow/app/app.dart';
+import 'package:aniflow/core/common/model/setting/about.dart';
 import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
-import 'package:aniflow/feature/common/dialog/restart_app_dialog.dart';
+import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
@@ -41,8 +45,32 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   }
 }
 
-class _MediaSettingsPageContent extends StatelessWidget {
+class _MediaSettingsPageContent extends StatefulWidget {
   const _MediaSettingsPageContent();
+
+  @override
+  State<_MediaSettingsPageContent> createState() =>
+      _MediaSettingsPageContentState();
+}
+
+class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
+  late StreamSubscription themeSub;
+
+  @override
+  void initState() {
+    super.initState();
+    themeSub =
+        AniFlowPreferences().getThemeSettingStream().listen((setting) async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    themeSub.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,24 +114,33 @@ class _MediaSettingsPageContent extends StatelessWidget {
           ListView.builder(
             itemCount: settingItems.length,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _createSettingItem(
-                  context,
-                  settingItems[index],
-                  onSettingChanged: (setting) async {
-                    context
-                        .read<SettingsBloc>()
-                        .add(OnListOptionChanged(setting));
+              return _createSettingItem(
+                context,
+                settingItems[index],
+                onSettingChanged: (setting) async {
+                  context
+                      .read<SettingsBloc>()
+                      .add(OnListOptionChanged(setting));
 
+                  final needShowDialog = setting.needRestart;
+                  if (needShowDialog) {
+                    await Future.delayed(const Duration(milliseconds: 500));
+                    // ignore: use_build_context_synchronously
                     final isAccepted = await showRestartAppDialog(context);
                     if (isAccepted == true) {
                       // ignore: use_build_context_synchronously
                       AniFlowApp.restartApp(context);
                     }
-                  },
-                ),
+                  }
+                },
+                onSettingTap: (type) {
+                  if (type == About) {
+                    showAboutDialog(
+                        context: context, applicationName: 'AniFlow');
+                  }
+                },
               );
             },
           )
@@ -113,14 +150,17 @@ class _MediaSettingsPageContent extends StatelessWidget {
   }
 
   Widget _createSettingItem<T extends Setting>(
-      BuildContext context, SettingItem<T> settingItem,
-      {required Function(Setting) onSettingChanged}) {
+    BuildContext context,
+    SettingItem<T> settingItem, {
+    required Function(Setting) onSettingChanged,
+    required Function(Type) onSettingTap,
+  }) {
     final textTheme = Theme.of(context).textTheme;
     switch (settingItem) {
       case SwitchSettingItem():
         final item = settingItem as SwitchSettingItem<BooleanSetting>;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
           child: Row(
             children: [
               Text(
@@ -129,10 +169,11 @@ class _MediaSettingsPageContent extends StatelessWidget {
               ),
               const Expanded(child: SizedBox()),
               Switch(
-                  value: item.current.isOn,
-                  onChanged: (isOn) {
-                    onSettingChanged(item.current.toggle());
-                  }),
+                value: item.current.isOn,
+                onChanged: (isOn) {
+                  onSettingChanged(item.current.toggle());
+                },
+              ),
             ],
           ),
         );
@@ -150,7 +191,7 @@ class _MediaSettingsPageContent extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -162,6 +203,23 @@ class _MediaSettingsPageContent extends StatelessWidget {
                 Text(
                   item.selectedOption.description,
                   style: textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        );
+      case SingleLineWithTapActionSettingItem():
+        return InkWell(
+          onTap: () {
+            onSettingTap.call(settingItem.type);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+            child: Row(
+              children: [
+                Text(
+                  settingItem.title,
+                  style: textTheme.headlineSmall,
                 ),
               ],
             ),

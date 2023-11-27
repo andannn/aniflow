@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:flutter/foundation.dart';
@@ -31,6 +32,8 @@ mixin _UserDataKey {
   static const aniListSettingsKey = 'ani_list_settings_key';
 
   static const showReleasedOnlyKey = 'show_released_only_key';
+
+  static const themeSettingKey = 'theme_setting_key';
 }
 
 class AniFlowPreferences {
@@ -48,6 +51,7 @@ class AniFlowPreferences {
   final _userIdChangeNotifier = ValueNotifier(0);
   final _aniListSettingChangeNotifier = ValueNotifier(0);
   final _showReleasedOnlyChangeNotifier = ValueNotifier(0);
+  final _themeChangeNotifier = ValueNotifier(0);
 
   Future init() async {
     _preference = await SharedPreferences.getInstance();
@@ -98,9 +102,9 @@ class AniFlowPreferences {
     return DateTime.tryParse(result);
   }
 
-  MediaType getCurrentMediaType() => MediaType.fromString(
+  MediaType getCurrentMediaType() => MediaType.fromJson(
         _preference.getString(_UserDataKey.currentMediaType) ??
-            MediaType.anime.jsonString,
+            MediaType.anime.toJson(),
       );
 
   Stream<MediaType> getCurrentMediaTypeStream() => StreamUtil.createStream(
@@ -110,7 +114,7 @@ class AniFlowPreferences {
 
   Future setCurrentMediaType(MediaType mediaType) async {
     final isChanged = await _preference.setString(
-        _UserDataKey.currentMediaType, mediaType.jsonString);
+        _UserDataKey.currentMediaType, mediaType.toJson());
 
     if (isChanged) {
       _mediaTypeChangeNotifier.notifyChanged();
@@ -212,5 +216,23 @@ class AniFlowPreferences {
   Stream<bool> getIsShowReleaseOnlyStream() {
     return StreamUtil.createStream(_showReleasedOnlyChangeNotifier,
         () => Future.value(getIsShowReleaseOnly()));
+  }
+
+  Future setThemeSetting(ThemeSetting setting) async {
+    bool isChanged = await _preference.setString(
+        _UserDataKey.themeSettingKey, setting.toJson());
+    if (isChanged) {
+      _themeChangeNotifier.notifyChanged();
+    }
+  }
+
+  ThemeSetting getThemeSetting() {
+    final theme = _preference.getString(_UserDataKey.themeSettingKey);
+    return ThemeSetting.fromJson(theme) ?? ThemeSetting.system;
+  }
+
+  Stream<ThemeSetting> getThemeSettingStream() {
+    return StreamUtil.createStream(
+        _themeChangeNotifier, () => Future.value(getThemeSetting()));
   }
 }

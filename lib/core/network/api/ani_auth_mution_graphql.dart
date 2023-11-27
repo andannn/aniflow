@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/network/api/user_content_graphql.dart';
@@ -15,17 +16,19 @@ class UpdateUserMotionParam {
     this.titleLanguage,
     this.displayAdultContent,
     this.userStaffNameLanguage,
+    this.scoreFormat,
   });
 
   final UserTitleLanguage? titleLanguage;
   final UserStaffNameLanguage? userStaffNameLanguage;
   final bool? displayAdultContent;
+  final ScoreFormat? scoreFormat;
 }
 
 /// Graphql to query user info.
 String get updateUserMotionGraphQLString => '''
-mutation (\$titleLanguage: UserTitleLanguage, \$displayAdultContent: Boolean, \$userStaffNameLanguage: UserStaffNameLanguage) {
-  UpdateUser(titleLanguage: \$titleLanguage, displayAdultContent: \$displayAdultContent, staffNameLanguage: \$userStaffNameLanguage) {
+mutation (\$titleLanguage: UserTitleLanguage, \$displayAdultContent: Boolean, \$userStaffNameLanguage: UserStaffNameLanguage, \$scoreFormat: ScoreFormat) {
+  UpdateUser(titleLanguage: \$titleLanguage, displayAdultContent: \$displayAdultContent, staffNameLanguage: \$userStaffNameLanguage, scoreFormat: \$scoreFormat) {
     $userContentWithSettingsQueryGraphql
   }
 }

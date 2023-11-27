@@ -1,4 +1,5 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class ActivityItem extends StatelessWidget {
   const ActivityItem(
       {required this.model,
-      required this.onBuildActivityStatusWidget, super.key,
+      required this.onBuildActivityStatusWidget,
+      super.key,
       this.onMediaClick,
       this.onUserIconClick});
 
@@ -31,6 +33,10 @@ class ActivityItem extends StatelessWidget {
   Widget _buildListActivity(BuildContext context, ListActivityModel activity) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final timeUntilNowDuration = DateTime.now().difference(
+        DateTime.fromMillisecondsSinceEpoch(activity.createdAt * 1000));
+    final timeUntilNowString =
+        '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
     return Container(
       constraints: const BoxConstraints(minHeight: 120),
       child: Card(
@@ -62,10 +68,23 @@ class ActivityItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 8),
-                    Text(
-                      model.user.name,
-                      style: textTheme.labelLarge!
-                          .copyWith(color: colorScheme.primary),
+                    Row(
+                      children: [
+                        Text(
+                          model.user.name,
+                          style: textTheme.labelLarge!
+                              .copyWith(color: colorScheme.primary),
+                        ),
+                        const Expanded(child: SizedBox()),
+                        Opacity(
+                          opacity: 0.7,
+                          child: Text(
+                            timeUntilNowString,
+                            style: textTheme.labelSmall!,
+                          ),
+                        ),
+                        const SizedBox(width: 16)
+                      ],
                     ),
                     const SizedBox(height: 8),
                     RichText(
@@ -115,6 +134,10 @@ class ActivityItem extends StatelessWidget {
   Widget _buildTextActivity(BuildContext context, TextActivityModel activity) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final timeUntilNowDuration = DateTime.now().difference(
+        DateTime.fromMillisecondsSinceEpoch(activity.createdAt * 1000));
+    final timeUntilNowString =
+        '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
     return Card(
       elevation: 0,
       color: colorScheme.surfaceVariant,
@@ -140,6 +163,15 @@ class ActivityItem extends StatelessWidget {
                       color: colorScheme.primary,
                     ),
                   ),
+                  const Expanded(child: SizedBox()),
+                  Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      timeUntilNowString,
+                      style: textTheme.labelSmall!,
+                    ),
+                  ),
+                  const SizedBox(width: 16)
                 ],
               ),
             ),

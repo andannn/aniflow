@@ -67,7 +67,9 @@ class SettingsDialog<T> extends StatelessWidget {
       leading: Radio<T>(
         value: option.setting,
         groupValue: selectedOption,
-        onChanged: (T? value) {},
+        onChanged: (value) {
+          onOptionClick.call(option.setting);
+        },
       ),
       onTap: () {
         onOptionClick.call(option.setting);

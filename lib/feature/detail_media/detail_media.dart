@@ -5,7 +5,6 @@ import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -25,6 +24,7 @@ import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
+import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
@@ -56,8 +56,8 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => DetailAnimeBloc(
-        animeId: animeId,
+      create: (context) => DetailMediaBloc(
+        mediaId: animeId,
         aniListRepository: context.read<MediaInformationRepository>(),
         authRepository: context.read<AuthRepository>(),
         animeTrackListRepository: context.read<MediaListRepository>(),
@@ -76,26 +76,31 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailAnimeBloc, DetailMediaUiState>(
+    return BlocBuilder<DetailMediaBloc, DetailMediaUiState>(
       builder: (context, state) {
         final model = state.detailAnimeModel;
         if (model == null) {
           return const SizedBox();
         }
-        final isFollowing = model.isFollowing;
         final isLoading = state.isLoading;
-        final stateString = state.mediaListItem.stateString;
+        final stateString = state.mediaListItem?.status?.stateString ?? '';
         final hasDescription = stateString.isNotEmpty;
-        final statusIcon = state.mediaListItem.statusIcon;
+        final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite ?? false;
 
-        void floatingButtonClickAction() {
-          context
-              .read<DetailAnimeBloc>()
-              .add(OnToggleFollowState(isFollow: !isFollowing));
+        void floatingButtonClickAction() async {
+          final bloc = context.read<DetailMediaBloc>();
+          final result = await showUpdateMediaListBottomSheet(
+            context,
+            listItemModel: state.mediaListItem,
+            media: state.detailAnimeModel!,
+          );
+
+          if (result != null) {
+            bloc.add(OnMediaListModified(result: result));
+          }
         }
 
-        logger.d(isFavorite);
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -114,7 +119,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   ? LoadingIndicator(isLoading: isLoading)
                   : IconButton(
                       onPressed: () {
-                        context.read<DetailAnimeBloc>().add(
+                        context.read<DetailMediaBloc>().add(
                               OnToggleFavoriteState(
                                   isAnime: true, mediaId: model.id),
                             );
@@ -126,16 +131,18 @@ class _DetailAnimePageContent extends StatelessWidget {
               const SizedBox(width: 10),
             ],
           ),
-          floatingActionButton: hasDescription
-              ? FloatingActionButton.extended(
-                  icon: Icon(statusIcon),
-                  label: Text(stateString),
-                  onPressed: floatingButtonClickAction,
-                )
-              : FloatingActionButton(
-                  onPressed: floatingButtonClickAction,
-                  child: Icon(statusIcon),
-                ),
+          floatingActionButton: !isLoading
+              ? hasDescription
+                  ? FloatingActionButton.extended(
+                      icon: Icon(statusIcon),
+                      label: Text(stateString),
+                      onPressed: floatingButtonClickAction,
+                    )
+                  : FloatingActionButton(
+                      onPressed: floatingButtonClickAction,
+                      child: Icon(statusIcon),
+                    )
+              : const SizedBox(),
           body: CustomScrollView(
             cacheExtent: Config.defaultCatchExtend,
             slivers: [
@@ -342,7 +349,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToCharacterList(
-                        context.read<DetailAnimeBloc>().animeId);
+                        context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),
@@ -410,7 +417,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     AFRouterDelegate.of(context).navigateToStaffList(
-                        context.read<DetailAnimeBloc>().animeId);
+                        context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),

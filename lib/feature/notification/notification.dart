@@ -5,7 +5,6 @@ import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/design_system/widget/notification_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:aniflow/feature/notification/bloc/notification_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart';
@@ -125,17 +124,9 @@ class _NotificationPagingContent extends StatelessWidget {
     return BlocBuilder<NotificationPagingBloc,
         PagingState<List<NotificationModel>>>(
       builder: (BuildContext context, state) {
-        return PagingContent(
+        return PagingContent<NotificationModel, NotificationPagingBloc>(
           onBuildItem: _buildNotificationItem,
           pagingState: state,
-          onRequestNewPage: () {
-            context
-                .read<NotificationPagingBloc>()
-                .add(OnRequestLoadPageEvent());
-          },
-          onRetryLoadPage: () {
-            context.read<NotificationPagingBloc>().add(OnRetryLoadPageEvent());
-          },
         );
       },
     );

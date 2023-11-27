@@ -9,6 +9,15 @@ import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
 import 'package:aniflow/feature/notification/notification.dart';
 import 'package:aniflow/feature/profile/profile.dart';
+import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_anime_page.dart';
+import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_character_page.dart';
+import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_manga_page.dart';
+import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_staff_page.dart';
+import 'package:aniflow/feature/profile/sub_media_list/pages/completed_anime_list_page.dart';
+import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_anime_list_page.dart';
+import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_page.dart';
+import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
+import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
 import 'package:aniflow/feature/social/social.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:equatable/equatable.dart';
@@ -52,8 +61,53 @@ class SearchRoutePath extends AniFlowRoutePath {
   const SearchRoutePath() : super(isFullScreen: true);
 }
 
+class FavoriteStaffPath extends AniFlowRoutePath {
+  const FavoriteStaffPath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class FavoriteCharacterPath extends AniFlowRoutePath {
+  const FavoriteCharacterPath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class FavoriteAnimePath extends AniFlowRoutePath {
+  const FavoriteAnimePath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class FavoriteMangaPath extends AniFlowRoutePath {
+  const FavoriteMangaPath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class WatchingAnimePath extends AniFlowRoutePath {
+  const WatchingAnimePath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class CompletedAnimePath extends AniFlowRoutePath {
+  const CompletedAnimePath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class DroppedAnimePath extends AniFlowRoutePath {
+  const DroppedAnimePath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class ReadingMangaPath extends AniFlowRoutePath {
+  const ReadingMangaPath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
+class DroppedMangaPath extends AniFlowRoutePath {
+  const DroppedMangaPath(this.userId) : super(isFullScreen: true);
+  final String userId;
+}
+
 class UserProfileRoutePath extends AniFlowRoutePath {
-  const UserProfileRoutePath(this.userId);
+  const UserProfileRoutePath(this.userId) : super(isFullScreen: true);
 
   final String userId;
 }
@@ -141,6 +195,33 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return const SearchPage(key: ValueKey('SearchPage'));
       case NotificationRoutePath():
         return const NotificationPage(key: ValueKey('NotificationPage'));
+      case FavoriteStaffPath(userId: final id):
+        return FavoriteStaffListPage(
+            key: ValueKey('FavoriteStaffPath_$id'), userId: id);
+      case FavoriteCharacterPath(userId: final id):
+        return FavoriteCharacterListPage(
+            key: ValueKey('FavoriteCharacterListPage_$id'), userId: id);
+      case FavoriteAnimePath(userId: final id):
+        return FavoriteAnimeListPage(
+            key: ValueKey('FavoriteAnimeListPage_$id'), userId: id);
+      case FavoriteMangaPath(userId: final id):
+        return FavoriteMangaListPage(
+            key: ValueKey('FavoriteMangaListPage_$id'), userId: id);
+      case WatchingAnimePath(userId: final id):
+        return WatchingAnimePage(
+            key: ValueKey('WatchingAnimePage_$id'), userId: id);
+      case CompletedAnimePath(userId: final id):
+        return CompletedAnimePage(
+            key: ValueKey('CompletedAnimePage_$id'), userId: id);
+      case DroppedAnimePath(userId: final id):
+        return DroppedAnimePage(
+            key: ValueKey('DroppedAnimePage_$id'), userId: id);
+      case DroppedMangaPath(userId: final id):
+        return DroppedMangaPage(
+            key: ValueKey('DroppedMangaPage_$id'), userId: id);
+      case ReadingMangaPath(userId: final id):
+        return ReadingMangaPage(
+            key: ValueKey('ReadingMangaPage_$id'), userId: id);
       default:
         return const MaterialPage(child: SizedBox());
     }

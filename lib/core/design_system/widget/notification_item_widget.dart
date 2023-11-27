@@ -1,4 +1,5 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,11 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final notification = model;
+    final textTheme = Theme.of(context).textTheme;
+    final timeUntilNowDuration = DateTime.now().difference(
+        DateTime.fromMillisecondsSinceEpoch(notification.createdAt * 1000));
+    final timeUntilNowString =
+        '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
 
     Widget buildContentRow() => switch (notification) {
           AiringNotification() =>
@@ -54,38 +60,55 @@ class NotificationItem extends StatelessWidget {
       child: InkWell(
         onTap: onNotificationClick,
         child: IntrinsicHeight(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Stack(
             children: [
-              SizedBox(
-                // compile error if no set this height.
-                // ignore: lines_longer_than_80_chars
-                // this height value will no take effect because we have set the IntrinsicHeight
-                height: 1,
-                width: 85,
-                child: InkWell(
-                  onTap: onCoverImageClick,
-                  child: AFNetworkImage(
-                    imageUrl: getCoverImageUrl(),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  constraints: const BoxConstraints(minHeight: 85),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: buildContentRow(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      timeUntilNowString,
+                      style: textTheme.labelSmall!,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    // compile error if no set this height.
+                    // ignore: lines_longer_than_80_chars
+                    // this height value will no take effect because we have set the IntrinsicHeight
+                    height: 1,
+                    width: 85,
+                    child: InkWell(
+                      onTap: onCoverImageClick,
+                      child: AFNetworkImage(
+                        imageUrl: getCoverImageUrl(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 85),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: buildContentRow(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                ],
+              ),
             ],
           ),
         ),

@@ -9,7 +9,6 @@ import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/short_num_label_icon_button.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
 import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart';
@@ -188,15 +187,9 @@ class ActivityPageContent extends StatelessWidget {
             .read<ActivityBloc>()
             .add(OnLoadingStateChanged(isLoading: isLoading));
 
-        return PagingContent(
+        return PagingContent<ActivityModel, ActivityPagingBloc>(
           onBuildItem: _buildActivityItem,
           pagingState: state,
-          onRequestNewPage: () {
-            context.read<ActivityPagingBloc>().add(OnRequestLoadPageEvent());
-          },
-          onRetryLoadPage: () {
-            context.read<ActivityPagingBloc>().add(OnRetryLoadPageEvent());
-          },
         );
       },
     );

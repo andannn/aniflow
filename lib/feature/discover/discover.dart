@@ -3,7 +3,6 @@ import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_modle.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
@@ -50,7 +49,6 @@ class DiscoverScreen extends StatelessWidget {
         final userData = state.userData;
         final hasUnreadNotification =
             userData != null && userData.unreadNotificationCount != 0;
-        logger.d('userData ${userData?.unreadNotificationCount}');
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
         return Scaffold(

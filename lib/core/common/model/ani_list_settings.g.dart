@@ -14,9 +14,12 @@ _$AniListSettingsImpl _$$AniListSettingsImplFromJson(
           ? UserTitleLanguage.native
           : UserTitleLanguage.fromJson(
               json['user_title_language_key'] as String),
-      userStaffNameLanguage: $enumDecodeNullable(
-              _$UserStaffNameLanguageEnumMap, json['userStaffNameLanguage']) ??
+      userStaffNameLanguage: $enumDecodeNullable(_$UserStaffNameLanguageEnumMap,
+              json['user_staff_name_language_key']) ??
           UserStaffNameLanguage.native,
+      scoreFormat: json['score_format_key'] == null
+          ? ScoreFormat.point100
+          : ScoreFormat.fromJson(json['score_format_key'] as String),
     );
 
 Map<String, dynamic> _$$AniListSettingsImplToJson(
@@ -24,7 +27,8 @@ Map<String, dynamic> _$$AniListSettingsImplToJson(
     <String, dynamic>{
       'display_adult_content_key': instance.displayAdultContent,
       'user_title_language_key': instance.userTitleLanguage,
-      'userStaffNameLanguage': instance.userStaffNameLanguage,
+      'user_staff_name_language_key': instance.userStaffNameLanguage,
+      'score_format_key': instance.scoreFormat,
     };
 
 const _$UserStaffNameLanguageEnumMap = {

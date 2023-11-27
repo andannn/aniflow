@@ -66,6 +66,7 @@ class AuthDataSource {
     final hasTitleLanguage = param.titleLanguage != null;
     final hasDisplayAdultContent = param.displayAdultContent != null;
     final hasUserStaffNameLanguage = param.userStaffNameLanguage != null;
+    final hasScoreFormat = param.scoreFormat != null;
     final variablesMap = <String, dynamic>{};
     if (hasTitleLanguage) {
       variablesMap['titleLanguage'] = param.titleLanguage;
@@ -75,6 +76,9 @@ class AuthDataSource {
     }
     if (hasUserStaffNameLanguage) {
       variablesMap['userStaffNameLanguage'] = param.userStaffNameLanguage;
+    }
+    if (hasScoreFormat) {
+      variablesMap['scoreFormat'] = param.scoreFormat;
     }
 
     final response = await AniListDio().dio.post(
@@ -94,6 +98,7 @@ class AuthDataSource {
   }) async {
     final variablesMap = <String, dynamic>{
       'mediaId': param.mediaId,
+      'private': param.private,
     };
     if (param.entryId != null) {
       variablesMap['id'] = param.entryId;
@@ -104,8 +109,23 @@ class AuthDataSource {
     if (param.status != null) {
       variablesMap['status'] = param.status!.sqlTypeString;
     }
-    if (param.status != null) {
+    if (param.score != null) {
       variablesMap['score'] = param.score;
+    }
+    if (param.progressVolumes != null) {
+      variablesMap['progressVolumes'] = param.progressVolumes;
+    }
+    if (param.repeat != null) {
+      variablesMap['repeat'] = param.repeat;
+    }
+    if (param.notes != null) {
+      variablesMap['notes'] = param.notes;
+    }
+    if (param.startedAt != null) {
+      variablesMap['startedAt'] = param.startedAt!.toJson();
+    }
+    if (param.completedAt != null) {
+      variablesMap['completedAt'] = param.completedAt!.toJson();
     }
 
     final response = await AniListDio().dio.post(
