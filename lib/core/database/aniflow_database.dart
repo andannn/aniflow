@@ -9,6 +9,7 @@ import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -53,6 +54,8 @@ class AniflowDatabase {
   Database? _aniflowDB;
 
   MediaInformationDao? _mediaInformationDaoDao;
+
+  StaffDao? _staffDao;
 
   AiringScheduleDao? _airingScheduleDao;
 
@@ -99,6 +102,8 @@ class AniflowDatabase {
 
   MediaInformationDao getMediaInformationDaoDao() =>
       _mediaInformationDaoDao ??= MediaInformationDaoImpl(this);
+
+  StaffDao getStaffDao() => _staffDao ??= StaffDaoImpl(this);
 
   CharacterDao getCharacterDao() => _characterDao ??= CharacterDaoImpl(this);
 
@@ -201,12 +206,12 @@ class AniflowDatabase {
 
     batch.execute(
         'create table if not exists ${Tables.mediaCharacterCrossRefTable} ('
-        '${CharacterCrossRefColumns.mediaId} text,'
-        '${CharacterCrossRefColumns.characterId} text,'
-        '${CharacterCrossRefColumns.timeStamp} integer,'
-        'primary key (${CharacterCrossRefColumns.mediaId}, ${CharacterCrossRefColumns.characterId}),'
-        'foreign key (${CharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
-        'foreign key (${CharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        '${MediaCharacterCrossRefColumns.mediaId} text,'
+        '${MediaCharacterCrossRefColumns.characterId} text,'
+        '${MediaCharacterCrossRefColumns.timeStamp} integer,'
+        'primary key (${MediaCharacterCrossRefColumns.mediaId}, ${MediaCharacterCrossRefColumns.characterId}),'
+        'foreign key (${MediaCharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
+        'foreign key (${MediaCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
         ')');
 
     batch.execute(

@@ -59,11 +59,18 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
         _favoriteRepository = favoriteRepository,
         _authRepository = authRepository,
         super(DetailMediaUiState()) {
-    on<_OnDetailAnimeModelChangedEvent>(_onDetailAnimeModelChangedEvent);
-    on<_OnMediaListItemChanged>(_onMediaListItemChanged);
+    on<_OnDetailAnimeModelChangedEvent>(
+      (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
+    );
+    on<_OnMediaListItemChanged>(
+      (event, emit) =>
+          emit(state.copyWith(mediaListItem: event.mediaListItemModel)),
+    );
     on<OnMediaListModified>(_onMediaListModified);
     on<OnToggleFavoriteState>(_onToggleFavoriteState);
-    on<_OnLoadingStateChanged>(_onLoadingStateChanged);
+    on<_OnLoadingStateChanged>(
+      (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
+    );
 
     _init();
   }
@@ -77,7 +84,8 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   StreamSubscription? _detailAnimeSub;
   StreamSubscription? _isTrackingSub;
 
-  CancelToken? _cancelToken;
+  CancelToken? _toggleFavoriteCancelToken;
+  CancelToken? _networkActionCancelToken;
 
   void _init() async {
     _detailAnimeSub = _mediaRepository.getDetailAnimeInfoStream(mediaId).listen(
@@ -108,34 +116,29 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _detailAnimeSub?.cancel();
     _isTrackingSub?.cancel();
 
-    _cancelToken?.cancel();
+    _toggleFavoriteCancelToken?.cancel();
+    _networkActionCancelToken?.cancel();
 
     return super.close();
   }
 
-  @override
-  void onChange(Change<DetailMediaUiState> change) {
-    super.onChange(change);
-  }
-
   void _startFetchDetailAnimeInfo() async {
+    _networkActionCancelToken?.cancel();
+    _networkActionCancelToken = CancelToken();
+
     add(_OnLoadingStateChanged(isLoading: true));
     await Future.wait([
-      _mediaRepository.startFetchDetailAnimeInfo(mediaId),
+      _mediaRepository.startFetchDetailAnimeInfo(
+        id: mediaId,
+        token: _networkActionCancelToken,
+      ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
         format: AniFlowPreferences().getAniListSettings().scoreFormat,
-        token: CancelToken(),
+        token: _networkActionCancelToken,
       ),
     ]);
     add(_OnLoadingStateChanged(isLoading: false));
-  }
-
-  FutureOr<void> _onDetailAnimeModelChangedEvent(
-    _OnDetailAnimeModelChangedEvent event,
-    Emitter<DetailMediaUiState> emit,
-  ) {
-    emit(state.copyWith(detailAnimeModel: event.model));
   }
 
   Future<void> _onMediaListModified(
@@ -162,29 +165,19 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     }
   }
 
-  FutureOr<void> _onLoadingStateChanged(
-      _OnLoadingStateChanged event, Emitter<DetailMediaUiState> emit) {
-    emit(state.copyWith(isLoading: event.isLoading));
-  }
-
-  FutureOr<void> _onMediaListItemChanged(
-      _OnMediaListItemChanged event, Emitter<DetailMediaUiState> emit) {
-    emit(state.copyWith(mediaListItem: event.mediaListItemModel));
-  }
-
   FutureOr<void> _onToggleFavoriteState(
       OnToggleFavoriteState event, Emitter<DetailMediaUiState> emit) async {
     final isAnime = event.isAnime;
     final mediaId = event.mediaId;
 
-    _cancelToken?.cancel();
-    _cancelToken = CancelToken();
+    _toggleFavoriteCancelToken?.cancel();
+    _toggleFavoriteCancelToken = CancelToken();
     if (isAnime) {
-      unawaited(
-          _favoriteRepository.toggleFavoriteAnime(mediaId, _cancelToken!));
+      unawaited(_favoriteRepository.toggleFavoriteAnime(
+          mediaId, _toggleFavoriteCancelToken!));
     } else {
-      unawaited(
-          _favoriteRepository.toggleFavoriteManga(mediaId, _cancelToken!));
+      unawaited(_favoriteRepository.toggleFavoriteManga(
+          mediaId, _toggleFavoriteCancelToken!));
     }
   }
 }

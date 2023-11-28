@@ -87,14 +87,18 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
     on<_OnLoadStateChanged>(
-        (event, emit) => emit(state.copyWith(isLoading: event.isLoading)));
+      (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
+    );
     on<_OnWatchingAnimeListChanged>(_onWatchingAnimeListChanged);
     on<_OnMediaTypeChanged>(_onMediaTypeChanged);
     on<_OnAniListSettingsChanged>(
-        (event, emit) => emit(state.copyWith(settings: event.settings)));
+      (event, emit) => emit(state.copyWith(settings: event.settings)),
+    );
     on<_OnShowFollowOnlyStateChanged>(_onShowFollowOnlyStateChanged);
-    on<OnToggleShowFollowOnly>((_, __) =>
-        _mediaListRepository.setIsReleasedOnly(!state.showReleasedOnly));
+    on<OnToggleShowFollowOnly>(
+      (_, __) =>
+          _mediaListRepository.setIsReleasedOnly(!state.showReleasedOnly),
+    );
     on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
     on<OnMediaListModified>(_onMediaListModified);
 
@@ -106,6 +110,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   StreamSubscription? _mediaTypeSub;
   StreamSubscription? _settingsSub;
   StreamSubscription? _showReleasedOnlySub;
+
   final MediaListRepository _mediaListRepository;
   final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;

@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
@@ -65,27 +66,6 @@ mixin CategoryColumnsValues {
   static const String topManhwa = 'top_manhwa';
 }
 
-extension on MediaCategory {
-  String getContentValue() {
-    switch (this) {
-      case MediaCategory.trendingAnime:
-        return CategoryColumnsValues.trending;
-      case MediaCategory.currentSeasonAnime:
-        return CategoryColumnsValues.currentSeason;
-      case MediaCategory.nextSeasonAnime:
-        return CategoryColumnsValues.nextSeason;
-      case MediaCategory.movieAnime:
-        return CategoryColumnsValues.movie;
-      case MediaCategory.trendingManga:
-        return CategoryColumnsValues.trendingManga;
-      case MediaCategory.allTimePopularManga:
-        return CategoryColumnsValues.allTimePopularManga;
-      case MediaCategory.topManhwa:
-        return CategoryColumnsValues.topManhwa;
-    }
-  }
-}
-
 /// [Tables.animeCategoryCrossRefTable]
 mixin MediaCategoryCrossRefColumns {
   static const String mediaId = 'anime_category_cross_media_id';
@@ -102,25 +82,11 @@ mixin CharacterVoiceActorCrossRefColumns {
   static const String language = 'character_voice_actor_cross_language';
 }
 
-/// [Tables.staffTable]
-mixin StaffColumns {
-  static const String id = 'staff_id';
-  static const String image = 'staff_image';
-  static const String name = 'staff_name';
-}
-
 /// [Tables.mediaCharacterCrossRefTable]
-mixin CharacterCrossRefColumns {
+mixin MediaCharacterCrossRefColumns {
   static const String mediaId = 'media_character_cross_anime_id';
   static const String characterId = 'media_character_cross_character_id';
   static const String timeStamp = 'media_character_cross_time_stamp';
-}
-
-class AnimeCharacterCrossRef {
-  AnimeCharacterCrossRef({required this.animeId, required this.characterId});
-
-  final String animeId;
-  final String characterId;
 }
 
 /// [Tables.mediaStaffCrossRefTable]
@@ -187,8 +153,6 @@ abstract class MediaInformationDao {
   Future upsertMediaInformation(List<MediaEntity> entities,
       {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore});
 
-  Future upsertStaffInfo(List<StaffEntity> entities);
-
   Future upsertMediaExternalLinks(
       {required List<MediaExternalLinkEntity> externalLinks});
 
@@ -205,8 +169,6 @@ abstract class MediaInformationDao {
 
   Future insertStaffRelationEntitiesOfMedia(
       {required int mediaId, required List<StaffAndRoleRelation> entities});
-
-  Future insertStaffEntities(List<StaffEntity> entities);
 }
 
 class MediaInformationDaoImpl extends MediaInformationDao {
@@ -229,7 +191,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   Future clearMediaCharacterCrossRef(String mediaId) async {
     await database.aniflowDB.delete(
       Tables.mediaCharacterCrossRefTable,
-      where: '${CharacterCrossRefColumns.mediaId} = ?',
+      where: '${MediaCharacterCrossRefColumns.mediaId} = ?',
       whereArgs: [mediaId.toString()],
     );
   }
@@ -292,14 +254,14 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     final int offset = (page - 1) * perPage;
     final characterSql = 'select * from ${Tables.characterTable} as c \n'
         'join ${Tables.mediaCharacterCrossRefTable} as ac '
-        '  on c.${CharacterColumns.id} = ac.${CharacterCrossRefColumns.characterId} \n'
+        '  on c.${CharacterColumns.id} = ac.${MediaCharacterCrossRefColumns.characterId} \n'
         'left join ${Tables.characterVoiceActorCrossRefTable} as cv \n'
         '  on c.${CharacterColumns.id} = cv.${CharacterVoiceActorCrossRefColumns.characterId} \n'
         '    and cv.${CharacterVoiceActorCrossRefColumns.language} = \'${staffLanguage.toJson()}\' \n'
         'left join ${Tables.staffTable} as v \n'
         '  on cv.${CharacterVoiceActorCrossRefColumns.staffId} = v.${StaffColumns.id} \n'
-        'where ac.${CharacterCrossRefColumns.mediaId} = \'$animeId\' \n'
-        'order by ${CharacterCrossRefColumns.timeStamp} asc \n'
+        'where ac.${MediaCharacterCrossRefColumns.mediaId} = \'$animeId\' \n'
+        'order by ${MediaCharacterCrossRefColumns.timeStamp} asc \n'
         'limit $limit \n'
         'offset $offset \n';
     List<Map<String, dynamic>> characterResults =
@@ -393,19 +355,6 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future upsertStaffInfo(List<StaffEntity> entities) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.staffTable,
-        entity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    return await batch.commit(noResult: true);
-  }
-
-  @override
   Future upsertMediaExternalLinks(
       {required List<MediaExternalLinkEntity> externalLinks}) async {
     final batch = database.aniflowDB.batch();
@@ -469,9 +418,9 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       batch.insert(
         Tables.mediaCharacterCrossRefTable,
         {
-          CharacterCrossRefColumns.mediaId: mediaId,
-          CharacterCrossRefColumns.characterId: entity.characterEntity.id,
-          CharacterCrossRefColumns.timeStamp:
+          MediaCharacterCrossRefColumns.mediaId: mediaId,
+          MediaCharacterCrossRefColumns.characterId: entity.characterEntity.id,
+          MediaCharacterCrossRefColumns.timeStamp:
               DateTime.now().microsecondsSinceEpoch,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
@@ -515,19 +464,6 @@ class MediaInformationDaoImpl extends MediaInformationDao {
           MediaStaffCrossRefColumns.timeStamp:
               DateTime.now().microsecondsSinceEpoch,
         },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    return await batch.commit(noResult: true);
-  }
-
-  @override
-  Future insertStaffEntities(List<StaffEntity> entities) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.staffTable,
-        entity.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

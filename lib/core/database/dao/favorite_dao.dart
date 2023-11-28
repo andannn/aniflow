@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';

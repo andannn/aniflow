@@ -53,6 +53,7 @@ class MediaEntity with _$MediaEntity {
     @JsonKey(name: MediaTableColumns.nextAiringEpisode) int? nextAiringEpisode,
   }) = _MediaEntity;
 
+
   factory MediaEntity.fromJson(Map<String, dynamic> json) =>
       _$$MediaEntityImplFromJson(json);
 
@@ -96,4 +97,14 @@ class MediaEntity with _$MediaEntity {
             )
             ?.rank,
       );
+}
+
+extension MediaEntityEx on MediaEntity {
+  MediaEntity? checkValidOrNull() {
+    if (id.isNotEmpty) {
+      return this;
+    } else {
+      return null;
+    }
+  }
 }

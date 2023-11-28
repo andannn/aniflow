@@ -54,6 +54,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final userDataDao = AniflowDatabase().getUserDataDao();
   final mediaInfoDao = AniflowDatabase().getMediaInformationDaoDao();
+  final staffDao = AniflowDatabase().getStaffDao();
   final characterDao = AniflowDatabase().getCharacterDao();
   final mediaListDao = AniflowDatabase().getMediaListDao();
   final favoriteDao = AniflowDatabase().getFavoriteDao();
@@ -167,7 +168,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<StaffEntity> entities) async {
-        await mediaInfoDao.insertStaffEntities(entities);
+        await staffDao.insertStaffEntities(entities);
         await favoriteDao.insertFavoritesCrossRef(
             userId!, FavoriteType.staff, entities.map((e) => e.id).toList());
       },

@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:aniflow/core/data/model/airing_schedule_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
+import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -55,7 +56,8 @@ abstract class MediaInformationRepository {
 
   Stream<MediaModel> getDetailAnimeInfoStream(String id);
 
-  Future<LoadResult<void>> startFetchDetailAnimeInfo(String id);
+  Future<LoadResult<void>> startFetchDetailAnimeInfo(
+      {required String id, CancelToken? token});
 
   /// Get all the airing schedule of the day of [dateTime].
   Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
@@ -73,6 +75,8 @@ abstract class MediaInformationRepository {
 
   Future<LoadResult<void>> startFetchDetailCharacterInfo(
       {required String id, CancelToken? token});
+
+  Stream<CharacterModel> getDetailCharacterStream(String id);
 }
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
@@ -130,8 +134,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         token: token,
       ),
       onClearDbCache: () => mediaDao.clearMediaCharacterCrossRef(animeId),
-      onInsertEntityToDB: (entities) => mediaDao.insertCharacterVoiceActorsOfMedia(
-          mediaId: int.parse(animeId), entities: entities),
+      onInsertEntityToDB: (entities) =>
+          mediaDao.insertCharacterVoiceActorsOfMedia(
+              mediaId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => mediaDao.getCharacterOfMediaByPage(
         animeId.toString(),
         staffLanguage: language,
@@ -164,8 +169,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         token: token,
       ),
       onClearDbCache: () async {},
-      onInsertEntityToDB: (entities) => mediaDao.insertStaffRelationEntitiesOfMedia(
-          mediaId: int.parse(animeId), entities: entities),
+      onInsertEntityToDB: (entities) =>
+          mediaDao.insertStaffRelationEntitiesOfMedia(
+              mediaId: int.parse(animeId), entities: entities),
       onGetEntityFromDB: (page, perPage) => mediaDao.getStaffOfMediaByPage(
         animeId.toString(),
         page: page,
@@ -188,11 +194,13 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   }
 
   @override
-  Future<LoadResult<void>> startFetchDetailAnimeInfo(String id) async {
+  Future<LoadResult<void>> startFetchDetailAnimeInfo(
+      {required String id, CancelToken? token}) async {
     try {
       /// fetch anime info from network.
       MediaDto networkResult = await dataSource.getNetworkAnime(
         id: int.parse(id),
+        token: token
       );
 
       /// insert anime info to db.
@@ -344,5 +352,12 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     } on Exception catch (exception) {
       return LoadError(exception);
     }
+  }
+
+  @override
+  Stream<CharacterModel> getDetailCharacterStream(String id) {
+    return characterDao.getCharacterStream(id).map(
+          (entity) => CharacterModel.fromDetail(entity),
+    );
   }
 }

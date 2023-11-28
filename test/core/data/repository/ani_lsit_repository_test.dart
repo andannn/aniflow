@@ -92,11 +92,11 @@ void main() {
     });
 
     test('ani_list_fetch_anime_detail_data', () async {
-      await aniListRepository.startFetchDetailAnimeInfo('789');
+      await aniListRepository.startFetchDetailAnimeInfo(id: '789');
     });
 
     test('ani_list_fetch_anime_detail_data_and_get_result', () async {
-      await aniListRepository.startFetchDetailAnimeInfo('161964');
+      await aniListRepository.startFetchDetailAnimeInfo(id: '161964');
       final res =
           await aniListRepository.getDetailAnimeInfoStream('161964').first;
       expect(res.id, equals('161964'));

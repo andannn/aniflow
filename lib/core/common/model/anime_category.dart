@@ -1,5 +1,6 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:flutter/cupertino.dart';
 
 enum MediaCategory {
@@ -59,6 +60,27 @@ enum MediaCategory {
         allTimePopularManga,
         topManhwa,
       ];
+    }
+  }
+}
+
+extension MediaCategoryEx on MediaCategory {
+  String getContentValue() {
+    switch (this) {
+      case MediaCategory.trendingAnime:
+        return CategoryColumnsValues.trending;
+      case MediaCategory.currentSeasonAnime:
+        return CategoryColumnsValues.currentSeason;
+      case MediaCategory.nextSeasonAnime:
+        return CategoryColumnsValues.nextSeason;
+      case MediaCategory.movieAnime:
+        return CategoryColumnsValues.movie;
+      case MediaCategory.trendingManga:
+        return CategoryColumnsValues.trendingManga;
+      case MediaCategory.allTimePopularManga:
+        return CategoryColumnsValues.allTimePopularManga;
+      case MediaCategory.topManhwa:
+        return CategoryColumnsValues.topManhwa;
     }
   }
 }

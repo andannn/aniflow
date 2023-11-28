@@ -44,7 +44,8 @@ class AniListDataSource {
   String get _token =>
       isUnitTest ? testToken : AniFlowPreferences().getAuthToken();
 
-  Future<MediaDto> getNetworkAnime({required int id}) async {
+  Future<MediaDto> getNetworkAnime(
+      {required int id, CancelToken? token}) async {
     final queryGraphQL = mediaDetailQueryGraphQLString;
     final variablesMap = {
       'id': id,
@@ -52,6 +53,7 @@ class AniListDataSource {
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
           data: {'query': queryGraphQL, 'variables': variablesMap},
+          cancelToken: token,
           options: createQueryOptions(_token),
         );
 

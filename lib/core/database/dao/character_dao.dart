@@ -1,10 +1,13 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.characterTable]
@@ -36,12 +39,17 @@ abstract class CharacterDao {
   Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity);
 
   Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(String id);
+
+  Stream<CharacterAndRelatedMedia> getCharacterStream(String id);
 }
 
 class CharacterDaoImpl extends CharacterDao {
   final AniflowDatabase database;
 
   CharacterDaoImpl(this.database);
+
+  /// animeId to notifiers dict.
+  final Map<String, ValueNotifier<int>> _notifiers = {};
 
   @override
   Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity) async {
@@ -67,7 +75,9 @@ class CharacterDaoImpl extends CharacterDao {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return await batch.commit(noResult: true);
+    return batch
+        .commit(noResult: true)
+        .then((value) => _notifyUserDataChanged(entity.character.id));
   }
 
   @override
@@ -88,17 +98,36 @@ class CharacterDaoImpl extends CharacterDao {
     String id,
   ) async {
     final sql = 'select * from ${Tables.characterTable} as c \n'
-        'join ${Tables.characterAndRelatedMediaCrossRef} as cm \n'
+        'left join ${Tables.characterAndRelatedMediaCrossRef} as cm \n'
         '  on cm.${CharacterAndRelatedMediaCrossRef.characterId} = c.${CharacterColumns.id} \n'
-        'join ${Tables.mediaTable} as m \n'
+        'left join ${Tables.mediaTable} as m \n'
         '  on cm.${CharacterAndRelatedMediaCrossRef.mediaId} = m.${MediaTableColumns.id} \n'
-        'where cm.${CharacterAndRelatedMediaCrossRef.characterId} = $id \n';
+        'where c.${CharacterColumns.id} = $id \n';
 
     List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
 
     return CharacterAndRelatedMedia(
       character: CharacterEntity.fromJson(results.first),
-      medias: results.map((e) => MediaEntity.fromJson(e)).toList(),
+      medias: results
+          .map((e) => MediaEntity.fromJson(e).checkValidOrNull())
+          .whereNotNull()
+          .toList(),
+    );
+  }
+
+  void _notifyUserDataChanged(String characterId) {
+    final notifier = _notifiers[characterId];
+    if (notifier != null) {
+      notifier.value = notifier.value++;
+    }
+  }
+
+  @override
+  Stream<CharacterAndRelatedMedia> getCharacterStream(String id) {
+    final changeSource = _notifiers.putIfAbsent(id, () => ValueNotifier(0));
+    return StreamUtil.createStream(
+      changeSource,
+      () => getCharacterAndRelatedMedia(id),
     );
   }
 }

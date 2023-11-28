@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -33,9 +31,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   })  : _userId = userId,
         _userInfoRepository = userInfoRepository,
         super(ProfileState()) {
-    on<_OnUserDataLoaded>(_onUserDataLoaded);
-    on<OnFavoritePageLoadingStateChanged>(_onFavoritePageLoadingStateChanged);
-    on<OnMediaPageLoadingStateChanged>(_onMediaPageLoadingStateChanged);
+    on<_OnUserDataLoaded>(
+      (event, emit) => emit(state.copyWith(userData: event.userData)),
+    );
+    on<OnFavoritePageLoadingStateChanged>(
+      (event, emit) => emit(state.copyWith(isFavoriteLoading: event.isLoading)),
+    );
+    on<OnMediaPageLoadingStateChanged>(
+      (event, emit) =>
+          emit(state.copyWith(isMediaListPageLoading: event.isLoading)),
+    );
 
     _init();
   }
@@ -47,20 +52,5 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final userId = _userId ?? AniFlowPreferences().getAuthedUserId();
     final userData = await _userInfoRepository.getUserDataById(userId!);
     add(_OnUserDataLoaded(userData: userData));
-  }
-
-  FutureOr<void> _onUserDataLoaded(
-      _OnUserDataLoaded event, Emitter<ProfileState> emit) {
-    emit(state.copyWith(userData: event.userData));
-  }
-
-  FutureOr<void> _onFavoritePageLoadingStateChanged(
-      OnFavoritePageLoadingStateChanged event, Emitter<ProfileState> emit) {
-    emit(state.copyWith(isFavoriteLoading: event.isLoading));
-  }
-
-  FutureOr<void> _onMediaPageLoadingStateChanged(
-      OnMediaPageLoadingStateChanged event, Emitter<ProfileState> emit) {
-    emit(state.copyWith(isMediaListPageLoading: event.isLoading));
   }
 }

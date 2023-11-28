@@ -19,6 +19,15 @@ mixin _$CharacterModel {
   String get id => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
+  int? get dateOfBirth => throw _privateConstructorUsedError;
+  String? get age => throw _privateConstructorUsedError;
+  String? get bloodType => throw _privateConstructorUsedError;
+  String? get siteUrl => throw _privateConstructorUsedError;
+  int? get favourites => throw _privateConstructorUsedError;
+  bool get isFavourite => throw _privateConstructorUsedError;
+  List<MediaModel> get relatedMedias => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CharacterModelCopyWith<CharacterModel> get copyWith =>
@@ -31,7 +40,19 @@ abstract class $CharacterModelCopyWith<$Res> {
           CharacterModel value, $Res Function(CharacterModel) then) =
       _$CharacterModelCopyWithImpl<$Res, CharacterModel>;
   @useResult
-  $Res call({String id, String image, String name});
+  $Res call(
+      {String id,
+      String image,
+      String name,
+      String? description,
+      String? gender,
+      int? dateOfBirth,
+      String? age,
+      String? bloodType,
+      String? siteUrl,
+      int? favourites,
+      bool isFavourite,
+      List<MediaModel> relatedMedias});
 }
 
 /// @nodoc
@@ -50,6 +71,15 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
     Object? id = null,
     Object? image = null,
     Object? name = null,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? dateOfBirth = freezed,
+    Object? age = freezed,
+    Object? bloodType = freezed,
+    Object? siteUrl = freezed,
+    Object? favourites = freezed,
+    Object? isFavourite = null,
+    Object? relatedMedias = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -64,6 +94,42 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      favourites: freezed == favourites
+          ? _value.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      relatedMedias: null == relatedMedias
+          ? _value.relatedMedias
+          : relatedMedias // ignore: cast_nullable_to_non_nullable
+              as List<MediaModel>,
     ) as $Val);
   }
 }
@@ -76,7 +142,19 @@ abstract class _$$CharacterModelImplCopyWith<$Res>
       __$$CharacterModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String image, String name});
+  $Res call(
+      {String id,
+      String image,
+      String name,
+      String? description,
+      String? gender,
+      int? dateOfBirth,
+      String? age,
+      String? bloodType,
+      String? siteUrl,
+      int? favourites,
+      bool isFavourite,
+      List<MediaModel> relatedMedias});
 }
 
 /// @nodoc
@@ -93,6 +171,15 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? image = null,
     Object? name = null,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? dateOfBirth = freezed,
+    Object? age = freezed,
+    Object? bloodType = freezed,
+    Object? siteUrl = freezed,
+    Object? favourites = freezed,
+    Object? isFavourite = null,
+    Object? relatedMedias = null,
   }) {
     return _then(_$CharacterModelImpl(
       id: null == id
@@ -107,6 +194,42 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      favourites: freezed == favourites
+          ? _value.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      relatedMedias: null == relatedMedias
+          ? _value._relatedMedias
+          : relatedMedias // ignore: cast_nullable_to_non_nullable
+              as List<MediaModel>,
     ));
   }
 }
@@ -114,7 +237,20 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CharacterModelImpl implements _CharacterModel {
-  _$CharacterModelImpl({this.id = '', this.image = '', this.name = ''});
+  _$CharacterModelImpl(
+      {this.id = '',
+      this.image = '',
+      this.name = '',
+      this.description,
+      this.gender,
+      this.dateOfBirth,
+      this.age,
+      this.bloodType,
+      this.siteUrl,
+      this.favourites,
+      this.isFavourite = false,
+      final List<MediaModel> relatedMedias = const []})
+      : _relatedMedias = relatedMedias;
 
   @override
   @JsonKey()
@@ -125,10 +261,35 @@ class _$CharacterModelImpl implements _CharacterModel {
   @override
   @JsonKey()
   final String name;
+  @override
+  final String? description;
+  @override
+  final String? gender;
+  @override
+  final int? dateOfBirth;
+  @override
+  final String? age;
+  @override
+  final String? bloodType;
+  @override
+  final String? siteUrl;
+  @override
+  final int? favourites;
+  @override
+  @JsonKey()
+  final bool isFavourite;
+  final List<MediaModel> _relatedMedias;
+  @override
+  @JsonKey()
+  List<MediaModel> get relatedMedias {
+    if (_relatedMedias is EqualUnmodifiableListView) return _relatedMedias;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_relatedMedias);
+  }
 
   @override
   String toString() {
-    return 'CharacterModel(id: $id, image: $image, name: $name)';
+    return 'CharacterModel(id: $id, image: $image, name: $name, description: $description, gender: $gender, dateOfBirth: $dateOfBirth, age: $age, bloodType: $bloodType, siteUrl: $siteUrl, favourites: $favourites, isFavourite: $isFavourite, relatedMedias: $relatedMedias)';
   }
 
   @override
@@ -138,11 +299,39 @@ class _$CharacterModelImpl implements _CharacterModel {
             other is _$CharacterModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.dateOfBirth, dateOfBirth) ||
+                other.dateOfBirth == dateOfBirth) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.bloodType, bloodType) ||
+                other.bloodType == bloodType) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
+            (identical(other.favourites, favourites) ||
+                other.favourites == favourites) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
+            const DeepCollectionEquality()
+                .equals(other._relatedMedias, _relatedMedias));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, image, name);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      image,
+      name,
+      description,
+      gender,
+      dateOfBirth,
+      age,
+      bloodType,
+      siteUrl,
+      favourites,
+      isFavourite,
+      const DeepCollectionEquality().hash(_relatedMedias));
 
   @JsonKey(ignore: true)
   @override
@@ -156,7 +345,16 @@ abstract class _CharacterModel implements CharacterModel {
   factory _CharacterModel(
       {final String id,
       final String image,
-      final String name}) = _$CharacterModelImpl;
+      final String name,
+      final String? description,
+      final String? gender,
+      final int? dateOfBirth,
+      final String? age,
+      final String? bloodType,
+      final String? siteUrl,
+      final int? favourites,
+      final bool isFavourite,
+      final List<MediaModel> relatedMedias}) = _$CharacterModelImpl;
 
   @override
   String get id;
@@ -164,6 +362,24 @@ abstract class _CharacterModel implements CharacterModel {
   String get image;
   @override
   String get name;
+  @override
+  String? get description;
+  @override
+  String? get gender;
+  @override
+  int? get dateOfBirth;
+  @override
+  String? get age;
+  @override
+  String? get bloodType;
+  @override
+  String? get siteUrl;
+  @override
+  int? get favourites;
+  @override
+  bool get isFavourite;
+  @override
+  List<MediaModel> get relatedMedias;
   @override
   @JsonKey(ignore: true)
   _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
