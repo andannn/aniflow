@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
+import 'package:aniflow/core/database/dao/airing_schedule_dao.dart';
+import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
@@ -52,6 +54,10 @@ class AniflowDatabase {
 
   MediaInformationDao? _mediaInformationDaoDao;
 
+  AiringScheduleDao? _airingScheduleDao;
+
+  CharacterDao? _characterDao;
+
   UserDataDao? _userDataDao;
 
   MediaListDao? _mediaListDao;
@@ -93,6 +99,11 @@ class AniflowDatabase {
 
   MediaInformationDao getMediaInformationDaoDao() =>
       _mediaInformationDaoDao ??= MediaInformationDaoImpl(this);
+
+  CharacterDao getCharacterDao() => _characterDao ??= CharacterDaoImpl(this);
+
+  AiringScheduleDao getAiringScheduleDao() =>
+      _airingScheduleDao ??= AiringScheduleDaoImpl(this);
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
@@ -166,7 +177,7 @@ class AniflowDatabase {
         '${CharacterColumns.dateOfBirth} text,'
         '${CharacterColumns.age} text,'
         '${CharacterColumns.bloodType} text,'
-        '${CharacterColumns.isFavourite} text,'
+        '${CharacterColumns.isFavourite} integer,'
         '${CharacterColumns.siteUrl} text,'
         '${CharacterColumns.favourites} integer'
         ')');

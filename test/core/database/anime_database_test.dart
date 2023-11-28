@@ -7,7 +7,7 @@ import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
-import 'package:aniflow/core/database/model/relations/character_and_releated_media.dart';
+import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
 import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
 import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
@@ -17,6 +17,9 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('anime_database_test', () {
     final animeDatabase = AniflowDatabase();
+    final animeDao = animeDatabase.getMediaInformationDaoDao();
+    final characterDao = animeDatabase.getCharacterDao();
+    final airingScheduleDao = animeDatabase.getAiringScheduleDao();
 
     final dummyAnimeData = [
       MediaEntity(
@@ -218,22 +221,21 @@ void main() {
     });
 
     test('upsert_voice_actor_data', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertStaffInfo(dummyVoiceActorData);
     });
 
     test('insert_airing_schedule', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
+      await airingScheduleDao.upsertAiringSchedules(
+          schedules: dummyAiringSchedule);
     });
 
     test('get_airing_schedule_by_range', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
+      await airingScheduleDao.upsertAiringSchedules(
+          schedules: dummyAiringSchedule);
       await animeDao.upsertMediaInformation(dummyAnimeData);
 
-      final result =
-          await animeDao.getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
+      final result = await airingScheduleDao
+          .getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
 
       expect(
           result.map((e) => e.airingSchedule).toList(),
@@ -242,8 +244,6 @@ void main() {
     });
 
     test('upsert_media_external_links_test', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-
       await animeDao.upsertMediaInformation(dummyAnimeData);
       await animeDao.upsertMediaExternalLinks(
           externalLinks: dummyExternalLinks);
@@ -254,21 +254,17 @@ void main() {
     });
 
     test('query_character_page', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-
-      await animeDao.insertCharacterVoiceActors(
+      await animeDao.insertCharacterVoiceActorsOfMedia(
           mediaId: 5784, entities: dummyCharacterVoiceActerRelations);
 
       await animeDao.getCharacterOfMediaByPage('5784', page: 1);
     });
 
     test('insert_media_relation', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
     });
 
     test('get_media_relation', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
       final res = await animeDao.getMediaRelations('4353');
       expect(res.map((e) => e.media),
@@ -276,11 +272,10 @@ void main() {
     });
 
     test('insert_and_get_character_and_related_media', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao
+      await characterDao
           .insertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 
-      final res = await animeDao.getCharacterAndRelatedMedia('4');
+      final res = await characterDao.getCharacterAndRelatedMedia('4');
 
       expect(res.character, equals(dummyCharacterAndRelatedMedia.character));
       expect(res.medias, equals(dummyCharacterAndRelatedMedia.medias));

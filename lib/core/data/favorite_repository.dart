@@ -9,8 +9,6 @@ import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
@@ -54,12 +52,12 @@ abstract class FavoriteRepository {
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
-  final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
-  final preferences = AniFlowPreferences();
-  final MediaInformationDao mediaInfoDao =
-      AniflowDatabase().getMediaInformationDaoDao();
+  final userDataDao = AniflowDatabase().getUserDataDao();
+  final mediaInfoDao = AniflowDatabase().getMediaInformationDaoDao();
+  final characterDao = AniflowDatabase().getCharacterDao();
   final mediaListDao = AniflowDatabase().getMediaListDao();
   final favoriteDao = AniflowDatabase().getFavoriteDao();
+  final preferences = AniFlowPreferences();
 
   @override
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
@@ -134,7 +132,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<CharacterEntity> entities) async {
-        await mediaInfoDao.insertCharacters(entities: entities);
+        await characterDao.insertCharacters(entities: entities);
         await favoriteDao.insertFavoritesCrossRef(userId!,
             FavoriteType.character, entities.map((e) => e.id).toList());
       },
