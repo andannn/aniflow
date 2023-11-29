@@ -137,6 +137,9 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     }
   }
 
+  void navigateToDetailCharacter(String id) {
+    _pushAsSingleton(DetailCharacterPath(id));
+  }
 
   void _pushAsSingleton(AniFlowRoutePath path) {
     if (_backStack.contains(path)) {

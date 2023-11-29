@@ -16,6 +16,9 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('anime_database_test', () {
     final animeDatabase = AniflowDatabase();
+    final animeDao = animeDatabase.getMediaInformationDaoDao();
+    final staffDao = animeDatabase.getStaffDao();
+    final airingScheduleDao = animeDatabase.getAiringScheduleDao();
 
     final dummyAnimeData = [
       MediaEntity(
@@ -137,6 +140,7 @@ void main() {
       AiringSchedulesEntity(id: '142', mediaId: '4353', airingAt: 2),
       AiringSchedulesEntity(id: '152', mediaId: '9523', airingAt: 4),
     ];
+
     final dummyExternalLinks = [
       MediaExternalLinkEntity(
         id: '212',
@@ -208,22 +212,21 @@ void main() {
     });
 
     test('upsert_voice_actor_data', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertStaffInfo(dummyVoiceActorData);
+      await staffDao.insertStaffEntities(dummyVoiceActorData);
     });
 
     test('insert_airing_schedule', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
+      await airingScheduleDao.upsertAiringSchedules(
+          schedules: dummyAiringSchedule);
     });
 
     test('get_airing_schedule_by_range', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertAiringSchedules(schedules: dummyAiringSchedule);
+      await airingScheduleDao.upsertAiringSchedules(
+          schedules: dummyAiringSchedule);
       await animeDao.upsertMediaInformation(dummyAnimeData);
 
-      final result =
-          await animeDao.getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
+      final result = await airingScheduleDao
+          .getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
 
       expect(
           result.map((e) => e.airingSchedule).toList(),
@@ -232,8 +235,6 @@ void main() {
     });
 
     test('upsert_media_external_links_test', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-
       await animeDao.upsertMediaInformation(dummyAnimeData);
       await animeDao.upsertMediaExternalLinks(
           externalLinks: dummyExternalLinks);
@@ -244,21 +245,17 @@ void main() {
     });
 
     test('query_character_page', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
-
-      await animeDao.insertCharacterVoiceActors(
+      await animeDao.insertCharacterVoiceActorsOfMedia(
           mediaId: 5784, entities: dummyCharacterVoiceActerRelations);
 
       await animeDao.getCharacterOfMediaByPage('5784', page: 1);
     });
 
     test('insert_media_relation', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
     });
 
     test('get_media_relation', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
       await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);
       final res = await animeDao.getMediaRelations('4353');
       expect(res.map((e) => e.media),

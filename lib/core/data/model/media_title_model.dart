@@ -1,9 +1,9 @@
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'media_title_modle.freezed.dart';
+part 'media_title_model.freezed.dart';
 
-part 'media_title_modle.g.dart';
+part 'media_title_model.g.dart';
 
 @freezed
 class MediaTitle with _$MediaTitle {

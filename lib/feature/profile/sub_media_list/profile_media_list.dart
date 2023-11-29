@@ -3,7 +3,7 @@
 import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/common/page_loading_state.dart';

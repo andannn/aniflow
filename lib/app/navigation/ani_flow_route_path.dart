@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/anime_search/media_search.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
+import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/discover/discover.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
@@ -64,52 +65,82 @@ class SearchRoutePath extends AniFlowRoutePath {
 class FavoriteStaffPath extends AniFlowRoutePath {
   const FavoriteStaffPath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class FavoriteCharacterPath extends AniFlowRoutePath {
   const FavoriteCharacterPath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class FavoriteAnimePath extends AniFlowRoutePath {
   const FavoriteAnimePath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class FavoriteMangaPath extends AniFlowRoutePath {
   const FavoriteMangaPath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class WatchingAnimePath extends AniFlowRoutePath {
   const WatchingAnimePath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class CompletedAnimePath extends AniFlowRoutePath {
   const CompletedAnimePath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class DroppedAnimePath extends AniFlowRoutePath {
   const DroppedAnimePath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class ReadingMangaPath extends AniFlowRoutePath {
   const ReadingMangaPath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class DroppedMangaPath extends AniFlowRoutePath {
   const DroppedMangaPath(this.userId) : super(isFullScreen: true);
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class UserProfileRoutePath extends AniFlowRoutePath {
   const UserProfileRoutePath(this.userId) : super(isFullScreen: true);
 
   final String userId;
+
+  @override
+  List<Object?> get props => [userId];
 }
 
 class AnimeListRoutePath extends AniFlowRoutePath {
@@ -146,6 +177,15 @@ class DetailAnimeRoutePath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [animeId];
+}
+
+class DetailCharacterPath extends AniFlowRoutePath {
+  const DetailCharacterPath(this.characterId) : super(isFullScreen: true);
+
+  final String characterId;
+
+  @override
+  List<Object?> get props => [characterId];
 }
 
 class AiringScheduleRoutePath extends AniFlowRoutePath {
@@ -222,6 +262,9 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case ReadingMangaPath(userId: final id):
         return ReadingMangaPage(
             key: ValueKey('ReadingMangaPage_$id'), userId: id);
+      case DetailCharacterPath(characterId: final id):
+        return DetailCharacterPage(
+            key: ValueKey('DetailCharacterRoute_$id'), id: id);
       default:
         return const MaterialPage(child: SizedBox());
     }

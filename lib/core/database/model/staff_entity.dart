@@ -1,4 +1,4 @@
-import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';

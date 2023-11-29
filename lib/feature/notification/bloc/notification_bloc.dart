@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/feature/notification/bloc/notification_state.dart';
 import 'package:bloc/bloc.dart';
@@ -14,11 +12,8 @@ class OnNotificationChanged extends NotificationEvent {
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(NotificationState()) {
-    on<OnNotificationChanged>(_onNotificationChanged);
-  }
-
-  FutureOr<void> _onNotificationChanged(
-      OnNotificationChanged event, Emitter<NotificationState> emit) {
-    emit(state.copyWith(category: event.category));
+    on<OnNotificationChanged>(
+      (event, emit) => emit(state.copyWith(category: event.category)),
+    );
   }
 }

@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';

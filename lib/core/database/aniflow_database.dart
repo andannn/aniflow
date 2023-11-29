@@ -4,9 +4,12 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
+import 'package:aniflow/core/database/dao/airing_schedule_dao.dart';
+import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -30,6 +33,8 @@ mixin Tables {
   static const String mediaExternalLickTable = 'media_external_link_table';
   static const String favoriteInfoTable = 'favorite_info_table';
   static const String mediaRelationCrossRef = 'media_relation_cross_ref_table';
+  static const String characterAndRelatedMediaCrossRef =
+      'character_and_related_media_cross_ref_table';
   static const String activityTable = 'activity_table';
   static const String activityFilterTypeCrossRef =
       'activity_filter_type_cross_ref_table';
@@ -49,6 +54,12 @@ class AniflowDatabase {
   Database? _aniflowDB;
 
   MediaInformationDao? _mediaInformationDaoDao;
+
+  StaffDao? _staffDao;
+
+  AiringScheduleDao? _airingScheduleDao;
+
+  CharacterDao? _characterDao;
 
   UserDataDao? _userDataDao;
 
@@ -91,6 +102,13 @@ class AniflowDatabase {
 
   MediaInformationDao getMediaInformationDaoDao() =>
       _mediaInformationDaoDao ??= MediaInformationDaoImpl(this);
+
+  StaffDao getStaffDao() => _staffDao ??= StaffDaoImpl(this);
+
+  CharacterDao getCharacterDao() => _characterDao ??= CharacterDaoImpl(this);
+
+  AiringScheduleDao getAiringScheduleDao() =>
+      _airingScheduleDao ??= AiringScheduleDaoImpl(this);
 
   UserDataDao getUserDataDao() => _userDataDao ??= UserDataDaoImpl(this);
 
@@ -158,20 +176,28 @@ class AniflowDatabase {
     batch.execute('create table if not exists ${Tables.characterTable} ('
         '${CharacterColumns.id} text primary key,'
         '${CharacterColumns.image} text,'
-        '${CharacterColumns.name} text'
+        '${CharacterColumns.name} text,'
+        '${CharacterColumns.description} text,'
+        '${CharacterColumns.gender} text,'
+        '${CharacterColumns.dateOfBirth} integer,'
+        '${CharacterColumns.age} text,'
+        '${CharacterColumns.bloodType} text,'
+        '${CharacterColumns.isFavourite} integer,'
+        '${CharacterColumns.siteUrl} text,'
+        '${CharacterColumns.favourites} integer'
         ')');
 
     batch.execute(
         'create table if not exists ${Tables.characterVoiceActorCrossRefTable} ('
-            '${CharacterVoiceActorCrossRefColumns.id} integer primary key autoincrement,'
-            '${CharacterVoiceActorCrossRefColumns.characterId} text,'
-            '${CharacterVoiceActorCrossRefColumns.staffId} text,'
-            '${CharacterVoiceActorCrossRefColumns.role} text,'
-            '${CharacterVoiceActorCrossRefColumns.language} text,'
-            'unique (${CharacterVoiceActorCrossRefColumns.characterId}, ${CharacterVoiceActorCrossRefColumns.staffId}),'
-            'foreign key (${CharacterVoiceActorCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id}),'
-            'foreign key (${CharacterVoiceActorCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
-            ')');
+        '${CharacterVoiceActorCrossRefColumns.id} integer primary key autoincrement,'
+        '${CharacterVoiceActorCrossRefColumns.characterId} text,'
+        '${CharacterVoiceActorCrossRefColumns.staffId} text,'
+        '${CharacterVoiceActorCrossRefColumns.role} text,'
+        '${CharacterVoiceActorCrossRefColumns.language} text,'
+        'unique (${CharacterVoiceActorCrossRefColumns.characterId}, ${CharacterVoiceActorCrossRefColumns.staffId}),'
+        'foreign key (${CharacterVoiceActorCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id}),'
+        'foreign key (${CharacterVoiceActorCrossRefColumns.staffId}) references ${Tables.staffTable} (${StaffColumns.id})'
+        ')');
 
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
@@ -180,12 +206,12 @@ class AniflowDatabase {
 
     batch.execute(
         'create table if not exists ${Tables.mediaCharacterCrossRefTable} ('
-        '${CharacterCrossRefColumns.mediaId} text,'
-        '${CharacterCrossRefColumns.characterId} text,'
-        '${CharacterCrossRefColumns.timeStamp} integer,'
-        'primary key (${CharacterCrossRefColumns.mediaId}, ${CharacterCrossRefColumns.characterId}),'
-        'foreign key (${CharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
-        'foreign key (${CharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        '${MediaCharacterCrossRefColumns.mediaId} text,'
+        '${MediaCharacterCrossRefColumns.characterId} text,'
+        '${MediaCharacterCrossRefColumns.timeStamp} integer,'
+        'primary key (${MediaCharacterCrossRefColumns.mediaId}, ${MediaCharacterCrossRefColumns.characterId}),'
+        'foreign key (${MediaCharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
+        'foreign key (${MediaCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
         ')');
 
     batch.execute(
@@ -284,16 +310,13 @@ class AniflowDatabase {
         'foreign key (${ActivityFilterTypeCrossRefColumns.activityId}) references ${Tables.activityTable} (${ActivityTableColumns.id})'
         ')');
 
-    batch.execute('create table if not exists parent_table ('
-        'parent_id text primary key,'
-        'name text'
-        ')');
-
-    batch.execute('create table if not exists child ('
-        'child_id text primary key,'
-        'parent_f_key text, '
-        'child_name text, '
-        'foreign key (parent_f_key) references parent_table (parent_id)'
+    batch.execute(
+        'create table if not exists ${Tables.characterAndRelatedMediaCrossRef} ('
+        '${CharacterAndRelatedMediaCrossRef.characterId} text,'
+        '${CharacterAndRelatedMediaCrossRef.mediaId} text,'
+        'primary key (${CharacterAndRelatedMediaCrossRef.characterId}, ${CharacterAndRelatedMediaCrossRef.mediaId}),'
+        'foreign key (${CharacterAndRelatedMediaCrossRef.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        'foreign key (${CharacterAndRelatedMediaCrossRef.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id})'
         ')');
 
     await batch.commit(noResult: true);

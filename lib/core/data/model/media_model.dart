@@ -7,7 +7,7 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';

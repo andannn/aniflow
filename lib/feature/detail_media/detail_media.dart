@@ -14,7 +14,7 @@ import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -314,9 +314,13 @@ class _DetailAnimePageContent extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             description != null
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: HtmlWidget(description),
+                ? Card(
+                    elevation: 0,
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: HtmlWidget(description),
+                    ),
                   )
                 : const SizedBox(),
           ],
@@ -388,6 +392,10 @@ class _DetailAnimePageContent extends StatelessWidget {
         child: CharacterAndVoiceActorWidget(
           model: model,
           textStyle: Theme.of(context).textTheme.bodyMedium,
+          onCharacterTap: () {
+            final characterId = model.characterModel.id;
+            AFRouterDelegate.of(context).navigateToDetailCharacter(characterId);
+          },
         ),
       ),
     );

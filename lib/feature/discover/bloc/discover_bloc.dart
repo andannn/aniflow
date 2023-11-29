@@ -86,10 +86,14 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);
-    on<_OnAniListSettingsChanged>(_onAniListSettingsChanged);
+    on<_OnAniListSettingsChanged>(
+      (event, emit) => emit(state.copyWith(settings: event.settings)),
+    );
     on<_OnTrackingMediaIdsChanged>(_onTrackingMediaIdsChanged);
     on<_OnMediaTypeChanged>(_onMediaTypeChanged);
-    on<_OnLoadStateChanged>(_onLoadStateChanged);
+    on<_OnLoadStateChanged>(
+      (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
+    );
 
     _init();
   }
@@ -274,11 +278,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     emit(DiscoverUiState.copyWithTrackedIds(state, event.ids));
   }
 
-  FutureOr<void> _onLoadStateChanged(
-      _OnLoadStateChanged event, Emitter<DiscoverUiState> emit) {
-    emit(state.copyWith(isLoading: event.isLoading));
-  }
-
   void _startListenFollowingIds() async {
     final userId = _userId;
 
@@ -310,10 +309,5 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
           status: [MediaListStatus.current, MediaListStatus.planning],
           mediaType: MediaType.anime),
     ]);
-  }
-
-  FutureOr<void> _onAniListSettingsChanged(
-      _OnAniListSettingsChanged event, Emitter<DiscoverUiState> emit) {
-    emit(state.copyWith(settings: event.settings));
   }
 }

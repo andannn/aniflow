@@ -1,4 +1,4 @@
-import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/airing_schedule_dao.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

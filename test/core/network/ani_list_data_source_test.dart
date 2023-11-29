@@ -123,5 +123,12 @@ void main() {
       await AniListDataSource().toggleFavorite(
           ToggleFavoriteMutationParam(animeId: 162694), CancelToken());
     });
+
+    test('get_character_dto_by_id', () async {
+      final res = await AniListDataSource()
+          .getCharacterById(characterId: '136837', token: CancelToken());
+
+      expect(res.id, equals(136837));
+    });
   });
 }

@@ -52,7 +52,7 @@ abstract class MediaListRepository {
     String? userId,
     required String mediaId,
     required ScoreFormat format,
-    required CancelToken token,
+    CancelToken? token,
   });
 
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
@@ -176,7 +176,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     String? userId,
     required String mediaId,
     required ScoreFormat format,
-    required CancelToken token,
+    CancelToken? token,
   }) async {
     try {
       final targetUserId = userId ?? preferences.getAuthedUserId();
