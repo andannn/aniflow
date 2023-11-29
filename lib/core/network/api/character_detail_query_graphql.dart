@@ -14,8 +14,9 @@ query (\$id: Int) {
     }
     image {
       medium
+      large
     }
-    description(asHtml: false)
+    description(asHtml: true)
     gender
     dateOfBirth {
       year

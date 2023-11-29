@@ -179,7 +179,7 @@ class AniflowDatabase {
         '${CharacterColumns.name} text,'
         '${CharacterColumns.description} text,'
         '${CharacterColumns.gender} text,'
-        '${CharacterColumns.dateOfBirth} text,'
+        '${CharacterColumns.dateOfBirth} integer,'
         '${CharacterColumns.age} text,'
         '${CharacterColumns.bloodType} text,'
         '${CharacterColumns.isFavourite} integer,'

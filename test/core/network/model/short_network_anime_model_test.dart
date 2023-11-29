@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -21,7 +21,7 @@ mixin _$CharacterModel {
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
-  int? get dateOfBirth => throw _privateConstructorUsedError;
+  DateTime? get dateOfBirth => throw _privateConstructorUsedError;
   String? get age => throw _privateConstructorUsedError;
   String? get bloodType => throw _privateConstructorUsedError;
   String? get siteUrl => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $CharacterModelCopyWith<$Res> {
       String name,
       String? description,
       String? gender,
-      int? dateOfBirth,
+      DateTime? dateOfBirth,
       String? age,
       String? bloodType,
       String? siteUrl,
@@ -105,7 +105,7 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
       dateOfBirth: freezed == dateOfBirth
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as DateTime?,
       age: freezed == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
@@ -148,7 +148,7 @@ abstract class _$$CharacterModelImplCopyWith<$Res>
       String name,
       String? description,
       String? gender,
-      int? dateOfBirth,
+      DateTime? dateOfBirth,
       String? age,
       String? bloodType,
       String? siteUrl,
@@ -205,7 +205,7 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
       dateOfBirth: freezed == dateOfBirth
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as DateTime?,
       age: freezed == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
@@ -266,7 +266,7 @@ class _$CharacterModelImpl implements _CharacterModel {
   @override
   final String? gender;
   @override
-  final int? dateOfBirth;
+  final DateTime? dateOfBirth;
   @override
   final String? age;
   @override
@@ -348,7 +348,7 @@ abstract class _CharacterModel implements CharacterModel {
       final String name,
       final String? description,
       final String? gender,
-      final int? dateOfBirth,
+      final DateTime? dateOfBirth,
       final String? age,
       final String? bloodType,
       final String? siteUrl,
@@ -367,7 +367,7 @@ abstract class _CharacterModel implements CharacterModel {
   @override
   String? get gender;
   @override
-  int? get dateOfBirth;
+  DateTime? get dateOfBirth;
   @override
   String? get age;
   @override

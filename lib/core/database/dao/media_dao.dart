@@ -407,13 +407,13 @@ class MediaInformationDaoImpl extends MediaInformationDao {
         batch.insert(
           Tables.staffTable,
           entity.voiceActorEntity!.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.replace,
+          conflictAlgorithm: ConflictAlgorithm.ignore,
         );
       }
       batch.insert(
         Tables.characterTable,
         entity.characterEntity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        conflictAlgorithm: ConflictAlgorithm.ignore,
       );
       batch.insert(
         Tables.mediaCharacterCrossRefTable,

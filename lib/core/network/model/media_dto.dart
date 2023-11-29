@@ -1,7 +1,7 @@
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
-import 'package:aniflow/core/data/model/media_title_modle.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
 import 'package:aniflow/core/network/model/anime_rank.dart';
 import 'package:aniflow/core/network/model/character_connection.dart';

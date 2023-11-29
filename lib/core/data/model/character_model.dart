@@ -14,7 +14,7 @@ class CharacterModel with _$CharacterModel {
     @Default('') String name,
     String? description,
     String? gender,
-    int? dateOfBirth,
+    DateTime? dateOfBirth,
     String? age,
     String? bloodType,
     String? siteUrl,
@@ -30,7 +30,9 @@ class CharacterModel with _$CharacterModel {
       name: entity.name ?? '',
       description: entity.description,
       gender: entity.gender,
-      dateOfBirth: entity.dateOfBirth,
+      dateOfBirth: entity.dateOfBirth != null
+          ? DateTime.fromMillisecondsSinceEpoch(entity.dateOfBirth!)
+          : null,
       age: entity.age,
       bloodType: entity.bloodType,
       siteUrl: entity.siteUrl,

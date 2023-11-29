@@ -34,13 +34,20 @@ mixin CharacterAndRelatedMediaCrossRef {
 }
 
 abstract class CharacterDao {
-  Future insertCharacters({required List<CharacterEntity> entities});
+  Future insertCharacters({
+    required List<CharacterEntity> entities,
+    required ConflictAlgorithm conflictAlgorithm,
+  });
 
   Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity);
+
+  Future<CharacterEntity> getCharacter(String id);
 
   Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(String id);
 
   Stream<CharacterAndRelatedMedia> getCharacterStream(String id);
+
+  void notifyCharacterChanged(String characterId);
 }
 
 class CharacterDaoImpl extends CharacterDao {
@@ -77,17 +84,20 @@ class CharacterDaoImpl extends CharacterDao {
     }
     return batch
         .commit(noResult: true)
-        .then((value) => _notifyUserDataChanged(entity.character.id));
+        .then((value) => notifyCharacterChanged(entity.character.id));
   }
 
   @override
-  Future insertCharacters({required List<CharacterEntity> entities}) async {
+  Future insertCharacters({
+    required List<CharacterEntity> entities,
+    required ConflictAlgorithm conflictAlgorithm,
+  }) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       batch.insert(
         Tables.characterTable,
         entity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
+        conflictAlgorithm: conflictAlgorithm,
       );
     }
     return await batch.commit(noResult: true);
@@ -115,7 +125,18 @@ class CharacterDaoImpl extends CharacterDao {
     );
   }
 
-  void _notifyUserDataChanged(String characterId) {
+  @override
+  Future<CharacterEntity> getCharacter(String id) async {
+    final sql = 'select * from ${Tables.characterTable} as c \n'
+        'where c.${CharacterColumns.id} = $id \n';
+
+    List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
+
+    return CharacterEntity.fromJson(results.first);
+  }
+
+  @override
+  void notifyCharacterChanged(String characterId) {
     final notifier = _notifiers[characterId];
     if (notifier != null) {
       notifier.value = notifier.value++;
