@@ -1,4 +1,4 @@
-import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';

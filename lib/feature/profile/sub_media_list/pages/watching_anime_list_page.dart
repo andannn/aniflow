@@ -1,4 +1,4 @@
-import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';

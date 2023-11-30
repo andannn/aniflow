@@ -1,13 +1,19 @@
 package com.andannn.aniflow
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+private const val TAG = "MainActivity"
 class MainActivity : FlutterActivity() {
     private lateinit var authChannel: EventChannel
     var authEventSink: EventChannel.EventSink? = null
@@ -20,7 +26,7 @@ class MainActivity : FlutterActivity() {
         )
         authChannel.setStreamHandler(
             /* handler = */ object : EventChannel.StreamHandler {
-                override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
+                override fun onListen(arguments: Any?, events: EventChannel.EventSink) {    
                     authEventSink = events
                 }
 

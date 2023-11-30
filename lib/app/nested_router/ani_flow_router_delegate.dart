@@ -1,5 +1,5 @@
-import 'package:aniflow/app/navigation/ani_flow_route_path.dart';
-import 'package:aniflow/app/navigation/top_level_navigation.dart';
+import 'package:aniflow/app/nested_router/ani_flow_route_path.dart';
+import 'package:aniflow/app/nested_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';

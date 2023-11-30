@@ -1,4 +1,4 @@
-import 'package:aniflow/app/navigation/top_level_navigation.dart';
+import 'package:aniflow/app/nested_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/anime_search/media_search.dart';

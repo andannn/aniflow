@@ -1,5 +1,5 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
-import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';

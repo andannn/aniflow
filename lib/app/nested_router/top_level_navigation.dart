@@ -1,4 +1,4 @@
-import 'package:aniflow/app/navigation/ani_flow_route_path.dart';
+import 'package:aniflow/app/nested_router/ani_flow_route_path.dart';
 import 'package:flutter/material.dart';
 
 enum TopLevelNavigation {
