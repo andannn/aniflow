@@ -1,4 +1,4 @@
-import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -90,7 +90,7 @@ class _MediaListPageContent extends StatelessWidget {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        AFRouterDelegate.of(context).navigateToDetailMedia(
+        AfRouterDelegate.of().navigateToDetailMedia(
           model.id,
         );
       },

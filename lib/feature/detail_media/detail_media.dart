@@ -1,8 +1,8 @@
 import 'dart:math';
 
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
-import 'package:aniflow/app/navigation/ani_flow_router.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -103,12 +103,6 @@ class _DetailAnimePageContent extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.maybePop(context);
-              },
-            ),
             title: AutoSizeText(
               model.title!.getTitle(
                   AniFlowPreferences().getAniListSettings().userTitleLanguage),
@@ -352,7 +346,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AFRouterDelegate.of(context).navigateToCharacterList(
+                    AfRouterDelegate.of().navigateToCharacterList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -394,7 +388,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onCharacterTap: () {
             final characterId = model.characterModel.id;
-            AFRouterDelegate.of(context).navigateToDetailCharacter(characterId);
+            AfRouterDelegate.of().navigateToDetailCharacter(characterId);
           },
         ),
       ),
@@ -424,7 +418,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AFRouterDelegate.of(context).navigateToStaffList(
+                    AfRouterDelegate.of().navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -651,7 +645,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   return MediaRelationWidget(
                     model: relation,
                     onClick: () {
-                      AFRouterDelegate.of(context)
+                      AfRouterDelegate.of()
                           .navigateToDetailMedia(relation.media.id);
                     },
                   );

@@ -1,4 +1,4 @@
-import 'package:aniflow/app/navigation/ani_flow_router.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
@@ -22,7 +22,7 @@ class AiringSchedule extends Page {
 }
 
 class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AiringScheduleRoute({super.settings}): super(allowSnapshotting: false);
+  AiringScheduleRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -228,7 +228,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                     child: AiringMediaItem(
                       model: schedule,
                       onClick: () {
-                        AFRouterDelegate.of(context)
+                        AfRouterDelegate.of()
                             .navigateToDetailMedia(schedule.animeModel.id);
                       },
                     ),
