@@ -1,4 +1,4 @@
-import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -140,7 +140,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
           }
         },
         onClick: () {
-          AFRouterDelegate.of(context).navigateToDetailMedia(
+          AfRouterDelegate.of().navigateToDetailMedia(
             item.animeModel!.id,
           );
         },
@@ -178,7 +178,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.calendar_month_rounded),
                   onPressed: () {
-                    AFRouterDelegate.of(context).navigateToAiringSchedule();
+                    AfRouterDelegate.of().navigateToAiringSchedule();
                   },
                 ),
               )

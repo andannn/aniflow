@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/root_router_delegate.dart';
+import 'package:aniflow/app/root_router_info_parser.dart';
 import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -29,7 +30,8 @@ class AniFlowAppState extends State<AniFlowApp> {
   var setting = ThemeSetting.system;
   late StreamSubscription themeSub;
 
-  ThemeMode get themeMode => switch (setting) {
+  ThemeMode get themeMode =>
+      switch (setting) {
         ThemeSetting.dark => ThemeMode.dark,
         ThemeSetting.light => ThemeMode.light,
         ThemeSetting.system => ThemeMode.system,
@@ -111,6 +113,14 @@ class AniFlowAppState extends State<AniFlowApp> {
                 Locale('ja'),
               ],
               routerDelegate: RootRouterDelegate(),
+              routeInformationProvider: PlatformRouteInformationProvider(
+                initialRouteInformation: RouteInformation(
+                  uri: Uri.parse(WidgetsBinding
+                      .instance.platformDispatcher.defaultRouteName),
+                ),
+              ),
+              routeInformationParser: RootRouterInfoParser(),
+              backButtonDispatcher: RootBackButtonDispatcher(),
             );
           },
         );

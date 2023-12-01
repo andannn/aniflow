@@ -1,18 +1,22 @@
-import 'package:aniflow/app/nested_router/ani_flow.dart';
-import 'package:aniflow/app/nested_router/ani_flow_route_path.dart';
+import 'package:aniflow/app/aniflow_router/af_router_back_stack.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
 import 'package:flutter/material.dart';
 
 class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
-    with ChangeNotifier {
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<AniFlowRoutePath> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
+  @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
+
+  final AfRouterBackStack afRouterBackStack = AfRouterBackStack();
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      pages: const [AniFlowPage()],
+      pages: [AniFlowPage(afRouterBackStack: afRouterBackStack)],
       onPopPage: _onPopPage,
     );
   }
@@ -27,8 +31,7 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(configuration) async {}
-
-  @override
-  Future<bool> popRoute() => Future.value(false);
+  Future<void> setNewRoutePath(configuration) async {
+    afRouterBackStack.setNewRoutePath(configuration);
+  }
 }

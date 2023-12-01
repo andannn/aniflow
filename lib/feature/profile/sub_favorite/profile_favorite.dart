@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -98,7 +98,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   return;
                 }
 
-                AFRouterDelegate.of(context)
+                AfRouterDelegate.of()
                     .navigateToFavoritePage(type, userId);
               },
             ),
@@ -134,7 +134,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       title: title,
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AFRouterDelegate.of(context).navigateToDetailMedia(id);
+        AfRouterDelegate.of().navigateToDetailMedia(id);
       },
     );
   }

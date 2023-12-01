@@ -1,4 +1,4 @@
-import 'package:aniflow/app/nested_router/top_level_navigation.dart';
+import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/anime_search/media_search.dart';
@@ -170,13 +170,13 @@ class StaffListRoutePath extends AniFlowRoutePath {
   List<Object?> get props => [staffId];
 }
 
-class DetailAnimeRoutePath extends AniFlowRoutePath {
-  const DetailAnimeRoutePath(this.animeId) : super(isFullScreen: true);
+class DetailMediaRoutePath extends AniFlowRoutePath {
+  const DetailMediaRoutePath(this.mediaId) : super(isFullScreen: true);
 
-  final String animeId;
+  final String mediaId;
 
   @override
-  List<Object?> get props => [animeId];
+  List<Object?> get props => [mediaId];
 }
 
 class DetailCharacterPath extends AniFlowRoutePath {
@@ -216,7 +216,7 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
           key: ValueKey('StaffListPage_$animeId'),
           animeId: animeId,
         );
-      case DetailAnimeRoutePath(animeId: final animeId):
+      case DetailMediaRoutePath(mediaId: final animeId):
         return DetailAnimePage(
           key: ValueKey('DetailAnimeRoute_$animeId'),
           animeId: animeId,

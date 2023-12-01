@@ -1,21 +1,15 @@
-import 'package:aniflow/app/nested_router/ani_flow_route_path.dart';
-import 'package:aniflow/app/nested_router/top_level_navigation.dart';
+
+import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
+import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
-    with ChangeNotifier {
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+class AfRouterBackStack with ChangeNotifier {
+  List<AniFlowRoutePath> get stack => _backStack;
 
-  GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
-
-  NavigatorState? get navigator => _navigatorKey.currentState;
-
-  RouteObserver routeObserver = RouteObserver();
-
-  List<AniFlowRoutePath> _backStack = [const DiscoverRoutePath()];
+  List<AniFlowRoutePath> _backStack = [];
 
   /// get current path.
   AniFlowRoutePath get currentPath => _backStack.last;
@@ -24,48 +18,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   TopLevelNavigation get currentTopLevelNavigation =>
       _backStack.whereType<TopLevelRoutePath>().last.topLevel;
 
-  bool get isTopRouteFullScreen => _backStack.last.isFullScreen;
-
-  static BuildContext? _routerContext;
-
-  static AFRouterDelegate of([BuildContext? context]) =>
-      Router.of(context ?? _routerContext!).routerDelegate as AFRouterDelegate;
-
-  @override
-  Widget build(BuildContext context) {
-    _routerContext = context;
-    return Navigator(
-      key: navigatorKey,
-      pages: _backStack.map((path) => path.generatePage()).toList(),
-      onPopPage: _onPopPage,
-      observers: [routeObserver],
-    );
-  }
-
-  @override
-  Future<void> setNewRoutePath(configuration) async {}
-
-  /// Judgment of whether need to pop current page.
-  bool _onPopPage(Route<dynamic> route, result) {
-    if (!route.didPop(result)) {
-      return false;
-    }
-
-    _backStack.removeLast();
-    notifyListeners();
-    return true;
-  }
-
-  @override
-  Future<bool> popRoute() async {
-    if (currentPath is DiscoverRoutePath) {
-      // Already in last page, nothing to do, just quit app.
-      return false;
-    }
-
-    navigator?.pop();
-    return true;
-  }
+  bool get isTopRouteFullScreen => _backStack.lastOrNull?.isFullScreen ?? true;
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
     if (navigation == TopLevelNavigation.discover) {
@@ -90,7 +43,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   }
 
   void navigateToDetailMedia(String animeId) {
-    _pushAsSingleton(DetailAnimeRoutePath(animeId));
+    _pushAsSingleton(DetailMediaRoutePath(animeId));
   }
 
   void navigateToAiringSchedule() {
@@ -110,7 +63,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   }
 
   void navigateToFavoritePage(FavoriteType type, String userId) {
-    switch(type) {
+    switch (type) {
       case FavoriteType.anime:
         _pushAsSingleton(FavoriteAnimePath(userId));
       case FavoriteType.manga:
@@ -123,7 +76,7 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   }
 
   void navigateToMediaListPage(MediaList type, String userId) {
-    switch(type) {
+    switch (type) {
       case WatchingAnimeList():
         _pushAsSingleton(WatchingAnimePath(userId));
       case CompletedAnimeList():
@@ -141,6 +94,11 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     _pushAsSingleton(DetailCharacterPath(id));
   }
 
+  void popBackStack() {
+    _backStack.removeLast();
+    notifyListeners();
+  }
+
   void _pushAsSingleton(AniFlowRoutePath path) {
     if (_backStack.contains(path)) {
       _backStack.remove(path);
@@ -149,5 +107,9 @@ class AFRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     _backStack += [path];
 
     notifyListeners();
+  }
+
+  void setNewRoutePath(AniFlowRoutePath path) {
+    _pushAsSingleton(path);
   }
 }

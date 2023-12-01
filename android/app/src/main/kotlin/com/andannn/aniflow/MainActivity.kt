@@ -1,24 +1,25 @@
 package com.andannn.aniflow
 
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
-import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 private const val TAG = "MainActivity"
+
 class MainActivity : FlutterActivity() {
     private lateinit var authChannel: EventChannel
-    var authEventSink: EventChannel.EventSink? = null
+    private var authEventSink: EventChannel.EventSink? = null
 
-    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
+    override fun getInitialRoute(): String? {
+        Log.d(TAG, "getInitialRoute uri: ${intent?.data?.toString()}")
+
+        return intent?.data?.toString() ?: super.getInitialRoute()
+    }
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
         authChannel = EventChannel(
             /* messenger = */ flutterEngine.dartExecutor.binaryMessenger,
@@ -26,7 +27,7 @@ class MainActivity : FlutterActivity() {
         )
         authChannel.setStreamHandler(
             /* handler = */ object : EventChannel.StreamHandler {
-                override fun onListen(arguments: Any?, events: EventChannel.EventSink) {    
+                override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
                     authEventSink = events
                 }
 
@@ -38,10 +39,21 @@ class MainActivity : FlutterActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+
+        val action = intent.action
+        val data = intent.data
+
+        Log.d(TAG, "onNewIntent: action $action, data $data")
+
         if (intent.data?.scheme == "animetracker") {
+            // app received the redirect link from anilist.
             authEventSink?.success(intent.data?.toString()?.replace('#', '?'))
-            Log.d("JQN", "onNewIntent: ${intent.data?.toString()?.substringAfter("#")}")
             authEventSink?.endOfStream()
+        }
+
+        data?.let {
+            // Launched by deep link, let flutter handle the uri.
+            flutterEngine?.navigationChannel?.pushRouteInformation(it.toString())
         }
     }
 }

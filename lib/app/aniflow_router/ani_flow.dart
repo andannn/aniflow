@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:aniflow/app/aniflow_router/af_router_back_stack.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/app/nested_router/ani_flow_route_info_parser.dart';
-import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/app/nested_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -18,20 +18,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AniFlowPage extends Page {
-  const AniFlowPage({super.key});
+  const AniFlowPage({required this.afRouterBackStack, super.key});
+
+  final AfRouterBackStack afRouterBackStack;
 
   @override
   Route createRoute(BuildContext context) {
-    return AniFlowRoute(settings: this);
+    return AniFlowRoute(settings: this, afRouterBackStack: afRouterBackStack);
   }
 }
 
 class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AniFlowRoute({super.settings}) : super(allowSnapshotting: false);
+  AniFlowRoute({super.settings, required this.afRouterBackStack})
+      : super(allowSnapshotting: false);
+
+  final AfRouterBackStack afRouterBackStack;
 
   @override
   Widget buildContent(BuildContext context) {
-    return const AniFlowAppScaffold();
+    return AniFlowAppScaffold(afRouterBackStack: afRouterBackStack);
   }
 
   @override
@@ -39,19 +44,20 @@ class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class AniFlowAppScaffold extends StatefulWidget {
-  const AniFlowAppScaffold({super.key});
+  const AniFlowAppScaffold({super.key, required this.afRouterBackStack});
+
+  final AfRouterBackStack afRouterBackStack;
 
   @override
   State<AniFlowAppScaffold> createState() => _AniFlowAppScaffoldState();
 }
 
 class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
-  final afRouterDelegate = AFRouterDelegate();
+  late AfRouterDelegate afRouterDelegate;
 
-  var currentNavigation = TopLevelNavigation.discover;
-  var needHideNavigationBar = false;
-  final userDataRepository = SettingsRepositoryImpl();
-  final authRepository = AuthRepositoryImpl();
+  var currentTopLevel = TopLevelNavigation.discover;
+  bool get needHideNavigationBar  => afRouterDelegate.isTopRouteFullScreen;
+
   late StreamSubscription _mediaTypeSub;
   late StreamSubscription _authSub;
 
@@ -78,21 +84,26 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
   @override
   void initState() {
     super.initState();
+    afRouterDelegate = AfRouterDelegate(backStack: widget.afRouterBackStack);
+
     afRouterDelegate.addListener(() {
       setState(() {
-        currentNavigation = afRouterDelegate.currentTopLevelNavigation;
-        needHideNavigationBar = afRouterDelegate.isTopRouteFullScreen;
+        currentTopLevel = afRouterDelegate.currentTopLevelNavigation;
       });
     });
-    _mediaTypeSub = userDataRepository.getMediaTypeStream().distinct().listen(
+
+    _mediaTypeSub =
+        SettingsRepositoryImpl().getMediaTypeStream().distinct().listen(
       (mediaType) {
         setState(() {
           _mediaType = mediaType;
         });
       },
     );
-    _authSub =
-        authRepository.getAuthedUserStream().distinct().listen((userData) {
+    _authSub = AuthRepositoryImpl()
+        .getAuthedUserStream()
+        .distinct()
+        .listen((userData) {
       setState(() {
         userModel = userData;
       });
@@ -139,16 +150,12 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
         body: Router(
           routerDelegate: afRouterDelegate,
           backButtonDispatcher: RootBackButtonDispatcher(),
-          routeInformationProvider: PlatformRouteInformationProvider(
-            initialRouteInformation: RouteInformation(uri: Uri.parse('/')),
-          ),
-          routeInformationParser: AniFlowRouteInfoParser(),
         ),
         bottomNavigationBar: VerticalScaleSwitcher(
           visible: !needHideNavigationBar,
           child: _animeTrackerNavigationBar(
             navigationList: _topLevelNavigationList,
-            selected: currentNavigation,
+            selected: currentTopLevel,
             onNavigateToDestination: (navigation) async {
               afRouterDelegate.navigateToTopLevelPage(navigation);
             },

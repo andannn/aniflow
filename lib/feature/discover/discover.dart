@@ -1,5 +1,5 @@
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
@@ -60,7 +60,7 @@ class DiscoverScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12.0),
                 child: IconButton(
                   onPressed: () {
-                    AFRouterDelegate.of(context).navigateToSearch();
+                    AfRouterDelegate.of().navigateToSearch();
                   },
                   icon: const Icon(Icons.search_rounded),
                 ),
@@ -162,10 +162,10 @@ class DiscoverScreen extends StatelessWidget {
         animeModels: animeModels,
         isLoading: isLoading,
         onMoreClick: () {
-          AFRouterDelegate.of(context).navigateToAnimeList(category);
+          AfRouterDelegate.of().navigateToAnimeList(category);
         },
         onAnimeClick: (id) {
-          AFRouterDelegate.of(context).navigateToDetailMedia(id);
+          AfRouterDelegate.of().navigateToDetailMedia(id);
         },
       ),
     );

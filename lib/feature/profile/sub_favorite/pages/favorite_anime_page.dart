@@ -1,4 +1,4 @@
-import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -78,7 +78,7 @@ class _FavoriteAnimeListPageContent extends StatelessWidget {
       title: model.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AFRouterDelegate.of(context).navigateToDetailMedia(model.id);
+        AfRouterDelegate.of().navigateToDetailMedia(model.id);
       },
     );
   }

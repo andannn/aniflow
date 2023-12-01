@@ -1,4 +1,4 @@
-import 'package:aniflow/app/nested_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/search_repository.dart';
@@ -86,7 +86,7 @@ class _MediaSearchPageContent extends StatelessWidget {
     return SearchAnimeItem(
       model: model,
       onClick: () {
-        AFRouterDelegate.of(context).navigateToDetailMedia(model.id);
+        AfRouterDelegate.of().navigateToDetailMedia(model.id);
       },
     );
   }
