@@ -17,7 +17,6 @@ void main() {
   group('anime_database_test', () {
     final animeDatabase = AniflowDatabase();
     final animeDao = animeDatabase.getMediaInformationDaoDao();
-    final staffDao = animeDatabase.getStaffDao();
     final airingScheduleDao = animeDatabase.getAiringScheduleDao();
 
     final dummyAnimeData = [
@@ -83,25 +82,6 @@ void main() {
         ),
       ],
     );
-
-    final dummyVoiceActorData = [
-      StaffEntity(
-        id: '95084',
-        image:
-            'https://s4.anilist.co/file/anilistcdn/staff/large/n95084-RTrZSU38POPF.png',
-        name: '若本規夫',
-      ),
-      StaffEntity(
-        id: '95262',
-        image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-        name: '堀内賢雄',
-      ),
-      StaffEntity(
-        id: '95346',
-        image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-        name: 'Character A',
-      ),
-    ];
 
     final dummyCharacterVoiceActerRelations = [
       CharacterAndVoiceActorRelationEntity(
@@ -209,10 +189,6 @@ void main() {
       await animeDao.upsertMediaInformation([dummyAnimeData[0]]);
       final res = await animeDatabase.aniflowDB.query(Tables.mediaTable);
       expect(MediaEntity.fromJson(res.first), equals(dummyAnimeData[0]));
-    });
-
-    test('upsert_voice_actor_data', () async {
-      await staffDao.insertStaffEntities(dummyVoiceActorData);
     });
 
     test('insert_airing_schedule', () async {

@@ -1,7 +1,7 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';

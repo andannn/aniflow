@@ -8,8 +8,8 @@ import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/short_num_label_icon_button.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_content_widget.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart';
@@ -199,10 +199,10 @@ class ActivityPageContent extends StatelessWidget {
     return ActivityItem(
       model: model,
       onMediaClick: (id) {
-        AfRouterDelegate.of().navigateToDetailMedia(id);
+        AfRouterDelegate.of().backStack.navigateToDetailMedia(id);
       },
       onUserIconClick: (id) {
-        AfRouterDelegate.of().navigateToUserProfile(id);
+        AfRouterDelegate.of().backStack.navigateToUserProfile(id);
       },
       onBuildActivityStatusWidget: (activityId) => _ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),

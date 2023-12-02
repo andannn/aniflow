@@ -130,5 +130,12 @@ void main() {
 
       expect(res.id, equals(136837));
     });
+
+    test('get_staff_dto_by_id', () async {
+      final res = await AniListDataSource().getStaffById(
+          staffId: '119672', token: CancelToken());
+
+      expect(res.id, equals(119672));
+    });
   });
 }

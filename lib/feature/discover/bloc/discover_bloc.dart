@@ -17,7 +17,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';

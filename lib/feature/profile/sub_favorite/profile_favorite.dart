@@ -7,8 +7,8 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
@@ -98,7 +98,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of()
+                AfRouterDelegate.of().backStack
                     .navigateToFavoritePage(type, userId);
               },
             ),
@@ -134,7 +134,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       title: title,
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of().navigateToDetailMedia(id);
+        AfRouterDelegate.of().backStack.navigateToDetailMedia(id);
       },
     );
   }

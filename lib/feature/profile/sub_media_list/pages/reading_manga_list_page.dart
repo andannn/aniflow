@@ -2,8 +2,8 @@ import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_content_widget.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,7 +77,7 @@ class _ReadingMangaPageContent extends StatelessWidget {
       title: model.animeModel!.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of()
+        AfRouterDelegate.of().backStack
             .navigateToDetailMedia(model.animeModel!.id);
       },
     );

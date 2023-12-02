@@ -13,16 +13,7 @@ query (\$id: Int, \$page: Int, \$perPage: Int, \$staffLanguage: StaffLanguage) {
       edges {
         role
         node {
-          id
-          image {
-            large
-            medium
-          }
-          name {
-            full
-            native
-            userPreferred
-          }
+          $characterContentGraphql
         }
         voiceActors(language: \$staffLanguage, sort: LANGUAGE) {
           id
@@ -40,4 +31,17 @@ query (\$id: Int, \$page: Int, \$perPage: Int, \$staffLanguage: StaffLanguage) {
     }
   }
 }
+''';
+
+String get characterContentGraphql => '''
+          id
+          image {
+            large
+            medium
+          }
+          name {
+            full
+            native
+            userPreferred
+          }
 ''';

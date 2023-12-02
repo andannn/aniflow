@@ -1,6 +1,6 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:flutter/material.dart';
 
 Widget buildPageBottomWidget(

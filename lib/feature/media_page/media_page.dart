@@ -6,9 +6,9 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_content_widget.dart';
 import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,7 +90,7 @@ class _MediaListPageContent extends StatelessWidget {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        AfRouterDelegate.of().navigateToDetailMedia(
+        AfRouterDelegate.of().backStack.navigateToDetailMedia(
           model.id,
         );
       },

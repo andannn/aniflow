@@ -1,4 +1,3 @@
-
 // ignore_for_file: lines_longer_than_80_chars, use_build_context_synchronously
 
 import 'package:aniflow/core/common/util/connectivity_util.dart';

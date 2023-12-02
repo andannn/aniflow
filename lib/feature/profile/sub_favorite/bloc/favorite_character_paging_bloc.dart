@@ -4,8 +4,8 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/refresh_paging_bloc.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/refresh_paging_bloc.dart';
 import 'package:dio/dio.dart';
 
 class FavoriteCharacterPagingBloc extends RefreshPagingBloc<CharacterModel> {

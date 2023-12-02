@@ -170,7 +170,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<StaffEntity> entities) async {
-        await staffDao.insertStaffEntities(entities);
+        await staffDao.insertStaffEntities(entities, ConflictAlgorithm.ignore);
         await favoriteDao.insertFavoritesCrossRef(
             userId!, FavoriteType.staff, entities.map((e) => e.id).toList());
       },
@@ -237,8 +237,31 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token) {
-    // TODO: implement toggleFavoriteStaff
+  Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token) async {
+    // TODO: implement toggleFavoriteManga
     throw UnimplementedError();
+    // final staffEntity = await staffDao.getStaffById(id);
+    // if (staffEntity == null) {
+    //   return LoadError(Exception('Invalid Id'));
+    // }
+    //
+    // return NetworkUtil.postMutationAndRevertWhenException(
+    //   initialModel: staffEntity,
+    //   onModifyModel: (staff) {
+    //     final isFavourite = staff.isFavourite.toBoolean();
+    //     return staff.copyWith(isFavourite: (!isFavourite).toInteger());
+    //   },
+    //   onSaveLocal: (staff) => characterDao.insertCharacters(
+    //     entities: [staff],
+    //     conflictAlgorithm: ConflictAlgorithm.replace,
+    //   ).then(
+    //         (value) => characterDao.notifyCharacterChanged(character.id),
+    //   ),
+    //   onSyncWithRemote: (status) async {
+    //     await aniListDataSource.toggleFavorite(
+    //         ToggleFavoriteMutationParam(characterId: int.parse(id)), token);
+    //     return null;
+    //   },
+    // );
   }
 }

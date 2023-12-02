@@ -14,6 +14,7 @@ import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
+import 'package:aniflow/core/network/api/staff_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
@@ -506,5 +507,26 @@ class AniListDataSource {
     final characterDto = CharacterDto.fromJson(resultJson);
 
     return characterDto;
+  }
+
+  Future<StaffDto> getStaffById({
+    required String staffId,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = staffDetailQueryGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'id': staffId,
+    };
+
+    final response = await AniListDio().dio.post(
+      AniListDio.aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final Map<String, dynamic> resultJson = response.data['data']['Staff'];
+    final staffDto = StaffDto.fromJson(resultJson);
+
+    return staffDto;
   }
 }

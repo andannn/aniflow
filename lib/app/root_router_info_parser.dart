@@ -3,6 +3,8 @@ import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/cupertino.dart';
 
 class RootRouterInfoParser extends RouteInformationParser<AniFlowRoutePath> {
+  const RootRouterInfoParser();
+
   @override
   Future<AniFlowRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
@@ -21,6 +23,7 @@ class RootRouterInfoParser extends RouteInformationParser<AniFlowRoutePath> {
       return DetailCharacterPath(characterId);
     }
 
+    logger.d('Default route launched: DiscoverRoutePath');
     return const DiscoverRoutePath();
   }
 }

@@ -4,36 +4,36 @@ import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/core/data/model/character_model.dart';
-import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
+import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 
-sealed class DetailCharacterEvent {}
+sealed class DetailStaffEvent {}
 
-class _OnDetailCharacterInfoChanged extends DetailCharacterEvent {
-  _OnDetailCharacterInfoChanged({required this.model});
+class _OnDetailStaffInfoChanged extends DetailStaffEvent {
+  _OnDetailStaffInfoChanged({required this.model});
 
-  final CharacterModel model;
+  final StaffModel? model;
 }
 
-class _OnLoadingChanged extends DetailCharacterEvent {
+class _OnLoadingChanged extends DetailStaffEvent {
   _OnLoadingChanged({required this.isLoading});
 
   final bool isLoading;
 }
 
-class OnToggleLike extends DetailCharacterEvent {}
+class OnToggleLike extends DetailStaffEvent {}
 
-class DetailCharacterBloc
-    extends Bloc<DetailCharacterEvent, DetailCharacterState> {
-  DetailCharacterBloc({
-    required this.characterId,
+class DetailStaffBloc
+    extends Bloc<DetailStaffEvent, DetailStaffState> {
+  DetailStaffBloc({
+    required this.staffId,
     required this.mediaRepository,
     required this.favoriteRepository,
-  }) : super(DetailCharacterState()) {
-    on<_OnDetailCharacterInfoChanged>(
-      (event, emit) => emit(state.copyWith(characterModel: event.model)),
+  }) : super(DetailStaffState()) {
+    on<_OnDetailStaffInfoChanged>(
+      (event, emit) => emit(state.copyWith(staffModel: event.model)),
     );
     on<_OnLoadingChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
@@ -41,17 +41,17 @@ class DetailCharacterBloc
     on<OnToggleLike>((event, _) async {
       _toggleLikeCancelToken?.cancel();
       _toggleLikeCancelToken = CancelToken();
-      await favoriteRepository.toggleFavoriteCharacter(
-        characterId,
+      await favoriteRepository.toggleFavoriteStaff(
+        staffId,
         _toggleLikeCancelToken!,
       );
     });
 
-    _detailCharacterSub = mediaRepository
-        .getDetailCharacterStream(characterId)
+    _detailStaffSub = mediaRepository
+        .getDetailStaffStream(staffId)
         .distinct()
         .listen((model) {
-      add(_OnDetailCharacterInfoChanged(model: model));
+      add(_OnDetailStaffInfoChanged(model: model));
     });
 
     _init();
@@ -59,14 +59,14 @@ class DetailCharacterBloc
 
   final MediaInformationRepository mediaRepository;
   final FavoriteRepository favoriteRepository;
-  final String characterId;
-  StreamSubscription? _detailCharacterSub;
+  final String staffId;
+  StreamSubscription? _detailStaffSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
 
   @override
   Future<void> close() {
-    _detailCharacterSub?.cancel();
+    _detailStaffSub?.cancel();
     _contentFetchCancelToken.cancel();
     _toggleLikeCancelToken?.cancel();
 
@@ -75,8 +75,8 @@ class DetailCharacterBloc
 
   void _init() async {
     add(_OnLoadingChanged(isLoading: true));
-    final result = await mediaRepository.startFetchDetailCharacterInfo(
-      id: characterId,
+    final result = await mediaRepository.startFetchDetailStaffInfo(
+      id: staffId,
       token: _contentFetchCancelToken,
     );
 
