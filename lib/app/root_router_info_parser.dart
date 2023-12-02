@@ -11,8 +11,14 @@ class RootRouterInfoParser extends RouteInformationParser<AniFlowRoutePath> {
 
     if (path.contains('anime') || path.contains('manga')) {
       final mediaId = path.split('/')[2];
-      logger.d('deep link detected: mediaID: $mediaId');
+      logger.d('DetailMediaRoute deep link detected: mediaID: $mediaId');
       return DetailMediaRoutePath(mediaId);
+    }
+
+    if (path.contains('character')) {
+      final characterId = path.split('/')[2];
+      logger.d('DetailCharacter deep link detected: characterId: $characterId');
+      return DetailCharacterPath(characterId);
     }
 
     return const DiscoverRoutePath();
