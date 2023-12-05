@@ -31,15 +31,15 @@ class AfRouterBackStack with ChangeNotifier {
   }
 
   void navigateToAnimeList(MediaCategory category) {
-    _pushAsSingleton(AnimeListRoutePath(category));
+    _pushAsSingleton(CategoryAnimeListRoutePath(category));
   }
 
   void navigateToCharacterList(String characterId) {
-    _pushAsSingleton(CharacterListRoutePath(characterId));
+    _pushAsSingleton(MediaCharacterListRoutePath(characterId));
   }
 
   void navigateToStaffList(String staffId) {
-    _pushAsSingleton(StaffListRoutePath(staffId));
+    _pushAsSingleton(MediaStaffListRoutePath(staffId));
   }
 
   void navigateToDetailMedia(String animeId) {
@@ -65,20 +65,20 @@ class AfRouterBackStack with ChangeNotifier {
   void navigateToFavoritePage(FavoriteType type, String userId) {
     switch (type) {
       case FavoriteType.anime:
-        _pushAsSingleton(FavoriteAnimePath(userId));
+        _pushAsSingleton(FavoriteAnimeListPath(userId));
       case FavoriteType.manga:
-        _pushAsSingleton(FavoriteMangaPath(userId));
+        _pushAsSingleton(FavoriteMangaListPath(userId));
       case FavoriteType.character:
-        _pushAsSingleton(FavoriteCharacterPath(userId));
+        _pushAsSingleton(FavoriteCharacterListPath(userId));
       case FavoriteType.staff:
-        _pushAsSingleton(FavoriteStaffPath(userId));
+        _pushAsSingleton(FavoriteStaffListPath(userId));
     }
   }
 
   void navigateToMediaListPage(MediaList type, String userId) {
     switch (type) {
       case WatchingAnimeList():
-        _pushAsSingleton(WatchingAnimePath(userId));
+        _pushAsSingleton(WatchingAnimeListPath(userId));
       case CompletedAnimeList():
         _pushAsSingleton(CompletedAnimePath(userId));
       case DroppedAnimeList():
