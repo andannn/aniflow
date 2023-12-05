@@ -28,6 +28,8 @@ abstract class StaffDao {
   Future<StaffEntity?> getStaffById(String staffId);
 
   Stream<StaffEntity?> getStaffByIdStream(String staffId);
+
+  void notifyStaffChanged(String id);
 }
 
 class StaffDaoImpl extends StaffDao {
@@ -52,7 +54,7 @@ class StaffDaoImpl extends StaffDao {
     await batch.commit(noResult: true);
 
     for (var e in entities) {
-      _notifyCharacterChanged(e.id);
+      notifyStaffChanged(e.id);
     }
   }
 
@@ -74,7 +76,8 @@ class StaffDaoImpl extends StaffDao {
     );
   }
 
-  void _notifyCharacterChanged(String id) {
+  @override
+  void notifyStaffChanged(String id) {
     final notifier = _notifiers[id];
     if (notifier != null) {
       notifier.value = notifier.value++;

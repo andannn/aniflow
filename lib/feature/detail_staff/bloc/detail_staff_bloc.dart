@@ -25,8 +25,7 @@ class _OnLoadingChanged extends DetailStaffEvent {
 
 class OnToggleLike extends DetailStaffEvent {}
 
-class DetailStaffBloc
-    extends Bloc<DetailStaffEvent, DetailStaffState> {
+class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
   DetailStaffBloc({
     required this.staffId,
     required this.mediaRepository,
@@ -38,14 +37,7 @@ class DetailStaffBloc
     on<_OnLoadingChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
-    on<OnToggleLike>((event, _) async {
-      _toggleLikeCancelToken?.cancel();
-      _toggleLikeCancelToken = CancelToken();
-      await favoriteRepository.toggleFavoriteStaff(
-        staffId,
-        _toggleLikeCancelToken!,
-      );
-    });
+    on<OnToggleLike>(_onToggleLike);
 
     _detailStaffSub = mediaRepository
         .getDetailStaffStream(staffId)
@@ -84,5 +76,19 @@ class DetailStaffBloc
       ErrorHandler.handleException(exception: result.exception);
     }
     add(_OnLoadingChanged(isLoading: false));
+  }
+
+  FutureOr<void> _onToggleLike(
+      OnToggleLike event, Emitter<DetailStaffState> emit) async {
+    _toggleLikeCancelToken?.cancel();
+    _toggleLikeCancelToken = CancelToken();
+    final result = await favoriteRepository.toggleFavoriteStaff(
+      staffId,
+      _toggleLikeCancelToken!,
+    );
+
+    if (result is LoadError) {
+      ErrorHandler.handleException(exception: result.exception);
+    }
   }
 }

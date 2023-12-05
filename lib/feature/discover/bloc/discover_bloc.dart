@@ -144,7 +144,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
 
     _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
       (mediaType) {
-        logger.d(mediaType);
         add(_OnMediaTypeChanged(mediaType));
       },
     );

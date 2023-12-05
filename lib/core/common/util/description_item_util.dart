@@ -1,6 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +42,6 @@ extension CharacterModelEx on CharacterModel {
         DescriptionItem(key: 'BloodType: ', value: bloodType!),
       );
     }
-
-    logger.d(description);
 
     return descriptionItemList;
   }
