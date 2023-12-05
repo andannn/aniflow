@@ -1,9 +1,12 @@
+import 'dart:async';
 
 import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
+import 'package:aniflow/core/common/util/firebase_analytics_util.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
 
 class AfRouterBackStack with ChangeNotifier {
@@ -107,6 +110,11 @@ class AfRouterBackStack with ChangeNotifier {
     _backStack += [path];
 
     notifyListeners();
+
+    unawaited(FirebaseAnalytics.instance.trackScreen(
+      screenName: path.toString(),
+      screenClass: path.runtimeType.toString(),
+    ));
   }
 
   void setNewRoutePath(AniFlowRoutePath path) {
