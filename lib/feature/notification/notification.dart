@@ -4,8 +4,8 @@ import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/design_system/widget/notification_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_content_widget.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/notification/bloc/notification_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_state.dart';
@@ -133,7 +133,7 @@ class _NotificationPagingContent extends StatelessWidget {
   }
 
   Widget _buildNotificationItem(BuildContext context, NotificationModel model) {
-    final navigator = AfRouterDelegate.of();
+    final navigator = AfRouterDelegate.of().backStack;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
       child: NotificationItem(

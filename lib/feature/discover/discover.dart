@@ -8,8 +8,8 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/feature/auth/auth_dialog.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class DiscoverScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12.0),
                 child: IconButton(
                   onPressed: () {
-                    AfRouterDelegate.of().navigateToSearch();
+                    AfRouterDelegate.of().backStack.navigateToSearch();
                   },
                   icon: const Icon(Icons.search_rounded),
                 ),
@@ -162,10 +162,10 @@ class DiscoverScreen extends StatelessWidget {
         animeModels: animeModels,
         isLoading: isLoading,
         onMoreClick: () {
-          AfRouterDelegate.of().navigateToAnimeList(category);
+          AfRouterDelegate.of().backStack.navigateToAnimeList(category);
         },
         onAnimeClick: (id) {
-          AfRouterDelegate.of().navigateToDetailMedia(id);
+          AfRouterDelegate.of().backStack.navigateToDetailMedia(id);
         },
       ),
     );

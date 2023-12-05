@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
-import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 

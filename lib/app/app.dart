@@ -29,6 +29,8 @@ class AniFlowAppState extends State<AniFlowApp> {
   var key = UniqueKey();
   var setting = ThemeSetting.system;
   late StreamSubscription themeSub;
+  late RouteInformationProvider informationParser;
+  late RootRouterDelegate rootRouterDelegate;
 
   ThemeMode get themeMode =>
       switch (setting) {
@@ -46,6 +48,15 @@ class AniFlowAppState extends State<AniFlowApp> {
       systemNavigationBarColor: Colors.transparent,
     ));
 
+    informationParser = PlatformRouteInformationProvider(
+      initialRouteInformation: RouteInformation(
+        uri: Uri.parse(WidgetsBinding
+            .instance.platformDispatcher.defaultRouteName),
+      ),
+    );
+
+    rootRouterDelegate = RootRouterDelegate();
+
     themeSub = AniFlowPreferences().getThemeSettingStream().listen((setting) {
       setState(() {
         this.setting = setting;
@@ -58,6 +69,7 @@ class AniFlowAppState extends State<AniFlowApp> {
     super.dispose();
 
     themeSub.cancel();
+    rootRouterDelegate.dispose();
   }
 
   void restartApp() {
@@ -112,14 +124,9 @@ class AniFlowAppState extends State<AniFlowApp> {
                 Locale('Jpan'),
                 Locale('ja'),
               ],
-              routerDelegate: RootRouterDelegate(),
-              routeInformationProvider: PlatformRouteInformationProvider(
-                initialRouteInformation: RouteInformation(
-                  uri: Uri.parse(WidgetsBinding
-                      .instance.platformDispatcher.defaultRouteName),
-                ),
-              ),
-              routeInformationParser: RootRouterInfoParser(),
+              routerDelegate: rootRouterDelegate,
+              routeInformationProvider: informationParser,
+              routeInformationParser: const RootRouterInfoParser(),
               backButtonDispatcher: RootBackButtonDispatcher(),
             );
           },

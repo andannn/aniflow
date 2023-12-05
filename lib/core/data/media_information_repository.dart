@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
@@ -77,6 +78,11 @@ abstract class MediaInformationRepository {
       {required String id, CancelToken? token});
 
   Stream<CharacterModel> getDetailCharacterStream(String id);
+
+  Future<LoadResult<void>> startFetchDetailStaffInfo(
+      {required String id, CancelToken? token});
+
+  Stream<StaffModel?> getDetailStaffStream(String id);
 }
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
@@ -84,6 +90,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   final mediaDao = AniflowDatabase().getMediaInformationDaoDao();
   final characterDao = AniflowDatabase().getCharacterDao();
+  final staffDao = AniflowDatabase().getStaffDao();
   final airingScheduleDao = AniflowDatabase().getAiringScheduleDao();
 
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -198,10 +205,8 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       {required String id, CancelToken? token}) async {
     try {
       /// fetch anime info from network.
-      MediaDto networkResult = await dataSource.getNetworkAnime(
-        id: int.parse(id),
-        token: token
-      );
+      MediaDto networkResult =
+          await dataSource.getNetworkAnime(id: int.parse(id), token: token);
 
       /// insert anime info to db.
       await mediaDao.upsertMediaInformation(
@@ -358,6 +363,32 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Stream<CharacterModel> getDetailCharacterStream(String id) {
     return characterDao.getCharacterStream(id).map(
           (entity) => CharacterModel.fromDetail(entity),
-    );
+        );
+  }
+
+  @override
+  Stream<StaffModel?> getDetailStaffStream(String id) {
+    return staffDao.getStaffByIdStream(id).map(
+          (entity) =>
+              entity != null ? StaffModel.fromDatabaseEntity(entity) : null,
+        );
+  }
+
+  @override
+  Future<LoadResult<void>> startFetchDetailStaffInfo(
+      {required String id, CancelToken? token}) async {
+    try {
+      /// fetch detail character information.
+      final staffDto = await dataSource.getStaffById(staffId: id, token: token);
+
+      /// insert data to database.
+      final staffEntity = StaffEntity.fromStaffDto(staffDto);
+
+      await staffDao.insertStaffEntities([staffEntity]);
+
+      return LoadSuccess(data: null);
+    } on Exception catch (exception) {
+      return LoadError(exception);
+    }
   }
 }

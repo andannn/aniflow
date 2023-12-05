@@ -1,5 +1,5 @@
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:flutter/material.dart';
 
 List<Widget> buildTitleBarWithContent({

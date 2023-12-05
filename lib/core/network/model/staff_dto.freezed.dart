@@ -26,6 +26,28 @@ mixin _$StaffDto {
   Map<String, String?> get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   Map<String, String?> get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'description')
+  String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'gender')
+  String? get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'dateOfBirth')
+  FuzzyDateDto? get dateOfBirth => throw _privateConstructorUsedError;
+  @JsonKey(name: 'dateOfDeath')
+  FuzzyDateDto? get dateOfDeath => throw _privateConstructorUsedError;
+  @JsonKey(name: 'age')
+  int? get age => throw _privateConstructorUsedError;
+  @JsonKey(name: 'isFavourite')
+  bool get isFavourite => throw _privateConstructorUsedError;
+  @JsonKey(name: 'yearsActive')
+  List<int> get yearsActive => throw _privateConstructorUsedError;
+  @JsonKey(name: 'homeTown')
+  String? get homeTown => throw _privateConstructorUsedError;
+  @JsonKey(name: 'bloodType')
+  String? get bloodType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'characterMedia')
+  MediaConnection? get characterMedia => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +63,22 @@ abstract class $StaffDtoCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'image') Map<String, String?> image,
-      @JsonKey(name: 'name') Map<String, String?> name});
+      @JsonKey(name: 'name') Map<String, String?> name,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'gender') String? gender,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
+      @JsonKey(name: 'dateOfBirth') FuzzyDateDto? dateOfBirth,
+      @JsonKey(name: 'dateOfDeath') FuzzyDateDto? dateOfDeath,
+      @JsonKey(name: 'age') int? age,
+      @JsonKey(name: 'isFavourite') bool isFavourite,
+      @JsonKey(name: 'yearsActive') List<int> yearsActive,
+      @JsonKey(name: 'homeTown') String? homeTown,
+      @JsonKey(name: 'bloodType') String? bloodType,
+      @JsonKey(name: 'characterMedia') MediaConnection? characterMedia});
+
+  $FuzzyDateDtoCopyWith<$Res>? get dateOfBirth;
+  $FuzzyDateDtoCopyWith<$Res>? get dateOfDeath;
+  $MediaConnectionCopyWith<$Res>? get characterMedia;
 }
 
 /// @nodoc
@@ -60,6 +97,17 @@ class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
     Object? id = null,
     Object? image = null,
     Object? name = null,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? siteUrl = freezed,
+    Object? dateOfBirth = freezed,
+    Object? dateOfDeath = freezed,
+    Object? age = freezed,
+    Object? isFavourite = null,
+    Object? yearsActive = null,
+    Object? homeTown = freezed,
+    Object? bloodType = freezed,
+    Object? characterMedia = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -74,7 +122,87 @@ class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      dateOfDeath: freezed == dateOfDeath
+          ? _value.dateOfDeath
+          : dateOfDeath // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      yearsActive: null == yearsActive
+          ? _value.yearsActive
+          : yearsActive // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      homeTown: freezed == homeTown
+          ? _value.homeTown
+          : homeTown // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      characterMedia: freezed == characterMedia
+          ? _value.characterMedia
+          : characterMedia // ignore: cast_nullable_to_non_nullable
+              as MediaConnection?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FuzzyDateDtoCopyWith<$Res>? get dateOfBirth {
+    if (_value.dateOfBirth == null) {
+      return null;
+    }
+
+    return $FuzzyDateDtoCopyWith<$Res>(_value.dateOfBirth!, (value) {
+      return _then(_value.copyWith(dateOfBirth: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FuzzyDateDtoCopyWith<$Res>? get dateOfDeath {
+    if (_value.dateOfDeath == null) {
+      return null;
+    }
+
+    return $FuzzyDateDtoCopyWith<$Res>(_value.dateOfDeath!, (value) {
+      return _then(_value.copyWith(dateOfDeath: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaConnectionCopyWith<$Res>? get characterMedia {
+    if (_value.characterMedia == null) {
+      return null;
+    }
+
+    return $MediaConnectionCopyWith<$Res>(_value.characterMedia!, (value) {
+      return _then(_value.copyWith(characterMedia: value) as $Val);
+    });
   }
 }
 
@@ -89,7 +217,25 @@ abstract class _$$StaffDtoImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'image') Map<String, String?> image,
-      @JsonKey(name: 'name') Map<String, String?> name});
+      @JsonKey(name: 'name') Map<String, String?> name,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'gender') String? gender,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
+      @JsonKey(name: 'dateOfBirth') FuzzyDateDto? dateOfBirth,
+      @JsonKey(name: 'dateOfDeath') FuzzyDateDto? dateOfDeath,
+      @JsonKey(name: 'age') int? age,
+      @JsonKey(name: 'isFavourite') bool isFavourite,
+      @JsonKey(name: 'yearsActive') List<int> yearsActive,
+      @JsonKey(name: 'homeTown') String? homeTown,
+      @JsonKey(name: 'bloodType') String? bloodType,
+      @JsonKey(name: 'characterMedia') MediaConnection? characterMedia});
+
+  @override
+  $FuzzyDateDtoCopyWith<$Res>? get dateOfBirth;
+  @override
+  $FuzzyDateDtoCopyWith<$Res>? get dateOfDeath;
+  @override
+  $MediaConnectionCopyWith<$Res>? get characterMedia;
 }
 
 /// @nodoc
@@ -106,6 +252,17 @@ class __$$StaffDtoImplCopyWithImpl<$Res>
     Object? id = null,
     Object? image = null,
     Object? name = null,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? siteUrl = freezed,
+    Object? dateOfBirth = freezed,
+    Object? dateOfDeath = freezed,
+    Object? age = freezed,
+    Object? isFavourite = null,
+    Object? yearsActive = null,
+    Object? homeTown = freezed,
+    Object? bloodType = freezed,
+    Object? characterMedia = freezed,
   }) {
     return _then(_$StaffDtoImpl(
       id: null == id
@@ -120,6 +277,50 @@ class __$$StaffDtoImplCopyWithImpl<$Res>
           ? _value._name
           : name // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      dateOfDeath: freezed == dateOfDeath
+          ? _value.dateOfDeath
+          : dateOfDeath // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      yearsActive: null == yearsActive
+          ? _value._yearsActive
+          : yearsActive // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      homeTown: freezed == homeTown
+          ? _value.homeTown
+          : homeTown // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      characterMedia: freezed == characterMedia
+          ? _value.characterMedia
+          : characterMedia // ignore: cast_nullable_to_non_nullable
+              as MediaConnection?,
     ));
   }
 }
@@ -130,9 +331,21 @@ class _$StaffDtoImpl implements _StaffDto {
   _$StaffDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'image') final Map<String, String?> image = const {},
-      @JsonKey(name: 'name') final Map<String, String?> name = const {}})
+      @JsonKey(name: 'name') final Map<String, String?> name = const {},
+      @JsonKey(name: 'description') this.description,
+      @JsonKey(name: 'gender') this.gender,
+      @JsonKey(name: 'siteUrl') this.siteUrl,
+      @JsonKey(name: 'dateOfBirth') this.dateOfBirth,
+      @JsonKey(name: 'dateOfDeath') this.dateOfDeath,
+      @JsonKey(name: 'age') this.age,
+      @JsonKey(name: 'isFavourite') this.isFavourite = false,
+      @JsonKey(name: 'yearsActive') final List<int> yearsActive = const [],
+      @JsonKey(name: 'homeTown') this.homeTown,
+      @JsonKey(name: 'bloodType') this.bloodType,
+      @JsonKey(name: 'characterMedia') this.characterMedia})
       : _image = image,
-        _name = name;
+        _name = name,
+        _yearsActive = yearsActive;
 
   factory _$StaffDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$StaffDtoImplFromJson(json);
@@ -159,8 +372,48 @@ class _$StaffDtoImpl implements _StaffDto {
   }
 
   @override
+  @JsonKey(name: 'description')
+  final String? description;
+  @override
+  @JsonKey(name: 'gender')
+  final String? gender;
+  @override
+  @JsonKey(name: 'siteUrl')
+  final String? siteUrl;
+  @override
+  @JsonKey(name: 'dateOfBirth')
+  final FuzzyDateDto? dateOfBirth;
+  @override
+  @JsonKey(name: 'dateOfDeath')
+  final FuzzyDateDto? dateOfDeath;
+  @override
+  @JsonKey(name: 'age')
+  final int? age;
+  @override
+  @JsonKey(name: 'isFavourite')
+  final bool isFavourite;
+  final List<int> _yearsActive;
+  @override
+  @JsonKey(name: 'yearsActive')
+  List<int> get yearsActive {
+    if (_yearsActive is EqualUnmodifiableListView) return _yearsActive;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_yearsActive);
+  }
+
+  @override
+  @JsonKey(name: 'homeTown')
+  final String? homeTown;
+  @override
+  @JsonKey(name: 'bloodType')
+  final String? bloodType;
+  @override
+  @JsonKey(name: 'characterMedia')
+  final MediaConnection? characterMedia;
+
+  @override
   String toString() {
-    return 'StaffDto(id: $id, image: $image, name: $name)';
+    return 'StaffDto(id: $id, image: $image, name: $name, description: $description, gender: $gender, siteUrl: $siteUrl, dateOfBirth: $dateOfBirth, dateOfDeath: $dateOfDeath, age: $age, isFavourite: $isFavourite, yearsActive: $yearsActive, homeTown: $homeTown, bloodType: $bloodType, characterMedia: $characterMedia)';
   }
 
   @override
@@ -170,7 +423,26 @@ class _$StaffDtoImpl implements _StaffDto {
             other is _$StaffDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._image, _image) &&
-            const DeepCollectionEquality().equals(other._name, _name));
+            const DeepCollectionEquality().equals(other._name, _name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
+            (identical(other.dateOfBirth, dateOfBirth) ||
+                other.dateOfBirth == dateOfBirth) &&
+            (identical(other.dateOfDeath, dateOfDeath) ||
+                other.dateOfDeath == dateOfDeath) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
+            const DeepCollectionEquality()
+                .equals(other._yearsActive, _yearsActive) &&
+            (identical(other.homeTown, homeTown) ||
+                other.homeTown == homeTown) &&
+            (identical(other.bloodType, bloodType) ||
+                other.bloodType == bloodType) &&
+            (identical(other.characterMedia, characterMedia) ||
+                other.characterMedia == characterMedia));
   }
 
   @JsonKey(ignore: true)
@@ -179,7 +451,18 @@ class _$StaffDtoImpl implements _StaffDto {
       runtimeType,
       id,
       const DeepCollectionEquality().hash(_image),
-      const DeepCollectionEquality().hash(_name));
+      const DeepCollectionEquality().hash(_name),
+      description,
+      gender,
+      siteUrl,
+      dateOfBirth,
+      dateOfDeath,
+      age,
+      isFavourite,
+      const DeepCollectionEquality().hash(_yearsActive),
+      homeTown,
+      bloodType,
+      characterMedia);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +482,19 @@ abstract class _StaffDto implements StaffDto {
   factory _StaffDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'image') final Map<String, String?> image,
-      @JsonKey(name: 'name') final Map<String, String?> name}) = _$StaffDtoImpl;
+      @JsonKey(name: 'name') final Map<String, String?> name,
+      @JsonKey(name: 'description') final String? description,
+      @JsonKey(name: 'gender') final String? gender,
+      @JsonKey(name: 'siteUrl') final String? siteUrl,
+      @JsonKey(name: 'dateOfBirth') final FuzzyDateDto? dateOfBirth,
+      @JsonKey(name: 'dateOfDeath') final FuzzyDateDto? dateOfDeath,
+      @JsonKey(name: 'age') final int? age,
+      @JsonKey(name: 'isFavourite') final bool isFavourite,
+      @JsonKey(name: 'yearsActive') final List<int> yearsActive,
+      @JsonKey(name: 'homeTown') final String? homeTown,
+      @JsonKey(name: 'bloodType') final String? bloodType,
+      @JsonKey(name: 'characterMedia')
+      final MediaConnection? characterMedia}) = _$StaffDtoImpl;
 
   factory _StaffDto.fromJson(Map<String, dynamic> json) =
       _$StaffDtoImpl.fromJson;
@@ -213,6 +508,39 @@ abstract class _StaffDto implements StaffDto {
   @override
   @JsonKey(name: 'name')
   Map<String, String?> get name;
+  @override
+  @JsonKey(name: 'description')
+  String? get description;
+  @override
+  @JsonKey(name: 'gender')
+  String? get gender;
+  @override
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl;
+  @override
+  @JsonKey(name: 'dateOfBirth')
+  FuzzyDateDto? get dateOfBirth;
+  @override
+  @JsonKey(name: 'dateOfDeath')
+  FuzzyDateDto? get dateOfDeath;
+  @override
+  @JsonKey(name: 'age')
+  int? get age;
+  @override
+  @JsonKey(name: 'isFavourite')
+  bool get isFavourite;
+  @override
+  @JsonKey(name: 'yearsActive')
+  List<int> get yearsActive;
+  @override
+  @JsonKey(name: 'homeTown')
+  String? get homeTown;
+  @override
+  @JsonKey(name: 'bloodType')
+  String? get bloodType;
+  @override
+  @JsonKey(name: 'characterMedia')
+  MediaConnection? get characterMedia;
   @override
   @JsonKey(ignore: true)
   _$$StaffDtoImplCopyWith<_$StaffDtoImpl> get copyWith =>

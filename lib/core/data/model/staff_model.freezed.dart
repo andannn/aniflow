@@ -17,9 +17,18 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$StaffModel {
   String get id => throw _privateConstructorUsedError;
-  String get voiceActorId => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
+  String? get siteUrl => throw _privateConstructorUsedError;
+  DateTime? get dateOfBirth => throw _privateConstructorUsedError;
+  DateTime? get dateOfDeath => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
+  bool get isFavourite => throw _privateConstructorUsedError;
+  List<dynamic> get yearsActive => throw _privateConstructorUsedError;
+  String? get homeTown => throw _privateConstructorUsedError;
+  String? get bloodType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StaffModelCopyWith<StaffModel> get copyWith =>
@@ -32,7 +41,20 @@ abstract class $StaffModelCopyWith<$Res> {
           StaffModel value, $Res Function(StaffModel) then) =
       _$StaffModelCopyWithImpl<$Res, StaffModel>;
   @useResult
-  $Res call({String id, String voiceActorId, String image, String name});
+  $Res call(
+      {String id,
+      String image,
+      String name,
+      String? description,
+      String? gender,
+      String? siteUrl,
+      DateTime? dateOfBirth,
+      DateTime? dateOfDeath,
+      int? age,
+      bool isFavourite,
+      List<dynamic> yearsActive,
+      String? homeTown,
+      String? bloodType});
 }
 
 /// @nodoc
@@ -49,18 +71,23 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
   @override
   $Res call({
     Object? id = null,
-    Object? voiceActorId = null,
     Object? image = null,
     Object? name = null,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? siteUrl = freezed,
+    Object? dateOfBirth = freezed,
+    Object? dateOfDeath = freezed,
+    Object? age = freezed,
+    Object? isFavourite = null,
+    Object? yearsActive = null,
+    Object? homeTown = freezed,
+    Object? bloodType = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      voiceActorId: null == voiceActorId
-          ? _value.voiceActorId
-          : voiceActorId // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
@@ -70,6 +97,46 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      dateOfDeath: freezed == dateOfDeath
+          ? _value.dateOfDeath
+          : dateOfDeath // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      yearsActive: null == yearsActive
+          ? _value.yearsActive
+          : yearsActive // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      homeTown: freezed == homeTown
+          ? _value.homeTown
+          : homeTown // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -82,7 +149,20 @@ abstract class _$$StaffModelImplCopyWith<$Res>
       __$$StaffModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String voiceActorId, String image, String name});
+  $Res call(
+      {String id,
+      String image,
+      String name,
+      String? description,
+      String? gender,
+      String? siteUrl,
+      DateTime? dateOfBirth,
+      DateTime? dateOfDeath,
+      int? age,
+      bool isFavourite,
+      List<dynamic> yearsActive,
+      String? homeTown,
+      String? bloodType});
 }
 
 /// @nodoc
@@ -97,18 +177,23 @@ class __$$StaffModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? voiceActorId = null,
     Object? image = null,
     Object? name = null,
+    Object? description = freezed,
+    Object? gender = freezed,
+    Object? siteUrl = freezed,
+    Object? dateOfBirth = freezed,
+    Object? dateOfDeath = freezed,
+    Object? age = freezed,
+    Object? isFavourite = null,
+    Object? yearsActive = null,
+    Object? homeTown = freezed,
+    Object? bloodType = freezed,
   }) {
     return _then(_$StaffModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      voiceActorId: null == voiceActorId
-          ? _value.voiceActorId
-          : voiceActorId // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
@@ -118,6 +203,46 @@ class __$$StaffModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateOfBirth: freezed == dateOfBirth
+          ? _value.dateOfBirth
+          : dateOfBirth // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      dateOfDeath: freezed == dateOfDeath
+          ? _value.dateOfDeath
+          : dateOfDeath // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      yearsActive: null == yearsActive
+          ? _value._yearsActive
+          : yearsActive // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      homeTown: freezed == homeTown
+          ? _value.homeTown
+          : homeTown // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bloodType: freezed == bloodType
+          ? _value.bloodType
+          : bloodType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -126,24 +251,62 @@ class __$$StaffModelImplCopyWithImpl<$Res>
 
 class _$StaffModelImpl implements _StaffModel {
   _$StaffModelImpl(
-      {this.id = '', this.voiceActorId = '', this.image = '', this.name = ''});
+      {this.id = '',
+      this.image = '',
+      this.name = '',
+      this.description,
+      this.gender,
+      this.siteUrl,
+      this.dateOfBirth,
+      this.dateOfDeath,
+      this.age,
+      this.isFavourite = false,
+      final List<dynamic> yearsActive = const [],
+      this.homeTown,
+      this.bloodType})
+      : _yearsActive = yearsActive;
 
   @override
   @JsonKey()
   final String id;
   @override
   @JsonKey()
-  final String voiceActorId;
-  @override
-  @JsonKey()
   final String image;
   @override
   @JsonKey()
   final String name;
+  @override
+  final String? description;
+  @override
+  final String? gender;
+  @override
+  final String? siteUrl;
+  @override
+  final DateTime? dateOfBirth;
+  @override
+  final DateTime? dateOfDeath;
+  @override
+  final int? age;
+  @override
+  @JsonKey()
+  final bool isFavourite;
+  final List<dynamic> _yearsActive;
+  @override
+  @JsonKey()
+  List<dynamic> get yearsActive {
+    if (_yearsActive is EqualUnmodifiableListView) return _yearsActive;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_yearsActive);
+  }
+
+  @override
+  final String? homeTown;
+  @override
+  final String? bloodType;
 
   @override
   String toString() {
-    return 'StaffModel(id: $id, voiceActorId: $voiceActorId, image: $image, name: $name)';
+    return 'StaffModel(id: $id, image: $image, name: $name, description: $description, gender: $gender, siteUrl: $siteUrl, dateOfBirth: $dateOfBirth, dateOfDeath: $dateOfDeath, age: $age, isFavourite: $isFavourite, yearsActive: $yearsActive, homeTown: $homeTown, bloodType: $bloodType)';
   }
 
   @override
@@ -152,14 +315,43 @@ class _$StaffModelImpl implements _StaffModel {
         (other.runtimeType == runtimeType &&
             other is _$StaffModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.voiceActorId, voiceActorId) ||
-                other.voiceActorId == voiceActorId) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
+            (identical(other.dateOfBirth, dateOfBirth) ||
+                other.dateOfBirth == dateOfBirth) &&
+            (identical(other.dateOfDeath, dateOfDeath) ||
+                other.dateOfDeath == dateOfDeath) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
+            const DeepCollectionEquality()
+                .equals(other._yearsActive, _yearsActive) &&
+            (identical(other.homeTown, homeTown) ||
+                other.homeTown == homeTown) &&
+            (identical(other.bloodType, bloodType) ||
+                other.bloodType == bloodType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, voiceActorId, image, name);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      image,
+      name,
+      description,
+      gender,
+      siteUrl,
+      dateOfBirth,
+      dateOfDeath,
+      age,
+      isFavourite,
+      const DeepCollectionEquality().hash(_yearsActive),
+      homeTown,
+      bloodType);
 
   @JsonKey(ignore: true)
   @override
@@ -171,18 +363,45 @@ class _$StaffModelImpl implements _StaffModel {
 abstract class _StaffModel implements StaffModel {
   factory _StaffModel(
       {final String id,
-      final String voiceActorId,
       final String image,
-      final String name}) = _$StaffModelImpl;
+      final String name,
+      final String? description,
+      final String? gender,
+      final String? siteUrl,
+      final DateTime? dateOfBirth,
+      final DateTime? dateOfDeath,
+      final int? age,
+      final bool isFavourite,
+      final List<dynamic> yearsActive,
+      final String? homeTown,
+      final String? bloodType}) = _$StaffModelImpl;
 
   @override
   String get id;
   @override
-  String get voiceActorId;
-  @override
   String get image;
   @override
   String get name;
+  @override
+  String? get description;
+  @override
+  String? get gender;
+  @override
+  String? get siteUrl;
+  @override
+  DateTime? get dateOfBirth;
+  @override
+  DateTime? get dateOfDeath;
+  @override
+  int? get age;
+  @override
+  bool get isFavourite;
+  @override
+  List<dynamic> get yearsActive;
+  @override
+  String? get homeTown;
+  @override
+  String? get bloodType;
   @override
   @JsonKey(ignore: true)
   _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>

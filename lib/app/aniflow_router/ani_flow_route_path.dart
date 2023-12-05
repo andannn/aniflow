@@ -5,6 +5,7 @@ import 'package:aniflow/feature/anime_search/media_search.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
 import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
+import 'package:aniflow/feature/detail_staff/detail_staff.dart';
 import 'package:aniflow/feature/discover/discover.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
@@ -249,6 +250,18 @@ class DetailCharacterPath extends AniFlowRoutePath {
   String toString() => 'detail_character_page:characterId_$characterId';
 }
 
+class DetailStaffPath extends AniFlowRoutePath {
+  const DetailStaffPath(this.staffId) : super(isFullScreen: true);
+
+  final String staffId;
+
+  @override
+  List<Object?> get props => [staffId];
+  
+  @override
+  String toString() => 'detail_staff_page:staffId_$staffId';
+}
+
 class AiringScheduleRoutePath extends AniFlowRoutePath {
   const AiringScheduleRoutePath() : super(isFullScreen: true);
 
@@ -310,6 +323,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return ReadingMangaPage(key: ValueKey(toString()), userId: id);
       case DetailCharacterPath(characterId: final id):
         return DetailCharacterPage(key: ValueKey(toString()), id: id);
+      case DetailStaffPath(staffId: final id):
+        return DetailStaffPage(key: ValueKey(toString()), id: id);
       default:
         return const MaterialPage(child: SizedBox());
     }

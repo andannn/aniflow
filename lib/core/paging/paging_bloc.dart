@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
-import 'package:aniflow/feature/common/error_handler.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 

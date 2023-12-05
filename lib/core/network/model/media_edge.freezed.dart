@@ -22,6 +22,10 @@ MediaEdge _$MediaEdgeFromJson(Map<String, dynamic> json) {
 mixin _$MediaEdge {
   @JsonKey(name: 'relationType')
   MediaRelation get relationType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'characters')
+  List<CharacterDto> get characters => throw _privateConstructorUsedError;
+  @JsonKey(name: 'characterRole')
+  CharacterRole get characterRole => throw _privateConstructorUsedError;
   @JsonKey(name: 'node')
   MediaDto? get media => throw _privateConstructorUsedError;
 
@@ -38,6 +42,8 @@ abstract class $MediaEdgeCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'relationType') MediaRelation relationType,
+      @JsonKey(name: 'characters') List<CharacterDto> characters,
+      @JsonKey(name: 'characterRole') CharacterRole characterRole,
       @JsonKey(name: 'node') MediaDto? media});
 
   $MediaDtoCopyWith<$Res>? get media;
@@ -57,6 +63,8 @@ class _$MediaEdgeCopyWithImpl<$Res, $Val extends MediaEdge>
   @override
   $Res call({
     Object? relationType = null,
+    Object? characters = null,
+    Object? characterRole = null,
     Object? media = freezed,
   }) {
     return _then(_value.copyWith(
@@ -64,6 +72,14 @@ class _$MediaEdgeCopyWithImpl<$Res, $Val extends MediaEdge>
           ? _value.relationType
           : relationType // ignore: cast_nullable_to_non_nullable
               as MediaRelation,
+      characters: null == characters
+          ? _value.characters
+          : characters // ignore: cast_nullable_to_non_nullable
+              as List<CharacterDto>,
+      characterRole: null == characterRole
+          ? _value.characterRole
+          : characterRole // ignore: cast_nullable_to_non_nullable
+              as CharacterRole,
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
@@ -94,6 +110,8 @@ abstract class _$$MediaEdgeImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'relationType') MediaRelation relationType,
+      @JsonKey(name: 'characters') List<CharacterDto> characters,
+      @JsonKey(name: 'characterRole') CharacterRole characterRole,
       @JsonKey(name: 'node') MediaDto? media});
 
   @override
@@ -112,6 +130,8 @@ class __$$MediaEdgeImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? relationType = null,
+    Object? characters = null,
+    Object? characterRole = null,
     Object? media = freezed,
   }) {
     return _then(_$MediaEdgeImpl(
@@ -119,6 +139,14 @@ class __$$MediaEdgeImplCopyWithImpl<$Res>
           ? _value.relationType
           : relationType // ignore: cast_nullable_to_non_nullable
               as MediaRelation,
+      characters: null == characters
+          ? _value._characters
+          : characters // ignore: cast_nullable_to_non_nullable
+              as List<CharacterDto>,
+      characterRole: null == characterRole
+          ? _value.characterRole
+          : characterRole // ignore: cast_nullable_to_non_nullable
+              as CharacterRole,
       media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
@@ -132,7 +160,12 @@ class __$$MediaEdgeImplCopyWithImpl<$Res>
 class _$MediaEdgeImpl implements _MediaEdge {
   _$MediaEdgeImpl(
       {@JsonKey(name: 'relationType') this.relationType = MediaRelation.other,
-      @JsonKey(name: 'node') this.media});
+      @JsonKey(name: 'characters')
+      final List<CharacterDto> characters = const [],
+      @JsonKey(name: 'characterRole')
+      this.characterRole = CharacterRole.supporting,
+      @JsonKey(name: 'node') this.media})
+      : _characters = characters;
 
   factory _$MediaEdgeImpl.fromJson(Map<String, dynamic> json) =>
       _$$MediaEdgeImplFromJson(json);
@@ -140,13 +173,25 @@ class _$MediaEdgeImpl implements _MediaEdge {
   @override
   @JsonKey(name: 'relationType')
   final MediaRelation relationType;
+  final List<CharacterDto> _characters;
+  @override
+  @JsonKey(name: 'characters')
+  List<CharacterDto> get characters {
+    if (_characters is EqualUnmodifiableListView) return _characters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_characters);
+  }
+
+  @override
+  @JsonKey(name: 'characterRole')
+  final CharacterRole characterRole;
   @override
   @JsonKey(name: 'node')
   final MediaDto? media;
 
   @override
   String toString() {
-    return 'MediaEdge(relationType: $relationType, media: $media)';
+    return 'MediaEdge(relationType: $relationType, characters: $characters, characterRole: $characterRole, media: $media)';
   }
 
   @override
@@ -156,12 +201,17 @@ class _$MediaEdgeImpl implements _MediaEdge {
             other is _$MediaEdgeImpl &&
             (identical(other.relationType, relationType) ||
                 other.relationType == relationType) &&
+            const DeepCollectionEquality()
+                .equals(other._characters, _characters) &&
+            (identical(other.characterRole, characterRole) ||
+                other.characterRole == characterRole) &&
             (identical(other.media, media) || other.media == media));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, relationType, media);
+  int get hashCode => Object.hash(runtimeType, relationType,
+      const DeepCollectionEquality().hash(_characters), characterRole, media);
 
   @JsonKey(ignore: true)
   @override
@@ -180,6 +230,8 @@ class _$MediaEdgeImpl implements _MediaEdge {
 abstract class _MediaEdge implements MediaEdge {
   factory _MediaEdge(
       {@JsonKey(name: 'relationType') final MediaRelation relationType,
+      @JsonKey(name: 'characters') final List<CharacterDto> characters,
+      @JsonKey(name: 'characterRole') final CharacterRole characterRole,
       @JsonKey(name: 'node') final MediaDto? media}) = _$MediaEdgeImpl;
 
   factory _MediaEdge.fromJson(Map<String, dynamic> json) =
@@ -188,6 +240,12 @@ abstract class _MediaEdge implements MediaEdge {
   @override
   @JsonKey(name: 'relationType')
   MediaRelation get relationType;
+  @override
+  @JsonKey(name: 'characters')
+  List<CharacterDto> get characters;
+  @override
+  @JsonKey(name: 'characterRole')
+  CharacterRole get characterRole;
   @override
   @JsonKey(name: 'node')
   MediaDto? get media;
