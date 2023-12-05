@@ -202,7 +202,18 @@ class AniflowDatabase {
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
         '${StaffColumns.image} text,'
-        '${StaffColumns.name} text)');
+        '${StaffColumns.name} text,'
+        '${StaffColumns.description} text,'
+        '${StaffColumns.gender} text,'
+        '${StaffColumns.siteUrl} text,'
+        '${StaffColumns.dateOfBirth} integer,'
+        '${StaffColumns.dateOfDeath} integer,'
+        '${StaffColumns.age} integer,'
+        '${StaffColumns.isFavourite} integer,'
+        '${StaffColumns.yearsActive} text,'
+        '${StaffColumns.homeTown} text,'
+        '${StaffColumns.bloodType} text'
+        ')');
 
     batch.execute(
         'create table if not exists ${Tables.mediaCharacterCrossRefTable} ('

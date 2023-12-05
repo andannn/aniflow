@@ -55,7 +55,7 @@ class CharacterDaoImpl extends CharacterDao {
 
   CharacterDaoImpl(this.database);
 
-  /// animeId to notifiers dict.
+  /// characterId to notifiers dict.
   final Map<String, ValueNotifier<int>> _notifiers = {};
 
   @override

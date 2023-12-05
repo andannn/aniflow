@@ -5,8 +5,8 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
 import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
@@ -148,7 +148,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of()
+                AfRouterDelegate.of().backStack
                     .navigateToMediaListPage(type, userId);
               },
             ),
@@ -184,7 +184,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of()
+        AfRouterDelegate.of().backStack
             .navigateToDetailMedia(model.animeModel!.id);
       },
     );

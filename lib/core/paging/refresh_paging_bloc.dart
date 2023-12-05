@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_bloc.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class RefreshPagingBloc<T> extends PagingBloc<T> {

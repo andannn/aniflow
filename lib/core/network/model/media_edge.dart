@@ -1,4 +1,6 @@
+import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_relation.dart';
+import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,6 +14,10 @@ class MediaEdge with _$MediaEdge {
     @Default(MediaRelation.other)
     @JsonKey(name: 'relationType')
     MediaRelation relationType,
+    @Default([]) @JsonKey(name: 'characters') List<CharacterDto> characters,
+    @Default(CharacterRole.supporting)
+    @JsonKey(name: 'characterRole')
+    CharacterRole characterRole,
     @JsonKey(name: 'node') MediaDto? media,
   }) = _MediaEdge;
 

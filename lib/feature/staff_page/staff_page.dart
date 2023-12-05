@@ -1,8 +1,9 @@
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
-import 'package:aniflow/feature/common/page_loading_state.dart';
-import 'package:aniflow/feature/common/paging_content_widget.dart';
+import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/staff_page/bloc/staff_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +72,11 @@ class _StaffListPageContent extends StatelessWidget {
       child: StaffItem(
         model: model,
         textStyle: Theme.of(context).textTheme.labelMedium,
-        onStaffClick: () {},
+        onStaffClick: () {
+          AfRouterDelegate.of().backStack.navigateToDetailStaff(
+            model.staff.id,
+          );
+        },
       ),
     );
   }

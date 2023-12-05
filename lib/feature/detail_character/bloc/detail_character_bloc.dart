@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
-import 'package:aniflow/feature/common/error_handler.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';

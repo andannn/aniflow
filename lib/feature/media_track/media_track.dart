@@ -140,7 +140,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
           }
         },
         onClick: () {
-          AfRouterDelegate.of().navigateToDetailMedia(
+          AfRouterDelegate.of().backStack.navigateToDetailMedia(
             item.animeModel!.id,
           );
         },
@@ -178,7 +178,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.calendar_month_rounded),
                   onPressed: () {
-                    AfRouterDelegate.of().navigateToAiringSchedule();
+                    AfRouterDelegate.of().backStack.navigateToAiringSchedule();
                   },
                 ),
               )

@@ -157,7 +157,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
             navigationList: _topLevelNavigationList,
             selected: currentTopLevel,
             onNavigateToDestination: (navigation) async {
-              afRouterDelegate.navigateToTopLevelPage(navigation);
+              afRouterDelegate.backStack.navigateToTopLevelPage(navigation);
             },
           ),
         ),
