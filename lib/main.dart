@@ -12,7 +12,6 @@ import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +30,7 @@ void main() async {
       .initDatabase(path: join(await getDatabasesPath(), databaseFileName));
 
   /// init firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
 
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
