@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -10,6 +12,9 @@ import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
@@ -24,6 +29,11 @@ void main() async {
   /// init date base used in this app.
   await AniflowDatabase()
       .initDatabase(path: join(await getDatabasesPath(), databaseFileName));
+
+  /// init firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
@@ -55,4 +65,13 @@ void main() async {
       create: (context) => NotificationRepositoryImpl(),
     ),
   ], child: const AniFlowApp()));
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 }

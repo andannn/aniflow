@@ -45,62 +45,93 @@ abstract class TopLevelRoutePath extends AniFlowRoutePath {
 
 class DiscoverRoutePath extends TopLevelRoutePath {
   const DiscoverRoutePath() : super(TopLevelNavigation.discover);
+
+  @override
+  String toString() => 'discover_page';
 }
 
 class TrackRoutePath extends TopLevelRoutePath {
   const TrackRoutePath() : super(TopLevelNavigation.track);
+
+  @override
+  String toString() => 'track_page';
 }
 
 class SocialRoutePath extends TopLevelRoutePath {
   const SocialRoutePath() : super(TopLevelNavigation.social);
+
+  @override
+  String toString() => 'social_page';
 }
 
 class ProfileRoutePath extends TopLevelRoutePath {
   const ProfileRoutePath() : super(TopLevelNavigation.profile);
+
+  @override
+  String toString() => 'profile_page';
 }
 
 class SearchRoutePath extends AniFlowRoutePath {
   const SearchRoutePath() : super(isFullScreen: true);
+
+  @override
+  String toString() => 'search_page';
 }
 
-class FavoriteStaffPath extends AniFlowRoutePath {
-  const FavoriteStaffPath(this.userId) : super(isFullScreen: true);
+class FavoriteStaffListPath extends AniFlowRoutePath {
+  const FavoriteStaffListPath(this.userId) : super(isFullScreen: true);
+
   final String userId;
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'favorite_staff_list_page::user_$userId';
 }
 
-class FavoriteCharacterPath extends AniFlowRoutePath {
-  const FavoriteCharacterPath(this.userId) : super(isFullScreen: true);
+class FavoriteCharacterListPath extends AniFlowRoutePath {
+  const FavoriteCharacterListPath(this.userId) : super(isFullScreen: true);
   final String userId;
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'favorite_character_list_page::user_$userId';
 }
 
-class FavoriteAnimePath extends AniFlowRoutePath {
-  const FavoriteAnimePath(this.userId) : super(isFullScreen: true);
+class FavoriteAnimeListPath extends AniFlowRoutePath {
+  const FavoriteAnimeListPath(this.userId) : super(isFullScreen: true);
   final String userId;
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'favorite_anime_list_page::user_$userId';
 }
 
-class FavoriteMangaPath extends AniFlowRoutePath {
-  const FavoriteMangaPath(this.userId) : super(isFullScreen: true);
+class FavoriteMangaListPath extends AniFlowRoutePath {
+  const FavoriteMangaListPath(this.userId) : super(isFullScreen: true);
   final String userId;
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'favorite_manga_list_page::user_$userId';
 }
 
-class WatchingAnimePath extends AniFlowRoutePath {
-  const WatchingAnimePath(this.userId) : super(isFullScreen: true);
+class WatchingAnimeListPath extends AniFlowRoutePath {
+  const WatchingAnimeListPath(this.userId) : super(isFullScreen: true);
   final String userId;
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'watching_anime_list_page::user_$userId';
 }
 
 class CompletedAnimePath extends AniFlowRoutePath {
@@ -109,6 +140,9 @@ class CompletedAnimePath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'completed_anime_list_page::user_$userId';
 }
 
 class DroppedAnimePath extends AniFlowRoutePath {
@@ -117,6 +151,9 @@ class DroppedAnimePath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'dropped_anime_list_page::user_$userId';
 }
 
 class ReadingMangaPath extends AniFlowRoutePath {
@@ -125,6 +162,9 @@ class ReadingMangaPath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'reading_manga_list_page::user_$userId';
 }
 
 class DroppedMangaPath extends AniFlowRoutePath {
@@ -133,6 +173,9 @@ class DroppedMangaPath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'dropped_manga_list_page::user_$userId';
 }
 
 class UserProfileRoutePath extends AniFlowRoutePath {
@@ -142,33 +185,45 @@ class UserProfileRoutePath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [userId];
+
+  @override
+  String toString() => 'user_profile_page::user_$userId';
 }
 
-class AnimeListRoutePath extends AniFlowRoutePath {
-  const AnimeListRoutePath(this.category) : super(isFullScreen: true);
+class CategoryAnimeListRoutePath extends AniFlowRoutePath {
+  const CategoryAnimeListRoutePath(this.category) : super(isFullScreen: true);
 
   final MediaCategory category;
 
   @override
   List<Object?> get props => [category];
-}
-
-class CharacterListRoutePath extends AniFlowRoutePath {
-  const CharacterListRoutePath(this.characterId) : super(isFullScreen: true);
-
-  final String characterId;
 
   @override
-  List<Object?> get props => [characterId];
+  String toString() => 'category_anime_list_page:category_$category';
 }
 
-class StaffListRoutePath extends AniFlowRoutePath {
-  const StaffListRoutePath(this.staffId) : super(isFullScreen: true);
+class MediaCharacterListRoutePath extends AniFlowRoutePath {
+  const MediaCharacterListRoutePath(this.mediaId) : super(isFullScreen: true);
 
-  final String staffId;
+  final String mediaId;
 
   @override
-  List<Object?> get props => [staffId];
+  List<Object?> get props => [mediaId];
+
+  @override
+  String toString() => 'media_character_list_page:mediaId_$mediaId';
+}
+
+class MediaStaffListRoutePath extends AniFlowRoutePath {
+  const MediaStaffListRoutePath(this.mediaId) : super(isFullScreen: true);
+
+  final String mediaId;
+
+  @override
+  List<Object?> get props => [mediaId];
+
+  @override
+  String toString() => 'media_staff_list_page:mediaId_$mediaId';
 }
 
 class DetailMediaRoutePath extends AniFlowRoutePath {
@@ -178,6 +233,9 @@ class DetailMediaRoutePath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [mediaId];
+
+  @override
+  String toString() => 'detail_media_page:mediaId_$mediaId';
 }
 
 class DetailCharacterPath extends AniFlowRoutePath {
@@ -187,6 +245,9 @@ class DetailCharacterPath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [characterId];
+
+  @override
+  String toString() => 'detail_character_page:characterId_$characterId';
 }
 
 class DetailStaffPath extends AniFlowRoutePath {
@@ -196,88 +257,74 @@ class DetailStaffPath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [staffId];
+  
+  @override
+  String toString() => 'detail_staff_page:staffId_$staffId';
 }
 
 class AiringScheduleRoutePath extends AniFlowRoutePath {
   const AiringScheduleRoutePath() : super(isFullScreen: true);
+
+  @override
+  String toString() => 'airing_schedule_page';
 }
 
 class NotificationRoutePath extends AniFlowRoutePath {
   const NotificationRoutePath() : super(isFullScreen: true);
+
+  @override
+  String toString() => 'notification_page';
 }
 
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
       case DiscoverRoutePath(topLevel: final _):
-        return const DiscoverPage(key: ValueKey('DiscoverPage'));
-      case AnimeListRoutePath(category: final category):
-        return MediaListPage(
-          key: ValueKey('AnimeListPage_$category'),
-          category: category,
-        );
-      case CharacterListRoutePath(characterId: final animeId):
-        return CharacterListPage(
-          key: ValueKey('CharacterListPage_$animeId'),
-          animeId: animeId,
-        );
-      case StaffListRoutePath(staffId: final animeId):
-        return StaffListPage(
-          key: ValueKey('StaffListPage_$animeId'),
-          animeId: animeId,
-        );
+        return DiscoverPage(key: ValueKey(toString()));
+      case CategoryAnimeListRoutePath(category: final category):
+        return MediaListPage(key: ValueKey(toString()), category: category);
+      case MediaCharacterListRoutePath(mediaId: final animeId):
+        return CharacterListPage(key: ValueKey(toString()), animeId: animeId);
+      case MediaStaffListRoutePath(mediaId: final animeId):
+        return StaffListPage(key: ValueKey(toString()), animeId: animeId);
       case DetailMediaRoutePath(mediaId: final animeId):
-        return DetailAnimePage(
-          key: ValueKey('DetailAnimeRoute_$animeId'),
-          animeId: animeId,
-        );
+        return DetailAnimePage(key: ValueKey(toString()), animeId: animeId);
       case TrackRoutePath(topLevel: final _):
-        return const AnimeTrackPage(key: ValueKey('AnimeTrackPage'));
+        return AnimeTrackPage(key: ValueKey(toString()));
       case SocialRoutePath(topLevel: final _):
-        return const SocialPage(key: ValueKey('SocialPage'));
+        return SocialPage(key: ValueKey(toString()));
       case ProfileRoutePath(topLevel: final _):
-        return const ProfilePage(key: ValueKey('ProfilePage'));
+        return ProfilePage(key: ValueKey(toString()));
       case UserProfileRoutePath(userId: final id):
-        return ProfilePage(key: ValueKey('ProfilePage_$id'), userId: id);
+        return ProfilePage(key: ValueKey(toString()), userId: id);
       case AiringScheduleRoutePath():
-        return const AiringSchedule(key: ValueKey('AiringSchedule'));
+        return AiringSchedule(key: ValueKey(toString()));
       case SearchRoutePath():
-        return const SearchPage(key: ValueKey('SearchPage'));
+        return SearchPage(key: ValueKey(toString()));
       case NotificationRoutePath():
-        return const NotificationPage(key: ValueKey('NotificationPage'));
-      case FavoriteStaffPath(userId: final id):
-        return FavoriteStaffListPage(
-            key: ValueKey('FavoriteStaffPath_$id'), userId: id);
-      case FavoriteCharacterPath(userId: final id):
-        return FavoriteCharacterListPage(
-            key: ValueKey('FavoriteCharacterListPage_$id'), userId: id);
-      case FavoriteAnimePath(userId: final id):
-        return FavoriteAnimeListPage(
-            key: ValueKey('FavoriteAnimeListPage_$id'), userId: id);
-      case FavoriteMangaPath(userId: final id):
-        return FavoriteMangaListPage(
-            key: ValueKey('FavoriteMangaListPage_$id'), userId: id);
-      case WatchingAnimePath(userId: final id):
-        return WatchingAnimePage(
-            key: ValueKey('WatchingAnimePage_$id'), userId: id);
+        return NotificationPage(key: ValueKey(toString()));
+      case FavoriteStaffListPath(userId: final id):
+        return FavoriteStaffListPage(key: ValueKey(toString()), userId: id);
+      case FavoriteCharacterListPath(userId: final id):
+        return FavoriteCharacterListPage(key: ValueKey(toString()), userId: id);
+      case FavoriteAnimeListPath(userId: final id):
+        return FavoriteAnimeListPage(key: ValueKey(toString()), userId: id);
+      case FavoriteMangaListPath(userId: final id):
+        return FavoriteMangaListPage(key: ValueKey(toString()), userId: id);
+      case WatchingAnimeListPath(userId: final id):
+        return WatchingAnimePage(key: ValueKey(toString()), userId: id);
       case CompletedAnimePath(userId: final id):
-        return CompletedAnimePage(
-            key: ValueKey('CompletedAnimePage_$id'), userId: id);
+        return CompletedAnimePage(key: ValueKey(toString()), userId: id);
       case DroppedAnimePath(userId: final id):
-        return DroppedAnimePage(
-            key: ValueKey('DroppedAnimePage_$id'), userId: id);
+        return DroppedAnimePage(key: ValueKey(toString()), userId: id);
       case DroppedMangaPath(userId: final id):
-        return DroppedMangaPage(
-            key: ValueKey('DroppedMangaPage_$id'), userId: id);
+        return DroppedMangaPage(key: ValueKey(toString()), userId: id);
       case ReadingMangaPath(userId: final id):
-        return ReadingMangaPage(
-            key: ValueKey('ReadingMangaPage_$id'), userId: id);
+        return ReadingMangaPage(key: ValueKey(toString()), userId: id);
       case DetailCharacterPath(characterId: final id):
-        return DetailCharacterPage(
-            key: ValueKey('DetailCharacterPage_$id'), id: id);
+        return DetailCharacterPage(key: ValueKey(toString()), id: id);
       case DetailStaffPath(staffId: final id):
-        return DetailStaffPage(
-            key: ValueKey('DetailStaffPage_$id'), id: id);
+        return DetailStaffPage(key: ValueKey(toString()), id: id);
       default:
         return const MaterialPage(child: SizedBox());
     }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "356471534096",
+    "project_id": "aniflow-fea18",
+    "storage_bucket": "aniflow-fea18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356471534096:android:debd7ede4a151de9fe5095",
+        "android_client_info": {
+          "package_name": "com.andannn.aniflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAibl877ZhTQYw9pQ6dDymlbtKG7CLWNA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
