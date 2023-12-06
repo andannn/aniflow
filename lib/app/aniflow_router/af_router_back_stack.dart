@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
@@ -30,7 +32,7 @@ class AfRouterBackStack with ChangeNotifier {
 
     notifyListeners();
 
-    FirebaseAnalytics.instance.trackAniFlowPath(navigation.toRoutePath());
+    FirebaseAnalytics.instance.logAniFlowPathChangeEvent(navigation.toRoutePath());
   }
 
   void navigateToAnimeList(MediaCategory category) {
@@ -107,7 +109,7 @@ class AfRouterBackStack with ChangeNotifier {
 
     final topPageOrNull = _backStack.lastOrNull;
     if (topPageOrNull != null) {
-      FirebaseAnalytics.instance.trackAniFlowPath(topPageOrNull);
+      FirebaseAnalytics.instance.logAniFlowPathChangeEvent(topPageOrNull);
     }
   }
 
@@ -120,7 +122,7 @@ class AfRouterBackStack with ChangeNotifier {
 
     notifyListeners();
 
-    FirebaseAnalytics.instance.trackAniFlowPath(path);
+    FirebaseAnalytics.instance.logAniFlowPathChangeEvent(path);
   }
 
   void setNewRoutePath(AniFlowRoutePath path) {

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
@@ -14,12 +13,15 @@ import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
+import 'package:aniflow/core/firebase/fa_event.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
-import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
+import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class FavoriteRepository {
@@ -122,7 +124,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       return LoadError(const UnauthorizedException());
     }
 
-    logger.d('User id $userId');
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (int page, int perPage) {
@@ -186,7 +187,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token) async {
     final animeEntity = await mediaInfoDao.getMedia(id);
-    return NetworkUtil.postMutationAndRevertWhenException(
+    final isLiked = animeEntity.isFavourite.toBoolean();
+
+    final result = await NetworkUtil.postMutationAndRevertWhenException(
       initialModel: animeEntity,
       onModifyModel: (anime) {
         final isFavourite = anime.isFavourite.toBoolean();
@@ -204,13 +207,24 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         return null;
       },
     );
+
+    if (result is LoadSuccess) {
+      unawaited(FirebaseAnalytics.instance.logLikeActionEvent(
+        type: LikeContentType.anime,
+        id: id,
+        isLiked: !isLiked,
+      ));
+    }
+    return result;
   }
 
   @override
   Future<LoadResult> toggleFavoriteCharacter(
       String id, CancelToken token) async {
     final characterEntity = await characterDao.getCharacter(id);
-    return NetworkUtil.postMutationAndRevertWhenException(
+    final isLiked = characterEntity.isFavourite.toBoolean();
+
+    final result = await NetworkUtil.postMutationAndRevertWhenException(
       initialModel: characterEntity,
       onModifyModel: (character) {
         final isFavourite = character.isFavourite.toBoolean();
@@ -228,6 +242,15 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         return null;
       },
     );
+
+    if (result is LoadSuccess) {
+      unawaited(FirebaseAnalytics.instance.logLikeActionEvent(
+        type: LikeContentType.character,
+        id: id,
+        isLiked: !isLiked,
+      ));
+    }
+    return result;
   }
 
   @override
@@ -243,7 +266,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       return LoadError(Exception('Invalid Id'));
     }
 
-    return NetworkUtil.postMutationAndRevertWhenException(
+    final isLiked = staffEntity.isFavourite.toBoolean();
+
+    final result = await NetworkUtil.postMutationAndRevertWhenException(
       initialModel: staffEntity,
       onModifyModel: (staff) {
         final isFavourite = staff.isFavourite.toBoolean();
@@ -261,5 +286,14 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         return null;
       },
     );
+
+    if (result is LoadSuccess) {
+      unawaited(FirebaseAnalytics.instance.logLikeActionEvent(
+        type: LikeContentType.staff,
+        id: id,
+        isLiked: !isLiked,
+      ));
+    }
+    return result;
   }
 }

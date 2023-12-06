@@ -199,7 +199,7 @@ class CategoryAnimeListRoutePath extends AniFlowRoutePath {
   List<Object?> get props => [category];
 
   @override
-  String toString() => 'category_anime_list_page:category_$category';
+  String toString() => 'category_anime_list_page:category_${category.name}';
 }
 
 class MediaCharacterListRoutePath extends AniFlowRoutePath {
