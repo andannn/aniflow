@@ -15,7 +15,7 @@ import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
 import 'package:aniflow/core/network/api/staff_detail_query_graphql.dart';
-import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
+import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart';

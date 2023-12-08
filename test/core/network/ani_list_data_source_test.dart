@@ -10,7 +10,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
-import 'package:aniflow/core/network/api/toggle_favorite_mution_graphql.dart';
+import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:country_code/country_code.dart';
 import 'package:dio/dio.dart';

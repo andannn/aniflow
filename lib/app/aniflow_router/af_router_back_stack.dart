@@ -1,10 +1,10 @@
-import 'dart:async';
+// ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/favorite_category.dart';
-import 'package:aniflow/core/common/util/firebase_analytics_util.dart';
+import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
@@ -31,6 +31,8 @@ class AfRouterBackStack with ChangeNotifier {
     }
 
     notifyListeners();
+
+    FirebaseAnalytics.instance.logAniFlowPathChangeEvent(navigation.toRoutePath());
   }
 
   void navigateToAnimeList(MediaCategory category) {
@@ -104,6 +106,11 @@ class AfRouterBackStack with ChangeNotifier {
   void popBackStack() {
     _backStack.removeLast();
     notifyListeners();
+
+    final topPageOrNull = _backStack.lastOrNull;
+    if (topPageOrNull != null) {
+      FirebaseAnalytics.instance.logAniFlowPathChangeEvent(topPageOrNull);
+    }
   }
 
   void _pushAsSingleton(AniFlowRoutePath path) {
@@ -115,10 +122,7 @@ class AfRouterBackStack with ChangeNotifier {
 
     notifyListeners();
 
-    unawaited(FirebaseAnalytics.instance.trackScreen(
-      screenName: path.toString(),
-      screenClass: path.runtimeType.toString(),
-    ));
+    FirebaseAnalytics.instance.logAniFlowPathChangeEvent(path);
   }
 
   void setNewRoutePath(AniFlowRoutePath path) {
