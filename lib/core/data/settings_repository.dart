@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/theme_setting.dart';
+import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 abstract class SettingsRepository {
   AnimeSeasonParam getAnimeSeasonParam();
@@ -41,7 +45,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
       preferences.getCurrentMediaTypeStream();
 
   @override
-  Future setMediaType(MediaType type) => preferences.setCurrentMediaType(type);
+  Future setMediaType(MediaType type) async {
+    await preferences.setCurrentMediaType(type);
+
+    unawaited(FirebaseAnalytics.instance.setUserMediaContentProperty(type));
+  }
 
   @override
   MediaType getMediaType() => preferences.getCurrentMediaType();
