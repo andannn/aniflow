@@ -8,8 +8,8 @@ import 'package:aniflow/core/data/model/airing_schedule_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/model/relation/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
@@ -27,7 +27,6 @@ import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
-import 'package:aniflow/core/network/model/media_edge.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
@@ -88,10 +87,10 @@ abstract class MediaInformationRepository {
   Stream<StaffModel?> getDetailStaffStream(String id);
 
   Future<LoadResult<List<CharacterAndMediaConnection>>>
-      loadVoiceActorContentsById({
+      loadVoiceActorContentsPage({
     required int page,
     required int perPage,
-    required int staffId,
+    required String staffId,
     CancelToken? token,
   });
 }
@@ -404,19 +403,18 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   @override
   Future<LoadResult<List<CharacterAndMediaConnection>>>
-      loadVoiceActorContentsById({
+      loadVoiceActorContentsPage({
     required int page,
     required int perPage,
-    required int staffId,
+    required String staffId,
     CancelToken? token,
   }) {
-    return LoadPageUtil.loadPageWithoutDBCache<MediaEdge,
-        CharacterAndMediaConnection>(
+    return LoadPageUtil.loadPageWithoutDBCache(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
         final mediaConnection = await dataSource.getMediaConnectionByStaffId(
-            staffId.toString(), page, perPage);
+            staffId, page, perPage);
         return mediaConnection.edges;
       },
       onInsertToDB: (dtoList) async {

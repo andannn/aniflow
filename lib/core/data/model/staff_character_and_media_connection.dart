@@ -11,6 +11,9 @@ class CharacterAndMediaConnection {
   CharacterAndMediaConnection(
       {required this.character, this.media, required this.role});
 
+  @override
+  String toString() => 'character: $character media: $media role: $role';
+
   static CharacterAndMediaConnection fromDto(MediaEdge edge) {
     return CharacterAndMediaConnection(
       character: CharacterModel.fromDto(edge.characters.first),
