@@ -2,6 +2,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_model.freezed.dart';
@@ -22,6 +23,10 @@ class CharacterModel with _$CharacterModel {
     @Default(false) bool isFavourite,
     @Default([]) List<MediaModel> relatedMedias,
   }) = _CharacterModel;
+
+  static CharacterModel fromDto(CharacterDto dto) {
+    return CharacterModel.fromDatabaseEntity(CharacterEntity.fromDto(dto));
+  }
 
   static CharacterModel fromDatabaseEntity(CharacterEntity entity) {
     return CharacterModel(

@@ -150,7 +150,7 @@ abstract class MediaInformationDao {
   Future insertOrIgnoreMediaByAnimeCategory(MediaCategory category,
       {required List<MediaEntity> animeList});
 
-  Future upsertMediaInformation(List<MediaEntity> entities,
+  Future insertMedia(List<MediaEntity> entities,
       {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore});
 
   Future upsertMediaExternalLinks(
@@ -341,7 +341,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future upsertMediaInformation(List<MediaEntity> entities,
+  Future insertMedia(List<MediaEntity> entities,
       {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {

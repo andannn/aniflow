@@ -61,7 +61,7 @@ mixin LoadPageUtil {
     required page,
     required perPage,
     required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,
-    required Future<void> Function(List<Dto> dto) onInsertEntityToDB,
+    required Future<void> Function(List<Dto> dto) onInsertToDB,
     required Model Function(Dto dto) mapDtoToModel,
   }) async {
     try {
@@ -69,7 +69,7 @@ mixin LoadPageUtil {
       final networkRes = await onGetNetworkRes(page, perPage);
 
       /// insert network resource to DB.
-      await onInsertEntityToDB(networkRes);
+      await onInsertToDB(networkRes);
 
       /// load success, return result.
       return LoadSuccess(

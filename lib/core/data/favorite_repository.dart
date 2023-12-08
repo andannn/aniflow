@@ -95,7 +95,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         }
       },
       onInsertEntityToDB: (List<MediaEntity> entities) async {
-        await mediaInfoDao.upsertMediaInformation(entities);
+        await mediaInfoDao.insertMedia(entities);
         if (type == MediaType.anime) {
           await favoriteDao.insertFavoritesCrossRef(
               userId!, FavoriteType.anime, entities.map((e) => e.id).toList());
@@ -195,7 +195,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         final isFavourite = anime.isFavourite.toBoolean();
         return anime.copyWith(isFavourite: (!isFavourite).toInteger());
       },
-      onSaveLocal: (status) => mediaInfoDao.upsertMediaInformation(
+      onSaveLocal: (status) => mediaInfoDao.insertMedia(
         [status],
         conflictAlgorithm: ConflictAlgorithm.replace,
       ).then(

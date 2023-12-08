@@ -186,7 +186,7 @@ void main() {
 
     test('upsert_detail_anime_data', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertMediaInformation([dummyAnimeData[0]]);
+      await animeDao.insertMedia([dummyAnimeData[0]]);
       final res = await animeDatabase.aniflowDB.query(Tables.mediaTable);
       expect(MediaEntity.fromJson(res.first), equals(dummyAnimeData[0]));
     });
@@ -199,7 +199,7 @@ void main() {
     test('get_airing_schedule_by_range', () async {
       await airingScheduleDao.upsertAiringSchedules(
           schedules: dummyAiringSchedule);
-      await animeDao.upsertMediaInformation(dummyAnimeData);
+      await animeDao.insertMedia(dummyAnimeData);
 
       final result = await airingScheduleDao
           .getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
@@ -211,7 +211,7 @@ void main() {
     });
 
     test('upsert_media_external_links_test', () async {
-      await animeDao.upsertMediaInformation(dummyAnimeData);
+      await animeDao.insertMedia(dummyAnimeData);
       await animeDao.upsertMediaExternalLinks(
           externalLinks: dummyExternalLinks);
       await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);

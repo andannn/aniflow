@@ -26,6 +26,7 @@ import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/likeable_type.dart';
+import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
@@ -519,14 +520,37 @@ class AniListDataSource {
     };
 
     final response = await AniListDio().dio.post(
-      AniListDio.aniListUrl,
-      cancelToken: token,
-      data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
-    );
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
     final Map<String, dynamic> resultJson = response.data['data']['Staff'];
     final staffDto = StaffDto.fromJson(resultJson);
 
     return staffDto;
+  }
+
+  Future<MediaConnection> getMediaConnectionByStaffId(
+      String id, int page, int perPage,
+      [CancelToken? token]) async {
+    final queryGraphQL = staffRelatedCharacterQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'id': id,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+
+    final Map<String, dynamic> resultJson =
+        response.data['data']['Staff']['characterMedia'];
+    final mediaConnections = MediaConnection.fromJson(resultJson);
+
+    return mediaConnections;
   }
 }

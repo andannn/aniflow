@@ -137,5 +137,10 @@ void main() {
 
       expect(res.id, equals(119672));
     });
+
+    test('get_staff_related_media_by_id', () async {
+      await AniListDataSource().getMediaConnectionByStaffId(
+          '119672', 1, 10);
+    });
   });
 }

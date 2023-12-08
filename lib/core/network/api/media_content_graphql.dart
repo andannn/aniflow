@@ -4,6 +4,7 @@ String get mediaContentQueryGraphql => '''
       format
       status
       season
+      seasonYear
       coverImage {
         extraLarge
         color
