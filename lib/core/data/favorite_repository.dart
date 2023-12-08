@@ -13,8 +13,8 @@ import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
-import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/core/firebase/fa_event.dart';
+import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
@@ -210,7 +210,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
     if (result is LoadSuccess) {
       unawaited(FirebaseAnalytics.instance.logLikeActionEvent(
-        type: LikeContentType.anime,
+        metrics: LikeContentMetrics.anime,
         id: id,
         isLiked: !isLiked,
       ));
@@ -245,7 +245,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
     if (result is LoadSuccess) {
       unawaited(FirebaseAnalytics.instance.logLikeActionEvent(
-        type: LikeContentType.character,
+        metrics: LikeContentMetrics.character,
         id: id,
         isLiked: !isLiked,
       ));
@@ -289,7 +289,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
     if (result is LoadSuccess) {
       unawaited(FirebaseAnalytics.instance.logLikeActionEvent(
-        type: LikeContentType.staff,
+        metrics: LikeContentMetrics.staff,
         id: id,
         isLiked: !isLiked,
       ));

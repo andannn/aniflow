@@ -76,4 +76,5 @@ void main() async {
   };
 
   unawaited(FirebaseAnalytics.instance.setInitialUserProperty());
+  unawaited(FirebaseAnalytics.instance.logAppDataSizeEvent());
 }

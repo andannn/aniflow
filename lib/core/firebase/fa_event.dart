@@ -1,15 +1,54 @@
-
+/// Firebase analytics event.
 enum FaEvent {
-  screenTransaction(eventName: 'screen_transaction'),
-  likeStateChanged(eventName: 'like_state_changed'),
-  mediaList(eventName: 'modify_media_list');
+  screenTransaction(name: 'screen_transaction'),
+  likeStateChanged(name: 'like_state_changed'),
+  modifyMediaList(name: 'modify_media_list'),
+  logAppDataSize(name: 'log_app_data_size');
 
-  final String eventName;
+  final String name;
 
-  const FaEvent({required this.eventName});
+  const FaEvent({required this.name});
 }
 
-enum LikeContentType {
+///
+/// Firebase Analytics Dimension.
+///
+
+/// [FaEvent.screenTransaction]
+enum ScreenTransactionDimension {
+  screenName(name: 'screen_name');
+
+  final String name;
+
+  const ScreenTransactionDimension({required this.name});
+}
+
+/// [FaEvent.likeStateChanged]
+enum LikeStateChangedDimension {
+  like(name: 'liked'),
+  unliked(name: 'unliked');
+
+  final String name;
+
+  const LikeStateChangedDimension({required this.name});
+}
+
+/// [FaEvent.logAppDataSize]
+enum LogAppDataSizeDimension {
+  imgCacheSize(dimensionName: 'img_cache_size'),
+  userDataSize(dimensionName: 'user_data_size');
+
+  final String dimensionName;
+
+  const LogAppDataSizeDimension({required this.dimensionName});
+}
+
+
+///
+/// Firebase Analytics Metrics.
+///
+
+enum LikeContentMetrics {
   anime(name: 'anime'),
   manga(name: 'manga'),
   character(name: 'character'),
@@ -17,5 +56,5 @@ enum LikeContentType {
 
   final String name;
 
-  const LikeContentType({required this.name});
+  const LikeContentMetrics({required this.name});
 }

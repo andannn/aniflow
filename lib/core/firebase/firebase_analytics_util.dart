@@ -3,62 +3,78 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/firebase/data_size_property/data_type.dart';
 import 'package:aniflow/core/firebase/fa_event.dart';
-import 'package:aniflow/core/firebase/firebase_event.dart';
+import 'package:aniflow/core/firebase/fa_user_property.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 extension FirebaseAnalyticsExtension on FirebaseAnalytics {
   static const _tag = 'FirebaseAnalyticsExtension';
 
+  ///
+  /// Log Event
+  ///
+
   Future logAniFlowPathChangeEvent(AniFlowRoutePath path) {
     logger.d('$_tag AniFlowPath changed event logged. path: $path');
     return logEvent(
-      name: FaEvent.screenTransaction.eventName,
+      name: FaEvent.screenTransaction.name,
       parameters: {
-        'screen_name': path.toString(),
+        ScreenTransactionDimension.screenName.name: path.toString(),
       },
     );
   }
 
   Future logLikeActionEvent({
-    required LikeContentType type,
+    required LikeContentMetrics metrics,
     required String id,
     required bool isLiked,
   }) async {
+    final dimension = isLiked
+        ? LikeStateChangedDimension.like.name
+        : LikeStateChangedDimension.unliked.name;
+
     logger.d('$_tag  Like state changed event logged. '
-        'type: ${type.name}, id $id, isLiked $isLiked');
+        'dimension $dimension, metrics: ${metrics.name}, id $id, ');
     return logEvent(
-      name: FaEvent.likeStateChanged.eventName,
+      name: FaEvent.likeStateChanged.name,
       parameters: {
-        isLiked ? 'liked' : 'unliked': '${type.name}_$id',
+        dimension: '${metrics.name}_$id',
       },
     );
   }
 
-  Future setInitialUserProperty() {
-    return Future.wait(
-      [
-        computeAndSetAppDataSizeProperty(),
-        setUserMediaContentProperty(AniFlowPreferences().getCurrentMediaType()),
-      ],
-    );
-  }
-
-  Future computeAndSetAppDataSizeProperty() async {
+  Future logAppDataSizeEvent() async {
     for (var type in DataType.values) {
       final size =
           await ComputeFileSizeHelper.computeSizeOfDataTypeInIsolate(type);
 
-      final value = (size / 1000000).round();
-      final name = FirebaseUserProperty.fromDataType(type).propertyName;
+      final dimension = switch (type) {
+        DataType.userData => LogAppDataSizeDimension.userDataSize.name,
+        DataType.imgCache => LogAppDataSizeDimension.imgCacheSize.name,
+      };
+      final metrics = '${(size / 1000000).round()}_MB';
 
-      logger.d('$_tag Set user data size property for analytics.'
-          ' type: $name, size: ${value}_MB}');
-      await setUserProperty(
-        name: name,
-        value: '${value}_MB',
+      logger.d('$_tag Set user data size event logged.'
+          ' dimension: $dimension, metrics: $metrics');
+      await logEvent(
+        name: FaEvent.logAppDataSize.name,
+        parameters: {
+          dimension: metrics,
+        },
       );
     }
+  }
+
+  ///
+  /// User property
+  ///
+
+  Future setInitialUserProperty() {
+    return Future.wait(
+      [
+        setUserMediaContentProperty(AniFlowPreferences().getCurrentMediaType()),
+      ],
+    );
   }
 
   Future setUserMediaContentProperty(MediaType type) async {
