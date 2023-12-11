@@ -65,7 +65,7 @@ List<Widget> buildSliverItemsSection<MODEL,
               },
             ),
     ),
-    buildSliverPagingVisibilityDetector(
+    buildSliverPagingVisibilityDetector<MODEL, BLOC>(
       context: context,
       pagingState: pagingState,
     ),
