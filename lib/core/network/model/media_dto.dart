@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
 import 'package:aniflow/core/network/model/anime_rank.dart';
 import 'package:aniflow/core/network/model/character_connection.dart';
+import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_connection.dart';
@@ -32,6 +33,8 @@ class MediaDto with _$MediaDto {
     @JsonKey(name: 'averageScore') int? averageScore,
     @JsonKey(name: 'trending') int? trending,
     @JsonKey(name: 'favourites') int? favourites,
+    @JsonKey(name: 'startDate') FuzzyDateDto? startDate,
+    @JsonKey(name: 'endDate') FuzzyDateDto? endDate,
     @Default([]) @JsonKey(name: 'genres') List genres,
     @JsonKey(name: 'trailer') TrailerDto? trailer,
     @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,

@@ -147,7 +147,9 @@ class AniflowDatabase {
         '${MediaTableColumns.timeUntilAiring} integer,'
         '${MediaTableColumns.nextAiringEpisode} integer,'
         '${MediaTableColumns.popularRanking} integer,'
-        '${MediaTableColumns.ratedRanking} integer'
+        '${MediaTableColumns.ratedRanking} integer,'
+        '${MediaTableColumns.startDate} integer,'
+        '${MediaTableColumns.endDate} integer'
         ')');
 
     batch.execute('create table if not exists ${Tables.categoryTable} ('

@@ -50,6 +50,10 @@ mixin _$MediaDto {
   int? get trending => throw _privateConstructorUsedError;
   @JsonKey(name: 'favourites')
   int? get favourites => throw _privateConstructorUsedError;
+  @JsonKey(name: 'startDate')
+  FuzzyDateDto? get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'endDate')
+  FuzzyDateDto? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'genres')
   List<dynamic> get genres => throw _privateConstructorUsedError;
   @JsonKey(name: 'trailer')
@@ -98,6 +102,8 @@ abstract class $MediaDtoCopyWith<$Res> {
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
       @JsonKey(name: 'favourites') int? favourites,
+      @JsonKey(name: 'startDate') FuzzyDateDto? startDate,
+      @JsonKey(name: 'endDate') FuzzyDateDto? endDate,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,
@@ -110,6 +116,8 @@ abstract class $MediaDtoCopyWith<$Res> {
       List<MediaExternalLinkDto> externalLinks});
 
   $MediaTitleCopyWith<$Res>? get title;
+  $FuzzyDateDtoCopyWith<$Res>? get startDate;
+  $FuzzyDateDtoCopyWith<$Res>? get endDate;
   $TrailerDtoCopyWith<$Res>? get trailer;
   $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode;
   $CharacterConnectionCopyWith<$Res>? get characters;
@@ -145,6 +153,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     Object? averageScore = freezed,
     Object? trending = freezed,
     Object? favourites = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? genres = null,
     Object? trailer = freezed,
     Object? nextAiringEpisode = freezed,
@@ -216,6 +226,14 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as int?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
       genres: null == genres
           ? _value.genres
           : genres // ignore: cast_nullable_to_non_nullable
@@ -264,6 +282,30 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
 
     return $MediaTitleCopyWith<$Res>(_value.title!, (value) {
       return _then(_value.copyWith(title: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FuzzyDateDtoCopyWith<$Res>? get startDate {
+    if (_value.startDate == null) {
+      return null;
+    }
+
+    return $FuzzyDateDtoCopyWith<$Res>(_value.startDate!, (value) {
+      return _then(_value.copyWith(startDate: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FuzzyDateDtoCopyWith<$Res>? get endDate {
+    if (_value.endDate == null) {
+      return null;
+    }
+
+    return $FuzzyDateDtoCopyWith<$Res>(_value.endDate!, (value) {
+      return _then(_value.copyWith(endDate: value) as $Val);
     });
   }
 
@@ -352,6 +394,8 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
       @JsonKey(name: 'favourites') int? favourites,
+      @JsonKey(name: 'startDate') FuzzyDateDto? startDate,
+      @JsonKey(name: 'endDate') FuzzyDateDto? endDate,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
       @JsonKey(name: 'nextAiringEpisode') AiringScheduleDto? nextAiringEpisode,
@@ -365,6 +409,10 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
 
   @override
   $MediaTitleCopyWith<$Res>? get title;
+  @override
+  $FuzzyDateDtoCopyWith<$Res>? get startDate;
+  @override
+  $FuzzyDateDtoCopyWith<$Res>? get endDate;
   @override
   $TrailerDtoCopyWith<$Res>? get trailer;
   @override
@@ -403,6 +451,8 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
     Object? averageScore = freezed,
     Object? trending = freezed,
     Object? favourites = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? genres = null,
     Object? trailer = freezed,
     Object? nextAiringEpisode = freezed,
@@ -474,6 +524,14 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
           ? _value.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as int?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as FuzzyDateDto?,
       genres: null == genres
           ? _value._genres
           : genres // ignore: cast_nullable_to_non_nullable
@@ -534,6 +592,8 @@ class _$MediaDtoImpl implements _MediaDto {
       @JsonKey(name: 'averageScore') this.averageScore,
       @JsonKey(name: 'trending') this.trending,
       @JsonKey(name: 'favourites') this.favourites,
+      @JsonKey(name: 'startDate') this.startDate,
+      @JsonKey(name: 'endDate') this.endDate,
       @JsonKey(name: 'genres') final List<dynamic> genres = const [],
       @JsonKey(name: 'trailer') this.trailer,
       @JsonKey(name: 'nextAiringEpisode') this.nextAiringEpisode,
@@ -603,6 +663,12 @@ class _$MediaDtoImpl implements _MediaDto {
   @override
   @JsonKey(name: 'favourites')
   final int? favourites;
+  @override
+  @JsonKey(name: 'startDate')
+  final FuzzyDateDto? startDate;
+  @override
+  @JsonKey(name: 'endDate')
+  final FuzzyDateDto? endDate;
   final List<dynamic> _genres;
   @override
   @JsonKey(name: 'genres')
@@ -650,7 +716,7 @@ class _$MediaDtoImpl implements _MediaDto {
 
   @override
   String toString() {
-    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
+    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
   }
 
   @override
@@ -681,6 +747,9 @@ class _$MediaDtoImpl implements _MediaDto {
                 other.trending == trending) &&
             (identical(other.favourites, favourites) ||
                 other.favourites == favourites) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.trailer, trailer) || other.trailer == trailer) &&
             (identical(other.nextAiringEpisode, nextAiringEpisode) ||
@@ -716,6 +785,8 @@ class _$MediaDtoImpl implements _MediaDto {
         averageScore,
         trending,
         favourites,
+        startDate,
+        endDate,
         const DeepCollectionEquality().hash(_genres),
         trailer,
         nextAiringEpisode,
@@ -758,6 +829,8 @@ abstract class _MediaDto implements MediaDto {
       @JsonKey(name: 'averageScore') final int? averageScore,
       @JsonKey(name: 'trending') final int? trending,
       @JsonKey(name: 'favourites') final int? favourites,
+      @JsonKey(name: 'startDate') final FuzzyDateDto? startDate,
+      @JsonKey(name: 'endDate') final FuzzyDateDto? endDate,
       @JsonKey(name: 'genres') final List<dynamic> genres,
       @JsonKey(name: 'trailer') final TrailerDto? trailer,
       @JsonKey(name: 'nextAiringEpisode')
@@ -818,6 +891,12 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'favourites')
   int? get favourites;
+  @override
+  @JsonKey(name: 'startDate')
+  FuzzyDateDto? get startDate;
+  @override
+  @JsonKey(name: 'endDate')
+  FuzzyDateDto? get endDate;
   @override
   @JsonKey(name: 'genres')
   List<dynamic> get genres;

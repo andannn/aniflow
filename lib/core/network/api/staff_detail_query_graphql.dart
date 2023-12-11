@@ -1,4 +1,3 @@
-import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 
 String get staffDetailQueryGraphQLString => '''
@@ -47,7 +46,30 @@ query (\$id: Int, \$page: Int, \$perPage: Int) {
         }
         characterRole
         node {
-          $mediaContentQueryGraphql
+          id
+          type
+          format
+          status
+          season
+          seasonYear
+          coverImage {
+            extraLarge
+          }
+          title {
+            romaji
+            english
+            native
+          }
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            year
+            month
+            day
+          }
         }
       }
     }

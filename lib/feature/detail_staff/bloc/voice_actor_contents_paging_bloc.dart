@@ -34,7 +34,7 @@ class VoiceActorContentsPagingBloc
 }
 
 class ItemsWithYear<T> {
-  final String year;
+  final int? year;
   final List<T> items;
 
   ItemsWithYear({required this.year, required this.items});
@@ -50,9 +50,9 @@ class CharacterItemsWithYear
 
 extension GroupListEx on List<CharacterAndMediaConnection> {
   List<CharacterItemsWithYear> get characterGroupList {
-    final groupMap =
-        groupFoldBy((item) => item.media?.seasonYear?.toString() ?? 'TBA',
-            (List<CharacterAndMediaConnection>? previous, item) {
+    final groupMap = groupFoldBy(
+        (item) => item.media?.seasonYear ?? item.media?.startDate?.year,
+        (List<CharacterAndMediaConnection>? previous, item) {
       List<CharacterAndMediaConnection> itemList = previous ?? [];
       return [...itemList, item];
     });

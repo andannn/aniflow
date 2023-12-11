@@ -7,7 +7,6 @@ String get mediaContentQueryGraphql => '''
       seasonYear
       coverImage {
         extraLarge
-        color
       }
       title {
         romaji

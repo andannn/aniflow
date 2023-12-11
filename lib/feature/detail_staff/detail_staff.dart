@@ -205,7 +205,7 @@ class _DetailStaffContent extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12),
         sliver: SliverToBoxAdapter(
           child: Text(
-            e.year,
+            e.year?.toString() ?? 'TBA',
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),

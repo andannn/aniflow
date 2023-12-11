@@ -44,6 +44,8 @@ class MediaModel with _$MediaModel {
     bool? isFavourite,
     int? nextAiringEpisode,
     @Default(false) bool isFollowing,
+    DateTime? startDate,
+    DateTime? endDate,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
     @Default([]) List<StaffAndRoleModel> staffs,
     @Default([]) List<MediaExternalLinkModel> externalLinks,
@@ -91,6 +93,12 @@ class MediaModel with _$MediaModel {
               site: model.trailerSite,
               thumbnail: model.trailerThumbnail,
             )
+          : null,
+      startDate: model.startDate != null
+          ? DateTime.fromMillisecondsSinceEpoch(model.startDate!)
+          : null,
+      endDate: model.endDate != null
+          ? DateTime.fromMillisecondsSinceEpoch(model.endDate!)
           : null,
     );
   }

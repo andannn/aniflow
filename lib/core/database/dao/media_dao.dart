@@ -47,8 +47,10 @@ mixin MediaTableColumns {
   static const String genres = 'genres';
   static const String popularRanking = 'popular_ranking';
   static const String ratedRanking = 'rated_ranking';
-  static const String nextAiringEpisode = 'nextAiringEpisode';
-  static const String timeUntilAiring = 'timeUntilAiring';
+  static const String nextAiringEpisode = 'next_airing_episode';
+  static const String timeUntilAiring = 'time_until_airing';
+  static const String startDate = 'start_date';
+  static const String endDate = 'end_date';
 }
 
 mixin CategoryColumns {

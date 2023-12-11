@@ -28,6 +28,12 @@ _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
       averageScore: json['averageScore'] as int?,
       trending: json['trending'] as int?,
       favourites: json['favourites'] as int?,
+      startDate: json['startDate'] == null
+          ? null
+          : FuzzyDateDto.fromJson(json['startDate'] as Map<String, dynamic>),
+      endDate: json['endDate'] == null
+          ? null
+          : FuzzyDateDto.fromJson(json['endDate'] as Map<String, dynamic>),
       genres: json['genres'] as List<dynamic>? ?? const [],
       trailer: json['trailer'] == null
           ? null
@@ -77,6 +83,8 @@ Map<String, dynamic> _$$MediaDtoImplToJson(_$MediaDtoImpl instance) =>
       'averageScore': instance.averageScore,
       'trending': instance.trending,
       'favourites': instance.favourites,
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
       'genres': instance.genres,
       'trailer': instance.trailer,
       'nextAiringEpisode': instance.nextAiringEpisode,

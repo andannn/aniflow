@@ -74,6 +74,10 @@ mixin _$MediaEntity {
   int? get timeUntilAiring => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.nextAiringEpisode)
   int? get nextAiringEpisode => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.startDate)
+  int? get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.endDate)
+  int? get endDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -116,7 +120,9 @@ abstract class $MediaEntityCopyWith<$Res> {
       @JsonKey(name: MediaTableColumns.ratedRanking) int? ratedRanking,
       @JsonKey(name: MediaTableColumns.timeUntilAiring) int? timeUntilAiring,
       @JsonKey(name: MediaTableColumns.nextAiringEpisode)
-      int? nextAiringEpisode});
+      int? nextAiringEpisode,
+      @JsonKey(name: MediaTableColumns.startDate) int? startDate,
+      @JsonKey(name: MediaTableColumns.endDate) int? endDate});
 }
 
 /// @nodoc
@@ -159,6 +165,8 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
     Object? ratedRanking = freezed,
     Object? timeUntilAiring = freezed,
     Object? nextAiringEpisode = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -269,6 +277,14 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
           ? _value.nextAiringEpisode
           : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
               as int?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as int?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -310,7 +326,9 @@ abstract class _$$MediaEntityImplCopyWith<$Res>
       @JsonKey(name: MediaTableColumns.ratedRanking) int? ratedRanking,
       @JsonKey(name: MediaTableColumns.timeUntilAiring) int? timeUntilAiring,
       @JsonKey(name: MediaTableColumns.nextAiringEpisode)
-      int? nextAiringEpisode});
+      int? nextAiringEpisode,
+      @JsonKey(name: MediaTableColumns.startDate) int? startDate,
+      @JsonKey(name: MediaTableColumns.endDate) int? endDate});
 }
 
 /// @nodoc
@@ -351,6 +369,8 @@ class __$$MediaEntityImplCopyWithImpl<$Res>
     Object? ratedRanking = freezed,
     Object? timeUntilAiring = freezed,
     Object? nextAiringEpisode = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_$MediaEntityImpl(
       id: null == id
@@ -461,6 +481,14 @@ class __$$MediaEntityImplCopyWithImpl<$Res>
           ? _value.nextAiringEpisode
           : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
               as int?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as int?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -497,7 +525,9 @@ class _$MediaEntityImpl implements _MediaEntity {
       @JsonKey(name: MediaTableColumns.ratedRanking) this.ratedRanking,
       @JsonKey(name: MediaTableColumns.timeUntilAiring) this.timeUntilAiring,
       @JsonKey(name: MediaTableColumns.nextAiringEpisode)
-      this.nextAiringEpisode});
+      this.nextAiringEpisode,
+      @JsonKey(name: MediaTableColumns.startDate) this.startDate,
+      @JsonKey(name: MediaTableColumns.endDate) this.endDate});
 
   factory _$MediaEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$MediaEntityImplFromJson(json);
@@ -583,10 +613,16 @@ class _$MediaEntityImpl implements _MediaEntity {
   @override
   @JsonKey(name: MediaTableColumns.nextAiringEpisode)
   final int? nextAiringEpisode;
+  @override
+  @JsonKey(name: MediaTableColumns.startDate)
+  final int? startDate;
+  @override
+  @JsonKey(name: MediaTableColumns.endDate)
+  final int? endDate;
 
   @override
   String toString() {
-    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, isFavourite: $isFavourite, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode)';
+    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, isFavourite: $isFavourite, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -640,7 +676,10 @@ class _$MediaEntityImpl implements _MediaEntity {
             (identical(other.timeUntilAiring, timeUntilAiring) ||
                 other.timeUntilAiring == timeUntilAiring) &&
             (identical(other.nextAiringEpisode, nextAiringEpisode) ||
-                other.nextAiringEpisode == nextAiringEpisode));
+                other.nextAiringEpisode == nextAiringEpisode) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @JsonKey(ignore: true)
@@ -673,7 +712,9 @@ class _$MediaEntityImpl implements _MediaEntity {
         popularRanking,
         ratedRanking,
         timeUntilAiring,
-        nextAiringEpisode
+        nextAiringEpisode,
+        startDate,
+        endDate
       ]);
 
   @JsonKey(ignore: true)
@@ -723,7 +764,10 @@ abstract class _MediaEntity implements MediaEntity {
       @JsonKey(name: MediaTableColumns.timeUntilAiring)
       final int? timeUntilAiring,
       @JsonKey(name: MediaTableColumns.nextAiringEpisode)
-      final int? nextAiringEpisode}) = _$MediaEntityImpl;
+      final int? nextAiringEpisode,
+      @JsonKey(name: MediaTableColumns.startDate) final int? startDate,
+      @JsonKey(name: MediaTableColumns.endDate)
+      final int? endDate}) = _$MediaEntityImpl;
 
   factory _MediaEntity.fromJson(Map<String, dynamic> json) =
       _$MediaEntityImpl.fromJson;
@@ -809,6 +853,12 @@ abstract class _MediaEntity implements MediaEntity {
   @override
   @JsonKey(name: MediaTableColumns.nextAiringEpisode)
   int? get nextAiringEpisode;
+  @override
+  @JsonKey(name: MediaTableColumns.startDate)
+  int? get startDate;
+  @override
+  @JsonKey(name: MediaTableColumns.endDate)
+  int? get endDate;
   @override
   @JsonKey(ignore: true)
   _$$MediaEntityImplCopyWith<_$MediaEntityImpl> get copyWith =>
