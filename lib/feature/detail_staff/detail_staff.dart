@@ -123,11 +123,12 @@ class _DetailStaffContent extends StatelessWidget {
               for (final widget in _buildYearAndCharactersWidgets(
                 context,
                 characterGroupList: pagingState.data.characterGroupList,
-                onCharacterClick: (String id) => AfRouterDelegate.of()
+                onCharacterClick: (String id) => AfRouterDelegate.of(context)
                     .backStack
                     .navigateToDetailCharacter(id),
-                onMediaClick: (String id) =>
-                    AfRouterDelegate.of().backStack.navigateToDetailMedia(id),
+                onMediaClick: (String id) => AfRouterDelegate.of(context)
+                    .backStack
+                    .navigateToDetailMedia(id),
               ))
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),

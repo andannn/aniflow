@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/app/aniflow_router/af_router_back_stack.dart';
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/app/app.dart';
@@ -18,25 +17,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AniFlowPage extends Page {
-  const AniFlowPage({required this.afRouterBackStack, super.key});
-
-  final AfRouterBackStack afRouterBackStack;
+  const AniFlowPage({super.key});
 
   @override
   Route createRoute(BuildContext context) {
-    return AniFlowRoute(settings: this, afRouterBackStack: afRouterBackStack);
+    return AniFlowRoute(settings: this);
   }
 }
 
 class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AniFlowRoute({super.settings, required this.afRouterBackStack})
+  AniFlowRoute({super.settings})
       : super(allowSnapshotting: false);
-
-  final AfRouterBackStack afRouterBackStack;
 
   @override
   Widget buildContent(BuildContext context) {
-    return AniFlowAppScaffold(afRouterBackStack: afRouterBackStack);
+    return const AniFlowAppScaffold();
   }
 
   @override
@@ -44,9 +39,7 @@ class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class AniFlowAppScaffold extends StatefulWidget {
-  const AniFlowAppScaffold({super.key, required this.afRouterBackStack});
-
-  final AfRouterBackStack afRouterBackStack;
+  const AniFlowAppScaffold({super.key});
 
   @override
   State<AniFlowAppScaffold> createState() => _AniFlowAppScaffoldState();
@@ -84,7 +77,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
   @override
   void initState() {
     super.initState();
-    afRouterDelegate = AfRouterDelegate(backStack: widget.afRouterBackStack);
+    afRouterDelegate = AfRouterDelegate();
 
     afRouterDelegate.addListener(() {
       setState(() {

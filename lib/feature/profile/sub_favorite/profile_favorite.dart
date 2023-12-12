@@ -98,7 +98,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of().backStack
+                AfRouterDelegate.of(context).backStack
                     .navigateToFavoritePage(type, userId);
               },
             ),
@@ -134,7 +134,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       title: title,
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of().backStack.navigateToDetailMedia(id);
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
       },
     );
   }

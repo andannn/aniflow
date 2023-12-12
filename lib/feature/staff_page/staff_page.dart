@@ -73,7 +73,7 @@ class _StaffListPageContent extends StatelessWidget {
         model: model,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onStaffClick: () {
-          AfRouterDelegate.of().backStack.navigateToDetailStaff(
+          AfRouterDelegate.of(context).backStack.navigateToDetailStaff(
             model.staff.id,
           );
         },

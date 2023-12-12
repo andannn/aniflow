@@ -346,8 +346,10 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AfRouterDelegate.of().backStack.navigateToCharacterList(
-                        context.read<DetailMediaBloc>().mediaId);
+                    AfRouterDelegate.of(context)
+                        .backStack
+                        .navigateToCharacterList(
+                            context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),
@@ -388,14 +390,14 @@ class _DetailAnimePageContent extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onCharacterTap: () {
             final characterId = model.characterModel.id;
-            AfRouterDelegate.of()
+            AfRouterDelegate.of(context)
                 .backStack
                 .navigateToDetailCharacter(characterId);
           },
           onVoiceActorTop: () {
             final id = model.voiceActorModel?.id;
             if (id != null) {
-              AfRouterDelegate.of().backStack.navigateToDetailStaff(id);
+              AfRouterDelegate.of(context).backStack.navigateToDetailStaff(id);
             }
           },
         ),
@@ -426,7 +428,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AfRouterDelegate.of().backStack.navigateToStaffList(
+                    AfRouterDelegate.of(context).backStack.navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -473,7 +475,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           model: model,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onStaffClick: () {
-            AfRouterDelegate.of().backStack.navigateToDetailStaff(
+            AfRouterDelegate.of(context).backStack.navigateToDetailStaff(
                   model.staff.id,
                 );
           },
@@ -658,7 +660,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   return MediaRelationWidget(
                     model: relation,
                     onClick: () {
-                      AfRouterDelegate.of()
+                      AfRouterDelegate.of(context)
                           .backStack
                           .navigateToDetailMedia(relation.media.id);
                     },

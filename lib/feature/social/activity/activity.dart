@@ -199,10 +199,10 @@ class ActivityPageContent extends StatelessWidget {
     return ActivityItem(
       model: model,
       onMediaClick: (id) {
-        AfRouterDelegate.of().backStack.navigateToDetailMedia(id);
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
       },
       onUserIconClick: (id) {
-        AfRouterDelegate.of().backStack.navigateToUserProfile(id);
+        AfRouterDelegate.of(context).backStack.navigateToUserProfile(id);
       },
       onBuildActivityStatusWidget: (activityId) => _ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),

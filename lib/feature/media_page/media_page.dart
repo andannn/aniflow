@@ -90,7 +90,7 @@ class _MediaListPageContent extends StatelessWidget {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        AfRouterDelegate.of().backStack.navigateToDetailMedia(
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(
           model.id,
         );
       },

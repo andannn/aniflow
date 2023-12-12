@@ -86,7 +86,7 @@ class _MediaSearchPageContent extends StatelessWidget {
     return SearchAnimeItem(
       model: model,
       onClick: () {
-        AfRouterDelegate.of().backStack.navigateToDetailMedia(model.id);
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(model.id);
       },
     );
   }

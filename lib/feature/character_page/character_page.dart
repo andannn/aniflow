@@ -147,14 +147,14 @@ class _CharacterListPagingContent extends StatelessWidget {
         model: model,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onCharacterTap: () {
-          AfRouterDelegate.of()
+          AfRouterDelegate.of(context)
               .backStack
               .navigateToDetailCharacter(model.characterModel.id);
         },
         onVoiceActorTop: () {
           final id = model.voiceActorModel?.id;
           if (id != null) {
-            AfRouterDelegate.of().backStack.navigateToDetailStaff(id);
+            AfRouterDelegate.of(context).backStack.navigateToDetailStaff(id);
           }
         },
       ),
