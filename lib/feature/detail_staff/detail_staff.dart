@@ -237,7 +237,7 @@ class _DetailStaffContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;
-    final borderColor = colorScheme.outline;
+    const borderColor = Colors.white;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,7 +265,7 @@ class _DetailStaffContent extends StatelessWidget {
                         child: AspectRatio(
                           aspectRatio: 4.0 / 5,
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(
                                   color: borderColor,
@@ -278,7 +278,7 @@ class _DetailStaffContent extends StatelessWidget {
                                   strokeAlign: 1.0,
                                 ),
                               ),
-                              borderRadius: const BorderRadiusDirectional.only(
+                              borderRadius: BorderRadiusDirectional.only(
                                 topStart: Radius.circular(15),
                               ),
                             ),

@@ -33,6 +33,7 @@ class _AFNetworkImageState extends State<AFNetworkImage>
           memCacheWidth: cacheWidthInPixel,
           fit: BoxFit.cover,
           errorWidget: _buildErrorWidget,
+            placeholder: buildPlaceHolderWidget,
           cacheManager: CustomCacheManager(),
         );
       },
@@ -40,6 +41,12 @@ class _AFNetworkImageState extends State<AFNetworkImage>
   }
 
   Widget _buildErrorWidget(BuildContext context, String url, Object error) {
+    return Container(
+      color: Theme.of(context).colorScheme.surfaceVariant,
+    );
+  }
+
+  Widget buildPlaceHolderWidget(BuildContext context, String url) {
     return Container(
       color: Theme.of(context).colorScheme.surfaceVariant,
     );
