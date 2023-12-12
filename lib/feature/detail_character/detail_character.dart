@@ -5,7 +5,10 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
+import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
@@ -14,7 +17,6 @@ import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class DetailCharacterPage extends Page {
   final String id;
@@ -62,14 +64,16 @@ class _DetailCharacterContent extends StatelessWidget {
       final relatedMedias = state.characterModel?.relatedMedias ?? [];
 
       if (character == null) {
-        return const SizedBox();
+        return const LoadingDummyScaffold();
       }
 
       final isFavourite = character.isFavourite;
+      final language =
+          AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(character.name),
+          title: Text(character.name!.getNameByUserSetting(language)),
           actions: [
             isLoading
                 ? LoadingIndicator(isLoading: isLoading)
@@ -84,11 +88,12 @@ class _DetailCharacterContent extends StatelessWidget {
             const SizedBox(width: 10),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
+        // padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        body: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              sliver: SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
                   child: Card(
@@ -99,11 +104,17 @@ class _DetailCharacterContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              sliver: SliverToBoxAdapter(
                 child: _buildDescriptionSection(context, character),
               ),
-              const SliverPadding(padding: EdgeInsets.only(top: 48)),
-              SliverGrid.builder(
+            ),
+            const SliverPadding(padding: EdgeInsets.only(top: 48)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              sliver: SliverGrid.builder(
                 itemCount: relatedMedias.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
@@ -113,9 +124,9 @@ class _DetailCharacterContent extends StatelessWidget {
                   return _buildGridItems(context, relatedMedias[index]);
                 },
               ),
-              const SliverPadding(padding: EdgeInsets.only(top: 32)),
-            ],
-          ),
+            ),
+            const SliverPadding(padding: EdgeInsets.only(top: 32)),
+          ],
         ),
       );
     });
@@ -146,7 +157,7 @@ class _DetailCharacterContent extends StatelessWidget {
               ),
             ),
           ),
-          HtmlWidget(description)
+          AfHtmlWidget(html: description)
         ],
       ),
     );
@@ -160,9 +171,9 @@ class _DetailCharacterContent extends StatelessWidget {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        AfRouterDelegate.of().backStack.navigateToDetailMedia(
-          model.id,
-        );
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(
+              model.id,
+            );
       },
     );
   }

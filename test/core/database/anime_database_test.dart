@@ -89,12 +89,12 @@ void main() {
             id: '2334',
             image:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
-            name: 'Jack',
+            firstName: 'Jack',
           ),
           voiceActorEntity: StaffEntity(
             id: '95346',
             image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-            name: 'Character A',
+            firstName: 'Character A',
           ),
           language: StaffLanguage.japanese,
           role: CharacterRole.background),
@@ -103,12 +103,12 @@ void main() {
             id: '6694',
             image:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
-            name: 'Judy',
+            firstName: 'Judy',
           ),
           voiceActorEntity: StaffEntity(
             id: '95262',
             image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-            name: '堀内賢雄',
+            firstName: '堀内賢雄',
           ),
           language: StaffLanguage.japanese,
           role: CharacterRole.background),
@@ -186,7 +186,7 @@ void main() {
 
     test('upsert_detail_anime_data', () async {
       final animeDao = animeDatabase.getMediaInformationDaoDao();
-      await animeDao.upsertMediaInformation([dummyAnimeData[0]]);
+      await animeDao.insertMedia([dummyAnimeData[0]]);
       final res = await animeDatabase.aniflowDB.query(Tables.mediaTable);
       expect(MediaEntity.fromJson(res.first), equals(dummyAnimeData[0]));
     });
@@ -199,7 +199,7 @@ void main() {
     test('get_airing_schedule_by_range', () async {
       await airingScheduleDao.upsertAiringSchedules(
           schedules: dummyAiringSchedule);
-      await animeDao.upsertMediaInformation(dummyAnimeData);
+      await animeDao.insertMedia(dummyAnimeData);
 
       final result = await airingScheduleDao
           .getAiringSchedulesByTimeRange(timeRange: (1000, 4000));
@@ -211,7 +211,7 @@ void main() {
     });
 
     test('upsert_media_external_links_test', () async {
-      await animeDao.upsertMediaInformation(dummyAnimeData);
+      await animeDao.insertMedia(dummyAnimeData);
       await animeDao.upsertMediaExternalLinks(
           externalLinks: dummyExternalLinks);
       await animeDao.upsertMediaRelations(relationEntity: dummyMediaRelation);

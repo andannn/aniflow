@@ -123,10 +123,10 @@ class MediaListRepositoryImpl extends MediaListRepository {
       page: page,
       perPage: perPage,
       mapDtoToModel: (dto) => MediaListItemModel.fromDto(dto),
-      onInsertEntityToDB: (dto) async {
+      onInsertToDB: (dto) async {
         final entities =
             dto.map((e) => MediaEntity.fromNetworkModel(e.media!)).toList();
-        await mediaDao.upsertMediaInformation(entities);
+        await mediaDao.insertMedia(entities);
       },
     );
   }

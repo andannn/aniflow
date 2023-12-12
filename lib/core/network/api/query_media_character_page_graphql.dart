@@ -22,9 +22,11 @@ query (\$id: Int, \$page: Int, \$perPage: Int, \$staffLanguage: StaffLanguage) {
             medium
           }
           name {
+            first
+            middle
+            last
             full
             native
-            userPreferred
           }
         }
       }
@@ -40,8 +42,10 @@ String get characterContentGraphql => '''
             medium
           }
           name {
+            first
+            middle
+            last
             full
             native
-            userPreferred
           }
 ''';

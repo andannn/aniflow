@@ -66,7 +66,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
         token: token,
       ),
       mapDtoToModel: (dto) => NotificationModel.fromDto(dto),
-      onInsertEntityToDB: (dto) async {},
+      onInsertToDB: (dto) async {},
     );
   }
 }

@@ -15,9 +15,11 @@ query (\$id: Int, \$page: Int, \$perPage: Int) {
         node {
           id
           name {
+            first
+            middle
+            last
             full
             native
-            userPreferred
           }
           image {
             large

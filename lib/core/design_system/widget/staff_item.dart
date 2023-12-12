@@ -1,4 +1,6 @@
+import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -8,9 +10,11 @@ class StaffItem extends StatelessWidget {
     super.key,
     this.textStyle,
     this.onStaffClick,
+    required this.language,
   });
 
   final StaffAndRoleModel model;
+  final UserStaffNameLanguage language;
   final VoidCallback? onStaffClick;
   final TextStyle? textStyle;
 
@@ -43,7 +47,10 @@ class StaffItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.staff.name, style: style),
+                  Text(
+                    model.staff.name!.getNameByUserSetting(language),
+                    style: style,
+                  ),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(
                     model.role,

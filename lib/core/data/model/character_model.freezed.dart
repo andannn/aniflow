@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CharacterModel {
   String get id => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  StaffCharacterName? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $CharacterModelCopyWith<$Res> {
   $Res call(
       {String id,
       String image,
-      String name,
+      StaffCharacterName? name,
       String? description,
       String? gender,
       DateTime? dateOfBirth,
@@ -53,6 +53,8 @@ abstract class $CharacterModelCopyWith<$Res> {
       int? favourites,
       bool isFavourite,
       List<MediaModel> relatedMedias});
+
+  $StaffCharacterNameCopyWith<$Res>? get name;
 }
 
 /// @nodoc
@@ -70,7 +72,7 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? dateOfBirth = freezed,
@@ -90,10 +92,10 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StaffCharacterName?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -132,6 +134,18 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
               as List<MediaModel>,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaffCharacterNameCopyWith<$Res>? get name {
+    if (_value.name == null) {
+      return null;
+    }
+
+    return $StaffCharacterNameCopyWith<$Res>(_value.name!, (value) {
+      return _then(_value.copyWith(name: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -145,7 +159,7 @@ abstract class _$$CharacterModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String image,
-      String name,
+      StaffCharacterName? name,
       String? description,
       String? gender,
       DateTime? dateOfBirth,
@@ -155,6 +169,9 @@ abstract class _$$CharacterModelImplCopyWith<$Res>
       int? favourites,
       bool isFavourite,
       List<MediaModel> relatedMedias});
+
+  @override
+  $StaffCharacterNameCopyWith<$Res>? get name;
 }
 
 /// @nodoc
@@ -170,7 +187,7 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? dateOfBirth = freezed,
@@ -190,10 +207,10 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StaffCharacterName?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -240,7 +257,7 @@ class _$CharacterModelImpl implements _CharacterModel {
   _$CharacterModelImpl(
       {this.id = '',
       this.image = '',
-      this.name = '',
+      this.name,
       this.description,
       this.gender,
       this.dateOfBirth,
@@ -259,8 +276,7 @@ class _$CharacterModelImpl implements _CharacterModel {
   @JsonKey()
   final String image;
   @override
-  @JsonKey()
-  final String name;
+  final StaffCharacterName? name;
   @override
   final String? description;
   @override
@@ -345,7 +361,7 @@ abstract class _CharacterModel implements CharacterModel {
   factory _CharacterModel(
       {final String id,
       final String image,
-      final String name,
+      final StaffCharacterName? name,
       final String? description,
       final String? gender,
       final DateTime? dateOfBirth,
@@ -361,7 +377,7 @@ abstract class _CharacterModel implements CharacterModel {
   @override
   String get image;
   @override
-  String get name;
+  StaffCharacterName? get name;
   @override
   String? get description;
   @override

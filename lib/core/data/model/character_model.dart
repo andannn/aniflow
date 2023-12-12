@@ -1,7 +1,9 @@
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_model.freezed.dart';
@@ -11,7 +13,7 @@ class CharacterModel with _$CharacterModel {
   factory CharacterModel({
     @Default('') String id,
     @Default('') String image,
-    @Default('') String name,
+    StaffCharacterName? name,
     String? description,
     String? gender,
     DateTime? dateOfBirth,
@@ -23,11 +25,21 @@ class CharacterModel with _$CharacterModel {
     @Default([]) List<MediaModel> relatedMedias,
   }) = _CharacterModel;
 
+  static CharacterModel fromDto(CharacterDto dto) {
+    return CharacterModel.fromDatabaseEntity(CharacterEntity.fromDto(dto));
+  }
+
   static CharacterModel fromDatabaseEntity(CharacterEntity entity) {
     return CharacterModel(
       id: entity.id,
       image: entity.image ?? '',
-      name: entity.name ?? '',
+      name: StaffCharacterName(
+        first: entity.firstName,
+        middle: entity.middleName,
+        last: entity.lastName,
+        full: entity.fullName,
+        native: entity.nativeName,
+      ),
       description: entity.description,
       gender: entity.gender,
       dateOfBirth: entity.dateOfBirth != null

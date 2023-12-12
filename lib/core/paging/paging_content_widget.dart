@@ -23,63 +23,96 @@ class PagingContent<MODEL,
 
   @override
   Widget build(BuildContext context) {
-    final animeList = pagingState.data;
-    final itemCount = pagingState.data.length;
-    final needDetectNewPageRequest = pagingState is PageReady;
-
     return CustomScrollView(
-      cacheExtent: Config.defaultCatchExtend,
+      cacheExtent: AfConfig.defaultCatchExtend,
       slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.all(4),
-          sliver: gridDelegate != null
-              ? SliverGrid.builder(
-                  itemCount: itemCount,
-                  gridDelegate: gridDelegate!,
-                  itemBuilder: (context, index) {
-                    return onBuildItem(context, animeList[index]);
-                  },
-                )
-              : SliverList.builder(
-                  itemCount: itemCount,
-                  itemBuilder: (context, index) {
-                    return onBuildItem(context, animeList[index]);
-                  },
-                ),
-        ),
-        SliverVisibility(
-          visible: needDetectNewPageRequest,
-          // show page loading detector widget.
-          sliver: SliverToBoxAdapter(
-            child: _RequestPageLoadingDetector(
-              onRequestNewPage: () {
-                context.read<BLOC>().add(OnRequestLoadPageEvent());
-              },
-            ),
-          ),
-          replacementSliver: SliverToBoxAdapter(
-            child: _buildPageBottomBar(context, pagingState),
-          ),
+        ...buildSliverItemsSection<MODEL, BLOC>(
+          context: context,
+          gridDelegate: gridDelegate,
+          pagingState: pagingState,
+          onBuildItem: onBuildItem,
         ),
       ],
     );
   }
+}
 
-  Widget _buildPageBottomBar(BuildContext context, PagingState pagingState) {
-    return SizedBox.square(
-      dimension: 64,
-      child: Center(
-        child: buildPageBottomWidget(
-          context: context,
-          pagingState: pagingState,
-          onRetryLoadPage: () {
-            context.read<BLOC>().add(OnRetryLoadPageEvent());
-          },
-          onLoadMore: () {},
-        ),
+List<Widget> buildSliverItemsSection<MODEL,
+    BLOC extends Bloc<PagingEvent<MODEL>, PagingState<List<MODEL>>>>({
+  required BuildContext context,
+  required PagingState<List<MODEL>> pagingState,
+  SliverGridDelegate? gridDelegate,
+  required Widget Function(BuildContext, MODEL) onBuildItem,
+}) {
+  final models = pagingState.data;
+  final itemCount = pagingState.data.length;
+
+  return [
+    SliverPadding(
+      padding: const EdgeInsets.all(4),
+      sliver: gridDelegate != null
+          ? SliverGrid.builder(
+              itemCount: itemCount,
+              gridDelegate: gridDelegate,
+              itemBuilder: (context, index) {
+                return onBuildItem(context, models[index]);
+              },
+            )
+          : SliverList.builder(
+              itemCount: itemCount,
+              itemBuilder: (context, index) {
+                return onBuildItem(context, models[index]);
+              },
+            ),
+    ),
+    buildSliverPagingVisibilityDetector<MODEL, BLOC>(
+      context: context,
+      pagingState: pagingState,
+    ),
+  ];
+}
+
+Widget buildSliverPagingVisibilityDetector<MODEL,
+    BLOC extends Bloc<PagingEvent<MODEL>, PagingState<List<MODEL>>>>({
+  required BuildContext context,
+  required PagingState<List<MODEL>> pagingState,
+}) {
+  final needDetectNewPageRequest = pagingState is PageReady;
+  return SliverVisibility(
+    visible: needDetectNewPageRequest,
+    // show page loading detector widget.
+    sliver: SliverToBoxAdapter(
+      child: _RequestPageLoadingDetector(
+        onRequestNewPage: () {
+          context.read<BLOC>().add(OnRequestLoadPageEvent());
+        },
       ),
-    );
-  }
+    ),
+    replacementSliver: SliverToBoxAdapter(
+      child: _buildPageBottomBar(
+        context,
+        pagingState,
+        () {
+          context.read<BLOC>().add(OnRetryLoadPageEvent());
+        },
+      ),
+    ),
+  );
+}
+
+Widget _buildPageBottomBar(
+    BuildContext context, PagingState pagingState, VoidCallback onRetryLoad) {
+  return SizedBox.square(
+    dimension: 64,
+    child: Center(
+      child: buildPageBottomWidget(
+        context: context,
+        pagingState: pagingState,
+        onRetryLoadPage: onRetryLoad,
+        onLoadMore: () {},
+      ),
+    ),
+  );
 }
 
 class _RequestPageLoadingDetector extends StatelessWidget {

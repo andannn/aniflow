@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class AfRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
-  AfRouterDelegate({required this.backStack}) {
+  AfRouterDelegate() {
     backStack.addListener(notifyListeners);
   }
+
+  final AfRouterBackStack backStack = AfRouterBackStack();
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
@@ -15,8 +17,6 @@ class AfRouterDelegate extends RouterDelegate
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
   RouteObserver routeObserver = RouteObserver();
-
-  final AfRouterBackStack backStack;
 
   TopLevelNavigation get currentTopLevelNavigation =>
       backStack.currentTopLevelNavigation;
@@ -27,8 +27,12 @@ class AfRouterDelegate extends RouterDelegate
 
   static BuildContext? _routerContext;
 
-  static AfRouterDelegate of() =>
-      Router.of(_routerContext!).routerDelegate as AfRouterDelegate;
+  static AfRouterDelegate? tryGet() => _routerContext != null
+      ? Router.of(_routerContext!).routerDelegate as AfRouterDelegate
+      : null;
+
+  static AfRouterDelegate of(BuildContext context) =>
+      Router.of(context).routerDelegate as AfRouterDelegate;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,7 @@ class AfRouterDelegate extends RouterDelegate
   @override
   void dispose() {
     backStack.dispose();
+    _routerContext = null;
 
     super.dispose();
   }

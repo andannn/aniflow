@@ -228,7 +228,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                     child: AiringMediaItem(
                       model: schedule,
                       onClick: () {
-                        AfRouterDelegate.of().backStack
+                        AfRouterDelegate.of(context).backStack
                             .navigateToDetailMedia(schedule.animeModel.id);
                       },
                     ),

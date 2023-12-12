@@ -322,7 +322,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               ),
               AnimatedOpacity(
                 opacity: isLoading ? 1 : 0,
-                duration: Config.defaultAnimationDuration,
+                duration: AfConfig.defaultAnimationDuration,
                 child: const LinearProgressIndicator(),
               ),
             ],

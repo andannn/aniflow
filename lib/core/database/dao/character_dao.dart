@@ -14,7 +14,11 @@ import 'package:sqflite/sqflite.dart';
 mixin CharacterColumns {
   static const String id = 'character_id';
   static const String image = 'character_image';
-  static const String name = 'character_name';
+  static const String firstName = 'character_first_name';
+  static const String middleName = 'character_middle_name';
+  static const String lastName = 'character_last_name';
+  static const String fullName = 'character_full_name';
+  static const String nativeName = 'character_native_name';
   static const String description = 'character_description';
   static const String gender = 'character_gender';
   static const String dateOfBirth = 'character_dateOfBirth';

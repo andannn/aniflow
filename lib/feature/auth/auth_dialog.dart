@@ -150,7 +150,7 @@ class _AuthDialogContent extends StatelessWidget {
         Navigator.of(context, rootNavigator: true).push(SettingsPageRoute());
       case _OptionColumn.notification:
         Navigator.pop(context);
-        AfRouterDelegate.of().backStack.navigateToNotification();
+        AfRouterDelegate.tryGet()?.backStack.navigateToNotification();
     }
   }
 }

@@ -10,9 +10,11 @@ query(\$UserId: Int, \$page: Int, \$perPage: Int){
         nodes {
           id
           name {
+            first
+            middle
+            last
             full
             native
-            userPreferred
           }
           image {
             large

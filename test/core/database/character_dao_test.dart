@@ -23,7 +23,7 @@ void main() {
     });
 
     final dummyCharacterAndRelatedMedia = CharacterAndRelatedMedia(
-      character: CharacterEntity(id: '4', name: 'character a'),
+      character: CharacterEntity(id: '4', firstName: 'character a'),
       medias: [
         MediaEntity(id: '1', nativeTitle: 'media a'),
         MediaEntity(id: '2', nativeTitle: 'media b'),
@@ -31,7 +31,7 @@ void main() {
     );
 
     final dummyCharacter = CharacterAndRelatedMedia(
-      character: CharacterEntity(id: '4', name: 'character a'),
+      character: CharacterEntity(id: '4', firstName: 'character a'),
       medias: [],
     );
 

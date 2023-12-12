@@ -28,7 +28,7 @@ class StaffPageBloc extends PagingBloc<StaffAndRoleModel> {
       animeId: animeId,
       loadType: isRefresh
           ? const Refresh()
-          : Append(page: page, perPage: Config.defaultPerPageCount),
+          : Append(page: page, perPage: AfConfig.defaultPerPageCount),
       token: cancelToken,
     );
   }

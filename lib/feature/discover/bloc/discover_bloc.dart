@@ -218,7 +218,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     } else {
       result = await _mediaInfoRepository.loadMediaPageByCategory(
         category: category,
-        loadType: const Append(page: 1, perPage: Config.defaultPerPageCount),
+        loadType: const Append(page: 1, perPage: AfConfig.defaultPerPageCount),
       );
     }
     switch (result) {

@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-mixin Config {
+mixin AfConfig {
   static const defaultAnimationDuration = Duration(milliseconds: 300);
   static const defaultCatchExtend = 300.0;
 

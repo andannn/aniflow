@@ -44,10 +44,10 @@ class SearchRepositoryImpl implements SearchRepository {
         token: token,
       ),
       mapDtoToModel: (MediaDto dto) => MediaModel.fromDto(dto),
-      onInsertEntityToDB: (List<MediaDto> dto) async {
+      onInsertToDB: (List<MediaDto> dto) async {
         final entities =
             dto.map((e) => MediaEntity.fromNetworkModel(e)).toList();
-        await dao.upsertMediaInformation(entities);
+        await dao.insertMedia(entities);
       },
     );
   }

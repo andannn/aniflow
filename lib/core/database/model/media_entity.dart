@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,8 +17,7 @@ part 'media_entity.g.dart';
 class MediaEntity with _$MediaEntity {
   factory MediaEntity({
     @Default('') @JsonKey(name: MediaTableColumns.id) String id,
-    @JsonKey(name: MediaTableColumns.type)
-    String? type,
+    @JsonKey(name: MediaTableColumns.type) String? type,
     @Default('')
     @JsonKey(name: MediaTableColumns.englishTitle)
     String englishTitle,
@@ -51,14 +51,14 @@ class MediaEntity with _$MediaEntity {
     @JsonKey(name: MediaTableColumns.ratedRanking) int? ratedRanking,
     @JsonKey(name: MediaTableColumns.timeUntilAiring) int? timeUntilAiring,
     @JsonKey(name: MediaTableColumns.nextAiringEpisode) int? nextAiringEpisode,
+    @JsonKey(name: MediaTableColumns.startDate) int? startDate,
+    @JsonKey(name: MediaTableColumns.endDate) int? endDate,
   }) = _MediaEntity;
-
 
   factory MediaEntity.fromJson(Map<String, dynamic> json) =>
       _$$MediaEntityImplFromJson(json);
 
-  static MediaEntity fromNetworkModel(MediaDto model) =>
-      MediaEntity(
+  static MediaEntity fromNetworkModel(MediaDto model) => MediaEntity(
         id: model.id.toString(),
         type: model.type,
         englishTitle: model.title?.english ?? '',
@@ -96,6 +96,8 @@ class MediaEntity with _$MediaEntity {
               orElse: () => null,
             )
             ?.rank,
+        startDate: model.startDate.toDateTime()?.millisecondsSinceEpoch,
+        endDate: model.endDate.toDateTime()?.millisecondsSinceEpoch,
       );
 }
 

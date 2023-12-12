@@ -77,7 +77,7 @@ class _WatchingAnimePageContent extends StatelessWidget {
       title: model.animeModel!.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of().backStack
+        AfRouterDelegate.of(context).backStack
             .navigateToDetailMedia(model.animeModel!.id);
       },
     );

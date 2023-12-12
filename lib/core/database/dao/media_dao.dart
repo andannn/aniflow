@@ -47,8 +47,10 @@ mixin MediaTableColumns {
   static const String genres = 'genres';
   static const String popularRanking = 'popular_ranking';
   static const String ratedRanking = 'rated_ranking';
-  static const String nextAiringEpisode = 'nextAiringEpisode';
-  static const String timeUntilAiring = 'timeUntilAiring';
+  static const String nextAiringEpisode = 'next_airing_episode';
+  static const String timeUntilAiring = 'time_until_airing';
+  static const String startDate = 'start_date';
+  static const String endDate = 'end_date';
 }
 
 mixin CategoryColumns {
@@ -128,7 +130,7 @@ abstract class MediaInformationDao {
   Future clearAnimeCategoryCrossRef(MediaCategory category);
 
   Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
-      {required int page, int perPage = Config.defaultPerPageCount});
+      {required int page, int perPage = AfConfig.defaultPerPageCount});
 
   Future<MediaEntity> getMedia(String id);
 
@@ -138,10 +140,10 @@ abstract class MediaInformationDao {
       String animeId,
       {required int page,
       StaffLanguage staffLanguage = StaffLanguage.japanese,
-      int perPage = Config.defaultPerPageCount});
+      int perPage = AfConfig.defaultPerPageCount});
 
   Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
-      {required int page, int perPage = Config.defaultPerPageCount});
+      {required int page, int perPage = AfConfig.defaultPerPageCount});
 
   Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id);
 
@@ -150,7 +152,7 @@ abstract class MediaInformationDao {
   Future insertOrIgnoreMediaByAnimeCategory(MediaCategory category,
       {required List<MediaEntity> animeList});
 
-  Future upsertMediaInformation(List<MediaEntity> entities,
+  Future insertMedia(List<MediaEntity> entities,
       {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore});
 
   Future upsertMediaExternalLinks(
@@ -227,7 +229,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
 
   @override
   Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
-      {required int page, int perPage = Config.defaultPerPageCount}) async {
+      {required int page, int perPage = AfConfig.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
@@ -249,7 +251,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       String animeId,
       {required int page,
       StaffLanguage staffLanguage = StaffLanguage.japanese,
-      int perPage = Config.defaultPerPageCount}) async {
+      int perPage = AfConfig.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
     final characterSql = 'select * from ${Tables.characterTable} as c \n'
@@ -282,7 +284,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
 
   @override
   Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
-      {required int page, int perPage = Config.defaultPerPageCount}) async {
+      {required int page, int perPage = AfConfig.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
     String staffSql = 'select * from ${Tables.staffTable} as s '
@@ -341,7 +343,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
   }
 
   @override
-  Future upsertMediaInformation(List<MediaEntity> entities,
+  Future insertMedia(List<MediaEntity> entities,
       {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {

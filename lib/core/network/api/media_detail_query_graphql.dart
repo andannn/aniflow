@@ -73,7 +73,11 @@ query (\$id: Int) {
             medium
           }
           name {
-            userPreferred
+            first
+            middle
+            last
+            full
+            native
           }
         }
         voiceActors(language: JAPANESE, sort: LANGUAGE) {
@@ -83,9 +87,11 @@ query (\$id: Int) {
             medium
           }
           name {
+            first
+            middle
+            last
             full
             native
-            userPreferred
           }
         }
       }
@@ -103,9 +109,11 @@ query (\$id: Int) {
         node {
           id
           name {
+            first
+            middle
+            last
             full
             native
-            userPreferred
           }
           image {
             large

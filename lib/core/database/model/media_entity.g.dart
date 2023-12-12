@@ -33,8 +33,10 @@ _$MediaEntityImpl _$$MediaEntityImplFromJson(Map<String, dynamic> json) =>
       isFavourite: json['isFavourite'] as int?,
       popularRanking: json['popular_ranking'] as int?,
       ratedRanking: json['rated_ranking'] as int?,
-      timeUntilAiring: json['timeUntilAiring'] as int?,
-      nextAiringEpisode: json['nextAiringEpisode'] as int?,
+      timeUntilAiring: json['time_until_airing'] as int?,
+      nextAiringEpisode: json['next_airing_episode'] as int?,
+      startDate: json['start_date'] as int?,
+      endDate: json['end_date'] as int?,
     );
 
 Map<String, dynamic> _$$MediaEntityImplToJson(_$MediaEntityImpl instance) =>
@@ -64,8 +66,10 @@ Map<String, dynamic> _$$MediaEntityImplToJson(_$MediaEntityImpl instance) =>
       'isFavourite': instance.isFavourite,
       'popular_ranking': instance.popularRanking,
       'rated_ranking': instance.ratedRanking,
-      'timeUntilAiring': instance.timeUntilAiring,
-      'nextAiringEpisode': instance.nextAiringEpisode,
+      'time_until_airing': instance.timeUntilAiring,
+      'next_airing_episode': instance.nextAiringEpisode,
+      'start_date': instance.startDate,
+      'end_date': instance.endDate,
     };
 
 const _$AnimeSourceEnumMap = {

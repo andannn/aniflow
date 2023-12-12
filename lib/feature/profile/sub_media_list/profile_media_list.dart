@@ -148,7 +148,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of().backStack
+                AfRouterDelegate.of(context).backStack
                     .navigateToMediaListPage(type, userId);
               },
             ),
@@ -184,7 +184,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of().backStack
+        AfRouterDelegate.of(context).backStack
             .navigateToDetailMedia(model.animeModel!.id);
       },
     );

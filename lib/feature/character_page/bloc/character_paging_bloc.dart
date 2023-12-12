@@ -33,7 +33,7 @@ class CharacterPagingBloc
       language: staffLanguage,
       loadType: isRefresh
           ? const Refresh()
-          : Append(page: page, perPage: Config.defaultPerPageCount),
+          : Append(page: page, perPage: AfConfig.defaultPerPageCount),
       token: cancelToken,
     );
   }

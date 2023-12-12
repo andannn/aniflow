@@ -67,7 +67,7 @@ void main() async {
   ], child: const AniFlowApp()));
 
   FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {

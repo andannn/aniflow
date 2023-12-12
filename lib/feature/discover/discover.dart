@@ -60,7 +60,7 @@ class DiscoverScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12.0),
                 child: IconButton(
                   onPressed: () {
-                    AfRouterDelegate.of().backStack.navigateToSearch();
+                    AfRouterDelegate.of(context).backStack.navigateToSearch();
                   },
                   icon: const Icon(Icons.search_rounded),
                 ),
@@ -110,7 +110,7 @@ class DiscoverScreen extends StatelessWidget {
               await context.read<DiscoverBloc>().onPullToRefreshTriggered();
             },
             child: CustomScrollView(
-              cacheExtent: Config.defaultCatchExtend,
+              cacheExtent: AfConfig.defaultCatchExtend,
               slivers:
                   _buildCategoriesByMediaType(context, map, currentMediaType),
             ),
@@ -162,10 +162,10 @@ class DiscoverScreen extends StatelessWidget {
         animeModels: animeModels,
         isLoading: isLoading,
         onMoreClick: () {
-          AfRouterDelegate.of().backStack.navigateToAnimeList(category);
+          AfRouterDelegate.of(context).backStack.navigateToAnimeList(category);
         },
         onAnimeClick: (id) {
-          AfRouterDelegate.of().backStack.navigateToDetailMedia(id);
+          AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
         },
       ),
     );

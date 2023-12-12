@@ -25,7 +25,7 @@ class NotificationPagingBloc extends PagingBloc<NotificationModel> {
   }) {
     return _repository.loadNotificationsByPage(
       page: page,
-      perPage: Config.notificationPageDefaultPerPageCount,
+      perPage: AfConfig.notificationPageDefaultPerPageCount,
       category: _category,
       token: cancelToken,
     );

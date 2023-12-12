@@ -13,10 +13,9 @@ _$StaffDtoImpl _$$StaffDtoImplFromJson(Map<String, dynamic> json) =>
             (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
-      name: (json['name'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String?),
-          ) ??
-          const {},
+      name: json['name'] == null
+          ? null
+          : StaffCharacterName.fromJson(json['name'] as Map<String, dynamic>),
       description: json['description'] as String?,
       gender: json['gender'] as String?,
       siteUrl: json['siteUrl'] as String?,

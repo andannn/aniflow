@@ -17,8 +17,10 @@ import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
+import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
@@ -32,7 +34,6 @@ import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -80,7 +81,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       builder: (context, state) {
         final model = state.detailAnimeModel;
         if (model == null) {
-          return const SizedBox();
+          return const LoadingDummyScaffold();
         }
         final isLoading = state.isLoading;
         final stateString = state.mediaListItem?.status?.stateString ?? '';
@@ -138,7 +139,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                     )
               : const SizedBox(),
           body: CustomScrollView(
-            cacheExtent: Config.defaultCatchExtend,
+            cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
               SliverToBoxAdapter(
                 child: _buildBannerSectionSection(context, model.bannerImage),
@@ -313,7 +314,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: HtmlWidget(description),
+                      child: AfHtmlWidget(html: description),
                     ),
                   )
                 : const SizedBox(),
@@ -325,10 +326,10 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildCharacterSection(
       BuildContext context, List<CharacterAndVoiceActorModel> models) {
-    final canFillPage = models.length >= Config.characterColumnCount;
-    const itemHeight = Config.detailPagePreviewItemHeight;
+    final canFillPage = models.length >= AfConfig.characterColumnCount;
+    const itemHeight = AfConfig.detailPagePreviewItemHeight;
     final pageHeight = canFillPage
-        ? Config.characterColumnCount * itemHeight
+        ? AfConfig.characterColumnCount * itemHeight
         : models.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: models.isNotEmpty,
@@ -346,8 +347,10 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AfRouterDelegate.of().backStack.navigateToCharacterList(
-                        context.read<DetailMediaBloc>().mediaId);
+                    AfRouterDelegate.of(context)
+                        .backStack
+                        .navigateToCharacterList(
+                            context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),
@@ -365,7 +368,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: _createColumItemsPage(context,
                       models: models,
-                      pageItemCount: Config.characterColumnCount,
+                      pageItemCount: AfConfig.characterColumnCount,
                       pageIndex: index,
                       onBuildWidget: _buildCharacterAndVoiceActorItem),
                 );
@@ -379,23 +382,26 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildCharacterAndVoiceActorItem(
       BuildContext context, CharacterAndVoiceActorModel model) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: CharacterAndVoiceActorWidget(
           model: model,
+          language: language,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onCharacterTap: () {
             final characterId = model.characterModel.id;
-            AfRouterDelegate.of()
+            AfRouterDelegate.of(context)
                 .backStack
                 .navigateToDetailCharacter(characterId);
           },
           onVoiceActorTop: () {
             final id = model.voiceActorModel?.id;
             if (id != null) {
-              AfRouterDelegate.of().backStack.navigateToDetailStaff(id);
+              AfRouterDelegate.of(context).backStack.navigateToDetailStaff(id);
             }
           },
         ),
@@ -405,10 +411,10 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildStaffsSection(
       BuildContext context, List<StaffAndRoleModel> staffs) {
-    final canFillPage = staffs.length >= Config.staffColumnCount;
-    const itemHeight = Config.detailPagePreviewItemHeight;
+    final canFillPage = staffs.length >= AfConfig.staffColumnCount;
+    const itemHeight = AfConfig.detailPagePreviewItemHeight;
     final pageHeight = canFillPage
-        ? Config.staffColumnCount * itemHeight
+        ? AfConfig.staffColumnCount * itemHeight
         : staffs.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: staffs.isNotEmpty,
@@ -426,7 +432,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AfRouterDelegate.of().backStack.navigateToStaffList(
+                    AfRouterDelegate.of(context).backStack.navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -449,7 +455,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                       children: _createColumItemsPage(
                         context,
                         models: staffs,
-                        pageItemCount: Config.staffColumnCount,
+                        pageItemCount: AfConfig.staffColumnCount,
                         pageIndex: index,
                         onBuildWidget: _buildStaffItem,
                       ),
@@ -465,17 +471,20 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildStaffItem(BuildContext context, StaffAndRoleModel model) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: StaffItem(
           model: model,
+          language: language,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onStaffClick: () {
-            AfRouterDelegate.of().backStack.navigateToDetailStaff(
-              model.staff.id,
-            );
+            AfRouterDelegate.of(context).backStack.navigateToDetailStaff(
+                  model.staff.id,
+                );
           },
         ),
       ),
@@ -658,7 +667,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   return MediaRelationWidget(
                     model: relation,
                     onClick: () {
-                      AfRouterDelegate.of()
+                      AfRouterDelegate.of(context)
                           .backStack
                           .navigateToDetailMedia(relation.media.id);
                     },

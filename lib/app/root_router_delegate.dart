@@ -1,7 +1,6 @@
-import 'package:aniflow/app/aniflow_router/af_router_back_stack.dart';
 import 'package:aniflow/app/aniflow_router/ani_flow.dart';
 import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
-import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:flutter/material.dart';
 
 class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
@@ -11,13 +10,17 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
-  final AfRouterBackStack afRouterBackStack = AfRouterBackStack();
+  static BuildContext? _routerContext;
+
+  static RootRouterDelegate of() =>
+      Router.of(_routerContext!).routerDelegate as RootRouterDelegate;
 
   @override
   Widget build(BuildContext context) {
+    _routerContext = context;
     return Navigator(
       key: navigatorKey,
-      pages: [AniFlowPage(afRouterBackStack: afRouterBackStack)],
+      pages: const [AniFlowPage()],
       onPopPage: _onPopPage,
     );
   }
@@ -33,7 +36,7 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   @override
   Future<void> setNewRoutePath(configuration) async {
-    logger.d('JQN configuration $configuration');
-    afRouterBackStack.setNewRoutePath(configuration);
+    final afRouter = AfRouterDelegate.tryGet();
+    afRouter?.backStack.setNewRoutePath(configuration);
   }
 }

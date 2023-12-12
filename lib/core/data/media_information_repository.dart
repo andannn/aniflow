@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
@@ -30,6 +31,7 @@ import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -83,6 +85,14 @@ abstract class MediaInformationRepository {
       {required String id, CancelToken? token});
 
   Stream<StaffModel?> getDetailStaffStream(String id);
+
+  Future<LoadResult<List<CharacterAndMediaConnection>>>
+      loadVoiceActorContentsPage({
+    required int page,
+    required int perPage,
+    required String staffId,
+    CancelToken? token,
+  });
 }
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
@@ -209,8 +219,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           await dataSource.getNetworkAnime(id: int.parse(id), token: token);
 
       /// insert anime info to db.
-      await mediaDao.upsertMediaInformation(
-          [MediaEntity.fromNetworkModel(networkResult)],
+      await mediaDao.insertMedia([MediaEntity.fromNetworkModel(networkResult)],
           conflictAlgorithm: ConflictAlgorithm.replace);
 
       final List<CharacterEdge> characters =
@@ -323,7 +332,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       final animeEntities = networkResults
           .map((e) => MediaEntity.fromNetworkModel(e.media!))
           .toList();
-      await mediaDao.upsertMediaInformation(animeEntities,
+      await mediaDao.insertMedia(animeEntities,
           conflictAlgorithm: ConflictAlgorithm.ignore);
 
       return LoadSuccess(data: null);
@@ -390,5 +399,44 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     } on Exception catch (exception) {
       return LoadError(exception);
     }
+  }
+
+  @override
+  Future<LoadResult<List<CharacterAndMediaConnection>>>
+      loadVoiceActorContentsPage({
+    required int page,
+    required int perPage,
+    required String staffId,
+    CancelToken? token,
+  }) {
+    return LoadPageUtil.loadPageWithoutDBCache(
+      page: page,
+      perPage: perPage,
+      onGetNetworkRes: (page, prePage) async {
+        final mediaConnection = await dataSource.getMediaConnectionByStaffId(
+            staffId, page, perPage);
+        return mediaConnection.edges;
+      },
+      onInsertToDB: (dtoList) async {
+        final characters = dtoList
+            .map((e) => e.characters.firstOrNull)
+            .whereNotNull()
+            .map((e) => CharacterEntity.fromDto(e))
+            .toList();
+
+        await characterDao.insertCharacters(
+            entities: characters, conflictAlgorithm: ConflictAlgorithm.ignore);
+
+        final medias = dtoList
+            .map((e) => e.media)
+            .whereNotNull()
+            .map((e) => MediaEntity.fromNetworkModel(e))
+            .toList();
+
+        await mediaDao.insertMedia(medias,
+            conflictAlgorithm: ConflictAlgorithm.ignore);
+      },
+      mapDtoToModel: CharacterAndMediaConnection.fromDto,
+    );
   }
 }

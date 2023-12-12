@@ -26,8 +26,9 @@ class FavoriteMangaPagingBloc extends RefreshPagingBloc<MediaModel> {
       type: MediaType.manga,
       userId: userId,
       loadType: isRefresh
-          ? const Refresh(Config.profilePageDefaultPerPageCount)
-          : Append(page: page, perPage: Config.profilePageDefaultPerPageCount),
+          ? const Refresh(AfConfig.profilePageDefaultPerPageCount)
+          : Append(
+              page: page, perPage: AfConfig.profilePageDefaultPerPageCount),
       token: cancelToken,
     );
   }

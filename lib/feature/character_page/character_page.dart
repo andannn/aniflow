@@ -1,5 +1,6 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
@@ -7,6 +8,7 @@ import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widg
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:aniflow/feature/character_page/bloc/character_paging_bloc.dart';
 import 'package:flutter/material.dart';
@@ -132,29 +134,36 @@ class _CharacterListPagingContent extends StatelessWidget {
             PagingState<List<CharacterAndVoiceActorModel>>>(
         builder: (context, state) {
       final pagingState = state;
+      final language =
+          AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
       return PagingContent<CharacterAndVoiceActorModel, CharacterPagingBloc>(
         pagingState: pagingState,
-        onBuildItem: (context, model) => _buildListItems(context, model),
+        onBuildItem: (context, model) => _buildListItems(
+          context,
+          model,
+          language,
+        ),
       );
     });
   }
 
-  Widget _buildListItems(
-      BuildContext context, CharacterAndVoiceActorModel model) {
+  Widget _buildListItems(BuildContext context,
+      CharacterAndVoiceActorModel model, UserStaffNameLanguage language) {
     return SizedBox(
       height: 124,
       child: CharacterAndVoiceActorWidget(
         model: model,
+        language: language,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onCharacterTap: () {
-          AfRouterDelegate.of()
+          AfRouterDelegate.of(context)
               .backStack
               .navigateToDetailCharacter(model.characterModel.id);
         },
         onVoiceActorTop: () {
           final id = model.voiceActorModel?.id;
           if (id != null) {
-            AfRouterDelegate.of().backStack.navigateToDetailStaff(id);
+            AfRouterDelegate.of(context).backStack.navigateToDetailStaff(id);
           }
         },
       ),

@@ -14,17 +14,17 @@ void main() {
         id: '95084',
         image:
         'https://s4.anilist.co/file/anilistcdn/staff/large/n95084-RTrZSU38POPF.png',
-        name: '若本規夫',
+        firstName: '若本規夫',
       ),
       StaffEntity(
         id: '95262',
         image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-        name: '堀内賢雄',
+        firstName: '堀内賢雄',
       ),
       StaffEntity(
         id: '95346',
         image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
-        name: 'Character A',
+        firstName: 'Character A',
       ),
     ];
 

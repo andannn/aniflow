@@ -13,7 +13,7 @@ extension on DataType {
             '/shared_prefs',
           ],
         DataType.imgCache => [
-            '/cache/cacheimage',
+            '/cache/customCachedImageData',
           ],
       };
 }

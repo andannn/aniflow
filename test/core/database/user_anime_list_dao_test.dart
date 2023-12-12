@@ -54,7 +54,7 @@ void main() {
       final dao = animeDatabase.getMediaListDao();
       final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
-      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaDao.insertMedia(dummyMediaData);
 
       final res = await dao.getMediaListByPage('22', [MediaListStatus.current],
           type: MediaType.anime, page: 1);
@@ -79,7 +79,7 @@ void main() {
       final dao = animeDatabase.getMediaListDao();
       final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
-      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaDao.insertMedia(dummyMediaData);
 
       final res = await dao.getMediaListByPage(
           '22', [MediaListStatus.current, MediaListStatus.dropped],
@@ -91,7 +91,7 @@ void main() {
       final dao = animeDatabase.getMediaListDao();
       final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
-      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaDao.insertMedia(dummyMediaData);
 
       final res = await dao.getMediaListByPage(
           '22', [MediaListStatus.current, MediaListStatus.dropped],
@@ -103,7 +103,7 @@ void main() {
       final listDao = animeDatabase.getMediaListDao();
       final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await listDao.insertMediaListEntities(dummyUserAnimeListEntity);
-      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaDao.insertMedia(dummyMediaData);
 
       final stream = listDao.getMediaListMediaIdsByUserStream('22',
           [MediaListStatus.current, MediaListStatus.dropped], MediaType.anime);
@@ -115,7 +115,7 @@ void main() {
       final listDao = animeDatabase.getMediaListDao();
       final mediaDao = animeDatabase.getMediaInformationDaoDao();
       await listDao.insertMediaListEntities(dummyUserAnimeListEntity);
-      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaDao.insertMedia(dummyMediaData);
 
       final stream = listDao.getMediaListMediaIdsByUserStream('22',
           [MediaListStatus.current, MediaListStatus.dropped], MediaType.manga);
@@ -159,7 +159,7 @@ void main() {
     });
 
     test('get_favorite_anime', () async {
-      await mediaDao.upsertMediaInformation(dummyMediaData);
+      await mediaDao.insertMedia(dummyMediaData);
       await favoriteDao
           .insertFavoritesCrossRef('1', FavoriteType.anime, ['33']);
       await favoriteDao
