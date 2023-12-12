@@ -16,7 +16,6 @@ class AFNetworkImage extends StatefulWidget {
 
 class _AFNetworkImageState extends State<AFNetworkImage>
     with SingleTickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -33,7 +32,7 @@ class _AFNetworkImageState extends State<AFNetworkImage>
           memCacheWidth: cacheWidthInPixel,
           fit: BoxFit.cover,
           errorWidget: _buildErrorWidget,
-            placeholder: buildPlaceHolderWidget,
+          placeholder: buildPlaceHolderWidget,
           cacheManager: CustomCacheManager(),
         );
       },

@@ -85,11 +85,12 @@ class _DetailCharacterContent extends StatelessWidget {
             const SizedBox(width: 10),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
+        // padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        body: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              sliver: SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
                   child: Card(
@@ -100,11 +101,17 @@ class _DetailCharacterContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              sliver: SliverToBoxAdapter(
                 child: _buildDescriptionSection(context, character),
               ),
-              const SliverPadding(padding: EdgeInsets.only(top: 48)),
-              SliverGrid.builder(
+            ),
+            const SliverPadding(padding: EdgeInsets.only(top: 48)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              sliver: SliverGrid.builder(
                 itemCount: relatedMedias.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
@@ -114,9 +121,9 @@ class _DetailCharacterContent extends StatelessWidget {
                   return _buildGridItems(context, relatedMedias[index]);
                 },
               ),
-              const SliverPadding(padding: EdgeInsets.only(top: 32)),
-            ],
-          ),
+            ),
+            const SliverPadding(padding: EdgeInsets.only(top: 32)),
+          ],
         ),
       );
     });
