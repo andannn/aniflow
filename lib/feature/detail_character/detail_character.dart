@@ -7,6 +7,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
@@ -62,7 +63,7 @@ class _DetailCharacterContent extends StatelessWidget {
       final relatedMedias = state.characterModel?.relatedMedias ?? [];
 
       if (character == null) {
-        return const SizedBox();
+        return const LoadingDummyScaffold();
       }
 
       final isFavourite = character.isFavourite;

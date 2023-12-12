@@ -20,6 +20,7 @@ import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
+import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
@@ -80,7 +81,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       builder: (context, state) {
         final model = state.detailAnimeModel;
         if (model == null) {
-          return const SizedBox();
+          return const LoadingDummyScaffold();
         }
         final isLoading = state.isLoading;
         final stateString = state.mediaListItem?.status?.stateString ?? '';

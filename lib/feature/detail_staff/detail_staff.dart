@@ -7,6 +7,7 @@ import 'package:aniflow/core/data/model/staff_character_and_media_connection.dar
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
@@ -73,7 +74,7 @@ class _DetailStaffContent extends StatelessWidget {
         final isLoading = state.isLoading;
 
         if (staff == null) {
-          return const SizedBox();
+          return const LoadingDummyScaffold();
         }
 
         final pagingState = context.watch<VoiceActorContentsPagingBloc>().state;
