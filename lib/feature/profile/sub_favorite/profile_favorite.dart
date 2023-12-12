@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
@@ -110,6 +111,8 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
 
   Widget _buildGridItems(
       BuildContext context, FavoriteType type, dynamic model) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     final String coverImage;
     final String title;
     final String id;
@@ -122,11 +125,11 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         id = model.id;
       case FavoriteType.character:
         coverImage = (model as CharacterModel).image;
-        title = model.name;
+        title = model.name!.getNameByUserSetting(language);
         id = model.id;
       case FavoriteType.staff:
         coverImage = (model as StaffModel).image;
-        title = model.name;
+        title = model.name!.getNameByUserSetting(language);
         id = model.id;
     }
     return MediaPreviewItem(

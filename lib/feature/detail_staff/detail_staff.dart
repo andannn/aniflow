@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -11,6 +12,7 @@ import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
@@ -79,11 +81,12 @@ class _DetailStaffContent extends StatelessWidget {
 
         final pagingState = context.watch<VoiceActorContentsPagingBloc>().state;
         final isFavourite = staff.isFavourite;
-
+        final language =
+            AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text(staff.name),
+            title: Text(staff.name!.getNameByUserSetting(language)),
             actions: [
               isLoading
                   ? LoadingIndicator(isLoading: isLoading)
@@ -234,6 +237,8 @@ class _DetailStaffContent extends StatelessWidget {
     required Function(String id) onCharacterClick,
     required Function(String id) onMediaClick,
   }) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;
@@ -298,7 +303,7 @@ class _DetailStaffContent extends StatelessWidget {
         ),
         RichText(
           text: TextSpan(
-            text: item.character.name,
+            text: item.character.name!.getNameByUserSetting(language),
             style: textTheme.titleSmall,
             children: role == CharacterRole.main
                 ? [

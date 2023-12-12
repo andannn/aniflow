@@ -25,7 +25,7 @@ mixin _$StaffDto {
   @JsonKey(name: 'image')
   Map<String, String?> get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
-  Map<String, String?> get name => throw _privateConstructorUsedError;
+  StaffCharacterName? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'gender')
@@ -63,7 +63,7 @@ abstract class $StaffDtoCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'image') Map<String, String?> image,
-      @JsonKey(name: 'name') Map<String, String?> name,
+      @JsonKey(name: 'name') StaffCharacterName? name,
       @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'gender') String? gender,
       @JsonKey(name: 'siteUrl') String? siteUrl,
@@ -76,6 +76,7 @@ abstract class $StaffDtoCopyWith<$Res> {
       @JsonKey(name: 'bloodType') String? bloodType,
       @JsonKey(name: 'characterMedia') MediaConnection? characterMedia});
 
+  $StaffCharacterNameCopyWith<$Res>? get name;
   $FuzzyDateDtoCopyWith<$Res>? get dateOfBirth;
   $FuzzyDateDtoCopyWith<$Res>? get dateOfDeath;
   $MediaConnectionCopyWith<$Res>? get characterMedia;
@@ -96,7 +97,7 @@ class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? siteUrl = freezed,
@@ -118,10 +119,10 @@ class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as Map<String, String?>,
+              as StaffCharacterName?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -167,6 +168,18 @@ class _$StaffDtoCopyWithImpl<$Res, $Val extends StaffDto>
           : characterMedia // ignore: cast_nullable_to_non_nullable
               as MediaConnection?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaffCharacterNameCopyWith<$Res>? get name {
+    if (_value.name == null) {
+      return null;
+    }
+
+    return $StaffCharacterNameCopyWith<$Res>(_value.name!, (value) {
+      return _then(_value.copyWith(name: value) as $Val);
+    });
   }
 
   @override
@@ -217,7 +230,7 @@ abstract class _$$StaffDtoImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'image') Map<String, String?> image,
-      @JsonKey(name: 'name') Map<String, String?> name,
+      @JsonKey(name: 'name') StaffCharacterName? name,
       @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'gender') String? gender,
       @JsonKey(name: 'siteUrl') String? siteUrl,
@@ -230,6 +243,8 @@ abstract class _$$StaffDtoImplCopyWith<$Res>
       @JsonKey(name: 'bloodType') String? bloodType,
       @JsonKey(name: 'characterMedia') MediaConnection? characterMedia});
 
+  @override
+  $StaffCharacterNameCopyWith<$Res>? get name;
   @override
   $FuzzyDateDtoCopyWith<$Res>? get dateOfBirth;
   @override
@@ -251,7 +266,7 @@ class __$$StaffDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? siteUrl = freezed,
@@ -273,10 +288,10 @@ class __$$StaffDtoImplCopyWithImpl<$Res>
           ? _value._image
           : image // ignore: cast_nullable_to_non_nullable
               as Map<String, String?>,
-      name: null == name
-          ? _value._name
+      name: freezed == name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as Map<String, String?>,
+              as StaffCharacterName?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -331,7 +346,7 @@ class _$StaffDtoImpl implements _StaffDto {
   _$StaffDtoImpl(
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'image') final Map<String, String?> image = const {},
-      @JsonKey(name: 'name') final Map<String, String?> name = const {},
+      @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'description') this.description,
       @JsonKey(name: 'gender') this.gender,
       @JsonKey(name: 'siteUrl') this.siteUrl,
@@ -344,7 +359,6 @@ class _$StaffDtoImpl implements _StaffDto {
       @JsonKey(name: 'bloodType') this.bloodType,
       @JsonKey(name: 'characterMedia') this.characterMedia})
       : _image = image,
-        _name = name,
         _yearsActive = yearsActive;
 
   factory _$StaffDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -362,15 +376,9 @@ class _$StaffDtoImpl implements _StaffDto {
     return EqualUnmodifiableMapView(_image);
   }
 
-  final Map<String, String?> _name;
   @override
   @JsonKey(name: 'name')
-  Map<String, String?> get name {
-    if (_name is EqualUnmodifiableMapView) return _name;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_name);
-  }
-
+  final StaffCharacterName? name;
   @override
   @JsonKey(name: 'description')
   final String? description;
@@ -423,7 +431,7 @@ class _$StaffDtoImpl implements _StaffDto {
             other is _$StaffDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._image, _image) &&
-            const DeepCollectionEquality().equals(other._name, _name) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.gender, gender) || other.gender == gender) &&
@@ -451,7 +459,7 @@ class _$StaffDtoImpl implements _StaffDto {
       runtimeType,
       id,
       const DeepCollectionEquality().hash(_image),
-      const DeepCollectionEquality().hash(_name),
+      name,
       description,
       gender,
       siteUrl,
@@ -482,7 +490,7 @@ abstract class _StaffDto implements StaffDto {
   factory _StaffDto(
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'image') final Map<String, String?> image,
-      @JsonKey(name: 'name') final Map<String, String?> name,
+      @JsonKey(name: 'name') final StaffCharacterName? name,
       @JsonKey(name: 'description') final String? description,
       @JsonKey(name: 'gender') final String? gender,
       @JsonKey(name: 'siteUrl') final String? siteUrl,
@@ -507,7 +515,7 @@ abstract class _StaffDto implements StaffDto {
   Map<String, String?> get image;
   @override
   @JsonKey(name: 'name')
-  Map<String, String?> get name;
+  StaffCharacterName? get name;
   @override
   @JsonKey(name: 'description')
   String? get description;

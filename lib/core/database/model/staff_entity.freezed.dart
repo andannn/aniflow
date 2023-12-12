@@ -24,8 +24,16 @@ mixin _$StaffEntity {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: StaffColumns.image)
   String? get image => throw _privateConstructorUsedError;
-  @JsonKey(name: StaffColumns.name)
-  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: StaffColumns.firstName)
+  String? get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: StaffColumns.middleName)
+  String? get middleName => throw _privateConstructorUsedError;
+  @JsonKey(name: StaffColumns.lastName)
+  String? get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: StaffColumns.fullName)
+  String? get fullName => throw _privateConstructorUsedError;
+  @JsonKey(name: StaffColumns.nativeName)
+  String? get nativeName => throw _privateConstructorUsedError;
   @JsonKey(name: StaffColumns.description)
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: StaffColumns.gender)
@@ -62,7 +70,11 @@ abstract class $StaffEntityCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: StaffColumns.id) String id,
       @JsonKey(name: StaffColumns.image) String? image,
-      @JsonKey(name: StaffColumns.name) String? name,
+      @JsonKey(name: StaffColumns.firstName) String? firstName,
+      @JsonKey(name: StaffColumns.middleName) String? middleName,
+      @JsonKey(name: StaffColumns.lastName) String? lastName,
+      @JsonKey(name: StaffColumns.fullName) String? fullName,
+      @JsonKey(name: StaffColumns.nativeName) String? nativeName,
       @JsonKey(name: StaffColumns.description) String? description,
       @JsonKey(name: StaffColumns.gender) String? gender,
       @JsonKey(name: StaffColumns.siteUrl) String? siteUrl,
@@ -90,7 +102,11 @@ class _$StaffEntityCopyWithImpl<$Res, $Val extends StaffEntity>
   $Res call({
     Object? id = null,
     Object? image = freezed,
-    Object? name = freezed,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? fullName = freezed,
+    Object? nativeName = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? siteUrl = freezed,
@@ -111,9 +127,25 @@ class _$StaffEntityCopyWithImpl<$Res, $Val extends StaffEntity>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullName: freezed == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nativeName: freezed == nativeName
+          ? _value.nativeName
+          : nativeName // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
           ? _value.description
@@ -170,7 +202,11 @@ abstract class _$$StaffEntityImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: StaffColumns.id) String id,
       @JsonKey(name: StaffColumns.image) String? image,
-      @JsonKey(name: StaffColumns.name) String? name,
+      @JsonKey(name: StaffColumns.firstName) String? firstName,
+      @JsonKey(name: StaffColumns.middleName) String? middleName,
+      @JsonKey(name: StaffColumns.lastName) String? lastName,
+      @JsonKey(name: StaffColumns.fullName) String? fullName,
+      @JsonKey(name: StaffColumns.nativeName) String? nativeName,
       @JsonKey(name: StaffColumns.description) String? description,
       @JsonKey(name: StaffColumns.gender) String? gender,
       @JsonKey(name: StaffColumns.siteUrl) String? siteUrl,
@@ -196,7 +232,11 @@ class __$$StaffEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = freezed,
-    Object? name = freezed,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? fullName = freezed,
+    Object? nativeName = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? siteUrl = freezed,
@@ -217,9 +257,25 @@ class __$$StaffEntityImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullName: freezed == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nativeName: freezed == nativeName
+          ? _value.nativeName
+          : nativeName // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
           ? _value.description
@@ -271,7 +327,11 @@ class _$StaffEntityImpl implements _StaffEntity {
   _$StaffEntityImpl(
       {@JsonKey(name: StaffColumns.id) this.id = '',
       @JsonKey(name: StaffColumns.image) this.image,
-      @JsonKey(name: StaffColumns.name) this.name,
+      @JsonKey(name: StaffColumns.firstName) this.firstName,
+      @JsonKey(name: StaffColumns.middleName) this.middleName,
+      @JsonKey(name: StaffColumns.lastName) this.lastName,
+      @JsonKey(name: StaffColumns.fullName) this.fullName,
+      @JsonKey(name: StaffColumns.nativeName) this.nativeName,
       @JsonKey(name: StaffColumns.description) this.description,
       @JsonKey(name: StaffColumns.gender) this.gender,
       @JsonKey(name: StaffColumns.siteUrl) this.siteUrl,
@@ -293,8 +353,20 @@ class _$StaffEntityImpl implements _StaffEntity {
   @JsonKey(name: StaffColumns.image)
   final String? image;
   @override
-  @JsonKey(name: StaffColumns.name)
-  final String? name;
+  @JsonKey(name: StaffColumns.firstName)
+  final String? firstName;
+  @override
+  @JsonKey(name: StaffColumns.middleName)
+  final String? middleName;
+  @override
+  @JsonKey(name: StaffColumns.lastName)
+  final String? lastName;
+  @override
+  @JsonKey(name: StaffColumns.fullName)
+  final String? fullName;
+  @override
+  @JsonKey(name: StaffColumns.nativeName)
+  final String? nativeName;
   @override
   @JsonKey(name: StaffColumns.description)
   final String? description;
@@ -328,7 +400,7 @@ class _$StaffEntityImpl implements _StaffEntity {
 
   @override
   String toString() {
-    return 'StaffEntity(id: $id, image: $image, name: $name, description: $description, gender: $gender, siteUrl: $siteUrl, dateOfBirth: $dateOfBirth, dateOfDeath: $dateOfDeath, age: $age, isFavourite: $isFavourite, yearsActive: $yearsActive, homeTown: $homeTown, bloodType: $bloodType)';
+    return 'StaffEntity(id: $id, image: $image, firstName: $firstName, middleName: $middleName, lastName: $lastName, fullName: $fullName, nativeName: $nativeName, description: $description, gender: $gender, siteUrl: $siteUrl, dateOfBirth: $dateOfBirth, dateOfDeath: $dateOfDeath, age: $age, isFavourite: $isFavourite, yearsActive: $yearsActive, homeTown: $homeTown, bloodType: $bloodType)';
   }
 
   @override
@@ -338,7 +410,16 @@ class _$StaffEntityImpl implements _StaffEntity {
             other is _$StaffEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.middleName, middleName) ||
+                other.middleName == middleName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.nativeName, nativeName) ||
+                other.nativeName == nativeName) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.gender, gender) || other.gender == gender) &&
@@ -364,7 +445,11 @@ class _$StaffEntityImpl implements _StaffEntity {
       runtimeType,
       id,
       image,
-      name,
+      firstName,
+      middleName,
+      lastName,
+      fullName,
+      nativeName,
       description,
       gender,
       siteUrl,
@@ -394,7 +479,11 @@ abstract class _StaffEntity implements StaffEntity {
   factory _StaffEntity(
           {@JsonKey(name: StaffColumns.id) final String id,
           @JsonKey(name: StaffColumns.image) final String? image,
-          @JsonKey(name: StaffColumns.name) final String? name,
+          @JsonKey(name: StaffColumns.firstName) final String? firstName,
+          @JsonKey(name: StaffColumns.middleName) final String? middleName,
+          @JsonKey(name: StaffColumns.lastName) final String? lastName,
+          @JsonKey(name: StaffColumns.fullName) final String? fullName,
+          @JsonKey(name: StaffColumns.nativeName) final String? nativeName,
           @JsonKey(name: StaffColumns.description) final String? description,
           @JsonKey(name: StaffColumns.gender) final String? gender,
           @JsonKey(name: StaffColumns.siteUrl) final String? siteUrl,
@@ -417,8 +506,20 @@ abstract class _StaffEntity implements StaffEntity {
   @JsonKey(name: StaffColumns.image)
   String? get image;
   @override
-  @JsonKey(name: StaffColumns.name)
-  String? get name;
+  @JsonKey(name: StaffColumns.firstName)
+  String? get firstName;
+  @override
+  @JsonKey(name: StaffColumns.middleName)
+  String? get middleName;
+  @override
+  @JsonKey(name: StaffColumns.lastName)
+  String? get lastName;
+  @override
+  @JsonKey(name: StaffColumns.fullName)
+  String? get fullName;
+  @override
+  @JsonKey(name: StaffColumns.nativeName)
+  String? get nativeName;
   @override
   @JsonKey(name: StaffColumns.description)
   String? get description;

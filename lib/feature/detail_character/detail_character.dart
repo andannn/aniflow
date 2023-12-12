@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
@@ -67,10 +68,12 @@ class _DetailCharacterContent extends StatelessWidget {
       }
 
       final isFavourite = character.isFavourite;
+      final language =
+          AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(character.name),
+          title: Text(character.name!.getNameByUserSetting(language)),
           actions: [
             isLoading
                 ? LoadingIndicator(isLoading: isLoading)
@@ -169,8 +172,8 @@ class _DetailCharacterContent extends StatelessWidget {
       isFollowing: model.isFollowing,
       onClick: () {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(
-          model.id,
-        );
+              model.id,
+            );
       },
     );
   }

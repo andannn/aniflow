@@ -1,8 +1,10 @@
 import 'package:aniflow/core/data/favorite_repository.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,9 +74,11 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
   }
 
   Widget _buildListItems(BuildContext context, StaffModel model) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     return MediaPreviewItem(
       coverImage: model.image,
-      title: model.name,
+      title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
       },

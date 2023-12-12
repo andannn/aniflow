@@ -10,7 +10,6 @@ query (\$id: Int) {
       last
       full
       native
-      userPreferred
     }
     image {
       medium

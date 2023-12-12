@@ -14,7 +14,11 @@ class CharacterEntity with _$CharacterEntity {
   factory CharacterEntity({
     @Default('') @JsonKey(name: CharacterColumns.id) String id,
     @Default('') @JsonKey(name: CharacterColumns.image) String? image,
-    @JsonKey(name: CharacterColumns.name) String? name,
+    @JsonKey(name: CharacterColumns.firstName) String? firstName,
+    @JsonKey(name: CharacterColumns.middleName) String? middleName,
+    @JsonKey(name: CharacterColumns.lastName) String? lastName,
+    @JsonKey(name: CharacterColumns.fullName) String? fullName,
+    @JsonKey(name: CharacterColumns.nativeName) String? nativeName,
     @JsonKey(name: CharacterColumns.description) String? description,
     @JsonKey(name: CharacterColumns.gender) String? gender,
     @JsonKey(name: CharacterColumns.dateOfBirth) int? dateOfBirth,
@@ -36,7 +40,11 @@ class CharacterEntity with _$CharacterEntity {
     return CharacterEntity(
       id: e.id.toString(),
       image: e.image['large'],
-      name: e.name['userPreferred'],
+      firstName: e.name?.first,
+      middleName: e.name?.middle,
+      lastName: e.name?.last,
+      fullName: e.name?.full,
+      nativeName: e.name?.native,
       description: e.description,
       gender: e.gender,
       age: e.age,
@@ -44,7 +52,7 @@ class CharacterEntity with _$CharacterEntity {
       siteUrl: e.siteUrl,
       favourites: e.favourites,
       isFavourite: e.isFavourite.toInteger(),
-      dateOfBirth: e.dateOfBirth.toDateTime()?.millisecondsSinceEpoch
+      dateOfBirth: e.dateOfBirth.toDateTime()?.millisecondsSinceEpoch,
     );
   }
 }

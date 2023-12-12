@@ -382,12 +382,15 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildCharacterAndVoiceActorItem(
       BuildContext context, CharacterAndVoiceActorModel model) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: CharacterAndVoiceActorWidget(
           model: model,
+          language: language,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onCharacterTap: () {
             final characterId = model.characterModel.id;
@@ -468,12 +471,15 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildStaffItem(BuildContext context, StaffAndRoleModel model) {
+    final language =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: StaffItem(
           model: model,
+          language: language,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onStaffClick: () {
             AfRouterDelegate.of(context).backStack.navigateToDetailStaff(

@@ -14,6 +14,9 @@ query(\$UserId: Int, \$page: Int, \$perPage: Int){
             medium
           }
           name {
+            first
+            middle
+            last
             full
             native
           }

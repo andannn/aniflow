@@ -246,11 +246,11 @@ extension on UserTitleLanguage {
 extension on UserStaffNameLanguage {
   SettingOption<UserStaffNameLanguage> _createSettingOption() {
     switch (this) {
-      case UserStaffNameLanguage.romaji:
+      case UserStaffNameLanguage.romajiWestern:
         return SettingOption(
             setting: this,
             description: 'Romaji, Western Order (Atsumi Tanezaki)');
-      case UserStaffNameLanguage.romajiWestern:
+      case UserStaffNameLanguage.romaji:
         return SettingOption(
             setting: this, description: 'Romaji (Tanezaki Atsumi)');
       case UserStaffNameLanguage.native:

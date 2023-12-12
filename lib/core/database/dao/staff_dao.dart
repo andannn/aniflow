@@ -8,7 +8,11 @@ import 'package:sqflite/sqflite.dart';
 mixin StaffColumns {
   static const String id = 'staff_id';
   static const String image = 'staff_image';
-  static const String name = 'staff_name';
+  static const String firstName = 'staff_first_name';
+  static const String middleName = 'staff_middle_name';
+  static const String lastName = 'staff_last_name';
+  static const String fullName = 'staff_full_name';
+  static const String nativeName = 'staff_native_name';
   static const String description = 'staff_description';
   static const String gender = 'staff_gender';
   static const String siteUrl = 'staff_site_url';

@@ -5,9 +5,11 @@ query (\$id: Int) {
   Staff(id: \$id) {
     id
     name {
+      first
+      middle
+      last
       full
       native
-      userPreferred
     }
     image {
       large

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,7 +12,7 @@ class StaffModel with _$StaffModel {
   factory StaffModel({
     @Default('') String id,
     @Default('') String image,
-    @Default('') String name,
+    StaffCharacterName? name,
     String? description,
     String? gender,
     String? siteUrl,
@@ -28,7 +29,13 @@ class StaffModel with _$StaffModel {
     return StaffModel(
       id: entity.id,
       image: entity.image ?? '',
-      name: entity.name ?? '',
+      name: StaffCharacterName(
+        first: entity.firstName,
+        middle: entity.middleName,
+        last: entity.lastName,
+        full: entity.fullName,
+        native: entity.nativeName,
+      ),
       description: entity.description,
       gender: entity.gender,
       siteUrl: entity.siteUrl,

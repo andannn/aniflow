@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$StaffModel {
   String get id => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  StaffCharacterName? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   String? get siteUrl => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $StaffModelCopyWith<$Res> {
   $Res call(
       {String id,
       String image,
-      String name,
+      StaffCharacterName? name,
       String? description,
       String? gender,
       String? siteUrl,
@@ -55,6 +55,8 @@ abstract class $StaffModelCopyWith<$Res> {
       List<dynamic> yearsActive,
       String? homeTown,
       String? bloodType});
+
+  $StaffCharacterNameCopyWith<$Res>? get name;
 }
 
 /// @nodoc
@@ -72,7 +74,7 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? siteUrl = freezed,
@@ -93,10 +95,10 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StaffCharacterName?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -139,6 +141,18 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
               as String?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StaffCharacterNameCopyWith<$Res>? get name {
+    if (_value.name == null) {
+      return null;
+    }
+
+    return $StaffCharacterNameCopyWith<$Res>(_value.name!, (value) {
+      return _then(_value.copyWith(name: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -152,7 +166,7 @@ abstract class _$$StaffModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String image,
-      String name,
+      StaffCharacterName? name,
       String? description,
       String? gender,
       String? siteUrl,
@@ -163,6 +177,9 @@ abstract class _$$StaffModelImplCopyWith<$Res>
       List<dynamic> yearsActive,
       String? homeTown,
       String? bloodType});
+
+  @override
+  $StaffCharacterNameCopyWith<$Res>? get name;
 }
 
 /// @nodoc
@@ -178,7 +195,7 @@ class __$$StaffModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? image = null,
-    Object? name = null,
+    Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
     Object? siteUrl = freezed,
@@ -199,10 +216,10 @@ class __$$StaffModelImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StaffCharacterName?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -253,7 +270,7 @@ class _$StaffModelImpl implements _StaffModel {
   _$StaffModelImpl(
       {this.id = '',
       this.image = '',
-      this.name = '',
+      this.name,
       this.description,
       this.gender,
       this.siteUrl,
@@ -273,8 +290,7 @@ class _$StaffModelImpl implements _StaffModel {
   @JsonKey()
   final String image;
   @override
-  @JsonKey()
-  final String name;
+  final StaffCharacterName? name;
   @override
   final String? description;
   @override
@@ -364,7 +380,7 @@ abstract class _StaffModel implements StaffModel {
   factory _StaffModel(
       {final String id,
       final String image,
-      final String name,
+      final StaffCharacterName? name,
       final String? description,
       final String? gender,
       final String? siteUrl,
@@ -381,7 +397,7 @@ abstract class _StaffModel implements StaffModel {
   @override
   String get image;
   @override
-  String get name;
+  StaffCharacterName? get name;
   @override
   String? get description;
   @override
