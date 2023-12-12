@@ -17,6 +17,7 @@ import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
@@ -32,7 +33,6 @@ import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -313,7 +313,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: HtmlWidget(description),
+                      child: AfHtmlWidget(html: description),
                     ),
                   )
                 : const SizedBox(),
@@ -474,8 +474,8 @@ class _DetailAnimePageContent extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onStaffClick: () {
             AfRouterDelegate.of().backStack.navigateToDetailStaff(
-              model.staff.id,
-            );
+                  model.staff.id,
+                );
           },
         ),
       ),

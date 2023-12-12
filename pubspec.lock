@@ -574,7 +574,7 @@ packages:
     source: hosted
     version: "3.2.0"
   fwfh_cached_network_image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fwfh_cached_network_image
       sha256: "952aea958a5fda7d616cc297ba4bc08427e381459e75526fa375d6d8345630d3"

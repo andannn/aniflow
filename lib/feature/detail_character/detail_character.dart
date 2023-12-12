@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -14,7 +15,6 @@ import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class DetailCharacterPage extends Page {
   final String id;
@@ -146,7 +146,7 @@ class _DetailCharacterContent extends StatelessWidget {
               ),
             ),
           ),
-          HtmlWidget(description)
+          AfHtmlWidget(html: description)
         ],
       ),
     );

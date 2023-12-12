@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
@@ -16,7 +17,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class DetailStaffPage extends Page {
   final String id;
@@ -169,7 +169,7 @@ class _DetailStaffContent extends StatelessWidget {
               ),
             ),
           ),
-          HtmlWidget(description)
+          AfHtmlWidget(html: description)
         ],
       ),
     );

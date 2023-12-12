@@ -1,10 +1,10 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
+import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ActivityItem extends StatelessWidget {
   const ActivityItem(
@@ -176,8 +176,8 @@ class ActivityItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            HtmlWidget(
-              activity.text,
+            AfHtmlWidget(
+              html: activity.text,
               textStyle: textTheme.bodyMedium!
                   .copyWith(color: colorScheme.onSurfaceVariant),
             ),
