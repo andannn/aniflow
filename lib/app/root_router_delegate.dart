@@ -1,7 +1,6 @@
 import 'package:aniflow/app/aniflow_router/af_router_back_stack.dart';
 import 'package:aniflow/app/aniflow_router/ani_flow.dart';
 import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/material.dart';
 
 class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
@@ -13,8 +12,14 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   final AfRouterBackStack afRouterBackStack = AfRouterBackStack();
 
+  static BuildContext? _routerContext;
+
+  static RootRouterDelegate of() =>
+      Router.of(_routerContext!).routerDelegate as RootRouterDelegate;
+
   @override
   Widget build(BuildContext context) {
+    _routerContext = context;
     return Navigator(
       key: navigatorKey,
       pages: [AniFlowPage(afRouterBackStack: afRouterBackStack)],
@@ -33,7 +38,6 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   @override
   Future<void> setNewRoutePath(configuration) async {
-    logger.d('JQN configuration $configuration');
     afRouterBackStack.setNewRoutePath(configuration);
   }
 }
