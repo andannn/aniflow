@@ -76,6 +76,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                             .getNameByUserSetting(language) ??
                         '',
                     style: style,
+                    textAlign: TextAlign.right,
                   ),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(model.staffLanguage?.label(context) ?? '', style: style),
