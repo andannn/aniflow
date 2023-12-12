@@ -29,12 +29,12 @@ class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
     CancelToken? cancelToken,
   }) {
     return _repository.loadActivitiesByPage(
-      loadType: isRefresh
-          ? const Refresh(Config.activityPageDefaultPerPageCount)
-          : Append(page: page, perPage: Config.activityPageDefaultPerPageCount),
-      filterType: _filterType,
-      scopeType: _userType,
-      token: cancelToken
-    );
+        loadType: isRefresh
+            ? const Refresh(AfConfig.activityPageDefaultPerPageCount)
+            : Append(
+                page: page, perPage: AfConfig.activityPageDefaultPerPageCount),
+        filterType: _filterType,
+        scopeType: _userType,
+        token: cancelToken);
   }
 }

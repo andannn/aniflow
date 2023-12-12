@@ -30,7 +30,7 @@ class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.anime,
       userId: userId,
       page: page,
-      perPage: Config.profilePageDefaultPerPageCount,
+      perPage: AfConfig.profilePageDefaultPerPageCount,
       token: cancelToken,
     );
   }
@@ -57,7 +57,7 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.anime,
       userId: userId,
       page: page,
-      perPage: Config.profilePageDefaultPerPageCount,
+      perPage: AfConfig.profilePageDefaultPerPageCount,
       token: cancelToken,
     );
   }
@@ -84,7 +84,7 @@ class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.anime,
       userId: userId,
       page: page,
-      perPage: Config.profilePageDefaultPerPageCount,
+      perPage: AfConfig.profilePageDefaultPerPageCount,
       token: cancelToken,
     );
   }

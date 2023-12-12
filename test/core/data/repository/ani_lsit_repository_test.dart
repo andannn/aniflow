@@ -39,7 +39,8 @@ void main() {
 
       final result = await aniListRepository.loadMediaPageByCategory(
           category: MediaCategory.currentSeasonAnime,
-          loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
+          loadType:
+              const Append(page: 1, perPage: AfConfig.defaultPerPageCount));
       final dbResult = await animeDao
           .getMediaByPage(MediaCategory.currentSeasonAnime, page: 1);
       expect(
@@ -67,7 +68,8 @@ void main() {
 
       final result = await aniListRepository.loadMediaPageByCategory(
           category: MediaCategory.nextSeasonAnime,
-          loadType: const Append(page: 1, perPage: Config.defaultPerPageCount));
+          loadType:
+              const Append(page: 1, perPage: AfConfig.defaultPerPageCount));
       final dbResult =
           await animeDao.getMediaByPage(MediaCategory.nextSeasonAnime, page: 1);
       expect(

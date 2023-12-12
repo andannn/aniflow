@@ -48,7 +48,7 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
     if (_searchString == null) return LoadError(Exception("No search string"));
     return _searchRepository.loadMediaSearchResultByPage(
       page: page,
-      perPage: Config.defaultPerPageCount,
+      perPage: AfConfig.defaultPerPageCount,
       type: mediaType!,
       search: _searchString!,
       token: cancelToken,

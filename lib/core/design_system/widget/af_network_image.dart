@@ -1,8 +1,6 @@
-import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/design_system/widget/image_load_error_widget.dart';
-import 'package:aniflow/core/design_system/widget/image_load_initial_widget.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class AFNetworkImage extends StatefulWidget {
   const AFNetworkImage(
@@ -18,22 +16,6 @@ class AFNetworkImage extends StatefulWidget {
 
 class _AFNetworkImageState extends State<AFNetworkImage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Config.defaultAnimationDuration,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,31 +26,34 @@ class _AFNetworkImageState extends State<AFNetworkImage>
         if (constraints.hasBoundedWidth) {
           cacheWidthInPixel = (constraints.maxWidth * devicePixelRatio).toInt();
         }
-        return ExtendedImage.network(
-          widget.imageUrl,
+        return CachedNetworkImage(
+          imageUrl: widget.imageUrl,
           width: widget.width,
           height: widget.height,
-          cacheWidth: cacheWidthInPixel,
+          memCacheWidth: cacheWidthInPixel,
           fit: BoxFit.cover,
-          clearMemoryCacheWhenDispose: true,
-          loadStateChanged: (ExtendedImageState state) {
-            switch (state.extendedImageLoadState) {
-              case LoadState.loading:
-                _controller.reset();
-                return buildImageInitialWidget(context);
-              case LoadState.completed:
-                _controller.forward();
-                return FadeTransition(
-                  opacity: _controller,
-                  child: state.completedWidget,
-                );
-              case LoadState.failed:
-                _controller.reset();
-                return buildErrorWidget(context);
-            }
-          },
+          errorWidget: _buildErrorWidget,
+          cacheManager: CustomCacheManager(),
         );
       },
     );
   }
+
+  Widget _buildErrorWidget(BuildContext context, String url, Object error) {
+    return Container(
+      color: Theme.of(context).colorScheme.surfaceVariant,
+    );
+  }
+}
+
+class CustomCacheManager extends CacheManager with ImageCacheManager {
+  static const key = 'customCachedImageData';
+
+  static final CustomCacheManager _instance = CustomCacheManager._();
+
+  factory CustomCacheManager() {
+    return _instance;
+  }
+
+  CustomCacheManager._() : super(Config(key));
 }

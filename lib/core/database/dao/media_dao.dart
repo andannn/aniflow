@@ -130,7 +130,7 @@ abstract class MediaInformationDao {
   Future clearAnimeCategoryCrossRef(MediaCategory category);
 
   Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
-      {required int page, int perPage = Config.defaultPerPageCount});
+      {required int page, int perPage = AfConfig.defaultPerPageCount});
 
   Future<MediaEntity> getMedia(String id);
 
@@ -140,10 +140,10 @@ abstract class MediaInformationDao {
       String animeId,
       {required int page,
       StaffLanguage staffLanguage = StaffLanguage.japanese,
-      int perPage = Config.defaultPerPageCount});
+      int perPage = AfConfig.defaultPerPageCount});
 
   Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
-      {required int page, int perPage = Config.defaultPerPageCount});
+      {required int page, int perPage = AfConfig.defaultPerPageCount});
 
   Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id);
 
@@ -229,7 +229,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
 
   @override
   Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
-      {required int page, int perPage = Config.defaultPerPageCount}) async {
+      {required int page, int perPage = AfConfig.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
@@ -251,7 +251,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       String animeId,
       {required int page,
       StaffLanguage staffLanguage = StaffLanguage.japanese,
-      int perPage = Config.defaultPerPageCount}) async {
+      int perPage = AfConfig.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
     final characterSql = 'select * from ${Tables.characterTable} as c \n'
@@ -284,7 +284,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
 
   @override
   Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
-      {required int page, int perPage = Config.defaultPerPageCount}) async {
+      {required int page, int perPage = AfConfig.defaultPerPageCount}) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
     String staffSql = 'select * from ${Tables.staffTable} as s '

@@ -99,7 +99,7 @@ class ActivityDaoImpl extends ActivityDao {
   @override
   Future<List<ActivityAndUserRelation>> getActivityEntities([
     int page = 1,
-    int perPage = Config.defaultPerPageCount,
+    int perPage = AfConfig.defaultPerPageCount,
     String category = '',
   ]) async {
     final int limit = perPage;

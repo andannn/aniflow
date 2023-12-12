@@ -11,7 +11,7 @@ class LoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: isLoading ? 1.0 : 0.0,
-      duration: Config.defaultAnimationDuration,
+      duration: AfConfig.defaultAnimationDuration,
       child: LoadingAnimationWidget.fourRotatingDots(
         color: Theme.of(context).colorScheme.onSurfaceVariant,
         size: 33.0,

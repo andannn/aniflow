@@ -30,7 +30,7 @@ class ReadingMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.manga,
       userId: userId,
       page: page,
-      perPage: Config.profilePageDefaultPerPageCount,
+      perPage: AfConfig.profilePageDefaultPerPageCount,
       token: cancelToken,
     );
   }
@@ -57,7 +57,7 @@ class DroppedMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.manga,
       userId: userId,
       page: page,
-      perPage: Config.profilePageDefaultPerPageCount,
+      perPage: AfConfig.profilePageDefaultPerPageCount,
       token: cancelToken,
     );
   }

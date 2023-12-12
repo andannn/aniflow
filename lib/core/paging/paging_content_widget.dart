@@ -24,7 +24,7 @@ class PagingContent<MODEL,
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      cacheExtent: Config.defaultCatchExtend,
+      cacheExtent: AfConfig.defaultCatchExtend,
       slivers: [
         ...buildSliverItemsSection<MODEL, BLOC>(
           context: context,

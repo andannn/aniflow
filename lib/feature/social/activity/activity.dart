@@ -97,7 +97,7 @@ class _ActivityPageContent extends StatelessWidget {
                         _buildScopeCategorySelection(context, scopeCategory),
                         AnimatedOpacity(
                           opacity: isLoading ? 1 : 0,
-                          duration: Config.defaultAnimationDuration,
+                          duration: AfConfig.defaultAnimationDuration,
                           child: const LinearProgressIndicator(),
                         )
                       ],

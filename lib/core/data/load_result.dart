@@ -6,7 +6,7 @@ sealed class LoadType {
 
 class Refresh extends LoadType {
   final int perPage;
-  const Refresh([this.perPage = Config.defaultPerPageCount]);
+  const Refresh([this.perPage = AfConfig.defaultPerPageCount]);
 }
 
 class Append extends LoadType {

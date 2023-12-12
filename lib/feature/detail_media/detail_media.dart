@@ -138,7 +138,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                     )
               : const SizedBox(),
           body: CustomScrollView(
-            cacheExtent: Config.defaultCatchExtend,
+            cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
               SliverToBoxAdapter(
                 child: _buildBannerSectionSection(context, model.bannerImage),
@@ -325,10 +325,10 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildCharacterSection(
       BuildContext context, List<CharacterAndVoiceActorModel> models) {
-    final canFillPage = models.length >= Config.characterColumnCount;
-    const itemHeight = Config.detailPagePreviewItemHeight;
+    final canFillPage = models.length >= AfConfig.characterColumnCount;
+    const itemHeight = AfConfig.detailPagePreviewItemHeight;
     final pageHeight = canFillPage
-        ? Config.characterColumnCount * itemHeight
+        ? AfConfig.characterColumnCount * itemHeight
         : models.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: models.isNotEmpty,
@@ -365,7 +365,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: _createColumItemsPage(context,
                       models: models,
-                      pageItemCount: Config.characterColumnCount,
+                      pageItemCount: AfConfig.characterColumnCount,
                       pageIndex: index,
                       onBuildWidget: _buildCharacterAndVoiceActorItem),
                 );
@@ -405,10 +405,10 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildStaffsSection(
       BuildContext context, List<StaffAndRoleModel> staffs) {
-    final canFillPage = staffs.length >= Config.staffColumnCount;
-    const itemHeight = Config.detailPagePreviewItemHeight;
+    final canFillPage = staffs.length >= AfConfig.staffColumnCount;
+    const itemHeight = AfConfig.detailPagePreviewItemHeight;
     final pageHeight = canFillPage
-        ? Config.staffColumnCount * itemHeight
+        ? AfConfig.staffColumnCount * itemHeight
         : staffs.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: staffs.isNotEmpty,
@@ -449,7 +449,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                       children: _createColumItemsPage(
                         context,
                         models: staffs,
-                        pageItemCount: Config.staffColumnCount,
+                        pageItemCount: AfConfig.staffColumnCount,
                         pageIndex: index,
                         onBuildWidget: _buildStaffItem,
                       ),

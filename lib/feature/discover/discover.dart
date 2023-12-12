@@ -110,7 +110,7 @@ class DiscoverScreen extends StatelessWidget {
               await context.read<DiscoverBloc>().onPullToRefreshTriggered();
             },
             child: CustomScrollView(
-              cacheExtent: Config.defaultCatchExtend,
+              cacheExtent: AfConfig.defaultCatchExtend,
               slivers:
                   _buildCategoriesByMediaType(context, map, currentMediaType),
             ),

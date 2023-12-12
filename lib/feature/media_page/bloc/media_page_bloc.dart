@@ -86,7 +86,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
       category: category,
       loadType: isRefresh
           ? const Refresh()
-          : Append(page: page, perPage: Config.defaultPerPageCount),
+          : Append(page: page, perPage: AfConfig.defaultPerPageCount),
       token: cancelToken,
     );
   }

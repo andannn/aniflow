@@ -31,5 +31,4 @@ mixin NetworkUtil {
       return LoadError(exception);
     }
   }
-
 }

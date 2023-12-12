@@ -41,7 +41,7 @@ abstract class MediaListDao {
       String userId, List<MediaListStatus> status,
       {required MediaType type,
       required int page,
-      int? perPage = Config.defaultPerPageCount});
+      int? perPage = AfConfig.defaultPerPageCount});
 
   Future<Set<String>> getMediaListMediaIdsByUser(
       String userId, List<MediaListStatus> status, MediaType type);

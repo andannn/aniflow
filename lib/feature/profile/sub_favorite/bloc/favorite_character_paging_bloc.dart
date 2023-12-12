@@ -27,8 +27,9 @@ class FavoriteCharacterPagingBloc extends RefreshPagingBloc<CharacterModel> {
     return _favoriteRepository.loadFavoriteCharacterByPage(
       userId: userId,
       loadType: isRefresh
-          ? const Refresh(Config.profilePageDefaultPerPageCount)
-          : Append(page: page, perPage: Config.profilePageDefaultPerPageCount),
+          ? const Refresh(AfConfig.profilePageDefaultPerPageCount)
+          : Append(
+              page: page, perPage: AfConfig.profilePageDefaultPerPageCount),
       token: cancelToken,
     );
   }
