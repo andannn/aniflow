@@ -67,6 +67,8 @@ mixin _$MediaDto {
   CharacterConnection? get characters => throw _privateConstructorUsedError;
   @JsonKey(name: 'staff')
   StaffConnection? get staff => throw _privateConstructorUsedError;
+  @JsonKey(name: 'studios')
+  StudioConnection? get studios => throw _privateConstructorUsedError;
   @JsonKey(name: 'relations')
   MediaConnection? get relations => throw _privateConstructorUsedError;
   @JsonKey(name: 'isFavourite')
@@ -110,6 +112,7 @@ abstract class $MediaDtoCopyWith<$Res> {
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters,
       @JsonKey(name: 'staff') StaffConnection? staff,
+      @JsonKey(name: 'studios') StudioConnection? studios,
       @JsonKey(name: 'relations') MediaConnection? relations,
       @JsonKey(name: 'isFavourite') bool? isFavourite,
       @JsonKey(name: 'externalLinks')
@@ -122,6 +125,7 @@ abstract class $MediaDtoCopyWith<$Res> {
   $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode;
   $CharacterConnectionCopyWith<$Res>? get characters;
   $StaffConnectionCopyWith<$Res>? get staff;
+  $StudioConnectionCopyWith<$Res>? get studios;
   $MediaConnectionCopyWith<$Res>? get relations;
 }
 
@@ -161,6 +165,7 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     Object? rankings = null,
     Object? characters = freezed,
     Object? staff = freezed,
+    Object? studios = freezed,
     Object? relations = freezed,
     Object? isFavourite = freezed,
     Object? externalLinks = null,
@@ -258,6 +263,10 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
           ? _value.staff
           : staff // ignore: cast_nullable_to_non_nullable
               as StaffConnection?,
+      studios: freezed == studios
+          ? _value.studios
+          : studios // ignore: cast_nullable_to_non_nullable
+              as StudioConnection?,
       relations: freezed == relations
           ? _value.relations
           : relations // ignore: cast_nullable_to_non_nullable
@@ -359,6 +368,18 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
 
   @override
   @pragma('vm:prefer-inline')
+  $StudioConnectionCopyWith<$Res>? get studios {
+    if (_value.studios == null) {
+      return null;
+    }
+
+    return $StudioConnectionCopyWith<$Res>(_value.studios!, (value) {
+      return _then(_value.copyWith(studios: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $MediaConnectionCopyWith<$Res>? get relations {
     if (_value.relations == null) {
       return null;
@@ -402,6 +423,7 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
       @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') CharacterConnection? characters,
       @JsonKey(name: 'staff') StaffConnection? staff,
+      @JsonKey(name: 'studios') StudioConnection? studios,
       @JsonKey(name: 'relations') MediaConnection? relations,
       @JsonKey(name: 'isFavourite') bool? isFavourite,
       @JsonKey(name: 'externalLinks')
@@ -421,6 +443,8 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
   $CharacterConnectionCopyWith<$Res>? get characters;
   @override
   $StaffConnectionCopyWith<$Res>? get staff;
+  @override
+  $StudioConnectionCopyWith<$Res>? get studios;
   @override
   $MediaConnectionCopyWith<$Res>? get relations;
 }
@@ -459,6 +483,7 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
     Object? rankings = null,
     Object? characters = freezed,
     Object? staff = freezed,
+    Object? studios = freezed,
     Object? relations = freezed,
     Object? isFavourite = freezed,
     Object? externalLinks = null,
@@ -556,6 +581,10 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
           ? _value.staff
           : staff // ignore: cast_nullable_to_non_nullable
               as StaffConnection?,
+      studios: freezed == studios
+          ? _value.studios
+          : studios // ignore: cast_nullable_to_non_nullable
+              as StudioConnection?,
       relations: freezed == relations
           ? _value.relations
           : relations // ignore: cast_nullable_to_non_nullable
@@ -600,6 +629,7 @@ class _$MediaDtoImpl implements _MediaDto {
       @JsonKey(name: 'rankings') final List<AnimeRank?> rankings = const [],
       @JsonKey(name: 'characters') this.characters,
       @JsonKey(name: 'staff') this.staff,
+      @JsonKey(name: 'studios') this.studios,
       @JsonKey(name: 'relations') this.relations,
       @JsonKey(name: 'isFavourite') this.isFavourite,
       @JsonKey(name: 'externalLinks')
@@ -700,6 +730,9 @@ class _$MediaDtoImpl implements _MediaDto {
   @JsonKey(name: 'staff')
   final StaffConnection? staff;
   @override
+  @JsonKey(name: 'studios')
+  final StudioConnection? studios;
+  @override
   @JsonKey(name: 'relations')
   final MediaConnection? relations;
   @override
@@ -716,7 +749,7 @@ class _$MediaDtoImpl implements _MediaDto {
 
   @override
   String toString() {
-    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
+    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, studios: $studios, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
   }
 
   @override
@@ -758,6 +791,7 @@ class _$MediaDtoImpl implements _MediaDto {
             (identical(other.characters, characters) ||
                 other.characters == characters) &&
             (identical(other.staff, staff) || other.staff == staff) &&
+            (identical(other.studios, studios) || other.studios == studios) &&
             (identical(other.relations, relations) ||
                 other.relations == relations) &&
             (identical(other.isFavourite, isFavourite) ||
@@ -793,6 +827,7 @@ class _$MediaDtoImpl implements _MediaDto {
         const DeepCollectionEquality().hash(_rankings),
         characters,
         staff,
+        studios,
         relations,
         isFavourite,
         const DeepCollectionEquality().hash(_externalLinks)
@@ -838,6 +873,7 @@ abstract class _MediaDto implements MediaDto {
       @JsonKey(name: 'rankings') final List<AnimeRank?> rankings,
       @JsonKey(name: 'characters') final CharacterConnection? characters,
       @JsonKey(name: 'staff') final StaffConnection? staff,
+      @JsonKey(name: 'studios') final StudioConnection? studios,
       @JsonKey(name: 'relations') final MediaConnection? relations,
       @JsonKey(name: 'isFavourite') final bool? isFavourite,
       @JsonKey(name: 'externalLinks')
@@ -915,6 +951,9 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'staff')
   StaffConnection? get staff;
+  @override
+  @JsonKey(name: 'studios')
+  StudioConnection? get studios;
   @override
   @JsonKey(name: 'relations')
   MediaConnection? get relations;
