@@ -51,6 +51,8 @@ abstract class FavoriteRepository {
   Future<LoadResult> toggleFavoriteCharacter(String id, CancelToken token);
 
   Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token);
+
+  Future<LoadResult> toggleFavoriteStudio(String id, CancelToken cancelToken);
 }
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -295,5 +297,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       ));
     }
     return result;
+  }
+
+  @override
+  Future<LoadResult> toggleFavoriteStudio(String id, CancelToken cancelToken) {
+    // TODO: implement toggleFavoriteStudio
+    throw UnimplementedError();
   }
 }

@@ -15,6 +15,7 @@ import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
 import 'package:aniflow/core/network/api/staff_detail_query_graphql.dart';
+import 'package:aniflow/core/network/api/studio_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
@@ -31,6 +32,7 @@ import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
+import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
@@ -549,6 +551,50 @@ class AniListDataSource {
 
     final Map<String, dynamic> resultJson =
         response.data['data']['Staff']['characterMedia'];
+    final mediaConnections = MediaConnection.fromJson(resultJson);
+
+    return mediaConnections;
+  }
+
+  Future<StudioDto> getStudioById({
+    required String studioId,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = studioDetailQueryGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'id': studioId,
+    };
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+    final Map<String, dynamic> resultJson = response.data['data']['Studio'];
+    final studioDto = StudioDto.fromJson(resultJson);
+
+    return studioDto;
+  }
+
+  Future<MediaConnection> getMediaConnectionByStudioId(
+      String id, int page, int perPage,
+      [CancelToken? token]) async {
+    final queryGraphQL = studioRelatedMediaQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'id': id,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+
+    final Map<String, dynamic> resultJson =
+        response.data['data']['Studio']['media'];
     final mediaConnections = MediaConnection.fromJson(resultJson);
 
     return mediaConnections;

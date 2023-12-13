@@ -21,7 +21,6 @@ class StaffCharacterName with _$StaffCharacterName {
 
 extension StaffCharacterNameEx on StaffCharacterName {
   String getNameByUserSetting(UserStaffNameLanguage language) {
-    print(language);
     switch (language) {
       case UserStaffNameLanguage.romajiWestern:
         return native != null ? '${first ?? ''} ${last ?? ''}' : full ?? '';

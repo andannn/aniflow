@@ -9,6 +9,7 @@ import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_connection.dart';
+import 'package:aniflow/core/network/model/studio_connection.dart';
 import 'package:aniflow/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -41,6 +42,7 @@ class MediaDto with _$MediaDto {
     @Default([]) @JsonKey(name: 'rankings') List<AnimeRank?> rankings,
     @JsonKey(name: 'characters') CharacterConnection? characters,
     @JsonKey(name: 'staff') StaffConnection? staff,
+    @JsonKey(name: 'studios') StudioConnection? studios,
     @JsonKey(name: 'relations') MediaConnection? relations,
     @JsonKey(name: 'isFavourite') bool? isFavourite,
     @Default([])

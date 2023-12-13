@@ -10,6 +10,7 @@ import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
+import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,7 +27,9 @@ mixin Tables {
   static const String mediaCharacterCrossRefTable =
       'media_character_cross_ref_table';
   static const String mediaStaffCrossRefTable = 'media_staff_cross_ref_table';
-  static const String staffTable = 'voice_actor_table';
+  static const String staffTable = 'staff_table';
+  static const String studioTable = 'studio_table';
+  static const String studioMediaCrossRefTable = 'studio_media_cross_ref_table';
   static const String userDataTable = 'user_data_table';
   static const String mediaListTable = 'media_list_table';
   static const String airingSchedulesTable = 'airing_schedules_table';
@@ -56,6 +59,8 @@ class AniflowDatabase {
   MediaInformationDao? _mediaInformationDaoDao;
 
   StaffDao? _staffDao;
+
+  StudioDao? _studioDao;
 
   AiringScheduleDao? _airingScheduleDao;
 
@@ -104,6 +109,8 @@ class AniflowDatabase {
       _mediaInformationDaoDao ??= MediaInformationDaoImpl(this);
 
   StaffDao getStaffDao() => _staffDao ??= StaffDaoImpl(this);
+
+  StudioDao getStudioDao() => _studioDao ??= StudioDaoImpl(this);
 
   CharacterDao getCharacterDao() => _characterDao ??= CharacterDaoImpl(this);
 
@@ -225,6 +232,14 @@ class AniflowDatabase {
         '${StaffColumns.bloodType} text'
         ')');
 
+    batch.execute('create table if not exists ${Tables.studioTable} ('
+        '${StudioColumns.id} text primary key,'
+        '${StudioColumns.name} text,'
+        '${StudioColumns.siteUrl} text,'
+        '${StudioColumns.isAnimationStudio} integer,'
+        '${StudioColumns.isFavourite} integer'
+        ')');
+
     batch.execute(
         'create table if not exists ${Tables.mediaCharacterCrossRefTable} ('
         '${MediaCharacterCrossRefColumns.mediaId} text,'
@@ -233,6 +248,15 @@ class AniflowDatabase {
         'primary key (${MediaCharacterCrossRefColumns.mediaId}, ${MediaCharacterCrossRefColumns.characterId}),'
         'foreign key (${MediaCharacterCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
         'foreign key (${MediaCharacterCrossRefColumns.characterId}) references ${Tables.characterTable} (${CharacterColumns.id})'
+        ')');
+
+    batch.execute(
+        'create table if not exists ${Tables.studioMediaCrossRefTable} ('
+        '${StudioMediaCrossRefColumns.mediaId} text,'
+        '${StudioMediaCrossRefColumns.studioId} text,'
+        'primary key (${StudioMediaCrossRefColumns.mediaId}, ${StudioMediaCrossRefColumns.studioId}),'
+        'foreign key (${StudioMediaCrossRefColumns.mediaId}) references ${Tables.mediaTable} (${MediaTableColumns.id}),'
+        'foreign key (${StudioMediaCrossRefColumns.studioId}) references ${Tables.studioTable} (${StudioColumns.id})'
         ')');
 
     batch.execute(

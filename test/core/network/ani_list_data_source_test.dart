@@ -132,15 +132,18 @@ void main() {
     });
 
     test('get_staff_dto_by_id', () async {
-      final res = await AniListDataSource().getStaffById(
-          staffId: '119672', token: CancelToken());
+      final res = await AniListDataSource()
+          .getStaffById(staffId: '119672', token: CancelToken());
 
       expect(res.id, equals(119672));
     });
 
     test('get_staff_related_media_by_id', () async {
-      await AniListDataSource().getMediaConnectionByStaffId(
-          '119672', 1, 10);
+      await AniListDataSource().getMediaConnectionByStaffId('119672', 1, 10);
+    });
+
+    test('get_studio_related_media_by_id', () async {
+      await AniListDataSource().getMediaConnectionByStudioId('290', 1, 10);
     });
   });
 }

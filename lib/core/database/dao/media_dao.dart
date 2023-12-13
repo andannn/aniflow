@@ -9,6 +9,7 @@ import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
+import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_external_link_entity.dart';
@@ -17,6 +18,8 @@ import 'package:aniflow/core/database/model/relations/media_relation_entities_wi
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
 import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/database/model/studio_entity.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -171,6 +174,8 @@ abstract class MediaInformationDao {
 
   Future insertStaffRelationEntitiesOfMedia(
       {required int mediaId, required List<StaffAndRoleRelation> entities});
+
+  Future<List<StudioEntity>> getStudioOfMedia(String mediaId);
 }
 
 class MediaInformationDaoImpl extends MediaInformationDao {
@@ -323,6 +328,8 @@ class MediaInformationDaoImpl extends MediaInformationDao {
 
     final staffResults = await getStaffOfMediaByPage(id, page: 1);
 
+    final studios = await getStudioOfMedia(id);
+
     String externalLinkSql =
         'select * from ${Tables.mediaExternalLickTable} as media '
         'where media.${MediaExternalLinkColumnValues.mediaId} = \'$id\' ';
@@ -339,6 +346,7 @@ class MediaInformationDaoImpl extends MediaInformationDao {
           .map((e) => MediaExternalLinkEntity.fromJson(e))
           .toList(),
       mediaRelations: mediaRelations,
+      studios: studios,
     );
   }
 
@@ -493,5 +501,18 @@ class MediaInformationDaoImpl extends MediaInformationDao {
       );
     }
     return await batch.commit(noResult: true);
+  }
+
+  @override
+  Future<List<StudioEntity>> getStudioOfMedia(String mediaId) async {
+    String sql = 'select * from ${Tables.studioTable} as s '
+        'join ${Tables.studioMediaCrossRefTable} as sm '
+        'on s.${StudioColumns.id} = sm.${StudioMediaCrossRefColumns.studioId} '
+        'where sm.${StudioMediaCrossRefColumns.mediaId} = $mediaId and '
+        's.${StudioColumns.isAnimationStudio} = ${true.toInteger()} ';
+
+    final List<Map<String, dynamic>> result =
+        await database.aniflowDB.rawQuery(sql);
+    return result.map((e) => StudioEntity.fromJson(e)).toList();
   }
 }

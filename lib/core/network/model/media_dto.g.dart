@@ -55,6 +55,9 @@ _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
       staff: json['staff'] == null
           ? null
           : StaffConnection.fromJson(json['staff'] as Map<String, dynamic>),
+      studios: json['studios'] == null
+          ? null
+          : StudioConnection.fromJson(json['studios'] as Map<String, dynamic>),
       relations: json['relations'] == null
           ? null
           : MediaConnection.fromJson(json['relations'] as Map<String, dynamic>),
@@ -91,6 +94,7 @@ Map<String, dynamic> _$$MediaDtoImplToJson(_$MediaDtoImpl instance) =>
       'rankings': instance.rankings,
       'characters': instance.characters,
       'staff': instance.staff,
+      'studios': instance.studios,
       'relations': instance.relations,
       'isFavourite': instance.isFavourite,
       'externalLinks': instance.externalLinks,

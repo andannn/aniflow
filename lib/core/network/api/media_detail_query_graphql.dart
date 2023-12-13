@@ -122,6 +122,15 @@ query (\$id: Int) {
         }
       }
     }
+    studios {
+			nodes {
+			  id
+        name
+        isAnimationStudio
+        siteUrl
+        isFavourite
+			}
+    }
     relations {
       $mediaConnectionQueryGraphql
     }

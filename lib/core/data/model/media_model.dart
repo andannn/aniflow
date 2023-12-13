@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
@@ -50,6 +51,7 @@ class MediaModel with _$MediaModel {
     @Default([]) List<StaffAndRoleModel> staffs,
     @Default([]) List<MediaExternalLinkModel> externalLinks,
     @Default([]) List<MediaRelationModel> relations,
+    @Default([]) List<StudioModel> studios,
   }) = _MediaModel;
 
   static MediaModel fromDatabaseModel(MediaEntity model) {
@@ -120,6 +122,9 @@ class MediaModel with _$MediaModel {
           .toList(),
       relations: model.mediaRelations
           .map((e) => MediaRelationModel.fromEntity(e))
+          .toList(),
+      studios: model.studios
+          .map((e) => StudioModel.fromEntity(e))
           .toList(),
     );
   }

@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
@@ -237,8 +238,10 @@ class _DetailStaffContent extends StatelessWidget {
     required Function(String id) onCharacterClick,
     required Function(String id) onMediaClick,
   }) {
-    final language =
+    final staffLanguage =
         AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+    final titleLanguage =
+        AniFlowPreferences().getAniListSettings().userTitleLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;
@@ -303,7 +306,7 @@ class _DetailStaffContent extends StatelessWidget {
         ),
         RichText(
           text: TextSpan(
-            text: item.character.name!.getNameByUserSetting(language),
+            text: item.character.name!.getNameByUserSetting(staffLanguage),
             style: textTheme.titleSmall,
             children: role == CharacterRole.main
                 ? [
@@ -319,7 +322,8 @@ class _DetailStaffContent extends StatelessWidget {
         Expanded(
           child: Opacity(
             opacity: 0.7,
-            child: AutoSizeText(item.media?.title?.native ?? 'null'),
+            child:
+                AutoSizeText(item.media?.title?.getTitle(titleLanguage) ?? ''),
           ),
         ),
       ],
