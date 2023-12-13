@@ -21,6 +21,7 @@ import 'package:aniflow/core/database/model/relations/character_and_voice_actor_
 import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
 import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
+import 'package:aniflow/core/database/model/studio_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
@@ -29,6 +30,7 @@ import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
+import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
@@ -101,6 +103,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final mediaDao = AniflowDatabase().getMediaInformationDaoDao();
   final characterDao = AniflowDatabase().getCharacterDao();
   final staffDao = AniflowDatabase().getStaffDao();
+  final studioDao = AniflowDatabase().getStudioDao();
   final airingScheduleDao = AniflowDatabase().getAiringScheduleDao();
 
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -257,6 +260,16 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
             .toList();
         await mediaDao.insertStaffRelationEntitiesOfMedia(
             mediaId: int.parse(id), entities: entities);
+      }
+
+      final List<StudioDto> studios = networkResult.studios?.nodes ?? [];
+
+      /// insert studio info to database.
+      if (studios.isNotEmpty) {
+        final studioEntities =
+            studios.map((e) => StudioEntity.fromDto(e)).toList();
+        await studioDao.insertStudioEntitiesOfMedia(
+            mediaId: id, entities: studioEntities);
       }
 
       final List<MediaExternalLinkDto> externalLinks =
