@@ -17,7 +17,7 @@ class StudioModel with _$StudioModel {
   static StudioModel fromEntity(StudioEntity e) {
     return StudioModel(
       id: e.id,
-      name: e.id,
+      name: e.name,
       siteUrl: e.siteUrl,
       isFavourite: e.isFavourite.toBoolean(),
       isAnimationStudio: e.isAnimationStudio.toBoolean(),

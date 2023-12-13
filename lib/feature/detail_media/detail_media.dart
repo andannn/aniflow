@@ -16,6 +16,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
+import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -197,12 +198,20 @@ class _DetailAnimePageContent extends StatelessWidget {
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
+                child: _buildStudioSection(
+                  context,
+                  studios: model.studios,
+                  onStudioClick: (id) {},
+                ),
+              ),
+              const SliverPadding(padding: EdgeInsets.only(top: 16)),
+              SliverToBoxAdapter(
                 child: _buildExternalLinkSection(
                   context,
                   model.externalLinks,
                 ),
               ),
-              const SliverPadding(padding: EdgeInsets.symmetric(vertical: 16)),
+              const SliverPadding(padding: EdgeInsets.symmetric(vertical: 36)),
             ],
           ),
         );
@@ -677,6 +686,39 @@ class _DetailAnimePageContent extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildStudioSection(
+    BuildContext context, {
+    required List<StudioModel> studios,
+    required Function(String id) onStudioClick,
+  }) {
+    return VerticalScaleSwitcher(
+      visible: studios.isNotEmpty,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              'Studio',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              spacing: 6,
+              children: studios
+                  .map((e) => OutlinedButton(
+                      onPressed: () => onStudioClick.call(e.id),
+                      child: Text(e.name!)))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
     );
   }

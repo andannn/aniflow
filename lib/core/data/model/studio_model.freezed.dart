@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-StudioModel _$StudioModelFromJson(Map<String, dynamic> json) {
-  return _StudioModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$StudioModel {
   String get id => throw _privateConstructorUsedError;
@@ -26,7 +22,6 @@ mixin _$StudioModel {
   bool get isFavourite => throw _privateConstructorUsedError;
   bool get isAnimationStudio => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $StudioModelCopyWith<StudioModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -149,7 +144,7 @@ class __$$StudioModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$StudioModelImpl implements _StudioModel {
   _$StudioModelImpl(
       {this.id = '',
@@ -157,9 +152,6 @@ class _$StudioModelImpl implements _StudioModel {
       this.siteUrl,
       this.isFavourite = false,
       this.isAnimationStudio = false});
-
-  factory _$StudioModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$StudioModelImplFromJson(json);
 
   @override
   @JsonKey()
@@ -194,7 +186,6 @@ class _$StudioModelImpl implements _StudioModel {
                 other.isAnimationStudio == isAnimationStudio));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, name, siteUrl, isFavourite, isAnimationStudio);
@@ -204,13 +195,6 @@ class _$StudioModelImpl implements _StudioModel {
   @pragma('vm:prefer-inline')
   _$$StudioModelImplCopyWith<_$StudioModelImpl> get copyWith =>
       __$$StudioModelImplCopyWithImpl<_$StudioModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StudioModelImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _StudioModel implements StudioModel {
@@ -220,9 +204,6 @@ abstract class _StudioModel implements StudioModel {
       final String? siteUrl,
       final bool isFavourite,
       final bool isAnimationStudio}) = _$StudioModelImpl;
-
-  factory _StudioModel.fromJson(Map<String, dynamic> json) =
-      _$StudioModelImpl.fromJson;
 
   @override
   String get id;

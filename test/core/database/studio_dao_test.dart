@@ -17,12 +17,14 @@ void main() {
         name: 'AAAA',
         siteUrl: 'urlurlurlurlurl',
         isFavourite: 0,
+        isAnimationStudio: 1,
       ),
       StudioEntity(
         id: '1248484',
         name: 'BBBBB',
         siteUrl: 'urlurlurlurlurl',
         isFavourite: 0,
+        isAnimationStudio: 0,
       ),
     ];
 
@@ -49,11 +51,11 @@ void main() {
       expect(res, equals(dummyStudioData[0]));
     });
 
-    test('insert_and_get_studio_by_media_id', () async {
+    test('insert_and_get_anime_studio', () async {
       await studioDao.insertStudioEntitiesOfMedia(
           mediaId: '1', entities: dummyStudioData);
       final res = await mediaDao.getStudioOfMedia('1');
-      expect(res.length, equals(dummyStudioData.length));
+      expect(res, equals([dummyStudioData[0]]));
     });
   });
 }

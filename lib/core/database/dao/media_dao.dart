@@ -19,6 +19,7 @@ import 'package:aniflow/core/database/model/relations/media_with_detail_info.dar
 import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/database/model/studio_entity.dart';
+import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -507,7 +508,8 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     String sql = 'select * from ${Tables.studioTable} as s '
         'join ${Tables.studioMediaCrossRefTable} as sm '
         'on s.${StudioColumns.id} = sm.${StudioMediaCrossRefColumns.studioId} '
-        'where sm.${StudioMediaCrossRefColumns.mediaId} = $mediaId ';
+        'where sm.${StudioMediaCrossRefColumns.mediaId} = $mediaId and '
+        's.${StudioColumns.isAnimationStudio} = ${true.toInteger()} ';
 
     final List<Map<String, dynamic>> result =
         await database.aniflowDB.rawQuery(sql);
