@@ -103,6 +103,10 @@ class AfRouterBackStack with ChangeNotifier {
     _pushAsSingleton(DetailStaffPath(id));
   }
 
+  void navigateToDetailStudio(String id) {
+    _pushAsSingleton(DetailStudioRoutePath(id));
+  }
+
   void popBackStack() {
     _backStack.removeLast();
     notifyListeners();

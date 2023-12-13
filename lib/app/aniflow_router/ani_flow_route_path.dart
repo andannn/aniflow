@@ -6,6 +6,7 @@ import 'package:aniflow/feature/character_page/character_page.dart';
 import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/detail_staff/detail_staff.dart';
+import 'package:aniflow/feature/detail_studio/detail_studio.dart';
 import 'package:aniflow/feature/discover/discover.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
@@ -337,6 +338,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return DetailCharacterPage(key: ValueKey(toString()), id: id);
       case DetailStaffPath(id: final id):
         return DetailStaffPage(key: ValueKey(toString()), id: id);
+      case DetailStudioRoutePath(id: final id):
+        return DetailStudioPage(key: ValueKey(toString()), id: id);
       default:
         return const MaterialPage(child: SizedBox());
     }

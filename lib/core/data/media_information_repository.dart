@@ -11,6 +11,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
@@ -95,6 +96,11 @@ abstract class MediaInformationRepository {
     required String staffId,
     CancelToken? token,
   });
+
+  Stream<StudioModel?> getStudioStream(String id);
+
+  Future<LoadResult<void>> startFetchDetailStudioInfo(
+      {required String id, required CancelToken token});
 }
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
@@ -451,5 +457,28 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       },
       mapDtoToModel: CharacterAndMediaConnection.fromDto,
     );
+  }
+
+  @override
+  Stream<StudioModel?> getStudioStream(String id) => studioDao
+      .getStudioByIdStream(id)
+      .map((entity) => entity != null ? StudioModel.fromEntity(entity) : null);
+
+  @override
+  Future<LoadResult<void>> startFetchDetailStudioInfo(
+      {required String id, required CancelToken token}) async {
+    try {
+      /// fetch detail studio information.
+      final studioDto =
+          await dataSource.getStudioById(studioId: id, token: token);
+
+      /// insert data to database.
+      final studioEntity = StudioEntity.fromDto(studioDto);
+      await studioDao.insertStudioEntities(entities: [studioEntity]);
+
+      return LoadSuccess(data: null);
+    } on Exception catch (exception) {
+      return LoadError(exception);
+    }
   }
 }

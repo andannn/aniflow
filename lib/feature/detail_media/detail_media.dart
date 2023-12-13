@@ -201,7 +201,11 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: _buildStudioSection(
                   context,
                   studios: model.studios,
-                  onStudioClick: (id) {},
+                  onStudioClick: (id) {
+                    AfRouterDelegate.of(context)
+                        .backStack
+                        .navigateToDetailStudio(id);
+                  },
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
