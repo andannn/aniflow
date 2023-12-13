@@ -38,6 +38,16 @@ String get mediaConnectionQueryGraphql => '''
             english
             native
           }
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            year
+            month
+            day
+          }
         }
       }
 ''';

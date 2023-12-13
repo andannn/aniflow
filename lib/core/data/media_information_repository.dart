@@ -29,6 +29,7 @@ import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/character_edge.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
+import 'package:aniflow/core/network/model/media_edge.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
@@ -101,6 +102,13 @@ abstract class MediaInformationRepository {
 
   Future<LoadResult<void>> startFetchDetailStudioInfo(
       {required String id, required CancelToken token});
+
+  Future<LoadResult<List<MediaModel>>> loadStudioContentsPage({
+    required int page,
+    required int perPage,
+    required String studioId,
+    CancelToken? token,
+  });
 }
 
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
@@ -480,5 +488,33 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     } on Exception catch (exception) {
       return LoadError(exception);
     }
+  }
+
+  @override
+  Future<LoadResult<List<MediaModel>>> loadStudioContentsPage(
+      {required int page,
+      required int perPage,
+      required String studioId,
+      CancelToken? token}) {
+    return LoadPageUtil.loadPageWithoutDBCache<MediaEdge, MediaModel>(
+      page: page,
+      perPage: perPage,
+      onGetNetworkRes: (page, prePage) async {
+        final mediaConnection = await dataSource.getMediaConnectionByStudioId(
+            studioId, page, perPage);
+        return mediaConnection.edges;
+      },
+      onInsertToDB: (dtoList) async {
+        final medias = dtoList
+            .map((e) => e.media)
+            .whereNotNull()
+            .map((e) => MediaEntity.fromNetworkModel(e))
+            .toList();
+
+        await mediaDao.insertMedia(medias,
+            conflictAlgorithm: ConflictAlgorithm.ignore);
+      },
+      mapDtoToModel: (edge) => MediaModel.fromDto(edge.media!),
+    );
   }
 }

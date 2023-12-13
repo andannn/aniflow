@@ -2,64 +2,52 @@ import 'dart:async';
 
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
+import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 
-class VoiceActorContentsPagingBloc
-    extends PagingBloc<CharacterAndMediaConnection> {
-  VoiceActorContentsPagingBloc(
-    this.staffId, {
+class StudioContentsPagingBloc extends PagingBloc<MediaModel> {
+  StudioContentsPagingBloc(
+    this.studioId, {
     required this.mediaRepository,
   }) : super(const PageInit(data: []));
 
-  final String staffId;
+  final String studioId;
   final MediaInformationRepository mediaRepository;
 
   @override
-  Future<LoadResult<List<CharacterAndMediaConnection>>> loadPage({
+  Future<LoadResult<List<MediaModel>>> loadPage({
     required int page,
     bool isRefresh = false,
     CancelToken? cancelToken,
   }) {
-    return mediaRepository.loadVoiceActorContentsPage(
+    return mediaRepository.loadStudioContentsPage(
       token: cancelToken,
       page: page,
       perPage: 25,
-      staffId: staffId,
+      studioId: studioId,
     );
   }
 }
 
-class ItemsWithYear<T> {
-  final int? year;
-  final List<T> items;
-
-  ItemsWithYear({required this.year, required this.items});
-
-  @override
-  String toString() => 'Year: $year items: $items';
+class MediaItemsWithYear extends ItemsWithYear<MediaModel> {
+  MediaItemsWithYear({required super.year, required super.items});
 }
 
-class CharacterItemsWithYear
-    extends ItemsWithYear<CharacterAndMediaConnection> {
-  CharacterItemsWithYear({required super.year, required super.items});
-}
-
-extension GroupListEx on List<CharacterAndMediaConnection> {
-  List<CharacterItemsWithYear> get characterGroupList {
-    final groupMap = groupFoldBy(
-        (item) => item.media?.seasonYear ?? item.media?.startDate?.year,
-        (List<CharacterAndMediaConnection>? previous, item) {
-      List<CharacterAndMediaConnection> itemList = previous ?? [];
+extension MediaItemGroupListEx on List<MediaModel> {
+  List<MediaItemsWithYear> get mediaGroupList {
+    final groupMap =
+        groupFoldBy((item) => item.seasonYear ?? item.startDate?.year,
+            (List<MediaModel>? previous, item) {
+      List<MediaModel> itemList = previous ?? [];
       return [...itemList, item];
     });
 
     return groupMap.entries
-        .map((entry) =>
-            CharacterItemsWithYear(year: entry.key, items: entry.value))
+        .map((entry) => MediaItemsWithYear(year: entry.key, items: entry.value))
         .toList();
   }
 }

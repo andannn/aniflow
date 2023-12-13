@@ -555,6 +555,7 @@ class AniListDataSource {
 
     return mediaConnections;
   }
+
   Future<StudioDto> getStudioById({
     required String studioId,
     CancelToken? token,
@@ -565,15 +566,37 @@ class AniListDataSource {
     };
 
     final response = await AniListDio().dio.post(
-      AniListDio.aniListUrl,
-      cancelToken: token,
-      data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
-    );
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
     final Map<String, dynamic> resultJson = response.data['data']['Studio'];
     final studioDto = StudioDto.fromJson(resultJson);
 
     return studioDto;
   }
 
+  Future<MediaConnection> getMediaConnectionByStudioId(
+      String id, int page, int perPage,
+      [CancelToken? token]) async {
+    final queryGraphQL = studioRelatedMediaQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'id': id,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+
+    final Map<String, dynamic> resultJson =
+        response.data['data']['Studio']['media'];
+    final mediaConnections = MediaConnection.fromJson(resultJson);
+
+    return mediaConnections;
+  }
 }

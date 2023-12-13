@@ -1,9 +1,18 @@
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/core/paging/paging_content_widget.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
+import 'package:aniflow/feature/detail_studio/bloc/studio_contents_paging_bloc.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +43,13 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
             mediaRepository: context.read<MediaInformationRepository>(),
             favoriteRepository: context.read<FavoriteRepository>(),
           ),
-        )
+        ),
+        BlocProvider(
+          create: (BuildContext context) => StudioContentsPagingBloc(
+            id,
+            mediaRepository: context.read<MediaInformationRepository>(),
+          ),
+        ),
       ],
       child: const _DetailStudioContent(),
     );
@@ -58,8 +73,7 @@ class _DetailStudioContent extends StatelessWidget {
           return const LoadingDummyScaffold();
         }
 
-        // final pagingState =
-        // context.watch<VoiceActorContentsPagingBloc>().state;
+        final pagingState = context.watch<StudioContentsPagingBloc>().state;
         final isFavourite = studio.isFavourite;
         return Scaffold(
           appBar: AppBar(
@@ -79,52 +93,108 @@ class _DetailStudioContent extends StatelessWidget {
               const SizedBox(width: 10),
             ],
           ),
-          body: const CustomScrollView(
+          body: CustomScrollView(
             slivers: [
-              //   SliverToBoxAdapter(
-              //     child: FractionallySizedBox(
-              //       widthFactor: 0.65,
-              //       child: Card(
-              //         elevation: 0,
-              //         color: colorScheme.surfaceVariant,
-              //         clipBehavior: Clip.antiAlias,
-              //         child: AFNetworkImage(imageUrl: Studio.image),
-              //       ),
-              //     ),
-              //   ),
-              //   SliverPadding(
-              //     padding: const EdgeInsets.symmetric(
-              //       horizontal: 24.0,
-              //       vertical: 8.0,
-              //     ),
-              //     sliver: SliverToBoxAdapter(
-              //       child: _buildDescriptionSection(context, Studio),
-              //     ),
-              //   ),
-              //   const SliverPadding(padding: EdgeInsets.only(top: 48)),
-              //   for (final widget in _buildYearAndCharactersWidgets(
-              //     context,
-              //     characterGroupList: pagingState.data.characterGroupList,
-              //     onCharacterClick: (String id) => AfRouterDelegate.of(context)
-              //         .backStack
-              //         .navigateToDetailCharacter(id),
-              //     onMediaClick: (String id) => AfRouterDelegate.of(context)
-              //         .backStack
-              //         .navigateToDetailMedia(id),
-              //   ))
-              //     SliverPadding(
-              //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              //       sliver: widget,
-              //     ),
-              //   buildSliverPagingVisibilityDetector<CharacterAndMediaConnection,
-              //       VoiceActorContentsPagingBloc>(
-              //     context: context,
-              //     pagingState: pagingState,
-              //   ),
+              const SliverPadding(padding: EdgeInsets.only(top: 12)),
+              for (final widget in _buildYearAndMediaContentWidgets(
+                context,
+                mediaGroupList: pagingState.data.mediaGroupList,
+                onMediaClick: (String id) => AfRouterDelegate.of(context)
+                    .backStack
+                    .navigateToDetailMedia(id),
+              ))
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  sliver: widget,
+                ),
+              buildSliverPagingVisibilityDetector<MediaModel,
+                  StudioContentsPagingBloc>(
+                context: context,
+                pagingState: pagingState,
+              ),
             ],
           ),
         );
       },
+    );
+  }
+
+  List<Widget> _buildYearAndMediaContentWidgets(
+    BuildContext context, {
+    required List<MediaItemsWithYear> mediaGroupList,
+    required Function(String id) onMediaClick,
+  }) {
+    final widgetList = mediaGroupList
+        .map(
+          (e) => _buildItemsWithSeasonYearSection(
+            context,
+            e: e,
+            onMediaClick: onMediaClick,
+          ),
+        )
+        .toList();
+    return widgetList.flattened.toList();
+  }
+
+  List<Widget> _buildItemsWithSeasonYearSection(BuildContext context,
+      {required MediaItemsWithYear e,
+      required Function(String id) onMediaClick}) {
+    return [
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        sliver: SliverToBoxAdapter(
+          child: Text(
+            e.year?.toString() ?? 'TBA',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+        ),
+      ),
+      SliverGrid.builder(
+        itemCount: e.items.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 3.0 / 6.2,
+        ),
+        itemBuilder: (context, index) => _buildMediaItem(
+          context,
+          item: e.items[index],
+          onMediaClick: onMediaClick,
+        ),
+      )
+    ];
+  }
+
+  Widget _buildMediaItem(BuildContext context,
+      {required MediaModel item, required Function(String id) onMediaClick}) {
+
+    final titleLanguage =
+        AniFlowPreferences().getAniListSettings().userTitleLanguage;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () => onMediaClick.call(item.id),
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: AspectRatio(
+              aspectRatio: 3.0 / 4,
+              child: Stack(
+                children: [
+                  SizedBox.expand(
+                    child: AFNetworkImage(
+                      imageUrl: item.coverImage,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: AutoSizeText(item.title?.getTitle(titleLanguage) ?? ''),
+        ),
+      ],
     );
   }
 }
