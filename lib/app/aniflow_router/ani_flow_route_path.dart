@@ -79,115 +79,115 @@ class SearchRoutePath extends AniFlowRoutePath {
 }
 
 class FavoriteStaffListPath extends AniFlowRoutePath {
-  const FavoriteStaffListPath(this.userId) : super(isFullScreen: true);
+  const FavoriteStaffListPath(this.id) : super(isFullScreen: true);
 
-  final String userId;
-
-  @override
-  List<Object?> get props => [userId];
+  final String id;
 
   @override
-  String toString() => 'favorite_staff_list_page::user_$userId';
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'favorite_staff_list_page_$id';
 }
 
 class FavoriteCharacterListPath extends AniFlowRoutePath {
-  const FavoriteCharacterListPath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const FavoriteCharacterListPath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'favorite_character_list_page::user_$userId';
+  String toString() => 'favorite_character_list_page_$id';
 }
 
 class FavoriteAnimeListPath extends AniFlowRoutePath {
-  const FavoriteAnimeListPath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const FavoriteAnimeListPath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'favorite_anime_list_page::user_$userId';
+  String toString() => 'favorite_anime_list_page_$id';
 }
 
 class FavoriteMangaListPath extends AniFlowRoutePath {
-  const FavoriteMangaListPath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const FavoriteMangaListPath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'favorite_manga_list_page::user_$userId';
+  String toString() => 'favorite_manga_list_page_$id';
 }
 
 class WatchingAnimeListPath extends AniFlowRoutePath {
-  const WatchingAnimeListPath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const WatchingAnimeListPath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'watching_anime_list_page::user_$userId';
+  String toString() => 'watching_anime_list_page_$id';
 }
 
 class CompletedAnimePath extends AniFlowRoutePath {
-  const CompletedAnimePath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const CompletedAnimePath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'completed_anime_list_page::user_$userId';
+  String toString() => 'completed_anime_list_page_$id';
 }
 
 class DroppedAnimePath extends AniFlowRoutePath {
-  const DroppedAnimePath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const DroppedAnimePath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'dropped_anime_list_page::user_$userId';
+  String toString() => 'dropped_anime_list_page_$id';
 }
 
 class ReadingMangaPath extends AniFlowRoutePath {
-  const ReadingMangaPath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const ReadingMangaPath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'reading_manga_list_page::user_$userId';
+  String toString() => 'reading_manga_list_page_$id';
 }
 
 class DroppedMangaPath extends AniFlowRoutePath {
-  const DroppedMangaPath(this.userId) : super(isFullScreen: true);
-  final String userId;
+  const DroppedMangaPath(this.id) : super(isFullScreen: true);
+  final String id;
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id];
 
   @override
-  String toString() => 'dropped_manga_list_page::user_$userId';
+  String toString() => 'dropped_manga_list_page_$id';
 }
 
 class UserProfileRoutePath extends AniFlowRoutePath {
-  const UserProfileRoutePath(this.userId) : super(isFullScreen: true);
+  const UserProfileRoutePath(this.id) : super(isFullScreen: true);
 
-  final String userId;
-
-  @override
-  List<Object?> get props => [userId];
+  final String id;
 
   @override
-  String toString() => 'user_profile_page::user_$userId';
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'user_profile_page_$id';
 }
 
 class CategoryAnimeListRoutePath extends AniFlowRoutePath {
@@ -203,63 +203,63 @@ class CategoryAnimeListRoutePath extends AniFlowRoutePath {
 }
 
 class MediaCharacterListRoutePath extends AniFlowRoutePath {
-  const MediaCharacterListRoutePath(this.mediaId) : super(isFullScreen: true);
+  const MediaCharacterListRoutePath(this.id) : super(isFullScreen: true);
 
-  final String mediaId;
-
-  @override
-  List<Object?> get props => [mediaId];
+  final String id;
 
   @override
-  String toString() => 'media_character_list_page:mediaId_$mediaId';
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'media_character_list_page_$id';
 }
 
 class MediaStaffListRoutePath extends AniFlowRoutePath {
-  const MediaStaffListRoutePath(this.mediaId) : super(isFullScreen: true);
+  const MediaStaffListRoutePath(this.id) : super(isFullScreen: true);
 
-  final String mediaId;
-
-  @override
-  List<Object?> get props => [mediaId];
+  final String id;
 
   @override
-  String toString() => 'media_staff_list_page:mediaId_$mediaId';
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'media_staff_list_page_$id';
 }
 
 class DetailMediaRoutePath extends AniFlowRoutePath {
-  const DetailMediaRoutePath(this.mediaId) : super(isFullScreen: true);
+  const DetailMediaRoutePath(this.id) : super(isFullScreen: true);
 
-  final String mediaId;
-
-  @override
-  List<Object?> get props => [mediaId];
+  final String id;
 
   @override
-  String toString() => 'detail_media_page:mediaId_$mediaId';
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'detail_media_page_$id';
 }
 
 class DetailCharacterPath extends AniFlowRoutePath {
-  const DetailCharacterPath(this.characterId) : super(isFullScreen: true);
+  const DetailCharacterPath(this.id) : super(isFullScreen: true);
 
-  final String characterId;
-
-  @override
-  List<Object?> get props => [characterId];
+  final String id;
 
   @override
-  String toString() => 'detail_character_page:characterId_$characterId';
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'detail_character_page_$id';
 }
 
 class DetailStaffPath extends AniFlowRoutePath {
-  const DetailStaffPath(this.staffId) : super(isFullScreen: true);
+  const DetailStaffPath(this.id) : super(isFullScreen: true);
 
-  final String staffId;
+  final String id;
 
   @override
-  List<Object?> get props => [staffId];
+  List<Object?> get props => [id];
   
   @override
-  String toString() => 'detail_staff_page:staffId_$staffId';
+  String toString() => 'detail_staff_page_$id';
 }
 
 class AiringScheduleRoutePath extends AniFlowRoutePath {
@@ -276,6 +276,18 @@ class NotificationRoutePath extends AniFlowRoutePath {
   String toString() => 'notification_page';
 }
 
+class DetailStudioRoutePath extends AniFlowRoutePath {
+  const DetailStudioRoutePath(this.id) : super(isFullScreen: true);
+
+  final String id;
+
+  @override
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'detail_studio_page_$id';
+}
+
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
@@ -283,11 +295,11 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return DiscoverPage(key: ValueKey(toString()));
       case CategoryAnimeListRoutePath(category: final category):
         return MediaListPage(key: ValueKey(toString()), category: category);
-      case MediaCharacterListRoutePath(mediaId: final animeId):
+      case MediaCharacterListRoutePath(id: final animeId):
         return CharacterListPage(key: ValueKey(toString()), animeId: animeId);
-      case MediaStaffListRoutePath(mediaId: final animeId):
+      case MediaStaffListRoutePath(id: final animeId):
         return StaffListPage(key: ValueKey(toString()), animeId: animeId);
-      case DetailMediaRoutePath(mediaId: final animeId):
+      case DetailMediaRoutePath(id: final animeId):
         return DetailAnimePage(key: ValueKey(toString()), animeId: animeId);
       case TrackRoutePath(topLevel: final _):
         return AnimeTrackPage(key: ValueKey(toString()));
@@ -295,7 +307,7 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return SocialPage(key: ValueKey(toString()));
       case ProfileRoutePath(topLevel: final _):
         return ProfilePage(key: ValueKey(toString()));
-      case UserProfileRoutePath(userId: final id):
+      case UserProfileRoutePath(id: final id):
         return ProfilePage(key: ValueKey(toString()), userId: id);
       case AiringScheduleRoutePath():
         return AiringSchedule(key: ValueKey(toString()));
@@ -303,27 +315,27 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return SearchPage(key: ValueKey(toString()));
       case NotificationRoutePath():
         return NotificationPage(key: ValueKey(toString()));
-      case FavoriteStaffListPath(userId: final id):
+      case FavoriteStaffListPath(id: final id):
         return FavoriteStaffListPage(key: ValueKey(toString()), userId: id);
-      case FavoriteCharacterListPath(userId: final id):
+      case FavoriteCharacterListPath(id: final id):
         return FavoriteCharacterListPage(key: ValueKey(toString()), userId: id);
-      case FavoriteAnimeListPath(userId: final id):
+      case FavoriteAnimeListPath(id: final id):
         return FavoriteAnimeListPage(key: ValueKey(toString()), userId: id);
-      case FavoriteMangaListPath(userId: final id):
+      case FavoriteMangaListPath(id: final id):
         return FavoriteMangaListPage(key: ValueKey(toString()), userId: id);
-      case WatchingAnimeListPath(userId: final id):
+      case WatchingAnimeListPath(id: final id):
         return WatchingAnimePage(key: ValueKey(toString()), userId: id);
-      case CompletedAnimePath(userId: final id):
+      case CompletedAnimePath(id: final id):
         return CompletedAnimePage(key: ValueKey(toString()), userId: id);
-      case DroppedAnimePath(userId: final id):
+      case DroppedAnimePath(id: final id):
         return DroppedAnimePage(key: ValueKey(toString()), userId: id);
-      case DroppedMangaPath(userId: final id):
+      case DroppedMangaPath(id: final id):
         return DroppedMangaPage(key: ValueKey(toString()), userId: id);
-      case ReadingMangaPath(userId: final id):
+      case ReadingMangaPath(id: final id):
         return ReadingMangaPage(key: ValueKey(toString()), userId: id);
-      case DetailCharacterPath(characterId: final id):
+      case DetailCharacterPath(id: final id):
         return DetailCharacterPage(key: ValueKey(toString()), id: id);
-      case DetailStaffPath(staffId: final id):
+      case DetailStaffPath(id: final id):
         return DetailStaffPage(key: ValueKey(toString()), id: id);
       default:
         return const MaterialPage(child: SizedBox());
