@@ -10,7 +10,7 @@ _$UserStatusStaticsDtoImpl _$$UserStatusStaticsDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$UserStatusStaticsDtoImpl(
       count: json['count'] as int?,
-      meanScore: json['meanScore'] as int?,
+      meanScore: (json['meanScore'] as num?)?.toDouble(),
       minutesWatched: json['minutesWatched'] as int?,
       chaptersRead: json['chaptersRead'] as int?,
       mediaIds:

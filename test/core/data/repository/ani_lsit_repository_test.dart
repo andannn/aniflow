@@ -35,7 +35,7 @@ void main() {
     });
 
     test('ani_list_get_current_season_anime', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
 
       final result = await aniListRepository.loadMediaPageByCategory(
           category: MediaCategory.currentSeasonAnime,
@@ -50,7 +50,7 @@ void main() {
     });
 
     test('ani_list_refresh_current_season_anime', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
 
       final result = await aniListRepository.loadMediaPageByCategory(
           loadType: const Refresh(),
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('ani_list_get_nex_season_anime', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
 
       final result = await aniListRepository.loadMediaPageByCategory(
           category: MediaCategory.nextSeasonAnime,
@@ -79,7 +79,7 @@ void main() {
     });
 
     test('ani_list_refresh_nex_season_anime', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
 
       final result = await aniListRepository.loadMediaPageByCategory(
           loadType: const Refresh(), category: MediaCategory.nextSeasonAnime);

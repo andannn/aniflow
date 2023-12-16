@@ -3,6 +3,7 @@
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/model/user_statics_sort.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
@@ -11,6 +12,7 @@ import 'package:aniflow/core/network/api/character_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
+import 'package:aniflow/core/network/api/medias_query_graphql.dart';
 import 'package:aniflow/core/network/api/query_anime_staff_page_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
 import 'package:aniflow/core/network/api/search_query_graphql.dart';
@@ -21,6 +23,7 @@ import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart'
 import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_staff_query_graphql.dart';
+import 'package:aniflow/core/network/api/user_stats_query_graphql.dart';
 import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
@@ -33,6 +36,8 @@ import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
+import 'package:aniflow/core/network/model/user_genres_statics_dto.dart';
+import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
@@ -598,5 +603,46 @@ class AniListDataSource {
     final mediaConnections = MediaConnection.fromJson(resultJson);
 
     return mediaConnections;
+  }
+
+  Future<List<UserGenreStaticsDto>> getUserAnimeGenresStats(
+      String id, UserStaticsSort sort,
+      [CancelToken? token]) async {
+    final queryGraphQL = userStatsQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'id': id,
+      'sort': [sort.toJson()],
+    };
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+
+    final Map<String, dynamic> resultJson =
+        response.data['data']['User']['statistics']['anime'];
+    final userStatics = UserStaticsDto.fromJson(resultJson);
+
+    return userStatics.genres;
+  }
+
+  Future<List<MediaDto>> getMediasById(List<String> ids,
+      [CancelToken? token]) async {
+    final queryGraphQL = mediasQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'id_in': ids,
+    };
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {'query': queryGraphQL, 'variables': variablesMap},
+          options: createQueryOptions(_token),
+        );
+
+    final List resultList = response.data['data']['Page']['media'];
+    final mediaList = resultList.map((e) => MediaDto.fromJson(e)).toList();
+
+    return mediaList;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/feature/profile/bloc/profile_state.dart';
+import 'package:aniflow/feature/profile/profile_state.dart';
 import 'package:bloc/bloc.dart';
 
 sealed class ProfileEvent {}

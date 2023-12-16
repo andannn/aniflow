@@ -8,7 +8,7 @@ part 'user_score_statics_dto.g.dart';
 class UserScoreStaticsDto with _$UserScoreStaticsDto {
   const factory UserScoreStaticsDto({
     @JsonKey(name: 'count') int? count,
-    @JsonKey(name: 'meanScore') int? meanScore,
+    @JsonKey(name: 'meanScore') double? meanScore,
     @JsonKey(name: 'minutesWatched') int? minutesWatched,
     @JsonKey(name: 'chaptersRead') int? chaptersRead,
     @Default([]) @JsonKey(name: 'mediaIds') List<int> mediaIds,

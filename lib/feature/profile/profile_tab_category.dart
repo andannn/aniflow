@@ -6,7 +6,7 @@ enum ProfileTabType {
   activity,
   animeList,
   mangaList,
-  social,
+  stats,
 }
 
 extension ProfileTabTypeEx on ProfileTabType {
@@ -15,6 +15,6 @@ extension ProfileTabTypeEx on ProfileTabType {
         ProfileTabType.favorite => AFLocalizations.of(context).favorite,
         ProfileTabType.animeList => AFLocalizations.of(context).animeList,
         ProfileTabType.mangaList => AFLocalizations.of(context).mangaList,
-        ProfileTabType.social => AFLocalizations.of(context).social,
+        ProfileTabType.stats => 'Stats',
       };
 }

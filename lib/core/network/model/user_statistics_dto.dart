@@ -18,7 +18,7 @@ part 'user_statistics_dto.g.dart';
 class UserStaticsDto with _$UserStaticsDto {
   const factory UserStaticsDto({
     @JsonKey(name: 'count') int? count,
-    @JsonKey(name: 'meanScore') int? meanScore,
+    @JsonKey(name: 'meanScore') double? meanScore,
     @JsonKey(name: 'standardDeviation') int? standardDeviation,
     @JsonKey(name: 'minutesWatched') int? minutesWatched,
     @JsonKey(name: 'episodesWatched') int? episodesWatched,

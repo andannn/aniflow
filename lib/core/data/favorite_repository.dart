@@ -58,7 +58,7 @@ abstract class FavoriteRepository {
 class FavoriteRepositoryImpl implements FavoriteRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final userDataDao = AniflowDatabase().getUserDataDao();
-  final mediaInfoDao = AniflowDatabase().getMediaInformationDaoDao();
+  final mediaInfoDao = AniflowDatabase().getMediaDao();
   final staffDao = AniflowDatabase().getStaffDao();
   final characterDao = AniflowDatabase().getCharacterDao();
   final mediaListDao = AniflowDatabase().getMediaListDao();

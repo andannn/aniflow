@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/model/user_statics_sort.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
@@ -144,6 +145,15 @@ void main() {
 
     test('get_studio_related_media_by_id', () async {
       await AniListDataSource().getMediaConnectionByStudioId('290', 1, 10);
+    });
+
+    test('get_user_statics_by_id', () async {
+      await AniListDataSource()
+          .getUserAnimeGenresStats('6378393', UserStaticsSort.meanScore);
+    });
+
+    test('get_medias_by_id', () async {
+      await AniListDataSource().getMediasById(['151970', '162694']);
     });
   });
 }

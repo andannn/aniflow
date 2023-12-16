@@ -4,10 +4,11 @@ import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
+import 'package:aniflow/core/data/user_statistics_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
-import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
-import 'package:aniflow/feature/profile/bloc/profile_state.dart';
-import 'package:aniflow/feature/profile/bloc/profile_tab_category.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
+import 'package:aniflow/feature/profile/profile_state.dart';
+import 'package:aniflow/feature/profile/profile_tab_category.dart';
 import 'package:aniflow/feature/profile/sub_activity/profile_activity_overview.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
@@ -17,6 +18,8 @@ import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
+import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
+import 'package:aniflow/feature/profile/sub_stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -118,6 +121,12 @@ class _ProfilePageContent extends StatelessWidget {
                   mediaListRepository: context.read<MediaListRepository>(),
                 ),
               ),
+              BlocProvider(
+                create: (BuildContext context) => StatsBloc(
+                  userState.id,
+                  repository: context.read<UserStatisticsRepository>(),
+                ),
+              ),
             ],
             child: _UserProfile(userState: userState),
           );
@@ -196,8 +205,8 @@ class _UserProfileState extends State<_UserProfile>
         return const ProfileMediaListTabPage(mediaType: MediaType.anime);
       case ProfileTabType.mangaList:
         return const ProfileMediaListTabPage(mediaType: MediaType.manga);
-      case ProfileTabType.social:
-        return const SizedBox();
+      case ProfileTabType.stats:
+        return const ProfileStatsTabPage();
     }
   }
 }

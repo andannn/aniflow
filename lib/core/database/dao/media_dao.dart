@@ -129,13 +129,15 @@ class MediaRelationCrossRef {
   final MediaRelation relationType;
 }
 
-abstract class MediaInformationDao {
+abstract class MediaDao {
   Future clearAnimeCategoryCrossRef(MediaCategory category);
 
   Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
       {required int page, int perPage = AfConfig.defaultPerPageCount});
 
   Future<MediaEntity> getMedia(String id);
+
+  Future<List<MediaEntity>> getMedias(List<String> ids);
 
   Future<MediaWithDetailInfo> getDetailMediaInfo(String id);
 
@@ -178,10 +180,10 @@ abstract class MediaInformationDao {
   Future<List<StudioEntity>> getStudioOfMedia(String mediaId);
 }
 
-class MediaInformationDaoImpl extends MediaInformationDao {
+class MediaDaoImpl extends MediaDao {
   final AniflowDatabase database;
 
-  MediaInformationDaoImpl(this.database);
+  MediaDaoImpl(this.database);
 
   final detailListChangeSource = ValueNotifier(0);
 
@@ -313,6 +315,16 @@ class MediaInformationDaoImpl extends MediaInformationDao {
     );
 
     return MediaEntity.fromJson(animeJson.first);
+  }
+
+  @override
+  Future<List<MediaEntity>> getMedias(List<String> ids) async {
+    final mediaList = await database.aniflowDB.query(
+      Tables.mediaTable,
+      where: '${MediaTableColumns.id} in (${ids.join(',')})',
+    );
+
+    return mediaList.map((e) => MediaEntity.fromJson(e)).toList();
   }
 
   @override

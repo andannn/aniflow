@@ -9,7 +9,7 @@ void main() {
   group('studio_dao_test', () {
     final database = AniflowDatabase();
     StudioDao studioDao = database.getStudioDao();
-    MediaInformationDao mediaDao = database.getMediaInformationDaoDao();
+    MediaDao mediaDao = database.getMediaDao();
 
     final dummyStudioData = [
       StudioEntity(

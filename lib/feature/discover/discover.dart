@@ -191,14 +191,16 @@ class _MediaCategoryPreview extends StatelessWidget {
     Widget itemBuilder(MediaModel model) {
       final language =
           context.read<DiscoverBloc>().state.settings?.userTitleLanguage;
-      return MediaPreviewItem(
+      return SizedBox(
         width: 160,
-        textStyle: Theme.of(context).textTheme.titleSmall,
-        coverImage: model.coverImage,
-        title: model.title!.getTitle(language),
-        isFollowing: model.isFollowing,
-        titleVerticalPadding: 5,
-        onClick: () => onAnimeClick?.call(model.id),
+        child: MediaPreviewItem(
+          textStyle: Theme.of(context).textTheme.titleSmall,
+          coverImage: model.coverImage,
+          title: model.title!.getTitle(language),
+          isFollowing: model.isFollowing,
+          titleVerticalPadding: 5,
+          onClick: () => onAnimeClick?.call(model.id),
+        ),
       );
     }
 

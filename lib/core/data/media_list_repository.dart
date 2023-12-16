@@ -86,8 +86,8 @@ abstract class MediaListRepository {
 class MediaListRepositoryImpl extends MediaListRepository {
   final MediaListDao mediaListDao = AniflowDatabase().getMediaListDao();
   final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
-  final MediaInformationDao mediaDao =
-      AniflowDatabase().getMediaInformationDaoDao();
+  final MediaDao mediaDao =
+      AniflowDatabase().getMediaDao();
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AuthDataSource authDataSource = AuthDataSource();
   final AniFlowPreferences preferences = AniFlowPreferences();

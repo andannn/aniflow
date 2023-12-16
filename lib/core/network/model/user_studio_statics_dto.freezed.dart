@@ -23,7 +23,7 @@ mixin _$UserStudioStaticsDto {
   @JsonKey(name: 'count')
   int? get count => throw _privateConstructorUsedError;
   @JsonKey(name: 'meanScore')
-  int? get meanScore => throw _privateConstructorUsedError;
+  double? get meanScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'minutesWatched')
   int? get minutesWatched => throw _privateConstructorUsedError;
   @JsonKey(name: 'chaptersRead')
@@ -47,7 +47,7 @@ abstract class $UserStudioStaticsDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'count') int? count,
-      @JsonKey(name: 'meanScore') int? meanScore,
+      @JsonKey(name: 'meanScore') double? meanScore,
       @JsonKey(name: 'minutesWatched') int? minutesWatched,
       @JsonKey(name: 'chaptersRead') int? chaptersRead,
       @JsonKey(name: 'mediaIds') List<int> mediaIds,
@@ -85,7 +85,7 @@ class _$UserStudioStaticsDtoCopyWithImpl<$Res,
       meanScore: freezed == meanScore
           ? _value.meanScore
           : meanScore // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       minutesWatched: freezed == minutesWatched
           ? _value.minutesWatched
           : minutesWatched // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$UserStudioStaticsDtoImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'count') int? count,
-      @JsonKey(name: 'meanScore') int? meanScore,
+      @JsonKey(name: 'meanScore') double? meanScore,
       @JsonKey(name: 'minutesWatched') int? minutesWatched,
       @JsonKey(name: 'chaptersRead') int? chaptersRead,
       @JsonKey(name: 'mediaIds') List<int> mediaIds,
@@ -164,7 +164,7 @@ class __$$UserStudioStaticsDtoImplCopyWithImpl<$Res>
       meanScore: freezed == meanScore
           ? _value.meanScore
           : meanScore // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       minutesWatched: freezed == minutesWatched
           ? _value.minutesWatched
           : minutesWatched // ignore: cast_nullable_to_non_nullable
@@ -205,7 +205,7 @@ class _$UserStudioStaticsDtoImpl implements _UserStudioStaticsDto {
   final int? count;
   @override
   @JsonKey(name: 'meanScore')
-  final int? meanScore;
+  final double? meanScore;
   @override
   @JsonKey(name: 'minutesWatched')
   final int? minutesWatched;
@@ -270,7 +270,7 @@ class _$UserStudioStaticsDtoImpl implements _UserStudioStaticsDto {
 abstract class _UserStudioStaticsDto implements UserStudioStaticsDto {
   const factory _UserStudioStaticsDto(
           {@JsonKey(name: 'count') final int? count,
-          @JsonKey(name: 'meanScore') final int? meanScore,
+          @JsonKey(name: 'meanScore') final double? meanScore,
           @JsonKey(name: 'minutesWatched') final int? minutesWatched,
           @JsonKey(name: 'chaptersRead') final int? chaptersRead,
           @JsonKey(name: 'mediaIds') final List<int> mediaIds,
@@ -285,7 +285,7 @@ abstract class _UserStudioStaticsDto implements UserStudioStaticsDto {
   int? get count;
   @override
   @JsonKey(name: 'meanScore')
-  int? get meanScore;
+  double? get meanScore;
   @override
   @JsonKey(name: 'minutesWatched')
   int? get minutesWatched;

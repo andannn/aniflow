@@ -7,7 +7,7 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/title_with_items_builder.dart';

@@ -10,7 +10,7 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';

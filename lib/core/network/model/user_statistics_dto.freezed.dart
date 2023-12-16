@@ -23,7 +23,7 @@ mixin _$UserStaticsDto {
   @JsonKey(name: 'count')
   int? get count => throw _privateConstructorUsedError;
   @JsonKey(name: 'meanScore')
-  int? get meanScore => throw _privateConstructorUsedError;
+  double? get meanScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'standardDeviation')
   int? get standardDeviation => throw _privateConstructorUsedError;
   @JsonKey(name: 'minutesWatched')
@@ -72,7 +72,7 @@ abstract class $UserStaticsDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'count') int? count,
-      @JsonKey(name: 'meanScore') int? meanScore,
+      @JsonKey(name: 'meanScore') double? meanScore,
       @JsonKey(name: 'standardDeviation') int? standardDeviation,
       @JsonKey(name: 'minutesWatched') int? minutesWatched,
       @JsonKey(name: 'episodesWatched') int? episodesWatched,
@@ -131,7 +131,7 @@ class _$UserStaticsDtoCopyWithImpl<$Res, $Val extends UserStaticsDto>
       meanScore: freezed == meanScore
           ? _value.meanScore
           : meanScore // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       standardDeviation: freezed == standardDeviation
           ? _value.standardDeviation
           : standardDeviation // ignore: cast_nullable_to_non_nullable
@@ -206,7 +206,7 @@ abstract class _$$UserStaticsDtoImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'count') int? count,
-      @JsonKey(name: 'meanScore') int? meanScore,
+      @JsonKey(name: 'meanScore') double? meanScore,
       @JsonKey(name: 'standardDeviation') int? standardDeviation,
       @JsonKey(name: 'minutesWatched') int? minutesWatched,
       @JsonKey(name: 'episodesWatched') int? episodesWatched,
@@ -263,7 +263,7 @@ class __$$UserStaticsDtoImplCopyWithImpl<$Res>
       meanScore: freezed == meanScore
           ? _value.meanScore
           : meanScore // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       standardDeviation: freezed == standardDeviation
           ? _value.standardDeviation
           : standardDeviation // ignore: cast_nullable_to_non_nullable
@@ -377,7 +377,7 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
   final int? count;
   @override
   @JsonKey(name: 'meanScore')
-  final int? meanScore;
+  final double? meanScore;
   @override
   @JsonKey(name: 'standardDeviation')
   final int? standardDeviation;
@@ -561,7 +561,7 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
 abstract class _UserStaticsDto implements UserStaticsDto {
   const factory _UserStaticsDto(
       {@JsonKey(name: 'count') final int? count,
-      @JsonKey(name: 'meanScore') final int? meanScore,
+      @JsonKey(name: 'meanScore') final double? meanScore,
       @JsonKey(name: 'standardDeviation') final int? standardDeviation,
       @JsonKey(name: 'minutesWatched') final int? minutesWatched,
       @JsonKey(name: 'episodesWatched') final int? episodesWatched,
@@ -588,7 +588,7 @@ abstract class _UserStaticsDto implements UserStaticsDto {
   int? get count;
   @override
   @JsonKey(name: 'meanScore')
-  int? get meanScore;
+  double? get meanScore;
   @override
   @JsonKey(name: 'standardDeviation')
   int? get standardDeviation;
