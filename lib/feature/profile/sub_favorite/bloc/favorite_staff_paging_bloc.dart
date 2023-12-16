@@ -11,12 +11,14 @@ import 'package:dio/dio.dart';
 class FavoriteStaffPagingBloc extends RefreshPagingBloc<StaffModel> {
   FavoriteStaffPagingBloc(
     this.userId, {
+    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
     required FavoriteRepository favoriteRepository,
   })  : _favoriteRepository = favoriteRepository,
         super(const PageInit(data: []));
 
   final String userId;
   final FavoriteRepository _favoriteRepository;
+  final int perPageCount;
 
   @override
   Future<LoadResult<List<StaffModel>>> loadPage({
@@ -27,9 +29,8 @@ class FavoriteStaffPagingBloc extends RefreshPagingBloc<StaffModel> {
     return _favoriteRepository.loadFavoriteStaffByPage(
       userId: userId,
       loadType: isRefresh
-          ? const Refresh(AfConfig.profilePageDefaultPerPageCount)
-          : Append(
-              page: page, perPage: AfConfig.profilePageDefaultPerPageCount),
+          ? Refresh(perPageCount)
+          : Append(page: page, perPage: perPageCount),
       token: cancelToken,
     );
   }

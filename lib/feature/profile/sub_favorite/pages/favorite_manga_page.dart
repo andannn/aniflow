@@ -1,4 +1,5 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -32,6 +33,7 @@ class FavoriteMangaListRoute extends PageRoute
     return BlocProvider(
       create: (context) => FavoriteMangaPagingBloc(
         userId,
+        perPageCount: AfConfig.defaultPerPageCount,
         favoriteRepository: context.read<FavoriteRepository>(),
       ),
       child: const _FavoriteMangaListPageContent(),

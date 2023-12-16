@@ -1,4 +1,5 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -31,6 +32,7 @@ class UserAnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
     return BlocProvider(
       create: (context) => WatchingAnimeListPagingBloc(
         userId,
+        perPageCount: AfConfig.defaultPerPageCount,
         mediaListRepository: context.read<MediaListRepository>(),
       ),
       child: const _WatchingAnimePageContent(),
