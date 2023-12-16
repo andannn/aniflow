@@ -8,6 +8,7 @@ import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
 import 'package:aniflow/feature/profile/bloc/profile_state.dart';
 import 'package:aniflow/feature/profile/bloc/profile_tab_category.dart';
+import 'package:aniflow/feature/profile/sub_activity/profile_activity_overview.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
@@ -16,7 +17,6 @@ import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
-import 'package:aniflow/feature/profile/sub_overview/profile_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,11 +62,6 @@ class _ProfilePageContent extends StatelessWidget {
         if (userState == null) {
           return const SizedBox();
         } else {
-          final profileColor = userState.profileColor;
-          final themeData = profileColor != null
-              ? Theme.of(context).copyWith(
-                  colorScheme: ColorScheme.fromSeed(seedColor: profileColor))
-              : null;
           return MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -124,12 +119,7 @@ class _ProfilePageContent extends StatelessWidget {
                 ),
               ),
             ],
-            child: themeData != null
-                ? Theme(
-                    data: themeData,
-                    child: _UserProfile(userState: userState),
-                  )
-                : _UserProfile(userState: userState),
+            child: _UserProfile(userState: userState),
           );
         }
       },
@@ -198,8 +188,8 @@ class _UserProfileState extends State<_UserProfile>
 
   Widget _buildPageByProfileCategory(ProfileTabType category) {
     switch (category) {
-      case ProfileTabType.overview:
-        return const ProfileOverviewPage();
+      case ProfileTabType.activity:
+        return const ProfileActivityPage();
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:

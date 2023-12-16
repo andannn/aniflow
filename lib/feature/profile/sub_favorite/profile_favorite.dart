@@ -99,7 +99,8 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of(context).backStack
+                AfRouterDelegate.of(context)
+                    .backStack
                     .navigateToFavoritePage(type, userId);
               },
             ),
@@ -116,6 +117,8 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     final String coverImage;
     final String title;
     final String id;
+    final navigator = AfRouterDelegate.of(context).backStack;
+    final VoidCallback onClick;
     switch (type) {
       case FavoriteType.anime:
       case FavoriteType.manga:
@@ -123,22 +126,23 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         title = model.title!.getTitle(
             AniFlowPreferences().getAniListSettings().userTitleLanguage);
         id = model.id;
+        onClick = () => navigator.navigateToDetailMedia(id);
       case FavoriteType.character:
         coverImage = (model as CharacterModel).image;
         title = model.name!.getNameByUserSetting(language);
         id = model.id;
+        onClick = () => navigator.navigateToDetailCharacter(id);
       case FavoriteType.staff:
         coverImage = (model as StaffModel).image;
         title = model.name!.getNameByUserSetting(language);
         id = model.id;
+        onClick = () => navigator.navigateToDetailStaff(id);
     }
     return MediaPreviewItem(
       coverImage: coverImage,
       title: title,
       textStyle: Theme.of(context).textTheme.labelMedium,
-      onClick: () {
-        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
-      },
+      onClick: onClick,
     );
   }
 }
