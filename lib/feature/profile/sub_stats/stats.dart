@@ -173,7 +173,8 @@ class _MediaListFutureBuilder extends StatefulWidget {
       _MediaListFutureBuilderState();
 }
 
-class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder> {
+class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
+    with AutomaticKeepAliveClientMixin {
   final userTitleLanguage =
       AniFlowPreferences().getAniListSettings().userTitleLanguage;
 
@@ -190,6 +191,7 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return FutureBuilder(
       future: future,
       builder: (
@@ -241,6 +243,9 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _InfoItem extends StatelessWidget {
