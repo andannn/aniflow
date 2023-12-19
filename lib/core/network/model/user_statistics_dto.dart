@@ -7,6 +7,7 @@ import 'package:aniflow/core/network/model/user_score_statics_dto.dart';
 import 'package:aniflow/core/network/model/user_staff_statics_dto.dart';
 import 'package:aniflow/core/network/model/user_status_statics_dto.dart';
 import 'package:aniflow/core/network/model/user_studio_statics_dto.dart';
+import 'package:aniflow/core/network/model/user_tag_statics_dto.dart';
 import 'package:aniflow/core/network/model/user_voice_actor_statics_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -40,6 +41,7 @@ class UserStaticsDto with _$UserStaticsDto {
     @Default([])
     @JsonKey(name: 'voiceActors')
     List<UserVoiceActorStaticsDto> voiceActors,
+    @Default([]) @JsonKey(name: 'tags') List<UserTagStaticsDto> tags,
   }) = _UserStaticsDto;
 
   factory UserStaticsDto.fromJson(Map<String, dynamic> json) =>

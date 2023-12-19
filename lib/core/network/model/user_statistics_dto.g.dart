@@ -65,6 +65,11 @@ _$UserStaticsDtoImpl _$$UserStaticsDtoImplFromJson(Map<String, dynamic> json) =>
                   UserVoiceActorStaticsDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      tags: (json['tags'] as List<dynamic>?)
+              ?.map(
+                  (e) => UserTagStaticsDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$UserStaticsDtoImplToJson(
@@ -87,4 +92,5 @@ Map<String, dynamic> _$$UserStaticsDtoImplToJson(
       'staff': instance.staff,
       'studios': instance.studios,
       'voiceActors': instance.voiceActors,
+      'tags': instance.tags,
     };

@@ -182,7 +182,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       onGetEntityFromDB: (int page, int perPage) =>
           favoriteDao.getFavoriteStaffs(userId!, page, perPage),
       mapDtoToEntity: (dto) => StaffEntity.fromStaffDto(dto),
-      mapEntityToModel: (entity) => StaffModel.fromDatabaseEntity(entity),
+      mapEntityToModel: (entity) => StaffModel.fromEntity(entity),
     );
   }
 

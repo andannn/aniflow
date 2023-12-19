@@ -1,7 +1,8 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/core/common/model/stats_type.dart';
+import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/data/user_statistics_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -34,7 +35,7 @@ class _ProfileMediaListTabPageState extends State<ProfileStatsTabPage> {
             ),
             SliverToBoxAdapter(
               child: PopupMenuAnchor(
-                menuItems: StatsType.values,
+                menuItems: UserStatisticType.values,
                 builder: (context, controller, child) {
                   return Row(
                     mainAxisSize: MainAxisSize.min,
@@ -104,6 +105,8 @@ class UserStatics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userStaffLanguage =
+        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final statics = model;
@@ -111,6 +114,18 @@ class UserStatics extends StatelessWidget {
     switch (statics) {
       case UserGenreStatisticsModel():
         title = statics.genre;
+      case UserStudioStatisticsModel():
+        title = statics.studio.name ?? '';
+      case UserStaffStatisticsModel():
+        title =
+            statics.staff.name?.getNameByUserSetting(userStaffLanguage) ?? '';
+      case UserVoiceActorStatisticsModel():
+        title =
+            statics.voiceActor.name?.getNameByUserSetting(userStaffLanguage) ??
+                '';
+      case UserTagStatisticsModel():
+        title =
+            statics.mediaTag.name ?? '';
     }
     return Card(
       elevation: 0,

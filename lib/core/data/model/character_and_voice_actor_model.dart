@@ -25,7 +25,7 @@ class CharacterAndVoiceActorModel {
         entity.characterEntity,
       ),
       voiceActorModel: hasVoiceActor
-          ? StaffModel.fromDatabaseEntity(entity.voiceActorEntity!)
+          ? StaffModel.fromEntity(entity.voiceActorEntity!)
           : null,
       role: entity.role,
       staffLanguage: hasVoiceActor ? entity.language : null

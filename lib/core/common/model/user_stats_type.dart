@@ -1,5 +1,4 @@
-
-enum StatsType {
+enum UserStatisticType {
   aimeGenres('Anime genres'),
   animeTags('Anime tags'),
   animeVoiceActors('Anime voice actors'),
@@ -11,5 +10,10 @@ enum StatsType {
 
   final String label;
 
-  const StatsType(this.label);
+  bool get isManga =>
+      this == UserStatisticType.mangaGenres ||
+      this == UserStatisticType.mangaTags ||
+      this == UserStatisticType.mangaStaff;
+
+  const UserStatisticType(this.label);
 }

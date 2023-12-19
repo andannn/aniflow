@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/model/user_statics_sort.dart';
+import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
@@ -36,7 +37,6 @@ import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
-import 'package:aniflow/core/network/model/user_genres_statics_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -605,10 +605,20 @@ class AniListDataSource {
     return mediaConnections;
   }
 
-  Future<List<UserGenreStaticsDto>> getUserAnimeGenresStats(
-      String id, UserStaticsSort sort,
+  Future<List<dynamic>> getUserStatistic(
+      String id, UserStatisticType type, UserStaticsSort sort,
       [CancelToken? token]) async {
-    final queryGraphQL = userStatsQueryGraphQl;
+    final queryGraphQL = switch (type) {
+      UserStatisticType.aimeGenres => userAnimeGenresStatsQueryGraphQl,
+      UserStatisticType.animeTags => userAnimeTagStatsQueryGraphQl,
+      UserStatisticType.animeVoiceActors =>
+        userAnimeVoiceActorStatsQueryGraphQl,
+      UserStatisticType.animeStudios => userAnimeStudiosStatsQueryGraphQl,
+      UserStatisticType.animeStaff => userAnimeStaffStatsQueryGraphQl,
+      UserStatisticType.mangaGenres => userMangaGenresStatsQueryGraphQl,
+      UserStatisticType.mangaTags => userMangaTagStatsQueryGraphQl,
+      UserStatisticType.mangaStaff => userMangaStaffStatsQueryGraphQl,
+    };
     final variablesMap = <String, dynamic>{
       'id': id,
       'sort': [sort.toJson()],
@@ -620,11 +630,21 @@ class AniListDataSource {
           options: createQueryOptions(_token),
         );
 
-    final Map<String, dynamic> resultJson =
-        response.data['data']['User']['statistics']['anime'];
+    final Map<String, dynamic> resultJson = type.isManga
+        ? response.data['data']['User']['statistics']['manga']
+        : response.data['data']['User']['statistics']['anime'];
     final userStatics = UserStaticsDto.fromJson(resultJson);
 
-    return userStatics.genres;
+    return switch (type) {
+      UserStatisticType.aimeGenres => userStatics.genres,
+      UserStatisticType.animeTags => userStatics.tags,
+      UserStatisticType.animeVoiceActors => userStatics.voiceActors,
+      UserStatisticType.animeStudios => userStatics.studios,
+      UserStatisticType.animeStaff => userStatics.staff,
+      UserStatisticType.mangaGenres => userStatics.genres,
+      UserStatisticType.mangaTags => userStatics.tags,
+      UserStatisticType.mangaStaff => userStatics.staff,
+    };
   }
 
   Future<List<MediaDto>> getMediasById(List<String> ids,

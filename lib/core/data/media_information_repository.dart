@@ -406,7 +406,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Stream<StaffModel?> getDetailStaffStream(String id) {
     return staffDao.getStaffByIdStream(id).map(
           (entity) =>
-              entity != null ? StaffModel.fromDatabaseEntity(entity) : null,
+              entity != null ? StaffModel.fromEntity(entity) : null,
         );
   }
 

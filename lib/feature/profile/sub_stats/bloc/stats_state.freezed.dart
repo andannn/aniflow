@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$StatsState {
-  StatsType get type => throw _privateConstructorUsedError;
+  UserStatisticType get type => throw _privateConstructorUsedError;
   StatsLoadState get loadState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $StatsStateCopyWith<$Res> {
           StatsState value, $Res Function(StatsState) then) =
       _$StatsStateCopyWithImpl<$Res, StatsState>;
   @useResult
-  $Res call({StatsType type, StatsLoadState loadState});
+  $Res call({UserStatisticType type, StatsLoadState loadState});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$StatsStateCopyWithImpl<$Res, $Val extends StatsState>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as StatsType,
+              as UserStatisticType,
       loadState: null == loadState
           ? _value.loadState
           : loadState // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,7 @@ abstract class _$$StatsStateImplCopyWith<$Res>
       __$$StatsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({StatsType type, StatsLoadState loadState});
+  $Res call({UserStatisticType type, StatsLoadState loadState});
 }
 
 /// @nodoc
@@ -91,7 +91,7 @@ class __$$StatsStateImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as StatsType,
+              as UserStatisticType,
       loadState: null == loadState
           ? _value.loadState
           : loadState // ignore: cast_nullable_to_non_nullable
@@ -104,11 +104,12 @@ class __$$StatsStateImplCopyWithImpl<$Res>
 
 class _$StatsStateImpl implements _StatsState {
   const _$StatsStateImpl(
-      {this.type = StatsType.aimeGenres, this.loadState = const Loading()});
+      {this.type = UserStatisticType.aimeGenres,
+      this.loadState = const Loading()});
 
   @override
   @JsonKey()
-  final StatsType type;
+  final UserStatisticType type;
   @override
   @JsonKey()
   final StatsLoadState loadState;
@@ -140,11 +141,11 @@ class _$StatsStateImpl implements _StatsState {
 
 abstract class _StatsState implements StatsState {
   const factory _StatsState(
-      {final StatsType type,
+      {final UserStatisticType type,
       final StatsLoadState loadState}) = _$StatsStateImpl;
 
   @override
-  StatsType get type;
+  UserStatisticType get type;
   @override
   StatsLoadState get loadState;
   @override

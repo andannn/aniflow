@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:aniflow/core/common/model/stats_type.dart';
 import 'package:aniflow/core/common/model/user_statics_sort.dart';
+import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
@@ -12,7 +12,7 @@ import 'package:dio/dio.dart';
 abstract class UserStatisticsRepository {
   Future<LoadResult<List<UserStatisticsModel>>> getUserStatics(
       {required String userId,
-      required StatsType type,
+      required UserStatisticType type,
       required UserStaticsSort sort,
       CancelToken? cancelToken});
 
@@ -27,23 +27,12 @@ class UserStatisticsRepositoryImpl extends UserStatisticsRepository {
   @override
   Future<LoadResult<List<UserStatisticsModel>>> getUserStatics(
       {required String userId,
-      required StatsType type,
+      required UserStatisticType type,
       required UserStaticsSort sort,
       CancelToken? cancelToken}) async {
     try {
-      final List statsDto;
-      switch (type) {
-        case StatsType.aimeGenres:
-        case StatsType.animeTags:
-        case StatsType.animeVoiceActors:
-        case StatsType.animeStudios:
-        case StatsType.animeStaff:
-        case StatsType.mangaGenres:
-        case StatsType.mangaTags:
-        case StatsType.mangaStaff:
-          statsDto = await dataSource.getUserAnimeGenresStats(
-              userId, sort, cancelToken);
-      }
+      final List statsDto =
+          await dataSource.getUserStatistic(userId, type, sort, cancelToken);
       return LoadSuccess(
           data:
               statsDto.map((dto) => UserStatisticsModel.fromDto(dto)).toList());

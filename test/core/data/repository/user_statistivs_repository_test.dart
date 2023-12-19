@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/stats_type.dart';
 import 'package:aniflow/core/common/model/user_statics_sort.dart';
+import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
@@ -24,7 +24,7 @@ void main() {
     test('get_statics', () async {
       final result = await repository.getUserStatics(
           userId: '6378393',
-          type: StatsType.aimeGenres,
+          type: UserStatisticType.aimeGenres,
           sort: UserStaticsSort.count);
       expect(result.runtimeType, LoadSuccess<List<UserStatisticsModel>>);
     });

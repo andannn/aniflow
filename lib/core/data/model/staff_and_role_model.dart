@@ -10,7 +10,7 @@ class StaffAndRoleModel {
   static StaffAndRoleModel fromDatabaseEntity(StaffAndRoleRelation entity) {
     return StaffAndRoleModel(
       role: entity.role,
-      staff: StaffModel.fromDatabaseEntity(entity.staff),
+      staff: StaffModel.fromEntity(entity.staff),
     );
   }
 }

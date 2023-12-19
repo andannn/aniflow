@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/stats_type.dart';
 import 'package:aniflow/core/common/model/user_statics_sort.dart';
+import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -12,7 +12,7 @@ import 'package:dio/dio.dart';
 sealed class StatsEvent {}
 
 class OnStatsTypeChanged extends StatsEvent {
-  final StatsType type;
+  final UserStatisticType type;
 
   OnStatsTypeChanged({required this.type});
 }
@@ -49,7 +49,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     if (change.currentState.type != change.nextState.type) {
       // load content again when settings changed.
       _fetchUserStatics(
-          type: change.nextState.type, sort: UserStaticsSort.meanScore);
+          type: change.nextState.type, sort: UserStaticsSort.count);
     }
   }
 
@@ -61,7 +61,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
   }
 
   Future _fetchUserStatics(
-      {required StatsType type, required UserStaticsSort sort}) async {
+      {required UserStatisticType type, required UserStaticsSort sort}) async {
     logger.d('fetchUserStatics. stats type: $type, sort: $sort');
     // Cancel last task if needed.
     _cancelToken?.cancel();

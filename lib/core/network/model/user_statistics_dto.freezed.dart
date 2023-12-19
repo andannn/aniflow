@@ -57,6 +57,8 @@ mixin _$UserStaticsDto {
   @JsonKey(name: 'voiceActors')
   List<UserVoiceActorStaticsDto> get voiceActors =>
       throw _privateConstructorUsedError;
+  @JsonKey(name: 'tags')
+  List<UserTagStaticsDto> get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -88,8 +90,8 @@ abstract class $UserStaticsDtoCopyWith<$Res> {
       @JsonKey(name: 'countries') List<UserCountryStaticsDto> countries,
       @JsonKey(name: 'staff') List<UserStaffStaticsDto> staff,
       @JsonKey(name: 'studios') List<UserStudioStaticsDto> studios,
-      @JsonKey(name: 'voiceActors')
-      List<UserVoiceActorStaticsDto> voiceActors});
+      @JsonKey(name: 'voiceActors') List<UserVoiceActorStaticsDto> voiceActors,
+      @JsonKey(name: 'tags') List<UserTagStaticsDto> tags});
 }
 
 /// @nodoc
@@ -122,6 +124,7 @@ class _$UserStaticsDtoCopyWithImpl<$Res, $Val extends UserStaticsDto>
     Object? staff = null,
     Object? studios = null,
     Object? voiceActors = null,
+    Object? tags = null,
   }) {
     return _then(_value.copyWith(
       count: freezed == count
@@ -192,6 +195,10 @@ class _$UserStaticsDtoCopyWithImpl<$Res, $Val extends UserStaticsDto>
           ? _value.voiceActors
           : voiceActors // ignore: cast_nullable_to_non_nullable
               as List<UserVoiceActorStaticsDto>,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<UserTagStaticsDto>,
     ) as $Val);
   }
 }
@@ -222,8 +229,8 @@ abstract class _$$UserStaticsDtoImplCopyWith<$Res>
       @JsonKey(name: 'countries') List<UserCountryStaticsDto> countries,
       @JsonKey(name: 'staff') List<UserStaffStaticsDto> staff,
       @JsonKey(name: 'studios') List<UserStudioStaticsDto> studios,
-      @JsonKey(name: 'voiceActors')
-      List<UserVoiceActorStaticsDto> voiceActors});
+      @JsonKey(name: 'voiceActors') List<UserVoiceActorStaticsDto> voiceActors,
+      @JsonKey(name: 'tags') List<UserTagStaticsDto> tags});
 }
 
 /// @nodoc
@@ -254,6 +261,7 @@ class __$$UserStaticsDtoImplCopyWithImpl<$Res>
     Object? staff = null,
     Object? studios = null,
     Object? voiceActors = null,
+    Object? tags = null,
   }) {
     return _then(_$UserStaticsDtoImpl(
       count: freezed == count
@@ -324,6 +332,10 @@ class __$$UserStaticsDtoImplCopyWithImpl<$Res>
           ? _value._voiceActors
           : voiceActors // ignore: cast_nullable_to_non_nullable
               as List<UserVoiceActorStaticsDto>,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<UserTagStaticsDto>,
     ));
   }
 }
@@ -357,7 +369,8 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
       @JsonKey(name: 'studios')
       final List<UserStudioStaticsDto> studios = const [],
       @JsonKey(name: 'voiceActors')
-      final List<UserVoiceActorStaticsDto> voiceActors = const []})
+      final List<UserVoiceActorStaticsDto> voiceActors = const [],
+      @JsonKey(name: 'tags') final List<UserTagStaticsDto> tags = const []})
       : _formats = formats,
         _statuses = statuses,
         _scores = scores,
@@ -367,7 +380,8 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
         _countries = countries,
         _staff = staff,
         _studios = studios,
-        _voiceActors = voiceActors;
+        _voiceActors = voiceActors,
+        _tags = tags;
 
   factory _$UserStaticsDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserStaticsDtoImplFromJson(json);
@@ -483,9 +497,18 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
     return EqualUnmodifiableListView(_voiceActors);
   }
 
+  final List<UserTagStaticsDto> _tags;
+  @override
+  @JsonKey(name: 'tags')
+  List<UserTagStaticsDto> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
   @override
   String toString() {
-    return 'UserStaticsDto(count: $count, meanScore: $meanScore, standardDeviation: $standardDeviation, minutesWatched: $minutesWatched, episodesWatched: $episodesWatched, chaptersRead: $chaptersRead, volumesRead: $volumesRead, formats: $formats, statuses: $statuses, scores: $scores, lengths: $lengths, releaseYears: $releaseYears, genres: $genres, countries: $countries, staff: $staff, studios: $studios, voiceActors: $voiceActors)';
+    return 'UserStaticsDto(count: $count, meanScore: $meanScore, standardDeviation: $standardDeviation, minutesWatched: $minutesWatched, episodesWatched: $episodesWatched, chaptersRead: $chaptersRead, volumesRead: $volumesRead, formats: $formats, statuses: $statuses, scores: $scores, lengths: $lengths, releaseYears: $releaseYears, genres: $genres, countries: $countries, staff: $staff, studios: $studios, voiceActors: $voiceActors, tags: $tags)';
   }
 
   @override
@@ -518,7 +541,8 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
             const DeepCollectionEquality().equals(other._staff, _staff) &&
             const DeepCollectionEquality().equals(other._studios, _studios) &&
             const DeepCollectionEquality()
-                .equals(other._voiceActors, _voiceActors));
+                .equals(other._voiceActors, _voiceActors) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(ignore: true)
@@ -541,7 +565,8 @@ class _$UserStaticsDtoImpl implements _UserStaticsDto {
       const DeepCollectionEquality().hash(_countries),
       const DeepCollectionEquality().hash(_staff),
       const DeepCollectionEquality().hash(_studios),
-      const DeepCollectionEquality().hash(_voiceActors));
+      const DeepCollectionEquality().hash(_voiceActors),
+      const DeepCollectionEquality().hash(_tags));
 
   @JsonKey(ignore: true)
   @override
@@ -578,7 +603,9 @@ abstract class _UserStaticsDto implements UserStaticsDto {
       @JsonKey(name: 'staff') final List<UserStaffStaticsDto> staff,
       @JsonKey(name: 'studios') final List<UserStudioStaticsDto> studios,
       @JsonKey(name: 'voiceActors')
-      final List<UserVoiceActorStaticsDto> voiceActors}) = _$UserStaticsDtoImpl;
+      final List<UserVoiceActorStaticsDto> voiceActors,
+      @JsonKey(name: 'tags')
+      final List<UserTagStaticsDto> tags}) = _$UserStaticsDtoImpl;
 
   factory _UserStaticsDto.fromJson(Map<String, dynamic> json) =
       _$UserStaticsDtoImpl.fromJson;
@@ -634,6 +661,9 @@ abstract class _UserStaticsDto implements UserStaticsDto {
   @override
   @JsonKey(name: 'voiceActors')
   List<UserVoiceActorStaticsDto> get voiceActors;
+  @override
+  @JsonKey(name: 'tags')
+  List<UserTagStaticsDto> get tags;
   @override
   @JsonKey(ignore: true)
   _$$UserStaticsDtoImplCopyWith<_$UserStaticsDtoImpl> get copyWith =>
