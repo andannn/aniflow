@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/data/user_statistics_repository.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -23,9 +24,12 @@ class _OnUserStatsContentChanged extends StatsEvent {
   _OnUserStatsContentChanged({required this.loadState});
 }
 
-class StatsBloc extends Bloc<StatsEvent, StatsState> {
-  StatsBloc(this.userId, {required this.repository})
-      : super(const StatsState()) {
+class StatsBloc extends Bloc<StatsEvent, StatsState>
+    with LoadingStateNotifier<StatsEvent, StatsState> {
+  StatsBloc(
+    this.userId, {
+    required this.repository,
+  }) : super(const StatsState()) {
     on<OnStatsTypeChanged>(
       (event, emit) => emit(state.copyWith(type: event.type)),
     );
@@ -77,4 +81,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         add(_OnUserStatsContentChanged(loadState: Ready(result.data)));
     }
   }
+
+  @override
+  bool isLoading(StatsState state) => state.loadState is Loading;
 }

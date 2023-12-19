@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 enum ProfileTabType {
   favorite,
   activity,
+  stats,
   animeList,
   mangaList,
-  stats,
 }
 
 extension ProfileTabTypeEx on ProfileTabType {

@@ -55,14 +55,6 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       return state;
     }
 
-    final isLoading = favoriteAnimeState is PageLoading ||
-        favoriteMangaState is PageLoading ||
-        favoriteCharacterState is PageLoading ||
-        favoriteStaffState is PageLoading;
-    context
-        .read<ProfileBloc>()
-        .add(OnFavoritePageLoadingStateChanged(isLoading: isLoading));
-
     final isNoData = favoriteAnimeState!.data.isEmpty &&
         favoriteMangaState!.data.isEmpty &&
         favoriteCharacterState!.data.isEmpty &&

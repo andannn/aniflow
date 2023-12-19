@@ -27,7 +27,8 @@ class _ProfileMediaListTabPageState extends State<ProfileStatsTabPage> {
       builder: (BuildContext context, state) {
         final type = state.type;
         final loadState = state.loadState;
-        final isLoading = loadState is Loading;
+        final isLoading = state.loadState is Loading;
+
         return CustomScrollView(
           slivers: [
             SliverOverlapInjector(
@@ -124,8 +125,7 @@ class UserStatics extends StatelessWidget {
             statics.voiceActor.name?.getNameByUserSetting(userStaffLanguage) ??
                 '';
       case UserTagStatisticsModel():
-        title =
-            statics.mediaTag.name ?? '';
+        title = statics.mediaTag.name ?? '';
     }
     return Card(
       elevation: 0,

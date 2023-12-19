@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 
@@ -29,8 +30,8 @@ class OnRequestLoadPageEvent<T> extends PagingEvent<T> {}
 
 class OnRetryLoadPageEvent<T> extends PagingEvent<T> {}
 
-abstract class PagingBloc<T>
-    extends Bloc<PagingEvent<T>, PagingState<List<T>>> {
+abstract class PagingBloc<T> extends Bloc<PagingEvent<T>, PagingState<List<T>>>
+    with LoadingStateNotifier<PagingEvent<T>, PagingState<List<T>>> {
   PagingBloc(super.initialState) {
     on<OnInit<T>>(onInit);
     on<_OnPageLoadedEvent<T>>(_onPageLoadedEvent);
@@ -42,6 +43,9 @@ abstract class PagingBloc<T>
   }
 
   CancelToken? _cancelToken;
+
+  @override
+  bool isLoading(PagingState<List<T>> state) => state is PageLoading;
 
   @override
   Future<void> close() {
@@ -63,8 +67,7 @@ abstract class PagingBloc<T>
     CancelToken? cancelToken,
   });
 
-  Future createLoadPageTask(
-      {int page = 1, bool isRefresh = false}) async {
+  Future createLoadPageTask({int page = 1, bool isRefresh = false}) async {
     _cancelToken ??= CancelToken();
     final LoadResult result = await loadPage(
       page: page,

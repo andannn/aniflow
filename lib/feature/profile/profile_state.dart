@@ -7,7 +7,6 @@ part 'profile_state.freezed.dart';
 class ProfileState with _$ProfileState {
   factory ProfileState({
     UserModel? userData,
-    @Default(false) bool isFavoriteLoading,
-    @Default(false) bool isMediaListPageLoading,
+    @Default(true) bool isLoading,
   }) = _ProfileState;
 }

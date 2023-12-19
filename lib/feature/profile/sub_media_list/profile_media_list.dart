@@ -97,15 +97,6 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
       return state;
     }
 
-    final isLoading = watchingAnime is PageLoading ||
-        droppedAnime is PageLoading ||
-        completeAnime is PageLoading ||
-        readingManga is PageLoading ||
-        droppedManga is PageLoading;
-    context
-        .read<ProfileBloc>()
-        .add(OnMediaPageLoadingStateChanged(isLoading: isLoading));
-
     final bool isNoData;
     if (isAnime) {
       isNoData = watchingAnime!.data.isEmpty &&
@@ -148,7 +139,8 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of(context).backStack
+                AfRouterDelegate.of(context)
+                    .backStack
                     .navigateToMediaListPage(type, userId);
               },
             ),
@@ -184,7 +176,8 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of(context).backStack
+        AfRouterDelegate.of(context)
+            .backStack
             .navigateToDetailMedia(model.animeModel!.id);
       },
     );

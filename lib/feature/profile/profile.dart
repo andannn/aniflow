@@ -65,67 +65,68 @@ class _ProfilePageContent extends StatelessWidget {
         if (userState == null) {
           return const SizedBox();
         } else {
+          final loadingStateRepository = context.read<ProfileBloc>();
           return MultiBlocProvider(
             providers: [
               BlocProvider(
                 create: (BuildContext context) => FavoriteAnimePagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => FavoriteMangaPagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => FavoriteCharacterPagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => FavoriteStaffPagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => WatchingAnimeListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => DroppedAnimeListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => CompleteAnimeListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => ReadingMangaListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => DroppedMangaListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => StatsBloc(
                   userState.id,
                   repository: context.read<UserStatisticsRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
             ],
             child: _UserProfile(userState: userState),
@@ -230,9 +231,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        final isLoading =
-            state.isFavoriteLoading || state.isMediaListPageLoading;
-        return _buildCustomHeader(context, shrinkOffset, isLoading);
+        return _buildCustomHeader(context, shrinkOffset, state.isLoading);
       },
     );
   }
