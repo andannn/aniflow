@@ -139,7 +139,11 @@ class ActivityRepositoryImpl implements ActivityRepository {
           token: token,
         );
       },
-      onInsertToDB: (List<AniActivity> dto) async {},
+      onInsertToDB: (List<AniActivity> dto) async {
+        final entities =
+            dto.map((e) => ActivityAndUserRelation.fromDto(e)).toList();
+        await activityDao.insertOrIgnoreActivityEntities(entities);
+      },
       mapDtoToModel: ActivityModel.fromDto,
     );
   }
