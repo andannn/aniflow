@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -9,6 +10,7 @@ import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
 import 'package:aniflow/feature/profile/profile_tab_category.dart';
+import 'package:aniflow/feature/profile/sub_activity/UserActivityPagingBloc.dart';
 import 'package:aniflow/feature/profile/sub_activity/profile_activity_overview.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
@@ -126,6 +128,12 @@ class _ProfilePageContent extends StatelessWidget {
                 create: (BuildContext context) => StatsBloc(
                   userState.id,
                   repository: context.read<UserStatisticsRepository>(),
+                )..loadingStateRepository = loadingStateRepository,
+              ),
+              BlocProvider(
+                create: (BuildContext context) => UserActivityPagingBloc(
+                  userState.id,
+                  activityRepository: context.read<ActivityRepository>(),
                 )..loadingStateRepository = loadingStateRepository,
               ),
             ],
