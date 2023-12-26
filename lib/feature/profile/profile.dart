@@ -133,6 +133,7 @@ class _ProfilePageContent extends StatelessWidget {
               BlocProvider(
                 create: (BuildContext context) => UserActivityPagingBloc(
                   userState.id,
+                  perPageCount: AfConfig.defaultPerPageCount,
                   activityRepository: context.read<ActivityRepository>(),
                 )..loadingStateRepository = loadingStateRepository,
               ),
