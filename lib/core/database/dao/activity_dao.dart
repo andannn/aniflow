@@ -210,7 +210,7 @@ class ActivityDaoImpl extends ActivityDao {
           conflictAlgorithm: ConflictAlgorithm.ignore,
         );
       }
-      return batch.commit(noResult: true);
     }
+    return batch.commit(noResult: true);
   }
 }
