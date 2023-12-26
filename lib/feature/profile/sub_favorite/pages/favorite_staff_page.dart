@@ -1,3 +1,5 @@
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
@@ -33,6 +35,7 @@ class FavoriteStaffListRoute extends PageRoute
     return BlocProvider(
       create: (context) => FavoriteStaffPagingBloc(
         userId,
+        perPageCount: AfConfig.defaultPerPageCount,
         favoriteRepository: context.read<FavoriteRepository>(),
       ),
       child: const _FavoriteStaffListPageContent(),
@@ -81,6 +84,7 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
       title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
+        AfRouterDelegate.of(context).backStack.navigateToDetailStaff(model.id);
       },
     );
   }

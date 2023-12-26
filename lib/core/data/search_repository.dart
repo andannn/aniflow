@@ -23,7 +23,7 @@ abstract class SearchRepository {
 
 class SearchRepositoryImpl implements SearchRepository {
   final AniListDataSource dataSource = AniListDataSource();
-  final MediaInformationDao dao = AniflowDatabase().getMediaInformationDaoDao();
+  final MediaDao dao = AniflowDatabase().getMediaDao();
 
   @override
   Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage({

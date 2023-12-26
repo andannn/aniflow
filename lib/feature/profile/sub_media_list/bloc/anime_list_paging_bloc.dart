@@ -12,12 +12,14 @@ import 'package:dio/dio.dart';
 class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   WatchingAnimeListPagingBloc(
     this.userId, {
+    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
     required MediaListRepository mediaListRepository,
   })  : _mediaListRepository = mediaListRepository,
         super(const PageInit(data: []));
 
   final String userId;
   final MediaListRepository _mediaListRepository;
+  final int perPageCount;
 
   @override
   Future<LoadResult<List<MediaListItemModel>>> loadPage({
@@ -30,7 +32,7 @@ class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.anime,
       userId: userId,
       page: page,
-      perPage: AfConfig.profilePageDefaultPerPageCount,
+      perPage: perPageCount,
       token: cancelToken,
     );
   }
@@ -39,12 +41,14 @@ class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
 class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   DroppedAnimeListPagingBloc(
     this.userId, {
+    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
     required MediaListRepository mediaListRepository,
   })  : _mediaListRepository = mediaListRepository,
         super(const PageInit(data: []));
 
   final String userId;
   final MediaListRepository _mediaListRepository;
+  final int perPageCount;
 
   @override
   Future<LoadResult<List<MediaListItemModel>>> loadPage({
@@ -57,7 +61,7 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.anime,
       userId: userId,
       page: page,
-      perPage: AfConfig.profilePageDefaultPerPageCount,
+      perPage: perPageCount,
       token: cancelToken,
     );
   }
@@ -66,12 +70,14 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
 class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   CompleteAnimeListPagingBloc(
     this.userId, {
+    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
     required MediaListRepository mediaListRepository,
   })  : _mediaListRepository = mediaListRepository,
         super(const PageInit(data: []));
 
   final String userId;
   final MediaListRepository _mediaListRepository;
+  final int perPageCount;
 
   @override
   Future<LoadResult<List<MediaListItemModel>>> loadPage({
@@ -84,7 +90,7 @@ class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
       type: MediaType.anime,
       userId: userId,
       page: page,
-      perPage: AfConfig.profilePageDefaultPerPageCount,
+      perPage: perPageCount,
       token: cancelToken,
     );
   }

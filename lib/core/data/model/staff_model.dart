@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'staff_model.freezed.dart';
@@ -25,7 +26,7 @@ class StaffModel with _$StaffModel {
     String? bloodType,
   }) = _StaffModel;
 
-  static StaffModel fromDatabaseEntity(StaffEntity entity) {
+  static StaffModel fromEntity(StaffEntity entity) {
     return StaffModel(
       id: entity.id,
       image: entity.image ?? '',
@@ -48,9 +49,13 @@ class StaffModel with _$StaffModel {
           ? DateTime.fromMillisecondsSinceEpoch(entity.dateOfDeath!)
           : null,
       yearsActive:
-          entity.yearsActive != null ? jsonDecode(entity.yearsActive!) : [],
+      entity.yearsActive != null ? jsonDecode(entity.yearsActive!) : [],
       homeTown: entity.homeTown,
       bloodType: entity.bloodType,
     );
+  }
+
+  static StaffModel fromDto(StaffDto dto) {
+    return StaffModel.fromEntity(StaffEntity.fromStaffDto(dto));
   }
 }

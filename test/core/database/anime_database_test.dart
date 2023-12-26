@@ -16,7 +16,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('anime_database_test', () {
     final animeDatabase = AniflowDatabase();
-    final animeDao = animeDatabase.getMediaInformationDaoDao();
+    final animeDao = animeDatabase.getMediaDao();
     final airingScheduleDao = animeDatabase.getAiringScheduleDao();
 
     final dummyAnimeData = [
@@ -146,19 +146,19 @@ void main() {
     });
 
     test('anime_dao_clear_all', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
       await animeDao.clearAnimeCategoryCrossRef(MediaCategory.movieAnime);
     });
 
     test('anime_dao_insert', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
       await animeDao.insertOrIgnoreMediaByAnimeCategory(
           MediaCategory.trendingAnime,
           animeList: dummyAnimeData);
     });
 
     test('anime_dao_insert_and_get', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
       await animeDao.insertOrIgnoreMediaByAnimeCategory(
           MediaCategory.trendingAnime,
           animeList: dummyAnimeData);
@@ -169,7 +169,7 @@ void main() {
     });
 
     test('user_data_insert_and_get_cross_ref', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
       await animeDao.insertOrIgnoreMediaByAnimeCategory(
           MediaCategory.trendingAnime,
           animeList: dummyAnimeData.sublist(0, 2));
@@ -185,7 +185,7 @@ void main() {
     });
 
     test('upsert_detail_anime_data', () async {
-      final animeDao = animeDatabase.getMediaInformationDaoDao();
+      final animeDao = animeDatabase.getMediaDao();
       await animeDao.insertMedia([dummyAnimeData[0]]);
       final res = await animeDatabase.aniflowDB.query(Tables.mediaTable);
       expect(MediaEntity.fromJson(res.first), equals(dummyAnimeData[0]));
@@ -236,6 +236,12 @@ void main() {
       final res = await animeDao.getMediaRelations('4353');
       expect(res.map((e) => e.media),
           equals(dummyMediaRelation.medias.map((e) => e.media)));
+    });
+
+    test('get_medias', () async {
+      await animeDao.insertMedia(dummyAnimeData);
+      final res = await animeDao.getMedias(['5784', '8917']);
+      expect(res.length, equals(2));
     });
   });
 }

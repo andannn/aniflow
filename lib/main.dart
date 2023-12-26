@@ -11,6 +11,7 @@ import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/data/search_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
+import 'package:aniflow/core/data/user_statistics_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -63,6 +64,9 @@ void main() async {
     ),
     RepositoryProvider<NotificationRepository>(
       create: (context) => NotificationRepositoryImpl(),
+    ),
+    RepositoryProvider<UserStatisticsRepository>(
+      create: (context) => UserStatisticsRepositoryImpl(),
     ),
   ], child: const AniFlowApp()));
 

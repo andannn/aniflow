@@ -12,11 +12,13 @@ import 'package:dio/dio.dart';
 class FavoriteAnimePagingBloc extends RefreshPagingBloc<MediaModel> {
   FavoriteAnimePagingBloc(
     this.userId, {
+    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
     required FavoriteRepository favoriteRepository,
   })  : _favoriteRepository = favoriteRepository,
         super(const PageInit(data: []));
 
   final String userId;
+  final int perPageCount;
   final FavoriteRepository _favoriteRepository;
 
   @override
@@ -29,9 +31,8 @@ class FavoriteAnimePagingBloc extends RefreshPagingBloc<MediaModel> {
       type: MediaType.anime,
       userId: userId,
       loadType: isRefresh
-          ? const Refresh(AfConfig.profilePageDefaultPerPageCount)
-          : Append(
-              page: page, perPage: AfConfig.profilePageDefaultPerPageCount),
+          ? Refresh(perPageCount)
+          : Append(page: page, perPage: perPageCount),
       token: cancelToken,
     );
   }

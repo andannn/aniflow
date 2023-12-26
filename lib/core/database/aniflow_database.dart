@@ -56,7 +56,7 @@ class AniflowDatabase {
 
   Database? _aniflowDB;
 
-  MediaInformationDao? _mediaInformationDaoDao;
+  MediaDao? _mediaInformationDaoDao;
 
   StaffDao? _staffDao;
 
@@ -105,8 +105,8 @@ class AniflowDatabase {
     );
   }
 
-  MediaInformationDao getMediaInformationDaoDao() =>
-      _mediaInformationDaoDao ??= MediaInformationDaoImpl(this);
+  MediaDao getMediaDao() =>
+      _mediaInformationDaoDao ??= MediaDaoImpl(this);
 
   StaffDao getStaffDao() => _staffDao ??= StaffDaoImpl(this);
 

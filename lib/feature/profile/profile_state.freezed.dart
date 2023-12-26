@@ -17,8 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   UserModel? get userData => throw _privateConstructorUsedError;
-  bool get isFavoriteLoading => throw _privateConstructorUsedError;
-  bool get isMediaListPageLoading => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -31,10 +30,7 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call(
-      {UserModel? userData,
-      bool isFavoriteLoading,
-      bool isMediaListPageLoading});
+  $Res call({UserModel? userData, bool isLoading});
 
   $UserModelCopyWith<$Res>? get userData;
 }
@@ -53,21 +49,16 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @override
   $Res call({
     Object? userData = freezed,
-    Object? isFavoriteLoading = null,
-    Object? isMediaListPageLoading = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
-      isFavoriteLoading: null == isFavoriteLoading
-          ? _value.isFavoriteLoading
-          : isFavoriteLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMediaListPageLoading: null == isMediaListPageLoading
-          ? _value.isMediaListPageLoading
-          : isMediaListPageLoading // ignore: cast_nullable_to_non_nullable
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -93,10 +84,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {UserModel? userData,
-      bool isFavoriteLoading,
-      bool isMediaListPageLoading});
+  $Res call({UserModel? userData, bool isLoading});
 
   @override
   $UserModelCopyWith<$Res>? get userData;
@@ -114,21 +102,16 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userData = freezed,
-    Object? isFavoriteLoading = null,
-    Object? isMediaListPageLoading = null,
+    Object? isLoading = null,
   }) {
     return _then(_$ProfileStateImpl(
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
-      isFavoriteLoading: null == isFavoriteLoading
-          ? _value.isFavoriteLoading
-          : isFavoriteLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMediaListPageLoading: null == isMediaListPageLoading
-          ? _value.isMediaListPageLoading
-          : isMediaListPageLoading // ignore: cast_nullable_to_non_nullable
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -137,23 +120,17 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProfileStateImpl implements _ProfileState {
-  _$ProfileStateImpl(
-      {this.userData,
-      this.isFavoriteLoading = false,
-      this.isMediaListPageLoading = false});
+  _$ProfileStateImpl({this.userData, this.isLoading = true});
 
   @override
   final UserModel? userData;
   @override
   @JsonKey()
-  final bool isFavoriteLoading;
-  @override
-  @JsonKey()
-  final bool isMediaListPageLoading;
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'ProfileState(userData: $userData, isFavoriteLoading: $isFavoriteLoading, isMediaListPageLoading: $isMediaListPageLoading)';
+    return 'ProfileState(userData: $userData, isLoading: $isLoading)';
   }
 
   @override
@@ -163,15 +140,12 @@ class _$ProfileStateImpl implements _ProfileState {
             other is _$ProfileStateImpl &&
             (identical(other.userData, userData) ||
                 other.userData == userData) &&
-            (identical(other.isFavoriteLoading, isFavoriteLoading) ||
-                other.isFavoriteLoading == isFavoriteLoading) &&
-            (identical(other.isMediaListPageLoading, isMediaListPageLoading) ||
-                other.isMediaListPageLoading == isMediaListPageLoading));
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, userData, isFavoriteLoading, isMediaListPageLoading);
+  int get hashCode => Object.hash(runtimeType, userData, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -181,17 +155,13 @@ class _$ProfileStateImpl implements _ProfileState {
 }
 
 abstract class _ProfileState implements ProfileState {
-  factory _ProfileState(
-      {final UserModel? userData,
-      final bool isFavoriteLoading,
-      final bool isMediaListPageLoading}) = _$ProfileStateImpl;
+  factory _ProfileState({final UserModel? userData, final bool isLoading}) =
+      _$ProfileStateImpl;
 
   @override
   UserModel? get userData;
   @override
-  bool get isFavoriteLoading;
-  @override
-  bool get isMediaListPageLoading;
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

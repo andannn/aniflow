@@ -1,3 +1,5 @@
+import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
@@ -33,6 +35,7 @@ class FavoriteCharacterListRoute extends PageRoute
     return BlocProvider(
       create: (context) => FavoriteCharacterPagingBloc(
         userId,
+        perPageCount: AfConfig.defaultPerPageCount,
         favoriteRepository: context.read<FavoriteRepository>(),
       ),
       child: const _FavoriteCharacterListPageContent(),
@@ -80,7 +83,11 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
       coverImage: model.image,
       title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
-      onClick: () {},
+      onClick: () {
+        AfRouterDelegate.of(context)
+            .backStack
+            .navigateToDetailCharacter(model.id);
+      },
     );
   }
 }

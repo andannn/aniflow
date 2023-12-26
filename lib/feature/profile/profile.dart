@@ -4,10 +4,12 @@ import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
+import 'package:aniflow/core/data/user_statistics_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
-import 'package:aniflow/feature/profile/bloc/profile_bloc.dart';
-import 'package:aniflow/feature/profile/bloc/profile_state.dart';
-import 'package:aniflow/feature/profile/bloc/profile_tab_category.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
+import 'package:aniflow/feature/profile/profile_state.dart';
+import 'package:aniflow/feature/profile/profile_tab_category.dart';
+import 'package:aniflow/feature/profile/sub_activity/profile_activity_overview.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
@@ -16,7 +18,8 @@ import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
-import 'package:aniflow/feature/profile/sub_overview/profile_overview.dart';
+import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
+import 'package:aniflow/feature/profile/sub_stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,74 +65,71 @@ class _ProfilePageContent extends StatelessWidget {
         if (userState == null) {
           return const SizedBox();
         } else {
-          final profileColor = userState.profileColor;
-          final themeData = profileColor != null
-              ? Theme.of(context).copyWith(
-                  colorScheme: ColorScheme.fromSeed(seedColor: profileColor))
-              : null;
+          final loadingStateRepository = context.read<ProfileBloc>();
           return MultiBlocProvider(
             providers: [
               BlocProvider(
                 create: (BuildContext context) => FavoriteAnimePagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => FavoriteMangaPagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => FavoriteCharacterPagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => FavoriteStaffPagingBloc(
                   userState.id,
                   favoriteRepository: context.read<FavoriteRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => WatchingAnimeListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => DroppedAnimeListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => CompleteAnimeListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => ReadingMangaListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) => DroppedMangaListPagingBloc(
                   userState.id,
                   mediaListRepository: context.read<MediaListRepository>(),
-                ),
+                )..loadingStateRepository = loadingStateRepository,
+              ),
+              BlocProvider(
+                create: (BuildContext context) => StatsBloc(
+                  userState.id,
+                  repository: context.read<UserStatisticsRepository>(),
+                )..loadingStateRepository = loadingStateRepository,
               ),
             ],
-            child: themeData != null
-                ? Theme(
-                    data: themeData,
-                    child: _UserProfile(userState: userState),
-                  )
-                : _UserProfile(userState: userState),
+            child: _UserProfile(userState: userState),
           );
         }
       },
@@ -198,16 +198,16 @@ class _UserProfileState extends State<_UserProfile>
 
   Widget _buildPageByProfileCategory(ProfileTabType category) {
     switch (category) {
-      case ProfileTabType.overview:
-        return const ProfileOverviewPage();
+      case ProfileTabType.activity:
+        return const ProfileActivityPage();
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:
         return const ProfileMediaListTabPage(mediaType: MediaType.anime);
       case ProfileTabType.mangaList:
         return const ProfileMediaListTabPage(mediaType: MediaType.manga);
-      case ProfileTabType.social:
-        return const SizedBox();
+      case ProfileTabType.stats:
+        return const ProfileStatsTabPage();
     }
   }
 }
@@ -231,9 +231,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        final isLoading =
-            state.isFavoriteLoading || state.isMediaListPageLoading;
-        return _buildCustomHeader(context, shrinkOffset, isLoading);
+        return _buildCustomHeader(context, shrinkOffset, state.isLoading);
       },
     );
   }

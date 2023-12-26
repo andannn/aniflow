@@ -11,7 +11,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   group('user_anime_list_test', () {
     final animeDatabase = AniflowDatabase();
-    final mediaDao = animeDatabase.getMediaInformationDaoDao();
+    final mediaDao = animeDatabase.getMediaDao();
     final favoriteDao = animeDatabase.getFavoriteDao();
 
     final dummyUserAnimeListEntity = <MediaListEntity>[
@@ -52,7 +52,7 @@ void main() {
 
     test('get_list_by_user_test', () async {
       final dao = animeDatabase.getMediaListDao();
-      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      final mediaDao = animeDatabase.getMediaDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
       await mediaDao.insertMedia(dummyMediaData);
 
@@ -66,7 +66,7 @@ void main() {
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
 
       await animeDatabase
-          .getMediaInformationDaoDao()
+          .getMediaDao()
           .insertOrIgnoreMediaByAnimeCategory(MediaCategory.movieAnime,
               animeList: dummyMediaData);
 
@@ -77,7 +77,7 @@ void main() {
 
     test('get_list_by_multi_status', () async {
       final dao = animeDatabase.getMediaListDao();
-      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      final mediaDao = animeDatabase.getMediaDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
       await mediaDao.insertMedia(dummyMediaData);
 
@@ -89,7 +89,7 @@ void main() {
 
     test('get_list_no_limit', () async {
       final dao = animeDatabase.getMediaListDao();
-      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      final mediaDao = animeDatabase.getMediaDao();
       await dao.insertMediaListEntities(dummyUserAnimeListEntity);
       await mediaDao.insertMedia(dummyMediaData);
 
@@ -101,7 +101,7 @@ void main() {
 
     test('get_anime_list_ids_stream', () async {
       final listDao = animeDatabase.getMediaListDao();
-      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      final mediaDao = animeDatabase.getMediaDao();
       await listDao.insertMediaListEntities(dummyUserAnimeListEntity);
       await mediaDao.insertMedia(dummyMediaData);
 
@@ -113,7 +113,7 @@ void main() {
 
     test('get_manga_list_ids_stream', () async {
       final listDao = animeDatabase.getMediaListDao();
-      final mediaDao = animeDatabase.getMediaInformationDaoDao();
+      final mediaDao = animeDatabase.getMediaDao();
       await listDao.insertMediaListEntities(dummyUserAnimeListEntity);
       await mediaDao.insertMedia(dummyMediaData);
 

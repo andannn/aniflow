@@ -114,7 +114,7 @@ abstract class MediaInformationRepository {
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniListDataSource dataSource = AniListDataSource();
 
-  final mediaDao = AniflowDatabase().getMediaInformationDaoDao();
+  final mediaDao = AniflowDatabase().getMediaDao();
   final characterDao = AniflowDatabase().getCharacterDao();
   final staffDao = AniflowDatabase().getStaffDao();
   final studioDao = AniflowDatabase().getStudioDao();
@@ -406,7 +406,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   Stream<StaffModel?> getDetailStaffStream(String id) {
     return staffDao.getStaffByIdStream(id).map(
           (entity) =>
-              entity != null ? StaffModel.fromDatabaseEntity(entity) : null,
+              entity != null ? StaffModel.fromEntity(entity) : null,
         );
   }
 
@@ -517,4 +517,5 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       mapDtoToModel: (edge) => MediaModel.fromDto(edge.media!),
     );
   }
+
 }
