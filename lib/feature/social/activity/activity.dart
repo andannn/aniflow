@@ -204,7 +204,7 @@ class ActivityPageContent extends StatelessWidget {
       onUserIconClick: (id) {
         AfRouterDelegate.of(context).backStack.navigateToUserProfile(id);
       },
-      onBuildActivityStatusWidget: (activityId) => _ActivityStatusBlocProvider(
+      onBuildActivityStatusWidget: (activityId) => ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),
         activityId: activityId,
       ),
@@ -212,8 +212,8 @@ class ActivityPageContent extends StatelessWidget {
   }
 }
 
-class _ActivityStatusBlocProvider extends StatelessWidget {
-  const _ActivityStatusBlocProvider({required this.activityId, super.key});
+class ActivityStatusBlocProvider extends StatelessWidget {
+  const ActivityStatusBlocProvider({required this.activityId, super.key});
 
   final String activityId;
 

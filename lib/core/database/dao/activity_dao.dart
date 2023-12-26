@@ -40,6 +40,8 @@ mixin ActivityFilterTypeCrossRefColumns {
 }
 
 abstract class ActivityDao {
+  Future insertOrIgnoreActivityEntities(List<ActivityAndUserRelation> entities);
+
   Future upsertActivityEntities(
       List<ActivityAndUserRelation> entities, String category);
 
@@ -184,5 +186,31 @@ class ActivityDaoImpl extends ActivityDao {
     );
 
     _notifiers[id]?.notifyChanged();
+  }
+
+  @override
+  Future insertOrIgnoreActivityEntities(
+      List<ActivityAndUserRelation> entities) async {
+    final batch = database.aniflowDB.batch();
+    for (final entity in entities) {
+      batch.insert(
+        Tables.activityTable,
+        entity.activity.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      batch.insert(
+        Tables.userDataTable,
+        entity.user.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
+      if (entity.media != null) {
+        batch.insert(
+          Tables.mediaTable,
+          entity.media!.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.ignore,
+        );
+      }
+    }
+    return batch.commit(noResult: true);
   }
 }

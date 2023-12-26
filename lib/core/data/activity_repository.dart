@@ -13,6 +13,7 @@ import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
+import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/likeable_type.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
@@ -38,6 +39,13 @@ abstract class ActivityRepository {
     required LoadType loadType,
     required ActivityFilterType filterType,
     required ActivityScopeCategory scopeType,
+    CancelToken? token,
+  });
+
+  Future<LoadResult<List<ActivityModel>>> loadUserActivitiesByPage({
+    required int page,
+    required int perPage,
+    required String userId,
     CancelToken? token,
   });
 
@@ -108,6 +116,35 @@ class ActivityRepositoryImpl implements ActivityRepository {
           activityDao.getActivityEntities(page, perPage, categoryKey),
       mapDtoToEntity: (dto) => ActivityAndUserRelation.fromDto(dto),
       mapEntityToModel: (entity) => ActivityModel.fromEntity(entity),
+    );
+  }
+
+  @override
+  Future<LoadResult<List<ActivityModel>>> loadUserActivitiesByPage({
+    required int page,
+    required int perPage,
+    required String userId,
+    CancelToken? token,
+  }) {
+    return LoadPageUtil.loadPageWithoutDBCache<AniActivity, ActivityModel>(
+      page: page,
+      perPage: perPage,
+      onGetNetworkRes: (int page, int perPage) {
+        return aniListDataSource.getActivities(
+          page: page,
+          perPage: perPage,
+          param: ActivityPageQueryParam(
+            userId: int.parse(userId),
+          ),
+          token: token,
+        );
+      },
+      onInsertToDB: (List<AniActivity> dto) async {
+        final entities =
+            dto.map((e) => ActivityAndUserRelation.fromDto(e)).toList();
+        await activityDao.insertOrIgnoreActivityEntities(entities);
+      },
+      mapDtoToModel: ActivityModel.fromDto,
     );
   }
 
