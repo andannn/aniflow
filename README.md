@@ -1,13 +1,20 @@
 # AniFlow
 
-A simple app to track anime.
+An unofficial client for [AniList](https://anilist.co/home).
 
 <p float="left">
-  <img src="screen_shots/home.jpeg" width="25%" />
-  <img src="screen_shots/track.jpeg" width="25%" />
+  <img src="screen_shots/discover.png" width="25%" />
+  <img src="screen_shots/track.png" width="25%" />
+  <img src="screen_shots/activity.png" width="25%" />
+  <img src="screen_shots/profile.png" width="25%" />
+  <img src="screen_shots/detail.png" width="25%" />
   <img src="screen_shots/schedule.png" width="25%" />
-  <img src="screen_shots/detail.jpeg" width="25%" />
 </p>
+
+## Feature
+ - Support brows detail information of anime, manga, character, staff, studio.
+ - Tracking the watching anime/manga in track page. and there will be a little bookmark in the tracked media.
+ - (Beta) support text/media activity of user.
 
 ## Installation
 
