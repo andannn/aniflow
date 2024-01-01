@@ -5,7 +5,7 @@ import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/feature/profile/sub_activity/UserActivityPagingBloc.dart';
+import 'package:aniflow/feature/profile/sub_activity/user_activity_paging_bloc.dart';
 import 'package:aniflow/feature/social/activity/activity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

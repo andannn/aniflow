@@ -195,7 +195,7 @@ class _MediaCategoryPreview extends StatelessWidget {
         width: 160,
         child: MediaPreviewItem(
           textStyle: Theme.of(context).textTheme.titleSmall,
-          coverImage: model.coverImage,
+          coverImage: model.coverImage?.large ?? '',
           title: model.title!.getTitle(language),
           isFollowing: model.isFollowing,
           titleVerticalPadding: 5,

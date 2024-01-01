@@ -240,7 +240,7 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
                         child: AspectRatio(
                           aspectRatio: 3.0 / 4,
                           child: AFNetworkImage(
-                            imageUrl: model.coverImage,
+                            imageUrl: model.coverImage?.large ?? '',
                           ),
                         ),
                       ),

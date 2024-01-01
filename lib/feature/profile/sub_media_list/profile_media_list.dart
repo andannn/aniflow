@@ -171,7 +171,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
   Widget _buildGridItems(
       BuildContext context, MediaList type, MediaListItemModel model) {
     return MediaPreviewItem(
-      coverImage: model.animeModel!.coverImage,
+      coverImage: model.animeModel!.coverImage?.large ?? '',
       title: model.animeModel!.title!.getTitle(
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,

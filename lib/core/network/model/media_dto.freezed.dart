@@ -27,7 +27,7 @@ mixin _$MediaDto {
   @JsonKey(name: 'type')
   String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'coverImage')
-  Map<String, String?> get coverImage => throw _privateConstructorUsedError;
+  MediaCoverImageDto? get coverImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
@@ -92,7 +92,7 @@ abstract class $MediaDtoCopyWith<$Res> {
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') MediaTitle? title,
       @JsonKey(name: 'type') String? type,
-      @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
+      @JsonKey(name: 'coverImage') MediaCoverImageDto? coverImage,
       @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'status') MediaStatus? status,
       @JsonKey(name: 'source') AnimeSource? source,
@@ -119,6 +119,7 @@ abstract class $MediaDtoCopyWith<$Res> {
       List<MediaExternalLinkDto> externalLinks});
 
   $MediaTitleCopyWith<$Res>? get title;
+  $MediaCoverImageDtoCopyWith<$Res>? get coverImage;
   $FuzzyDateDtoCopyWith<$Res>? get startDate;
   $FuzzyDateDtoCopyWith<$Res>? get endDate;
   $TrailerDtoCopyWith<$Res>? get trailer;
@@ -145,7 +146,7 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     Object? id = null,
     Object? title = freezed,
     Object? type = freezed,
-    Object? coverImage = null,
+    Object? coverImage = freezed,
     Object? description = freezed,
     Object? status = freezed,
     Object? source = freezed,
@@ -183,10 +184,10 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      coverImage: null == coverImage
+      coverImage: freezed == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
-              as Map<String, String?>,
+              as MediaCoverImageDto?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -291,6 +292,18 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
 
     return $MediaTitleCopyWith<$Res>(_value.title!, (value) {
       return _then(_value.copyWith(title: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaCoverImageDtoCopyWith<$Res>? get coverImage {
+    if (_value.coverImage == null) {
+      return null;
+    }
+
+    return $MediaCoverImageDtoCopyWith<$Res>(_value.coverImage!, (value) {
+      return _then(_value.copyWith(coverImage: value) as $Val);
     });
   }
 
@@ -403,7 +416,7 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') MediaTitle? title,
       @JsonKey(name: 'type') String? type,
-      @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
+      @JsonKey(name: 'coverImage') MediaCoverImageDto? coverImage,
       @JsonKey(name: 'description') String? description,
       @JsonKey(name: 'status') MediaStatus? status,
       @JsonKey(name: 'source') AnimeSource? source,
@@ -431,6 +444,8 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
 
   @override
   $MediaTitleCopyWith<$Res>? get title;
+  @override
+  $MediaCoverImageDtoCopyWith<$Res>? get coverImage;
   @override
   $FuzzyDateDtoCopyWith<$Res>? get startDate;
   @override
@@ -463,7 +478,7 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = freezed,
     Object? type = freezed,
-    Object? coverImage = null,
+    Object? coverImage = freezed,
     Object? description = freezed,
     Object? status = freezed,
     Object? source = freezed,
@@ -501,10 +516,10 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      coverImage: null == coverImage
-          ? _value._coverImage
+      coverImage: freezed == coverImage
+          ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
-              as Map<String, String?>,
+              as MediaCoverImageDto?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -608,8 +623,7 @@ class _$MediaDtoImpl implements _MediaDto {
       {@JsonKey(name: 'id') this.id = -1,
       @JsonKey(name: 'title') this.title,
       @JsonKey(name: 'type') this.type,
-      @JsonKey(name: 'coverImage')
-      final Map<String, String?> coverImage = const {},
+      @JsonKey(name: 'coverImage') this.coverImage,
       @JsonKey(name: 'description') this.description,
       @JsonKey(name: 'status') this.status,
       @JsonKey(name: 'source') this.source,
@@ -634,8 +648,7 @@ class _$MediaDtoImpl implements _MediaDto {
       @JsonKey(name: 'isFavourite') this.isFavourite,
       @JsonKey(name: 'externalLinks')
       final List<MediaExternalLinkDto> externalLinks = const []})
-      : _coverImage = coverImage,
-        _genres = genres,
+      : _genres = genres,
         _rankings = rankings,
         _externalLinks = externalLinks;
 
@@ -651,15 +664,9 @@ class _$MediaDtoImpl implements _MediaDto {
   @override
   @JsonKey(name: 'type')
   final String? type;
-  final Map<String, String?> _coverImage;
   @override
   @JsonKey(name: 'coverImage')
-  Map<String, String?> get coverImage {
-    if (_coverImage is EqualUnmodifiableMapView) return _coverImage;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_coverImage);
-  }
-
+  final MediaCoverImageDto? coverImage;
   @override
   @JsonKey(name: 'description')
   final String? description;
@@ -760,8 +767,8 @@ class _$MediaDtoImpl implements _MediaDto {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality()
-                .equals(other._coverImage, _coverImage) &&
+            (identical(other.coverImage, coverImage) ||
+                other.coverImage == coverImage) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.status, status) || other.status == status) &&
@@ -807,7 +814,7 @@ class _$MediaDtoImpl implements _MediaDto {
         id,
         title,
         type,
-        const DeepCollectionEquality().hash(_coverImage),
+        coverImage,
         description,
         status,
         source,
@@ -852,7 +859,7 @@ abstract class _MediaDto implements MediaDto {
       {@JsonKey(name: 'id') final int id,
       @JsonKey(name: 'title') final MediaTitle? title,
       @JsonKey(name: 'type') final String? type,
-      @JsonKey(name: 'coverImage') final Map<String, String?> coverImage,
+      @JsonKey(name: 'coverImage') final MediaCoverImageDto? coverImage,
       @JsonKey(name: 'description') final String? description,
       @JsonKey(name: 'status') final MediaStatus? status,
       @JsonKey(name: 'source') final AnimeSource? source,
@@ -893,7 +900,7 @@ abstract class _MediaDto implements MediaDto {
   String? get type;
   @override
   @JsonKey(name: 'coverImage')
-  Map<String, String?> get coverImage;
+  MediaCoverImageDto? get coverImage;
   @override
   @JsonKey(name: 'description')
   String? get description;

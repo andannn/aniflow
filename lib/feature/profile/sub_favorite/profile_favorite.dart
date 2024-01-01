@@ -114,7 +114,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     switch (type) {
       case FavoriteType.anime:
       case FavoriteType.manga:
-        coverImage = (model as MediaModel).coverImage;
+        coverImage = (model as MediaModel).coverImage?.large ?? '';
         title = model.title!.getTitle(
             AniFlowPreferences().getAniListSettings().userTitleLanguage);
         id = model.id;

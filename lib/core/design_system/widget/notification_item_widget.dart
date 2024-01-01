@@ -46,10 +46,10 @@ class NotificationItem extends StatelessWidget {
         };
 
     String getCoverImageUrl() => switch (notification) {
-          AiringNotification() => notification.media.coverImage,
+          AiringNotification() => notification.media.coverImage?.large ?? '',
           FollowNotification() => notification.user.avatar,
           ActivityNotification() => notification.user.avatar,
-          MediaNotification() => notification.media.coverImage,
+          MediaNotification() => notification.media.coverImage?.large ?? '',
           MediaDeletionNotification() => ''
         };
 

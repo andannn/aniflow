@@ -32,7 +32,7 @@ class MediaRelationWidget extends StatelessWidget {
             AspectRatio(
               aspectRatio: 3.0 / 4,
               child: AFNetworkImage(
-                imageUrl: model.media.coverImage,
+                imageUrl: model.media.coverImage?.medium ?? '',
               ),
             ),
             const SizedBox(width: 8),

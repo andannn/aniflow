@@ -4,7 +4,9 @@ import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/anime_source.dart';
 import 'package:aniflow/core/common/model/media_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
+import 'package:aniflow/core/data/model/media_cover_image_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -25,8 +27,7 @@ class MediaModel with _$MediaModel {
     @Default('') String id,
     MediaTitle? title,
     @Default(MediaType.anime) MediaType type,
-    @Default('') String coverImage,
-    @Default('') String coverImageColor,
+    MediaCoverImageModel? coverImage,
     String? description,
     AnimeSource? source,
     String? bannerImage,
@@ -54,53 +55,57 @@ class MediaModel with _$MediaModel {
     @Default([]) List<StudioModel> studios,
   }) = _MediaModel;
 
-  static MediaModel fromDatabaseModel(MediaEntity model) {
+  static MediaModel fromDatabaseModel(MediaEntity entity) {
     return MediaModel(
-      id: model.id,
-      type: model.type != null
-          ? MediaType.fromJson(model.type!)
+      id: entity.id,
+      type: entity.type != null
+          ? MediaType.fromJson(entity.type!)
           : MediaType.anime,
       title: MediaTitle(
-        english: model.englishTitle,
-        romaji: model.romajiTitle,
-        native: model.nativeTitle,
+        english: entity.englishTitle,
+        romaji: entity.romajiTitle,
+        native: entity.nativeTitle,
       ),
-      coverImage: model.coverImage,
-      coverImageColor: model.coverImageColor,
-      description: model.description,
-      source: model.source,
-      status: model.status,
-      bannerImage: model.bannerImage,
-      averageScore: model.averageScore,
-      favourites: model.favourites,
-      season: model.season,
-      seasonYear: model.seasonYear,
-      episodes: model.episodes,
-      ratedRank: model.ratedRanking,
-      popularRank: model.popularRanking,
-      nextAiringEpisode: model.nextAiringEpisode,
-      timeUntilAiring: model.timeUntilAiring,
-      isFavourite: model.isFavourite.toBoolean(),
-      genres: model.genres != null
-          ? (jsonDecode(model.genres!) as List<dynamic>?)
+      coverImage: MediaCoverImageModel(
+        extraLarge: entity.coverImageExtraLarge,
+        large: entity.coverImageLarge,
+        medium: entity.coverImageMedium,
+        color: ColorUtil.parseColor(entity.coverImageColor),
+      ),
+      description: entity.description,
+      source: entity.source,
+      status: entity.status,
+      bannerImage: entity.bannerImage,
+      averageScore: entity.averageScore,
+      favourites: entity.favourites,
+      season: entity.season,
+      seasonYear: entity.seasonYear,
+      episodes: entity.episodes,
+      ratedRank: entity.ratedRanking,
+      popularRank: entity.popularRanking,
+      nextAiringEpisode: entity.nextAiringEpisode,
+      timeUntilAiring: entity.timeUntilAiring,
+      isFavourite: entity.isFavourite.toBoolean(),
+      genres: entity.genres != null
+          ? (jsonDecode(entity.genres!) as List<dynamic>?)
                   ?.map((e) => e)
                   .whereType<String>()
                   .toList() ??
               const []
           : const [],
-      hashtags: model.hashtag?.split(' ') ?? [],
-      trailerModel: model.trailerId != null
+      hashtags: entity.hashtag?.split(' ') ?? [],
+      trailerModel: entity.trailerId != null
           ? TrailerModel(
-              id: model.trailerId,
-              site: model.trailerSite,
-              thumbnail: model.trailerThumbnail,
+              id: entity.trailerId,
+              site: entity.trailerSite,
+              thumbnail: entity.trailerThumbnail,
             )
           : null,
-      startDate: model.startDate != null
-          ? DateTime.fromMillisecondsSinceEpoch(model.startDate!)
+      startDate: entity.startDate != null
+          ? DateTime.fromMillisecondsSinceEpoch(entity.startDate!)
           : null,
-      endDate: model.endDate != null
-          ? DateTime.fromMillisecondsSinceEpoch(model.endDate!)
+      endDate: entity.endDate != null
+          ? DateTime.fromMillisecondsSinceEpoch(entity.endDate!)
           : null,
     );
   }
@@ -123,9 +128,7 @@ class MediaModel with _$MediaModel {
       relations: model.mediaRelations
           .map((e) => MediaRelationModel.fromEntity(e))
           .toList(),
-      studios: model.studios
-          .map((e) => StudioModel.fromEntity(e))
-          .toList(),
+      studios: model.studios.map((e) => StudioModel.fromEntity(e)).toList(),
     );
   }
 
