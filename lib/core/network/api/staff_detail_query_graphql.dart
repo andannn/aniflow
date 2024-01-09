@@ -56,6 +56,8 @@ query (\$id: Int, \$page: Int, \$perPage: Int) {
           seasonYear
           coverImage {
             extraLarge
+            large
+            medium
           }
           title {
             romaji
