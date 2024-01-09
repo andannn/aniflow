@@ -30,7 +30,9 @@ mixin MediaTableColumns {
   static const String englishTitle = 'english_title';
   static const String romajiTitle = 'romaji_title';
   static const String nativeTitle = 'native_title';
-  static const String coverImage = 'cover_image';
+  static const String coverImageExtraLarge = 'cover_image_extra_large';
+  static const String coverImageLarge = 'cover_image_large';
+  static const String coverImageMedium = 'cover_image_medium';
   static const String coverImageColor = 'cover_image_color';
   static const String description = 'description';
   static const String episodes = 'episodes';
@@ -54,6 +56,8 @@ mixin MediaTableColumns {
   static const String timeUntilAiring = 'time_until_airing';
   static const String startDate = 'start_date';
   static const String endDate = 'end_date';
+
+  static const String coverImage = 'cover_image';
 }
 
 mixin CategoryColumns {

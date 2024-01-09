@@ -30,8 +30,12 @@ mixin _$MediaEntity {
   String get romajiTitle => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.nativeTitle)
   String get nativeTitle => throw _privateConstructorUsedError;
-  @JsonKey(name: MediaTableColumns.coverImage)
-  String get coverImage => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+  String get coverImageExtraLarge => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.coverImageLarge)
+  String get coverImageLarge => throw _privateConstructorUsedError;
+  @JsonKey(name: MediaTableColumns.coverImageMedium)
+  String get coverImageMedium => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.coverImageColor)
   String get coverImageColor => throw _privateConstructorUsedError;
   @JsonKey(name: MediaTableColumns.hashtag)
@@ -97,7 +101,11 @@ abstract class $MediaEntityCopyWith<$Res> {
       @JsonKey(name: MediaTableColumns.englishTitle) String englishTitle,
       @JsonKey(name: MediaTableColumns.romajiTitle) String romajiTitle,
       @JsonKey(name: MediaTableColumns.nativeTitle) String nativeTitle,
-      @JsonKey(name: MediaTableColumns.coverImage) String coverImage,
+      @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+      String coverImageExtraLarge,
+      @JsonKey(name: MediaTableColumns.coverImageLarge) String coverImageLarge,
+      @JsonKey(name: MediaTableColumns.coverImageMedium)
+      String coverImageMedium,
       @JsonKey(name: MediaTableColumns.coverImageColor) String coverImageColor,
       @JsonKey(name: MediaTableColumns.hashtag) String? hashtag,
       @JsonKey(name: MediaTableColumns.description) String? description,
@@ -143,7 +151,9 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
     Object? englishTitle = null,
     Object? romajiTitle = null,
     Object? nativeTitle = null,
-    Object? coverImage = null,
+    Object? coverImageExtraLarge = null,
+    Object? coverImageLarge = null,
+    Object? coverImageMedium = null,
     Object? coverImageColor = null,
     Object? hashtag = freezed,
     Object? description = freezed,
@@ -189,9 +199,17 @@ class _$MediaEntityCopyWithImpl<$Res, $Val extends MediaEntity>
           ? _value.nativeTitle
           : nativeTitle // ignore: cast_nullable_to_non_nullable
               as String,
-      coverImage: null == coverImage
-          ? _value.coverImage
-          : coverImage // ignore: cast_nullable_to_non_nullable
+      coverImageExtraLarge: null == coverImageExtraLarge
+          ? _value.coverImageExtraLarge
+          : coverImageExtraLarge // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverImageLarge: null == coverImageLarge
+          ? _value.coverImageLarge
+          : coverImageLarge // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverImageMedium: null == coverImageMedium
+          ? _value.coverImageMedium
+          : coverImageMedium // ignore: cast_nullable_to_non_nullable
               as String,
       coverImageColor: null == coverImageColor
           ? _value.coverImageColor
@@ -303,7 +321,11 @@ abstract class _$$MediaEntityImplCopyWith<$Res>
       @JsonKey(name: MediaTableColumns.englishTitle) String englishTitle,
       @JsonKey(name: MediaTableColumns.romajiTitle) String romajiTitle,
       @JsonKey(name: MediaTableColumns.nativeTitle) String nativeTitle,
-      @JsonKey(name: MediaTableColumns.coverImage) String coverImage,
+      @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+      String coverImageExtraLarge,
+      @JsonKey(name: MediaTableColumns.coverImageLarge) String coverImageLarge,
+      @JsonKey(name: MediaTableColumns.coverImageMedium)
+      String coverImageMedium,
       @JsonKey(name: MediaTableColumns.coverImageColor) String coverImageColor,
       @JsonKey(name: MediaTableColumns.hashtag) String? hashtag,
       @JsonKey(name: MediaTableColumns.description) String? description,
@@ -347,7 +369,9 @@ class __$$MediaEntityImplCopyWithImpl<$Res>
     Object? englishTitle = null,
     Object? romajiTitle = null,
     Object? nativeTitle = null,
-    Object? coverImage = null,
+    Object? coverImageExtraLarge = null,
+    Object? coverImageLarge = null,
+    Object? coverImageMedium = null,
     Object? coverImageColor = null,
     Object? hashtag = freezed,
     Object? description = freezed,
@@ -393,9 +417,17 @@ class __$$MediaEntityImplCopyWithImpl<$Res>
           ? _value.nativeTitle
           : nativeTitle // ignore: cast_nullable_to_non_nullable
               as String,
-      coverImage: null == coverImage
-          ? _value.coverImage
-          : coverImage // ignore: cast_nullable_to_non_nullable
+      coverImageExtraLarge: null == coverImageExtraLarge
+          ? _value.coverImageExtraLarge
+          : coverImageExtraLarge // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverImageLarge: null == coverImageLarge
+          ? _value.coverImageLarge
+          : coverImageLarge // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverImageMedium: null == coverImageMedium
+          ? _value.coverImageMedium
+          : coverImageMedium // ignore: cast_nullable_to_non_nullable
               as String,
       coverImageColor: null == coverImageColor
           ? _value.coverImageColor
@@ -502,7 +534,12 @@ class _$MediaEntityImpl implements _MediaEntity {
       @JsonKey(name: MediaTableColumns.englishTitle) this.englishTitle = '',
       @JsonKey(name: MediaTableColumns.romajiTitle) this.romajiTitle = '',
       @JsonKey(name: MediaTableColumns.nativeTitle) this.nativeTitle = '',
-      @JsonKey(name: MediaTableColumns.coverImage) this.coverImage = '',
+      @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+      this.coverImageExtraLarge = '',
+      @JsonKey(name: MediaTableColumns.coverImageLarge)
+      this.coverImageLarge = '',
+      @JsonKey(name: MediaTableColumns.coverImageMedium)
+      this.coverImageMedium = '',
       @JsonKey(name: MediaTableColumns.coverImageColor)
       this.coverImageColor = '',
       @JsonKey(name: MediaTableColumns.hashtag) this.hashtag,
@@ -548,8 +585,14 @@ class _$MediaEntityImpl implements _MediaEntity {
   @JsonKey(name: MediaTableColumns.nativeTitle)
   final String nativeTitle;
   @override
-  @JsonKey(name: MediaTableColumns.coverImage)
-  final String coverImage;
+  @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+  final String coverImageExtraLarge;
+  @override
+  @JsonKey(name: MediaTableColumns.coverImageLarge)
+  final String coverImageLarge;
+  @override
+  @JsonKey(name: MediaTableColumns.coverImageMedium)
+  final String coverImageMedium;
   @override
   @JsonKey(name: MediaTableColumns.coverImageColor)
   final String coverImageColor;
@@ -622,7 +665,7 @@ class _$MediaEntityImpl implements _MediaEntity {
 
   @override
   String toString() {
-    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImage: $coverImage, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, isFavourite: $isFavourite, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, startDate: $startDate, endDate: $endDate)';
+    return 'MediaEntity(id: $id, type: $type, englishTitle: $englishTitle, romajiTitle: $romajiTitle, nativeTitle: $nativeTitle, coverImageExtraLarge: $coverImageExtraLarge, coverImageLarge: $coverImageLarge, coverImageMedium: $coverImageMedium, coverImageColor: $coverImageColor, hashtag: $hashtag, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, trailerId: $trailerId, trailerSite: $trailerSite, episodes: $episodes, seasonYear: $seasonYear, season: $season, status: $status, genres: $genres, trailerThumbnail: $trailerThumbnail, isFavourite: $isFavourite, popularRanking: $popularRanking, ratedRanking: $ratedRanking, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -638,8 +681,12 @@ class _$MediaEntityImpl implements _MediaEntity {
                 other.romajiTitle == romajiTitle) &&
             (identical(other.nativeTitle, nativeTitle) ||
                 other.nativeTitle == nativeTitle) &&
-            (identical(other.coverImage, coverImage) ||
-                other.coverImage == coverImage) &&
+            (identical(other.coverImageExtraLarge, coverImageExtraLarge) ||
+                other.coverImageExtraLarge == coverImageExtraLarge) &&
+            (identical(other.coverImageLarge, coverImageLarge) ||
+                other.coverImageLarge == coverImageLarge) &&
+            (identical(other.coverImageMedium, coverImageMedium) ||
+                other.coverImageMedium == coverImageMedium) &&
             (identical(other.coverImageColor, coverImageColor) ||
                 other.coverImageColor == coverImageColor) &&
             (identical(other.hashtag, hashtag) || other.hashtag == hashtag) &&
@@ -691,7 +738,9 @@ class _$MediaEntityImpl implements _MediaEntity {
         englishTitle,
         romajiTitle,
         nativeTitle,
-        coverImage,
+        coverImageExtraLarge,
+        coverImageLarge,
+        coverImageMedium,
         coverImageColor,
         hashtag,
         description,
@@ -738,7 +787,12 @@ abstract class _MediaEntity implements MediaEntity {
       @JsonKey(name: MediaTableColumns.englishTitle) final String englishTitle,
       @JsonKey(name: MediaTableColumns.romajiTitle) final String romajiTitle,
       @JsonKey(name: MediaTableColumns.nativeTitle) final String nativeTitle,
-      @JsonKey(name: MediaTableColumns.coverImage) final String coverImage,
+      @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+      final String coverImageExtraLarge,
+      @JsonKey(name: MediaTableColumns.coverImageLarge)
+      final String coverImageLarge,
+      @JsonKey(name: MediaTableColumns.coverImageMedium)
+      final String coverImageMedium,
       @JsonKey(name: MediaTableColumns.coverImageColor)
       final String coverImageColor,
       @JsonKey(name: MediaTableColumns.hashtag) final String? hashtag,
@@ -788,8 +842,14 @@ abstract class _MediaEntity implements MediaEntity {
   @JsonKey(name: MediaTableColumns.nativeTitle)
   String get nativeTitle;
   @override
-  @JsonKey(name: MediaTableColumns.coverImage)
-  String get coverImage;
+  @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+  String get coverImageExtraLarge;
+  @override
+  @JsonKey(name: MediaTableColumns.coverImageLarge)
+  String get coverImageLarge;
+  @override
+  @JsonKey(name: MediaTableColumns.coverImageMedium)
+  String get coverImageMedium;
   @override
   @JsonKey(name: MediaTableColumns.coverImageColor)
   String get coverImageColor;

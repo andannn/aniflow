@@ -25,7 +25,7 @@ void main() {
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
           nativeTitle: '間の楔',
-          coverImage:
+          coverImageExtraLarge:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
           coverImageColor: '#6b351a'),
       MediaEntity(
@@ -33,7 +33,7 @@ void main() {
           englishTitle: 'Bodacious Space Pirates',
           romajiTitle: 'Mouretsu Pirates',
           nativeTitle: 'モーレツ宇宙海賊',
-          coverImage:
+          coverImageExtraLarge:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
           coverImageColor: '#50aee4'),
       MediaEntity(
@@ -41,14 +41,14 @@ void main() {
           englishTitle: '',
           romajiTitle: 'Minori Scramble!',
           nativeTitle: 'みのりスクランブル!',
-          coverImage:
+          coverImageExtraLarge:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
           coverImageColor: '#f10000'),
       MediaEntity(
           id: '4353',
           englishTitle: '',
           romajiTitle: 'test test test!',
-          coverImage:
+          coverImageExtraLarge:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/91234123.jpg',
           coverImageColor: '#f10000')
     ];
@@ -63,7 +63,7 @@ void main() {
             englishTitle: 'Bodacious Space Pirates',
             romajiTitle: 'Mouretsu Pirates',
             nativeTitle: 'モーレツ宇宙海賊',
-            coverImage:
+            coverImageExtraLarge:
                 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx8917-mmUSOxFEQj3f.png',
             coverImageColor: '#50aee4',
           ),
@@ -75,7 +75,7 @@ void main() {
             englishTitle: '',
             romajiTitle: 'Minori Scramble!',
             nativeTitle: 'みのりスクランブル!',
-            coverImage:
+            coverImageExtraLarge:
                 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/9523.jpg',
             coverImageColor: '#f10000',
           ),

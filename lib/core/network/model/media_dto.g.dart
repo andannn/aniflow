@@ -13,10 +13,10 @@ _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
           ? null
           : MediaTitle.fromJson(json['title'] as Map<String, dynamic>),
       type: json['type'] as String?,
-      coverImage: (json['coverImage'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String?),
-          ) ??
-          const {},
+      coverImage: json['coverImage'] == null
+          ? null
+          : MediaCoverImageDto.fromJson(
+              json['coverImage'] as Map<String, dynamic>),
       description: json['description'] as String?,
       status: $enumDecodeNullable(_$MediaStatusEnumMap, json['status']),
       source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']),

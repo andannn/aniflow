@@ -76,7 +76,7 @@ class _FavoriteAnimeListPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, MediaModel model) {
     return MediaPreviewItem(
-      coverImage: model.coverImage,
+      coverImage: model.coverImage?.large ?? '',
       title: model.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {

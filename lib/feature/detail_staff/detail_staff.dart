@@ -292,7 +292,7 @@ class _DetailStaffContent extends StatelessWidget {
                             ),
                             clipBehavior: Clip.antiAliasWithSaveLayer,
                             child: AFNetworkImage(
-                              imageUrl: item.media?.coverImage ?? '',
+                              imageUrl: item.media?.coverImage?.medium ?? '',
                             ),
                           ),
                         ),

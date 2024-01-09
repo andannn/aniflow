@@ -75,7 +75,7 @@ class _DroppedMangaPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, MediaListItemModel model) {
     return MediaPreviewItem(
-      coverImage: model.animeModel!.coverImage,
+      coverImage: model.animeModel!.coverImage?.large ?? '',
       title: model.animeModel!.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {

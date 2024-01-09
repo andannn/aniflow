@@ -58,7 +58,7 @@ class ActivityItem extends StatelessWidget {
                     onMediaClick?.call(activity.media.id);
                   },
                   child: AFNetworkImage(
-                    imageUrl: activity.media.coverImage,
+                    imageUrl: activity.media.coverImage?.large ?? '',
                   ),
                 ),
               ),

@@ -7,6 +7,7 @@ import 'package:aniflow/core/network/model/anime_rank.dart';
 import 'package:aniflow/core/network/model/character_connection.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
+import 'package:aniflow/core/network/model/media_cover_image_dto.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_connection.dart';
 import 'package:aniflow/core/network/model/studio_connection.dart';
@@ -14,6 +15,7 @@ import 'package:aniflow/core/network/model/trailer_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_dto.freezed.dart';
+
 part 'media_dto.g.dart';
 
 @freezed
@@ -22,7 +24,7 @@ class MediaDto with _$MediaDto {
     @Default(-1) @JsonKey(name: 'id') int id,
     @JsonKey(name: 'title') MediaTitle? title,
     @JsonKey(name: 'type') String? type,
-    @Default({}) @JsonKey(name: 'coverImage') Map<String, String?> coverImage,
+    @JsonKey(name: 'coverImage') MediaCoverImageDto? coverImage,
     @JsonKey(name: 'description') String? description,
     @JsonKey(name: 'status') MediaStatus? status,
     @JsonKey(name: 'source') AnimeSource? source,

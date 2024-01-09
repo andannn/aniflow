@@ -44,7 +44,7 @@ class MediaRowItem extends StatelessWidget {
               height: 1,
               width: 85,
               child: AFNetworkImage(
-                imageUrl: model.coverImage,
+                imageUrl: model.coverImage?.large ?? '',
               ),
             ),
             const SizedBox(width: 16),

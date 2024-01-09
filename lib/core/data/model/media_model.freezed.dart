@@ -19,8 +19,7 @@ mixin _$MediaModel {
   String get id => throw _privateConstructorUsedError;
   MediaTitle? get title => throw _privateConstructorUsedError;
   MediaType get type => throw _privateConstructorUsedError;
-  String get coverImage => throw _privateConstructorUsedError;
-  String get coverImageColor => throw _privateConstructorUsedError;
+  MediaCoverImageModel? get coverImage => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   AnimeSource? get source => throw _privateConstructorUsedError;
   String? get bannerImage => throw _privateConstructorUsedError;
@@ -64,8 +63,7 @@ abstract class $MediaModelCopyWith<$Res> {
       {String id,
       MediaTitle? title,
       MediaType type,
-      String coverImage,
-      String coverImageColor,
+      MediaCoverImageModel? coverImage,
       String? description,
       AnimeSource? source,
       String? bannerImage,
@@ -93,6 +91,7 @@ abstract class $MediaModelCopyWith<$Res> {
       List<StudioModel> studios});
 
   $MediaTitleCopyWith<$Res>? get title;
+  $MediaCoverImageModelCopyWith<$Res>? get coverImage;
   $TrailerModelCopyWith<$Res>? get trailerModel;
 }
 
@@ -112,8 +111,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? id = null,
     Object? title = freezed,
     Object? type = null,
-    Object? coverImage = null,
-    Object? coverImageColor = null,
+    Object? coverImage = freezed,
     Object? description = freezed,
     Object? source = freezed,
     Object? bannerImage = freezed,
@@ -153,14 +151,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MediaType,
-      coverImage: null == coverImage
+      coverImage: freezed == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      coverImageColor: null == coverImageColor
-          ? _value.coverImageColor
-          : coverImageColor // ignore: cast_nullable_to_non_nullable
-              as String,
+              as MediaCoverImageModel?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -278,6 +272,18 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
 
   @override
   @pragma('vm:prefer-inline')
+  $MediaCoverImageModelCopyWith<$Res>? get coverImage {
+    if (_value.coverImage == null) {
+      return null;
+    }
+
+    return $MediaCoverImageModelCopyWith<$Res>(_value.coverImage!, (value) {
+      return _then(_value.copyWith(coverImage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $TrailerModelCopyWith<$Res>? get trailerModel {
     if (_value.trailerModel == null) {
       return null;
@@ -301,8 +307,7 @@ abstract class _$$MediaModelImplCopyWith<$Res>
       {String id,
       MediaTitle? title,
       MediaType type,
-      String coverImage,
-      String coverImageColor,
+      MediaCoverImageModel? coverImage,
       String? description,
       AnimeSource? source,
       String? bannerImage,
@@ -332,6 +337,8 @@ abstract class _$$MediaModelImplCopyWith<$Res>
   @override
   $MediaTitleCopyWith<$Res>? get title;
   @override
+  $MediaCoverImageModelCopyWith<$Res>? get coverImage;
+  @override
   $TrailerModelCopyWith<$Res>? get trailerModel;
 }
 
@@ -349,8 +356,7 @@ class __$$MediaModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = freezed,
     Object? type = null,
-    Object? coverImage = null,
-    Object? coverImageColor = null,
+    Object? coverImage = freezed,
     Object? description = freezed,
     Object? source = freezed,
     Object? bannerImage = freezed,
@@ -390,14 +396,10 @@ class __$$MediaModelImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MediaType,
-      coverImage: null == coverImage
+      coverImage: freezed == coverImage
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      coverImageColor: null == coverImageColor
-          ? _value.coverImageColor
-          : coverImageColor // ignore: cast_nullable_to_non_nullable
-              as String,
+              as MediaCoverImageModel?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -509,8 +511,7 @@ class _$MediaModelImpl implements _MediaModel {
       {this.id = '',
       this.title,
       this.type = MediaType.anime,
-      this.coverImage = '',
-      this.coverImageColor = '',
+      this.coverImage,
       this.description,
       this.source,
       this.bannerImage,
@@ -554,11 +555,7 @@ class _$MediaModelImpl implements _MediaModel {
   @JsonKey()
   final MediaType type;
   @override
-  @JsonKey()
-  final String coverImage;
-  @override
-  @JsonKey()
-  final String coverImageColor;
+  final MediaCoverImageModel? coverImage;
   @override
   final String? description;
   @override
@@ -662,7 +659,7 @@ class _$MediaModelImpl implements _MediaModel {
 
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, coverImageColor: $coverImageColor, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, isFavourite: $isFavourite, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, isFavourite: $isFavourite, nextAiringEpisode: $nextAiringEpisode, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
   }
 
   @override
@@ -675,8 +672,6 @@ class _$MediaModelImpl implements _MediaModel {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.coverImage, coverImage) ||
                 other.coverImage == coverImage) &&
-            (identical(other.coverImageColor, coverImageColor) ||
-                other.coverImageColor == coverImageColor) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.source, source) || other.source == source) &&
@@ -728,7 +723,6 @@ class _$MediaModelImpl implements _MediaModel {
         title,
         type,
         coverImage,
-        coverImageColor,
         description,
         source,
         bannerImage,
@@ -768,8 +762,7 @@ abstract class _MediaModel implements MediaModel {
       {final String id,
       final MediaTitle? title,
       final MediaType type,
-      final String coverImage,
-      final String coverImageColor,
+      final MediaCoverImageModel? coverImage,
       final String? description,
       final AnimeSource? source,
       final String? bannerImage,
@@ -803,9 +796,7 @@ abstract class _MediaModel implements MediaModel {
   @override
   MediaType get type;
   @override
-  String get coverImage;
-  @override
-  String get coverImageColor;
+  MediaCoverImageModel? get coverImage;
   @override
   String? get description;
   @override

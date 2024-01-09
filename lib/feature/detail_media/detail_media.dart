@@ -238,7 +238,7 @@ class _DetailAnimePageContent extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 3.0 / 4,
                 child: AFNetworkImage(
-                  imageUrl: model.coverImage,
+                  imageUrl: model.coverImage?.large ?? '',
                 ),
               ),
             ),

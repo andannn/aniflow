@@ -183,7 +183,7 @@ class _DetailStudioContent extends StatelessWidget {
                 children: [
                   SizedBox.expand(
                     child: AFNetworkImage(
-                      imageUrl: item.coverImage,
+                      imageUrl: item.coverImage?.large ?? '',
                     ),
                   ),
                 ],

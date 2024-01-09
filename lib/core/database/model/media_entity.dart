@@ -27,7 +27,15 @@ class MediaEntity with _$MediaEntity {
     @Default('')
     @JsonKey(name: MediaTableColumns.nativeTitle)
     String nativeTitle,
-    @Default('') @JsonKey(name: MediaTableColumns.coverImage) String coverImage,
+    @Default('')
+    @JsonKey(name: MediaTableColumns.coverImageExtraLarge)
+    String coverImageExtraLarge,
+    @Default('')
+    @JsonKey(name: MediaTableColumns.coverImageLarge)
+    String coverImageLarge,
+    @Default('')
+    @JsonKey(name: MediaTableColumns.coverImageMedium)
+    String coverImageMedium,
     @Default('')
     @JsonKey(name: MediaTableColumns.coverImageColor)
     String coverImageColor,
@@ -64,8 +72,10 @@ class MediaEntity with _$MediaEntity {
         englishTitle: model.title?.english ?? '',
         romajiTitle: model.title?.romaji ?? '',
         nativeTitle: model.title?.native ?? '',
-        coverImage: model.coverImage['extraLarge'] ?? '',
-        coverImageColor: model.coverImage['color'] ?? '',
+        coverImageExtraLarge: model.coverImage?.extraLarge ?? '',
+        coverImageLarge: model.coverImage?.large ?? '',
+        coverImageMedium: model.coverImage?.medium ?? '',
+        coverImageColor: model.coverImage?.color ?? '',
         hashtag: model.hashtag,
         description: model.description,
         source: model.source,
