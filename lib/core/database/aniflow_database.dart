@@ -43,7 +43,7 @@ mixin Tables {
       'activity_filter_type_cross_ref_table';
 }
 
-const databaseVersion = 1;
+const databaseVersion = 2;
 
 class AniflowDatabase {
   static const String _tag = 'AniflowDatabase';
@@ -105,8 +105,7 @@ class AniflowDatabase {
     );
   }
 
-  MediaDao getMediaDao() =>
-      _mediaInformationDaoDao ??= MediaDaoImpl(this);
+  MediaDao getMediaDao() => _mediaInformationDaoDao ??= MediaDaoImpl(this);
 
   StaffDao getStaffDao() => _staffDao ??= StaffDaoImpl(this);
 
@@ -371,6 +370,15 @@ class AniflowDatabase {
 
   Future _onUpgradeToVersion2(Database db) async {
     logger.d('$_tag onUpgradeToVersion2');
+    final batch = db.batch();
+    batch.execute(
+        'alter table ${Tables.mediaTable} rename column ${MediaTableColumns.coverImage} to ${MediaTableColumns.coverImageExtraLarge}');
+    batch.execute(
+        'alter table ${Tables.mediaTable} add column ${MediaTableColumns.coverImageLarge} text');
+    batch.execute(
+        'alter table ${Tables.mediaTable} add column ${MediaTableColumns.coverImageMedium} text');
+
+    await batch.commit();
   }
 
   Future _onUpgradeToVersion3(Database db) async {

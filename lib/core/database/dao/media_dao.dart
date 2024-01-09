@@ -56,6 +56,8 @@ mixin MediaTableColumns {
   static const String timeUntilAiring = 'time_until_airing';
   static const String startDate = 'start_date';
   static const String endDate = 'end_date';
+
+  static const String coverImage = 'cover_image';
 }
 
 mixin CategoryColumns {
