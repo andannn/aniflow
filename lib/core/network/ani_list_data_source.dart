@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
@@ -103,7 +104,7 @@ class AniListDataSource {
     }
     if (hasAnimeSort) {
       variablesMap['sort'] =
-          param.animeSort.map((e) => e.sqlTypeString).toList();
+          param.animeSort.map((e) => e.toJson()).toList();
     }
     if (hasAnimeFormat) {
       variablesMap['format_in'] =
@@ -539,13 +540,14 @@ class AniListDataSource {
   }
 
   Future<MediaConnection> getMediaConnectionByStaffId(
-      String id, int page, int perPage,
+      String id, int page, int perPage, MediaSort mediaSort,
       [CancelToken? token]) async {
     final queryGraphQL = staffRelatedCharacterQueryGraphQl;
     final variablesMap = <String, dynamic>{
       'id': id,
       'page': page,
       'perPage': perPage,
+      'sort': [mediaSort.toJson()],
     };
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,

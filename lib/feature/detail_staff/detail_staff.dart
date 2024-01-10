@@ -1,5 +1,7 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -11,6 +13,7 @@ import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
+import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -75,12 +78,12 @@ class _DetailStaffContent extends StatelessWidget {
         final colorScheme = Theme.of(context).colorScheme;
         final staff = state.staffModel;
         final isLoading = state.isLoading;
+        final mediaSort = state.mediaSort;
 
         if (staff == null) {
           return const LoadingDummyScaffold();
         }
 
-        final pagingState = context.watch<VoiceActorContentsPagingBloc>().state;
         final isFavourite = staff.isFavourite;
         final language =
             AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
@@ -125,24 +128,9 @@ class _DetailStaffContent extends StatelessWidget {
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 48)),
-              for (final widget in _buildYearAndCharactersWidgets(
+              ..._buildCharacterListSection(
                 context,
-                characterGroupList: pagingState.data.characterGroupList,
-                onCharacterClick: (String id) => AfRouterDelegate.of(context)
-                    .backStack
-                    .navigateToDetailCharacter(id),
-                onMediaClick: (String id) => AfRouterDelegate.of(context)
-                    .backStack
-                    .navigateToDetailMedia(id),
-              ))
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  sliver: widget,
-                ),
-              buildSliverPagingVisibilityDetector<CharacterAndMediaConnection,
-                  VoiceActorContentsPagingBloc>(
-                context: context,
-                pagingState: pagingState,
+                mediaSort,
               ),
             ],
           ),
@@ -179,6 +167,76 @@ class _DetailStaffContent extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<Widget> _buildCharacterListSection(
+      BuildContext context, MediaSort mediaSort) {
+    final bloc = context.watch<VoiceActorContentsPagingBloc>();
+    final pagingState = bloc.state;
+
+    // Set mediaSort value to paging source, update paging source if media
+    // sort changed.
+    bloc.mediaSort = mediaSort;
+
+    void onCharacterClick(String id) =>
+        AfRouterDelegate.of(context).backStack.navigateToDetailCharacter(id);
+
+    void onMediaClick(String id) =>
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
+
+    List<Widget> buildItemListWidget() {
+      if (mediaSort == MediaSort.newest || mediaSort == MediaSort.oldest) {
+        // divided by years.
+        return _buildYearAndCharactersWidgets(context,
+                characterGroupList: pagingState.data.characterGroupList,
+                onCharacterClick: onCharacterClick,
+                onMediaClick: onMediaClick)
+            .map(
+              (widget) => SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                sliver: widget,
+              ),
+            )
+            .toList();
+      } else {
+        // common grid list.
+        return [
+          SliverGrid.builder(
+            itemCount: pagingState.data.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 3.0 / 6.2,
+            ),
+            itemBuilder: (context, index) => _buildCharacterWithMediaItem(
+              context,
+              item: pagingState.data[index],
+              onCharacterClick: onCharacterClick,
+              onMediaClick: onMediaClick,
+            ),
+          )
+        ];
+      }
+    }
+
+    return [
+      SliverToBoxAdapter(
+        child: _buildMediaSortSelector(
+          context: context,
+          mediaSort: mediaSort,
+          onMediaSortChanged: (mediaSort) {
+            context
+                .read<DetailStaffBloc>()
+                .add(OnMediaSortChanged(mediaSort: mediaSort));
+          },
+        ),
+      ),
+      ...buildItemListWidget(),
+      buildSliverPagingVisibilityDetector<CharacterAndMediaConnection,
+          VoiceActorContentsPagingBloc>(
+        context: context,
+        pagingState: pagingState,
+      ),
+    ];
   }
 
   List<Widget> _buildYearAndCharactersWidgets(
@@ -326,6 +384,56 @@ class _DetailStaffContent extends StatelessWidget {
                 AutoSizeText(item.media?.title?.getTitle(titleLanguage) ?? ''),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildMediaSortSelector(
+      {required BuildContext context,
+      required MediaSort mediaSort,
+      required Function(MediaSort) onMediaSortChanged}) {
+    final afLocalizations = AFLocalizations.of(context);
+    final items = [
+      MediaSort.popularity,
+      MediaSort.averageScore,
+      MediaSort.favorite,
+      MediaSort.newest,
+      MediaSort.oldest,
+    ];
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Expanded(child: SizedBox()),
+        PopupMenuAnchor(
+          menuItems: items,
+          builder: (context, controller, child) {
+            return TextButton.icon(
+              onPressed: () {
+                if (controller.isOpen) {
+                  controller.close();
+                } else {
+                  controller.open();
+                }
+              },
+              icon: const Icon(Icons.filter_alt),
+              label: Text(
+                afLocalizations.getMediaSortString(mediaSort),
+              ),
+            );
+          },
+          menuItemBuilder: (context, item) {
+            return MenuItemButton(
+              child: Container(
+                constraints: const BoxConstraints(minWidth: 80),
+                child: Text(afLocalizations.getMediaSortString(item)),
+              ),
+              onPressed: () {
+                onMediaSortChanged.call(item);
+              },
+            );
+          },
+        ),
+        const SizedBox(width: 12),
       ],
     );
   }

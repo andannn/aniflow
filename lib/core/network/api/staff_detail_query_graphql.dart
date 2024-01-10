@@ -38,9 +38,9 @@ query (\$id: Int) {
 ''';
 
 String get staffRelatedCharacterQueryGraphQl => '''
-query (\$id: Int, \$page: Int, \$perPage: Int) {
+query (\$id: Int, \$page: Int, \$perPage: Int, \$sort: [MediaSort]) {
   Staff(id: \$id) {
-    characterMedia(sort: START_DATE_DESC, page: \$page, perPage: \$perPage) {
+    characterMedia(sort: \$sort, page: \$page, perPage: \$perPage) {
       edges {
         id
         characters {
@@ -56,6 +56,8 @@ query (\$id: Int, \$page: Int, \$perPage: Int) {
           seasonYear
           coverImage {
             extraLarge
+            large
+            medium
           }
           title {
             romaji

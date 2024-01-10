@@ -1,4 +1,5 @@
 import 'package:aniflow/app/app.dart';
+import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:flutter/material.dart';
 
 abstract class AFLocalizations {
@@ -97,6 +98,8 @@ abstract class AFLocalizations {
   String get animeLabel;
 
   String get mangaLabel;
+
+  String getMediaSortString(MediaSort sort);
 
   static AFLocalizations of([BuildContext? context]) {
     return Localizations.of<AFLocalizations>(
@@ -248,6 +251,16 @@ class EnAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get social => 'Social';
+
+  @override
+  String getMediaSortString(MediaSort sort) => switch(sort) {
+    MediaSort.trending => 'Trending',
+    MediaSort.newest => 'Newest',
+    MediaSort.oldest => 'Oldest',
+    MediaSort.averageScore => 'Average Score',
+    MediaSort.favorite => 'Favorite',
+    MediaSort.popularity => 'Popularity',
+  };
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -394,6 +407,16 @@ class JaAniFLowLocalizations extends AFLocalizations {
 
   @override
   String get social => 'Social';
+
+  @override
+  String getMediaSortString(MediaSort sort) => switch(sort) {
+    MediaSort.trending => 'トレンド',
+    MediaSort.newest => '最も新しい',
+    MediaSort.oldest => '最も古い',
+    MediaSort.averageScore => '平均スコア',
+    MediaSort.favorite => 'お気に入り',
+    MediaSort.popularity => '人気',
+  };
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -540,4 +563,14 @@ class CNAniFlowLocalizations extends AFLocalizations {
 
   @override
   String get social => 'Social';
+
+  @override
+  String getMediaSortString(MediaSort sort) => switch(sort) {
+    MediaSort.trending => '趋势',
+    MediaSort.newest => '从新到旧',
+    MediaSort.oldest => '从旧到新',
+    MediaSort.averageScore => '平均分数',
+    MediaSort.favorite => '最爱',
+    MediaSort.popularity => '人气',
+  };
 }

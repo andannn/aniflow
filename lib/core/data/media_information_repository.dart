@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
@@ -95,6 +96,7 @@ abstract class MediaInformationRepository {
     required int page,
     required int perPage,
     required String staffId,
+    required MediaSort mediaSort,
     CancelToken? token,
   });
 
@@ -434,6 +436,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     required int page,
     required int perPage,
     required String staffId,
+    required MediaSort mediaSort,
     CancelToken? token,
   }) {
     return LoadPageUtil.loadPageWithoutDBCache(
@@ -441,7 +444,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
         final mediaConnection = await dataSource.getMediaConnectionByStaffId(
-            staffId, page, perPage);
+            staffId, page, perPage, mediaSort, token);
         return mediaConnection.edges;
       },
       onInsertToDB: (dtoList) async {
