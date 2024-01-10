@@ -172,6 +172,11 @@ class _DetailStaffContent extends StatelessWidget {
       BuildContext context, MediaSort mediaSort) {
     final bloc = context.watch<VoiceActorContentsPagingBloc>();
     final pagingState = bloc.state;
+
+    // Set mediaSort value to paging source, update paging source if media
+    // sort changed.
+    bloc.mediaSort = mediaSort;
+
     return [
       SliverToBoxAdapter(
         child: _buildMediaSortSelector(

@@ -8,17 +8,34 @@ import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class _OnMediaSortChanged<CharacterAndMediaConnection>
+    extends PagingEvent<CharacterAndMediaConnection> {}
 
 class VoiceActorContentsPagingBloc
     extends PagingBloc<CharacterAndMediaConnection> {
   VoiceActorContentsPagingBloc(
     this.staffId, {
     required this.mediaRepository,
-    this.mediaSort = MediaSort.newest,
-  }) : super(const PageInit(data: []));
+    mediaSort = MediaSort.newest,
+  })  : _mediaSort = mediaSort,
+        super(const PageInit(data: [])) {
+    on<_OnMediaSortChanged<CharacterAndMediaConnection>>(_onMediaSortChanged);
+  }
 
   final String staffId;
-  final MediaSort mediaSort;
+  MediaSort _mediaSort;
+
+  MediaSort get mediaSort => _mediaSort;
+
+  set mediaSort(MediaSort mediaSort) {
+    if (mediaSort != _mediaSort) {
+      _mediaSort = mediaSort;
+      add(_OnMediaSortChanged());
+    }
+  }
+
   final MediaInformationRepository mediaRepository;
 
   @override
@@ -32,8 +49,21 @@ class VoiceActorContentsPagingBloc
       page: page,
       perPage: 25,
       staffId: staffId,
-      mediaSort: mediaSort,
+      mediaSort: _mediaSort,
     );
+  }
+
+  FutureOr<void> _onMediaSortChanged(
+      _OnMediaSortChanged<CharacterAndMediaConnection> event,
+      Emitter<PagingState<List<CharacterAndMediaConnection>>> emit) {
+    // clear paging state.
+    emit(const PageInit(data: []));
+
+    // Change state to loading.
+    emit(state.toLoading());
+
+    // launch event to get first page data.
+    createLoadPageTask(page: 1, isRefresh: false);
   }
 }
 
