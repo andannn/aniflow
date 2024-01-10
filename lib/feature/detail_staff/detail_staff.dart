@@ -177,6 +177,46 @@ class _DetailStaffContent extends StatelessWidget {
     // sort changed.
     bloc.mediaSort = mediaSort;
 
+    void onCharacterClick(String id) =>
+        AfRouterDelegate.of(context).backStack.navigateToDetailCharacter(id);
+
+    void onMediaClick(String id) =>
+        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
+
+    List<Widget> buildItemListWidget() {
+      if (mediaSort == MediaSort.newest || mediaSort == MediaSort.oldest) {
+        // divided by years.
+        return _buildYearAndCharactersWidgets(context,
+                characterGroupList: pagingState.data.characterGroupList,
+                onCharacterClick: onCharacterClick,
+                onMediaClick: onMediaClick)
+            .map(
+              (widget) => SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                sliver: widget,
+              ),
+            )
+            .toList();
+      } else {
+        // common grid list.
+        return [
+          SliverGrid.builder(
+            itemCount: pagingState.data.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 3.0 / 6.2,
+            ),
+            itemBuilder: (context, index) => _buildCharacterWithMediaItem(
+              context,
+              item: pagingState.data[index],
+              onCharacterClick: onCharacterClick,
+              onMediaClick: onMediaClick,
+            ),
+          )
+        ];
+      }
+    }
+
     return [
       SliverToBoxAdapter(
         child: _buildMediaSortSelector(
@@ -188,19 +228,7 @@ class _DetailStaffContent extends StatelessWidget {
           },
         ),
       ),
-      for (final widget in _buildYearAndCharactersWidgets(
-        context,
-        characterGroupList: pagingState.data.characterGroupList,
-        onCharacterClick: (String id) => AfRouterDelegate.of(context)
-            .backStack
-            .navigateToDetailCharacter(id),
-        onMediaClick: (String id) =>
-            AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id),
-      ))
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          sliver: widget,
-        ),
+      ...buildItemListWidget(),
       buildSliverPagingVisibilityDetector<CharacterAndMediaConnection,
           VoiceActorContentsPagingBloc>(
         context: context,
