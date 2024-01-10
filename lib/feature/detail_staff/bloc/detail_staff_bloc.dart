@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -15,6 +16,12 @@ class _OnDetailStaffInfoChanged extends DetailStaffEvent {
   _OnDetailStaffInfoChanged({required this.model});
 
   final StaffModel? model;
+}
+
+class OnMediaSortChanged extends DetailStaffEvent {
+  OnMediaSortChanged({required this.mediaSort});
+
+  final MediaSort mediaSort;
 }
 
 class _OnLoadingChanged extends DetailStaffEvent {
@@ -38,6 +45,9 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
     on<OnToggleLike>(_onToggleLike);
+    on<OnMediaSortChanged>(
+      (event, emit) => emit(state.copyWith(mediaSort: event.mediaSort)),
+    );
 
     _detailStaffSub = mediaRepository
         .getDetailStaffStream(staffId)

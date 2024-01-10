@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DetailStaffState {
   bool get isLoading => throw _privateConstructorUsedError;
+  MediaSort get mediaSort => throw _privateConstructorUsedError;
   StaffModel? get staffModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,7 @@ abstract class $DetailStaffStateCopyWith<$Res> {
           DetailStaffState value, $Res Function(DetailStaffState) then) =
       _$DetailStaffStateCopyWithImpl<$Res, DetailStaffState>;
   @useResult
-  $Res call({bool isLoading, StaffModel? staffModel});
+  $Res call({bool isLoading, MediaSort mediaSort, StaffModel? staffModel});
 
   $StaffModelCopyWith<$Res>? get staffModel;
 }
@@ -49,6 +50,7 @@ class _$DetailStaffStateCopyWithImpl<$Res, $Val extends DetailStaffState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? mediaSort = null,
     Object? staffModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -56,6 +58,10 @@ class _$DetailStaffStateCopyWithImpl<$Res, $Val extends DetailStaffState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      mediaSort: null == mediaSort
+          ? _value.mediaSort
+          : mediaSort // ignore: cast_nullable_to_non_nullable
+              as MediaSort,
       staffModel: freezed == staffModel
           ? _value.staffModel
           : staffModel // ignore: cast_nullable_to_non_nullable
@@ -84,7 +90,7 @@ abstract class _$$DetailCharacterStateImplCopyWith<$Res>
       __$$DetailCharacterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, StaffModel? staffModel});
+  $Res call({bool isLoading, MediaSort mediaSort, StaffModel? staffModel});
 
   @override
   $StaffModelCopyWith<$Res>? get staffModel;
@@ -102,6 +108,7 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? mediaSort = null,
     Object? staffModel = freezed,
   }) {
     return _then(_$DetailCharacterStateImpl(
@@ -109,6 +116,10 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      mediaSort: null == mediaSort
+          ? _value.mediaSort
+          : mediaSort // ignore: cast_nullable_to_non_nullable
+              as MediaSort,
       staffModel: freezed == staffModel
           ? _value.staffModel
           : staffModel // ignore: cast_nullable_to_non_nullable
@@ -120,17 +131,23 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DetailCharacterStateImpl implements _DetailCharacterState {
-  _$DetailCharacterStateImpl({this.isLoading = false, this.staffModel});
+  _$DetailCharacterStateImpl(
+      {this.isLoading = false,
+      this.mediaSort = MediaSort.newest,
+      this.staffModel});
 
   @override
   @JsonKey()
   final bool isLoading;
   @override
+  @JsonKey()
+  final MediaSort mediaSort;
+  @override
   final StaffModel? staffModel;
 
   @override
   String toString() {
-    return 'DetailStaffState(isLoading: $isLoading, staffModel: $staffModel)';
+    return 'DetailStaffState(isLoading: $isLoading, mediaSort: $mediaSort, staffModel: $staffModel)';
   }
 
   @override
@@ -140,12 +157,15 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
             other is _$DetailCharacterStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.mediaSort, mediaSort) ||
+                other.mediaSort == mediaSort) &&
             (identical(other.staffModel, staffModel) ||
                 other.staffModel == staffModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, staffModel);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, mediaSort, staffModel);
 
   @JsonKey(ignore: true)
   @override
@@ -159,10 +179,13 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
 abstract class _DetailCharacterState implements DetailStaffState {
   factory _DetailCharacterState(
       {final bool isLoading,
+      final MediaSort mediaSort,
       final StaffModel? staffModel}) = _$DetailCharacterStateImpl;
 
   @override
   bool get isLoading;
+  @override
+  MediaSort get mediaSort;
   @override
   StaffModel? get staffModel;
   @override
