@@ -8,8 +8,8 @@ part of 'media_sort.dart';
 
 const _$MediaSortEnumMap = {
   MediaSort.trending: 'TRENDING_DESC',
-  MediaSort.newest: 'UPDATED_AT_DESC',
-  MediaSort.oldest: 'UPDATED_AT',
+  MediaSort.newest: 'START_DATE_DESC',
+  MediaSort.oldest: 'START_DATE',
   MediaSort.averageScore: 'SCORE_DESC',
   MediaSort.favorite: 'FAVOURITES_DESC',
   MediaSort.popularity: 'POPULARITY_DESC',

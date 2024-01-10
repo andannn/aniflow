@@ -6,9 +6,9 @@ part 'media_sort.g.dart';
 enum MediaSort {
   @JsonValue('TRENDING_DESC')
   trending,
-  @JsonValue('UPDATED_AT_DESC')
+  @JsonValue('START_DATE_DESC')
   newest,
-  @JsonValue('UPDATED_AT')
+  @JsonValue('START_DATE')
   oldest,
   @JsonValue('SCORE_DESC')
   averageScore,

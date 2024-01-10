@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
@@ -13,9 +14,11 @@ class VoiceActorContentsPagingBloc
   VoiceActorContentsPagingBloc(
     this.staffId, {
     required this.mediaRepository,
+    this.mediaSort = MediaSort.newest,
   }) : super(const PageInit(data: []));
 
   final String staffId;
+  final MediaSort mediaSort;
   final MediaInformationRepository mediaRepository;
 
   @override
@@ -29,6 +32,7 @@ class VoiceActorContentsPagingBloc
       page: page,
       perPage: 25,
       staffId: staffId,
+      mediaSort: mediaSort,
     );
   }
 }
