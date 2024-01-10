@@ -1,4 +1,5 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_sort.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
@@ -220,6 +221,7 @@ class _DetailStaffContent extends StatelessWidget {
     return [
       SliverToBoxAdapter(
         child: _buildMediaSortSelector(
+          context: context,
           mediaSort: mediaSort,
           onMediaSortChanged: (mediaSort) {
             context
@@ -387,14 +389,23 @@ class _DetailStaffContent extends StatelessWidget {
   }
 
   Widget _buildMediaSortSelector(
-      {required MediaSort mediaSort,
+      {required BuildContext context,
+      required MediaSort mediaSort,
       required Function(MediaSort) onMediaSortChanged}) {
+    final afLocalizations = AFLocalizations.of(context);
+    final items = [
+      MediaSort.popularity,
+      MediaSort.averageScore,
+      MediaSort.favorite,
+      MediaSort.newest,
+      MediaSort.oldest,
+    ];
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const Expanded(child: SizedBox()),
         PopupMenuAnchor(
-          menuItems: MediaSort.values,
+          menuItems: items,
           builder: (context, controller, child) {
             return TextButton.icon(
               onPressed: () {
@@ -406,7 +417,7 @@ class _DetailStaffContent extends StatelessWidget {
               },
               icon: const Icon(Icons.filter_alt),
               label: Text(
-                mediaSort.toJson(),
+                afLocalizations.getMediaSortString(mediaSort),
               ),
             );
           },
@@ -414,7 +425,7 @@ class _DetailStaffContent extends StatelessWidget {
             return MenuItemButton(
               child: Container(
                 constraints: const BoxConstraints(minWidth: 80),
-                child: Text(item.toJson()),
+                child: Text(afLocalizations.getMediaSortString(item)),
               ),
               onPressed: () {
                 onMediaSortChanged.call(item);

@@ -549,7 +549,6 @@ class AniListDataSource {
       'perPage': perPage,
       'sort': [mediaSort.toJson()],
     };
-    print('JQN variablesMap $variablesMap');
     final response = await AniListDio().dio.post(
           AniListDio.aniListUrl,
           cancelToken: token,
