@@ -103,7 +103,7 @@ class AniListDataSource {
     }
     if (hasAnimeSort) {
       variablesMap['sort'] =
-          param.animeSort.map((e) => e.sqlTypeString).toList();
+          param.animeSort.map((e) => e.toJson()).toList();
     }
     if (hasAnimeFormat) {
       variablesMap['format_in'] =
