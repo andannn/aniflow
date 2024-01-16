@@ -43,7 +43,7 @@ mixin Tables {
       'activity_filter_type_cross_ref_table';
 }
 
-const databaseVersion = 2;
+const databaseVersion = 3;
 
 class AniflowDatabase {
   static const String _tag = 'AniflowDatabase';
@@ -185,7 +185,8 @@ class AniflowDatabase {
 
     batch.execute('create table if not exists ${Tables.characterTable} ('
         '${CharacterColumns.id} text primary key,'
-        '${CharacterColumns.image} text,'
+        '${CharacterColumns.mediumImage} text,'
+        '${CharacterColumns.largeImage} text,'
         '${CharacterColumns.firstName} text,'
         '${CharacterColumns.middleName} text,'
         '${CharacterColumns.lastName} text,'
@@ -215,7 +216,8 @@ class AniflowDatabase {
 
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
-        '${StaffColumns.image} text,'
+        '${StaffColumns.mediumImage} text,'
+        '${StaffColumns.largeImage} text,'
         '${StaffColumns.firstName} text,'
         '${StaffColumns.middleName} text,'
         '${StaffColumns.lastName} text,'
@@ -383,5 +385,20 @@ class AniflowDatabase {
 
   Future _onUpgradeToVersion3(Database db) async {
     logger.d('$_tag _onUpgradeToVersion3');
+
+    final batch = db.batch();
+    batch.execute(
+        'alter table ${Tables.characterTable} rename column ${CharacterColumns.image} to ${CharacterColumns.largeImage}');
+    batch.execute(
+        'alter table ${Tables.characterTable} add column ${CharacterColumns.mediumImage} text');
+    batch.delete(Tables.characterTable);
+
+    batch.execute(
+        'alter table ${Tables.staffTable} rename column ${StaffColumns.image} to ${StaffColumns.largeImage}');
+    batch.execute(
+        'alter table ${Tables.staffTable} add column ${StaffColumns.mediumImage} text');
+    batch.delete(Tables.staffTable);
+
+    await batch.commit();
   }
 }

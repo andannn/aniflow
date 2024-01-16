@@ -36,7 +36,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
               child: AFNetworkImage(
-                imageUrl: model.characterModel.image,
+                imageUrl: model.characterModel.mediumImage,
               ),
             ),
           ),
@@ -90,7 +90,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
               child: AFNetworkImage(
-                imageUrl: model.voiceActorModel?.image ?? '',
+                imageUrl: model.voiceActorModel?.mediumImage ?? '',
               ),
             ),
           ),

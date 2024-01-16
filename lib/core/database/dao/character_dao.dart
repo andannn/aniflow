@@ -13,7 +13,8 @@ import 'package:sqflite/sqflite.dart';
 /// [Tables.characterTable]
 mixin CharacterColumns {
   static const String id = 'character_id';
-  static const String image = 'character_image';
+  static const String largeImage = 'character_large_image';
+  static const String mediumImage = 'character_medium_image';
   static const String firstName = 'character_first_name';
   static const String middleName = 'character_middle_name';
   static const String lastName = 'character_last_name';
@@ -27,6 +28,9 @@ mixin CharacterColumns {
   static const String isFavourite = 'character_is_favourite';
   static const String siteUrl = 'character_site_url';
   static const String favourites = 'character_favourites';
+
+  // old column name
+  static const String image = 'character_image';
 }
 
 /// [Tables.characterAndRelatedMediaCrossRef]

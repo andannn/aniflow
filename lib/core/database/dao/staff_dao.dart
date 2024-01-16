@@ -7,7 +7,8 @@ import 'package:sqflite/sqflite.dart';
 /// [Tables.staffTable]
 mixin StaffColumns {
   static const String id = 'staff_id';
-  static const String image = 'staff_image';
+  static const String largeImage = 'staff_large_image';
+  static const String mediumImage = 'staff_medium_image';
   static const String firstName = 'staff_first_name';
   static const String middleName = 'staff_middle_name';
   static const String lastName = 'staff_last_name';
@@ -23,6 +24,9 @@ mixin StaffColumns {
   static const String yearsActive = 'staff_years_active';
   static const String homeTown = 'staff_home_town';
   static const String bloodType = 'staff_blood_type';
+
+  // old column name.
+  static const String image = 'staff_image';
 }
 
 abstract class StaffDao {

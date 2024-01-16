@@ -9,10 +9,9 @@ part of 'character_dto.dart';
 _$CharacterDtoImpl _$$CharacterDtoImplFromJson(Map<String, dynamic> json) =>
     _$CharacterDtoImpl(
       id: json['id'] as int? ?? -1,
-      image: (json['image'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String?),
-          ) ??
-          const {},
+      image: json['image'] == null
+          ? null
+          : CharacterImageDto.fromJson(json['image'] as Map<String, dynamic>),
       name: json['name'] == null
           ? null
           : StaffCharacterName.fromJson(json['name'] as Map<String, dynamic>),

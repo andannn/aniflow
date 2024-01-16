@@ -87,13 +87,13 @@ void main() {
       CharacterAndVoiceActorRelationEntity(
           characterEntity: CharacterEntity(
             id: '2334',
-            image:
+            largeImage:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
             firstName: 'Jack',
           ),
           voiceActorEntity: StaffEntity(
             id: '95346',
-            image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+            largeImage: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
             firstName: 'Character A',
           ),
           language: StaffLanguage.japanese,
@@ -101,13 +101,13 @@ void main() {
       CharacterAndVoiceActorRelationEntity(
           characterEntity: CharacterEntity(
             id: '6694',
-            image:
+            largeImage:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
             firstName: 'Judy',
           ),
           voiceActorEntity: StaffEntity(
             id: '95262',
-            image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+            largeImage: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
             firstName: '堀内賢雄',
           ),
           language: StaffLanguage.japanese,

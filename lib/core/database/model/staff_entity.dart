@@ -16,7 +16,8 @@ part 'staff_entity.g.dart';
 class StaffEntity with _$StaffEntity {
   factory StaffEntity({
     @Default('') @JsonKey(name: StaffColumns.id) String id,
-    @JsonKey(name: StaffColumns.image) String? image,
+    @JsonKey(name: StaffColumns.largeImage) String? largeImage,
+    @JsonKey(name: StaffColumns.mediumImage) String? mediumImage,
     @JsonKey(name: StaffColumns.firstName) String? firstName,
     @JsonKey(name: StaffColumns.middleName) String? middleName,
     @JsonKey(name: StaffColumns.lastName) String? lastName,
@@ -52,7 +53,8 @@ class StaffEntity with _$StaffEntity {
   static StaffEntity fromStaffDto(StaffDto e) {
     return StaffEntity(
       id: e.id.toString(),
-      image: e.image['large'],
+      largeImage: e.image?.large,
+      mediumImage: e.image?.medium,
       firstName: e.name?.first,
       middleName: e.name?.middle,
       lastName: e.name?.last,

@@ -13,7 +13,10 @@ part 'character_entity.g.dart';
 class CharacterEntity with _$CharacterEntity {
   factory CharacterEntity({
     @Default('') @JsonKey(name: CharacterColumns.id) String id,
-    @Default('') @JsonKey(name: CharacterColumns.image) String? image,
+    @Default('')
+    @JsonKey(name: CharacterColumns.mediumImage)
+    String? mediumImage,
+    @Default('') @JsonKey(name: CharacterColumns.largeImage) String? largeImage,
     @JsonKey(name: CharacterColumns.firstName) String? firstName,
     @JsonKey(name: CharacterColumns.middleName) String? middleName,
     @JsonKey(name: CharacterColumns.lastName) String? lastName,
@@ -39,7 +42,8 @@ class CharacterEntity with _$CharacterEntity {
   static CharacterEntity fromDto(CharacterDto e) {
     return CharacterEntity(
       id: e.id.toString(),
-      image: e.image['large'],
+      mediumImage: e.image!.medium,
+      largeImage: e.image!.large,
       firstName: e.name?.first,
       middleName: e.name?.middle,
       lastName: e.name?.last,

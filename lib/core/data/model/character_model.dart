@@ -12,7 +12,8 @@ part 'character_model.freezed.dart';
 class CharacterModel with _$CharacterModel {
   factory CharacterModel({
     @Default('') String id,
-    @Default('') String image,
+    @Default('') String largeImage,
+    @Default('') String mediumImage,
     StaffCharacterName? name,
     String? description,
     String? gender,
@@ -32,7 +33,8 @@ class CharacterModel with _$CharacterModel {
   static CharacterModel fromDatabaseEntity(CharacterEntity entity) {
     return CharacterModel(
       id: entity.id,
-      image: entity.image ?? '',
+      mediumImage: entity.mediumImage ?? '',
+      largeImage: entity.largeImage ?? '',
       name: StaffCharacterName(
         first: entity.firstName,
         middle: entity.middleName,

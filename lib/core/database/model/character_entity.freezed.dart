@@ -22,8 +22,10 @@ CharacterEntity _$CharacterEntityFromJson(Map<String, dynamic> json) {
 mixin _$CharacterEntity {
   @JsonKey(name: CharacterColumns.id)
   String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: CharacterColumns.image)
-  String? get image => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.mediumImage)
+  String? get mediumImage => throw _privateConstructorUsedError;
+  @JsonKey(name: CharacterColumns.largeImage)
+  String? get largeImage => throw _privateConstructorUsedError;
   @JsonKey(name: CharacterColumns.firstName)
   String? get firstName => throw _privateConstructorUsedError;
   @JsonKey(name: CharacterColumns.middleName)
@@ -65,7 +67,8 @@ abstract class $CharacterEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
-      @JsonKey(name: CharacterColumns.image) String? image,
+      @JsonKey(name: CharacterColumns.mediumImage) String? mediumImage,
+      @JsonKey(name: CharacterColumns.largeImage) String? largeImage,
       @JsonKey(name: CharacterColumns.firstName) String? firstName,
       @JsonKey(name: CharacterColumns.middleName) String? middleName,
       @JsonKey(name: CharacterColumns.lastName) String? lastName,
@@ -95,7 +98,8 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? image = freezed,
+    Object? mediumImage = freezed,
+    Object? largeImage = freezed,
     Object? firstName = freezed,
     Object? middleName = freezed,
     Object? lastName = freezed,
@@ -115,9 +119,13 @@ class _$CharacterEntityCopyWithImpl<$Res, $Val extends CharacterEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      mediumImage: freezed == mediumImage
+          ? _value.mediumImage
+          : mediumImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      largeImage: freezed == largeImage
+          ? _value.largeImage
+          : largeImage // ignore: cast_nullable_to_non_nullable
               as String?,
       firstName: freezed == firstName
           ? _value.firstName
@@ -185,7 +193,8 @@ abstract class _$$CharacterEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: CharacterColumns.id) String id,
-      @JsonKey(name: CharacterColumns.image) String? image,
+      @JsonKey(name: CharacterColumns.mediumImage) String? mediumImage,
+      @JsonKey(name: CharacterColumns.largeImage) String? largeImage,
       @JsonKey(name: CharacterColumns.firstName) String? firstName,
       @JsonKey(name: CharacterColumns.middleName) String? middleName,
       @JsonKey(name: CharacterColumns.lastName) String? lastName,
@@ -213,7 +222,8 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? image = freezed,
+    Object? mediumImage = freezed,
+    Object? largeImage = freezed,
     Object? firstName = freezed,
     Object? middleName = freezed,
     Object? lastName = freezed,
@@ -233,9 +243,13 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      mediumImage: freezed == mediumImage
+          ? _value.mediumImage
+          : mediumImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      largeImage: freezed == largeImage
+          ? _value.largeImage
+          : largeImage // ignore: cast_nullable_to_non_nullable
               as String?,
       firstName: freezed == firstName
           ? _value.firstName
@@ -298,7 +312,8 @@ class __$$CharacterEntityImplCopyWithImpl<$Res>
 class _$CharacterEntityImpl implements _CharacterEntity {
   _$CharacterEntityImpl(
       {@JsonKey(name: CharacterColumns.id) this.id = '',
-      @JsonKey(name: CharacterColumns.image) this.image = '',
+      @JsonKey(name: CharacterColumns.mediumImage) this.mediumImage = '',
+      @JsonKey(name: CharacterColumns.largeImage) this.largeImage = '',
       @JsonKey(name: CharacterColumns.firstName) this.firstName,
       @JsonKey(name: CharacterColumns.middleName) this.middleName,
       @JsonKey(name: CharacterColumns.lastName) this.lastName,
@@ -320,8 +335,11 @@ class _$CharacterEntityImpl implements _CharacterEntity {
   @JsonKey(name: CharacterColumns.id)
   final String id;
   @override
-  @JsonKey(name: CharacterColumns.image)
-  final String? image;
+  @JsonKey(name: CharacterColumns.mediumImage)
+  final String? mediumImage;
+  @override
+  @JsonKey(name: CharacterColumns.largeImage)
+  final String? largeImage;
   @override
   @JsonKey(name: CharacterColumns.firstName)
   final String? firstName;
@@ -364,7 +382,7 @@ class _$CharacterEntityImpl implements _CharacterEntity {
 
   @override
   String toString() {
-    return 'CharacterEntity(id: $id, image: $image, firstName: $firstName, middleName: $middleName, lastName: $lastName, fullName: $fullName, nativeName: $nativeName, description: $description, gender: $gender, dateOfBirth: $dateOfBirth, age: $age, bloodType: $bloodType, siteUrl: $siteUrl, favourites: $favourites, isFavourite: $isFavourite)';
+    return 'CharacterEntity(id: $id, mediumImage: $mediumImage, largeImage: $largeImage, firstName: $firstName, middleName: $middleName, lastName: $lastName, fullName: $fullName, nativeName: $nativeName, description: $description, gender: $gender, dateOfBirth: $dateOfBirth, age: $age, bloodType: $bloodType, siteUrl: $siteUrl, favourites: $favourites, isFavourite: $isFavourite)';
   }
 
   @override
@@ -373,7 +391,10 @@ class _$CharacterEntityImpl implements _CharacterEntity {
         (other.runtimeType == runtimeType &&
             other is _$CharacterEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.image, image) || other.image == image) &&
+            (identical(other.mediumImage, mediumImage) ||
+                other.mediumImage == mediumImage) &&
+            (identical(other.largeImage, largeImage) ||
+                other.largeImage == largeImage) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
             (identical(other.middleName, middleName) ||
@@ -404,7 +425,8 @@ class _$CharacterEntityImpl implements _CharacterEntity {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      image,
+      mediumImage,
+      largeImage,
       firstName,
       middleName,
       lastName,
@@ -437,7 +459,8 @@ class _$CharacterEntityImpl implements _CharacterEntity {
 abstract class _CharacterEntity implements CharacterEntity {
   factory _CharacterEntity(
       {@JsonKey(name: CharacterColumns.id) final String id,
-      @JsonKey(name: CharacterColumns.image) final String? image,
+      @JsonKey(name: CharacterColumns.mediumImage) final String? mediumImage,
+      @JsonKey(name: CharacterColumns.largeImage) final String? largeImage,
       @JsonKey(name: CharacterColumns.firstName) final String? firstName,
       @JsonKey(name: CharacterColumns.middleName) final String? middleName,
       @JsonKey(name: CharacterColumns.lastName) final String? lastName,
@@ -460,8 +483,11 @@ abstract class _CharacterEntity implements CharacterEntity {
   @JsonKey(name: CharacterColumns.id)
   String get id;
   @override
-  @JsonKey(name: CharacterColumns.image)
-  String? get image;
+  @JsonKey(name: CharacterColumns.mediumImage)
+  String? get mediumImage;
+  @override
+  @JsonKey(name: CharacterColumns.largeImage)
+  String? get largeImage;
   @override
   @JsonKey(name: CharacterColumns.firstName)
   String? get firstName;

@@ -12,18 +12,18 @@ void main() {
     final dummyVoiceActorData = [
       StaffEntity(
         id: '95084',
-        image:
+        largeImage:
         'https://s4.anilist.co/file/anilistcdn/staff/large/n95084-RTrZSU38POPF.png',
         firstName: '若本規夫',
       ),
       StaffEntity(
         id: '95262',
-        image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+        largeImage: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
         firstName: '堀内賢雄',
       ),
       StaffEntity(
         id: '95346',
-        image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+        largeImage: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
         firstName: 'Character A',
       ),
     ];
