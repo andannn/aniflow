@@ -93,7 +93,7 @@ void main() {
           ),
           voiceActorEntity: StaffEntity(
             id: '95346',
-            image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+            largeImage: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
             firstName: 'Character A',
           ),
           language: StaffLanguage.japanese,
@@ -107,7 +107,7 @@ void main() {
           ),
           voiceActorEntity: StaffEntity(
             id: '95262',
-            image: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
+            largeImage: 'https://s4.anilist.co/file/anilistcdn/staff/large/262.jpg',
             firstName: '堀内賢雄',
           ),
           language: StaffLanguage.japanese,

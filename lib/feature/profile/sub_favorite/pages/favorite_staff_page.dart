@@ -80,7 +80,7 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
     final language =
         AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
     return MediaPreviewItem(
-      coverImage: model.image,
+      coverImage: model.mediumImage,
       title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {

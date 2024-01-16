@@ -125,7 +125,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
         id = model.id;
         onClick = () => navigator.navigateToDetailCharacter(id);
       case FavoriteType.staff:
-        coverImage = (model as StaffModel).image;
+        coverImage = (model as StaffModel).largeImage;
         title = model.name!.getNameByUserSetting(language);
         id = model.id;
         onClick = () => navigator.navigateToDetailStaff(id);

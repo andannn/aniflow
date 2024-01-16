@@ -9,7 +9,8 @@ part of 'staff_entity.dart';
 _$StaffEntityImpl _$$StaffEntityImplFromJson(Map<String, dynamic> json) =>
     _$StaffEntityImpl(
       id: json['staff_id'] as String? ?? '',
-      image: json['staff_image'] as String?,
+      largeImage: json['staff_large_image'] as String?,
+      mediumImage: json['staff_medium_image'] as String?,
       firstName: json['staff_first_name'] as String?,
       middleName: json['staff_middle_name'] as String?,
       lastName: json['staff_last_name'] as String?,
@@ -30,7 +31,8 @@ _$StaffEntityImpl _$$StaffEntityImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$StaffEntityImplToJson(_$StaffEntityImpl instance) =>
     <String, dynamic>{
       'staff_id': instance.id,
-      'staff_image': instance.image,
+      'staff_large_image': instance.largeImage,
+      'staff_medium_image': instance.mediumImage,
       'staff_first_name': instance.firstName,
       'staff_middle_name': instance.middleName,
       'staff_last_name': instance.lastName,

@@ -12,7 +12,8 @@ part 'staff_model.freezed.dart';
 class StaffModel with _$StaffModel {
   factory StaffModel({
     @Default('') String id,
-    @Default('') String image,
+    @Default('') String largeImage,
+    @Default('') String mediumImage,
     StaffCharacterName? name,
     String? description,
     String? gender,
@@ -29,7 +30,8 @@ class StaffModel with _$StaffModel {
   static StaffModel fromEntity(StaffEntity entity) {
     return StaffModel(
       id: entity.id,
-      image: entity.image ?? '',
+      largeImage: entity.largeImage ?? '',
+      mediumImage: entity.mediumImage ?? '',
       name: StaffCharacterName(
         first: entity.firstName,
         middle: entity.middleName,

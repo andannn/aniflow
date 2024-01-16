@@ -34,7 +34,7 @@ class StaffItem extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
               child: AFNetworkImage(
-                imageUrl: model.staff.image,
+                imageUrl: model.staff.mediumImage,
               ),
             ),
           ),

@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$StaffModel {
   String get id => throw _privateConstructorUsedError;
-  String get image => throw _privateConstructorUsedError;
+  String get largeImage => throw _privateConstructorUsedError;
+  String get mediumImage => throw _privateConstructorUsedError;
   StaffCharacterName? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
@@ -43,7 +44,8 @@ abstract class $StaffModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String image,
+      String largeImage,
+      String mediumImage,
       StaffCharacterName? name,
       String? description,
       String? gender,
@@ -73,7 +75,8 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
   @override
   $Res call({
     Object? id = null,
-    Object? image = null,
+    Object? largeImage = null,
+    Object? mediumImage = null,
     Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
@@ -91,9 +94,13 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      largeImage: null == largeImage
+          ? _value.largeImage
+          : largeImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      mediumImage: null == mediumImage
+          ? _value.mediumImage
+          : mediumImage // ignore: cast_nullable_to_non_nullable
               as String,
       name: freezed == name
           ? _value.name
@@ -165,7 +172,8 @@ abstract class _$$StaffModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String image,
+      String largeImage,
+      String mediumImage,
       StaffCharacterName? name,
       String? description,
       String? gender,
@@ -194,7 +202,8 @@ class __$$StaffModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? image = null,
+    Object? largeImage = null,
+    Object? mediumImage = null,
     Object? name = freezed,
     Object? description = freezed,
     Object? gender = freezed,
@@ -212,9 +221,13 @@ class __$$StaffModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      largeImage: null == largeImage
+          ? _value.largeImage
+          : largeImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      mediumImage: null == mediumImage
+          ? _value.mediumImage
+          : mediumImage // ignore: cast_nullable_to_non_nullable
               as String,
       name: freezed == name
           ? _value.name
@@ -269,7 +282,8 @@ class __$$StaffModelImplCopyWithImpl<$Res>
 class _$StaffModelImpl implements _StaffModel {
   _$StaffModelImpl(
       {this.id = '',
-      this.image = '',
+      this.largeImage = '',
+      this.mediumImage = '',
       this.name,
       this.description,
       this.gender,
@@ -288,7 +302,10 @@ class _$StaffModelImpl implements _StaffModel {
   final String id;
   @override
   @JsonKey()
-  final String image;
+  final String largeImage;
+  @override
+  @JsonKey()
+  final String mediumImage;
   @override
   final StaffCharacterName? name;
   @override
@@ -322,7 +339,7 @@ class _$StaffModelImpl implements _StaffModel {
 
   @override
   String toString() {
-    return 'StaffModel(id: $id, image: $image, name: $name, description: $description, gender: $gender, siteUrl: $siteUrl, dateOfBirth: $dateOfBirth, dateOfDeath: $dateOfDeath, age: $age, isFavourite: $isFavourite, yearsActive: $yearsActive, homeTown: $homeTown, bloodType: $bloodType)';
+    return 'StaffModel(id: $id, largeImage: $largeImage, mediumImage: $mediumImage, name: $name, description: $description, gender: $gender, siteUrl: $siteUrl, dateOfBirth: $dateOfBirth, dateOfDeath: $dateOfDeath, age: $age, isFavourite: $isFavourite, yearsActive: $yearsActive, homeTown: $homeTown, bloodType: $bloodType)';
   }
 
   @override
@@ -331,7 +348,10 @@ class _$StaffModelImpl implements _StaffModel {
         (other.runtimeType == runtimeType &&
             other is _$StaffModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.image, image) || other.image == image) &&
+            (identical(other.largeImage, largeImage) ||
+                other.largeImage == largeImage) &&
+            (identical(other.mediumImage, mediumImage) ||
+                other.mediumImage == mediumImage) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -356,7 +376,8 @@ class _$StaffModelImpl implements _StaffModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      image,
+      largeImage,
+      mediumImage,
       name,
       description,
       gender,
@@ -379,7 +400,8 @@ class _$StaffModelImpl implements _StaffModel {
 abstract class _StaffModel implements StaffModel {
   factory _StaffModel(
       {final String id,
-      final String image,
+      final String largeImage,
+      final String mediumImage,
       final StaffCharacterName? name,
       final String? description,
       final String? gender,
@@ -395,7 +417,9 @@ abstract class _StaffModel implements StaffModel {
   @override
   String get id;
   @override
-  String get image;
+  String get largeImage;
+  @override
+  String get mediumImage;
   @override
   StaffCharacterName? get name;
   @override

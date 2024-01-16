@@ -114,7 +114,7 @@ class _DetailStaffContent extends StatelessWidget {
                     elevation: 0,
                     color: colorScheme.surfaceVariant,
                     clipBehavior: Clip.antiAlias,
-                    child: AFNetworkImage(imageUrl: staff.image),
+                    child: AFNetworkImage(imageUrl: staff.largeImage),
                   ),
                 ),
               ),

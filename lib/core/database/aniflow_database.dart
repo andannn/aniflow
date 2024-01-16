@@ -216,7 +216,8 @@ class AniflowDatabase {
 
     batch.execute('create table if not exists ${Tables.staffTable} ('
         '${StaffColumns.id} text primary key,'
-        '${StaffColumns.image} text,'
+        '${StaffColumns.mediumImage} text,'
+        '${StaffColumns.largeImage} text,'
         '${StaffColumns.firstName} text,'
         '${StaffColumns.middleName} text,'
         '${StaffColumns.lastName} text,'
@@ -391,6 +392,12 @@ class AniflowDatabase {
     batch.execute(
         'alter table ${Tables.characterTable} add column ${CharacterColumns.mediumImage} text');
     batch.delete(Tables.characterTable);
+
+    batch.execute(
+        'alter table ${Tables.staffTable} rename column ${StaffColumns.image} to ${StaffColumns.largeImage}');
+    batch.execute(
+        'alter table ${Tables.staffTable} add column ${StaffColumns.mediumImage} text');
+    batch.delete(Tables.staffTable);
 
     await batch.commit();
   }
