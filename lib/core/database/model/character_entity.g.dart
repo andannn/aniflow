@@ -10,7 +10,8 @@ _$CharacterEntityImpl _$$CharacterEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$CharacterEntityImpl(
       id: json['character_id'] as String? ?? '',
-      image: json['character_image'] as String? ?? '',
+      mediumImage: json['character_medium_image'] as String? ?? '',
+      largeImage: json['character_large_image'] as String? ?? '',
       firstName: json['character_first_name'] as String?,
       middleName: json['character_middle_name'] as String?,
       lastName: json['character_last_name'] as String?,
@@ -30,7 +31,8 @@ Map<String, dynamic> _$$CharacterEntityImplToJson(
         _$CharacterEntityImpl instance) =>
     <String, dynamic>{
       'character_id': instance.id,
-      'character_image': instance.image,
+      'character_medium_image': instance.mediumImage,
+      'character_large_image': instance.largeImage,
       'character_first_name': instance.firstName,
       'character_middle_name': instance.middleName,
       'character_last_name': instance.lastName,

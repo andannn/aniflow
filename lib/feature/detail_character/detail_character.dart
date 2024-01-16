@@ -100,7 +100,7 @@ class _DetailCharacterContent extends StatelessWidget {
                     elevation: 0,
                     color: colorScheme.surfaceVariant,
                     clipBehavior: Clip.antiAlias,
-                    child: AFNetworkImage(imageUrl: character.image),
+                    child: AFNetworkImage(imageUrl: character.largeImage),
                   ),
                 ),
               ),

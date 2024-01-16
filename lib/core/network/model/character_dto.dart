@@ -1,4 +1,5 @@
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
+import 'package:aniflow/core/network/model/character_image_dto.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,7 +12,7 @@ part 'character_dto.g.dart';
 class CharacterDto with _$CharacterDto {
   factory CharacterDto({
     @Default(-1) @JsonKey(name: 'id') int id,
-    @Default({}) @JsonKey(name: 'image') Map<String, String?> image,
+    @JsonKey(name: 'image') CharacterImageDto? image,
     @JsonKey(name: 'name') StaffCharacterName? name,
     @JsonKey(name: 'description') String? description,
     @JsonKey(name: 'gender') String? gender,

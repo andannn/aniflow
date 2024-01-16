@@ -87,7 +87,7 @@ void main() {
       CharacterAndVoiceActorRelationEntity(
           characterEntity: CharacterEntity(
             id: '2334',
-            image:
+            largeImage:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
             firstName: 'Jack',
           ),
@@ -101,7 +101,7 @@ void main() {
       CharacterAndVoiceActorRelationEntity(
           characterEntity: CharacterEntity(
             id: '6694',
-            image:
+            largeImage:
                 'https://s4.anilist.co/file/anilistcdn/character/large/b6694-y0PmKzrcVa7A.png',
             firstName: 'Judy',
           ),

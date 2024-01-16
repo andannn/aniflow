@@ -318,7 +318,7 @@ class _DetailStaffContent extends StatelessWidget {
                 children: [
                   SizedBox.expand(
                     child: AFNetworkImage(
-                      imageUrl: item.character.image,
+                      imageUrl: item.character.mediumImage,
                     ),
                   ),
                   Positioned(
