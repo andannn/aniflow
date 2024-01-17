@@ -166,7 +166,7 @@ class _DetailCharacterContent extends StatelessWidget {
   Widget _buildGridItems(BuildContext context, MediaModel model) {
     return MediaPreviewItem(
       textStyle: Theme.of(context).textTheme.labelMedium,
-      coverImage: model.coverImage?.medium ?? '',
+      coverImage: model.coverImage?.large ?? '',
       title: model.title!.getTitle(
           AniFlowPreferences().getAniListSettings().userTitleLanguage),
       isFollowing: model.isFollowing,

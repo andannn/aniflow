@@ -26,21 +26,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends Page {
-  const ProfilePage({this.userId, super.key});
+  const ProfilePage({
+    this.userId,
+    super.key,
+    this.showBackKey = false,
+  });
 
   final String? userId;
+  final bool showBackKey;
 
   @override
   Route createRoute(BuildContext context) {
-    return ProfileRoute(settings: this, userId: userId);
+    return ProfileRoute(
+        settings: this, userId: userId, showBackKey: showBackKey);
   }
 }
 
 class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
-  ProfileRoute({required this.userId, super.settings})
+  ProfileRoute(
+      {required this.userId, required this.showBackKey, super.settings})
       : super(allowSnapshotting: false);
 
   final String? userId;
+  final bool showBackKey;
 
   @override
   Widget buildContent(BuildContext context) {
@@ -49,7 +57,7 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
               userId: userId,
               userInfoRepository: context.read<UserInfoRepository>(),
             ),
-        child: const _ProfilePageContent());
+        child: _ProfilePageContent(showBackKey: showBackKey));
   }
 
   @override
@@ -57,7 +65,9 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _ProfilePageContent extends StatelessWidget {
-  const _ProfilePageContent();
+  const _ProfilePageContent({required this.showBackKey});
+
+  final bool showBackKey;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +148,10 @@ class _ProfilePageContent extends StatelessWidget {
                 )..loadingStateRepository = loadingStateRepository,
               ),
             ],
-            child: _UserProfile(userState: userState),
+            child: _UserProfile(
+              userState: userState,
+              showBackKey: showBackKey,
+            ),
           );
         }
       },
@@ -147,9 +160,10 @@ class _ProfilePageContent extends StatelessWidget {
 }
 
 class _UserProfile extends StatefulWidget {
-  const _UserProfile({required this.userState});
+  const _UserProfile({required this.userState, required this.showBackKey});
 
   final UserModel userState;
+  final bool showBackKey;
 
   @override
   State<_UserProfile> createState() => _UserProfileState();
@@ -184,6 +198,7 @@ class _UserProfileState extends State<_UserProfile>
               sliver: SliverPersistentHeader(
                 delegate: _CustomSliverAppBarDelegate(
                   state: widget.userState,
+                  showBackKey: widget.showBackKey,
                   tabController: _tabController,
                   tabs: ProfileTabType.values
                       .map((e) => Text(e.getLocalString(context)))
@@ -226,6 +241,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.state,
     required this.tabController,
     required this.tabs,
+    required this.showBackKey,
   });
 
   final TabController tabController;
@@ -234,6 +250,8 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final UserModel state;
   final _maxExtent = 360.0;
   final _minExtent = 160.0;
+
+  final bool showBackKey;
 
   @override
   Widget build(
@@ -343,7 +361,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         opacity: shrinkOffset / (_maxExtent - _minExtent),
         child: AppBar(
           title: Text(state.name),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: showBackKey,
         ),
       );
 }

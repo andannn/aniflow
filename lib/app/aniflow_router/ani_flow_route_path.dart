@@ -258,7 +258,7 @@ class DetailStaffPath extends AniFlowRoutePath {
 
   @override
   List<Object?> get props => [id];
-  
+
   @override
   String toString() => 'detail_staff_page_$id';
 }
@@ -309,7 +309,11 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case ProfileRoutePath(topLevel: final _):
         return ProfilePage(key: ValueKey(toString()));
       case UserProfileRoutePath(id: final id):
-        return ProfilePage(key: ValueKey(toString()), userId: id);
+        return ProfilePage(
+          key: ValueKey(toString()),
+          userId: id,
+          showBackKey: true,
+        );
       case AiringScheduleRoutePath():
         return AiringSchedule(key: ValueKey(toString()));
       case SearchRoutePath():
