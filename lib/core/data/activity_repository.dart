@@ -135,6 +135,11 @@ class ActivityRepositoryImpl implements ActivityRepository {
           perPage: perPage,
           param: ActivityPageQueryParam(
             userId: int.parse(userId),
+            type: [
+              ActivityType.mangaList,
+              ActivityType.animeList,
+              ActivityType.text,
+            ],
           ),
           token: token,
         );
