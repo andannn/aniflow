@@ -35,10 +35,12 @@ import 'package:aniflow/core/network/model/likeable_type.dart';
 import 'package:aniflow/core/network/model/media_connection.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
+import 'package:aniflow/core/network/model/page_info.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
+import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
@@ -103,8 +105,7 @@ class AniListDataSource {
       variablesMap['status'] = param.status?.sqlTypeString;
     }
     if (hasAnimeSort) {
-      variablesMap['sort'] =
-          param.animeSort.map((e) => e.toJson()).toList();
+      variablesMap['sort'] = param.animeSort.map((e) => e.toJson()).toList();
     }
     if (hasAnimeFormat) {
       variablesMap['format_in'] =
@@ -187,37 +188,69 @@ class AniListDataSource {
     CancelToken? token,
   }) async {
     final queryGraphQL = userMediaListGraphQLString;
-    final hasStatus = param.status.isNotEmpty;
-    final hasPerPage = param.perPage != null;
-    final hasMediaType = param.mediaType != null;
-    final variablesMap = <String, dynamic>{
-      'page': param.page,
-      'userId': param.userId,
-      'format': param.format,
-    };
-    if (hasStatus) {
-      variablesMap['status_in'] =
-          param.status.map((e) => e.sqlTypeString).toList();
-    }
-    if (hasPerPage) {
-      variablesMap['perPage'] = param.perPage;
-    }
-    if (hasMediaType) {
-      variablesMap['type'] = param.mediaType!.toJson();
-    }
 
-    final response = await AniListDio().dio.post(
-          AniListDio.aniListUrl,
-          cancelToken: token,
-          data: {'query': queryGraphQL, 'variables': variablesMap},
-          options: createQueryOptions(_token),
-        );
+    if (param.isRequestAllItem) {
+      return AniListPageUtil.getAllPageItem(
+        onGetPage: (page) async {
+          final variablesMap = <String, dynamic>{
+            'page': page,
+            'userId': param.userId,
+            'format': param.format,
+          };
+          if (param.status.isNotEmpty) {
+            variablesMap['status_in'] =
+                param.status.map((e) => e.sqlTypeString).toList();
+          }
+          if (param.mediaType != null) {
+            variablesMap['type'] = param.mediaType!.toJson();
+          }
 
-    final List resultJson = response.data['data']['Page']['mediaList'];
-    final List<MediaListDto> animeList =
-        resultJson.map((e) => MediaListDto.fromJson(e)).toList();
+          final response = await AniListDio().dio.post(
+                AniListDio.aniListUrl,
+                cancelToken: token,
+                data: {'query': queryGraphQL, 'variables': variablesMap},
+                options: createQueryOptions(_token),
+              );
+          return response.data;
+        },
+        getPageInfoFromResult: (result) {
+          return PageInfo.fromJson(result['data']['Page']['pageInfo']);
+        },
+        getItemListFromResult: (result) {
+          final List resultJson = result['data']['Page']['mediaList'];
+          return resultJson.map((e) => MediaListDto.fromJson(e)).toList();
+        },
+      );
+    } else {
+      final variablesMap = <String, dynamic>{
+        'page': param.page,
+        'userId': param.userId,
+        'format': param.format,
+      };
+      if (param.status.isNotEmpty) {
+        variablesMap['status_in'] =
+            param.status.map((e) => e.sqlTypeString).toList();
+      }
+      if (param.perPage != null) {
+        variablesMap['perPage'] = param.perPage;
+      }
+      if (param.mediaType != null) {
+        variablesMap['type'] = param.mediaType!.toJson();
+      }
 
-    return animeList;
+      final response = await AniListDio().dio.post(
+            AniListDio.aniListUrl,
+            cancelToken: token,
+            data: {'query': queryGraphQL, 'variables': variablesMap},
+            options: createQueryOptions(_token),
+          );
+
+      final List resultJson = response.data['data']['Page']['mediaList'];
+      final List<MediaListDto> animeList =
+          resultJson.map((e) => MediaListDto.fromJson(e)).toList();
+
+      return animeList;
+    }
   }
 
   Future<MediaListDto?> getSingleMediaListItem({

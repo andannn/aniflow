@@ -147,9 +147,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
       /// get all anime list items from network.
       final networkAnimeList = await aniListDataSource.getUserMediaListPage(
-        param: UserAnimeListPageQueryParam(
-          page: 1,
-          perPage: null,
+        param: UserAnimeListPageQueryParam.all(
           mediaType: mediaType,
           status: status,
           userId: int.parse(targetUserId.toString()),

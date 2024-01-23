@@ -1,6 +1,7 @@
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/network/api/common_graphql.dart';
 
 class UserAnimeListPageQueryParam {
   final int page;
@@ -18,11 +19,22 @@ class UserAnimeListPageQueryParam {
     this.status = const [],
     required this.format,
   });
+
+  UserAnimeListPageQueryParam.all({
+    required this.userId,
+    this.mediaType,
+    this.status = const [],
+    required this.format,
+  })  : page = -1,
+        perPage = -1;
+
+  bool get isRequestAllItem => page == -1;
 }
 
 String get userMediaListGraphQLString => '''
 query(\$page: Int, \$perPage: Int, \$userId: Int, \$status_in: [MediaListStatus], \$type: MediaType, \$format: ScoreFormat){
   Page(page: \$page, perPage: \$perPage) {
+    $pageInfo
     mediaList(userId: \$userId, type: \$type, status_in: \$status_in) {
       $mediaListContent
     }
