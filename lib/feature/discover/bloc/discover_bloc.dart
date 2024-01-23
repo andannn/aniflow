@@ -18,6 +18,7 @@ import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
+import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
@@ -300,13 +301,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   Future _syncAllMediaList(String userId) async {
     return Future.wait([
       _mediaListRepository.syncMediaList(
-          userId: userId,
-          status: [MediaListStatus.current, MediaListStatus.planning],
-          mediaType: MediaType.manga),
-      _mediaListRepository.syncMediaList(
-          userId: userId,
-          status: [MediaListStatus.current, MediaListStatus.planning],
-          mediaType: MediaType.anime),
+        userId: userId,
+        status: [MediaListStatus.current, MediaListStatus.planning],
+        mediaType: AniFlowPreferences().getCurrentMediaType(),
+      ),
     ]);
   }
 }
