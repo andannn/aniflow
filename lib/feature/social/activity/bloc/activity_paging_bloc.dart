@@ -10,17 +10,14 @@ import 'package:dio/dio.dart';
 
 class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
   ActivityPagingBloc({
-    required ActivityScopeCategory userType,
-    required ActivityFilterType filterType,
-    required ActivityRepository repository,
-  })  : _repository = repository,
-        _userType = userType,
-        _filterType = filterType,
-        super(const PageInit(data: []));
+    required this.userType,
+    required this.filterType,
+    required this.repository,
+  }) : super(const PageInit(data: []));
 
-  final ActivityRepository _repository;
-  final ActivityScopeCategory _userType;
-  final ActivityFilterType _filterType;
+  final ActivityRepository repository;
+  final ActivityScopeCategory userType;
+  final ActivityFilterType filterType;
 
   @override
   Future<LoadResult<List<ActivityModel>>> loadPage({
@@ -28,13 +25,13 @@ class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
     bool isRefresh = false,
     CancelToken? cancelToken,
   }) {
-    return _repository.loadActivitiesByPage(
+    return repository.loadActivitiesByPage(
         loadType: isRefresh
             ? const Refresh(AfConfig.activityPageDefaultPerPageCount)
             : Append(
                 page: page, perPage: AfConfig.activityPageDefaultPerPageCount),
-        filterType: _filterType,
-        scopeType: _userType,
+        filterType: filterType,
+        scopeType: userType,
         token: cancelToken);
   }
 }

@@ -18,11 +18,9 @@ class OnToggleActivityLike extends ActivityItemEvent {}
 
 class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
   ActivityStatusBloc({
-    required String activityId,
-    required ActivityRepository repository,
-  })  : _repository = repository,
-        _activityId = activityId,
-        super(null) {
+    required this.activityId,
+    required this.repository,
+  }) : super(null) {
     on<_OnActivityChangeEvent>((event, emit) => emit(event.activityStatus));
     on<OnToggleActivityLike>(_onToggleActivityLike);
 
@@ -34,8 +32,8 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
     });
   }
 
-  final ActivityRepository _repository;
-  final String _activityId;
+  final ActivityRepository repository;
+  final String activityId;
 
   StreamSubscription? _subscription;
   CancelToken? _toggleLikeCancelToken;
@@ -52,8 +50,10 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
     _toggleLikeCancelToken?.cancel();
     _toggleLikeCancelToken = CancelToken();
 
-    LoadResult result = await _repository.toggleActivityLike(
-        _activityId, _toggleLikeCancelToken!);
+    LoadResult result = await repository.toggleActivityLike(
+      activityId,
+      _toggleLikeCancelToken!,
+    );
 
     if (result is LoadError) {
       ErrorHandler.handleException(exception: result.exception);
