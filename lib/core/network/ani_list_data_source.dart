@@ -45,6 +45,8 @@ import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 
+import 'api/activity_detail_query_graphql.dart';
+
 /// Anime list data source get from AniList.
 class AniListDataSource {
   static AniListDataSource? _instance;
@@ -699,5 +701,28 @@ class AniListDataSource {
     final mediaList = resultList.map((e) => MediaDto.fromJson(e)).toList();
 
     return mediaList;
+  }
+
+  Future<AniActivity> getActivityDetail(
+    String activityId,
+    CancelToken? token,
+  ) async {
+    final queryGraphQL = activitiesDetailGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'id': activityId,
+    };
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {
+            'query': queryGraphQL,
+            'variables': variablesMap,
+          },
+          options: createQueryOptions(_token),
+        );
+    final Map<String, dynamic> resultJson = response.data['data']['Activity'];
+
+    return AniActivity.mapToAniActivity(resultJson);
   }
 }
