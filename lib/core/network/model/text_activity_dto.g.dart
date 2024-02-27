@@ -25,6 +25,10 @@ _$TextActivityDtoImpl _$$TextActivityDtoImplFromJson(
       user: json['user'] == null
           ? null
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
+      replies: (json['replies'] as List<dynamic>?)
+              ?.map((e) => ActivityReplyDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$TextActivityDtoImplToJson(
@@ -42,4 +46,5 @@ Map<String, dynamic> _$$TextActivityDtoImplToJson(
       'isPinned': instance.isPinned,
       'createdAt': instance.createdAt,
       'user': instance.user,
+      'replies': instance.replies,
     };

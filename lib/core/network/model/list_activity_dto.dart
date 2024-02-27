@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
+import 'package:aniflow/core/network/model/activity_reply_dto.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
@@ -25,6 +26,7 @@ class ListActivityDto extends AniActivity with _$ListActivityDto {
     @JsonKey(name: 'createdAt') int? createdAt,
     @JsonKey(name: 'user') UserDto? user,
     @JsonKey(name: 'media') MediaDto? media,
+    @Default([]) @JsonKey(name: 'replies') List<ActivityReplyDto> replies,
   }) = _ListActivityDto;
 
   factory ListActivityDto.fromJson(Map<String, dynamic> json) =>
