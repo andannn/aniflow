@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/model/activity_type.dart';
+import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
@@ -18,17 +19,20 @@ sealed class ActivityModel extends Equatable {
   final bool isPinned;
   final int createdAt;
   final UserModel user;
+  final List<ActivityReplyModel> replies;
 
-  const ActivityModel(
-      {required this.id,
-      required this.user,
-      required this.replyCount,
-      required this.siteUrl,
-      required this.isLocked,
-      required this.isLiked,
-      required this.likeCount,
-      required this.isPinned,
-      required this.createdAt});
+  const ActivityModel({
+    required this.id,
+    required this.user,
+    required this.replyCount,
+    required this.siteUrl,
+    required this.isLocked,
+    required this.isLiked,
+    required this.likeCount,
+    required this.isPinned,
+    required this.createdAt,
+    required this.replies,
+  });
 
   @override
   List<Object?> get props => [
@@ -40,7 +44,8 @@ sealed class ActivityModel extends Equatable {
         likeCount,
         isPinned,
         createdAt,
-        user
+        user,
+        ...replies
       ];
 
   static ActivityModel fromEntity(ActivityAndUserRelation entity) {
@@ -61,6 +66,7 @@ sealed class ActivityModel extends Equatable {
           isPinned: activity.isPinned.toBoolean(),
           createdAt: activity.createdAt!,
           user: UserModel.fromEntity(user)!,
+          replies: const [],
         );
 
       case ActivityType.animeList:
@@ -79,6 +85,7 @@ sealed class ActivityModel extends Equatable {
           status: activity.status ?? '',
           progress: activity.progress ?? '',
           media: MediaModel.fromDatabaseModel(media!),
+          replies: const [],
         );
       case ActivityType.message:
         throw Exception('Invalid type');
@@ -99,6 +106,8 @@ sealed class ActivityModel extends Equatable {
           isPinned: dto.isPinned ?? false,
           createdAt: dto.createdAt ?? 0,
           user: dto.user == null ? UserModel() : UserModel.fromDto(dto.user!),
+          replies:
+              dto.replies.map((e) => ActivityReplyModel.fromDto(e)).toList(),
         );
       case ListActivityDto():
         return ListActivityModel(
@@ -115,6 +124,8 @@ sealed class ActivityModel extends Equatable {
           progress: dto.progress ?? '',
           media:
               dto.media == null ? MediaModel() : MediaModel.fromDto(dto.media!),
+          replies:
+              dto.replies.map((e) => ActivityReplyModel.fromDto(e)).toList(),
         );
       default:
         throw Exception('Invalid type');
@@ -127,19 +138,21 @@ class ListActivityModel extends ActivityModel {
   final String progress;
   final MediaModel media;
 
-  const ListActivityModel(
-      {required super.id,
-      required this.status,
-      required this.progress,
-      required this.media,
-      required super.replyCount,
-      required super.siteUrl,
-      required super.isLocked,
-      required super.isLiked,
-      required super.likeCount,
-      required super.isPinned,
-      required super.createdAt,
-      required super.user});
+  const ListActivityModel({
+    required super.id,
+    required this.status,
+    required this.progress,
+    required this.media,
+    required super.replyCount,
+    required super.siteUrl,
+    required super.isLocked,
+    required super.isLiked,
+    required super.likeCount,
+    required super.isPinned,
+    required super.createdAt,
+    required super.user,
+    required super.replies,
+  });
 
   @override
   List<Object?> get props => [...super.props, status, progress, media];
@@ -148,17 +161,19 @@ class ListActivityModel extends ActivityModel {
 class TextActivityModel extends ActivityModel {
   final String text;
 
-  const TextActivityModel(
-      {required super.id,
-      required this.text,
-      required super.replyCount,
-      required super.siteUrl,
-      required super.isLocked,
-      required super.isLiked,
-      required super.likeCount,
-      required super.isPinned,
-      required super.createdAt,
-      required super.user});
+  const TextActivityModel({
+    required super.id,
+    required this.text,
+    required super.replyCount,
+    required super.siteUrl,
+    required super.isLocked,
+    required super.isLiked,
+    required super.likeCount,
+    required super.isPinned,
+    required super.createdAt,
+    required super.user,
+    required super.replies,
+  });
 
   @override
   List<Object?> get props => [...super.props, text];

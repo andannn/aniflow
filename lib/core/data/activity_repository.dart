@@ -58,6 +58,8 @@ abstract class ActivityRepository {
   Stream<ActivityStatus?> getActivityStatusStream(String id);
 
   Future<LoadResult> toggleActivityLike(String id, CancelToken token);
+
+  Future<ActivityModel> getActivityDetail(String activityId);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -212,5 +214,11 @@ class ActivityRepositoryImpl implements ActivityRepository {
         return null;
       },
     );
+  }
+
+  @override
+  Future<ActivityModel> getActivityDetail(String activityId) {
+
+    throw UnimplementedError();
   }
 }
