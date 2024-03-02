@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
+import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
@@ -59,7 +60,8 @@ abstract class ActivityRepository {
 
   Future<LoadResult> toggleActivityLike(String id, CancelToken token);
 
-  Future<ActivityModel> getActivityDetail(String activityId);
+  Future<List<ActivityReplyModel>> getActivityReplies(String activityId,
+      [CancelToken? token]);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -217,8 +219,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
-  Future<ActivityModel> getActivityDetail(String activityId) {
+  Future<List<ActivityReplyModel>> getActivityReplies(String activityId,
+      [CancelToken? token]) async {
+    final activity =
+        await aniListDataSource.getActivityDetail(activityId, token);
 
-    throw UnimplementedError();
+    final activityModel = ActivityModel.fromDto(activity);
+    return activityModel.replies;
   }
 }

@@ -703,7 +703,7 @@ class AniListDataSource {
   }
 
   Future<AniActivity> getActivityDetail(
-    int activityId,
+    String activityId,
     [CancelToken? token]
   ) async {
     final queryGraphQL = activitiesDetailGraphQLString;
