@@ -62,6 +62,8 @@ abstract class ActivityRepository {
 
   Future<List<ActivityReplyModel>> getActivityReplies(String activityId,
       [CancelToken? token]);
+
+  Future<ActivityModel> getActivityModel(String activityId);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -226,5 +228,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
     final activityModel = ActivityModel.fromDto(activity);
     return activityModel.replies;
+  }
+
+  @override
+  Future<ActivityModel> getActivityModel(String activityId) async {
+    final entity = await activityDao.getActivity(activityId);
+
+    return ActivityModel.fromEntity(entity);
   }
 }

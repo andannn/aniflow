@@ -54,6 +54,8 @@ abstract class ActivityDao {
 
   Future<ActivityStatusRecord?> getActivityStatus(String id);
 
+  Future<ActivityAndUserRelation> getActivity(String id);
+
   Future updateActivityStatus(String id, ActivityStatusRecord record);
 }
 
@@ -212,5 +214,26 @@ class ActivityDaoImpl extends ActivityDao {
       }
     }
     return batch.commit(noResult: true);
+  }
+
+  @override
+  Future<ActivityAndUserRelation> getActivity(String id) async {
+    String sql = 'select * from ${Tables.activityTable}  as a '
+        'join ${Tables.userDataTable}  as u '
+        '  on a.${ActivityTableColumns.userId} = u.${UserDataTableColumns.id} '
+        'left join ${Tables.mediaTable} as m '
+        '  on a.${ActivityTableColumns.mediaId} = m.${MediaTableColumns.id} '
+        'where ${ActivityTableColumns.id} = \'$id\'';
+
+    final List<Map<String, dynamic>> result =
+        await database.aniflowDB.rawQuery(sql);
+    final element = result.first;
+    final mediaEntity = MediaEntity.fromJson(element);
+    final isMediaValid = mediaEntity.id.isNotEmpty;
+    return ActivityAndUserRelation(
+      user: UserEntity.fromJson(element),
+      activity: ActivityEntity.fromJson(element),
+      media: isMediaValid ? mediaEntity : null,
+    );
   }
 }

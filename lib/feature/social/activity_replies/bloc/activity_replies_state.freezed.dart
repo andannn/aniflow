@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ActivityRepliesState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<ActivityReplyModel> get replies => throw _privateConstructorUsedError;
+  ActivityModel? get activityModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ActivityRepliesStateCopyWith<ActivityRepliesState> get copyWith =>
@@ -30,7 +31,10 @@ abstract class $ActivityRepliesStateCopyWith<$Res> {
           $Res Function(ActivityRepliesState) then) =
       _$ActivityRepliesStateCopyWithImpl<$Res, ActivityRepliesState>;
   @useResult
-  $Res call({bool isLoading, List<ActivityReplyModel> replies});
+  $Res call(
+      {bool isLoading,
+      List<ActivityReplyModel> replies,
+      ActivityModel? activityModel});
 }
 
 /// @nodoc
@@ -49,6 +53,7 @@ class _$ActivityRepliesStateCopyWithImpl<$Res,
   $Res call({
     Object? isLoading = null,
     Object? replies = null,
+    Object? activityModel = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -59,6 +64,10 @@ class _$ActivityRepliesStateCopyWithImpl<$Res,
           ? _value.replies
           : replies // ignore: cast_nullable_to_non_nullable
               as List<ActivityReplyModel>,
+      activityModel: freezed == activityModel
+          ? _value.activityModel
+          : activityModel // ignore: cast_nullable_to_non_nullable
+              as ActivityModel?,
     ) as $Val);
   }
 }
@@ -71,7 +80,10 @@ abstract class _$$ActivityRepliesStateImplCopyWith<$Res>
       __$$ActivityRepliesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, List<ActivityReplyModel> replies});
+  $Res call(
+      {bool isLoading,
+      List<ActivityReplyModel> replies,
+      ActivityModel? activityModel});
 }
 
 /// @nodoc
@@ -87,6 +99,7 @@ class __$$ActivityRepliesStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? replies = null,
+    Object? activityModel = freezed,
   }) {
     return _then(_$ActivityRepliesStateImpl(
       isLoading: null == isLoading
@@ -97,6 +110,10 @@ class __$$ActivityRepliesStateImplCopyWithImpl<$Res>
           ? _value._replies
           : replies // ignore: cast_nullable_to_non_nullable
               as List<ActivityReplyModel>,
+      activityModel: freezed == activityModel
+          ? _value.activityModel
+          : activityModel // ignore: cast_nullable_to_non_nullable
+              as ActivityModel?,
     ));
   }
 }
@@ -106,7 +123,8 @@ class __$$ActivityRepliesStateImplCopyWithImpl<$Res>
 class _$ActivityRepliesStateImpl implements _ActivityRepliesState {
   const _$ActivityRepliesStateImpl(
       {this.isLoading = false,
-      final List<ActivityReplyModel> replies = const []})
+      final List<ActivityReplyModel> replies = const [],
+      this.activityModel})
       : _replies = replies;
 
   @override
@@ -122,8 +140,11 @@ class _$ActivityRepliesStateImpl implements _ActivityRepliesState {
   }
 
   @override
+  final ActivityModel? activityModel;
+
+  @override
   String toString() {
-    return 'ActivityRepliesState(isLoading: $isLoading, replies: $replies)';
+    return 'ActivityRepliesState(isLoading: $isLoading, replies: $replies, activityModel: $activityModel)';
   }
 
   @override
@@ -133,12 +154,14 @@ class _$ActivityRepliesStateImpl implements _ActivityRepliesState {
             other is _$ActivityRepliesStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            const DeepCollectionEquality().equals(other._replies, _replies));
+            const DeepCollectionEquality().equals(other._replies, _replies) &&
+            (identical(other.activityModel, activityModel) ||
+                other.activityModel == activityModel));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isLoading, const DeepCollectionEquality().hash(_replies));
+  int get hashCode => Object.hash(runtimeType, isLoading,
+      const DeepCollectionEquality().hash(_replies), activityModel);
 
   @JsonKey(ignore: true)
   @override
@@ -152,12 +175,15 @@ class _$ActivityRepliesStateImpl implements _ActivityRepliesState {
 abstract class _ActivityRepliesState implements ActivityRepliesState {
   const factory _ActivityRepliesState(
       {final bool isLoading,
-      final List<ActivityReplyModel> replies}) = _$ActivityRepliesStateImpl;
+      final List<ActivityReplyModel> replies,
+      final ActivityModel? activityModel}) = _$ActivityRepliesStateImpl;
 
   @override
   bool get isLoading;
   @override
   List<ActivityReplyModel> get replies;
+  @override
+  ActivityModel? get activityModel;
   @override
   @JsonKey(ignore: true)
   _$$ActivityRepliesStateImplCopyWith<_$ActivityRepliesStateImpl>

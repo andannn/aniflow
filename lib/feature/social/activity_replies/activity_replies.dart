@@ -1,4 +1,6 @@
 import 'package:aniflow/core/data/activity_repository.dart';
+import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
+import 'package:aniflow/feature/social/activity/activity.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_bloc.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,7 @@ class ActivityRepliesRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _ActivityRepliesPageContent extends StatelessWidget {
-  const _ActivityRepliesPageContent({super.key});
+  const _ActivityRepliesPageContent();
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +54,34 @@ class _ActivityRepliesPageContent extends StatelessWidget {
       builder: (BuildContext context, ActivityRepliesState state) {
         final isLoading = state.isLoading;
         final replies = state.replies;
+        final activityModel = state.activityModel;
+
+        if (activityModel == null) {
+          return const SizedBox();
+        }
 
         return Scaffold(
           appBar: AppBar(
             title: const Text("Post"),
             automaticallyImplyLeading: true,
+          ),
+          body: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
+                  child: ActivityItem(
+                    model: activityModel,
+                    onBuildActivityStatusWidget: (activityId) =>
+                        ActivityStatusBlocProvider(
+                      key: ValueKey('activity_status_$activityId'),
+                      activityId: activityId,
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         );
       },

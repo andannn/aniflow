@@ -46,9 +46,11 @@ class ActivityItem extends StatelessWidget {
         color: colorScheme.surfaceVariant,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () {
-            onActivityClick?.call(activity.id);
-          },
+          onTap: onActivityClick != null
+              ? () {
+                  onActivityClick?.call(activity.id);
+                }
+              : null,
           child: IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -150,9 +152,11 @@ class ActivityItem extends StatelessWidget {
       elevation: 0,
       color: colorScheme.surfaceVariant,
       child: InkWell(
-        onTap: () {
-          onActivityClick?.call(activity.id);
-        },
+        onTap: onActivityClick != null
+            ? () {
+                onActivityClick?.call(activity.id);
+              }
+            : null,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
