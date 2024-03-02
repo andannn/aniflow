@@ -21,6 +21,7 @@ import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_anime_list_
 import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
+import 'package:aniflow/feature/social/activity_replies/activity_replies.dart';
 import 'package:aniflow/feature/social/social.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:equatable/equatable.dart';
@@ -289,6 +290,18 @@ class DetailStudioRoutePath extends AniFlowRoutePath {
   String toString() => 'detail_studio_page_$id';
 }
 
+class ActivityRepliesRoutePath extends AniFlowRoutePath {
+  const ActivityRepliesRoutePath(this.id) : super(isFullScreen: true);
+
+  final String id;
+
+  @override
+  List<Object?> get props => [id];
+
+  @override
+  String toString() => 'activity_replies_page_$id';
+}
+
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
@@ -344,6 +357,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return DetailStaffPage(key: ValueKey(toString()), id: id);
       case DetailStudioRoutePath(id: final id):
         return DetailStudioPage(key: ValueKey(toString()), id: id);
+      case ActivityRepliesRoutePath(id: final id):
+        return ActivityRepliesPage(key: ValueKey(toString()), activityId: id);
       default:
         return const MaterialPage(child: SizedBox());
     }
