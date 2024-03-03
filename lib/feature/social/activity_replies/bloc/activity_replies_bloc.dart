@@ -1,8 +1,12 @@
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
+import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
 import 'package:bloc/bloc.dart';
+
+import '../../../../core/common/util/error_handler.dart';
 
 sealed class ActivityRepliesEvent {}
 
@@ -35,7 +39,7 @@ class ActivityRepliesBloc
       (event, emit) => emit(state.copyWith(replies: event.replies)),
     );
     on<OnActivityLoaded>(
-      (event, emit) => emit(state.copyWith(activityModel : event.activity)),
+      (event, emit) => emit(state.copyWith(activityModel: event.activity)),
     );
 
     loadReplies();
@@ -49,8 +53,20 @@ class ActivityRepliesBloc
     add(OnActivityLoaded(activity));
 
     add(OnLoadingStateChanged(true));
-    final replies = await repository.getActivityReplies(activityId);
-    add(OnRepliesLoaded(replies));
+    final result = await repository.getActivityReplies(activityId);
+    switch (result) {
+      case LoadError<List<ActivityReplyModel>>():
+        ErrorHandler.handleException(exception: result.exception);
+      case LoadSuccess<List<ActivityReplyModel>>():
+        add(OnRepliesLoaded(result.data));
+    }
     add(OnLoadingStateChanged(false));
+  }
+
+  @override
+  void onChange(Change<ActivityRepliesState> change) {
+    super.onChange(change);
+
+    logger.d("JQN ${change.nextState}");
   }
 }

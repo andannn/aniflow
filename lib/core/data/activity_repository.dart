@@ -60,7 +60,8 @@ abstract class ActivityRepository {
 
   Future<LoadResult> toggleActivityLike(String id, CancelToken token);
 
-  Future<List<ActivityReplyModel>> getActivityReplies(String activityId,
+  Future<LoadResult<List<ActivityReplyModel>>> getActivityReplies(
+      String activityId,
       [CancelToken? token]);
 
   Future<ActivityModel> getActivityModel(String activityId);
@@ -221,13 +222,18 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
-  Future<List<ActivityReplyModel>> getActivityReplies(String activityId,
+  Future<LoadResult<List<ActivityReplyModel>>> getActivityReplies(
+      String activityId,
       [CancelToken? token]) async {
-    final activity =
-        await aniListDataSource.getActivityDetail(activityId, token);
+    try {
+      final activity =
+          await aniListDataSource.getActivityDetail(activityId, token);
 
-    final activityModel = ActivityModel.fromDto(activity);
-    return activityModel.replies;
+      final activityModel = ActivityModel.fromDto(activity);
+      return LoadSuccess(data: activityModel.replies);
+    } on DioException catch (e) {
+      return LoadError(e);
+    }
   }
 
   @override
