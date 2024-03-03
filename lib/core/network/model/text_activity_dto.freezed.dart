@@ -12,7 +12,7 @@ part of 'text_activity_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TextActivityDto _$TextActivityDtoFromJson(Map<String, dynamic> json) {
   return _TextActivityDto.fromJson(json);
@@ -44,6 +44,8 @@ mixin _$TextActivityDto {
   int? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user')
   UserDto? get user => throw _privateConstructorUsedError;
+  @JsonKey(name: 'replies')
+  List<ActivityReplyDto> get replies => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -69,7 +71,8 @@ abstract class $TextActivityDtoCopyWith<$Res> {
       @JsonKey(name: 'likeCount') int? likeCount,
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDto? user});
+      @JsonKey(name: 'user') UserDto? user,
+      @JsonKey(name: 'replies') List<ActivityReplyDto> replies});
 
   $UserDtoCopyWith<$Res>? get user;
 }
@@ -99,6 +102,7 @@ class _$TextActivityDtoCopyWithImpl<$Res, $Val extends TextActivityDto>
     Object? isPinned = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
+    Object? replies = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -149,6 +153,10 @@ class _$TextActivityDtoCopyWithImpl<$Res, $Val extends TextActivityDto>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserDto?,
+      replies: null == replies
+          ? _value.replies
+          : replies // ignore: cast_nullable_to_non_nullable
+              as List<ActivityReplyDto>,
     ) as $Val);
   }
 
@@ -185,7 +193,8 @@ abstract class _$$TextActivityDtoImplCopyWith<$Res>
       @JsonKey(name: 'likeCount') int? likeCount,
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
-      @JsonKey(name: 'user') UserDto? user});
+      @JsonKey(name: 'user') UserDto? user,
+      @JsonKey(name: 'replies') List<ActivityReplyDto> replies});
 
   @override
   $UserDtoCopyWith<$Res>? get user;
@@ -214,6 +223,7 @@ class __$$TextActivityDtoImplCopyWithImpl<$Res>
     Object? isPinned = freezed,
     Object? createdAt = freezed,
     Object? user = freezed,
+    Object? replies = null,
   }) {
     return _then(_$TextActivityDtoImpl(
       id: freezed == id
@@ -264,6 +274,10 @@ class __$$TextActivityDtoImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserDto?,
+      replies: null == replies
+          ? _value._replies
+          : replies // ignore: cast_nullable_to_non_nullable
+              as List<ActivityReplyDto>,
     ));
   }
 }
@@ -283,7 +297,10 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
       @JsonKey(name: 'likeCount') this.likeCount,
       @JsonKey(name: 'isPinned') this.isPinned,
       @JsonKey(name: 'createdAt') this.createdAt,
-      @JsonKey(name: 'user') this.user});
+      @JsonKey(name: 'user') this.user,
+      @JsonKey(name: 'replies')
+      final List<ActivityReplyDto> replies = const []})
+      : _replies = replies;
 
   factory _$TextActivityDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TextActivityDtoImplFromJson(json);
@@ -324,14 +341,22 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
   @override
   @JsonKey(name: 'user')
   final UserDto? user;
-
+  final List<ActivityReplyDto> _replies;
   @override
-  String toString() {
-    return 'TextActivityDto(id: $id, text: $text, userId: $userId, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt, user: $user)';
+  @JsonKey(name: 'replies')
+  List<ActivityReplyDto> get replies {
+    if (_replies is EqualUnmodifiableListView) return _replies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_replies);
   }
 
   @override
-  bool operator ==(dynamic other) {
+  String toString() {
+    return 'TextActivityDto(id: $id, text: $text, userId: $userId, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt, user: $user, replies: $replies)';
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TextActivityDtoImpl &&
@@ -351,7 +376,8 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
                 other.isPinned == isPinned) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            const DeepCollectionEquality().equals(other._replies, _replies));
   }
 
   @JsonKey(ignore: true)
@@ -369,7 +395,8 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
       likeCount,
       isPinned,
       createdAt,
-      user);
+      user,
+      const DeepCollectionEquality().hash(_replies));
 
   @JsonKey(ignore: true)
   @override
@@ -388,18 +415,20 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
 
 abstract class _TextActivityDto implements TextActivityDto {
   factory _TextActivityDto(
-      {@JsonKey(name: 'id') final int? id,
-      @JsonKey(name: 'text') final String? text,
-      @JsonKey(name: 'userId') final int? userId,
-      @JsonKey(name: 'type') final ActivityType? type,
-      @JsonKey(name: 'replyCount') final int? replyCount,
-      @JsonKey(name: 'siteUrl') final String? siteUrl,
-      @JsonKey(name: 'isLocked') final bool? isLocked,
-      @JsonKey(name: 'isLiked') final bool? isLiked,
-      @JsonKey(name: 'likeCount') final int? likeCount,
-      @JsonKey(name: 'isPinned') final bool? isPinned,
-      @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDto? user}) = _$TextActivityDtoImpl;
+          {@JsonKey(name: 'id') final int? id,
+          @JsonKey(name: 'text') final String? text,
+          @JsonKey(name: 'userId') final int? userId,
+          @JsonKey(name: 'type') final ActivityType? type,
+          @JsonKey(name: 'replyCount') final int? replyCount,
+          @JsonKey(name: 'siteUrl') final String? siteUrl,
+          @JsonKey(name: 'isLocked') final bool? isLocked,
+          @JsonKey(name: 'isLiked') final bool? isLiked,
+          @JsonKey(name: 'likeCount') final int? likeCount,
+          @JsonKey(name: 'isPinned') final bool? isPinned,
+          @JsonKey(name: 'createdAt') final int? createdAt,
+          @JsonKey(name: 'user') final UserDto? user,
+          @JsonKey(name: 'replies') final List<ActivityReplyDto> replies}) =
+      _$TextActivityDtoImpl;
 
   factory _TextActivityDto.fromJson(Map<String, dynamic> json) =
       _$TextActivityDtoImpl.fromJson;
@@ -440,6 +469,9 @@ abstract class _TextActivityDto implements TextActivityDto {
   @override
   @JsonKey(name: 'user')
   UserDto? get user;
+  @override
+  @JsonKey(name: 'replies')
+  List<ActivityReplyDto> get replies;
   @override
   @JsonKey(ignore: true)
   _$$TextActivityDtoImplCopyWith<_$TextActivityDtoImpl> get copyWith =>

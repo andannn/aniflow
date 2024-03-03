@@ -29,6 +29,10 @@ _$ListActivityDtoImpl _$$ListActivityDtoImplFromJson(
       media: json['media'] == null
           ? null
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),
+      replies: (json['replies'] as List<dynamic>?)
+              ?.map((e) => ActivityReplyDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$ListActivityDtoImplToJson(
@@ -48,4 +52,5 @@ Map<String, dynamic> _$$ListActivityDtoImplToJson(
       'createdAt': instance.createdAt,
       'user': instance.user,
       'media': instance.media,
+      'replies': instance.replies,
     };

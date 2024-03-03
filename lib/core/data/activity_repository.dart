@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
+import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
@@ -58,6 +59,12 @@ abstract class ActivityRepository {
   Stream<ActivityStatus?> getActivityStatusStream(String id);
 
   Future<LoadResult> toggleActivityLike(String id, CancelToken token);
+
+  Future<LoadResult<List<ActivityReplyModel>>> getActivityReplies(
+      String activityId,
+      [CancelToken? token]);
+
+  Future<ActivityModel> getActivityModel(String activityId);
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -212,5 +219,27 @@ class ActivityRepositoryImpl implements ActivityRepository {
         return null;
       },
     );
+  }
+
+  @override
+  Future<LoadResult<List<ActivityReplyModel>>> getActivityReplies(
+      String activityId,
+      [CancelToken? token]) async {
+    try {
+      final activity =
+          await aniListDataSource.getActivityDetail(activityId, token);
+
+      final activityModel = ActivityModel.fromDto(activity);
+      return LoadSuccess(data: activityModel.replies);
+    } on DioException catch (e) {
+      return LoadError(e);
+    }
+  }
+
+  @override
+  Future<ActivityModel> getActivityModel(String activityId) async {
+    final entity = await activityDao.getActivity(activityId);
+
+    return ActivityModel.fromEntity(entity);
   }
 }

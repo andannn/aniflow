@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:aniflow/core/common/model/activity_filter_type.dart';
 import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
@@ -34,13 +32,24 @@ class _OnActivityTypeChanged extends ActivityEvent {
 }
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
-  ActivityBloc(ActivityRepository repository)
-      : _repository = repository,
-        super(ActivityState()) {
-    on<OnFilterTypeChanged>(_onFilterTypeChanged);
-    on<OnActivityScopeChanged>(_onActivityScopeChanged);
-    on<_OnActivityTypeChanged>(_onActivityTypeChanged);
-    on<OnLoadingStateChanged>(_onLoadingStateChanged);
+  ActivityBloc(this.repository) : super(ActivityState()) {
+    on<OnFilterTypeChanged>(
+      (event, emit) => repository.setActivityFilterType(event.type),
+    );
+    on<OnActivityScopeChanged>(
+      (event, _) => repository.setActivityScopeCategory(event.type),
+    );
+    on<_OnActivityTypeChanged>(
+      (event, emit) => emit(
+        state.copyWith(
+          filterType: event.filterType,
+          scopeCategory: event.scopeCategory,
+        ),
+      ),
+    );
+    on<OnLoadingStateChanged>(
+      (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
+    );
 
     repository.getActivityTypeStream().listen((type) {
       final (filter, scope) = type;
@@ -48,26 +57,5 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     });
   }
 
-  final ActivityRepository _repository;
-
-  FutureOr<void> _onFilterTypeChanged(
-      OnFilterTypeChanged event, Emitter<ActivityState> emit) {
-    _repository.setActivityFilterType(event.type);
-  }
-
-  FutureOr<void> _onActivityScopeChanged(
-      OnActivityScopeChanged event, Emitter<ActivityState> emit) {
-    _repository.setActivityScopeCategory(event.type);
-  }
-
-  FutureOr<void> _onActivityTypeChanged(
-      _OnActivityTypeChanged event, Emitter<ActivityState> emit) {
-    emit(state.copyWith(
-        filterType: event.filterType, scopeCategory: event.scopeCategory));
-  }
-
-  FutureOr<void> _onLoadingStateChanged(
-      OnLoadingStateChanged event, Emitter<ActivityState> emit) {
-    emit(state.copyWith(isLoading: event.isLoading));
-  }
+  final ActivityRepository repository;
 }

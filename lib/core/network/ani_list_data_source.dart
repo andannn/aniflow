@@ -7,6 +7,7 @@ import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/model/user_statics_sort.dart';
 import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/network/api/activity_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
@@ -699,5 +700,28 @@ class AniListDataSource {
     final mediaList = resultList.map((e) => MediaDto.fromJson(e)).toList();
 
     return mediaList;
+  }
+
+  Future<AniActivity> getActivityDetail(
+    String activityId,
+    [CancelToken? token]
+  ) async {
+    final queryGraphQL = activitiesDetailGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'id': activityId,
+    };
+
+    final response = await AniListDio().dio.post(
+          AniListDio.aniListUrl,
+          cancelToken: token,
+          data: {
+            'query': queryGraphQL,
+            'variables': variablesMap,
+          },
+          options: createQueryOptions(_token),
+        );
+    final Map<String, dynamic> resultJson = response.data['data']['Activity'];
+
+    return AniActivity.mapToAniActivity(resultJson);
   }
 }

@@ -12,7 +12,7 @@ part of 'list_activity_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ListActivityDto _$ListActivityDtoFromJson(Map<String, dynamic> json) {
   return _ListActivityDto.fromJson(json);
@@ -48,6 +48,8 @@ mixin _$ListActivityDto {
   UserDto? get user => throw _privateConstructorUsedError;
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
+  @JsonKey(name: 'replies')
+  List<ActivityReplyDto> get replies => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -75,7 +77,8 @@ abstract class $ListActivityDtoCopyWith<$Res> {
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'user') UserDto? user,
-      @JsonKey(name: 'media') MediaDto? media});
+      @JsonKey(name: 'media') MediaDto? media,
+      @JsonKey(name: 'replies') List<ActivityReplyDto> replies});
 
   $UserDtoCopyWith<$Res>? get user;
   $MediaDtoCopyWith<$Res>? get media;
@@ -108,6 +111,7 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
     Object? createdAt = freezed,
     Object? user = freezed,
     Object? media = freezed,
+    Object? replies = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -166,6 +170,10 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as MediaDto?,
+      replies: null == replies
+          ? _value.replies
+          : replies // ignore: cast_nullable_to_non_nullable
+              as List<ActivityReplyDto>,
     ) as $Val);
   }
 
@@ -216,7 +224,8 @@ abstract class _$$ListActivityDtoImplCopyWith<$Res>
       @JsonKey(name: 'isPinned') bool? isPinned,
       @JsonKey(name: 'createdAt') int? createdAt,
       @JsonKey(name: 'user') UserDto? user,
-      @JsonKey(name: 'media') MediaDto? media});
+      @JsonKey(name: 'media') MediaDto? media,
+      @JsonKey(name: 'replies') List<ActivityReplyDto> replies});
 
   @override
   $UserDtoCopyWith<$Res>? get user;
@@ -249,6 +258,7 @@ class __$$ListActivityDtoImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? user = freezed,
     Object? media = freezed,
+    Object? replies = null,
   }) {
     return _then(_$ListActivityDtoImpl(
       id: freezed == id
@@ -307,6 +317,10 @@ class __$$ListActivityDtoImplCopyWithImpl<$Res>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as MediaDto?,
+      replies: null == replies
+          ? _value._replies
+          : replies // ignore: cast_nullable_to_non_nullable
+              as List<ActivityReplyDto>,
     ));
   }
 }
@@ -328,7 +342,10 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
       @JsonKey(name: 'isPinned') this.isPinned,
       @JsonKey(name: 'createdAt') this.createdAt,
       @JsonKey(name: 'user') this.user,
-      @JsonKey(name: 'media') this.media});
+      @JsonKey(name: 'media') this.media,
+      @JsonKey(name: 'replies')
+      final List<ActivityReplyDto> replies = const []})
+      : _replies = replies;
 
   factory _$ListActivityDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ListActivityDtoImplFromJson(json);
@@ -375,14 +392,22 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
   @override
   @JsonKey(name: 'media')
   final MediaDto? media;
-
+  final List<ActivityReplyDto> _replies;
   @override
-  String toString() {
-    return 'ListActivityDto(id: $id, status: $status, progress: $progress, userId: $userId, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt, user: $user, media: $media)';
+  @JsonKey(name: 'replies')
+  List<ActivityReplyDto> get replies {
+    if (_replies is EqualUnmodifiableListView) return _replies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_replies);
   }
 
   @override
-  bool operator ==(dynamic other) {
+  String toString() {
+    return 'ListActivityDto(id: $id, status: $status, progress: $progress, userId: $userId, type: $type, replyCount: $replyCount, siteUrl: $siteUrl, isLocked: $isLocked, isLiked: $isLiked, likeCount: $likeCount, isPinned: $isPinned, createdAt: $createdAt, user: $user, media: $media, replies: $replies)';
+  }
+
+  @override
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ListActivityDtoImpl &&
@@ -405,7 +430,8 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.media, media) || other.media == media));
+            (identical(other.media, media) || other.media == media) &&
+            const DeepCollectionEquality().equals(other._replies, _replies));
   }
 
   @JsonKey(ignore: true)
@@ -425,7 +451,8 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
       isPinned,
       createdAt,
       user,
-      media);
+      media,
+      const DeepCollectionEquality().hash(_replies));
 
   @JsonKey(ignore: true)
   @override
@@ -444,20 +471,22 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
 
 abstract class _ListActivityDto implements ListActivityDto {
   factory _ListActivityDto(
-      {@JsonKey(name: 'id') final int? id,
-      @JsonKey(name: 'status') final String? status,
-      @JsonKey(name: 'progress') final String? progress,
-      @JsonKey(name: 'userId') final int? userId,
-      @JsonKey(name: 'type') final ActivityType? type,
-      @JsonKey(name: 'replyCount') final int? replyCount,
-      @JsonKey(name: 'siteUrl') final String? siteUrl,
-      @JsonKey(name: 'isLocked') final bool? isLocked,
-      @JsonKey(name: 'isLiked') final bool? isLiked,
-      @JsonKey(name: 'likeCount') final int? likeCount,
-      @JsonKey(name: 'isPinned') final bool? isPinned,
-      @JsonKey(name: 'createdAt') final int? createdAt,
-      @JsonKey(name: 'user') final UserDto? user,
-      @JsonKey(name: 'media') final MediaDto? media}) = _$ListActivityDtoImpl;
+          {@JsonKey(name: 'id') final int? id,
+          @JsonKey(name: 'status') final String? status,
+          @JsonKey(name: 'progress') final String? progress,
+          @JsonKey(name: 'userId') final int? userId,
+          @JsonKey(name: 'type') final ActivityType? type,
+          @JsonKey(name: 'replyCount') final int? replyCount,
+          @JsonKey(name: 'siteUrl') final String? siteUrl,
+          @JsonKey(name: 'isLocked') final bool? isLocked,
+          @JsonKey(name: 'isLiked') final bool? isLiked,
+          @JsonKey(name: 'likeCount') final int? likeCount,
+          @JsonKey(name: 'isPinned') final bool? isPinned,
+          @JsonKey(name: 'createdAt') final int? createdAt,
+          @JsonKey(name: 'user') final UserDto? user,
+          @JsonKey(name: 'media') final MediaDto? media,
+          @JsonKey(name: 'replies') final List<ActivityReplyDto> replies}) =
+      _$ListActivityDtoImpl;
 
   factory _ListActivityDto.fromJson(Map<String, dynamic> json) =
       _$ListActivityDtoImpl.fromJson;
@@ -504,6 +533,9 @@ abstract class _ListActivityDto implements ListActivityDto {
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;
+  @override
+  @JsonKey(name: 'replies')
+  List<ActivityReplyDto> get replies;
   @override
   @JsonKey(ignore: true)
   _$$ListActivityDtoImplCopyWith<_$ListActivityDtoImpl> get copyWith =>

@@ -92,5 +92,13 @@ void main() {
           (ActivityFilterType.all, ActivityScopeCategory.global)
               .combineJsonKey);
     });
+
+    test('get_activity', () async {
+      await activityDao.upsertActivityEntities(
+          dummyActivities,
+          (ActivityFilterType.all, ActivityScopeCategory.global)
+              .combineJsonKey);
+      await activityDao.getActivity("2");
+    });
   });
 }
