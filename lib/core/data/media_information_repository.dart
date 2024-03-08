@@ -472,7 +472,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   @override
   Stream<StudioModel?> getStudioStream(String id) => studioDao
-      .getStudioByIdStream(id)
+      .getStudioStream(id)
       .map((entity) => entity != null ? StudioModel.fromEntity(entity) : null);
 
   @override

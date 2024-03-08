@@ -1,13 +1,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.characterTable]
@@ -54,17 +53,13 @@ abstract class CharacterDao {
   Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(String id);
 
   Stream<CharacterAndRelatedMedia> getCharacterStream(String id);
-
-  void notifyCharacterChanged(String characterId);
 }
 
-class CharacterDaoImpl extends CharacterDao {
+class CharacterDaoImpl extends CharacterDao
+    with DbChangedNotifierMixin<String> {
   final AniflowDatabase database;
 
   CharacterDaoImpl(this.database);
-
-  /// characterId to notifiers dict.
-  final Map<String, ValueNotifier<int>> _notifiers = {};
 
   @override
   Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity) async {
@@ -92,7 +87,7 @@ class CharacterDaoImpl extends CharacterDao {
     }
     return batch
         .commit(noResult: true)
-        .then((value) => notifyCharacterChanged(entity.character.id));
+        .then((value) => notifyChanged([entity.character.id]));
   }
 
   @override
@@ -108,7 +103,10 @@ class CharacterDaoImpl extends CharacterDao {
         conflictAlgorithm: conflictAlgorithm,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    final keys = entities.map((e) => e.id).toList();
+    notifyChanged(keys);
   }
 
   @override
@@ -144,18 +142,9 @@ class CharacterDaoImpl extends CharacterDao {
   }
 
   @override
-  void notifyCharacterChanged(String characterId) {
-    final notifier = _notifiers[characterId];
-    if (notifier != null) {
-      notifier.value = notifier.value++;
-    }
-  }
-
-  @override
   Stream<CharacterAndRelatedMedia> getCharacterStream(String id) {
-    final changeSource = _notifiers.putIfAbsent(id, () => ValueNotifier(0));
-    return StreamUtil.createStream(
-      changeSource,
+    return createStreamWithKey(
+      id,
       () => getCharacterAndRelatedMedia(id),
     );
   }

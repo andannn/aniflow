@@ -367,8 +367,10 @@ class MediaDaoImpl extends MediaDao {
   }
 
   @override
-  Future insertMedia(List<MediaEntity> entities,
-      {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
+  Future insertMedia(
+    List<MediaEntity> entities, {
+    ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore,
+  }) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       batch.insert(

@@ -1,7 +1,6 @@
-import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.staffTable]
@@ -36,15 +35,10 @@ abstract class StaffDao {
   Future<StaffEntity?> getStaffById(String staffId);
 
   Stream<StaffEntity?> getStaffByIdStream(String staffId);
-
-  void notifyStaffChanged(String id);
 }
 
-class StaffDaoImpl extends StaffDao {
+class StaffDaoImpl extends StaffDao with DbChangedNotifierMixin<String> {
   final AniflowDatabase database;
-
-  /// staffId to notifiers dict.
-  final Map<String, ValueNotifier<int>> _notifiers = {};
 
   StaffDaoImpl(this.database);
 
@@ -61,9 +55,8 @@ class StaffDaoImpl extends StaffDao {
     }
     await batch.commit(noResult: true);
 
-    for (var e in entities) {
-      notifyStaffChanged(e.id);
-    }
+    final keys = entities.map((e) => e.id).toList();
+    notifyChanged(keys);
   }
 
   @override
@@ -76,19 +69,9 @@ class StaffDaoImpl extends StaffDao {
 
   @override
   Stream<StaffEntity?> getStaffByIdStream(String staffId) {
-    final changeSource =
-        _notifiers.putIfAbsent(staffId, () => ValueNotifier(0));
-    return StreamUtil.createStream(
-      changeSource,
+    return createStreamWithKey(
+      staffId,
       () => getStaffById(staffId),
     );
-  }
-
-  @override
-  void notifyStaffChanged(String id) {
-    final notifier = _notifiers[id];
-    if (notifier != null) {
-      notifier.value = notifier.value++;
-    }
   }
 }
