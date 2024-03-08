@@ -1,5 +1,4 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/model/studio_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -33,7 +32,7 @@ abstract class StudioDao {
   Stream<StudioEntity?> getStudioStream(String id);
 }
 
-class StudioDaoImpl extends StudioDao with DbChangedNotifierMixin<String> {
+class StudioDaoImpl extends StudioDao {
   final AniflowDatabase database;
 
   StudioDaoImpl(this.database);
@@ -48,7 +47,7 @@ class StudioDaoImpl extends StudioDao with DbChangedNotifierMixin<String> {
 
   @override
   Stream<StudioEntity?> getStudioStream(String id) =>
-      createStreamWithKey(id, () => getStudioById(id));
+      database.createStream([Tables.studioTable], () => getStudioById(id));
 
   @override
   Future insertStudioEntitiesOfMedia({
@@ -73,8 +72,8 @@ class StudioDaoImpl extends StudioDao with DbChangedNotifierMixin<String> {
     }
     await batch.commit(noResult: true);
 
-    final keys = entities.map((e) => e.id).toList();
-    notifyChanged(keys);
+    database
+        .notifyChanged([Tables.studioTable, Tables.studioMediaCrossRefTable]);
   }
 
   @override
@@ -92,7 +91,6 @@ class StudioDaoImpl extends StudioDao with DbChangedNotifierMixin<String> {
     }
     await batch.commit(noResult: true);
 
-    final keys = entities.map((e) => e.id).toList();
-    notifyChanged(keys);
+    database.notifyChanged([Tables.studioTable]);
   }
 }

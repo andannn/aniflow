@@ -1,5 +1,4 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/model/staff_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -37,7 +36,7 @@ abstract class StaffDao {
   Stream<StaffEntity?> getStaffByIdStream(String staffId);
 }
 
-class StaffDaoImpl extends StaffDao with DbChangedNotifierMixin<String> {
+class StaffDaoImpl extends StaffDao {
   final AniflowDatabase database;
 
   StaffDaoImpl(this.database);
@@ -55,8 +54,7 @@ class StaffDaoImpl extends StaffDao with DbChangedNotifierMixin<String> {
     }
     await batch.commit(noResult: true);
 
-    final keys = entities.map((e) => e.id).toList();
-    notifyChanged(keys);
+    database.notifyChanged([Tables.staffTable]);
   }
 
   @override
@@ -69,8 +67,8 @@ class StaffDaoImpl extends StaffDao with DbChangedNotifierMixin<String> {
 
   @override
   Stream<StaffEntity?> getStaffByIdStream(String staffId) {
-    return createStreamWithKey(
-      staffId,
+    return database.createStream(
+      [Tables.staffTable],
       () => getStaffById(staffId),
     );
   }

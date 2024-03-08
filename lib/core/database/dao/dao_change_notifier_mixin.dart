@@ -2,36 +2,54 @@ import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:flutter/widgets.dart';
 
-mixin DbChangedNotifierMixin<KEY> {
-  /// userId to notifiers dict.
-  final Map<KEY, ValueNotifier<int>> _notifiers = {};
-  final ValueNotifier<int> _tableChangedNotifier = ValueNotifier(0);
+mixin DbChangedNotifierMixin {
+  final Map<String, ValueNotifier<int>> _tablesNotifiers = {};
 
-  void notifyChanged([List<KEY> keys = const []]) {
-    /// notify database table changed.
-    _tableChangedNotifier.notifyChanged();
-
-    /// notify database table column item.
-    for (final key in keys) {
-      final notifier = _notifiers[key];
+  void notifyChanged([List<String> tableNames = const []]) {
+    for (final table in tableNames) {
+      final notifier = _tablesNotifiers[table];
       if (notifier != null) {
         notifier.notifyChanged();
       }
     }
   }
 
-  Stream<T> createStreamWithKey<T>(KEY key, Future<T> Function() onGetData) {
-    final changeSource = _notifiers.putIfAbsent(key, () => ValueNotifier(0));
+  Stream<T> createStream<T>(
+    List<String> tableNames,
+    Future<T> Function() onGetData,
+  ) {
+    final changeSources = tableNames
+        .map((table) =>
+            _tablesNotifiers.putIfAbsent(table, () => ValueNotifier(0)))
+        .toList();
+
     return StreamUtil.createStream(
-      changeSource,
+      CombinedValueChangeNotifier(changeSources),
       onGetData,
     );
   }
+}
 
-  Stream<T> createStream<T>(Future<T> Function() onGetData) {
-    return StreamUtil.createStream(
-      _tableChangedNotifier,
-      onGetData,
-    );
+class CombinedValueChangeNotifier extends ValueNotifier<int> {
+  CombinedValueChangeNotifier(this.notifiers) : super(0);
+
+  final List<ValueNotifier> notifiers;
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+
+    for (var notifier in notifiers) {
+      notifier.addListener(notifyChanged);
+    }
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    super.removeListener(listener);
+
+    for (var notifier in notifiers) {
+      notifier.removeListener(notifyChanged);
+    }
   }
 }

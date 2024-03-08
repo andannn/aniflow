@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -23,7 +22,7 @@ abstract class UserDataDao {
   Stream<UserEntity?> getUserDataStream(String id);
 }
 
-class UserDataDaoImpl extends UserDataDao with DbChangedNotifierMixin<String> {
+class UserDataDaoImpl extends UserDataDao {
   final AniflowDatabase database;
 
   UserDataDaoImpl(this.database);
@@ -36,7 +35,7 @@ class UserDataDaoImpl extends UserDataDao with DbChangedNotifierMixin<String> {
 
     await batch.commit(noResult: true);
 
-    notifyChanged([userDataEntity.id]);
+    database.notifyChanged([Tables.userDataTable]);
   }
 
   @override
@@ -51,6 +50,6 @@ class UserDataDaoImpl extends UserDataDao with DbChangedNotifierMixin<String> {
 
   @override
   Stream<UserEntity?> getUserDataStream(String id) {
-    return createStreamWithKey(id, () => getUserData(id));
+    return database.createStream([Tables.userDataTable], () => getUserData(id));
   }
 }

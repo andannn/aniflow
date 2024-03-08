@@ -1,7 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/model/character_entity.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
@@ -55,8 +54,7 @@ abstract class CharacterDao {
   Stream<CharacterAndRelatedMedia> getCharacterStream(String id);
 }
 
-class CharacterDaoImpl extends CharacterDao
-    with DbChangedNotifierMixin<String> {
+class CharacterDaoImpl extends CharacterDao {
   final AniflowDatabase database;
 
   CharacterDaoImpl(this.database);
@@ -85,9 +83,13 @@ class CharacterDaoImpl extends CharacterDao
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return batch
-        .commit(noResult: true)
-        .then((value) => notifyChanged([entity.character.id]));
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.characterTable,
+      Tables.mediaTable,
+      Tables.characterAndRelatedMediaCrossRef,
+    ]);
   }
 
   @override
@@ -105,8 +107,9 @@ class CharacterDaoImpl extends CharacterDao
     }
     await batch.commit(noResult: true);
 
-    final keys = entities.map((e) => e.id).toList();
-    notifyChanged(keys);
+    database.notifyChanged([
+      Tables.characterTable,
+    ]);
   }
 
   @override
@@ -143,8 +146,11 @@ class CharacterDaoImpl extends CharacterDao
 
   @override
   Stream<CharacterAndRelatedMedia> getCharacterStream(String id) {
-    return createStreamWithKey(
-      id,
+    return database.createStream(
+      [
+        Tables.characterTable,
+        Tables.mediaTable,
+      ],
       () => getCharacterAndRelatedMedia(id),
     );
   }

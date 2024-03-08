@@ -308,8 +308,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         await mediaDao.upsertMediaRelations(relationEntity: relationEntity);
       }
 
-      /// notify data base has been changed an trigger the streams.
-      mediaDao.notifyMediaDetailInfoChanged();
       return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);

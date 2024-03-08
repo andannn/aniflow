@@ -200,8 +200,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       onSaveLocal: (status) => mediaInfoDao.insertMedia(
         [status],
         conflictAlgorithm: ConflictAlgorithm.replace,
-      ).then(
-        (value) => mediaInfoDao.notifyMediaDetailInfoChanged(),
       ),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(

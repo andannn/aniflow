@@ -43,7 +43,11 @@ class AiringScheduleDaoImpl extends AiringScheduleDao {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.airingSchedulesTable,
+    ]);
   }
 
   @override
@@ -64,16 +68,19 @@ class AiringScheduleDaoImpl extends AiringScheduleDao {
     return results
         .map(
           (e) => AiringScheduleAndMediaRelation(
-        airingSchedule: AiringSchedulesEntity.fromJson(e),
-        mediaEntity: MediaEntity.fromJson(e),
-      ),
-    )
+            airingSchedule: AiringSchedulesEntity.fromJson(e),
+            mediaEntity: MediaEntity.fromJson(e),
+          ),
+        )
         .toList();
   }
 
   @override
-  Future clearAiringSchedule() {
-    return database.aniflowDB.delete(Tables.airingSchedulesTable);
-  }
+  Future clearAiringSchedule() async {
+    await database.aniflowDB.delete(Tables.airingSchedulesTable);
 
+    database.notifyChanged([
+      Tables.airingSchedulesTable,
+    ]);
+  }
 }

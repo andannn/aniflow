@@ -3,7 +3,6 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/shortcut/activity_status_record.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/user_data_dao.dart';
 import 'package:aniflow/core/database/model/activity_entity.dart';
@@ -57,7 +56,7 @@ abstract class ActivityDao {
   Future updateActivityStatus(String id, ActivityStatusRecord record);
 }
 
-class ActivityDaoImpl extends ActivityDao with DbChangedNotifierMixin<String> {
+class ActivityDaoImpl extends ActivityDao {
   final AniflowDatabase database;
 
   ActivityDaoImpl(this.database);
@@ -92,7 +91,14 @@ class ActivityDaoImpl extends ActivityDao with DbChangedNotifierMixin<String> {
         );
       }
     }
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.activityFilterTypeCrossRef,
+      Tables.activityTable,
+      Tables.userDataTable,
+      Tables.mediaTable,
+    ]);
   }
 
   @override
@@ -142,7 +148,12 @@ class ActivityDaoImpl extends ActivityDao with DbChangedNotifierMixin<String> {
 
   @override
   Stream<ActivityStatusRecord?> getActivityStream(String id) {
-    return createStreamWithKey(id, () => getActivityStatus(id));
+    return database.createStream(
+      [
+        Tables.activityTable,
+      ],
+      () => getActivityStatus(id),
+    );
   }
 
   @override
@@ -181,7 +192,9 @@ class ActivityDaoImpl extends ActivityDao with DbChangedNotifierMixin<String> {
       where: '${ActivityTableColumns.id} = $id',
     );
 
-    notifyChanged([id]);
+    database.notifyChanged([
+      Tables.activityTable,
+    ]);
   }
 
   @override
@@ -207,7 +220,14 @@ class ActivityDaoImpl extends ActivityDao with DbChangedNotifierMixin<String> {
         );
       }
     }
-    return batch.commit(noResult: true);
+
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.activityTable,
+      Tables.userDataTable,
+      Tables.mediaTable,
+    ]);
   }
 
   @override
