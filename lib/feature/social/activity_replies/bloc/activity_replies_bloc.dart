@@ -1,12 +1,10 @@
-import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
 import 'package:bloc/bloc.dart';
-
-import '../../../../core/common/util/error_handler.dart';
 
 sealed class ActivityRepliesEvent {}
 
@@ -61,12 +59,5 @@ class ActivityRepliesBloc
         add(OnRepliesLoaded(result.data));
     }
     add(OnLoadingStateChanged(false));
-  }
-
-  @override
-  void onChange(Change<ActivityRepliesState> change) {
-    super.onChange(change);
-
-    logger.d("JQN ${change.nextState}");
   }
 }

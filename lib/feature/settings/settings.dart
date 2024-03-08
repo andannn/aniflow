@@ -151,14 +151,13 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
 
   Widget _createSettingItem<T extends Setting>(
     BuildContext context,
-    SettingItem<T> settingItem, {
+    final SettingItem<T> settingItem, {
     required Function(Setting) onSettingChanged,
     required Function(Type) onSettingTap,
   }) {
     final textTheme = Theme.of(context).textTheme;
     switch (settingItem) {
-      case SwitchSettingItem():
-        final item = settingItem as SwitchSettingItem<BooleanSetting>;
+      case SwitchSettingItem(current: var setting):
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
           child: Row(
@@ -169,24 +168,28 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
               ),
               const Expanded(child: SizedBox()),
               Switch(
-                value: item.current.isOn,
+                value: setting.isOn,
                 onChanged: (isOn) {
-                  onSettingChanged(item.current.toggle());
+                  onSettingChanged(setting.toggle());
                 },
               ),
             ],
           ),
         );
-      case ListSettingItem<T>():
-        final item = settingItem as ListSettingItem<T>;
+      case ListSettingItem<T>(
+          selectedOption: var selectedOption,
+          title: var title,
+          options: var options
+        ):
         return InkWell(
           onTap: () async {
             final result = await showSettingsDialog<T>(
-              context,
-              item,
-              item.selectedOption.setting,
+              context: context,
+              title: title,
+              selectedOption: selectedOption.setting,
+              options: options,
             );
-            if (result != null && result != item.selectedOption.setting) {
+            if (result != null && result != selectedOption.setting) {
               onSettingChanged(result);
             }
           },
@@ -201,7 +204,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  item.selectedOption.description,
+                  selectedOption.description,
                   style: textTheme.bodySmall,
                 ),
               ],

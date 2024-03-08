@@ -55,7 +55,11 @@ class FavoriteDaoImpl extends FavoriteDao {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.favoriteInfoTable,
+    ]);
   }
 
   @override
@@ -122,12 +126,16 @@ class FavoriteDaoImpl extends FavoriteDao {
   }
 
   @override
-  Future clearFavorites(String userId, FavoriteType type) {
-    return database.aniflowDB.delete(
+  Future clearFavorites(String userId, FavoriteType type) async {
+    await database.aniflowDB.delete(
       Tables.favoriteInfoTable,
       where:
           '${FavoriteInfoTableColumn.userId}=? AND ${FavoriteInfoTableColumn.favoriteType}=?',
       whereArgs: [userId, type.contentValues],
     );
+
+    database.notifyChanged([
+      Tables.favoriteInfoTable,
+    ]);
   }
 }

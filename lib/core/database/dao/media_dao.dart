@@ -5,7 +5,6 @@ import 'package:aniflow/core/common/model/character_role.dart';
 import 'package:aniflow/core/common/model/media_relation.dart';
 import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
@@ -170,8 +169,6 @@ abstract class MediaDao {
   Future upsertMediaRelations(
       {required MediaRelationEntitiesWithOwnerId relationEntity});
 
-  void notifyMediaDetailInfoChanged();
-
   Future insertCharacterVoiceActorsOfMedia(
       {required int mediaId,
       required List<CharacterAndVoiceActorRelationEntity> entities});
@@ -198,6 +195,10 @@ class MediaDaoImpl extends MediaDao {
       where: '${MediaCategoryCrossRefColumns.categoryId} = ?',
       whereArgs: [category.getContentValue()],
     );
+
+    database.notifyChanged([
+      Tables.animeCategoryCrossRefTable,
+    ]);
   }
 
   @override
@@ -207,6 +208,10 @@ class MediaDaoImpl extends MediaDao {
       where: '${MediaCharacterCrossRefColumns.mediaId} = ?',
       whereArgs: [mediaId.toString()],
     );
+
+    database.notifyChanged([
+      Tables.animeCategoryCrossRefTable,
+    ]);
   }
 
   @override
@@ -235,7 +240,12 @@ class MediaDaoImpl extends MediaDao {
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.mediaTable,
+      Tables.animeCategoryCrossRefTable,
+    ]);
   }
 
   @override
@@ -367,8 +377,10 @@ class MediaDaoImpl extends MediaDao {
   }
 
   @override
-  Future insertMedia(List<MediaEntity> entities,
-      {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
+  Future insertMedia(
+    List<MediaEntity> entities, {
+    ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore,
+  }) async {
     final batch = database.aniflowDB.batch();
     for (final entity in entities) {
       batch.insert(
@@ -377,7 +389,11 @@ class MediaDaoImpl extends MediaDao {
         conflictAlgorithm: conflictAlgorithm,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.mediaTable,
+    ]);
   }
 
   @override
@@ -391,7 +407,11 @@ class MediaDaoImpl extends MediaDao {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.mediaExternalLickTable,
+    ]);
   }
 
   @override
@@ -414,13 +434,15 @@ class MediaDaoImpl extends MediaDao {
 
   @override
   Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id) {
-    return StreamUtil.createStream(
-        detailListChangeSource, () => getDetailMediaInfo(id));
-  }
-
-  @override
-  void notifyMediaDetailInfoChanged() {
-    detailListChangeSource.value = detailListChangeSource.value++;
+    return database.createStream(
+        [
+          Tables.mediaTable,
+          Tables.studioTable,
+          Tables.characterTable,
+          Tables.staffTable,
+          Tables.mediaExternalLickTable,
+          Tables.mediaRelationCrossRef,
+        ], () => getDetailMediaInfo(id));
   }
 
   @override
@@ -467,7 +489,14 @@ class MediaDaoImpl extends MediaDao {
         );
       }
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.staffTable,
+      Tables.characterTable,
+      Tables.mediaCharacterCrossRefTable,
+      Tables.characterVoiceActorCrossRefTable,
+    ]);
   }
 
   @override
@@ -493,7 +522,12 @@ class MediaDaoImpl extends MediaDao {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.staffTable,
+      Tables.mediaStaffCrossRefTable,
+    ]);
   }
 
   @override
@@ -516,7 +550,12 @@ class MediaDaoImpl extends MediaDao {
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
     }
-    return await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.mediaRelationCrossRef,
+      Tables.mediaTable,
+    ]);
   }
 
   @override

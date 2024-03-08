@@ -87,7 +87,8 @@ class _ActivityRepliesPageContent extends StatelessWidget {
                   ),
                 ),
               ),
-              ..._buildReplySliverWidget(isLoading: isLoading, replies: replies),
+              ..._buildReplySliverWidget(
+                  isLoading: isLoading, replies: replies),
               const SliverPadding(padding: EdgeInsets.only(top: 32))
             ],
           ),

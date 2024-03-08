@@ -4,14 +4,12 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.mediaListTable]
@@ -68,8 +66,6 @@ abstract class MediaListDao {
       [ConflictAlgorithm mediaConflictAlgorithm = ConflictAlgorithm.replace]);
 
   Future deleteMediaListOfUser(String userId);
-
-  void notifyMediaListChanged(String userId);
 }
 
 class MediaListDaoImpl extends MediaListDao {
@@ -77,14 +73,16 @@ class MediaListDaoImpl extends MediaListDao {
 
   MediaListDaoImpl(this.database);
 
-  final Map<String, ValueNotifier> _notifiers = {};
-
   @override
   Future removeMediaListByUserId(String userId) async {
     await database.aniflowDB.delete(
       Tables.mediaListTable,
       where: '${MediaListTableColumns.userId}=$userId',
     );
+
+    database.notifyChanged([
+      Tables.mediaListTable,
+    ]);
   }
 
   @override
@@ -185,9 +183,9 @@ class MediaListDaoImpl extends MediaListDao {
   @override
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
       String userId, List<MediaListStatus> status, MediaType type) {
-    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
-    return StreamUtil.createStream(
-        changeSource, () => getMediaListMediaIdsByUser(userId, status, type));
+    return database.createStream([
+      Tables.mediaListTable,
+    ], () => getMediaListMediaIdsByUser(userId, status, type));
   }
 
   @override
@@ -200,14 +198,17 @@ class MediaListDaoImpl extends MediaListDao {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([Tables.mediaListTable]);
   }
 
   @override
   Stream<bool> getIsTrackingByUserAndIdStream(
       {required String userId, required String mediaId}) {
-    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
-    return StreamUtil.createStream(changeSource, () async {
+    return database.createStream([
+      Tables.mediaListTable,
+    ], () async {
       final mediaListItemOrNull = await getMediaListTrackingByUserAndId(
           userId: userId, mediaId: mediaId);
       return mediaListItemOrNull != null;
@@ -217,9 +218,10 @@ class MediaListDaoImpl extends MediaListDao {
   @override
   Stream<MediaListEntity?> getMediaListEntityByUserAndIdStream(
       {required String userId, required String mediaId}) {
-    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
-    return StreamUtil.createStream(
-      changeSource,
+    return database.createStream(
+      [
+        Tables.mediaListTable,
+      ],
       () => getMediaListTrackingByUserAndId(userId: userId, mediaId: mediaId),
     );
   }
@@ -227,20 +229,14 @@ class MediaListDaoImpl extends MediaListDao {
   @override
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
       String userId, List<MediaListStatus> status, MediaType type) {
-    final changeSource = _notifiers.putIfAbsent(userId, () => ValueNotifier(0));
-    return StreamUtil.createStream(
-      changeSource,
+    return database.createStream(
+      [
+        Tables.mediaTable,
+        Tables.mediaListTable,
+      ],
       () => getMediaListByPage(userId, status,
           type: type, page: 1, perPage: null),
     );
-  }
-
-  @override
-  void notifyMediaListChanged(String userId) {
-    final notifier = _notifiers[userId];
-    if (notifier != null) {
-      notifier.value = notifier.value++;
-    }
   }
 
   @override
@@ -261,14 +257,23 @@ class MediaListDaoImpl extends MediaListDao {
         conflictAlgorithm: mediaConflictAlgorithm,
       );
     }
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.mediaListTable,
+      Tables.mediaTable,
+    ]);
   }
 
   @override
-  Future deleteMediaListOfUser(String userId) {
+  Future deleteMediaListOfUser(String userId) async {
     final batch = database.aniflowDB.batch();
     batch.delete(Tables.mediaListTable,
         where: '${MediaListTableColumns.userId} = ?', whereArgs: [userId]);
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.mediaListTable,
+    ]);
   }
 }

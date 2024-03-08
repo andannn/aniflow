@@ -200,8 +200,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       onSaveLocal: (status) => mediaInfoDao.insertMedia(
         [status],
         conflictAlgorithm: ConflictAlgorithm.replace,
-      ).then(
-        (value) => mediaInfoDao.notifyMediaDetailInfoChanged(),
       ),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(
@@ -235,8 +233,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       onSaveLocal: (character) => characterDao.insertCharacters(
         entities: [character],
         conflictAlgorithm: ConflictAlgorithm.replace,
-      ).then(
-        (value) => characterDao.notifyCharacterChanged(character.id),
       ),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(
@@ -279,8 +275,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       onSaveLocal: (staff) => staffDao.insertStaffEntities(
         [staff],
         ConflictAlgorithm.replace,
-      ).then(
-        (value) => staffDao.notifyStaffChanged(staff.id),
       ),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(

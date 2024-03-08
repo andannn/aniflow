@@ -2,30 +2,35 @@ import 'package:aniflow/core/common/model/setting/setting.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:flutter/material.dart';
 
-Future<T?> showSettingsDialog<T extends Setting>(BuildContext context,
-        ListSettingItem<T> settingItem, T selectedOption) =>
+Future<T?> showSettingsDialog<T extends Setting>({
+  required BuildContext context,
+  required T selectedOption,
+  required String title,
+  required List<SettingOption<T>> options,
+}) =>
     showDialog(
       context: context,
       builder: (BuildContext context) => SettingsDialog(
-        settingItem: settingItem,
         selectedOption: selectedOption,
+        options: options,
+        title: title,
       ),
     );
 
 class SettingsDialog<T> extends StatelessWidget {
   const SettingsDialog({
-    required this.settingItem,
-    required this.selectedOption,
     super.key,
+    required this.selectedOption,
+    required this.title,
+    required this.options,
   });
 
-  final ListSettingItem settingItem;
   final T selectedOption;
+  final String title;
+  final List<SettingOption<T>> options;
 
   @override
   Widget build(BuildContext context) {
-    final title = settingItem.title;
-    final options = settingItem.options;
     final textTheme = Theme.of(context).textTheme;
     return AlertDialog(
       content: Column(
@@ -40,15 +45,14 @@ class SettingsDialog<T> extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12.0),
-          ...options
-              .map((options) => _createOptionTile(
-                    context,
-                    options,
-                    selectedOption: selectedOption,
-                    onOptionClick: (setting) {
-                      Navigator.of(context).pop(setting);
-                    },
-                  ))
+          ...options.map((options) => _createOptionTile(
+                context,
+                options,
+                selectedOption: selectedOption,
+                onOptionClick: (setting) {
+                  Navigator.of(context).pop(setting);
+                },
+              ))
         ],
       ),
     );

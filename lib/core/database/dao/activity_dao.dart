@@ -1,8 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/data/model/shortcut/activity_status_record.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
@@ -12,7 +10,6 @@ import 'package:aniflow/core/database/model/media_entity.dart';
 import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/database/model/user_entity.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// [Tables.activityTable]
@@ -64,9 +61,6 @@ class ActivityDaoImpl extends ActivityDao {
 
   ActivityDaoImpl(this.database);
 
-  /// ActivityId to notifiers dict.
-  final Map<String, ValueNotifier<int>> _notifiers = {};
-
   @override
   Future upsertActivityEntities(
       List<ActivityAndUserRelation> entities, String category) async {
@@ -97,7 +91,14 @@ class ActivityDaoImpl extends ActivityDao {
         );
       }
     }
-    return batch.commit(noResult: true);
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.activityFilterTypeCrossRef,
+      Tables.activityTable,
+      Tables.userDataTable,
+      Tables.mediaTable,
+    ]);
   }
 
   @override
@@ -147,8 +148,12 @@ class ActivityDaoImpl extends ActivityDao {
 
   @override
   Stream<ActivityStatusRecord?> getActivityStream(String id) {
-    final changeSource = _notifiers.putIfAbsent(id, () => ValueNotifier(0));
-    return StreamUtil.createStream(changeSource, () => getActivityStatus(id));
+    return database.createStream(
+      [
+        Tables.activityTable,
+      ],
+      () => getActivityStatus(id),
+    );
   }
 
   @override
@@ -187,7 +192,9 @@ class ActivityDaoImpl extends ActivityDao {
       where: '${ActivityTableColumns.id} = $id',
     );
 
-    _notifiers[id]?.notifyChanged();
+    database.notifyChanged([
+      Tables.activityTable,
+    ]);
   }
 
   @override
@@ -213,7 +220,14 @@ class ActivityDaoImpl extends ActivityDao {
         );
       }
     }
-    return batch.commit(noResult: true);
+
+    await batch.commit(noResult: true);
+
+    database.notifyChanged([
+      Tables.activityTable,
+      Tables.userDataTable,
+      Tables.mediaTable,
+    ]);
   }
 
   @override

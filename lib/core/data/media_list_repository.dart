@@ -162,7 +162,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
           .toList();
       await mediaListDao.insertMediaListAndMediaRelations(entities);
 
-      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
@@ -202,7 +201,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
       await mediaListDao
           .insertMediaListAndMediaRelations([entity], ConflictAlgorithm.ignore);
-      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
@@ -279,7 +277,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
         updatedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       );
       await mediaListDao.insertMediaListEntities([updatedEntity]);
-      mediaListDao.notifyMediaListChanged(targetUserId);
     }
 
     try {
@@ -302,7 +299,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
       );
       final updateEntity = MediaListEntity.fromNetworkModel(result);
       await mediaListDao.insertMediaListEntities([updateEntity]);
-      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
       /// network error happened.
@@ -310,7 +306,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
       if (entity != null) {
         await mediaListDao.insertMediaListEntities([entity]);
       }
-      mediaListDao.notifyMediaListChanged(targetUserId);
       return LoadError(exception);
     }
   }
