@@ -44,6 +44,7 @@ import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 
 /// Anime list data source get from AniList.
@@ -481,7 +482,7 @@ class AniListDataSource {
         );
     final List resultJson = response.data['data']['Page']['activities'];
     final activities =
-        resultJson.map((e) => AniActivity.mapToAniActivity(e)).toList();
+        resultJson.map((e) => AniActivity.mapToAniActivity(e)).whereNotNull().toList();
 
     return activities;
   }
@@ -722,6 +723,6 @@ class AniListDataSource {
         );
     final Map<String, dynamic> resultJson = response.data['data']['Activity'];
 
-    return AniActivity.mapToAniActivity(resultJson);
+    return AniActivity.mapToAniActivity(resultJson)!;
   }
 }

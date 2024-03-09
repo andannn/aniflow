@@ -380,8 +380,11 @@ class _DetailStaffContent extends StatelessWidget {
         Expanded(
           child: Opacity(
             opacity: 0.7,
-            child:
-                AutoSizeText(item.media?.title?.getTitle(titleLanguage) ?? ''),
+            child: AutoSizeText(
+              item.media?.title?.getTitle(titleLanguage) ?? '',
+              minFontSize: 1,
+              softWrap: true,
+            ),
           ),
         ),
       ],

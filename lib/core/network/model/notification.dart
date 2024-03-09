@@ -11,7 +11,7 @@ import 'package:aniflow/core/network/model/media_merge_notification_dto.dart';
 import 'package:aniflow/core/network/model/related_media_addition_notification_dto.dart';
 
 abstract class AniNotification {
-  static AniNotification mapToAniNotification(Map<String, dynamic> jsonMap) {
+  static AniNotification? mapToAniNotification(Map<String, dynamic> jsonMap) {
     switch (jsonMap['__typename']) {
       case 'ActivityLikeNotification':
         return ActivityLikeNotificationDto.fromJsonWithActivity(jsonMap);
@@ -38,6 +38,6 @@ abstract class AniNotification {
         return ActivityMessageNotificationDto.fromJsonWithActivity(jsonMap);
     }
 
-    throw Exception('InvalidType');
+    return null;
   }
 }

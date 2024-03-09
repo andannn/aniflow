@@ -157,13 +157,13 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: _buildTwitterHashTags(context, model),
               ),
               SliverToBoxAdapter(
+                child: _buildAnimeInfoSection(context, model),
+              ),
+              SliverToBoxAdapter(
                 child: _buildAnimeRelations(
                   context: context,
                   relations: model.relations,
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAnimeInfoSection(context, model),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
@@ -227,75 +227,77 @@ class _DetailAnimePageContent extends StatelessWidget {
       {required BuildContext context, required MediaModel model}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Card(
-              elevation: 0,
-              clipBehavior: Clip.hardEdge,
-              child: AspectRatio(
-                aspectRatio: 3.0 / 4,
-                child: AFNetworkImage(
-                  imageUrl: model.coverImage?.large ?? '',
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 1,
+              child: SizedBox(
+                height: 1,
+                child: Card(
+                  elevation: 0,
+                  clipBehavior: Clip.hardEdge,
+                  child: AFNetworkImage(
+                    imageUrl: model.coverImage?.large ?? '',
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Wrap(
-                    spacing: 12,
-                    children: [
-                      _InfoItem(
-                        label: 'RATED',
-                        iconData: Icons.hotel_class_sharp,
-                        contentText: '#${model.ratedRank ?? '--'}',
-                      ),
-                      _InfoItem(
-                        label: 'POPULAR',
-                        iconData: Icons.favorite_sharp,
-                        contentText: '#${model.popularRank ?? '--'}',
-                      ),
-                      _InfoItem(
-                        label: 'SCORE',
-                        iconData: Icons.star_purple500_sharp,
-                        contentText:
-                            // ignore: lines_longer_than_80_chars
-                            '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
-                      ),
-                      _InfoItem(
-                        label: 'FAVOURITE',
-                        iconData: Icons.thumb_up,
-                        contentText:
-                            // ignore: lines_longer_than_80_chars
-                            '${model.favourites != null ? (model.favourites) : '--'}',
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(),
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+            const SizedBox(width: 16),
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
                     child: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      children: _buildGenreItems(context, model.genres),
+                      spacing: 12,
+                      children: [
+                        _InfoItem(
+                          label: 'RATED',
+                          iconData: Icons.hotel_class_sharp,
+                          contentText: '#${model.ratedRank ?? '--'}',
+                        ),
+                        _InfoItem(
+                          label: 'POPULAR',
+                          iconData: Icons.favorite_sharp,
+                          contentText: '#${model.popularRank ?? '--'}',
+                        ),
+                        _InfoItem(
+                          label: 'SCORE',
+                          iconData: Icons.star_purple500_sharp,
+                          contentText:
+                              // ignore: lines_longer_than_80_chars
+                              '${model.averageScore != null ? (model.averageScore! / 10.0) : '--'}',
+                        ),
+                        _InfoItem(
+                          label: 'FAVOURITE',
+                          iconData: Icons.thumb_up,
+                          contentText:
+                              // ignore: lines_longer_than_80_chars
+                              '${model.favourites != null ? (model.favourites) : '--'}',
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  const Divider(),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: _buildGenreItems(context, model.genres),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
