@@ -135,7 +135,7 @@ class _CharacterListPagingContent extends StatelessWidget {
         builder: (context, state) {
       final pagingState = state;
       final language =
-          AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+          AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
       return PagingContent<CharacterAndVoiceActorModel, CharacterPagingBloc>(
         pagingState: pagingState,
         onBuildItem: (context, model) => _buildListItems(

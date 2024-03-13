@@ -138,9 +138,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         token: token,
         param: createAnimePageQueryParam(
             category,
-            preferences.getCurrentSeason(),
-            preferences.getCurrentSeasonYear(),
-            preferences.getAniListSettings().displayAdultContent),
+            preferences.season.value,
+            preferences.seasonYear.value,
+            preferences.aniListSettings.value.displayAdultContent),
       ),
       onGetEntityFromDB: (page, perPage) =>
           mediaDao.getMediaByPage(category, page: page, perPage: perPage),

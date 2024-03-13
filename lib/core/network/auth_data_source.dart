@@ -23,7 +23,7 @@ class AuthDataSource {
   AuthDataSource._();
 
   String get _token =>
-      isUnitTest ? testToken : AniFlowPreferences().getAuthToken();
+      isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
 
   Future<bool> isTokenValid() async {
     try {

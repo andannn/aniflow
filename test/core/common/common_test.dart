@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/shared_preference/state_stream.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -34,6 +35,17 @@ void main() {
       final list = [1, 3, 2, 4];
       final sorted = list..sort((a, b) => a.compareTo(b));
       expect(true, listEquals(sorted, [1, 2, 3, 4]));
+    });
+
+    test('mutable_state_stream_test', () async {
+      int value = 0;
+      final stream = MutableStateStream.create(
+          onGetValue: () => value,
+          onSetValue: (v) async {
+            value = v;
+          });
+
+      expect(stream.value, equals(0));
     });
   });
 }

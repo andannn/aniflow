@@ -101,7 +101,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    final targetUserId = userId ?? preferences.getAuthedUserId();
+    final targetUserId = userId ?? preferences.authedUserId.value;
     if (targetUserId == null) {
       /// No user.
       return LoadError(const NotFoundException());
@@ -116,7 +116,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
               userId: int.parse(targetUserId),
               mediaType: type,
               status: status,
-              format: AniFlowPreferences().getAniListSettings().scoreFormat),
+              format: AniFlowPreferences().aniListSettings.value.scoreFormat),
           token: token,
         );
       },
@@ -139,7 +139,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     CancelToken? token,
   }) async {
     try {
-      final targetUserId = userId ?? preferences.getAuthedUserId();
+      final targetUserId = userId ?? preferences.authedUserId.value;
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
@@ -151,7 +151,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
           mediaType: mediaType,
           status: status,
           userId: int.parse(targetUserId.toString()),
-          format: AniFlowPreferences().getAniListSettings().scoreFormat,
+          format: AniFlowPreferences().aniListSettings.value.scoreFormat,
         ),
         token: token,
       );
@@ -176,7 +176,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     CancelToken? token,
   }) async {
     try {
-      final targetUserId = userId ?? preferences.getAuthedUserId();
+      final targetUserId = userId ?? preferences.authedUserId.value;
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
@@ -254,7 +254,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
   }) async {
     final entity =
         await mediaListDao.getMediaListItem(mediaId: animeId, entryId: entryId);
-    final targetUserId = preferences.getAuthedUserId();
+    final targetUserId = preferences.authedUserId.value;
 
     if (targetUserId == null) {
       /// no login, return with error.
@@ -312,9 +312,9 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
   @override
   Stream<bool> getIsReleasedOnlyStream() =>
-      preferences.getIsShowReleaseOnlyStream();
+      preferences.isShowReleaseOnly;
 
   @override
   void setIsReleasedOnly(bool isShowReleasedOnly) =>
-      preferences.setIsShowReleaseOnly(isShowReleasedOnly);
+      preferences.isShowReleaseOnly.setValue(isShowReleasedOnly);
 }

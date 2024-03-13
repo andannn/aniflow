@@ -72,7 +72,8 @@ extension FirebaseAnalyticsExtension on FirebaseAnalytics {
   Future setInitialUserProperty() {
     return Future.wait(
       [
-        setUserMediaContentProperty(AniFlowPreferences().getCurrentMediaType()),
+        setUserMediaContentProperty(
+            AniFlowPreferences().mediaType.value),
       ],
     );
   }

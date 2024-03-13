@@ -78,7 +78,7 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, StaffModel model) {
     final language =
-        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
     return MediaPreviewItem(
       coverImage: model.mediumImage,
       title: model.name!.getNameByUserSetting(language),

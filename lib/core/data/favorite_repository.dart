@@ -72,7 +72,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.getAuthedUserId();
+    userId ??= preferences.authedUserId.value;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -121,7 +121,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.getAuthedUserId();
+    userId ??= preferences.authedUserId.value;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -157,7 +157,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.getAuthedUserId();
+    userId ??= preferences.authedUserId.value;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }

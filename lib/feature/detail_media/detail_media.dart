@@ -107,7 +107,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           appBar: AppBar(
             title: AutoSizeText(
               model.title!.getTitle(
-                  AniFlowPreferences().getAniListSettings().userTitleLanguage),
+                  AniFlowPreferences().aniListSettings.value.userTitleLanguage),
               maxLines: 2,
             ),
             actions: [
@@ -398,7 +398,7 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildCharacterAndVoiceActorItem(
       BuildContext context, CharacterAndVoiceActorModel model) {
     final language =
-        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
@@ -487,7 +487,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildStaffItem(BuildContext context, StaffAndRoleModel model) {
     final language =
-        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(

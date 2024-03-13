@@ -69,7 +69,7 @@ class _StaffListPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, StaffAndRoleModel model) {
     final language =
-        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
     return SizedBox(
       height: 124,
       child: StaffItem(

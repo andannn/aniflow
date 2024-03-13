@@ -60,7 +60,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
   void initState() {
     super.initState();
     themeSub =
-        AniFlowPreferences().getThemeSettingStream().listen((setting) async {
+        AniFlowPreferences().themeSetting.listen((setting) async {
       await Future.delayed(const Duration(milliseconds: 100));
       setState(() {});
     });

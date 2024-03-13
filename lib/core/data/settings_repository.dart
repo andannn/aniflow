@@ -28,37 +28,37 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   AnimeSeasonParam getAnimeSeasonParam() {
-    final seasonYear = preferences.getCurrentSeasonYear();
-    final season = preferences.getCurrentSeason();
+    final seasonYear = preferences.seasonYear.value;
+    final season = preferences.season.value;
 
     return AnimeSeasonParam(seasonYear: seasonYear, season: season);
   }
 
   @override
   Future setAnimeSeasonParam(AnimeSeasonParam param) async {
-    await preferences.setCurrentSeason(param.season);
-    await preferences.setCurrentSeasonYear(param.seasonYear);
+    await preferences.season.setValue(param.season);
+    await preferences.seasonYear.setValue(param.seasonYear);
   }
 
   @override
   Stream<MediaType> getMediaTypeStream() =>
-      preferences.getCurrentMediaTypeStream();
+      preferences.mediaType;
 
   @override
   Future setMediaType(MediaType type) async {
-    await preferences.setCurrentMediaType(type);
+    await preferences.mediaType.setValue(type);
 
     unawaited(FirebaseAnalytics.instance.setUserMediaContentProperty(type));
   }
 
   @override
-  MediaType getMediaType() => preferences.getCurrentMediaType();
+  MediaType getMediaType() => preferences.mediaType.value;
 
   @override
   Stream<ThemeSetting> getThemeSettingStream() =>
-      preferences.getThemeSettingStream();
+      preferences.themeSetting;
 
   @override
   Future setThemeSetting(ThemeSetting setting) =>
-      preferences.setThemeSetting(setting);
+      preferences.themeSetting.setValue(setting);
 }

@@ -56,7 +56,7 @@ class AniListDataSource {
   AniListDataSource._();
 
   String get _token =>
-      isUnitTest ? testToken : AniFlowPreferences().getAuthToken();
+      isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {
@@ -481,8 +481,10 @@ class AniListDataSource {
           options: createQueryOptions(_token),
         );
     final List resultJson = response.data['data']['Page']['activities'];
-    final activities =
-        resultJson.map((e) => AniActivity.mapToAniActivity(e)).whereNotNull().toList();
+    final activities = resultJson
+        .map((e) => AniActivity.mapToAniActivity(e))
+        .whereNotNull()
+        .toList();
 
     return activities;
   }
@@ -703,10 +705,8 @@ class AniListDataSource {
     return mediaList;
   }
 
-  Future<AniActivity> getActivityDetail(
-    String activityId,
-    [CancelToken? token]
-  ) async {
+  Future<AniActivity> getActivityDetail(String activityId,
+      [CancelToken? token]) async {
     final queryGraphQL = activitiesDetailGraphQLString;
     final variablesMap = <String, dynamic>{
       'id': activityId,

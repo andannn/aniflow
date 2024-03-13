@@ -10,6 +10,7 @@ import 'package:aniflow/core/common/model/setting/theme_setting.dart';
 import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
@@ -91,6 +92,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
 
     _themeSub ??= _settingsRepository.getThemeSettingStream().listen(
       (settings) {
+        logger.d('JQN ');
         add(_OnThemeSettingChanged(settings));
       },
     );

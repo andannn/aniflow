@@ -69,7 +69,7 @@ class _DetailCharacterContent extends StatelessWidget {
 
       final isFavourite = character.isFavourite;
       final language =
-          AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+          AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -168,7 +168,7 @@ class _DetailCharacterContent extends StatelessWidget {
       textStyle: Theme.of(context).textTheme.labelMedium,
       coverImage: model.coverImage?.large ?? '',
       title: model.title!.getTitle(
-          AniFlowPreferences().getAniListSettings().userTitleLanguage),
+          AniFlowPreferences().aniListSettings.value.userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(

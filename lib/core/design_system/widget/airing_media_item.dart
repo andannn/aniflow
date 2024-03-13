@@ -19,7 +19,7 @@ class AiringMediaItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model.animeModel,
-        language: AniFlowPreferences().getAniListSettings().userTitleLanguage,
+        language: AniFlowPreferences().aniListSettings.value.userTitleLanguage,
         watchInfoTextColor: colorScheme.primary,
         watchingInfo: _buildWatchingInfoLabel(model),
         titleMaxLines: null,
