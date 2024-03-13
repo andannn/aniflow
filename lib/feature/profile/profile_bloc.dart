@@ -79,7 +79,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
   final UserInfoRepository _userInfoRepository;
 
   void _init() async {
-    final userId = _userId ?? AniFlowPreferences().getAuthedUserId();
+    final userId = _userId ?? AniFlowPreferences().authedUserId.value;
     final userData = await _userInfoRepository.getUserDataById(userId!);
     add(_OnUserDataLoaded(userData: userData));
   }

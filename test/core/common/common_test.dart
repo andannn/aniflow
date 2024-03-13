@@ -1,7 +1,6 @@
-import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
+import 'package:aniflow/core/shared_preference/state_stream.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -38,15 +37,15 @@ void main() {
       expect(true, listEquals(sorted, [1, 2, 3, 4]));
     });
 
-    test('test_changed_notifier', () async {
-      final c1 = ValueNotifier(0);
-      final c2 = ValueNotifier(0);
+    test('mutable_state_stream_test', () async {
+      int value = 0;
+      final stream = MutableStateStream.create(
+          onGetValue: () => value,
+          onSetValue: (v) async {
+            value = v;
+          });
 
-      final combined = CombinedValueChangeNotifier([c1, c2]);
-      combined.addListener(() {});
-      c1.notifyChanged();
-      c2.notifyChanged();
-      c2.notifyChanged();
+      expect(stream.value, equals(0));
     });
   });
 }

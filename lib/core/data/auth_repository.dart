@@ -72,8 +72,8 @@ class AuthRepositoryImpl implements AuthRepository {
             .timeout(const Duration(minutes: 10));
 
         /// save token.
-        await preferences.setAuthToken(authResult.token);
-        await preferences.setAuthExpiredTime(
+        await preferences.authToken.setValue(authResult.token);
+        await preferences.authExpiredTime.setValue(
           DateTime.fromMillisecondsSinceEpoch(
             DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
           ),
@@ -83,8 +83,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final userDto = await authDataSource.getAuthedUserDataDto();
         final userEntity = UserEntity.fromDto(userDto);
         await userDataDao.updateUserData(userEntity);
-        await preferences.setAuthedUserId(userEntity.id);
-        await preferences.setAniListSettings(
+        await preferences.authedUserId.setValue(userEntity.id);
+        await preferences.aniListSettings.setValue(
           AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
         );
 
@@ -101,18 +101,18 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future logout() async {
-    final userId = preferences.getAuthedUserId();
+    final userId = preferences.authedUserId.value;
     if (userId != null) {
       await animeTrackListDao.removeMediaListByUserId(userId);
     }
-    await preferences.setAuthExpiredTime(null);
-    await preferences.setAuthToken(null);
-    await preferences.clearAuthedUserId();
+    await preferences.authExpiredTime.setValue(null);
+    await preferences.authToken.setValue(null);
+    await preferences.authedUserId.setValue(null);
   }
 
   @override
   Stream<UserModel?> getAuthedUserStream() {
-    Stream<String?> userIdStream = preferences.getAuthedUserStream();
+    Stream<String?> userIdStream = preferences.authedUserId;
     return userIdStream.asyncMap((userId) async {
       if (userId == null) {
         return null;
@@ -125,7 +125,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<AniListSettings> getAniListSettingsStream() {
-    return preferences.getAniListSettingsStream();
+    return preferences.aniListSettings;
   }
 
   @override
@@ -137,7 +137,7 @@ class AuthRepositoryImpl implements AuthRepository {
     CancelToken? token,
   }) {
     return NetworkUtil.postMutationAndRevertWhenException(
-      initialModel: preferences.getAniListSettings(),
+      initialModel: preferences.aniListSettings.value,
       onModifyModel: (settings) {
         var newSettings = settings.copyWith();
         if (userTitleLanguage != null) {
@@ -157,7 +157,7 @@ class AuthRepositoryImpl implements AuthRepository {
         }
         return newSettings;
       },
-      onSaveLocal: (settings) => preferences.setAniListSettings(settings),
+      onSaveLocal: (settings) => preferences.aniListSettings.setValue(settings),
       onSyncWithRemote: (settings) async {
         final user = await authDataSource.updateUserSettings(
           param: UpdateUserMotionParam(
@@ -175,7 +175,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<LoadResult> syncUserCondition() async {
-    final userId = preferences.getAuthedUserId();
+    final userId = preferences.authedUserId.value;
     if (userId == null) {
       return LoadError(Exception('No user'));
     }
@@ -184,7 +184,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final userDto = await authDataSource.getAuthedUserDataDto();
       final userEntity = UserEntity.fromDto(userDto);
       await userDataDao.updateUserData(userEntity);
-      await preferences.setAniListSettings(
+      await preferences.aniListSettings.setValue(
         AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
       );
       return LoadSuccess(data: null);

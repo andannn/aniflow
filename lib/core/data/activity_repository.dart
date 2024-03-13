@@ -163,19 +163,19 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream() {
     return CombineLatestStream.combine2(
-      preferences.getActivityFilterTypeStream(),
-      preferences.getActivityScopeCategoryStream(),
+      preferences.activityFilterType,
+      preferences.activityScopeCategory,
       (filter, scope) => (filter, scope),
     );
   }
 
   @override
   Future setActivityFilterType(ActivityFilterType type) =>
-      preferences.setActivityFilterType(type);
+      preferences.activityFilterType.setValue(type);
 
   @override
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
-      preferences.setActivityScopeCategory(scopeCategory);
+      preferences.activityScopeCategory.setValue(scopeCategory);
 
   @override
   Stream<ActivityStatus?> getActivityStatusStream(String id) =>

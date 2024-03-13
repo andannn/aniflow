@@ -18,7 +18,7 @@ class SearchAnimeItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model,
-        language: AniFlowPreferences().getAniListSettings().userTitleLanguage,
+        language: AniFlowPreferences().aniListSettings.value.userTitleLanguage,
         titleMaxLines: null,
         onClick: onClick,
       ),

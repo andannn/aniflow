@@ -107,7 +107,7 @@ class UserStatics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userStaffLanguage =
-        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final statics = model;
@@ -191,7 +191,7 @@ class _MediaListFutureBuilder extends StatefulWidget {
 class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
     with AutomaticKeepAliveClientMixin {
   final userTitleLanguage =
-      AniFlowPreferences().getAniListSettings().userTitleLanguage;
+      AniFlowPreferences().aniListSettings.value.userTitleLanguage;
 
   final UserStatisticsRepository repository = UserStatisticsRepositoryImpl();
 

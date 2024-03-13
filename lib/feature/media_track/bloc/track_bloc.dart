@@ -160,7 +160,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: AniFlowPreferences().getCurrentMediaType(),
+      mediaType: AniFlowPreferences().mediaType.value,
     );
     add(_OnLoadStateChanged(isLoading: false));
 

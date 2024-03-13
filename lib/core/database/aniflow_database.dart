@@ -2,11 +2,11 @@
 
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/airing_schedule_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
-import 'package:aniflow/core/database/dao/dao_change_notifier_mixin.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';

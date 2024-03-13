@@ -7,9 +7,7 @@ import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/theme_setting.dart';
-import 'package:aniflow/core/common/util/change_notifier_util.dart';
-import 'package:aniflow/core/common/util/stream_util.dart';
-import 'package:flutter/foundation.dart';
+import 'package:aniflow/core/shared_preference/state_stream.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 mixin _UserDataKey {
@@ -44,195 +42,137 @@ class AniFlowPreferences {
   AniFlowPreferences._();
 
   late SharedPreferences _preference;
-
-  final _mediaTypeChangeNotifier = ValueNotifier(0);
-  final _activityScopeChangeNotifier = ValueNotifier(0);
-  final _activityFilterChangeNotifier = ValueNotifier(0);
-  final _userIdChangeNotifier = ValueNotifier(0);
-  final _aniListSettingChangeNotifier = ValueNotifier(0);
-  final _showReleasedOnlyChangeNotifier = ValueNotifier(0);
-  final _themeChangeNotifier = ValueNotifier(0);
+  late MutableStateStream<MediaType> mediaType;
+  late MutableStateStream<AnimeSeason> season;
+  late MutableStateStream<int> seasonYear;
+  late MutableStateStream<ThemeSetting> themeSetting;
+  late MutableStateStream<bool> isShowReleaseOnly;
+  late MutableStateStream<ActivityScopeCategory> activityScopeCategory;
+  late MutableStateStream<ActivityFilterType> activityFilterType;
+  late MutableStateStream<String?> authedUserId;
+  late MutableStateStream<String?> authToken;
+  late MutableStateStream<AniListSettings> aniListSettings;
+  late MutableStateStream<DateTime?> authExpiredTime;
 
   Future init() async {
     _preference = await SharedPreferences.getInstance();
-  }
 
-  Future setCurrentSeason(AnimeSeason season) {
-    return _preference.setString(_UserDataKey.currentSeason, season.toString());
-  }
-
-  AnimeSeason getCurrentSeason() {
-    final seasonString =
-        _preference.getString(_UserDataKey.currentSeason) ?? '';
-    return AnimeSeason.values.firstWhere((e) => e.toString() == seasonString,
-        orElse: () => AnimeSeason.spring);
-  }
-
-  Future setCurrentSeasonYear(int seasonYear) {
-    return _preference.setInt(_UserDataKey.currentSeasonYear, seasonYear);
-  }
-
-  int getCurrentSeasonYear() {
-    return _preference.getInt(_UserDataKey.currentSeasonYear) ?? -1;
-  }
-
-  Future setAuthToken(String? authToken) {
-    if (authToken != null) {
-      return _preference.setString(_UserDataKey.authToken, authToken);
-    } else {
-      return _preference.remove(_UserDataKey.authToken);
-    }
-  }
-
-  String getAuthToken() {
-    return _preference.getString(_UserDataKey.authToken) ?? '';
-  }
-
-  Future setAuthExpiredTime(DateTime? dateTime) {
-    if (dateTime != null) {
-      return _preference.setString(
-          _UserDataKey.authExpiredTime, dateTime.toIso8601String());
-    } else {
-      return _preference.remove(_UserDataKey.authExpiredTime);
-    }
-  }
-
-  DateTime? getAuthExpiredTime() {
-    final result = _preference.getString(_UserDataKey.authExpiredTime) ?? '';
-    return DateTime.tryParse(result);
-  }
-
-  MediaType getCurrentMediaType() => MediaType.fromJson(
+    mediaType = MutableStateStream.create(
+      onGetValue: () => MediaType.fromJson(
         _preference.getString(_UserDataKey.currentMediaType) ??
             MediaType.anime.toJson(),
-      );
+      ),
+      onSetValue: (mediaType) => _preference.setString(
+          _UserDataKey.currentMediaType, mediaType.toJson()),
+    );
 
-  Stream<MediaType> getCurrentMediaTypeStream() => StreamUtil.createStream(
-        _mediaTypeChangeNotifier,
-        () => Future(() => getCurrentMediaType()),
-      );
+    season = MutableStateStream.create(
+      onGetValue: () {
+        final seasonString =
+            _preference.getString(_UserDataKey.currentSeason) ?? '';
+        return AnimeSeason.values.firstWhere(
+            (e) => e.toString() == seasonString,
+            orElse: () => AnimeSeason.spring);
+      },
+      onSetValue: (season) =>
+          _preference.setString(_UserDataKey.currentSeason, season.toString()),
+    );
 
-  Future setCurrentMediaType(MediaType mediaType) async {
-    final isChanged = await _preference.setString(
-        _UserDataKey.currentMediaType, mediaType.toJson());
+    seasonYear = MutableStateStream.create(
+      onGetValue: () {
+        return _preference.getInt(_UserDataKey.currentSeasonYear) ?? -1;
+      },
+      onSetValue: (seasonYear) =>
+          _preference.setInt(_UserDataKey.currentSeasonYear, seasonYear),
+    );
 
-    if (isChanged) {
-      _mediaTypeChangeNotifier.notifyChanged();
-    }
-  }
+    themeSetting = MutableStateStream.create(
+      onGetValue: () {
+        return ThemeSetting.fromJson(
+                _preference.getString(_UserDataKey.themeSettingKey)) ??
+            ThemeSetting.system;
+      },
+      onSetValue: (setting) =>
+          _preference.setString(_UserDataKey.themeSettingKey, setting.toJson()),
+    );
 
-  Future setActivityScopeCategory(ActivityScopeCategory category) async {
-    final isChanged = await _preference.setString(
-        _UserDataKey.activityScope, category.toJson());
+    isShowReleaseOnly = MutableStateStream.create(
+      onGetValue: () {
+        return _preference.getBool(_UserDataKey.showReleasedOnlyKey) ?? false;
+      },
+      onSetValue: (showReleasedOnly) => _preference.setBool(
+          _UserDataKey.showReleasedOnlyKey, showReleasedOnly),
+    );
 
-    if (isChanged) {
-      _activityScopeChangeNotifier.notifyChanged();
-    }
-  }
+    activityScopeCategory = MutableStateStream.create(
+      onGetValue: () {
+        return ActivityScopeCategory.fromJson(
+            _preference.getString(_UserDataKey.activityScope) ??
+                ActivityScopeCategory.global.toJson());
+      },
+      onSetValue: (category) =>
+          _preference.setString(_UserDataKey.activityScope, category.toJson()),
+    );
 
-  ActivityScopeCategory getActivityScopeCategory() {
-    return ActivityScopeCategory.fromJson(
-        _preference.getString(_UserDataKey.activityScope) ??
-            ActivityScopeCategory.global.toJson());
-  }
+    activityFilterType = MutableStateStream.create(
+      onGetValue: () {
+        return ActivityFilterType.fromJson(
+            _preference.getString(_UserDataKey.activityFilter) ??
+                ActivityFilterType.all.toJson());
+      },
+      onSetValue: (category) =>
+          _preference.setString(_UserDataKey.activityFilter, category.toJson()),
+    );
 
-  Stream<ActivityScopeCategory> getActivityScopeCategoryStream() =>
-      StreamUtil.createStream(
-        _activityScopeChangeNotifier,
-        () => Future(() => getActivityScopeCategory()),
-      );
-
-  Future setActivityFilterType(ActivityFilterType category) async {
-    final isChanged = await _preference.setString(
-        _UserDataKey.activityFilter, category.toJson());
-
-    if (isChanged) {
-      _activityFilterChangeNotifier.notifyChanged();
-    }
-  }
-
-  ActivityFilterType getActivityFilterType() {
-    return ActivityFilterType.fromJson(
-        _preference.getString(_UserDataKey.activityFilter) ??
-            ActivityFilterType.all.toJson());
-  }
-
-  Stream<ActivityFilterType> getActivityFilterTypeStream() =>
-      StreamUtil.createStream(
-        _activityFilterChangeNotifier,
-        () => Future(() => getActivityFilterType()),
-      );
-
-  Future setAuthedUserId(String userId) async {
-    bool isChanged =
+    authedUserId = MutableStateStream.create(onGetValue: () {
+      return _preference.getString(_UserDataKey.authedUserId);
+    }, onSetValue: (userId) async {
+      if (userId == null) {
+        await _preference.remove(_UserDataKey.authedUserId);
+      } else {
         await _preference.setString(_UserDataKey.authedUserId, userId);
+      }
+    });
 
-    if (isChanged) {
-      _userIdChangeNotifier.notifyChanged();
-    }
-  }
+    authToken = MutableStateStream.create(
+      onGetValue: () {
+        return _preference.getString(_UserDataKey.authToken);
+      },
+      onSetValue: (authToken) async {
+        if (authToken != null) {
+          return _preference.setString(_UserDataKey.authToken, authToken);
+        } else {
+          return _preference.remove(_UserDataKey.authToken);
+        }
+      },
+    );
 
-  Future clearAuthedUserId() async {
-    await _preference.remove(_UserDataKey.authedUserId);
-    _userIdChangeNotifier.notifyChanged();
-  }
+    aniListSettings = MutableStateStream.create(
+      onGetValue: () {
+        final jsonString =
+            _preference.getString(_UserDataKey.aniListSettingsKey) ?? '{}';
+        return AniListSettings.fromJson(jsonDecode(jsonString));
+      },
+      onSetValue: (setting) async {
+        return _preference.setString(
+            _UserDataKey.aniListSettingsKey, jsonEncode(setting.toJson()));
+      },
+    );
 
-  String? getAuthedUserId() => _preference.getString(_UserDataKey.authedUserId);
-
-  Stream<String?> getAuthedUserStream() => StreamUtil.createStream(
-      _userIdChangeNotifier, () => Future.value(getAuthedUserId()));
-
-  Future setAniListSettings(AniListSettings setting) async {
-    bool isChanged = await _preference.setString(
-        _UserDataKey.aniListSettingsKey, jsonEncode(setting.toJson()));
-    if (isChanged) {
-      _aniListSettingChangeNotifier.notifyChanged();
-    }
-  }
-
-  AniListSettings getAniListSettings() {
-    final jsonString =
-        _preference.getString(_UserDataKey.aniListSettingsKey) ?? '{}';
-    return AniListSettings.fromJson(jsonDecode(jsonString));
-  }
-
-  Stream<AniListSettings> getAniListSettingsStream() {
-    return StreamUtil.createStream(_aniListSettingChangeNotifier,
-        () => Future.value(getAniListSettings()));
-  }
-
-  Future setIsShowReleaseOnly(bool showReleasedOnly) async {
-    bool isChanged = await _preference.setBool(
-        _UserDataKey.showReleasedOnlyKey, showReleasedOnly);
-    if (isChanged) {
-      _showReleasedOnlyChangeNotifier.notifyChanged();
-    }
-  }
-
-  bool getIsShowReleaseOnly() {
-    return _preference.getBool(_UserDataKey.showReleasedOnlyKey) ?? false;
-  }
-
-  Stream<bool> getIsShowReleaseOnlyStream() {
-    return StreamUtil.createStream(_showReleasedOnlyChangeNotifier,
-        () => Future.value(getIsShowReleaseOnly()));
-  }
-
-  Future setThemeSetting(ThemeSetting setting) async {
-    bool isChanged = await _preference.setString(
-        _UserDataKey.themeSettingKey, setting.toJson());
-    if (isChanged) {
-      _themeChangeNotifier.notifyChanged();
-    }
-  }
-
-  ThemeSetting getThemeSetting() {
-    final theme = _preference.getString(_UserDataKey.themeSettingKey);
-    return ThemeSetting.fromJson(theme) ?? ThemeSetting.system;
-  }
-
-  Stream<ThemeSetting> getThemeSettingStream() {
-    return StreamUtil.createStream(
-        _themeChangeNotifier, () => Future.value(getThemeSetting()));
+    authExpiredTime = MutableStateStream.create(
+      onGetValue: () {
+        final result =
+            _preference.getString(_UserDataKey.authExpiredTime) ?? '';
+        return DateTime.tryParse(result);
+      },
+      onSetValue: (dateTime) async {
+        if (dateTime != null) {
+          return _preference.setString(
+              _UserDataKey.authExpiredTime, dateTime.toIso8601String());
+        } else {
+          return _preference.remove(_UserDataKey.authExpiredTime);
+        }
+      },
+    );
   }
 }

@@ -204,7 +204,8 @@ class _UpdateMediaListBottomSheetState
               child: buildLabelWithChild(
                 label: 'Score',
                 child: ScoringWidget(
-                  format: AniFlowPreferences().getAniListSettings().scoreFormat,
+                  format:
+                      AniFlowPreferences().aniListSettings.value.scoreFormat,
                   score: score ?? 0,
                   onScoreChanged: (value) {
                     setState(() {
@@ -306,7 +307,7 @@ class _UpdateMediaListBottomSheetState
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: MediaRowItem(
         model: widget.mediaModel,
-        language: AniFlowPreferences().getAniListSettings().userTitleLanguage,
+        language: AniFlowPreferences().aniListSettings.value.userTitleLanguage,
       ),
     );
   }

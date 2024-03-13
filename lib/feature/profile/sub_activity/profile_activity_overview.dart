@@ -51,6 +51,11 @@ class _ProfileActivityPageState extends State<ProfileActivityPage> {
       onUserIconClick: (id) {
         AfRouterDelegate.of(context).backStack.navigateToUserProfile(id);
       },
+      onActivityClick: (id) {
+        AfRouterDelegate.of(context)
+            .backStack
+            .navigateToActivityRepliesPage(id);
+      },
       onBuildActivityStatusWidget: (activityId) => ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),
         activityId: activityId,

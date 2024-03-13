@@ -168,7 +168,7 @@ class _DetailStudioContent extends StatelessWidget {
       {required MediaModel item, required Function(String id) onMediaClick}) {
 
     final titleLanguage =
-        AniFlowPreferences().getAniListSettings().userTitleLanguage;
+        AniFlowPreferences().aniListSettings.value.userTitleLanguage;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

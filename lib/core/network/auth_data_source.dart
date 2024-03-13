@@ -12,6 +12,7 @@ import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 
 class AuthDataSource {
@@ -22,7 +23,7 @@ class AuthDataSource {
   AuthDataSource._();
 
   String get _token =>
-      isUnitTest ? testToken : AniFlowPreferences().getAuthToken();
+      isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
 
   Future<bool> isTokenValid() async {
     try {
@@ -165,6 +166,7 @@ class AuthDataSource {
     List resultJson = response.data['data']['Page']['notifications'];
     return resultJson
         .map((e) => AniNotification.mapToAniNotification(e))
+        .whereNotNull()
         .toList();
   }
 

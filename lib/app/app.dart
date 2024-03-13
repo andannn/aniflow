@@ -57,7 +57,7 @@ class AniFlowAppState extends State<AniFlowApp> {
 
     rootRouterDelegate = RootRouterDelegate();
 
-    themeSub = AniFlowPreferences().getThemeSettingStream().listen((setting) {
+    themeSub = AniFlowPreferences().themeSetting.listen((setting) {
       setState(() {
         this.setting = setting;
       });

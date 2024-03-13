@@ -105,7 +105,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
   Widget _buildGridItems(
       BuildContext context, FavoriteType type, dynamic model) {
     final language =
-        AniFlowPreferences().getAniListSettings().userStaffNameLanguage;
+        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
     final String coverImage;
     final String title;
     final String id;
@@ -116,7 +116,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       case FavoriteType.manga:
         coverImage = (model as MediaModel).coverImage?.large ?? '';
         title = model.title!.getTitle(
-            AniFlowPreferences().getAniListSettings().userTitleLanguage);
+            AniFlowPreferences().aniListSettings.value.userTitleLanguage);
         id = model.id;
         onClick = () => navigator.navigateToDetailMedia(id);
       case FavoriteType.character:

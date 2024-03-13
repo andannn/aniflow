@@ -134,7 +134,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: AniFlowPreferences().getAniListSettings().scoreFormat,
+        format: AniFlowPreferences().aniListSettings.value.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);

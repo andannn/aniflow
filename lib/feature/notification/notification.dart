@@ -158,9 +158,10 @@ class _NotificationPagingContent extends StatelessWidget {
               navigator.navigateToDetailMedia(model.media.id);
             case MediaNotification():
               navigator.navigateToDetailMedia(model.media.id);
+            case ActivityNotification(activity: var activity):
+              navigator.navigateToActivityRepliesPage(activity.id);
             case MediaDeletionNotification():
             case FollowNotification():
-            case ActivityNotification():
             // Do nothing.
           }
         },

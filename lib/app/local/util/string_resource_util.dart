@@ -205,7 +205,7 @@ extension ListActivityModelEx on ListActivityModel {
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
         text: media.title!.getTitle(
-            AniFlowPreferences().getAniListSettings().userTitleLanguage),
+            AniFlowPreferences().aniListSettings.value.userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,
       ),
