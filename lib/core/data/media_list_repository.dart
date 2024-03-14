@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
@@ -19,10 +20,7 @@ import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sqflite/sqflite.dart';
-
-part 'model/media_list_status.dart';
 
 abstract class MediaListRepository {
   ///

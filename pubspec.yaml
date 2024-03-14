@@ -79,8 +79,12 @@ dependencies:
   firebase_performance: ^0.9.3+7
   flutter_cache_manager: ^3.3.1
   fwfh_cached_network_image: ^0.14.2
+  drift: ^2.15.0
+  sqlite3: ^2.4.0
+  sqlite3_flutter_libs: ^0.5.0
 
 dev_dependencies:
+  drift_dev: ^2.15.0
   flutter_test:
     sdk: flutter
 

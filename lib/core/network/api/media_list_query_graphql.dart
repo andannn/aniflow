@@ -1,6 +1,6 @@
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
-import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/network/api/common_graphql.dart';
 
 class UserAnimeListPageQueryParam {

@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';

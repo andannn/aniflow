@@ -1,7 +1,9 @@
-part of '../media_list_repository.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'media_list_status.g.dart';
 
 /// User anime list status.
-@JsonEnum()
+@JsonEnum(alwaysCreate: true)
 enum MediaListStatus {
   @JsonValue('CURRENT')
   current('CURRENT'),
@@ -17,4 +19,9 @@ enum MediaListStatus {
   final String sqlTypeString;
 
   const MediaListStatus(this.sqlTypeString);
+
+  String toJson() => _$MediaListStatusEnumMap[this]!;
+
+  static MediaListStatus? fromJson(String? json) =>
+      _$MediaListStatusEnumMap.map((key, value) => MapEntry(value, key))[json];
 }

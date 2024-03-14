@@ -1,0 +1,25 @@
+import 'package:aniflow/core/common/model/media_list_status.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/database_drift/aniflow_database.dart';
+
+extension MediaListMapper on MediaListEntity {
+  MediaListItemModel toModel() {
+    return MediaListItemModel(
+      id: id,
+      status: MediaListStatus.fromJson(status),
+      score: score,
+      progress: progress,
+      updatedAt: updatedAt,
+      notes: notes,
+      progressVolumes: progressVolumes,
+      startedAt: startedAt != null
+          ? DateTime.fromMillisecondsSinceEpoch(startedAt!)
+          : null,
+      completedAt: completedAt != null
+          ? DateTime.fromMillisecondsSinceEpoch(completedAt!)
+          : null,
+      repeat: repeat,
+      private: private ?? false,
+    );
+  }
+}

@@ -31,7 +31,7 @@ Map<String, dynamic> _$$MediaListEntityImplToJson(
       'media_list_id': instance.id,
       'media_list_user_id': instance.userId,
       'media_list_media_id': instance.animeId,
-      'media_list_status': _$MediaListStatusEnumMap[instance.status],
+      'media_list_status': instance.status,
       'media_list_progress': instance.progress,
       'media_list_progress_volumes': instance.progressVolumes,
       'media_list_notes': instance.notes,

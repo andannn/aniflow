@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';

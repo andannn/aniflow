@@ -27,7 +27,7 @@ Map<String, dynamic> _$$UserFormatStaticsDtoImplToJson(
       'minutesWatched': instance.minutesWatched,
       'chaptersRead': instance.chaptersRead,
       'mediaIds': instance.mediaIds,
-      'status': _$MediaListStatusEnumMap[instance.status],
+      'status': instance.status,
     };
 
 const _$MediaListStatusEnumMap = {

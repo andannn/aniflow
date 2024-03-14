@@ -14,6 +14,7 @@ enum MediaType implements Setting {
   const MediaType();
 
   String toJson() => _$MediaTypeEnumMap[this]!;
+
   static MediaType fromJson(String json) =>
       _$MediaTypeEnumMap.map((key, value) => MapEntry(value, key))[json]!;
 }

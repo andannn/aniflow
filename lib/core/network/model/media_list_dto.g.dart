@@ -34,7 +34,7 @@ Map<String, dynamic> _$$MediaListDtoImplToJson(_$MediaListDtoImpl instance) =>
       'id': instance.id,
       'userId': instance.userId,
       'score': instance.score,
-      'status': _$MediaListStatusEnumMap[instance.status],
+      'status': instance.status,
       'progress': instance.progress,
       'progressVolumes': instance.progressVolumes,
       'notes': instance.notes,

@@ -2,8 +2,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'anime_season.g.dart';
+
 /// Bangumi releasing season.
-@JsonEnum()
+@JsonEnum(alwaysCreate: true)
 enum AnimeSeason {
   @JsonValue('WINTER')
   winter('WINTER'),
@@ -17,6 +19,11 @@ enum AnimeSeason {
   final String sqlTypeString;
 
   const AnimeSeason(this.sqlTypeString);
+
+  String toJson() => _$AnimeSeasonEnumMap[this]!;
+
+  static AnimeSeason? fromJson(String? json) =>
+      _$AnimeSeasonEnumMap.map((key, value) => MapEntry(value, key))[json];
 }
 
 /// parameter present to anime season.

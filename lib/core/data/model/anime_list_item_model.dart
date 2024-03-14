@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/database/model/media_list_entity.dart';
 import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
