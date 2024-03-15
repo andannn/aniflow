@@ -1,4 +1,6 @@
 import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database_drift/mappers/media_mapper.dart';
+import 'package:aniflow/core/network/model/media_edge.dart';
 import 'package:equatable/equatable.dart';
 
 class MediaAndRelationTypeEntity extends Equatable {
@@ -10,10 +12,10 @@ class MediaAndRelationTypeEntity extends Equatable {
   @override
   List<Object?> get props => [mediaRelation, media];
 
-  // static MediaRelationEntity fromDto(MediaEdge edge) {
-  //   return MediaRelationEntity(
-  //     edge.relationType,
-  //     MediaEntity.fromNetworkModel(edge.media!),
-  //   );
-  // }
+  static MediaAndRelationTypeEntity fromDto(MediaEdge edge) {
+    return MediaAndRelationTypeEntity(
+      mediaRelation: edge.relationType.toJson(),
+      media: edge.media!.toEntity(),
+    );
+  }
 }

@@ -1,3 +1,8 @@
+import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/data/mappers/character_mapper.dart';
+import 'package:aniflow/core/data/mappers/staff_mapper.dart';
+import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/database_drift/aniflow_database.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,4 +22,14 @@ class CharacterAndVoiceActorRelation extends Equatable {
   @override
   List<Object?> get props =>
       [characterEntity, voiceActorEntity, staffLanguage, characterEntity];
+
+  static CharacterAndVoiceActorModel fromDatabaseEntity(
+      CharacterAndVoiceActorRelation entity) {
+    return CharacterAndVoiceActorModel(
+        characterModel: entity.characterEntity.toModel(),
+        voiceActorModel: entity.voiceActorEntity?.toModel(),
+        role: CharacterRole.fromJson(entity.characterRole),
+        staffLanguage: StaffLanguage.fromJson(entity.staffLanguage)
+    );
+  }
 }

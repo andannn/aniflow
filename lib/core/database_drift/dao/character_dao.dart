@@ -33,6 +33,14 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
     });
   }
 
+  Future insertOrIgnoreCharacters(
+    List<CharacterEntity> entities,
+  ) async {
+    await batch((batch) {
+      batch.insertAll(characterTable, entities, mode: InsertMode.insertOrIgnore);
+    });
+  }
+
   Stream<CharacterAndRelatedMediaRelation> getCharacterAndRelatedMediaStream(
     String id,
   ) {
