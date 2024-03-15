@@ -10,7 +10,6 @@ import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/mappers/studio_mapper.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
-import 'package:aniflow/core/data/model/airing_schedule_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -44,7 +43,6 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:sqflite/sqflite.dart';
 
 /// repository for get anime list.
 abstract class MediaInformationRepository {

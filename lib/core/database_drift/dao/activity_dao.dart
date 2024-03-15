@@ -62,11 +62,13 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
       batch.insertAll(
         userTable,
         entities.map((e) => e.user),
+        mode: InsertMode.insertOrIgnore,
       );
 
       batch.insertAll(
         mediaTable,
         entities.map((e) => e.media).whereNotNull(),
+        mode: InsertMode.insertOrIgnore,
       );
     });
   }
