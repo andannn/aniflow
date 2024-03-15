@@ -5,7 +5,7 @@ import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/database_drift/relations/activity_and_user_relation.dart';
 
 extension ActivityMapper on ActivityAndUserRelation {
-  ActivityModel fromEntity() {
+  ActivityModel toModel() {
     final type = ActivityType.fromJson(activity.type!);
     switch (type) {
       case ActivityType.text:

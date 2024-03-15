@@ -124,7 +124,15 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
         .getSingle();
   }
 
-  Stream<(int, int, bool)?> getActivityStream(String id) {
+  Future<(int, int, bool)?> getActivityStatus(String id) {
+    final query = select(activityTable)..where((t) => t.id.equals(id));
+
+    return query
+        .map((entity) => (entity.likeCount, entity.replyCount, entity.isLiked))
+        .getSingleOrNull();
+  }
+
+  Stream<(int, int, bool)?> getActivityStatusStream(String id) {
     final query = select(activityTable)..where((t) => t.id.equals(id));
 
     return query
