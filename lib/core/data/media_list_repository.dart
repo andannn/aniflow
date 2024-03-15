@@ -3,15 +3,12 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/model/setting/score_format.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/dao/media_list_dao.dart';
-import 'package:aniflow/core/database/dao/user_data_dao.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/media_list_entity.dart';
-import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database_drift/mappers/media_list_mapper.dart';
+import 'package:aniflow/core/database_drift/mappers/media_mapper.dart';
+import 'package:aniflow/core/database_drift/relations/media_list_and_media_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
@@ -20,7 +17,7 @@ import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:drift/drift.dart';
 
 abstract class MediaListRepository {
   ///
@@ -82,10 +79,9 @@ abstract class MediaListRepository {
 }
 
 class MediaListRepositoryImpl extends MediaListRepository {
-  final MediaListDao mediaListDao = AniflowDatabase().getMediaListDao();
-  final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
-  final MediaDao mediaDao =
-      AniflowDatabase().getMediaDao();
+  final mediaListDao = AniflowDatabase2().mediaListDao;
+  final userDataDao = AniflowDatabase2().userDao;
+  final mediaDao = AniflowDatabase2().mediaDao;
   final AniListDataSource aniListDataSource = AniListDataSource();
   final AuthDataSource authDataSource = AuthDataSource();
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -122,9 +118,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
       perPage: perPage,
       mapDtoToModel: (dto) => MediaListItemModel.fromDto(dto),
       onInsertToDB: (dto) async {
-        final entities =
-            dto.map((e) => MediaEntity.fromNetworkModel(e.media!)).toList();
-        await mediaDao.insertMedia(entities);
+        final entities = dto.map((e) => e.media!.toEntity()).toList();
+        await mediaDao.insertOrIgnoreMedia(entities);
       },
     );
   }
@@ -155,10 +150,9 @@ class MediaListRepositoryImpl extends MediaListRepository {
       );
 
       /// insert data to db.
-      final entities = networkAnimeList
-          .map((e) => MediaListAndMediaRelation.fromDto(e))
-          .toList();
-      await mediaListDao.insertMediaListAndMediaRelations(entities);
+      final entities =
+          networkAnimeList.map((e) => MediaListAndMedia.fromDto(e)).toList();
+      await mediaListDao.upsertMediaListAndMediaRelations(entities);
 
       return LoadSuccess(data: null);
     } on DioException catch (e) {
@@ -190,15 +184,14 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
       /// insert data to db.
       final entity = networkMediaList != null
-          ? MediaListAndMediaRelation.fromDto(networkMediaList)
+          ? MediaListAndMedia.fromDto(networkMediaList)
           : null;
 
       if (entity == null) {
         return LoadError(Exception('No media list'));
       }
 
-      await mediaListDao
-          .insertMediaListAndMediaRelations([entity], ConflictAlgorithm.ignore);
+      await mediaListDao.upsertMediaListAndMediaRelations([entity]);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
       return LoadError(e);
@@ -210,20 +203,22 @@ class MediaListRepositoryImpl extends MediaListRepository {
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
-    return mediaListDao.getMediaListStream(userId, status, type).map(
-          (models) =>
-              models.map((e) => MediaListItemModel.fromRelation(e)).toList(),
+    return mediaListDao
+        .getAllMediaListOfUserStream(
+          userId,
+          status.map((e) => e.toString()).toList(),
+          type.toJson(),
+        )
+        .map(
+          (models) => models.map((e) => e.toModel()).toList(),
         );
   }
 
   @override
   Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
       {required String userId, required String animeId}) {
-    return mediaListDao
-        .getMediaListEntityByUserAndIdStream(userId: userId, mediaId: animeId)
-        .map(
-          (entity) =>
-              entity != null ? MediaListItemModel.fromEntity(entity) : null,
+    return mediaListDao.getMediaListOfUserStream(userId, animeId).map(
+          (entity) => entity?.toModel(),
         );
   }
 
@@ -232,7 +227,13 @@ class MediaListRepositoryImpl extends MediaListRepository {
       {required String userId,
       required List<MediaListStatus> status,
       required MediaType type}) {
-    return mediaListDao.getMediaListMediaIdsByUserStream(userId, status, type);
+    return mediaListDao
+        .getAllMediaIdInMediaListStream(
+          userId,
+          status.map((e) => e.toJson()).toList(),
+          type.toJson(),
+        )
+        .map((e) => e.toSet());
   }
 
   @override
@@ -250,8 +251,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     DateTime? completedAt,
     CancelToken? cancelToken,
   }) async {
-    final entity =
-        await mediaListDao.getMediaListItem(mediaId: animeId, entryId: entryId);
+    final entity = await mediaListDao.getMediaListItem(animeId);
     final targetUserId = preferences.authedUserId.value;
 
     if (targetUserId == null) {
@@ -264,17 +264,17 @@ class MediaListRepositoryImpl extends MediaListRepository {
       /// change the local database and notify the to ui without waiting
       /// network result.
       final updatedEntity = entity.copyWith(
-        status: status,
-        progress: progress ?? entity.progress,
-        score: score ?? entity.score,
-        repeat: repeat ?? entity.repeat,
-        notes: notes ?? entity.notes,
-        startedAt: startedAt?.millisecondsSinceEpoch ?? entity.startedAt,
-        completedAt: completedAt?.millisecondsSinceEpoch ?? entity.completedAt,
-        private: private.toInteger() ?? entity.private,
-        updatedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        status: Value(status?.toJson()),
+        progress: Value(progress ?? entity.progress),
+        score: Value(score ?? entity.score),
+        repeat: Value(repeat ?? entity.repeat),
+        notes: Value(notes ?? entity.notes),
+        startedAt: Value(startedAt?.millisecondsSinceEpoch ?? entity.startedAt),
+        completedAt:
+            Value(completedAt?.millisecondsSinceEpoch ?? entity.completedAt),
+        updatedAt: Value(DateTime.now().millisecondsSinceEpoch ~/ 1000),
       );
-      await mediaListDao.insertMediaListEntities([updatedEntity]);
+      await mediaListDao.upsertMediaListEntities([updatedEntity]);
     }
 
     try {
@@ -295,22 +295,21 @@ class MediaListRepositoryImpl extends MediaListRepository {
         ),
         token: cancelToken,
       );
-      final updateEntity = MediaListEntity.fromNetworkModel(result);
-      await mediaListDao.insertMediaListEntities([updateEntity]);
+      final updateEntity = result.toEntity();
+      await mediaListDao.upsertMediaListEntities([updateEntity]);
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
       /// network error happened.
       /// revert the changes in database.
       if (entity != null) {
-        await mediaListDao.insertMediaListEntities([entity]);
+        await mediaListDao.upsertMediaListEntities([entity]);
       }
       return LoadError(exception);
     }
   }
 
   @override
-  Stream<bool> getIsReleasedOnlyStream() =>
-      preferences.isShowReleaseOnly;
+  Stream<bool> getIsReleasedOnlyStream() => preferences.isShowReleaseOnly;
 
   @override
   void setIsReleasedOnly(bool isShowReleasedOnly) =>

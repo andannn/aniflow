@@ -1,4 +1,7 @@
 import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database_drift/mappers/media_list_mapper.dart';
+import 'package:aniflow/core/database_drift/mappers/media_mapper.dart';
+import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:equatable/equatable.dart';
 
 class MediaListAndMedia extends Equatable {
@@ -11,10 +14,10 @@ class MediaListAndMedia extends Equatable {
   @override
   List<Object?> get props => [mediaEntity, mediaListEntity];
 
-// static MediaListAndMediaRelation fromDto(MediaListDto dto) {
-//   return MediaListAndMediaRelation(
-//     mediaListEntity: MediaListEntity.fromNetworkModel(dto),
-//     mediaEntity: MediaEntity.fromNetworkModel(dto.media!),
-//   );
-// }
+  static MediaListAndMedia fromDto(MediaListDto dto) {
+    return MediaListAndMedia(
+      mediaListEntity: dto.toEntity(),
+      mediaEntity: dto.media!.toEntity(),
+    );
+  }
 }
