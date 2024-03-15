@@ -7,11 +7,10 @@ import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart'
 import 'package:aniflow/core/common/model/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/media_list_dao.dart';
-import 'package:aniflow/core/database/dao/user_data_dao.dart';
-import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database_drift/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -52,9 +51,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   final AuthDataSource authDataSource = AuthDataSource();
 
-  final UserDataDao userDataDao = AniflowDatabase().getUserDataDao();
+  final userDataDao = AniflowDatabase2().userDao;
 
-  final MediaListDao animeTrackListDao = AniflowDatabase().getMediaListDao();
+  final animeTrackListDao = AniflowDatabase2().mediaListDao;
 
   @override
   Future<bool> awaitAuthLogin() async {
@@ -81,8 +80,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
         /// retrieve user data from ani list api;
         final userDto = await authDataSource.getAuthedUserDataDto();
-        final userEntity = UserEntity.fromDto(userDto);
-        await userDataDao.updateUserData(userEntity);
+        final userEntity = userDto.toEntity();
+        await userDataDao.upsertUser(userEntity);
         await preferences.authedUserId.setValue(userEntity.id);
         await preferences.aniListSettings.setValue(
           AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
@@ -103,7 +102,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future logout() async {
     final userId = preferences.authedUserId.value;
     if (userId != null) {
-      await animeTrackListDao.removeMediaListByUserId(userId);
+      await animeTrackListDao.removeMediaListOfUser(userId);
     }
     await preferences.authExpiredTime.setValue(null);
     await preferences.authToken.setValue(null);
@@ -117,8 +116,8 @@ class AuthRepositoryImpl implements AuthRepository {
       if (userId == null) {
         return null;
       } else {
-        final userEntity = await userDataDao.getUserData(userId);
-        return UserModel.fromEntity(userEntity);
+        final userEntity = await userDataDao.getUser(userId);
+        return userEntity?.toModel();
       }
     });
   }
@@ -182,8 +181,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
     try {
       final userDto = await authDataSource.getAuthedUserDataDto();
-      final userEntity = UserEntity.fromDto(userDto);
-      await userDataDao.updateUserData(userEntity);
+      final userEntity = userDto.toEntity();
+      await userDataDao.upsertUser(userEntity);
       await preferences.aniListSettings.setValue(
         AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
       );
