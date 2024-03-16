@@ -109,14 +109,18 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
   }
 
   /// upsert mediaList and ignore media when conflict.
-  Future upsertMediaListAndMediaRelations(
-      List<MediaListAndMedia> entities) {
+  Future upsertMediaListAndMediaRelations(List<MediaListAndMedia> entities) {
     return batch((batch) {
       batch.insertAllOnConflictUpdate(
-          mediaListTable, entities.map((e) => e.mediaListEntity));
+        mediaListTable,
+        entities.map((e) => e.mediaListEntity),
+      );
 
-      batch.insertAll(mediaTable, entities.map((e) => e.mediaEntity),
-          mode: InsertMode.insertOrIgnore);
+      batch.insertAll(
+        mediaTable,
+        entities.map((e) => e.mediaEntity),
+        mode: InsertMode.insertOrIgnore,
+      );
     });
   }
 }

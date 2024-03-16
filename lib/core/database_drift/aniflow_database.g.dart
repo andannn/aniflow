@@ -5372,7 +5372,7 @@ class $StudioMediaCrossRefTableTable extends StudioMediaCrossRefTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {studioId};
+  Set<GeneratedColumn> get $primaryKey => {studioId, mediaId};
   @override
   StudioMediaCrossRefEntity map(Map<String, dynamic> data,
       {String? tablePrefix}) {
@@ -7703,6 +7703,259 @@ class CategoryMediaPagingCrossRefTableCompanion
   }
 }
 
+class $FavoriteInfoTableTable extends FavoriteInfoTable
+    with TableInfo<$FavoriteInfoTableTable, FavoriteInfoEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FavoriteInfoTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'favorite_info_id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _favoriteTypeMeta =
+      const VerificationMeta('favoriteType');
+  @override
+  late final GeneratedColumn<String> favoriteType = GeneratedColumn<String>(
+      'favorite_type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _infoIdMeta = const VerificationMeta('infoId');
+  @override
+  late final GeneratedColumn<String> infoId = GeneratedColumn<String>(
+      'favorite_info_foreign_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+      'favorite_user_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, favoriteType, infoId, userId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'favorite_info_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<FavoriteInfoEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('favorite_info_id')) {
+      context.handle(_idMeta,
+          id.isAcceptableOrUnknown(data['favorite_info_id']!, _idMeta));
+    }
+    if (data.containsKey('favorite_type')) {
+      context.handle(
+          _favoriteTypeMeta,
+          favoriteType.isAcceptableOrUnknown(
+              data['favorite_type']!, _favoriteTypeMeta));
+    } else if (isInserting) {
+      context.missing(_favoriteTypeMeta);
+    }
+    if (data.containsKey('favorite_info_foreign_id')) {
+      context.handle(
+          _infoIdMeta,
+          infoId.isAcceptableOrUnknown(
+              data['favorite_info_foreign_id']!, _infoIdMeta));
+    } else if (isInserting) {
+      context.missing(_infoIdMeta);
+    }
+    if (data.containsKey('favorite_user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['favorite_user_id']!, _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FavoriteInfoEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FavoriteInfoEntity(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}favorite_info_id'])!,
+      favoriteType: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}favorite_type'])!,
+      infoId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}favorite_info_foreign_id'])!,
+      userId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}favorite_user_id'])!,
+    );
+  }
+
+  @override
+  $FavoriteInfoTableTable createAlias(String alias) {
+    return $FavoriteInfoTableTable(attachedDatabase, alias);
+  }
+}
+
+class FavoriteInfoEntity extends DataClass
+    implements Insertable<FavoriteInfoEntity> {
+  final int id;
+  final String favoriteType;
+  final String infoId;
+  final String userId;
+  const FavoriteInfoEntity(
+      {required this.id,
+      required this.favoriteType,
+      required this.infoId,
+      required this.userId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['favorite_info_id'] = Variable<int>(id);
+    map['favorite_type'] = Variable<String>(favoriteType);
+    map['favorite_info_foreign_id'] = Variable<String>(infoId);
+    map['favorite_user_id'] = Variable<String>(userId);
+    return map;
+  }
+
+  FavoriteInfoTableCompanion toCompanion(bool nullToAbsent) {
+    return FavoriteInfoTableCompanion(
+      id: Value(id),
+      favoriteType: Value(favoriteType),
+      infoId: Value(infoId),
+      userId: Value(userId),
+    );
+  }
+
+  factory FavoriteInfoEntity.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FavoriteInfoEntity(
+      id: serializer.fromJson<int>(json['id']),
+      favoriteType: serializer.fromJson<String>(json['favoriteType']),
+      infoId: serializer.fromJson<String>(json['infoId']),
+      userId: serializer.fromJson<String>(json['userId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'favoriteType': serializer.toJson<String>(favoriteType),
+      'infoId': serializer.toJson<String>(infoId),
+      'userId': serializer.toJson<String>(userId),
+    };
+  }
+
+  FavoriteInfoEntity copyWith(
+          {int? id, String? favoriteType, String? infoId, String? userId}) =>
+      FavoriteInfoEntity(
+        id: id ?? this.id,
+        favoriteType: favoriteType ?? this.favoriteType,
+        infoId: infoId ?? this.infoId,
+        userId: userId ?? this.userId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('FavoriteInfoEntity(')
+          ..write('id: $id, ')
+          ..write('favoriteType: $favoriteType, ')
+          ..write('infoId: $infoId, ')
+          ..write('userId: $userId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, favoriteType, infoId, userId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FavoriteInfoEntity &&
+          other.id == this.id &&
+          other.favoriteType == this.favoriteType &&
+          other.infoId == this.infoId &&
+          other.userId == this.userId);
+}
+
+class FavoriteInfoTableCompanion extends UpdateCompanion<FavoriteInfoEntity> {
+  final Value<int> id;
+  final Value<String> favoriteType;
+  final Value<String> infoId;
+  final Value<String> userId;
+  const FavoriteInfoTableCompanion({
+    this.id = const Value.absent(),
+    this.favoriteType = const Value.absent(),
+    this.infoId = const Value.absent(),
+    this.userId = const Value.absent(),
+  });
+  FavoriteInfoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String favoriteType,
+    required String infoId,
+    required String userId,
+  })  : favoriteType = Value(favoriteType),
+        infoId = Value(infoId),
+        userId = Value(userId);
+  static Insertable<FavoriteInfoEntity> custom({
+    Expression<int>? id,
+    Expression<String>? favoriteType,
+    Expression<String>? infoId,
+    Expression<String>? userId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'favorite_info_id': id,
+      if (favoriteType != null) 'favorite_type': favoriteType,
+      if (infoId != null) 'favorite_info_foreign_id': infoId,
+      if (userId != null) 'favorite_user_id': userId,
+    });
+  }
+
+  FavoriteInfoTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? favoriteType,
+      Value<String>? infoId,
+      Value<String>? userId}) {
+    return FavoriteInfoTableCompanion(
+      id: id ?? this.id,
+      favoriteType: favoriteType ?? this.favoriteType,
+      infoId: infoId ?? this.infoId,
+      userId: userId ?? this.userId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['favorite_info_id'] = Variable<int>(id.value);
+    }
+    if (favoriteType.present) {
+      map['favorite_type'] = Variable<String>(favoriteType.value);
+    }
+    if (infoId.present) {
+      map['favorite_info_foreign_id'] = Variable<String>(infoId.value);
+    }
+    if (userId.present) {
+      map['favorite_user_id'] = Variable<String>(userId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FavoriteInfoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('favoriteType: $favoriteType, ')
+          ..write('infoId: $infoId, ')
+          ..write('userId: $userId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AniflowDatabase2 extends GeneratedDatabase {
   _$AniflowDatabase2(QueryExecutor e) : super(e);
   late final $UserTableTable userTable = $UserTableTable(this);
@@ -7737,6 +7990,8 @@ abstract class _$AniflowDatabase2 extends GeneratedDatabase {
   late final $CategoryMediaPagingCrossRefTableTable
       categoryMediaPagingCrossRefTable =
       $CategoryMediaPagingCrossRefTableTable(this);
+  late final $FavoriteInfoTableTable favoriteInfoTable =
+      $FavoriteInfoTableTable(this);
   late final UserDao userDao = UserDao(this as AniflowDatabase2);
   late final StudioDao studioDao = StudioDao(this as AniflowDatabase2);
   late final StaffDao staffDao = StaffDao(this as AniflowDatabase2);
@@ -7746,6 +8001,7 @@ abstract class _$AniflowDatabase2 extends GeneratedDatabase {
   late final CharacterDao characterDao = CharacterDao(this as AniflowDatabase2);
   late final MediaListDao mediaListDao = MediaListDao(this as AniflowDatabase2);
   late final MediaDao mediaDao = MediaDao(this as AniflowDatabase2);
+  late final FavoriteDao favoriteDao = FavoriteDao(this as AniflowDatabase2);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7767,6 +8023,7 @@ abstract class _$AniflowDatabase2 extends GeneratedDatabase {
         mediaRelationCrossRefTable,
         mediaStaffPagingCrossRefTable,
         mediaExternalLinkTable,
-        categoryMediaPagingCrossRefTable
+        categoryMediaPagingCrossRefTable,
+        favoriteInfoTable
       ];
 }

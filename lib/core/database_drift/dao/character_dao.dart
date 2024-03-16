@@ -37,13 +37,13 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
     List<CharacterEntity> entities,
   ) async {
     await batch((batch) {
-      batch.insertAll(characterTable, entities, mode: InsertMode.insertOrIgnore);
+      batch.insertAll(characterTable, entities,
+          mode: InsertMode.insertOrIgnore);
     });
   }
 
-  Stream<CharacterAndRelatedMediaRelation> getCharacterAndRelatedMediaStream(
-    String id,
-  ) {
+  Stream<CharacterAndRelatedMediaRelation>
+      getCharacterAndRelatedMediaStreamById(String id) {
     final query = select(characterTable).join([
       leftOuterJoin(
           characterRelatedMediaCrossRefTable,
@@ -105,23 +105,12 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
       int perPage = AfConfig.defaultPerPageCount}) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    final query = select(characterTable).join([
-      innerJoin(
-          mediaCharacterPagingCrossRefTable,
-          characterTable.id
-              .equalsExp(mediaCharacterPagingCrossRefTable.characterId)),
-      leftOuterJoin(
-        characterVoiceActorCrossRefTable,
-        characterTable.id
-                .equalsExp(characterVoiceActorCrossRefTable.characterId) &
-            characterVoiceActorCrossRefTable.language.equals(staffLanguage),
-      ),
-      leftOuterJoin(staffTable,
-          characterVoiceActorCrossRefTable.staffId.equalsExp(staffTable.id)),
-    ])
-      ..where(mediaCharacterPagingCrossRefTable.mediaId.equals(mediaId))
-      ..orderBy([OrderingTerm.asc(mediaCharacterPagingCrossRefTable.timeStamp)])
-      ..limit(limit, offset: offset);
+
+    final query = _characterPageQuery(
+        staffLanguage: staffLanguage,
+        mediaId: mediaId,
+        limit: limit,
+        offset: offset);
 
     return (query.map(
       (row) => CharacterAndVoiceActorRelation(
@@ -132,6 +121,47 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
       ),
     )).get();
   }
+
+  Stream<List<CharacterAndVoiceActorRelation>> getCharacterListStream(
+      String mediaId,
+      {int count = 12,
+      required String staffLanguage}) {
+    final query = _characterPageQuery(
+        staffLanguage: staffLanguage, mediaId: mediaId, limit: count);
+
+    return (query.map(
+      (row) => CharacterAndVoiceActorRelation(
+        characterEntity: row.readTable(characterTable),
+        voiceActorEntity: row.readTable(staffTable),
+        staffLanguage: row.read(characterVoiceActorCrossRefTable.language),
+        characterRole: row.read(characterVoiceActorCrossRefTable.role),
+      ),
+    )).watch();
+  }
+
+  JoinedSelectStatement<HasResultSet, dynamic> _characterPageQuery(
+          {required staffLanguage,
+          required mediaId,
+          required limit,
+          offset = 0}) =>
+      select(characterTable).join([
+        innerJoin(
+            mediaCharacterPagingCrossRefTable,
+            characterTable.id
+                .equalsExp(mediaCharacterPagingCrossRefTable.characterId)),
+        leftOuterJoin(
+          characterVoiceActorCrossRefTable,
+          characterTable.id
+                  .equalsExp(characterVoiceActorCrossRefTable.characterId) &
+              characterVoiceActorCrossRefTable.language.equals(staffLanguage),
+        ),
+        leftOuterJoin(staffTable,
+            characterVoiceActorCrossRefTable.staffId.equalsExp(staffTable.id)),
+      ])
+        ..where(mediaCharacterPagingCrossRefTable.mediaId.equals(mediaId))
+        ..orderBy(
+            [OrderingTerm.asc(mediaCharacterPagingCrossRefTable.timeStamp)])
+        ..limit(limit, offset: offset);
 
   Future insertCharacterVoiceActorsOfMedia(
     String mediaId,
@@ -149,7 +179,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
         ),
       );
 
-      batch.insertAllOnConflictUpdate(
+      batch.insertAll(
         characterVoiceActorCrossRefTable,
         entities.where((e) => e.voiceActorEntity != null).map(
               (e) => CharacterVoiceActorCrossRefTableCompanion(
@@ -159,6 +189,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
                 language: Value.ofNullable(e.staffLanguage),
               ),
             ),
+        mode: InsertMode.insertOrReplace,
       );
 
       batch.insertAll(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aniflow/core/database_drift/dao/activity_dao.dart';
 import 'package:aniflow/core/database_drift/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database_drift/dao/character_dao.dart';
+import 'package:aniflow/core/database_drift/dao/favorite_dao.dart';
 import 'package:aniflow/core/database_drift/dao/media_dao.dart';
 import 'package:aniflow/core/database_drift/dao/media_list_dao.dart';
 import 'package:aniflow/core/database_drift/dao/staff_dao.dart';
@@ -15,6 +16,7 @@ import 'package:aniflow/core/database_drift/tables/category_media_paging_cross_r
 import 'package:aniflow/core/database_drift/tables/character_media_cross_reference_table.dart';
 import 'package:aniflow/core/database_drift/tables/character_table.dart';
 import 'package:aniflow/core/database_drift/tables/character_voice_actor_cross_reference_table.dart';
+import 'package:aniflow/core/database_drift/tables/favorite_info_table.dart';
 import 'package:aniflow/core/database_drift/tables/media_character_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database_drift/tables/media_external_link_table.dart';
 import 'package:aniflow/core/database_drift/tables/media_list_table.dart';
@@ -53,6 +55,7 @@ part 'aniflow_database.g.dart';
     MediaStaffPagingCrossRefTable,
     MediaExternalLinkTable,
     CategoryMediaPagingCrossRefTable,
+    FavoriteInfoTable,
   ],
   daos: [
     UserDao,
@@ -63,6 +66,7 @@ part 'aniflow_database.g.dart';
     CharacterDao,
     MediaListDao,
     MediaDao,
+    FavoriteDao,
   ],
 )
 class AniflowDatabase2 extends _$AniflowDatabase2 {

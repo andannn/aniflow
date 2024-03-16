@@ -19,6 +19,11 @@ class StaffDao extends DatabaseAccessor<AniflowDatabase2> with _$StaffDaoMixin {
       batch.insertAllOnConflictUpdate(staffTable, entities);
     });
   }
+  Future insertOrIgnoreStaffEntities(List<StaffEntity> entities) async {
+    await batch((batch) {
+      batch.insertAll(staffTable, entities, mode: InsertMode.insertOrIgnore);
+    });
+  }
 
   Future<StaffEntity?> getStaff(String id) {
     return (select(staffTable)..where((t) => t.id.equals(id)))

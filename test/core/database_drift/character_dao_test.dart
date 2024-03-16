@@ -61,7 +61,7 @@ void main() {
     ];
 
     test('insert_and_get_character_and_related_media', () async {
-      final stream = dao.getCharacterAndRelatedMediaStream('4');
+      final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
       await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 
@@ -74,7 +74,7 @@ void main() {
     });
 
     test('insert_and_get_related_media', () async {
-      final stream = dao.getCharacterAndRelatedMediaStream('4');
+      final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
       await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 
@@ -87,7 +87,7 @@ void main() {
     });
 
     test('insert_and_get_character', () async {
-      final stream = dao.getCharacterAndRelatedMediaStream('4');
+      final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
       await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 

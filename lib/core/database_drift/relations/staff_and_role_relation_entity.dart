@@ -7,12 +7,6 @@ class StaffAndRoleRelationEntity extends Equatable {
   final StaffEntity staff;
   final String role;
 
-  // factory StaffAndRoleRelation.fromJson(Map<String, dynamic> json) =>
-  //     StaffAndRoleRelation(
-  //       staff: StaffEntity.fromJson(json),
-  //       role: json[MediaStaffCrossRefColumns.staffRole],
-  //     );
-
   @override
   List<Object?> get props => [staff, role];
 }

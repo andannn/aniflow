@@ -31,16 +31,16 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase2>
     List<StudioEntity> entities,
   ) async {
     await batch((batch) async {
-      for (final entity in entities) {
-        batch.insert(studioTable, entity);
-        batch.insert(
-          studioMediaCrossRefTable,
-          StudioMediaCrossRefTableCompanion.insert(
-            studioId: entity.id,
+      batch.insertAll(studioTable, entities, mode: InsertMode.insertOrIgnore);
+      batch.insertAllOnConflictUpdate(
+        studioMediaCrossRefTable,
+        entities.map(
+          (e) => StudioMediaCrossRefTableCompanion.insert(
+            studioId: e.id,
             mediaId: mediaId,
           ),
-        );
-      }
+        ),
+      );
     });
   }
 

@@ -43,6 +43,7 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// repository for get anime list.
 abstract class MediaInformationRepository {
@@ -203,38 +204,42 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     required LoadType loadType,
     CancelToken? token,
   }) {
-    return Future.value();
-    // return LoadPageUtil.loadPage(
-    //   type: loadType,
-    //   onGetNetworkRes: (page, perPage) => dataSource.getStaffPage(
-    //     animeId: int.parse(animeId),
-    //     page: page,
-    //     perPage: perPage,
-    //     token: token,
-    //   ),
-    //   onClearDbCache: () async {},
-    //   onInsertEntityToDB: (entities) =>
-    //       staffDao.insertStaffRelationEntitiesOfMedia(animeId, entities),
-    //   onGetEntityFromDB: (page, perPage) => staffDao.getStaffOfMediaByPage(
-    //     animeId.toString(),
-    //     page: page,
-    //     perPage: perPage,
-    //   ),
-    //   mapDtoToEntity: (dto) => StaffAndRoleRelation(
-    //     staff: StaffEntity.fromStaffEdge(dto),
-    //     role: dto.role ?? '',
-    //   ),
-    //   mapEntityToModel: (entity) =>
-    //       StaffAndRoleModel.fromDatabaseEntity(entity),
-    // );
+    return LoadPageUtil.loadPage(
+      type: loadType,
+      onGetNetworkRes: (page, perPage) => dataSource.getStaffPage(
+        animeId: int.parse(animeId),
+        page: page,
+        perPage: perPage,
+        token: token,
+      ),
+      onClearDbCache: () async {},
+      onInsertEntityToDB: (entities) =>
+          staffDao.insertStaffRelationEntitiesOfMedia(animeId, entities),
+      onGetEntityFromDB: (page, perPage) => staffDao.getStaffOfMediaByPage(
+        animeId.toString(),
+        page: page,
+        perPage: perPage,
+      ),
+      mapDtoToEntity: (dto) => StaffAndRoleRelationEntity(
+        staff: dto.staffNode!.toEntity(),
+        role: dto.role ?? '',
+      ),
+      mapEntityToModel: (entity) => entity.toModel(),
+    );
   }
 
   @override
   Stream<MediaModel> getDetailAnimeInfoStream(String id) {
-    return Stream.empty();
-    // return mediaDao.getDetailMediaInfoStream(id).map(
-    //       (entity) => MediaModel.fromAnimeDetailInfo(entity),
-    //     );
+    final mediaStream = mediaDao.getMediaStream(id);
+    final characterStream = characterDao.getCharacterListStream(id,
+        staffLanguage: StaffLanguage.japanese.toJson());
+    return CombineLatestStream.combine2(
+      mediaStream,
+      characterStream,
+      (media, characterList) => media.toModel().copyWith(
+        characterAndVoiceActors: characterList.map((e) => e.toModel()).toList()
+      ),
+    );
   }
 
   @override
@@ -399,7 +404,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   @override
   Stream<CharacterModel> getDetailCharacterStream(String id) {
-    return characterDao.getCharacterAndRelatedMediaStream(id).map(
+    return characterDao.getCharacterAndRelatedMediaStreamById(id).map(
           (entity) => entity.toModel(),
         );
   }

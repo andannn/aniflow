@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database_drift/relations/staff_and_role_relation_entity.dart';
 
 extension StaffMapper on StaffEntity {
   StaffModel toModel() {
@@ -34,3 +36,12 @@ extension StaffMapper on StaffEntity {
     );
   }
 }
+extension StaffMapper2 on StaffAndRoleRelationEntity {
+  StaffAndRoleModel toModel() {
+    return StaffAndRoleModel(
+      role: role,
+      staff: staff.toModel(),
+    );
+  }
+}
+

@@ -22,6 +22,11 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase2> with _$MediaDaoMixin {
     return getMedias([id]).then((value) => value.first);
   }
 
+  Stream<MediaEntity> getMediaStream(String id) {
+    return (select(mediaTable)..where((tbl) => mediaTable.id.equals(id)))
+        .watchSingle();
+  }
+
   Future<List<MediaEntity>> getMedias(List<String> ids) {
     return (select(mediaTable)..where((tbl) => mediaTable.id.isIn(ids))).get();
   }

@@ -206,7 +206,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
     return mediaListDao
         .getAllMediaListOfUserStream(
           userId,
-          status.map((e) => e.toString()).toList(),
+          status.map((e) => e.toJson()).toList(),
           type.toJson(),
         )
         .map(

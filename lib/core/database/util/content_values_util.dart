@@ -1,4 +1,3 @@
-
 extension BoolEx on bool? {
   int? toInteger() {
     if (this == null) {
