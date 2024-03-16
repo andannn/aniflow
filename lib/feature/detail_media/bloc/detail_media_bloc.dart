@@ -88,7 +88,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   CancelToken? _networkActionCancelToken;
 
   void _init() async {
-    _detailAnimeSub = _mediaRepository.getDetailAnimeInfoStream(mediaId).listen(
+    _detailAnimeSub = _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
       (animeModel) {
         add(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },

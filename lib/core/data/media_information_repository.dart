@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/airing_schedule_mapper.dart';
 import 'package:aniflow/core/data/mappers/character_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_external_link_mapper.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/mappers/studio_mapper.dart';
@@ -67,7 +68,7 @@ abstract class MediaInformationRepository {
     CancelToken? token,
   });
 
-  Stream<MediaModel> getDetailAnimeInfoStream(String id);
+  Stream<MediaModel> getDetailMediaInfoStream(String id);
 
   Future<LoadResult<void>> startFetchDetailAnimeInfo(
       {required String id, CancelToken? token});
@@ -229,16 +230,28 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
   }
 
   @override
-  Stream<MediaModel> getDetailAnimeInfoStream(String id) {
+  Stream<MediaModel> getDetailMediaInfoStream(String id) {
     final mediaStream = mediaDao.getMediaStream(id);
     final characterStream = characterDao.getCharacterListStream(id,
         staffLanguage: StaffLanguage.japanese.toJson());
-    return CombineLatestStream.combine2(
+    final staffStream = staffDao.getStaffListStream(id);
+    final studioStream = studioDao.getStudioOfMediaStream(id);
+    final externalLinkStream = mediaDao.getAllExternalLinksOfMediaStream(id);
+    return CombineLatestStream.combine5(
       mediaStream,
       characterStream,
-      (media, characterList) => media.toModel().copyWith(
-        characterAndVoiceActors: characterList.map((e) => e.toModel()).toList()
-      ),
+      staffStream,
+      studioStream,
+      externalLinkStream,
+      (media, characterList, staffList, studioList, externalLinkList) => media
+          .toModel()
+          .copyWith(
+            characterAndVoiceActors:
+                characterList.map((e) => e.toModel()).toList(),
+            staffs: staffList.map((e) => e.toModel()).toList(),
+            studios: studioList.map((e) => e.toModel()).toList(),
+            externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
+          ),
     );
   }
 

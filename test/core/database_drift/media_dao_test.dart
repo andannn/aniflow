@@ -123,10 +123,15 @@ void main() {
     });
 
     test('external links', () async {
-      await dao.upsertMediaExternalLinks(dummyExternalLinks);
+      final stream =  dao.getAllExternalLinksOfMediaStream('5784');
 
-      final res = await dao.getAllExternalLinksOfMedia('5784');
-      expect(res, equals([dummyExternalLinks[0]]));
+      await dao.upsertMediaExternalLinks(dummyExternalLinks);
+      final expectation = expectLater(
+        stream,
+        emitsInOrder([[dummyExternalLinks[0]]]),
+      );
+
+      await expectation;
     });
 
     test('clear category media cross ref', () async {

@@ -19,6 +19,7 @@ class StaffDao extends DatabaseAccessor<AniflowDatabase2> with _$StaffDaoMixin {
       batch.insertAllOnConflictUpdate(staffTable, entities);
     });
   }
+
   Future insertOrIgnoreStaffEntities(List<StaffEntity> entities) async {
     await batch((batch) {
       batch.insertAll(staffTable, entities, mode: InsertMode.insertOrIgnore);
@@ -56,6 +57,24 @@ class StaffDao extends DatabaseAccessor<AniflowDatabase2> with _$StaffDaoMixin {
         mode: InsertMode.insertOrIgnore,
       );
     });
+  }
+
+  Stream<List<StaffAndRoleRelationEntity>> getStaffListStream(String mediaId,
+      {int count = 12}) {
+    final query = select(staffTable).join([
+      innerJoin(mediaStaffPagingCrossRefTable,
+          staffTable.id.equalsExp(mediaStaffPagingCrossRefTable.staffId))
+    ])
+      ..where(mediaStaffPagingCrossRefTable.mediaId.equals(mediaId))
+      ..orderBy([OrderingTerm.asc(mediaStaffPagingCrossRefTable.timeStamp)])
+      ..limit(count);
+
+    return (query.map(
+      (row) => StaffAndRoleRelationEntity(
+        staff: row.readTable(staffTable),
+        role: row.read(mediaStaffPagingCrossRefTable.staffRole)!,
+      ),
+    )).watch();
   }
 
   Future<List<StaffAndRoleRelationEntity>> getStaffOfMediaByPage(String mediaId,

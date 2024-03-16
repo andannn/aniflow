@@ -35,10 +35,15 @@ void main() {
           name: 'name',
           isAnimationStudio: true,
           isFavourite: false);
-      await dao.insertOrIgnoreStudioEntitiesOfMedia('1', [studioEntity]);
-      final studio = await dao.getStudioOfMedia('1');
+      final stream = dao.getStudioOfMediaStream('1');
 
-      expect(studio, equals([studioEntity]));
+      await dao.insertOrIgnoreStudioEntitiesOfMedia('1', [studioEntity]);
+      final expectation = expectLater(
+        stream,
+        emitsInOrder([[studioEntity]]),
+      );
+
+      await expectation;
     });
 
     test('stream emits a new studio when the name updates', () async {

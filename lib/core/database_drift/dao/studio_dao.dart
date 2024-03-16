@@ -44,7 +44,7 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase2>
     });
   }
 
-  Future<List<StudioEntity>> getStudioOfMedia(String mediaId) {
+  Stream<List<StudioEntity>> getStudioOfMediaStream(String mediaId) {
     final query = select(studioTable).join(
       [
         innerJoin(studioMediaCrossRefTable,
@@ -55,6 +55,6 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase2>
             studioTable.isAnimationStudio.equals(true),
       );
 
-    return (query.map((row) => row.readTable(studioTable))).get();
+    return (query.map((row) => row.readTable(studioTable))).watch();
   }
 }

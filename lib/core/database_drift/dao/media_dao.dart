@@ -86,12 +86,12 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase2> with _$MediaDaoMixin {
     });
   }
 
-  Future<List<MediaExternalLinkEntity>> getAllExternalLinksOfMedia(
+  Stream<List<MediaExternalLinkEntity>> getAllExternalLinksOfMediaStream(
     String mediaId,
   ) {
     return (select(mediaExternalLinkTable)
           ..where((tbl) => tbl.mediaId.equals(mediaId)))
-        .get();
+        .watch();
   }
 
   Future<List<MediaEntity>> getMediaByPage(String category,
