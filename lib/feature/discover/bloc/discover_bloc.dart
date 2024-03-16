@@ -4,6 +4,7 @@ import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
 import 'package:aniflow/core/common/model/anime_category.dart';
 import 'package:aniflow/core/common/model/anime_season.dart';
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/collection_util.dart';

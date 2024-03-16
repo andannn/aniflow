@@ -1,8 +1,7 @@
-import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_format_statics_dto.freezed.dart';
-
 part 'user_format_statics_dto.g.dart';
 
 @freezed

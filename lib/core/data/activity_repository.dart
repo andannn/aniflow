@@ -7,11 +7,11 @@ import 'package:aniflow/core/common/model/extension/activity_type_extension.dart
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/mappers/activity_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/activity_dao.dart';
-import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
+import 'package:aniflow/core/database/relations/activity_and_user_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
@@ -69,7 +69,7 @@ abstract class ActivityRepository {
 
 class ActivityRepositoryImpl implements ActivityRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
-  final ActivityDao activityDao = AniflowDatabase().getActivityDao();
+  final activityDao = AniflowDatabase2().activityDao;
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   @override
@@ -118,11 +118,11 @@ class ActivityRepositoryImpl implements ActivityRepository {
       },
       onClearDbCache: () => activityDao.clearActivityEntities(categoryKey),
       onInsertEntityToDB: (entities) =>
-          activityDao.upsertActivityEntities(entities, categoryKey),
+          activityDao.upsertActivityEntitiesWithCategory(entities, categoryKey),
       onGetEntityFromDB: (page, perPage) =>
-          activityDao.getActivityEntities(page, perPage, categoryKey),
+          activityDao.getActivityEntitiesByPage(categoryKey, page, perPage),
       mapDtoToEntity: (dto) => ActivityAndUserRelation.fromDto(dto),
-      mapEntityToModel: (entity) => ActivityModel.fromEntity(entity),
+      mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
@@ -154,7 +154,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       onInsertToDB: (List<AniActivity> dto) async {
         final entities =
             dto.map((e) => ActivityAndUserRelation.fromDto(e)).toList();
-        await activityDao.insertOrIgnoreActivityEntities(entities);
+        await activityDao.upsertActivityEntities(entities);
       },
       mapDtoToModel: ActivityModel.fromDto,
     );
@@ -179,13 +179,13 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
   @override
   Stream<ActivityStatus?> getActivityStatusStream(String id) =>
-      activityDao.getActivityStream(id).map(
+      activityDao.getActivityStatusStream(id).map(
             (entity) => entity == null
                 ? null
                 : ActivityStatus(
-                    likeCount: entity.likeCount,
-                    replyCount: entity.replyCount,
-                    isLiked: entity.isLiked,
+                    likeCount: entity.$1,
+                    replyCount: entity.$2,
+                    isLiked: entity.$3,
                   ),
           );
 
@@ -200,13 +200,15 @@ class ActivityRepositoryImpl implements ActivityRepository {
     return NetworkUtil.postMutationAndRevertWhenException(
       initialModel: activityStatus,
       onModifyModel: (status) {
-        final likeCount = activityStatus.likeCount;
-        final newLike = !activityStatus.isLiked;
-        return activityStatus.copyWith(
-          isLiked: newLike,
-          likeCount: newLike
+        final likeCount = activityStatus.$1;
+        final replyCount = activityStatus.$2;
+        final newLike = !activityStatus.$3;
+        return (
+          newLike
               ? (likeCount + 1).clamp(0, 9999)
               : (likeCount - 1).clamp(0, 9999),
+          replyCount,
+          newLike,
         );
       },
       onSaveLocal: (status) => activityDao.updateActivityStatus(id, status),
@@ -239,7 +241,6 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Future<ActivityModel> getActivityModel(String activityId) async {
     final entity = await activityDao.getActivity(activityId);
-
-    return ActivityModel.fromEntity(entity);
+    return entity.toModel();
   }
 }

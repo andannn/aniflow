@@ -4,8 +4,13 @@ import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/mappers/airing_schedule_mapper.dart';
+import 'package:aniflow/core/data/mappers/character_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_external_link_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_mapper.dart';
+import 'package:aniflow/core/data/mappers/staff_mapper.dart';
+import 'package:aniflow/core/data/mappers/studio_mapper.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
-import 'package:aniflow/core/data/model/airing_schedule_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -14,16 +19,17 @@ import 'package:aniflow/core/data/model/staff_character_and_media_connection.dar
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
-import 'package:aniflow/core/database/model/character_entity.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/media_external_link_entity.dart';
-import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
-import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
-import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
-import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
-import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:aniflow/core/database/model/studio_entity.dart';
+import 'package:aniflow/core/database/mappers/airing_schedule_mapper.dart';
+import 'package:aniflow/core/database/mappers/character_mapper.dart';
+import 'package:aniflow/core/database/mappers/media_external_link_mapper.dart';
+import 'package:aniflow/core/database/mappers/media_mapper.dart';
+import 'package:aniflow/core/database/mappers/staff_mapper.dart';
+import 'package:aniflow/core/database/mappers/studio_mapper.dart';
+import 'package:aniflow/core/database/relations/airing_schedule_and_media_relation.dart';
+import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
+import 'package:aniflow/core/database/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/relations/media_and_relation_type_entity.dart';
+import 'package:aniflow/core/database/relations/staff_and_role_relation_entity.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/airing_schedules_query_graphql.dart.dart';
 import 'package:aniflow/core/network/api/media_page_query_graphql.dart';
@@ -38,7 +44,7 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// repository for get anime list.
 abstract class MediaInformationRepository {
@@ -62,7 +68,7 @@ abstract class MediaInformationRepository {
     CancelToken? token,
   });
 
-  Stream<MediaModel> getDetailAnimeInfoStream(String id);
+  Stream<MediaModel> getDetailMediaInfoStream(String id);
 
   Future<LoadResult<void>> startFetchDetailAnimeInfo(
       {required String id, CancelToken? token});
@@ -116,11 +122,11 @@ abstract class MediaInformationRepository {
 class MediaInformationRepositoryImpl extends MediaInformationRepository {
   final AniListDataSource dataSource = AniListDataSource();
 
-  final mediaDao = AniflowDatabase().getMediaDao();
-  final characterDao = AniflowDatabase().getCharacterDao();
-  final staffDao = AniflowDatabase().getStaffDao();
-  final studioDao = AniflowDatabase().getStudioDao();
-  final airingScheduleDao = AniflowDatabase().getAiringScheduleDao();
+  final mediaDao = AniflowDatabase2().mediaDao;
+  final characterDao = AniflowDatabase2().characterDao;
+  final staffDao = AniflowDatabase2().staffDao;
+  final studioDao = AniflowDatabase2().studioDao;
+  final airingScheduleDao = AniflowDatabase2().airingSchedulesDao;
 
   final AniFlowPreferences preferences = AniFlowPreferences();
 
@@ -142,13 +148,16 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
             preferences.seasonYear.value,
             preferences.aniListSettings.value.displayAdultContent),
       ),
-      onGetEntityFromDB: (page, perPage) =>
-          mediaDao.getMediaByPage(category, page: page, perPage: perPage),
+      onGetEntityFromDB: (page, perPage) => mediaDao.getMediaByPage(
+          category.getContentValue(),
+          page: page,
+          perPage: perPage),
       onInsertEntityToDB: (entities) => mediaDao
-          .insertOrIgnoreMediaByAnimeCategory(category, animeList: entities),
-      onClearDbCache: () => mediaDao.clearAnimeCategoryCrossRef(category),
-      mapDtoToEntity: (dto) => MediaEntity.fromNetworkModel(dto),
-      mapEntityToModel: (entity) => MediaModel.fromDatabaseModel(entity),
+          .upsertMediaByCategory(category.getContentValue(), medias: entities),
+      onClearDbCache: () =>
+          mediaDao.clearCategoryMediaCrossRef(category.getContentValue()),
+      mapDtoToEntity: (dto) => dto.toEntity(),
+      mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
@@ -169,24 +178,24 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         perPage: perPage,
         token: token,
       ),
-      onClearDbCache: () => mediaDao.clearMediaCharacterCrossRef(animeId),
+      onClearDbCache: () => characterDao.clearMediaCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) =>
-          mediaDao.insertCharacterVoiceActorsOfMedia(
-              mediaId: int.parse(animeId), entities: entities),
-      onGetEntityFromDB: (page, perPage) => mediaDao.getCharacterOfMediaByPage(
+          characterDao.insertCharacterVoiceActorsOfMedia(animeId, entities),
+      onGetEntityFromDB: (page, perPage) =>
+          characterDao.getCharacterOfMediaByPage(
         animeId.toString(),
-        staffLanguage: language,
+        staffLanguage: language.toJson(),
         page: page,
         perPage: perPage,
       ),
-      mapDtoToEntity: (dto) => CharacterAndVoiceActorRelationEntity(
-        characterEntity: CharacterEntity.fromNetworkModel(dto),
-        voiceActorEntity: StaffEntity.fromVoiceActorDto(dto),
-        role: dto.role,
-        language: language,
+      mapDtoToEntity: (dto) => CharacterAndVoiceActorRelation(
+        characterEntity: dto.characterNode!.toEntity(),
+        voiceActorEntity: dto.voiceActors.firstOrNull?.toEntity(),
+        characterRole: dto.role?.toJson(),
+        staffLanguage: language.toJson(),
       ),
       mapEntityToModel: (entity) =>
-          CharacterAndVoiceActorModel.fromDatabaseEntity(entity),
+          CharacterAndVoiceActorRelation.fromDatabaseEntity(entity),
     );
   }
 
@@ -206,27 +215,44 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       ),
       onClearDbCache: () async {},
       onInsertEntityToDB: (entities) =>
-          mediaDao.insertStaffRelationEntitiesOfMedia(
-              mediaId: int.parse(animeId), entities: entities),
-      onGetEntityFromDB: (page, perPage) => mediaDao.getStaffOfMediaByPage(
+          staffDao.insertStaffRelationEntitiesOfMedia(animeId, entities),
+      onGetEntityFromDB: (page, perPage) => staffDao.getStaffOfMediaByPage(
         animeId.toString(),
         page: page,
         perPage: perPage,
       ),
-      mapDtoToEntity: (dto) => StaffAndRoleRelation(
-        staff: StaffEntity.fromStaffEdge(dto),
+      mapDtoToEntity: (dto) => StaffAndRoleRelationEntity(
+        staff: dto.staffNode!.toEntity(),
         role: dto.role ?? '',
       ),
-      mapEntityToModel: (entity) =>
-          StaffAndRoleModel.fromDatabaseEntity(entity),
+      mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
   @override
-  Stream<MediaModel> getDetailAnimeInfoStream(String id) {
-    return mediaDao.getDetailMediaInfoStream(id).map(
-          (entity) => MediaModel.fromAnimeDetailInfo(entity),
-        );
+  Stream<MediaModel> getDetailMediaInfoStream(String id) {
+    final mediaStream = mediaDao.getMediaStream(id);
+    final characterStream = characterDao.getCharacterListStream(id,
+        staffLanguage: StaffLanguage.japanese.toJson());
+    final staffStream = staffDao.getStaffListStream(id);
+    final studioStream = studioDao.getStudioOfMediaStream(id);
+    final externalLinkStream = mediaDao.getAllExternalLinksOfMediaStream(id);
+    return CombineLatestStream.combine5(
+      mediaStream,
+      characterStream,
+      staffStream,
+      studioStream,
+      externalLinkStream,
+      (media, characterList, staffList, studioList, externalLinkList) => media
+          .toModel()
+          .copyWith(
+            characterAndVoiceActors:
+                characterList.map((e) => e.toModel()).toList(),
+            staffs: staffList.map((e) => e.toModel()).toList(),
+            studios: studioList.map((e) => e.toModel()).toList(),
+            externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
+          ),
+    );
   }
 
   @override
@@ -238,54 +264,50 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           await dataSource.getNetworkAnime(id: int.parse(id), token: token);
 
       /// insert anime info to db.
-      await mediaDao.insertMedia([MediaEntity.fromNetworkModel(networkResult)],
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      await mediaDao.upsertMedia([networkResult.toEntity()]);
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];
       if (characters.isNotEmpty) {
-        await mediaDao.clearMediaCharacterCrossRef(id);
+        await characterDao.clearMediaCharacterCrossRef(id);
 
         /// inset character entities to db.
-        final List<CharacterAndVoiceActorRelationEntity>
-            characterAndVoiceActors = characters
+        final List<CharacterAndVoiceActorRelation> characterAndVoiceActors =
+            characters
                 .map(
-                  (e) => CharacterAndVoiceActorRelationEntity(
-                      characterEntity: CharacterEntity.fromNetworkModel(e),
-                      voiceActorEntity: StaffEntity.fromVoiceActorDto(e),
-                      role: e.role,
+                  (e) => CharacterAndVoiceActorRelation(
+                      characterEntity: e.characterNode!.toEntity(),
+                      voiceActorEntity: e.voiceActors.firstOrNull?.toEntity(),
+                      characterRole: e.role?.toJson(),
                       // only fetch japanese voice actor in detail page.
-                      language: StaffLanguage.japanese),
+                      staffLanguage: StaffLanguage.japanese.toJson()),
                 )
                 .toList();
 
-        await mediaDao.insertCharacterVoiceActorsOfMedia(
-            mediaId: int.parse(id), entities: characterAndVoiceActors);
+        await characterDao.insertCharacterVoiceActorsOfMedia(
+            id, characterAndVoiceActors);
       }
 
       final List<StaffEdge> staffs = networkResult.staff?.edges ?? [];
       if (staffs.isNotEmpty) {
         /// inset staff entities to db.
-        final List<StaffAndRoleRelation> entities = staffs
+        final List<StaffAndRoleRelationEntity> entities = staffs
             .map(
-              (e) => StaffAndRoleRelation(
-                staff: StaffEntity.fromStaffEdge(e),
+              (e) => StaffAndRoleRelationEntity(
+                staff: e.staffNode!.toEntity(),
                 role: e.role ?? '',
               ),
             )
             .toList();
-        await mediaDao.insertStaffRelationEntitiesOfMedia(
-            mediaId: int.parse(id), entities: entities);
+        await staffDao.insertStaffRelationEntitiesOfMedia(id, entities);
       }
 
       final List<StudioDto> studios = networkResult.studios?.nodes ?? [];
 
       /// insert studio info to database.
       if (studios.isNotEmpty) {
-        final studioEntities =
-            studios.map((e) => StudioEntity.fromDto(e)).toList();
-        await studioDao.insertStudioEntitiesOfMedia(
-            mediaId: id, entities: studioEntities);
+        final studioEntities = studios.map((e) => e.toEntity()).toList();
+        await studioDao.insertOrIgnoreStudioEntitiesOfMedia(id, studioEntities);
       }
 
       final List<MediaExternalLinkDto> externalLinks =
@@ -293,19 +315,20 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
       /// insert external links to database.
       if (externalLinks.isNotEmpty) {
-        final linkEntities = externalLinks
-            .map((e) => MediaExternalLinkEntity.fromDto(e, id))
-            .toList();
-        await mediaDao.upsertMediaExternalLinks(externalLinks: linkEntities);
+        final linkEntities = externalLinks.map((e) => e.toEntity(id)).toList();
+        await mediaDao.upsertMediaExternalLinks(linkEntities);
       }
 
       final MediaConnection? relations = networkResult.relations;
 
       /// insert media relations to database.
       if (relations != null) {
-        final relationEntity =
-            MediaRelationEntitiesWithOwnerId.fromDto(id, relations);
-        await mediaDao.upsertMediaRelations(relationEntity: relationEntity);
+        await mediaDao.upsertMediaRelations(
+          id,
+          relations.edges
+              .map((e) => MediaAndRelationTypeEntity.fromDto(e))
+              .toList(),
+        );
       }
 
       return LoadSuccess(data: null);
@@ -324,8 +347,8 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     return entities
         .map(
           (e) => AiringScheduleAndAnimeModel(
-            airingSchedule: AiringScheduleModel.fromEntity(e.airingSchedule),
-            animeModel: MediaModel.fromDatabaseModel(e.mediaEntity),
+            airingSchedule: e.airingSchedule.toModel(),
+            animeModel: e.mediaEntity.toModel(),
           ),
         )
         .toList();
@@ -350,17 +373,15 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       );
 
       /// insert airing schedule data to db.
-      final scheduleEntities =
-          networkResults.map((e) => AiringSchedulesEntity.fromDto(e)).toList();
       await airingScheduleDao.upsertAiringSchedules(
-          schedules: scheduleEntities);
-
-      /// insert anime data to db if not exist.
-      final animeEntities = networkResults
-          .map((e) => MediaEntity.fromNetworkModel(e.media!))
-          .toList();
-      await mediaDao.insertMedia(animeEntities,
-          conflictAlgorithm: ConflictAlgorithm.ignore);
+        networkResults
+            .map(
+              (e) => AiringScheduleAndMediaRelation(
+                  airingSchedule: e.toEntity(),
+                  mediaEntity: e.media!.toEntity()),
+            )
+            .toList(),
+      );
 
       return LoadSuccess(data: null);
     } on NetworkException catch (exception) {
@@ -377,13 +398,12 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           await dataSource.getCharacterById(characterId: id, token: token);
 
       /// insert data to database.
-      final characterEntity = CharacterEntity.fromDto(characterDto);
-      final mediaEntityList = characterDto.media?.edges
-              .map((e) => MediaEntity.fromNetworkModel(e.media!))
-              .toList() ??
-          [];
-      await characterDao.insertCharacterAndRelatedMedia(
-        CharacterAndRelatedMedia(
+      final characterEntity = characterDto.toEntity();
+      final mediaEntityList =
+          characterDto.media?.edges.map((e) => e.media!.toEntity()).toList() ??
+              [];
+      await characterDao.upsertCharacterAndRelatedMedia(
+        CharacterAndRelatedMediaRelation(
           character: characterEntity,
           medias: mediaEntityList,
         ),
@@ -397,17 +417,14 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   @override
   Stream<CharacterModel> getDetailCharacterStream(String id) {
-    return characterDao.getCharacterStream(id).map(
-          (entity) => CharacterModel.fromDetail(entity),
+    return characterDao.getCharacterAndRelatedMediaStreamById(id).map(
+          (entity) => entity.toModel(),
         );
   }
 
   @override
   Stream<StaffModel?> getDetailStaffStream(String id) {
-    return staffDao.getStaffByIdStream(id).map(
-          (entity) =>
-              entity != null ? StaffModel.fromEntity(entity) : null,
-        );
+    return staffDao.getStaffStream(id).map((entity) => entity?.toModel());
   }
 
   @override
@@ -418,9 +435,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       final staffDto = await dataSource.getStaffById(staffId: id, token: token);
 
       /// insert data to database.
-      final staffEntity = StaffEntity.fromStaffDto(staffDto);
+      final staffEntity = staffDto.toEntity();
 
-      await staffDao.insertStaffEntities([staffEntity]);
+      await staffDao.upsertStaffEntities([staffEntity]);
 
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
@@ -449,29 +466,26 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         final characters = dtoList
             .map((e) => e.characters.firstOrNull)
             .whereNotNull()
-            .map((e) => CharacterEntity.fromDto(e))
+            .map((e) => e.toEntity())
             .toList();
 
-        await characterDao.insertCharacters(
-            entities: characters, conflictAlgorithm: ConflictAlgorithm.ignore);
+        await characterDao.insertOrIgnoreCharacters(characters);
 
         final medias = dtoList
             .map((e) => e.media)
             .whereNotNull()
-            .map((e) => MediaEntity.fromNetworkModel(e))
+            .map((e) => e.toEntity())
             .toList();
 
-        await mediaDao.insertMedia(medias,
-            conflictAlgorithm: ConflictAlgorithm.ignore);
+        await mediaDao.insertOrIgnoreMedia(medias);
       },
       mapDtoToModel: CharacterAndMediaConnection.fromDto,
     );
   }
 
   @override
-  Stream<StudioModel?> getStudioStream(String id) => studioDao
-      .getStudioStream(id)
-      .map((entity) => entity != null ? StudioModel.fromEntity(entity) : null);
+  Stream<StudioModel?> getStudioStream(String id) =>
+      studioDao.getStudioStream(id).map((entity) => entity?.toModel());
 
   @override
   Future<LoadResult<void>> startFetchDetailStudioInfo(
@@ -482,8 +496,8 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
           await dataSource.getStudioById(studioId: id, token: token);
 
       /// insert data to database.
-      final studioEntity = StudioEntity.fromDto(studioDto);
-      await studioDao.insertStudioEntities(entities: [studioEntity]);
+      final studioEntity = studioDto.toEntity();
+      await studioDao.upsertStudioEntities([studioEntity]);
 
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
@@ -509,14 +523,12 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         final medias = dtoList
             .map((e) => e.media)
             .whereNotNull()
-            .map((e) => MediaEntity.fromNetworkModel(e))
+            .map((e) => e.toEntity())
             .toList();
 
-        await mediaDao.insertMedia(medias,
-            conflictAlgorithm: ConflictAlgorithm.ignore);
+        await mediaDao.insertOrIgnoreMedia(medias);
       },
       mapDtoToModel: (edge) => MediaModel.fromDto(edge.media!),
     );
   }
-
 }

@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-@JsonEnum()
+part 'media_status.g.dart';
+
+@JsonEnum(alwaysCreate: true)
 enum MediaStatus {
   /// Has completed and is no longer being released
   @JsonValue('FINISHED')
@@ -26,4 +28,9 @@ enum MediaStatus {
   final String sqlTypeString;
 
   const MediaStatus(this.sqlTypeString);
+
+  String toJson() => _$MediaStatusEnumMap[this]!;
+
+  static MediaStatus? fromJson(String? json) =>
+      _$MediaStatusEnumMap.map((key, value) => MapEntry(value, key))[json];
 }

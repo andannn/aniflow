@@ -3,6 +3,7 @@
 import 'package:aniflow/core/common/model/user_statics_sort.dart';
 import 'package:aniflow/core/common/model/user_stats_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -22,7 +23,7 @@ abstract class UserStatisticsRepository {
 
 class UserStatisticsRepositoryImpl extends UserStatisticsRepository {
   final dataSource = AniListDataSource();
-  final mediaDao = AniflowDatabase().getMediaDao();
+  final mediaDao = AniflowDatabase2().mediaDao;
 
   @override
   Future<LoadResult<List<UserStatisticsModel>>> getUserStatics(
@@ -48,7 +49,7 @@ class UserStatisticsRepositoryImpl extends UserStatisticsRepository {
       final cachedMediaEntities = await mediaDao.getMedias(ids);
       if (cachedMediaEntities.length == ids.length) {
         final result = cachedMediaEntities
-            .map((e) => MediaModel.fromDatabaseModel(e))
+            .map((e) => e.toModel())
             .toList();
         return LoadSuccess(data: result);
       }

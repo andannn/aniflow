@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/ani_list_settings.dart';
+import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/auth_repository.dart';

@@ -1,157 +1,215 @@
-// ignore_for_file: lines_longer_than_80_chars
-
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/model/character_entity.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/relations/character_and_related_media.dart';
+import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
+import 'package:aniflow/core/database/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/tables/character_media_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/character_table.dart';
+import 'package:aniflow/core/database/tables/character_voice_actor_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/media_character_paging_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/media_table.dart';
+import 'package:aniflow/core/database/tables/staff_table.dart';
 import 'package:collection/collection.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.characterTable]
-mixin CharacterColumns {
-  static const String id = 'character_id';
-  static const String largeImage = 'character_large_image';
-  static const String mediumImage = 'character_medium_image';
-  static const String firstName = 'character_first_name';
-  static const String middleName = 'character_middle_name';
-  static const String lastName = 'character_last_name';
-  static const String fullName = 'character_full_name';
-  static const String nativeName = 'character_native_name';
-  static const String description = 'character_description';
-  static const String gender = 'character_gender';
-  static const String dateOfBirth = 'character_dateOfBirth';
-  static const String age = 'character_age';
-  static const String bloodType = 'character_blood_type';
-  static const String isFavourite = 'character_is_favourite';
-  static const String siteUrl = 'character_site_url';
-  static const String favourites = 'character_favourites';
+part 'character_dao.g.dart';
 
-  // old column name
-  static const String image = 'character_image';
-}
+@DriftAccessor(tables: [
+  CharacterTable,
+  CharacterRelatedMediaCrossRefTable,
+  CharacterVoiceActorCrossRefTable,
+  MediaTable,
+  MediaCharacterPagingCrossRefTable,
+  StaffTable,
+])
+class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
+    with _$CharacterDaoMixin {
+  CharacterDao(super.db);
 
-/// [Tables.characterAndRelatedMediaCrossRef]
-mixin CharacterAndRelatedMediaCrossRef {
-  static const String characterId =
-      'character_and_media_relation_cross_ref_character_id';
-  static const String mediaId =
-      'character_and_media_relation_cross_ref_media_id';
-}
-
-abstract class CharacterDao {
-  Future insertCharacters({
-    required List<CharacterEntity> entities,
-    required ConflictAlgorithm conflictAlgorithm,
-  });
-
-  Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity);
-
-  Future<CharacterEntity> getCharacter(String id);
-
-  Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(String id);
-
-  Stream<CharacterAndRelatedMedia> getCharacterStream(String id);
-}
-
-class CharacterDaoImpl extends CharacterDao {
-  final AniflowDatabase database;
-
-  CharacterDaoImpl(this.database);
-
-  @override
-  Future insertCharacterAndRelatedMedia(CharacterAndRelatedMedia entity) async {
-    final batch = database.aniflowDB.batch();
-    batch.insert(
-      Tables.characterTable,
-      entity.character.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-
-    for (final media in entity.medias) {
-      batch.insert(
-        Tables.mediaTable,
-        media.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-      batch.insert(
-        Tables.characterAndRelatedMediaCrossRef,
-        {
-          CharacterAndRelatedMediaCrossRef.characterId: entity.character.id,
-          CharacterAndRelatedMediaCrossRef.mediaId: media.id,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.characterTable,
-      Tables.mediaTable,
-      Tables.characterAndRelatedMediaCrossRef,
-    ]);
-  }
-
-  @override
-  Future insertCharacters({
-    required List<CharacterEntity> entities,
-    required ConflictAlgorithm conflictAlgorithm,
-  }) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.characterTable,
-        entity.toJson(),
-        conflictAlgorithm: conflictAlgorithm,
-      );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.characterTable,
-    ]);
-  }
-
-  @override
-  Future<CharacterAndRelatedMedia> getCharacterAndRelatedMedia(
-    String id,
+  Future upsertCharacters(
+    List<CharacterEntity> entities,
   ) async {
-    final sql = 'select * from ${Tables.characterTable} as c \n'
-        'left join ${Tables.characterAndRelatedMediaCrossRef} as cm \n'
-        '  on cm.${CharacterAndRelatedMediaCrossRef.characterId} = c.${CharacterColumns.id} \n'
-        'left join ${Tables.mediaTable} as m \n'
-        '  on cm.${CharacterAndRelatedMediaCrossRef.mediaId} = m.${MediaTableColumns.id} \n'
-        'where c.${CharacterColumns.id} = $id \n';
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(characterTable, entities);
+    });
+  }
 
-    List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
+  Future insertOrIgnoreCharacters(
+    List<CharacterEntity> entities,
+  ) async {
+    await batch((batch) {
+      batch.insertAll(characterTable, entities,
+          mode: InsertMode.insertOrIgnore);
+    });
+  }
 
-    return CharacterAndRelatedMedia(
-      character: CharacterEntity.fromJson(results.first),
-      medias: results
-          .map((e) => MediaEntity.fromJson(e).checkValidOrNull())
-          .whereNotNull()
-          .toList(),
+  Stream<CharacterAndRelatedMediaRelation>
+      getCharacterAndRelatedMediaStreamById(String id) {
+    final query = select(characterTable).join([
+      leftOuterJoin(
+          characterRelatedMediaCrossRefTable,
+          characterRelatedMediaCrossRefTable.characterId
+              .equalsExp(characterTable.id)),
+      leftOuterJoin(mediaTable,
+          characterRelatedMediaCrossRefTable.mediaId.equalsExp(mediaTable.id)),
+    ])
+      ..where(characterTable.id.equals(id));
+
+    final streamRecord = query
+        .map(
+          (row) =>
+              (row.readTable(characterTable), row.readTableOrNull(mediaTable)),
+        )
+        .watch();
+
+    return streamRecord.map(
+      (record) => CharacterAndRelatedMediaRelation(
+        character: record.first.$1,
+        medias: record.map((e) => e.$2).whereNotNull().toList(),
+      ),
     );
   }
 
-  @override
-  Future<CharacterEntity> getCharacter(String id) async {
-    final sql = 'select * from ${Tables.characterTable} as c \n'
-        'where c.${CharacterColumns.id} = $id \n';
+  /// upsert character table and ignore media table if conflict.
+  Future upsertCharacterAndRelatedMedia(
+      CharacterAndRelatedMediaRelation entity) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
 
-    List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
+      batch.insertAll(
+        mediaTable,
+        entity.medias,
+        mode: InsertMode.insertOrIgnore,
+      );
 
-    return CharacterEntity.fromJson(results.first);
+      batch.insertAll(
+        characterRelatedMediaCrossRefTable,
+        entity.medias.map(
+          (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
+            characterId: entity.character.id,
+            mediaId: media.id,
+          ),
+        ),
+        mode: InsertMode.replace,
+      );
+    });
   }
 
-  @override
-  Stream<CharacterAndRelatedMedia> getCharacterStream(String id) {
-    return database.createStream(
-      [
-        Tables.characterTable,
-        Tables.mediaTable,
-      ],
-      () => getCharacterAndRelatedMedia(id),
-    );
+  Future<CharacterEntity> getCharacter(String id) {
+    return (select(characterTable)..where((t) => t.id.equals(id))).getSingle();
+  }
+
+  Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
+      String mediaId,
+      {required String staffLanguage,
+      required int page,
+      int perPage = AfConfig.defaultPerPageCount}) {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+
+    final query = _characterPageQuery(
+        staffLanguage: staffLanguage,
+        mediaId: mediaId,
+        limit: limit,
+        offset: offset);
+
+    return (query.map(
+      (row) => CharacterAndVoiceActorRelation(
+        characterEntity: row.readTable(characterTable),
+        voiceActorEntity: row.readTable(staffTable),
+        staffLanguage: row.read(characterVoiceActorCrossRefTable.language),
+        characterRole: row.read(characterVoiceActorCrossRefTable.role),
+      ),
+    )).get();
+  }
+
+  Stream<List<CharacterAndVoiceActorRelation>> getCharacterListStream(
+      String mediaId,
+      {int count = 12,
+      required String staffLanguage}) {
+    final query = _characterPageQuery(
+        staffLanguage: staffLanguage, mediaId: mediaId, limit: count);
+
+    return (query.map(
+      (row) => CharacterAndVoiceActorRelation(
+        characterEntity: row.readTable(characterTable),
+        voiceActorEntity: row.readTable(staffTable),
+        staffLanguage: row.read(characterVoiceActorCrossRefTable.language),
+        characterRole: row.read(characterVoiceActorCrossRefTable.role),
+      ),
+    )).watch();
+  }
+
+  JoinedSelectStatement<HasResultSet, dynamic> _characterPageQuery(
+          {required staffLanguage,
+          required mediaId,
+          required limit,
+          offset = 0}) =>
+      select(characterTable).join([
+        innerJoin(
+            mediaCharacterPagingCrossRefTable,
+            characterTable.id
+                .equalsExp(mediaCharacterPagingCrossRefTable.characterId)),
+        leftOuterJoin(
+          characterVoiceActorCrossRefTable,
+          characterTable.id
+                  .equalsExp(characterVoiceActorCrossRefTable.characterId) &
+              characterVoiceActorCrossRefTable.language.equals(staffLanguage),
+        ),
+        leftOuterJoin(staffTable,
+            characterVoiceActorCrossRefTable.staffId.equalsExp(staffTable.id)),
+      ])
+        ..where(mediaCharacterPagingCrossRefTable.mediaId.equals(mediaId))
+        ..orderBy(
+            [OrderingTerm.asc(mediaCharacterPagingCrossRefTable.timeStamp)])
+        ..limit(limit, offset: offset);
+
+  Future insertCharacterVoiceActorsOfMedia(
+    String mediaId,
+    List<CharacterAndVoiceActorRelation> entities,
+  ) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        mediaCharacterPagingCrossRefTable,
+        entities.map(
+          (e) => MediaCharacterPagingCrossRefTableCompanion(
+            mediaId: Value(mediaId),
+            characterId: Value(e.characterEntity.id),
+            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+          ),
+        ),
+      );
+
+      batch.insertAll(
+        characterVoiceActorCrossRefTable,
+        entities.where((e) => e.voiceActorEntity != null).map(
+              (e) => CharacterVoiceActorCrossRefTableCompanion(
+                characterId: Value(e.characterEntity.id),
+                staffId: Value(e.voiceActorEntity!.id),
+                role: Value.ofNullable(e.characterRole),
+                language: Value.ofNullable(e.staffLanguage),
+              ),
+            ),
+        mode: InsertMode.insertOrReplace,
+      );
+
+      batch.insertAll(
+        characterTable,
+        entities.map((e) => e.characterEntity),
+        mode: InsertMode.insertOrIgnore,
+      );
+
+      batch.insertAll(
+        staffTable,
+        entities.map((e) => e.voiceActorEntity).whereNotNull(),
+        mode: InsertMode.insertOrIgnore,
+      );
+    });
+  }
+
+  Future clearMediaCharacterCrossRef(String mediaId) {
+    return (delete(mediaCharacterPagingCrossRefTable)
+          ..where((tbl) =>
+              mediaCharacterPagingCrossRefTable.mediaId.equals(mediaId)))
+        .go();
   }
 }

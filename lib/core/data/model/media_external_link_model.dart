@@ -1,5 +1,4 @@
 import 'package:aniflow/core/data/model/media_external_link_type.dart';
-import 'package:aniflow/core/database/model/media_external_link_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_external_link_model.freezed.dart';
@@ -19,16 +18,4 @@ class MediaExternalLinkModel with _$MediaExternalLinkModel {
 
   factory MediaExternalLinkModel.fromJson(Map<String, dynamic> json) =>
       _$$MediaExternalLinkModelImplFromJson(json);
-
-  static MediaExternalLinkModel fromEntity(MediaExternalLinkEntity entity) {
-    return MediaExternalLinkModel(
-      url: entity.url ?? '',
-      site: entity.site ?? '',
-      type: $enumDecodeNullable(_$MediaExternalLinkTypeEnumMap, entity.type) ??
-          MediaExternalLinkType.info,
-      siteId: entity.siteId ?? -1,
-      icon: entity.icon ?? '',
-      color: entity.color ?? '',
-    );
-  }
 }

@@ -23,7 +23,7 @@ Map<String, dynamic> _$$MediaExternalLinkModelImplToJson(
     <String, dynamic>{
       'url': instance.url,
       'site': instance.site,
-      'type': _$MediaExternalLinkTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'siteId': instance.siteId,
       'icon': instance.icon,
       'color': instance.color,

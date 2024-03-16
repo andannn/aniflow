@@ -1,6 +1,5 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:flutter/cupertino.dart';
 
 enum MediaCategory {
@@ -62,6 +61,16 @@ enum MediaCategory {
       ];
     }
   }
+}
+
+mixin CategoryColumnsValues {
+  static const String trending = 'trending';
+  static const String currentSeason = 'current_season';
+  static const String nextSeason = 'next_season';
+  static const String movie = 'movie';
+  static const String trendingManga = 'trending_manga';
+  static const String allTimePopularManga = 'all_time_popular_manga';
+  static const String topManhwa = 'top_manhwa';
 }
 
 extension MediaCategoryEx on MediaCategory {

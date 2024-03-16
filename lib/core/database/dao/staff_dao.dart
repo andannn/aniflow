@@ -1,75 +1,100 @@
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:aniflow/core/database/relations/staff_and_role_relation_entity.dart';
+import 'package:aniflow/core/database/tables/media_staff_paging_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/staff_table.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.staffTable]
-mixin StaffColumns {
-  static const String id = 'staff_id';
-  static const String largeImage = 'staff_large_image';
-  static const String mediumImage = 'staff_medium_image';
-  static const String firstName = 'staff_first_name';
-  static const String middleName = 'staff_middle_name';
-  static const String lastName = 'staff_last_name';
-  static const String fullName = 'staff_full_name';
-  static const String nativeName = 'staff_native_name';
-  static const String description = 'staff_description';
-  static const String gender = 'staff_gender';
-  static const String siteUrl = 'staff_site_url';
-  static const String dateOfBirth = 'staff_date_of_birth';
-  static const String dateOfDeath = 'staff_date_of_death';
-  static const String age = 'staff_age';
-  static const String isFavourite = 'staff_is_favourite';
-  static const String yearsActive = 'staff_years_active';
-  static const String homeTown = 'staff_home_town';
-  static const String bloodType = 'staff_blood_type';
+part 'staff_dao.g.dart';
 
-  // old column name.
-  static const String image = 'staff_image';
-}
+@DriftAccessor(tables: [
+  StaffTable,
+  MediaStaffPagingCrossRefTable,
+])
+class StaffDao extends DatabaseAccessor<AniflowDatabase2> with _$StaffDaoMixin {
+  StaffDao(super.db);
 
-abstract class StaffDao {
-  Future insertStaffEntities(List<StaffEntity> entities,
-      [ConflictAlgorithm algorithm = ConflictAlgorithm.replace]);
+  Future upsertStaffEntities(List<StaffEntity> entities) async {
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(staffTable, entities);
+    });
+  }
 
-  Future<StaffEntity?> getStaffById(String staffId);
+  Future insertOrIgnoreStaffEntities(List<StaffEntity> entities) async {
+    await batch((batch) {
+      batch.insertAll(staffTable, entities, mode: InsertMode.insertOrIgnore);
+    });
+  }
 
-  Stream<StaffEntity?> getStaffByIdStream(String staffId);
-}
+  Future<StaffEntity?> getStaff(String id) {
+    return (select(staffTable)..where((t) => t.id.equals(id)))
+        .getSingleOrNull();
+  }
 
-class StaffDaoImpl extends StaffDao {
-  final AniflowDatabase database;
+  Stream<StaffEntity?> getStaffStream(String id) {
+    return (select(staffTable)..where((t) => t.id.equals(id)))
+        .watchSingleOrNull();
+  }
 
-  StaffDaoImpl(this.database);
-
-  @override
-  Future insertStaffEntities(List<StaffEntity> entities,
-      [ConflictAlgorithm algorithm = ConflictAlgorithm.replace]) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.staffTable,
-        entity.toJson(),
-        conflictAlgorithm: algorithm,
+  Future insertStaffRelationEntitiesOfMedia(
+      String mediaId, List<StaffAndRoleRelationEntity> entities) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        mediaStaffPagingCrossRefTable,
+        entities.map(
+          (e) => MediaStaffPagingCrossRefTableCompanion(
+            mediaId: Value(mediaId),
+            staffId: Value(e.staff.id),
+            staffRole: Value(e.role),
+            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+          ),
+        ),
       );
-    }
-    await batch.commit(noResult: true);
 
-    database.notifyChanged([Tables.staffTable]);
+      batch.insertAll(
+        staffTable,
+        entities.map((e) => e.staff),
+        mode: InsertMode.insertOrIgnore,
+      );
+    });
   }
 
-  @override
-  Future<StaffEntity?> getStaffById(String staffId) async {
-    final results = await database.aniflowDB.query(Tables.staffTable,
-        where: '${StaffColumns.id} = $staffId', limit: 1);
-    final staffJson = results.firstOrNull;
-    return staffJson != null ? StaffEntity.fromJson(staffJson) : null;
+  Stream<List<StaffAndRoleRelationEntity>> getStaffListStream(String mediaId,
+      {int count = 12}) {
+    final query = select(staffTable).join([
+      innerJoin(mediaStaffPagingCrossRefTable,
+          staffTable.id.equalsExp(mediaStaffPagingCrossRefTable.staffId))
+    ])
+      ..where(mediaStaffPagingCrossRefTable.mediaId.equals(mediaId))
+      ..orderBy([OrderingTerm.asc(mediaStaffPagingCrossRefTable.timeStamp)])
+      ..limit(count);
+
+    return (query.map(
+      (row) => StaffAndRoleRelationEntity(
+        staff: row.readTable(staffTable),
+        role: row.read(mediaStaffPagingCrossRefTable.staffRole)!,
+      ),
+    )).watch();
   }
 
-  @override
-  Stream<StaffEntity?> getStaffByIdStream(String staffId) {
-    return database.createStream(
-      [Tables.staffTable],
-      () => getStaffById(staffId),
-    );
+  Future<List<StaffAndRoleRelationEntity>> getStaffOfMediaByPage(String mediaId,
+      {required int page, int perPage = AfConfig.defaultPerPageCount}) {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+
+    final query = select(staffTable).join([
+      innerJoin(mediaStaffPagingCrossRefTable,
+          staffTable.id.equalsExp(mediaStaffPagingCrossRefTable.staffId))
+    ])
+      ..where(mediaStaffPagingCrossRefTable.mediaId.equals(mediaId))
+      ..orderBy([OrderingTerm.asc(mediaStaffPagingCrossRefTable.timeStamp)])
+      ..limit(limit, offset: offset);
+
+    return (query.map(
+      (row) => StaffAndRoleRelationEntity(
+        staff: row.readTable(staffTable),
+        role: row.read(mediaStaffPagingCrossRefTable.staffRole)!,
+      ),
+    )).get();
   }
 }

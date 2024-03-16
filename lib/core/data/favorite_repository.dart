@@ -5,14 +5,16 @@ import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/mappers/character_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_mapper.dart';
+import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/model/character_entity.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/database/mappers/character_mapper.dart';
+import 'package:aniflow/core/database/mappers/media_mapper.dart';
+import 'package:aniflow/core/database/mappers/staff_mapper.dart';
 import 'package:aniflow/core/firebase/fa_event.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
@@ -21,8 +23,8 @@ import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:sqflite/sqflite.dart';
 
 abstract class FavoriteRepository {
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
@@ -57,12 +59,12 @@ abstract class FavoriteRepository {
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
-  final userDataDao = AniflowDatabase().getUserDataDao();
-  final mediaInfoDao = AniflowDatabase().getMediaDao();
-  final staffDao = AniflowDatabase().getStaffDao();
-  final characterDao = AniflowDatabase().getCharacterDao();
-  final mediaListDao = AniflowDatabase().getMediaListDao();
-  final favoriteDao = AniflowDatabase().getFavoriteDao();
+  final userDataDao = AniflowDatabase2().userDao;
+  final mediaInfoDao = AniflowDatabase2().mediaDao;
+  final staffDao = AniflowDatabase2().staffDao;
+  final characterDao = AniflowDatabase2().characterDao;
+  final mediaListDao = AniflowDatabase2().mediaListDao;
+  final favoriteDao = AniflowDatabase2().favoriteDao;
   final preferences = AniFlowPreferences();
 
   @override
@@ -97,7 +99,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         }
       },
       onInsertEntityToDB: (List<MediaEntity> entities) async {
-        await mediaInfoDao.insertMedia(entities);
+        await mediaInfoDao.insertOrIgnoreMedia(entities);
         if (type == MediaType.anime) {
           await favoriteDao.insertFavoritesCrossRef(
               userId!, FavoriteType.anime, entities.map((e) => e.id).toList());
@@ -109,9 +111,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       onClearDbCache: () => favoriteDao.clearFavorites(
           userId!, isAnime ? FavoriteType.anime : FavoriteType.manga),
       onGetEntityFromDB: (int page, int perPage) =>
-          favoriteDao.getFavoriteMedia(type, userId!, page, perPage),
-      mapDtoToEntity: (dto) => MediaEntity.fromNetworkModel(dto),
-      mapEntityToModel: (entity) => MediaModel.fromDatabaseModel(entity),
+          favoriteDao.getFavoriteMediaByPage(type, userId!, page, perPage),
+      mapDtoToEntity: (dto) => dto.toEntity(),
+      mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
@@ -137,8 +139,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<CharacterEntity> entities) async {
-        await characterDao.insertCharacters(
-            entities: entities, conflictAlgorithm: ConflictAlgorithm.ignore);
+        await characterDao.insertOrIgnoreCharacters(entities);
         await favoriteDao.insertFavoritesCrossRef(userId!,
             FavoriteType.character, entities.map((e) => e.id).toList());
       },
@@ -146,8 +147,8 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
           favoriteDao.clearFavorites(userId!, FavoriteType.character),
       onGetEntityFromDB: (int page, int perPage) =>
           favoriteDao.getFavoriteCharacters(userId!, page, perPage),
-      mapDtoToEntity: (dto) => CharacterEntity.fromDto(dto),
-      mapEntityToModel: (entity) => CharacterModel.fromDatabaseEntity(entity),
+      mapDtoToEntity: (dto) => dto.toEntity(),
+      mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
@@ -173,7 +174,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<StaffEntity> entities) async {
-        await staffDao.insertStaffEntities(entities, ConflictAlgorithm.ignore);
+        await staffDao.insertOrIgnoreStaffEntities(entities);
         await favoriteDao.insertFavoritesCrossRef(
             userId!, FavoriteType.staff, entities.map((e) => e.id).toList());
       },
@@ -181,26 +182,23 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
           favoriteDao.clearFavorites(userId!, FavoriteType.staff),
       onGetEntityFromDB: (int page, int perPage) =>
           favoriteDao.getFavoriteStaffs(userId!, page, perPage),
-      mapDtoToEntity: (dto) => StaffEntity.fromStaffDto(dto),
-      mapEntityToModel: (entity) => StaffModel.fromEntity(entity),
+      mapDtoToEntity: (dto) => dto.toEntity(),
+      mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
   @override
   Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token) async {
     final animeEntity = await mediaInfoDao.getMedia(id);
-    final isLiked = animeEntity.isFavourite.toBoolean();
+    final isLiked = animeEntity.isFavourite ?? false;
 
     final result = await NetworkUtil.postMutationAndRevertWhenException(
       initialModel: animeEntity,
       onModifyModel: (anime) {
-        final isFavourite = anime.isFavourite.toBoolean();
-        return anime.copyWith(isFavourite: (!isFavourite).toInteger());
+        final isFavourite = anime.isFavourite ?? false;
+        return anime.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (status) => mediaInfoDao.insertMedia(
-        [status],
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      ),
+      onSaveLocal: (status) => mediaInfoDao.upsertMedia([status]),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(animeId: int.parse(id)), token);
@@ -222,18 +220,15 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   Future<LoadResult> toggleFavoriteCharacter(
       String id, CancelToken token) async {
     final characterEntity = await characterDao.getCharacter(id);
-    final isLiked = characterEntity.isFavourite.toBoolean();
+    final isLiked = characterEntity.isFavourite ?? false;
 
     final result = await NetworkUtil.postMutationAndRevertWhenException(
       initialModel: characterEntity,
       onModifyModel: (character) {
-        final isFavourite = character.isFavourite.toBoolean();
-        return character.copyWith(isFavourite: (!isFavourite).toInteger());
+        final isFavourite = character.isFavourite ?? false;
+        return character.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (character) => characterDao.insertCharacters(
-        entities: [character],
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      ),
+      onSaveLocal: (character) => characterDao.upsertCharacters([character]),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(characterId: int.parse(id)), token);
@@ -259,23 +254,20 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
   @override
   Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token) async {
-    final staffEntity = await staffDao.getStaffById(id);
+    final staffEntity = await staffDao.getStaff(id);
     if (staffEntity == null) {
       return LoadError(Exception('Invalid Id'));
     }
 
-    final isLiked = staffEntity.isFavourite.toBoolean();
+    final isLiked = staffEntity.isFavourite ?? false;
 
     final result = await NetworkUtil.postMutationAndRevertWhenException(
       initialModel: staffEntity,
       onModifyModel: (staff) {
-        final isFavourite = staff.isFavourite.toBoolean();
-        return staff.copyWith(isFavourite: (!isFavourite).toInteger());
+        final isFavourite = staff.isFavourite ?? false;
+        return staff.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (staff) => staffDao.insertStaffEntities(
-        [staff],
-        ConflictAlgorithm.replace,
-      ),
+      onSaveLocal: (staff) => staffDao.upsertStaffEntities([staff]),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(staffId: int.parse(id)), token);

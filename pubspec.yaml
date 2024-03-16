@@ -40,7 +40,6 @@ dependencies:
   freezed_annotation: ^2.4.1
   build_runner: ^2.4.6
   json_annotation: ^4.8.1
-  sqflite: ^2.3.0
   sqflite_common_ffi: ^2.3.0+2
   shared_preferences: ^2.2.1
   flutter_localizations:
@@ -79,8 +78,12 @@ dependencies:
   firebase_performance: ^0.9.3+7
   flutter_cache_manager: ^3.3.1
   fwfh_cached_network_image: ^0.14.2
+  drift: ^2.15.0
+  sqlite3: ^2.4.0
+  sqlite3_flutter_libs: ^0.5.0
 
 dev_dependencies:
+  drift_dev: ^2.15.0
   flutter_test:
     sdk: flutter
 
