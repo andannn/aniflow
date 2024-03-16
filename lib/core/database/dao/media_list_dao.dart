@@ -1,279 +1,126 @@
-// ignore_for_file: lines_longer_than_80_chars, avoid_dynamic_calls
-
-import 'dart:async';
-
-import 'package:aniflow/core/common/model/media_list_status.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/media_list_entity.dart';
-import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/tables/media_list_table.dart';
+import 'package:aniflow/core/database/tables/media_table.dart';
+import 'package:collection/collection.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.mediaListTable]
-mixin MediaListTableColumns {
-  static const String id = 'media_list_id';
-  static const String userId = 'media_list_user_id';
-  static const String mediaId = 'media_list_media_id';
-  static const String status = 'media_list_status';
-  static const String progress = 'media_list_progress';
-  static const String progressVolumes = 'media_list_progress_volumes';
-  static const String notes = 'media_list_notes';
-  static const String startedAt = 'media_list_started_at';
-  static const String completedAt = 'media_list_completed_at';
-  static const String score = 'media_list_score';
-  static const String updatedAt = 'media_list_updatedAt';
-  static const String repeat = 'media_list_repeat';
-  static const String private = 'media_list_private';
-}
+part 'media_list_dao.g.dart';
 
-abstract class MediaListDao {
-  Future removeMediaListByUserId(String userId);
+@DriftAccessor(tables: [MediaListTable, MediaTable])
+class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
+    with _$MediaListDaoMixin {
+  MediaListDao(super.db);
 
-  Future<MediaListEntity?> getMediaListItem(
-      {required String mediaId, String? entryId});
+  Future removeMediaListOfUser(String userId) {
+    return (delete(mediaListTable)..where((t) => t.userId.equals(userId))).go();
+  }
 
-  Future<List<MediaListAndMediaRelation>> getMediaListByPage(
-      String userId, List<MediaListStatus> status,
-      {required MediaType type,
+  Future<List<MediaListAndMedia>> getMediaListByPage(
+      String userId, List<String> status,
+      {required String mediaType,
       required int page,
-      int? perPage = AfConfig.defaultPerPageCount});
+      int perPage = AfConfig.defaultPerPageCount}) {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
 
-  Future<Set<String>> getMediaListMediaIdsByUser(
-      String userId, List<MediaListStatus> status, MediaType type);
+    final query = select(mediaListTable).join([
+      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(
+        mediaListTable.status.isIn(status) &
+            mediaListTable.userId.equals(userId) &
+            mediaTable.type.equals(mediaType),
+      )
+      ..orderBy([OrderingTerm.desc(mediaListTable.updatedAt)])
+      ..limit(limit, offset: offset);
 
-  Stream<Set<String>> getMediaListMediaIdsByUserStream(
-      String userId, List<MediaListStatus> status, MediaType type);
-
-  Stream<List<MediaListAndMediaRelation>> getMediaListStream(
-      String userId, List<MediaListStatus> status, MediaType type);
-
-  Future<MediaListEntity?> getMediaListTrackingByUserAndId(
-      {required String userId, required String mediaId});
-
-  Stream<bool> getIsTrackingByUserAndIdStream(
-      {required String userId, required String mediaId});
-
-  Stream<MediaListEntity?> getMediaListEntityByUserAndIdStream(
-      {required String userId, required String mediaId});
-
-  Future insertMediaListEntities(List<MediaListEntity> entities);
-
-  Future insertMediaListAndMediaRelations(
-      List<MediaListAndMediaRelation> entities,
-      [ConflictAlgorithm mediaConflictAlgorithm = ConflictAlgorithm.replace]);
-
-  Future deleteMediaListOfUser(String userId);
-}
-
-class MediaListDaoImpl extends MediaListDao {
-  final AniflowDatabase database;
-
-  MediaListDaoImpl(this.database);
-
-  @override
-  Future removeMediaListByUserId(String userId) async {
-    await database.aniflowDB.delete(
-      Tables.mediaListTable,
-      where: '${MediaListTableColumns.userId}=$userId',
-    );
-
-    database.notifyChanged([
-      Tables.mediaListTable,
-    ]);
+    return query
+        .map(
+          (row) => MediaListAndMedia(
+              mediaListEntity: row.readTable(mediaListTable),
+              mediaEntity: row.readTable(mediaTable)),
+        )
+        .get();
   }
 
-  @override
-  Future<List<MediaListAndMediaRelation>> getMediaListByPage(
-      String userId, List<MediaListStatus> status,
-      {required MediaType type, required int page, int? perPage}) async {
-    final int? limit = perPage;
-    final int offset = (page - 1) * (perPage ?? 0);
-    String statusParam = '';
-    for (var e in status) {
-      statusParam += '\'${e.sqlTypeString}\'';
-      if (status.last != e) {
-        statusParam += ',';
-      }
-    }
-
-    String sql = 'select * from ${Tables.mediaListTable} as ua '
-        'left join ${Tables.mediaTable} as a '
-        'on ua.${MediaListTableColumns.mediaId}=a.${MediaTableColumns.id} '
-        'where ${MediaListTableColumns.status} in ($statusParam) '
-        '  and ${MediaListTableColumns.userId}=\'$userId\' '
-        '  and a.${MediaTableColumns.type}=\'${type.toJson()}\' '
-        'order by ${MediaListTableColumns.updatedAt} desc ';
-    if (limit != null) {
-      sql += 'limit $limit '
-          'offset $offset ';
-    }
-
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-    return result
-        .map((e) => MediaListAndMediaRelation(
-              mediaListEntity: MediaListEntity.fromJson(e),
-              mediaEntity: MediaEntity.fromJson(e),
-            ))
-        .toList();
-  }
-
-  @override
-  Future<Set<String>> getMediaListMediaIdsByUser(
-      String userId, List<MediaListStatus> status, MediaType type) async {
-    String statusParam = '';
-    for (var e in status) {
-      statusParam += '\'${e.sqlTypeString}\'';
-      if (status.last != e) {
-        statusParam += ',';
-      }
-    }
-
-    String sql =
-        'select ${MediaListTableColumns.mediaId} from ${Tables.mediaListTable} as ml '
-        'join ${Tables.mediaTable} as m '
-        '  on ml.${MediaListTableColumns.mediaId} = m.${MediaTableColumns.id} '
-        'where ml.${MediaListTableColumns.status} in ($statusParam) '
-        '  and ml.${MediaListTableColumns.userId}=\'$userId\' '
-        '  and m.${MediaTableColumns.type}=\'${type.toJson()}\' ';
-
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-    return result
-        .map((e) => (e[MediaListTableColumns.mediaId]).toString())
-        .toSet();
-  }
-
-  @override
-  Future<MediaListEntity?> getMediaListItem(
-      {required String mediaId, String? entryId}) async {
-    String sql = 'select * from ${Tables.mediaListTable} '
-        'where ${MediaListTableColumns.mediaId}=\'$mediaId\' ';
-    if (entryId != null) {
-      sql += 'and ${MediaListTableColumns.id}=\'$entryId\'';
-    }
-    sql += 'limit 1';
-
-    List<Map<String, dynamic>> jsonResult =
-        await database.aniflowDB.rawQuery(sql);
-    if (jsonResult.isNotEmpty) {
-      return MediaListEntity.fromJson(jsonResult[0]);
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  Future<MediaListEntity?> getMediaListTrackingByUserAndId(
-      {required String userId, required String mediaId}) async {
-    String sql = 'select * from ${Tables.mediaListTable} '
-        'where ${MediaListTableColumns.mediaId}=\'$mediaId\' '
-        '  and ${MediaListTableColumns.userId}=\'$userId\' '
-        'limit 1 ';
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-
-    final jsonOrNull = result.firstOrNull;
-    return jsonOrNull != null ? MediaListEntity.fromJson(jsonOrNull) : null;
-  }
-
-  @override
-  Stream<Set<String>> getMediaListMediaIdsByUserStream(
-      String userId, List<MediaListStatus> status, MediaType type) {
-    return database.createStream([
-      Tables.mediaListTable,
-    ], () => getMediaListMediaIdsByUser(userId, status, type));
-  }
-
-  @override
-  Future insertMediaListEntities(List<MediaListEntity> entities) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.mediaListTable,
-        entity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+  Stream<List<String>> getAllMediaIdInMediaListStream(
+      String userId, List<String> status, String mediaType) {
+    final query = select(mediaListTable).join([
+      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(
+        mediaListTable.status.isIn(status) &
+            mediaListTable.userId.equals(userId) &
+            mediaTable.type.equals(mediaType),
       );
-    }
-    await batch.commit(noResult: true);
 
-    database.notifyChanged([Tables.mediaListTable]);
+    return query
+        .map((row) => row.read(mediaTable.id))
+        .watch()
+        .map((value) => value.whereNotNull().toList());
   }
 
-  @override
-  Stream<bool> getIsTrackingByUserAndIdStream(
-      {required String userId, required String mediaId}) {
-    return database.createStream([
-      Tables.mediaListTable,
-    ], () async {
-      final mediaListItemOrNull = await getMediaListTrackingByUserAndId(
-          userId: userId, mediaId: mediaId);
-      return mediaListItemOrNull != null;
+  Future<MediaListEntity?> getMediaListItem(String mediaId) {
+    return (select(mediaListTable)
+          ..where((tbl) => mediaListTable.mediaId.equals(mediaId)))
+        .getSingleOrNull();
+  }
+
+  Stream<MediaListEntity?> getMediaListOfUserStream(
+      String userId, String mediaId) {
+    return (select(mediaListTable)
+          ..where((tbl) =>
+              mediaListTable.id.equals(mediaId) &
+              mediaListTable.userId.equals(userId)))
+        .watchSingleOrNull();
+  }
+
+  Future upsertMediaListEntities(List<MediaListEntity> entities) async {
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(mediaListTable, entities);
     });
   }
 
-  @override
-  Stream<MediaListEntity?> getMediaListEntityByUserAndIdStream(
-      {required String userId, required String mediaId}) {
-    return database.createStream(
-      [
-        Tables.mediaListTable,
-      ],
-      () => getMediaListTrackingByUserAndId(userId: userId, mediaId: mediaId),
-    );
+  Future deleteMediaListOfUser(String userId) {
+    return (delete(mediaListTable)..where((tbl) => tbl.userId.equals(userId)))
+        .go();
   }
 
-  @override
-  Stream<List<MediaListAndMediaRelation>> getMediaListStream(
-      String userId, List<MediaListStatus> status, MediaType type) {
-    return database.createStream(
-      [
-        Tables.mediaTable,
-        Tables.mediaListTable,
-      ],
-      () => getMediaListByPage(userId, status,
-          type: type, page: 1, perPage: null),
-    );
-  }
-
-  @override
-  Future insertMediaListAndMediaRelations(
-      List<MediaListAndMediaRelation> entities,
-      [ConflictAlgorithm mediaConflictAlgorithm =
-          ConflictAlgorithm.replace]) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.mediaListTable,
-        entity.mediaListEntity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+  Stream<List<MediaListAndMedia>> getAllMediaListOfUserStream(
+      String userId, List<String> status, String mediaType) {
+    final query = select(mediaListTable).join([
+      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(
+        mediaListTable.status.isIn(status) &
+            mediaListTable.userId.equals(userId) &
+            mediaTable.type.equals(mediaType),
       );
-      batch.insert(
-        Tables.mediaTable,
-        entity.mediaEntity.toJson(),
-        conflictAlgorithm: mediaConflictAlgorithm,
-      );
-    }
-    await batch.commit(noResult: true);
 
-    database.notifyChanged([
-      Tables.mediaListTable,
-      Tables.mediaTable,
-    ]);
+    return query
+        .map(
+          (row) => MediaListAndMedia(
+              mediaListEntity: row.readTable(mediaListTable),
+              mediaEntity: row.readTable(mediaTable)),
+        )
+        .watch();
   }
 
-  @override
-  Future deleteMediaListOfUser(String userId) async {
-    final batch = database.aniflowDB.batch();
-    batch.delete(Tables.mediaListTable,
-        where: '${MediaListTableColumns.userId} = ?', whereArgs: [userId]);
-    await batch.commit(noResult: true);
+  /// upsert mediaList and ignore media when conflict.
+  Future upsertMediaListAndMediaRelations(List<MediaListAndMedia> entities) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        mediaListTable,
+        entities.map((e) => e.mediaListEntity),
+      );
 
-    database.notifyChanged([
-      Tables.mediaListTable,
-    ]);
+      batch.insertAll(
+        mediaTable,
+        entities.map((e) => e.mediaEntity),
+        mode: InsertMode.insertOrIgnore,
+      );
+    });
   }
 }

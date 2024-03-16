@@ -2,7 +2,7 @@ import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
-import 'package:aniflow/core/database_drift/relations/activity_and_user_relation.dart';
+import 'package:aniflow/core/database/relations/activity_and_user_relation.dart';
 
 extension ActivityMapper on ActivityAndUserRelation {
   ActivityModel toModel() {

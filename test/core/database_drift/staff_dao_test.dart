@@ -1,6 +1,6 @@
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/dao/staff_dao.dart';
-import 'package:aniflow/core/database_drift/relations/staff_and_role_relation_entity.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
+import 'package:aniflow/core/database/relations/staff_and_role_relation_entity.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 

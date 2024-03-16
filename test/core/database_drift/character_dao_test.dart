@@ -1,7 +1,7 @@
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/dao/character_dao.dart';
-import 'package:aniflow/core/database_drift/relations/character_and_related_media_relation.dart';
-import 'package:aniflow/core/database_drift/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
+import 'package:aniflow/core/database/relations/character_and_voice_actor_relation.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 

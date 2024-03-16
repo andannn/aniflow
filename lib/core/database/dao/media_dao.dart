@@ -1,573 +1,184 @@
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/character_role.dart';
-import 'package:aniflow/core/common/model/media_relation.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/character_dao.dart';
-import 'package:aniflow/core/database/dao/staff_dao.dart';
-import 'package:aniflow/core/database/dao/studio_dao.dart';
-import 'package:aniflow/core/database/model/character_entity.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/media_external_link_entity.dart';
-import 'package:aniflow/core/database/model/relations/character_and_voice_actor_relation.dart';
-import 'package:aniflow/core/database/model/relations/media_relation_entities_with_owner_id.dart';
-import 'package:aniflow/core/database/model/relations/media_with_detail_info.dart';
-import 'package:aniflow/core/database/model/relations/staff_and_role_relation.dart';
-import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:aniflow/core/database/model/studio_entity.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:aniflow/core/database/relations/media_and_relation_type_entity.dart';
+import 'package:aniflow/core/database/tables/category_media_paging_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/media_external_link_table.dart';
+import 'package:aniflow/core/database/tables/media_relation_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/media_table.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.mediaTable]
-mixin MediaTableColumns {
-  static const String id = 'id';
-  static const String type = 'media_type';
-  static const String englishTitle = 'english_title';
-  static const String romajiTitle = 'romaji_title';
-  static const String nativeTitle = 'native_title';
-  static const String coverImageExtraLarge = 'cover_image_extra_large';
-  static const String coverImageLarge = 'cover_image_large';
-  static const String coverImageMedium = 'cover_image_medium';
-  static const String coverImageColor = 'cover_image_color';
-  static const String description = 'description';
-  static const String episodes = 'episodes';
-  static const String seasonYear = 'season_year';
-  static const String season = 'season';
-  static const String source = 'source';
-  static const String status = 'status';
-  static const String hashtag = 'hashtag';
-  static const String bannerImage = 'banner_image';
-  static const String averageScore = 'average_score';
-  static const String trending = 'trending';
-  static const String favourites = 'favourites';
-  static const String trailerId = 'trailer_id';
-  static const String trailerSite = 'trailer_site';
-  static const String trailerThumbnail = 'trailer_thumbnail';
-  static const String isFavourite = 'isFavourite';
-  static const String genres = 'genres';
-  static const String popularRanking = 'popular_ranking';
-  static const String ratedRanking = 'rated_ranking';
-  static const String nextAiringEpisode = 'next_airing_episode';
-  static const String timeUntilAiring = 'time_until_airing';
-  static const String startDate = 'start_date';
-  static const String endDate = 'end_date';
+part 'media_dao.g.dart';
 
-  static const String coverImage = 'cover_image';
-}
+@DriftAccessor(tables: [
+  MediaTable,
+  MediaRelationCrossRefTable,
+  MediaExternalLinkTable,
+  CategoryMediaPagingCrossRefTable
+])
+class MediaDao extends DatabaseAccessor<AniflowDatabase2> with _$MediaDaoMixin {
+  MediaDao(super.db);
 
-mixin CategoryColumns {
-  static const String category = 'category';
-}
+  Future<MediaEntity> getMedia(String id) {
+    return getMedias([id]).then((value) => value.first);
+  }
 
-/// [Tables.categoryTable]
-mixin CategoryColumnsValues {
-  static const String trending = 'trending';
-  static const String currentSeason = 'current_season';
-  static const String nextSeason = 'next_season';
-  static const String movie = 'movie';
-  static const String trendingManga = 'trending_manga';
-  static const String allTimePopularManga = 'all_time_popular_manga';
-  static const String topManhwa = 'top_manhwa';
-}
+  Stream<MediaEntity> getMediaStream(String id) {
+    return (select(mediaTable)..where((tbl) => mediaTable.id.equals(id)))
+        .watchSingle();
+  }
 
-/// [Tables.animeCategoryCrossRefTable]
-mixin MediaCategoryCrossRefColumns {
-  static const String mediaId = 'anime_category_cross_media_id';
-  static const String categoryId = 'anime_category_cross_category_id';
-  static const String timeStamp = 'anime_category_cross_time_stamp';
-}
+  Future<List<MediaEntity>> getMedias(List<String> ids) {
+    return (select(mediaTable)..where((tbl) => mediaTable.id.isIn(ids))).get();
+  }
 
-/// [Tables.characterVoiceActorCrossRefTable]
-mixin CharacterVoiceActorCrossRefColumns {
-  static const String id = 'character_voice_actor_cross_id';
-  static const String characterId = 'character_voice_actor_cross_character_id';
-  static const String staffId = 'character_voice_actor_cross_staff_id';
-  static const String role = 'character_voice_actor_cross_role';
-  static const String language = 'character_voice_actor_cross_language';
-}
+  Future<List<MediaAndRelationTypeEntity>> getMediaRelations(String mediaId) {
+    final query = select(mediaRelationCrossRefTable).join([
+      innerJoin(mediaTable,
+          mediaRelationCrossRefTable.relationId.equalsExp(mediaTable.id)),
+    ])
+      ..where(mediaRelationCrossRefTable.ownerId.equals(mediaId));
 
-/// [Tables.mediaCharacterCrossRefTable]
-mixin MediaCharacterCrossRefColumns {
-  static const String mediaId = 'media_character_cross_anime_id';
-  static const String characterId = 'media_character_cross_character_id';
-  static const String timeStamp = 'media_character_cross_time_stamp';
-}
-
-/// [Tables.mediaStaffCrossRefTable]
-mixin MediaStaffCrossRefColumns {
-  static const String mediaId = 'media_staff_cross_anime_id';
-  static const String staffId = 'media_staff_cross_staff_id';
-  static const String staffRole = 'media_staff_cross_staff_role';
-  static const String timeStamp = 'media_staff_cross_timeStamp';
-}
-
-/// [Tables.mediaExternalLickTable]
-mixin MediaExternalLinkColumnValues {
-  static const id = 'external_link_id';
-  static const mediaId = 'external_link_media_id';
-  static const url = 'external_link_url';
-  static const site = 'external_link_site';
-  static const type = 'external_link_type';
-  static const siteId = 'external_link_siteId';
-  static const color = 'external_link_color';
-  static const icon = 'external_link_icon';
-}
-
-/// [Tables.mediaRelationCrossRef]
-mixin MediaRelationCrossRefColumnValues {
-  static const String ownerId = 'media_relation_cross_ref_owner_media_id';
-  static const String relationId = 'media_relation_cross_ref_relation_media_id';
-  static const String relationType = 'media_staff_cross_ref_relation_type';
-}
-
-class MediaRelationCrossRef {
-  MediaRelationCrossRef(this.ownerId, this.relationId, this.relationType);
-
-  final String ownerId;
-  final String relationId;
-  final MediaRelation relationType;
-}
-
-abstract class MediaDao {
-  Future clearAnimeCategoryCrossRef(MediaCategory category);
-
-  Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
-      {required int page, int perPage = AfConfig.defaultPerPageCount});
-
-  Future<MediaEntity> getMedia(String id);
-
-  Future<List<MediaEntity>> getMedias(List<String> ids);
-
-  Future<MediaWithDetailInfo> getDetailMediaInfo(String id);
-
-  Future<List<CharacterAndVoiceActorRelationEntity>> getCharacterOfMediaByPage(
-      String animeId,
-      {required int page,
-      StaffLanguage staffLanguage = StaffLanguage.japanese,
-      int perPage = AfConfig.defaultPerPageCount});
-
-  Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
-      {required int page, int perPage = AfConfig.defaultPerPageCount});
-
-  Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id);
-
-  Future<List<MediaRelationEntity>> getMediaRelations(String animeId);
-
-  Future insertOrIgnoreMediaByAnimeCategory(MediaCategory category,
-      {required List<MediaEntity> animeList});
-
-  Future insertMedia(List<MediaEntity> entities,
-      {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore});
-
-  Future upsertMediaExternalLinks(
-      {required List<MediaExternalLinkEntity> externalLinks});
+    return (query.map(
+      (row) => MediaAndRelationTypeEntity(
+        mediaRelation: row.read(mediaRelationCrossRefTable.relationType),
+        media: row.readTable(mediaTable),
+      ),
+    )).get();
+  }
 
   Future upsertMediaRelations(
-      {required MediaRelationEntitiesWithOwnerId relationEntity});
-
-  Future insertCharacterVoiceActorsOfMedia(
-      {required int mediaId,
-      required List<CharacterAndVoiceActorRelationEntity> entities});
-
-  Future clearMediaCharacterCrossRef(String mediaId);
-
-  Future insertStaffRelationEntitiesOfMedia(
-      {required int mediaId, required List<StaffAndRoleRelation> entities});
-
-  Future<List<StudioEntity>> getStudioOfMedia(String mediaId);
-}
-
-class MediaDaoImpl extends MediaDao {
-  final AniflowDatabase database;
-
-  MediaDaoImpl(this.database);
-
-  final detailListChangeSource = ValueNotifier(0);
-
-  @override
-  Future clearAnimeCategoryCrossRef(MediaCategory category) async {
-    await database.aniflowDB.delete(
-      Tables.animeCategoryCrossRefTable,
-      where: '${MediaCategoryCrossRefColumns.categoryId} = ?',
-      whereArgs: [category.getContentValue()],
-    );
-
-    database.notifyChanged([
-      Tables.animeCategoryCrossRefTable,
-    ]);
-  }
-
-  @override
-  Future clearMediaCharacterCrossRef(String mediaId) async {
-    await database.aniflowDB.delete(
-      Tables.mediaCharacterCrossRefTable,
-      where: '${MediaCharacterCrossRefColumns.mediaId} = ?',
-      whereArgs: [mediaId.toString()],
-    );
-
-    database.notifyChanged([
-      Tables.animeCategoryCrossRefTable,
-    ]);
-  }
-
-  @override
-  Future insertOrIgnoreMediaByAnimeCategory(MediaCategory category,
-      {required List<MediaEntity> animeList}) async {
-    final batch = database.aniflowDB.batch();
-
-    batch.insert(Tables.categoryTable,
-        {CategoryColumns.category: category.getContentValue()},
-        conflictAlgorithm: ConflictAlgorithm.ignore);
-
-    for (var anime in animeList) {
-      batch.insert(
-        Tables.mediaTable,
-        anime.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-      batch.insert(
-        Tables.animeCategoryCrossRefTable,
-        {
-          MediaCategoryCrossRefColumns.categoryId: category.getContentValue(),
-          MediaCategoryCrossRefColumns.mediaId: anime.id,
-          MediaCategoryCrossRefColumns.timeStamp:
-              DateTime.now().microsecondsSinceEpoch,
-        },
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.mediaTable,
-      Tables.animeCategoryCrossRefTable,
-    ]);
-  }
-
-  @override
-  Future<List<MediaEntity>> getMediaByPage(MediaCategory category,
-      {required int page, int perPage = AfConfig.defaultPerPageCount}) async {
-    final int limit = perPage;
-    final int offset = (page - 1) * perPage;
-
-    String characterSql = 'select * from ${Tables.mediaTable} as a '
-        'join ${Tables.animeCategoryCrossRefTable} as ac '
-        'on a.${MediaTableColumns.id} = ac.${MediaCategoryCrossRefColumns.mediaId} '
-        'where ac.${MediaCategoryCrossRefColumns.categoryId} = \'${category.getContentValue()}\' '
-        'order by ${MediaCategoryCrossRefColumns.timeStamp} asc '
-        'limit $limit '
-        'offset $offset ';
-
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(characterSql);
-    return result.map((e) => MediaEntity.fromJson(e)).toList();
-  }
-
-  @override
-  Future<List<CharacterAndVoiceActorRelationEntity>> getCharacterOfMediaByPage(
-      String animeId,
-      {required int page,
-      StaffLanguage staffLanguage = StaffLanguage.japanese,
-      int perPage = AfConfig.defaultPerPageCount}) async {
-    final int limit = perPage;
-    final int offset = (page - 1) * perPage;
-    final characterSql = 'select * from ${Tables.characterTable} as c \n'
-        'join ${Tables.mediaCharacterCrossRefTable} as ac '
-        '  on c.${CharacterColumns.id} = ac.${MediaCharacterCrossRefColumns.characterId} \n'
-        'left join ${Tables.characterVoiceActorCrossRefTable} as cv \n'
-        '  on c.${CharacterColumns.id} = cv.${CharacterVoiceActorCrossRefColumns.characterId} \n'
-        '    and cv.${CharacterVoiceActorCrossRefColumns.language} = \'${staffLanguage.toJson()}\' \n'
-        'left join ${Tables.staffTable} as v \n'
-        '  on cv.${CharacterVoiceActorCrossRefColumns.staffId} = v.${StaffColumns.id} \n'
-        'where ac.${MediaCharacterCrossRefColumns.mediaId} = \'$animeId\' \n'
-        'order by ${MediaCharacterCrossRefColumns.timeStamp} asc \n'
-        'limit $limit \n'
-        'offset $offset \n';
-    List<Map<String, dynamic>> characterResults =
-        await database.aniflowDB.rawQuery(characterSql);
-    return characterResults
-        .map(
-          (e) => CharacterAndVoiceActorRelationEntity(
-            characterEntity: CharacterEntity.fromJson(e),
-            voiceActorEntity: StaffEntity.fromJson(e),
-            language: StaffLanguage.fromJson(
-                e[CharacterVoiceActorCrossRefColumns.language]),
-            role: CharacterRole.fromJson(
-                e[CharacterVoiceActorCrossRefColumns.role]),
+      String ownerId, List<MediaAndRelationTypeEntity> relationEntity) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        mediaRelationCrossRefTable,
+        relationEntity.map(
+          (e) => MediaRelationCrossRefTableCompanion(
+            ownerId: Value(ownerId),
+            relationId: Value(e.media.id),
+            relationType: Value.ofNullable(e.mediaRelation),
           ),
-        )
-        .toList();
+        ),
+      );
+
+      batch.insertAll(
+        mediaTable,
+        relationEntity.map((e) => e.media),
+        mode: InsertMode.insertOrIgnore,
+      );
+    });
   }
 
-  @override
-  Future<List<StaffAndRoleRelation>> getStaffOfMediaByPage(String animeId,
-      {required int page, int perPage = AfConfig.defaultPerPageCount}) async {
+  Future insertOrIgnoreMedia(List<MediaEntity> entities) {
+    return batch((batch) {
+      batch.insertAll(mediaTable, entities, mode: InsertMode.insertOrIgnore);
+    });
+  }
+
+  Future upsertMedia(List<MediaEntity> entities) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(mediaTable, entities);
+    });
+  }
+
+  Future upsertMediaExternalLinks(List<MediaExternalLinkEntity> entities) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(mediaExternalLinkTable, entities);
+    });
+  }
+
+  Stream<List<MediaExternalLinkEntity>> getAllExternalLinksOfMediaStream(
+    String mediaId,
+  ) {
+    return (select(mediaExternalLinkTable)
+          ..where((tbl) => tbl.mediaId.equals(mediaId)))
+        .watch();
+  }
+
+  Future<List<MediaEntity>> getMediaByPage(String category,
+      {required int page, int perPage = AfConfig.defaultPerPageCount}) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    String staffSql = 'select * from ${Tables.staffTable} as s '
-        'join ${Tables.mediaStaffCrossRefTable} as animeStaff '
-        '  on s.${StaffColumns.id} = animeStaff.${MediaStaffCrossRefColumns.staffId} '
-        'where animeStaff.${MediaStaffCrossRefColumns.mediaId} = \'$animeId\' '
-        'order by ${MediaStaffCrossRefColumns.timeStamp} asc '
-        'limit $limit '
-        'offset $offset ';
 
-    List staffResults = await database.aniflowDB.rawQuery(staffSql);
-    return staffResults.map((e) => StaffAndRoleRelation.fromJson(e)).toList();
+    final query = select(mediaTable).join([
+      innerJoin(categoryMediaPagingCrossRefTable,
+          categoryMediaPagingCrossRefTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(categoryMediaPagingCrossRefTable.category.equals(category))
+      ..orderBy([OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
+      ..limit(limit, offset: offset);
+
+    return (query.map((row) => row.readTable(mediaTable))).get();
   }
 
-  @override
-  Future<MediaEntity> getMedia(String id) async {
-    final animeJson = await database.aniflowDB.query(
-      Tables.mediaTable,
-      where: '${MediaTableColumns.id}=$id',
-      limit: 1,
-    );
-
-    return MediaEntity.fromJson(animeJson.first);
+  Future clearCategoryMediaCrossRef(String category) {
+    return (delete(categoryMediaPagingCrossRefTable)
+          ..where((tbl) => tbl.category.equals(category)))
+        .go();
   }
 
-  @override
-  Future<List<MediaEntity>> getMedias(List<String> ids) async {
-    final mediaList = await database.aniflowDB.query(
-      Tables.mediaTable,
-      where: '${MediaTableColumns.id} in (${ids.join(',')})',
-    );
-
-    return mediaList.map((e) => MediaEntity.fromJson(e)).toList();
-  }
-
-  @override
-  Future<MediaWithDetailInfo> getDetailMediaInfo(String id) async {
-    final animeJson = await database.aniflowDB.query(
-      Tables.mediaTable,
-      where: '${MediaTableColumns.id}=$id',
-      limit: 1,
-    );
-    final animeEntity = MediaEntity.fromJson(animeJson.first);
-
-    final characterResults = await getCharacterOfMediaByPage(id, page: 1);
-
-    final staffResults = await getStaffOfMediaByPage(id, page: 1);
-
-    final studios = await getStudioOfMedia(id);
-
-    String externalLinkSql =
-        'select * from ${Tables.mediaExternalLickTable} as media '
-        'where media.${MediaExternalLinkColumnValues.mediaId} = \'$id\' ';
-    List externalLinkResults =
-        await database.aniflowDB.rawQuery(externalLinkSql);
-
-    final mediaRelations = await getMediaRelations(id);
-
-    return MediaWithDetailInfo(
-      mediaEntity: animeEntity,
-      characterAndVoiceActors: characterResults,
-      staffs: staffResults,
-      externalLinks: externalLinkResults
-          .map((e) => MediaExternalLinkEntity.fromJson(e))
-          .toList(),
-      mediaRelations: mediaRelations,
-      studios: studios,
-    );
-  }
-
-  @override
-  Future insertMedia(
-    List<MediaEntity> entities, {
-    ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore,
-  }) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.mediaTable,
-        entity.toJson(),
-        conflictAlgorithm: conflictAlgorithm,
+  Future upsertMediaByCategory(String category,
+      {required List<MediaEntity> medias}) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        categoryMediaPagingCrossRefTable,
+        medias.map(
+          (e) => CategoryMediaPagingCrossRefTableCompanion(
+            category: Value(category),
+            mediaId: Value(e.id),
+            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+          ),
+        ),
       );
-    }
-    await batch.commit(noResult: true);
 
-    database.notifyChanged([
-      Tables.mediaTable,
-    ]);
-  }
-
-  @override
-  Future upsertMediaExternalLinks(
-      {required List<MediaExternalLinkEntity> externalLinks}) async {
-    final batch = database.aniflowDB.batch();
-    for (final externalLink in externalLinks) {
-      batch.insert(
-        Tables.mediaExternalLickTable,
-        externalLink.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.mediaExternalLickTable,
-    ]);
-  }
-
-  @override
-  Future<List<MediaRelationEntity>> getMediaRelations(String animeId) async {
-    final sql = 'select * from ${Tables.mediaRelationCrossRef} as mr '
-        'join ${Tables.mediaTable} as media '
-        '  on mr.${MediaRelationCrossRefColumnValues.relationId} = media.${MediaTableColumns.id} '
-        'where mr.${MediaRelationCrossRefColumnValues.ownerId} = $animeId';
-
-    List<Map<String, dynamic>> results = await database.aniflowDB.rawQuery(sql);
-
-    return results
-        .map((e) => MediaRelationEntity(
-              MediaRelation.fromJson(
-                  e[MediaRelationCrossRefColumnValues.relationType]),
-              MediaEntity.fromJson(e),
-            ))
-        .toList();
-  }
-
-  @override
-  Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id) {
-    return database.createStream(
-        [
-          Tables.mediaTable,
-          Tables.studioTable,
-          Tables.characterTable,
-          Tables.staffTable,
-          Tables.mediaExternalLickTable,
-          Tables.mediaRelationCrossRef,
-        ], () => getDetailMediaInfo(id));
-  }
-
-  @override
-  Future insertCharacterVoiceActorsOfMedia(
-      {required int mediaId,
-      required List<CharacterAndVoiceActorRelationEntity> entities}) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      if (entity.voiceActorEntity != null) {
-        batch.insert(
-          Tables.staffTable,
-          entity.voiceActorEntity!.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.ignore,
-        );
-      }
-      batch.insert(
-        Tables.characterTable,
-        entity.characterEntity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-      batch.insert(
-        Tables.mediaCharacterCrossRefTable,
-        {
-          MediaCharacterCrossRefColumns.mediaId: mediaId,
-          MediaCharacterCrossRefColumns.characterId: entity.characterEntity.id,
-          MediaCharacterCrossRefColumns.timeStamp:
-              DateTime.now().microsecondsSinceEpoch,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      if (entity.voiceActorEntity != null) {
-        batch.insert(
-          Tables.characterVoiceActorCrossRefTable,
-          {
-            CharacterVoiceActorCrossRefColumns.characterId:
-                entity.characterEntity.id,
-            CharacterVoiceActorCrossRefColumns.staffId:
-                entity.voiceActorEntity!.id,
-            CharacterVoiceActorCrossRefColumns.role: entity.role?.toJson(),
-            CharacterVoiceActorCrossRefColumns.language:
-                entity.language?.toJson(),
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace,
-        );
-      }
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.staffTable,
-      Tables.characterTable,
-      Tables.mediaCharacterCrossRefTable,
-      Tables.characterVoiceActorCrossRefTable,
-    ]);
-  }
-
-  @override
-  Future insertStaffRelationEntitiesOfMedia(
-      {required int mediaId,
-      required List<StaffAndRoleRelation> entities}) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.staffTable,
-        entity.staff.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      batch.insert(
-        Tables.mediaStaffCrossRefTable,
-        {
-          MediaStaffCrossRefColumns.mediaId: mediaId,
-          MediaStaffCrossRefColumns.staffId: entity.staff.id,
-          MediaStaffCrossRefColumns.staffRole: entity.role,
-          MediaStaffCrossRefColumns.timeStamp:
-              DateTime.now().microsecondsSinceEpoch,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.staffTable,
-      Tables.mediaStaffCrossRefTable,
-    ]);
-  }
-
-  @override
-  Future upsertMediaRelations(
-      {required MediaRelationEntitiesWithOwnerId relationEntity}) async {
-    final batch = database.aniflowDB.batch();
-    for (final media in relationEntity.medias) {
-      batch.insert(
-        Tables.mediaRelationCrossRef,
-        {
-          MediaRelationCrossRefColumnValues.ownerId: relationEntity.ownerId,
-          MediaRelationCrossRefColumnValues.relationId: media.media.id,
-          MediaRelationCrossRefColumnValues.relationType: media.type.toJson(),
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      batch.insert(
-        Tables.mediaTable,
-        media.media.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.mediaRelationCrossRef,
-      Tables.mediaTable,
-    ]);
-  }
-
-  @override
-  Future<List<StudioEntity>> getStudioOfMedia(String mediaId) async {
-    String sql = 'select * from ${Tables.studioTable} as s '
-        'join ${Tables.studioMediaCrossRefTable} as sm '
-        'on s.${StudioColumns.id} = sm.${StudioMediaCrossRefColumns.studioId} '
-        'where sm.${StudioMediaCrossRefColumns.mediaId} = $mediaId and '
-        's.${StudioColumns.isAnimationStudio} = ${true.toInteger()} ';
-
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-    return result.map((e) => StudioEntity.fromJson(e)).toList();
+      batch.insertAll(mediaTable, medias, mode: InsertMode.insertOrIgnore);
+    });
   }
 }
+
+// @override
+// Future<MediaWithDetailInfo> getDetailMediaInfo(String id) async {
+//   final animeJson = await database.aniflowDB.query(
+//     Tables.mediaTable,
+//     where: '${MediaTableColumns.id}=$id',
+//     limit: 1,
+//   );
+//   final animeEntity = MediaEntity.fromJson(animeJson.first);
+//
+//   final characterResults = await getCharacterOfMediaByPage(id, page: 1);
+//
+//   final staffResults = await getStaffOfMediaByPage(id, page: 1);
+//
+//   final studios = await getStudioOfMedia(id);
+//
+//   String externalLinkSql =
+//       'select * from ${Tables.mediaExternalLickTable} as media '
+//       'where media.${MediaExternalLinkColumnValues.mediaId} = \'$id\' ';
+//   List externalLinkResults =
+//   await database.aniflowDB.rawQuery(externalLinkSql);
+//
+//   final mediaRelations = await getMediaRelations(id);
+//
+//   return MediaWithDetailInfo(
+//     mediaEntity: animeEntity,
+//     characterAndVoiceActors: characterResults,
+//     staffs: staffResults,
+//     externalLinks: externalLinkResults
+//         .map((e) => MediaExternalLinkEntity.fromJson(e))
+//         .toList(),
+//     mediaRelations: mediaRelations,
+//     studios: studios,
+//   );
+// }
+
+// @override
+// Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id) {
+//   return database.createStream(
+//       [
+//         Tables.mediaTable,
+//         Tables.studioTable,
+//         Tables.characterTable,
+//         Tables.staffTable,
+//         Tables.mediaExternalLickTable,
+//         Tables.mediaRelationCrossRef,
+//       ], () => getDetailMediaInfo(id));
+// }

@@ -1,6 +1,6 @@
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/dao/airing_schedules_dao.dart';
-import 'package:aniflow/core/database_drift/relations/airing_schedule_and_media_relation.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
+import 'package:aniflow/core/database/relations/airing_schedule_and_media_relation.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 

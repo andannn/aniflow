@@ -1,6 +1,6 @@
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/dao/media_list_dao.dart';
-import 'package:aniflow/core/database_drift/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 

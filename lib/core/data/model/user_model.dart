@@ -1,4 +1,5 @@
-import 'package:aniflow/core/database/model/user_entity.dart';
+import 'package:aniflow/core/data/mappers/user_mapper.dart';
+import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,24 +17,8 @@ class UserModel with _$UserModel {
     @Default(0) int unreadNotificationCount,
   }) = _UserModel;
 
-  static UserModel? fromEntity(UserEntity? model) {
-    if (model == null) {
-      return null;
-    } else {
-      return UserModel(
-        id: model.id,
-        name: model.name,
-        avatar: model.avatar,
-        bannerImage: model.bannerImage,
-        profileColor: ProfileColorDict.fromDict(model.profileColor),
-        unreadNotificationCount: model.unreadNotificationCount ?? 0,
-      );
-    }
-  }
-
   static UserModel fromDto(UserDto dto) {
-    final entity = UserEntity.fromDto(dto);
-    return UserModel.fromEntity(entity)!;
+    return dto.toEntity().toModel();
   }
 }
 

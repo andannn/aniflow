@@ -1,4 +1,3 @@
-import 'package:aniflow/core/database/model/airing_schedules_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'airing_schedule_model.freezed.dart';
@@ -11,13 +10,4 @@ class AiringScheduleModel with _$AiringScheduleModel {
     int? timeUntilAiring,
     int? episode,
   }) = _AiringScheduleModel;
-
-  static AiringScheduleModel fromEntity(AiringSchedulesEntity entity) {
-    return AiringScheduleModel(
-      id: entity.id,
-      airingAt: entity.airingAt,
-      timeUntilAiring: entity.timeUntilAiring,
-      episode: entity.episode
-    );
-  }
 }

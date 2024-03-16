@@ -1,8 +1,8 @@
 import 'package:aniflow/core/common/model/media_list_status.dart';
+import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/database/model/media_list_entity.dart';
-import 'package:aniflow/core/database/model/relations/media_list_and_media_relation.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,34 +26,14 @@ class MediaListItemModel with _$MediaListItemModel {
     MediaModel? animeModel,
   }) = _MediaListItemModel;
 
-  static MediaListItemModel fromRelation(MediaListAndMediaRelation model) {
-    return MediaListItemModel.fromEntity(model.mediaListEntity).copyWith(
-      animeModel: MediaModel.fromDatabaseModel(model.mediaEntity),
-    );
-  }
-
-  static MediaListItemModel fromEntity(MediaListEntity entity) {
-    return MediaListItemModel(
-      id: entity.id,
-      status: entity.status,
-      score: entity.score,
-      progress: entity.progress,
-      updatedAt: entity.updatedAt,
-      notes: entity.notes,
-      progressVolumes: entity.progressVolumes,
-      startedAt: entity.startedAt != null
-          ? DateTime.fromMillisecondsSinceEpoch(entity.startedAt!)
-          : null,
-      completedAt: entity.completedAt != null
-          ? DateTime.fromMillisecondsSinceEpoch(entity.completedAt!)
-          : null,
-      repeat: entity.repeat,
-      private: entity.private.toBoolean(),
+  static MediaListItemModel fromRelation(MediaListAndMedia model) {
+    return model.mediaListEntity.toModel().copyWith(
+      animeModel: model.mediaEntity.toModel(),
     );
   }
 
   static MediaListItemModel fromDto(MediaListDto dto) {
-    final entity = MediaListAndMediaRelation.fromDto(dto);
+    final entity = MediaListAndMedia.fromDto(dto);
     return MediaListItemModel.fromRelation(entity);
   }
 }

@@ -6,7 +6,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:dio/dio.dart';
 

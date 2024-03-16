@@ -1,9 +1,6 @@
-import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/list_activity_dto.dart';
 import 'package:aniflow/core/network/model/text_activity_dto.dart';
@@ -47,50 +44,6 @@ sealed class ActivityModel extends Equatable {
         user,
         ...replies
       ];
-
-  static ActivityModel fromEntity(ActivityAndUserRelation entity) {
-    final type = ActivityType.fromJson(entity.activity.type!);
-    final activity = entity.activity;
-    final user = entity.user;
-    final media = entity.media;
-    switch (type) {
-      case ActivityType.text:
-        return TextActivityModel(
-          id: activity.id,
-          text: activity.text!,
-          replyCount: activity.replyCount ?? 0,
-          siteUrl: activity.siteUrl!,
-          isLocked: activity.isLocked.toBoolean(),
-          isLiked: activity.isLiked.toBoolean(),
-          likeCount: activity.likeCount ?? 0,
-          isPinned: activity.isPinned.toBoolean(),
-          createdAt: activity.createdAt!,
-          user: UserModel.fromEntity(user)!,
-          replies: const [],
-        );
-
-      case ActivityType.animeList:
-      case ActivityType.mangaList:
-      case ActivityType.mediaList:
-        return ListActivityModel(
-          id: activity.id,
-          replyCount: activity.replyCount ?? 0,
-          siteUrl: activity.siteUrl!,
-          isLocked: activity.isLocked.toBoolean(),
-          isLiked: activity.isLiked.toBoolean(),
-          likeCount: activity.likeCount ?? 0,
-          isPinned: activity.isPinned.toBoolean(),
-          createdAt: activity.createdAt!,
-          user: UserModel.fromEntity(user)!,
-          status: activity.status ?? '',
-          progress: activity.progress ?? '',
-          media: MediaModel.fromDatabaseModel(media!),
-          replies: const [],
-        );
-      case ActivityType.message:
-        throw Exception('Invalid type');
-    }
-  }
 
   static ActivityModel fromDto(AniActivity dto) {
     switch (dto) {

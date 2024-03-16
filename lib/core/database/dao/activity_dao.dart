@@ -1,253 +1,154 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/model/shortcut/activity_status_record.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/dao/user_data_dao.dart';
-import 'package:aniflow/core/database/model/activity_entity.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/relations/activity_and_user_relation.dart';
-import 'package:aniflow/core/database/model/user_entity.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:aniflow/core/database/relations/activity_and_user_relation.dart';
+import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/activity_table.dart';
+import 'package:aniflow/core/database/tables/media_table.dart';
+import 'package:aniflow/core/database/tables/user_table.dart';
+import 'package:collection/collection.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.activityTable]
-mixin ActivityTableColumns {
-  static const String id = 'activity_id';
-  static const String userId = 'activity_userId';
-  static const String mediaId = 'activity_mediaId';
-  static const String text = 'activity_text';
-  static const String status = 'activity_status';
-  static const String progress = 'activity_progress';
-  static const String type = 'activity_type';
-  static const String replyCount = 'activity_replyCount';
-  static const String siteUrl = 'activity_siteUrl';
-  static const String isLocked = 'activity_isLocked';
-  static const String isLiked = 'activity_isLiked';
-  static const String likeCount = 'activity_likeCount';
-  static const String isPinned = 'activity_isPinned';
-  static const String createdAt = 'activity_createdAt';
-}
+part 'activity_dao.g.dart';
 
-mixin ActivityFilterTypeCrossRefColumns {
-  static const String id = 'activity_filter_type_cross_id';
-  static const String activityId = 'activity_filter_type_cross_activity_id';
-  static const String category = 'activity_filter_type_cross_filter_category';
-}
+@DriftAccessor(tables: [
+  ActivityTable,
+  UserTable,
+  MediaTable,
+  ActivityFilterTypePagingCrossRefTable,
+])
+class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
+    with _$ActivityDaoMixin {
+  ActivityDao(super.db);
 
-abstract class ActivityDao {
-  Future insertOrIgnoreActivityEntities(List<ActivityAndUserRelation> entities);
-
-  Future upsertActivityEntities(
-      List<ActivityAndUserRelation> entities, String category);
-
-  Future<List<ActivityAndUserRelation>> getActivityEntities(
-      [int page, int perPage, String category]);
-
-  Future clearActivityEntities(String category);
-
-  Stream<ActivityStatusRecord?> getActivityStream(String id);
-
-  Future<ActivityStatusRecord?> getActivityStatus(String id);
-
-  Future<ActivityAndUserRelation> getActivity(String id);
-
-  Future updateActivityStatus(String id, ActivityStatusRecord record);
-}
-
-class ActivityDaoImpl extends ActivityDao {
-  final AniflowDatabase database;
-
-  ActivityDaoImpl(this.database);
-
-  @override
-  Future upsertActivityEntities(
-      List<ActivityAndUserRelation> entities, String category) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-          Tables.activityFilterTypeCrossRef,
-          {
-            ActivityFilterTypeCrossRefColumns.activityId: entity.activity.id,
-            ActivityFilterTypeCrossRefColumns.category: category,
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert(
-        Tables.activityTable,
-        entity.activity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+  /// upsert activities and ignore user and media if conflict.
+  Future upsertActivityEntities(List<ActivityAndUserRelation> entities) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        activityTable,
+        entities.map((e) => e.activity),
       );
-      batch.insert(
-        Tables.userDataTable,
-        entity.user.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-      if (entity.media != null) {
-        batch.insert(
-          Tables.mediaTable,
-          entity.media!.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.ignore,
-        );
-      }
-    }
-    await batch.commit(noResult: true);
 
-    database.notifyChanged([
-      Tables.activityFilterTypeCrossRef,
-      Tables.activityTable,
-      Tables.userDataTable,
-      Tables.mediaTable,
-    ]);
+      batch.insertAll(
+        userTable,
+        entities.map((e) => e.user),
+        mode: InsertMode.insertOrIgnore,
+      );
+
+      batch.insertAll(
+        mediaTable,
+        entities.map((e) => e.media).whereNotNull(),
+        mode: InsertMode.insertOrIgnore,
+      );
+    });
   }
 
-  @override
-  Future<List<ActivityAndUserRelation>> getActivityEntities([
+  /// upsert activities and ignore user and media if conflict.
+  Future upsertActivityEntitiesWithCategory(
+      List<ActivityAndUserRelation> entities, String category) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        activityFilterTypePagingCrossRefTable,
+        entities.map(
+          (e) => ActivityFilterTypePagingCrossRefTableCompanion.insert(
+            activityId: e.activity.id,
+            category: category,
+          ),
+        ),
+      );
+
+      batch.insertAllOnConflictUpdate(
+        activityTable,
+        entities.map((e) => e.activity),
+      );
+
+      batch.insertAll(
+        userTable,
+        entities.map((e) => e.user),
+        mode: InsertMode.insertOrIgnore,
+      );
+
+      batch.insertAll(
+        mediaTable,
+        entities.map((e) => e.media).whereNotNull(),
+        mode: InsertMode.insertOrIgnore,
+      );
+    });
+  }
+
+  Future<List<ActivityAndUserRelation>> getActivityEntitiesByPage(
+    String category, [
     int page = 1,
     int perPage = AfConfig.defaultPerPageCount,
-    String category = '',
-  ]) async {
+  ]) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
 
-    String sql = 'select * from ${Tables.activityFilterTypeCrossRef} as afc '
-        'join ${Tables.activityTable}  as a '
-        '  on a.${ActivityTableColumns.id} = afc.${ActivityFilterTypeCrossRefColumns.activityId} '
-        'join ${Tables.userDataTable}  as u '
-        '  on a.${ActivityTableColumns.userId} = u.${UserDataTableColumns.id} '
-        'left join ${Tables.mediaTable} as m '
-        '  on a.${ActivityTableColumns.mediaId} = m.${MediaTableColumns.id} '
-        'where ${ActivityFilterTypeCrossRefColumns.category} = \'$category\' '
-        'order by ${ActivityFilterTypeCrossRefColumns.id} asc '
-        'limit $limit '
-        'offset $offset ';
+    final query = select(activityFilterTypePagingCrossRefTable).join([
+      innerJoin(
+          activityTable,
+          activityTable.id
+              .equalsExp(activityFilterTypePagingCrossRefTable.activityId)),
+      innerJoin(userTable, activityTable.userId.equalsExp(userTable.id)),
+      leftOuterJoin(mediaTable, activityTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(activityFilterTypePagingCrossRefTable.category.equals(category))
+      ..orderBy([OrderingTerm.asc(activityFilterTypePagingCrossRefTable.id)])
+      ..limit(limit, offset: offset);
 
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-
-    final activities = result.map(
-      (e) {
-        final mediaEntity = MediaEntity.fromJson(e);
-        final isMediaValid = mediaEntity.id.isNotEmpty;
-        return ActivityAndUserRelation(
-          user: UserEntity.fromJson(e),
-          activity: ActivityEntity.fromJson(e),
-          media: isMediaValid ? mediaEntity : null,
-        );
-      },
-    ).toList();
-
-    return activities;
+    return query
+        .map((row) => ActivityAndUserRelation(
+            user: row.readTable(userTable),
+            activity: row.readTable(activityTable),
+            media: row.readTableOrNull(mediaTable)))
+        .get();
   }
 
-  @override
   Future clearActivityEntities(String category) {
-    return database.aniflowDB.delete(Tables.activityFilterTypeCrossRef,
-        where: '${ActivityFilterTypeCrossRefColumns.category}=\'$category\'');
+    return (delete(activityFilterTypePagingCrossRefTable)
+          ..where((t) => t.category.equals(category)))
+        .go();
   }
 
-  @override
-  Stream<ActivityStatusRecord?> getActivityStream(String id) {
-    return database.createStream(
-      [
-        Tables.activityTable,
-      ],
-      () => getActivityStatus(id),
-    );
+  Future<ActivityAndUserRelation> getActivity(String id) {
+    final query = select(activityFilterTypePagingCrossRefTable).join([
+      innerJoin(
+          activityTable,
+          activityTable.id
+              .equalsExp(activityFilterTypePagingCrossRefTable.activityId)),
+      innerJoin(userTable, activityTable.userId.equalsExp(userTable.id)),
+      leftOuterJoin(mediaTable, activityTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(activityTable.id.equals(id));
+
+    return query
+        .map((row) => ActivityAndUserRelation(
+            user: row.readTable(userTable),
+            activity: row.readTable(activityTable),
+            media: row.readTableOrNull(mediaTable)))
+        .getSingle();
   }
 
-  @override
-  Future<ActivityStatusRecord?> getActivityStatus(String id) async {
-    String sql = 'select '
-        'a.${ActivityTableColumns.likeCount},'
-        'a.${ActivityTableColumns.replyCount},'
-        'a.${ActivityTableColumns.isLiked} '
-        'from ${Tables.activityTable} as a '
-        'where a.${ActivityTableColumns.id} = \'$id\' '
-        'limit 1 ';
+  Future<(int, int, bool)?> getActivityStatus(String id) {
+    final query = select(activityTable)..where((t) => t.id.equals(id));
 
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-
-    final jsonMap = result.firstOrNull;
-
-    if (jsonMap == null) return null;
-
-    return ActivityStatusRecord(
-      likeCount: jsonMap[ActivityTableColumns.likeCount] as int,
-      replyCount: jsonMap[ActivityTableColumns.replyCount] as int,
-      isLiked: (jsonMap[ActivityTableColumns.isLiked] as int).toBoolean(),
-    );
+    return query
+        .map((entity) => (entity.likeCount, entity.replyCount, entity.isLiked))
+        .getSingleOrNull();
   }
 
-  @override
-  Future updateActivityStatus(String id, ActivityStatusRecord record) async {
-    await database.aniflowDB.update(
-      Tables.activityTable,
-      {
-        ActivityTableColumns.likeCount: record.likeCount,
-        ActivityTableColumns.replyCount: record.replyCount,
-        ActivityTableColumns.isLiked: record.isLiked.toInteger(),
-      },
-      where: '${ActivityTableColumns.id} = $id',
-    );
+  Stream<(int, int, bool)?> getActivityStatusStream(String id) {
+    final query = select(activityTable)..where((t) => t.id.equals(id));
 
-    database.notifyChanged([
-      Tables.activityTable,
-    ]);
+    return query
+        .map((entity) => (entity.likeCount, entity.replyCount, entity.isLiked))
+        .watchSingleOrNull();
   }
 
-  @override
-  Future insertOrIgnoreActivityEntities(
-      List<ActivityAndUserRelation> entities) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.activityTable,
-        entity.activity.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      batch.insert(
-        Tables.userDataTable,
-        entity.user.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
-      );
-      if (entity.media != null) {
-        batch.insert(
-          Tables.mediaTable,
-          entity.media!.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.ignore,
-        );
-      }
-    }
-
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.activityTable,
-      Tables.userDataTable,
-      Tables.mediaTable,
-    ]);
-  }
-
-  @override
-  Future<ActivityAndUserRelation> getActivity(String id) async {
-    String sql = 'select * from ${Tables.activityTable}  as a '
-        'join ${Tables.userDataTable}  as u '
-        '  on a.${ActivityTableColumns.userId} = u.${UserDataTableColumns.id} '
-        'left join ${Tables.mediaTable} as m '
-        '  on a.${ActivityTableColumns.mediaId} = m.${MediaTableColumns.id} '
-        'where ${ActivityTableColumns.id} = \'$id\'';
-
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-    final element = result.first;
-    final mediaEntity = MediaEntity.fromJson(element);
-    final isMediaValid = mediaEntity.id.isNotEmpty;
-    return ActivityAndUserRelation(
-      user: UserEntity.fromJson(element),
-      activity: ActivityEntity.fromJson(element),
-      media: isMediaValid ? mediaEntity : null,
-    );
+  Future updateActivityStatus(String id, (int, int, bool) record) {
+    return (update(activityTable)..where((t) => t.id.equals(id))).write(
+        ActivityTableCompanion(
+            likeCount: Value(record.$1),
+            replyCount: Value(record.$2),
+            isLiked: Value(record.$3)));
   }
 }

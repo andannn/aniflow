@@ -1,10 +1,10 @@
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/dao/character_dao.dart';
-import 'package:aniflow/core/database_drift/dao/favorite_dao.dart';
-import 'package:aniflow/core/database_drift/dao/media_dao.dart';
-import 'package:aniflow/core/database_drift/dao/staff_dao.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/favorite_dao.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 

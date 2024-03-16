@@ -1,141 +1,93 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:aniflow/core/common/model/favorite_category.dart';
 import 'package:aniflow/core/common/model/media_type.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/dao/character_dao.dart';
-import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/dao/staff_dao.dart';
-import 'package:aniflow/core/database/model/character_entity.dart';
-import 'package:aniflow/core/database/model/media_entity.dart';
-import 'package:aniflow/core/database/model/staff_entity.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:aniflow/core/database/tables/character_table.dart';
+import 'package:aniflow/core/database/tables/favorite_info_table.dart';
+import 'package:aniflow/core/database/tables/media_table.dart';
+import 'package:aniflow/core/database/tables/staff_table.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.favoriteInfoTable]
-mixin FavoriteInfoTableColumn {
-  static const String id = 'favorite_info_id';
-  static const String favoriteType = 'favorite_type';
-  static const String infoId = 'favorite_info_foreign_id';
-  static const String userId = 'favorite_user_id';
-}
+part 'favorite_dao.g.dart';
 
-abstract class FavoriteDao {
-  Future clearFavorites(String userId, FavoriteType type);
+@DriftAccessor(tables: [
+  FavoriteInfoTable,
+  MediaTable,
+  CharacterTable,
+  StaffTable,
+])
+class FavoriteDao extends DatabaseAccessor<AniflowDatabase2>
+    with _$FavoriteDaoMixin {
+  FavoriteDao(super.db);
 
   Future insertFavoritesCrossRef(
-      String userId, FavoriteType type, List<String> ids);
-
-  Future<List<MediaEntity>> getFavoriteMedia(
-      MediaType type, String userId, int page, int perPage);
-
-  Future<List<CharacterEntity>> getFavoriteCharacters(
-      String userId, int page, int perPage);
-
-  Future<List<StaffEntity>> getFavoriteStaffs(
-      String userId, int page, int perPage);
-}
-
-class FavoriteDaoImpl extends FavoriteDao {
-  final AniflowDatabase database;
-
-  FavoriteDaoImpl(this.database);
-
-  @override
-  Future insertFavoritesCrossRef(
-      String userId, FavoriteType type, List<String> ids) async {
-    final batch = database.aniflowDB.batch();
-    for (final id in ids) {
-      batch.insert(
-        Tables.favoriteInfoTable,
-        {
-          FavoriteInfoTableColumn.favoriteType: type.contentValues,
-          FavoriteInfoTableColumn.infoId: id,
-          FavoriteInfoTableColumn.userId: userId,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
+      String userId, FavoriteType type, List<String> ids) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        favoriteInfoTable,
+        ids.map(
+          (id) => FavoriteInfoTableCompanion.insert(
+            favoriteType: type.contentValues,
+            infoId: id,
+            userId: userId,
+          ),
+        ),
       );
-    }
-    await batch.commit(noResult: true);
-
-    database.notifyChanged([
-      Tables.favoriteInfoTable,
-    ]);
+    });
   }
 
-  @override
-  Future<List<MediaEntity>> getFavoriteMedia(
-      MediaType type, String userId, int page, int perPage) async {
+  Future<List<MediaEntity>> getFavoriteMediaByPage(
+      MediaType mediaType, String userId, int page, int perPage) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    final favoriteValue = type == MediaType.manga
+    final favoriteValue = mediaType == MediaType.manga
         ? FavoriteType.manga.contentValues
         : FavoriteType.anime.contentValues;
-    final sql = 'select * from ${Tables.favoriteInfoTable} '
-        'join ${Tables.mediaTable} '
-        '  on ${FavoriteInfoTableColumn.infoId} = ${MediaTableColumns.id} '
-        'where ${FavoriteInfoTableColumn.userId} = \'$userId\' '
-        '  and ${FavoriteInfoTableColumn.favoriteType} = \'$favoriteValue\' '
-        'order by ${FavoriteInfoTableColumn.id} asc '
-        'limit $limit '
-        'offset $offset ';
+    final query = select(favoriteInfoTable).join([
+      innerJoin(mediaTable, favoriteInfoTable.infoId.equalsExp(mediaTable.id))
+    ])
+      ..where(favoriteInfoTable.favoriteType.equals(favoriteValue))
+      ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
+      ..limit(limit, offset: offset);
 
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-
-    return result.map((e) => MediaEntity.fromJson(e)).toList();
+    return (query.map((row) => row.readTable(mediaTable))).get();
   }
 
-  @override
   Future<List<CharacterEntity>> getFavoriteCharacters(
-      String userId, int page, int perPage) async {
+      String userId, int page, int perPage) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    final sql = 'select * from ${Tables.favoriteInfoTable} '
-        'join ${Tables.characterTable} '
-        '  on ${FavoriteInfoTableColumn.infoId} = ${CharacterColumns.id} '
-        'where ${FavoriteInfoTableColumn.userId} = \'$userId\' '
-        '  and ${FavoriteInfoTableColumn.favoriteType} = \'${FavoriteType.character.contentValues}\' '
-        'order by ${FavoriteInfoTableColumn.id} asc '
-        'limit $limit '
-        'offset $offset ';
+    final query = select(favoriteInfoTable).join([
+      innerJoin(
+          characterTable, favoriteInfoTable.infoId.equalsExp(characterTable.id))
+    ])
+      ..where(favoriteInfoTable.favoriteType
+          .equals(FavoriteType.character.contentValues))
+      ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
+      ..limit(limit, offset: offset);
 
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-
-    return result.map((e) => CharacterEntity.fromJson(e)).toList();
+    return (query.map((row) => row.readTable(characterTable))).get();
   }
 
-  @override
   Future<List<StaffEntity>> getFavoriteStaffs(
-      String userId, int page, int perPage) async {
+      String userId, int page, int perPage) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    final sql = 'select * from ${Tables.favoriteInfoTable} '
-        'join ${Tables.staffTable} '
-        '  on ${FavoriteInfoTableColumn.infoId} = ${StaffColumns.id} '
-        'where ${FavoriteInfoTableColumn.userId} = \'$userId\' '
-        '  and ${FavoriteInfoTableColumn.favoriteType} = \'${FavoriteType.staff.contentValues}\' '
-        'order by ${FavoriteInfoTableColumn.id} asc '
-        'limit $limit '
-        'offset $offset ';
+    final query = select(favoriteInfoTable).join([
+      innerJoin(staffTable, favoriteInfoTable.infoId.equalsExp(staffTable.id))
+    ])
+      ..where(favoriteInfoTable.favoriteType
+          .equals(FavoriteType.staff.contentValues))
+      ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
+      ..limit(limit, offset: offset);
 
-    final List<Map<String, dynamic>> result =
-        await database.aniflowDB.rawQuery(sql);
-
-    return result.map((e) => StaffEntity.fromJson(e)).toList();
+    return (query.map((row) => row.readTable(staffTable))).get();
   }
 
-  @override
-  Future clearFavorites(String userId, FavoriteType type) async {
-    await database.aniflowDB.delete(
-      Tables.favoriteInfoTable,
-      where:
-          '${FavoriteInfoTableColumn.userId}=? AND ${FavoriteInfoTableColumn.favoriteType}=?',
-      whereArgs: [userId, type.contentValues],
-    );
-
-    database.notifyChanged([
-      Tables.favoriteInfoTable,
-    ]);
+  Future clearFavorites(String userId, FavoriteType type) {
+    return (delete(favoriteInfoTable)
+          ..where((tbl) =>
+              favoriteInfoTable.userId.equals(userId) &
+              favoriteInfoTable.favoriteType.equals(type.contentValues)))
+        .go();
   }
 }

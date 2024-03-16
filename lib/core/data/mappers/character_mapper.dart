@@ -5,9 +5,9 @@ import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/relations/character_and_related_media_relation.dart';
-import 'package:aniflow/core/database_drift/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
+import 'package:aniflow/core/database/relations/character_and_voice_actor_relation.dart';
 
 extension CharacterMapper on CharacterEntity {
   CharacterModel toModel() {

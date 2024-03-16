@@ -1,96 +1,60 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/model/studio_entity.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:aniflow/core/database/tables/studio_media_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/studio_table.dart';
+import 'package:drift/drift.dart';
 
-/// [Tables.studioTable]
-mixin StudioColumns {
-  static const String id = 'studio_id';
-  static const String name = 'studio_name';
-  static const String siteUrl = 'studio_site_url';
-  static const String isAnimationStudio = 'studio_is_animation_studio';
-  static const String isFavourite = 'studio_is_favourite';
-}
+part 'studio_dao.g.dart';
 
-/// [Tables.studioMediaCrossRefTable]
-mixin StudioMediaCrossRefColumns {
-  static const String studioId = 'studio_id';
-  static const String mediaId = 'media_id';
-}
+@DriftAccessor(tables: [StudioTable, StudioMediaCrossRefTable])
+class StudioDao extends DatabaseAccessor<AniflowDatabase2>
+    with _$StudioDaoMixin {
+  StudioDao(super.db);
 
-abstract class StudioDao {
-  Future insertStudioEntitiesOfMedia(
-      {required String mediaId,
-      required List<StudioEntity> entities,
-      ConflictAlgorithm algorithm = ConflictAlgorithm.replace});
-
-  Future insertStudioEntities(
-      {required List<StudioEntity> entities,
-      ConflictAlgorithm algorithm = ConflictAlgorithm.replace});
-
-  Future<StudioEntity?> getStudioById(String id);
-
-  Stream<StudioEntity?> getStudioStream(String id);
-}
-
-class StudioDaoImpl extends StudioDao {
-  final AniflowDatabase database;
-
-  StudioDaoImpl(this.database);
-
-  @override
-  Future<StudioEntity?> getStudioById(String id) async {
-    final results = await database.aniflowDB.query(Tables.studioTable,
-        where: '${StudioColumns.id} = $id', limit: 1);
-    final staffJson = results.firstOrNull;
-    return staffJson != null ? StudioEntity.fromJson(staffJson) : null;
+  Future<StudioEntity?> getStudio(String id) {
+    return (select(studioTable)..where((t) => t.id.equals(id)))
+        .getSingleOrNull();
   }
 
-  @override
-  Stream<StudioEntity?> getStudioStream(String id) =>
-      database.createStream([Tables.studioTable], () => getStudioById(id));
-
-  @override
-  Future insertStudioEntitiesOfMedia({
-    required String mediaId,
-    required List<StudioEntity> entities,
-    ConflictAlgorithm algorithm = ConflictAlgorithm.replace,
-  }) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.studioTable,
-        entity.toJson(),
-        conflictAlgorithm: algorithm,
-      );
-      batch.insert(
-          Tables.studioMediaCrossRefTable,
-          {
-            StudioMediaCrossRefColumns.mediaId: mediaId,
-            StudioMediaCrossRefColumns.studioId: entity.id,
-          },
-          conflictAlgorithm: ConflictAlgorithm.ignore);
-    }
-    await batch.commit(noResult: true);
-
-    database
-        .notifyChanged([Tables.studioTable, Tables.studioMediaCrossRefTable]);
+  Stream<StudioEntity?> getStudioStream(String id) {
+    return (select(studioTable)..where((t) => t.id.equals(id)))
+        .watchSingleOrNull();
   }
 
-  @override
-  Future insertStudioEntities({
-    required List<StudioEntity> entities,
-    ConflictAlgorithm algorithm = ConflictAlgorithm.replace,
-  }) async {
-    final batch = database.aniflowDB.batch();
-    for (final entity in entities) {
-      batch.insert(
-        Tables.studioTable,
-        entity.toJson(),
-        conflictAlgorithm: algorithm,
-      );
-    }
-    await batch.commit(noResult: true);
+  Future upsertStudioEntities(List<StudioEntity> entities) async {
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(studioTable, entities);
+    });
+  }
 
-    database.notifyChanged([Tables.studioTable]);
+  Future insertOrIgnoreStudioEntitiesOfMedia(
+    String mediaId,
+    List<StudioEntity> entities,
+  ) async {
+    await batch((batch) async {
+      batch.insertAll(studioTable, entities, mode: InsertMode.insertOrIgnore);
+      batch.insertAllOnConflictUpdate(
+        studioMediaCrossRefTable,
+        entities.map(
+          (e) => StudioMediaCrossRefTableCompanion.insert(
+            studioId: e.id,
+            mediaId: mediaId,
+          ),
+        ),
+      );
+    });
+  }
+
+  Stream<List<StudioEntity>> getStudioOfMediaStream(String mediaId) {
+    final query = select(studioTable).join(
+      [
+        innerJoin(studioMediaCrossRefTable,
+            studioTable.id.equalsExp(studioMediaCrossRefTable.studioId))
+      ],
+    )..where(
+        studioMediaCrossRefTable.mediaId.equals(mediaId) &
+            studioTable.isAnimationStudio.equals(true),
+      );
+
+    return (query.map((row) => row.readTable(studioTable))).watch();
   }
 }

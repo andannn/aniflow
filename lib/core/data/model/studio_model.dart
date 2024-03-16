@@ -1,5 +1,5 @@
-import 'package:aniflow/core/database/model/studio_entity.dart';
-import 'package:aniflow/core/database/util/content_values_util.dart';
+import 'package:aniflow/core/data/mappers/studio_mapper.dart';
+import 'package:aniflow/core/database/mappers/studio_mapper.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,17 +15,7 @@ class StudioModel with _$StudioModel {
     @Default(false) bool isAnimationStudio,
   }) = _StudioModel;
 
-  static StudioModel fromEntity(StudioEntity e) {
-    return StudioModel(
-      id: e.id,
-      name: e.name,
-      siteUrl: e.siteUrl,
-      isFavourite: e.isFavourite.toBoolean(),
-      isAnimationStudio: e.isAnimationStudio.toBoolean(),
-    );
-  }
-
   static StudioModel fromDto(StudioDto dto) {
-    return StudioModel.fromEntity(StudioEntity.fromDto(dto));
+    return dto.toEntity().toModel();
   }
 }

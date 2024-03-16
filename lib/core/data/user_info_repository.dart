@@ -1,6 +1,6 @@
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
 
 abstract class UserInfoRepository {
   Future<UserModel> getUserDataById(String id);

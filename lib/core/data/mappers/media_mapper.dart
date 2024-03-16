@@ -9,7 +9,7 @@ import 'package:aniflow/core/data/model/media_cover_image_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
 
 extension MediaMapper on MediaEntity {
   MediaModel toModel() {

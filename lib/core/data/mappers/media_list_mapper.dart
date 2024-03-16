@@ -1,8 +1,8 @@
 import 'package:aniflow/core/common/model/media_list_status.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/database_drift/aniflow_database.dart';
-import 'package:aniflow/core/database_drift/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 
 extension MediaListMapper on MediaListEntity {
   MediaListItemModel toModel() {
