@@ -40,7 +40,6 @@ dependencies:
   freezed_annotation: ^2.4.1
   build_runner: ^2.4.6
   json_annotation: ^4.8.1
-  sqflite: ^2.3.0
   sqflite_common_ffi: ^2.3.0+2
   shared_preferences: ^2.2.1
   flutter_localizations:
