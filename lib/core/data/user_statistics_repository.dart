@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:aniflow/core/common/model/user_statics_sort.dart';
-import 'package:aniflow/core/common/model/user_stats_type.dart';
+import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
+import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -48,16 +48,13 @@ class UserStatisticsRepositoryImpl extends UserStatisticsRepository {
     try {
       final cachedMediaEntities = await mediaDao.getMedias(ids);
       if (cachedMediaEntities.length == ids.length) {
-        final result = cachedMediaEntities
-            .map((e) => e.toModel())
-            .toList();
+        final result = cachedMediaEntities.map((e) => e.toModel()).toList();
         return LoadSuccess(data: result);
       }
 
       final mediaDtoList = await dataSource.getMediasById(ids, cancelToken);
 
-      final mediaModelList =
-          mediaDtoList.map((e) => MediaModel.fromDto(e)).toList();
+      final mediaModelList = mediaDtoList.map((e) => e.toModel()).toList();
 
       return LoadSuccess(data: mediaModelList);
     } on DioException catch (e) {

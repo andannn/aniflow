@@ -1,8 +1,5 @@
-import 'package:aniflow/core/data/mappers/character_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
-import 'package:aniflow/core/database/mappers/character_mapper.dart';
-import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character_model.freezed.dart';
@@ -24,8 +21,4 @@ class CharacterModel with _$CharacterModel {
     @Default(false) bool isFavourite,
     @Default([]) List<MediaModel> relatedMedias,
   }) = _CharacterModel;
-
-  static CharacterModel fromDto(CharacterDto dto) {
-    return dto.toEntity().toModel();
-  }
 }

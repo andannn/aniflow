@@ -1,5 +1,5 @@
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/common/model/media_sort.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:flutter/material.dart';
 
 abstract class AFLocalizations {

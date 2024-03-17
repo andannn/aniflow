@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

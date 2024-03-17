@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/model/notification_type.dart';
+import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

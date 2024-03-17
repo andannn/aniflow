@@ -1,15 +1,17 @@
 import 'dart:convert';
 
-import 'package:aniflow/core/common/model/anime_season.dart';
-import 'package:aniflow/core/common/model/anime_source.dart';
-import 'package:aniflow/core/common/model/media_status.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/anime_source.dart';
+import 'package:aniflow/core/common/definitions/media_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/data/model/media_cover_image_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/trailter_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/mappers/media_mapper.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 
 extension MediaMapper on MediaEntity {
   MediaModel toModel() {
@@ -63,5 +65,11 @@ extension MediaMapper on MediaEntity {
           ? DateTime.fromMillisecondsSinceEpoch(endDate!)
           : null,
     );
+  }
+}
+
+extension MediaMapper2 on MediaDto {
+  MediaModel toModel() {
+    return toEntity().toModel();
   }
 }

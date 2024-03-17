@@ -1,6 +1,6 @@
 
-import 'package:aniflow/core/common/model/ani_list_settings.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

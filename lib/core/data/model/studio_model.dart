@@ -1,6 +1,3 @@
-import 'package:aniflow/core/data/mappers/studio_mapper.dart';
-import 'package:aniflow/core/database/mappers/studio_mapper.dart';
-import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'studio_model.freezed.dart';
@@ -15,7 +12,4 @@ class StudioModel with _$StudioModel {
     @Default(false) bool isAnimationStudio,
   }) = _StudioModel;
 
-  static StudioModel fromDto(StudioDto dto) {
-    return dto.toEntity().toModel();
-  }
 }

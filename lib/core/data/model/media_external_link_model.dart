@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/model/media_external_link_type.dart';
+import 'package:aniflow/core/common/definitions/media_external_link_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_external_link_model.freezed.dart';

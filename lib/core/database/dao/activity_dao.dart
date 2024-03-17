@@ -30,7 +30,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
 
       batch.insertAll(
         userTable,
-        entities.map((e) => e.user),
+        entities.map((e) => e.user).whereNotNull(),
         mode: InsertMode.insertOrIgnore,
       );
 
@@ -63,7 +63,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
 
       batch.insertAll(
         userTable,
-        entities.map((e) => e.user),
+        entities.map((e) => e.user).whereNotNull(),
         mode: InsertMode.insertOrIgnore,
       );
 

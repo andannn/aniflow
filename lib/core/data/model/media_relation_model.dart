@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/media_relation.dart';
+import 'package:aniflow/core/common/definitions/media_relation.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 
 class MediaRelationModel {

@@ -1,18 +1,17 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/model/activity_filter_type.dart';
-import 'package:aniflow/core/common/model/activity_scope_category.dart';
-import 'package:aniflow/core/common/model/activity_type.dart';
-import 'package:aniflow/core/common/model/extension/activity_type_extension.dart';
+import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
+import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
+import 'package:aniflow/core/common/definitions/activity_type.dart';
+import 'package:aniflow/core/common/definitions/extension/activity_type_extension.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/activity_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/database/relations/activity_and_user_relation.dart';
+import 'package:aniflow/core/database/mappers/activity_mapper.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
@@ -122,7 +121,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
           activityDao.upsertActivityEntitiesWithCategory(entities, categoryKey),
       onGetEntityFromDB: (page, perPage) =>
           activityDao.getActivityEntitiesByPage(categoryKey, page, perPage),
-      mapDtoToEntity: (dto) => ActivityAndUserRelation.fromDto(dto),
+      mapDtoToEntity: (dto) => dto.toEntity(),
       mapEntityToModel: (entity) => entity.toModel(),
     );
   }
@@ -134,7 +133,8 @@ class ActivityRepositoryImpl implements ActivityRepository {
     required String userId,
     CancelToken? token,
   }) {
-    return LoadPageUtil.loadPageWithoutOrderingCache<AniActivity, ActivityModel>(
+    return LoadPageUtil.loadPageWithoutOrderingCache<AniActivity,
+        ActivityModel>(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) {
@@ -153,12 +153,10 @@ class ActivityRepositoryImpl implements ActivityRepository {
         );
       },
       onInsertToDB: (List<AniActivity> dto) async {
-        final entities =
-            dto.map((e) => ActivityAndUserRelation.fromDto(e)).toList();
-        logger.d('JQN $entities');
+        final entities = dto.map((e) => e.toEntity()).toList();
         await activityDao.upsertActivityEntities(entities);
       },
-      mapDtoToModel: ActivityModel.fromDto,
+      mapDtoToModel: (dto) => dto.toModel(),
     );
   }
 
@@ -233,7 +231,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       final activity =
           await aniListDataSource.getActivityDetail(activityId, token);
 
-      final activityModel = ActivityModel.fromDto(activity);
+      final activityModel = activity.toModel();
       return LoadSuccess(data: activityModel.replies);
     } on DioException catch (e) {
       return LoadError(e);

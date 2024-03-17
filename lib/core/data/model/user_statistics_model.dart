@@ -1,3 +1,5 @@
+import 'package:aniflow/core/data/mappers/staff_mapper.dart';
+import 'package:aniflow/core/data/mappers/studio_mapper.dart';
 import 'package:aniflow/core/data/model/media_tag_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
@@ -44,7 +46,7 @@ sealed class UserStatisticsModel extends Equatable {
           meanScore: dto.meanScore ?? 0,
           chaptersRead: dto.chaptersRead ?? 0,
           mediaIds: dto.mediaIds.map((e) => e.toString()).toList(),
-          studio: StudioModel.fromDto(dto.studio!),
+          studio: dto.studio!.toModel(),
         );
       case UserStaffStaticsDto():
         return UserStaffStatisticsModel(
@@ -53,7 +55,7 @@ sealed class UserStatisticsModel extends Equatable {
           meanScore: dto.meanScore ?? 0,
           chaptersRead: dto.chaptersRead ?? 0,
           mediaIds: dto.mediaIds.map((e) => e.toString()).toList(),
-          staff: StaffModel.fromDto(dto.staff!),
+          staff: dto.staff!.toModel(),
         );
       case UserVoiceActorStaticsDto():
         return UserStaffStatisticsModel(
@@ -62,7 +64,7 @@ sealed class UserStatisticsModel extends Equatable {
           meanScore: dto.meanScore ?? 0,
           chaptersRead: dto.chaptersRead ?? 0,
           mediaIds: dto.mediaIds.map((e) => e.toString()).toList(),
-          staff: StaffModel.fromDto(dto.voiceActor!),
+          staff: dto.voiceActor!.toModel(),
         );
       case UserTagStaticsDto():
         return UserTagStatisticsModel(

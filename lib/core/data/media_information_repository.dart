@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/media_sort.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -529,7 +529,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
         await mediaDao.insertOrIgnoreMedia(medias);
       },
-      mapDtoToModel: (edge) => MediaModel.fromDto(edge.media!),
+      mapDtoToModel: (edge) => edge.media!.toModel(),
     );
   }
 }

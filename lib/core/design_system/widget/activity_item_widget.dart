@@ -63,10 +63,10 @@ class ActivityItem extends StatelessWidget {
                   width: 85,
                   child: InkWell(
                     onTap: () {
-                      onMediaClick?.call(activity.media.id);
+                      onMediaClick?.call(activity.media!.id);
                     },
                     child: AFNetworkImage(
-                      imageUrl: activity.media.coverImage?.large ?? '',
+                      imageUrl: activity.media!.coverImage?.large ?? '',
                     ),
                   ),
                 ),
@@ -79,7 +79,7 @@ class ActivityItem extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            model.user.name,
+                            model.user!.name,
                             style: textTheme.labelLarge!
                                 .copyWith(color: colorScheme.primary),
                           ),
@@ -102,7 +102,7 @@ class ActivityItem extends StatelessWidget {
                           children: activity.createTextSpanList(
                             context,
                             onMediaClick: () {
-                              onMediaClick?.call(activity.media.id);
+                              onMediaClick?.call(activity.media!.id);
                             },
                           ),
                         ),
@@ -116,10 +116,10 @@ class ActivityItem extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                onUserIconClick?.call(activity.user.id);
+                                onUserIconClick?.call(activity.user!.id);
                               },
                               child:
-                                  buildAvatarIcon(context, model.user.avatar),
+                                  buildAvatarIcon(context, model.user!.avatar),
                             ),
                             const Expanded(child: SizedBox()),
                             Padding(
@@ -168,13 +168,13 @@ class ActivityItem extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        onUserIconClick?.call(activity.user.id);
+                        onUserIconClick?.call(activity.user!.id);
                       },
-                      child: buildAvatarIcon(context, model.user.avatar),
+                      child: buildAvatarIcon(context, model.user!.avatar),
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      model.user.name,
+                      model.user!.name,
                       style: textTheme.labelLarge!.copyWith(
                         color: colorScheme.primary,
                       ),

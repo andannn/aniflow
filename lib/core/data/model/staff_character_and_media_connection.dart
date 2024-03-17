@@ -1,4 +1,6 @@
-import 'package:aniflow/core/common/model/character_role.dart';
+import 'package:aniflow/core/common/definitions/character_role.dart';
+import 'package:aniflow/core/data/mappers/character_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/network/model/media_edge.dart';
@@ -16,8 +18,8 @@ class CharacterAndMediaConnection {
 
   static CharacterAndMediaConnection fromDto(MediaEdge edge) {
     return CharacterAndMediaConnection(
-      character: CharacterModel.fromDto(edge.characters.first),
-      media: edge.media != null ? MediaModel.fromDto(edge.media!) : null,
+      character: edge.characters.first.toModel(),
+      media: edge.media?.toModel(),
       role: edge.characterRole,
     );
   }

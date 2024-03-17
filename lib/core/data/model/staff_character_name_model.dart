@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'staff_character_name_model.freezed.dart';

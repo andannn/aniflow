@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';

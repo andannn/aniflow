@@ -1,5 +1,5 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/core/common/model/user_stats_type.dart';
+import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';

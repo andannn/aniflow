@@ -1,7 +1,7 @@
+import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
-import 'package:aniflow/core/data/model/notification_type.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';

@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/model/notification_type.dart';
+import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:aniflow/core/network/api/user_content_graphql.dart';

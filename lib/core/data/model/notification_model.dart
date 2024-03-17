@@ -2,6 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:aniflow/core/data/mappers/activity_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_mapper.dart';
+import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -34,48 +37,47 @@ sealed class NotificationModel extends Equatable {
         return AiringNotification(
           createdAt: dto.createdAt ?? 0,
           episode: dto.episode ?? 0,
-          media: MediaModel.fromDto(dto.media!),
+          media: dto.media!.toModel(),
           context: jsonEncode(dto.contexts),
         );
       case FollowingNotificationDto():
         return FollowNotification(
-          user: UserModel.fromDto(dto.user!),
+          user: dto.user!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
       case ActivityLikeNotificationDto():
-        dto.activity;
         return ActivityLikeNotification(
-          user: UserModel.fromDto(dto.user!),
-          activity: ActivityModel.fromDto(dto.activity!),
+          user: dto.user!.toModel(),
+          activity: dto.activity!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
       case ActivityReplyNotificationDto():
         return ActivityReplyNotification(
-          user: UserModel.fromDto(dto.user!),
-          activity: ActivityModel.fromDto(dto.activity!),
+          user: dto.user!.toModel(),
+          activity: dto.activity!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
       case ActivityReplyLikeNotificationDto():
         return ActivityReplyLikeNotification(
-          user: UserModel.fromDto(dto.user!),
-          activity: ActivityModel.fromDto(dto.activity!),
+          user: dto.user!.toModel(),
+          activity: dto.activity!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
       case ActivityReplySubscribedNotificationDto():
         return ActivityReplySubscribedNotification(
-          user: UserModel.fromDto(dto.user!),
-          activity: ActivityModel.fromDto(dto.activity!),
+          user: dto.user!.toModel(),
+          activity: dto.activity!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
       case ActivityMessageNotificationDto():
         return ActivityMessageNotification(
-          user: UserModel.fromDto(dto.user!),
-          activity: ActivityModel.fromDto(dto.activity!),
+          user: dto.user!.toModel(),
+          activity: dto.activity!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
@@ -84,14 +86,14 @@ sealed class NotificationModel extends Equatable {
         return MediaDataChangeNotification(
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
-          media: MediaModel.fromDto(dto.media!),
+          media: dto.media!.toModel(),
           reason: dto.reason ?? '',
         );
       case RelatedMediaAdditionNotificationDto():
         return RelatedMediaAdditionNotification(
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
-          media: MediaModel.fromDto(dto.media!),
+          media: dto.media!.toModel(),
         );
       case MediaDeletionNotificationDto():
         return MediaDeletionNotification(
@@ -104,7 +106,7 @@ sealed class NotificationModel extends Equatable {
         return MediaMergeNotification(
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
-          media: MediaModel.fromDto(dto.media!),
+          media: dto.media!.toModel(),
         );
       default:
         throw Exception('Invalid type');

@@ -17,7 +17,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
     return (delete(mediaListTable)..where((t) => t.userId.equals(userId))).go();
   }
 
-  Future<List<MediaListAndMedia>> getMediaListByPage(
+  Future<List<MediaListAndMediaRelation>> getMediaListByPage(
       String userId, List<String> status,
       {required String mediaType,
       required int page,
@@ -38,7 +38,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
 
     return query
         .map(
-          (row) => MediaListAndMedia(
+          (row) => MediaListAndMediaRelation(
               mediaListEntity: row.readTable(mediaListTable),
               mediaEntity: row.readTable(mediaTable)),
         )
@@ -88,7 +88,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
         .go();
   }
 
-  Stream<List<MediaListAndMedia>> getAllMediaListOfUserStream(
+  Stream<List<MediaListAndMediaRelation>> getAllMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
     final query = select(mediaListTable).join([
       innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
@@ -101,7 +101,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
 
     return query
         .map(
-          (row) => MediaListAndMedia(
+          (row) => MediaListAndMediaRelation(
             mediaListEntity: row.readTable(mediaListTable),
             mediaEntity: row.readTable(mediaTable),
           ),
@@ -110,7 +110,8 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
   }
 
   /// upsert mediaList and ignore media when conflict.
-  Future upsertMediaListAndMediaRelations(List<MediaListAndMedia> entities) {
+  Future upsertMediaListAndMediaRelations(
+      List<MediaListAndMediaRelation> entities) {
     return batch((batch) {
       batch.insertAllOnConflictUpdate(
         mediaListTable,

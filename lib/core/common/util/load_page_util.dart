@@ -17,8 +17,7 @@ mixin LoadPageUtil {
         case Refresh(perPage: final perPage):
 
           /// get data from network datasource.
-          final networkRes =
-              await onGetNetworkRes(1, perPage);
+          final networkRes = await onGetNetworkRes(1, perPage);
 
           /// insert the anime to db.
           final dbAnimeList = networkRes.map((e) => mapDtoToEntity(e)).toList();
@@ -57,7 +56,8 @@ mixin LoadPageUtil {
     }
   }
 
-  static Future<LoadResult<List<Model>>> loadPageWithoutOrderingCache<Dto, Model>({
+  static Future<LoadResult<List<Model>>>
+      loadPageWithoutOrderingCache<Dto, Model>({
     required page,
     required perPage,
     required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,

@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/character_role.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/character_role.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/data/mappers/character_mapper.dart';
 import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';

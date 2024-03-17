@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/user_stats_type.dart';
+import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -1,7 +1,7 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';

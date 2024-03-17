@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_type.g.dart';

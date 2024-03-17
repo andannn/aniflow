@@ -1,5 +1,5 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';

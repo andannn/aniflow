@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:aniflow/core/channel/auth_event_channel.dart';
-import 'package:aniflow/core/common/model/ani_list_settings.dart';
-import 'package:aniflow/core/common/model/setting/score_format.dart';
-import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
-import 'package:aniflow/core/common/model/setting/user_title_language.dart';
+import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';

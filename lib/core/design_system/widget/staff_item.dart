@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';

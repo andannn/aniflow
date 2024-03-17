@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:aniflow/core/common/model/activity_filter_type.dart';
-import 'package:aniflow/core/common/model/activity_scope_category.dart';
-import 'package:aniflow/core/common/model/ani_list_settings.dart';
-import 'package:aniflow/core/common/model/anime_season.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/common/model/setting/theme_setting.dart';
+import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
+import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
+import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
+import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/shared_preference/state_stream.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
