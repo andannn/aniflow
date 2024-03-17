@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';

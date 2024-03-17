@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/activity_type.dart';
+import 'package:aniflow/core/common/definitions/activity_type.dart';
 import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:aniflow/core/network/api/user_content_graphql.dart';
 

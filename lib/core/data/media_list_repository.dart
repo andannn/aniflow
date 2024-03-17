@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/model/media_list_status.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/common/model/setting/score_format.dart';
+import 'package:aniflow/core/common/definitions/media_list_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
@@ -8,7 +8,6 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
-import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
@@ -101,7 +100,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       return LoadError(const NotFoundException());
     }
 
-    return LoadPageUtil.loadPageWithoutDBCache(
+    return LoadPageUtil.loadPageWithoutOrderingCache(
       onGetNetworkRes: (int page, int perPage) {
         return aniListDataSource.getUserMediaListPage(
           param: UserAnimeListPageQueryParam(
@@ -116,7 +115,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       },
       page: page,
       perPage: perPage,
-      mapDtoToModel: (dto) => MediaListItemModel.fromDto(dto),
+      mapDtoToModel: (dto) => dto.toModel(),
       onInsertToDB: (dto) async {
         final entities = dto.map((e) => e.media!.toEntity()).toList();
         await mediaDao.insertOrIgnoreMedia(entities);
@@ -151,7 +150,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
 
       /// insert data to db.
       final entities =
-          networkAnimeList.map((e) => MediaListAndMedia.fromDto(e)).toList();
+          networkAnimeList.map((e) => e.toRelation()).toList();
       await mediaListDao.upsertMediaListAndMediaRelations(entities);
 
       return LoadSuccess(data: null);
@@ -183,9 +182,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       );
 
       /// insert data to db.
-      final entity = networkMediaList != null
-          ? MediaListAndMedia.fromDto(networkMediaList)
-          : null;
+      final entity = networkMediaList?.toRelation();
 
       if (entity == null) {
         return LoadError(Exception('No media list'));

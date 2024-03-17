@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/user_statics_sort.dart';
-import 'package:aniflow/core/common/model/user_stats_type.dart';
+import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
+import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';

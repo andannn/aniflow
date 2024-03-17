@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/core/data/model/notification_type.dart';
+import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';

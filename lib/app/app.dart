@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/root_router_delegate.dart';
 import 'package:aniflow/app/root_router_info_parser.dart';
-import 'package:aniflow/core/common/model/setting/theme_setting.dart';
+import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dynamic_color/dynamic_color.dart';

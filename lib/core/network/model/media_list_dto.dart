@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/media_list_status.dart';
+import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

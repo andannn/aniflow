@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/model/ani_list_settings.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/common/model/setting/about.dart';
-import 'package:aniflow/core/common/model/setting/display_adult_content.dart';
-import 'package:aniflow/core/common/model/setting/score_format.dart';
-import 'package:aniflow/core/common/model/setting/setting.dart';
-import 'package:aniflow/core/common/model/setting/theme_setting.dart';
-import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
-import 'package:aniflow/core/common/model/setting/user_title_language.dart';
+import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/setting/about.dart';
+import 'package:aniflow/core/common/setting/display_adult_content.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
+import 'package:aniflow/core/common/setting/setting.dart';
+import 'package:aniflow/core/common/setting/theme_setting.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';

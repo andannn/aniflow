@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/common/model/setting/about.dart';
-import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/setting/about.dart';
+import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';

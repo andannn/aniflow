@@ -1,5 +1,5 @@
 
-import 'package:aniflow/core/common/model/setting/score_format.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_list_option_dto.freezed.dart';

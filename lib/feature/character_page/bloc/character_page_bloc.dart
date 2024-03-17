@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_model.dart';
 import 'package:bloc/bloc.dart';
 

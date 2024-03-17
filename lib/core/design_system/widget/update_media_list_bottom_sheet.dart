@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/media_list_status.dart';
-import 'package:aniflow/core/common/model/setting/score_format.dart';
+import 'package:aniflow/core/common/definitions/media_list_status.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/dialog/scoring_dialog.dart';

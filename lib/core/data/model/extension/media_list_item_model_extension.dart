@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/media_status.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/media_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 
 extension MediaListItemModelEx on MediaListItemModel {

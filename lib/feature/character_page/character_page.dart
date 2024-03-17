@@ -1,7 +1,7 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
-import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';

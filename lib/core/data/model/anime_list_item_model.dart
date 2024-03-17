@@ -1,9 +1,5 @@
-import 'package:aniflow/core/common/model/media_list_status.dart';
-import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
-import 'package:aniflow/core/data/mappers/media_mapper.dart';
+import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
-import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -26,16 +22,6 @@ class MediaListItemModel with _$MediaListItemModel {
     MediaModel? animeModel,
   }) = _MediaListItemModel;
 
-  static MediaListItemModel fromRelation(MediaListAndMedia model) {
-    return model.mediaListEntity.toModel().copyWith(
-      animeModel: model.mediaEntity.toModel(),
-    );
-  }
-
-  static MediaListItemModel fromDto(MediaListDto dto) {
-    final entity = MediaListAndMedia.fromDto(dto);
-    return MediaListItemModel.fromRelation(entity);
-  }
 }
 
 extension MediaListItemModelState on MediaListStatus {

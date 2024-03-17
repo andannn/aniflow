@@ -1,8 +1,10 @@
-import 'package:aniflow/core/common/model/activity_type.dart';
+import 'package:aniflow/core/common/definitions/activity_type.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
+import 'package:aniflow/core/database/mappers/activity_mapper.dart';
 import 'package:aniflow/core/database/relations/activity_and_user_relation.dart';
+import 'package:aniflow/core/network/model/ani_activity.dart';
 
 extension ActivityMapper on ActivityAndUserRelation {
   ActivityModel toModel() {
@@ -19,7 +21,7 @@ extension ActivityMapper on ActivityAndUserRelation {
           likeCount: activity.likeCount,
           isPinned: activity.isPinned ?? false,
           createdAt: activity.createdAt!,
-          user: user.toModel(),
+          user: user!.toModel(),
           replies: const [],
         );
 
@@ -35,14 +37,20 @@ extension ActivityMapper on ActivityAndUserRelation {
           likeCount: activity.likeCount,
           isPinned: activity.isPinned ?? false,
           createdAt: activity.createdAt!,
-          user: user.toModel(),
+          user: user?.toModel(),
           status: activity.status ?? '',
           progress: activity.progress ?? '',
-          media: media!.toModel(),
+          media: media?.toModel(),
           replies: const [],
         );
       case ActivityType.message:
         throw Exception('Invalid type');
     }
+  }
+}
+
+extension ActivityMapper2 on AniActivity {
+  ActivityModel toModel() {
+    return toEntity().toModel();
   }
 }

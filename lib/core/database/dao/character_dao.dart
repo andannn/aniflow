@@ -115,7 +115,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
     return (query.map(
       (row) => CharacterAndVoiceActorRelation(
         characterEntity: row.readTable(characterTable),
-        voiceActorEntity: row.readTable(staffTable),
+        voiceActorEntity: row.readTableOrNull(staffTable),
         staffLanguage: row.read(characterVoiceActorCrossRefTable.language),
         characterRole: row.read(characterVoiceActorCrossRefTable.role),
       ),
@@ -132,7 +132,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
     return (query.map(
       (row) => CharacterAndVoiceActorRelation(
         characterEntity: row.readTable(characterTable),
-        voiceActorEntity: row.readTable(staffTable),
+        voiceActorEntity: row.readTableOrNull(staffTable),
         staffLanguage: row.read(characterVoiceActorCrossRefTable.language),
         characterRole: row.read(characterVoiceActorCrossRefTable.role),
       ),
@@ -185,8 +185,8 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
               (e) => CharacterVoiceActorCrossRefTableCompanion(
                 characterId: Value(e.characterEntity.id),
                 staffId: Value(e.voiceActorEntity!.id),
-                role: Value.ofNullable(e.characterRole),
-                language: Value.ofNullable(e.staffLanguage),
+                role: Value.absentIfNull(e.characterRole),
+                language: Value.absentIfNull(e.staffLanguage),
               ),
             ),
         mode: InsertMode.insertOrReplace,

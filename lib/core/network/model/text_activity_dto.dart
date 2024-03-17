@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/activity_type.dart';
+import 'package:aniflow/core/common/definitions/activity_type.dart';
 import 'package:aniflow/core/network/model/activity_reply_dto.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';

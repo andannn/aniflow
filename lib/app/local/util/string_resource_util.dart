@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/core/common/model/activity_filter_type.dart';
-import 'package:aniflow/core/common/model/anime_season.dart';
-import 'package:aniflow/core/common/model/anime_source.dart';
-import 'package:aniflow/core/common/model/character_role.dart';
-import 'package:aniflow/core/common/model/media_status.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
+import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/anime_source.dart';
+import 'package:aniflow/core/common/definitions/character_role.dart';
+import 'package:aniflow/core/common/definitions/media_status.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -204,7 +204,7 @@ extension ListActivityModelEx on ListActivityModel {
     return [
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
-        text: media.title!.getTitle(
+        text: media!.title!.getTitle(
             AniFlowPreferences().aniListSettings.value.userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,

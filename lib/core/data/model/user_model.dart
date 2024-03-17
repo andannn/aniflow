@@ -1,6 +1,3 @@
-import 'package:aniflow/core/data/mappers/user_mapper.dart';
-import 'package:aniflow/core/database/mappers/user_mapper.dart';
-import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,10 +13,6 @@ class UserModel with _$UserModel {
     Color? profileColor,
     @Default(0) int unreadNotificationCount,
   }) = _UserModel;
-
-  static UserModel fromDto(UserDto dto) {
-    return dto.toEntity().toModel();
-  }
 }
 
 mixin ProfileColorDict {

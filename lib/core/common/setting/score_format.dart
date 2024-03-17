@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'score_format.g.dart';

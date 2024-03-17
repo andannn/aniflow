@@ -1,7 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/core/common/model/favorite_category.dart';
+import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';

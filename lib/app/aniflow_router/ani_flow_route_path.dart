@@ -1,5 +1,5 @@
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
-import 'package:aniflow/core/common/model/anime_category.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/anime_search/media_search.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';

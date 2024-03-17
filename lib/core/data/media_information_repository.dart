@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/media_sort.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -192,7 +192,8 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         characterEntity: dto.characterNode!.toEntity(),
         voiceActorEntity: dto.voiceActors.firstOrNull?.toEntity(),
         characterRole: dto.role?.toJson(),
-        staffLanguage: language.toJson(),
+        staffLanguage:
+            dto.voiceActors.firstOrNull != null ? language.toJson() : null,
       ),
       mapEntityToModel: (entity) =>
           CharacterAndVoiceActorRelation.fromDatabaseEntity(entity),
@@ -454,7 +455,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     required MediaSort mediaSort,
     CancelToken? token,
   }) {
-    return LoadPageUtil.loadPageWithoutDBCache(
+    return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
@@ -511,7 +512,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       required int perPage,
       required String studioId,
       CancelToken? token}) {
-    return LoadPageUtil.loadPageWithoutDBCache<MediaEdge, MediaModel>(
+    return LoadPageUtil.loadPageWithoutOrderingCache<MediaEdge, MediaModel>(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
@@ -528,7 +529,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
         await mediaDao.insertOrIgnoreMedia(medias);
       },
-      mapDtoToModel: (edge) => MediaModel.fromDto(edge.media!),
+      mapDtoToModel: (edge) => edge.media!.toModel(),
     );
   }
 }

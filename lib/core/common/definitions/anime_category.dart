@@ -1,5 +1,5 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:flutter/cupertino.dart';
 
 enum MediaCategory {

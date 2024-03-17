@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/activity_filter_type.dart';
-import 'package:aniflow/core/common/model/activity_scope_category.dart';
+import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
+import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_state.dart';
 import 'package:bloc/bloc.dart';

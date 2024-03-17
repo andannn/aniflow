@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/model/setting/score_format.dart';
-import 'package:aniflow/core/common/model/setting/user_staff_name_language.dart';
-import 'package:aniflow/core/common/model/setting/user_title_language.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/network/api/user_content_graphql.dart';
 
 const String authCheckMotion = '''

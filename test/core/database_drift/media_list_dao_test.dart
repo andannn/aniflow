@@ -19,7 +19,7 @@ void main() {
     });
 
     final dummyData = [
-      const MediaListAndMedia(
+      const MediaListAndMediaRelation(
         mediaEntity: MediaEntity(
             id: '8917',
             englishTitle: 'Bodacious Space Pirates',
@@ -36,7 +36,7 @@ void main() {
           status: 'current',
         ),
       ),
-      const MediaListAndMedia(
+      const MediaListAndMediaRelation(
         mediaEntity: MediaEntity(
           id: '9523',
           englishTitle: '',

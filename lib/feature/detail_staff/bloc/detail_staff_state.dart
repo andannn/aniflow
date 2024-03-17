@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/media_sort.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/model/setting/setting.dart';
+import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:flutter/material.dart';
 

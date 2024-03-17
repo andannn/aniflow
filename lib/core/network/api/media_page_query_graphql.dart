@@ -1,9 +1,9 @@
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/anime_format.dart';
-import 'package:aniflow/core/common/model/anime_season.dart';
-import 'package:aniflow/core/common/model/media_sort.dart';
-import 'package:aniflow/core/common/model/media_status.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/anime_format.dart';
+import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/definitions/media_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:country_code/country_code.dart';
 

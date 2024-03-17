@@ -2,8 +2,8 @@
 
 import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
 import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/favorite_category.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';

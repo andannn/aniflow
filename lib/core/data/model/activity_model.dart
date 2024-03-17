@@ -1,9 +1,6 @@
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/network/model/ani_activity.dart';
-import 'package:aniflow/core/network/model/list_activity_dto.dart';
-import 'package:aniflow/core/network/model/text_activity_dto.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class ActivityModel extends Equatable {
@@ -15,7 +12,7 @@ sealed class ActivityModel extends Equatable {
   final int likeCount;
   final bool isPinned;
   final int createdAt;
-  final UserModel user;
+  final UserModel? user;
   final List<ActivityReplyModel> replies;
 
   const ActivityModel({
@@ -44,52 +41,12 @@ sealed class ActivityModel extends Equatable {
         user,
         ...replies
       ];
-
-  static ActivityModel fromDto(AniActivity dto) {
-    switch (dto) {
-      case TextActivityDto():
-        return TextActivityModel(
-          id: dto.id?.toString() ?? '',
-          text: dto.text ?? '',
-          replyCount: dto.replyCount ?? 0,
-          siteUrl: dto.siteUrl ?? '',
-          isLocked: dto.isLocked ?? false,
-          isLiked: dto.isLiked ?? false,
-          likeCount: dto.likeCount ?? 0,
-          isPinned: dto.isPinned ?? false,
-          createdAt: dto.createdAt ?? 0,
-          user: dto.user == null ? UserModel() : UserModel.fromDto(dto.user!),
-          replies:
-              dto.replies.map((e) => ActivityReplyModel.fromDto(e)).toList(),
-        );
-      case ListActivityDto():
-        return ListActivityModel(
-          id: dto.id?.toString() ?? '',
-          replyCount: dto.replyCount ?? 0,
-          siteUrl: dto.siteUrl ?? '',
-          isLocked: dto.isLocked ?? false,
-          isLiked: dto.isLiked ?? false,
-          likeCount: dto.likeCount ?? 0,
-          isPinned: dto.isPinned ?? false,
-          createdAt: dto.createdAt ?? 0,
-          user: dto.user == null ? UserModel() : UserModel.fromDto(dto.user!),
-          status: dto.status ?? '',
-          progress: dto.progress ?? '',
-          media:
-              dto.media == null ? MediaModel() : MediaModel.fromDto(dto.media!),
-          replies:
-              dto.replies.map((e) => ActivityReplyModel.fromDto(e)).toList(),
-        );
-      default:
-        throw Exception('Invalid type');
-    }
-  }
 }
 
 class ListActivityModel extends ActivityModel {
   final String status;
   final String progress;
-  final MediaModel media;
+  final MediaModel? media;
 
   const ListActivityModel({
     required super.id,

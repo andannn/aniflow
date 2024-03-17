@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/favorite_category.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/favorite_info_table.dart';

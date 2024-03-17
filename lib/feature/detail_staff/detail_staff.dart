@@ -1,7 +1,7 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/core/common/model/character_role.dart';
-import 'package:aniflow/core/common/model/media_sort.dart';
+import 'package:aniflow/core/common/definitions/character_role.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';

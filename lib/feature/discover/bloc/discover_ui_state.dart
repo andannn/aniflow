@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/model/ani_list_settings.dart';
-import 'package:aniflow/core/common/model/anime_category.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
+import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
+import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';

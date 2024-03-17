@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/model/character_role.dart';
-import 'package:aniflow/core/common/model/media_relation.dart';
+import 'package:aniflow/core/common/definitions/character_role.dart';
+import 'package:aniflow/core/common/definitions/media_relation.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:aniflow/core/common/model/media_sort.dart';
-import 'package:aniflow/core/common/model/media_type.dart';
-import 'package:aniflow/core/common/model/setting/score_format.dart';
-import 'package:aniflow/core/common/model/staff_language.dart';
-import 'package:aniflow/core/common/model/user_statics_sort.dart';
-import 'package:aniflow/core/common/model/user_stats_type.dart';
+import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/staff_language.dart';
+import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
+import 'package:aniflow/core/common/definitions/user_stats_type.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/network/api/activity_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
