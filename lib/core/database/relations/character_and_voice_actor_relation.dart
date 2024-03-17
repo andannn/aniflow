@@ -21,7 +21,7 @@ class CharacterAndVoiceActorRelation extends Equatable {
 
   @override
   List<Object?> get props =>
-      [characterEntity, voiceActorEntity, staffLanguage, characterEntity];
+      [characterEntity, voiceActorEntity, staffLanguage, characterRole];
 
   static CharacterAndVoiceActorModel fromDatabaseEntity(
       CharacterAndVoiceActorRelation entity) {

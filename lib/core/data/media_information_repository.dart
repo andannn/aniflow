@@ -192,7 +192,8 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         characterEntity: dto.characterNode!.toEntity(),
         voiceActorEntity: dto.voiceActors.firstOrNull?.toEntity(),
         characterRole: dto.role?.toJson(),
-        staffLanguage: language.toJson(),
+        staffLanguage:
+            dto.voiceActors.firstOrNull != null ? language.toJson() : null,
       ),
       mapEntityToModel: (entity) =>
           CharacterAndVoiceActorRelation.fromDatabaseEntity(entity),
