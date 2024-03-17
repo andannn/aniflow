@@ -101,7 +101,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       return LoadError(const NotFoundException());
     }
 
-    return LoadPageUtil.loadPageWithoutDBCache(
+    return LoadPageUtil.loadPageWithoutOrderingCache(
       onGetNetworkRes: (int page, int perPage) {
         return aniListDataSource.getUserMediaListPage(
           param: UserAnimeListPageQueryParam(

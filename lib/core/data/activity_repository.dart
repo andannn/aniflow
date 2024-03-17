@@ -134,7 +134,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
     required String userId,
     CancelToken? token,
   }) {
-    return LoadPageUtil.loadPageWithoutDBCache<AniActivity, ActivityModel>(
+    return LoadPageUtil.loadPageWithoutOrderingCache<AniActivity, ActivityModel>(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) {

@@ -7,8 +7,10 @@ import 'package:aniflow/core/network/model/airing_notification_dto.dart';
 import 'package:aniflow/core/network/model/following_notification_dto.dart';
 import 'package:aniflow/core/network/model/media_data_change_notification_dto.dart';
 import 'package:aniflow/core/network/model/media_deletion_notification_dto.dart';
+import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:aniflow/core/network/model/media_merge_notification_dto.dart';
 import 'package:aniflow/core/network/model/related_media_addition_notification_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 
 abstract class AniNotification {
   static AniNotification? mapToAniNotification(Map<String, dynamic> jsonMap) {
@@ -40,4 +42,24 @@ abstract class AniNotification {
 
     return null;
   }
+}
+
+extension AniNotificationEx on AniNotification {
+  MediaDto? get mediaDto => switch(this) {
+    AiringNotificationDto(media: final media) => media,
+    MediaDataChangeNotificationDto(media: final media) => media,
+    RelatedMediaAdditionNotificationDto(media: final media) => media,
+    MediaMergeNotificationDto(media: final media) => media,
+    _ => null,
+  };
+
+  UserDto? get userDto => switch(this) {
+    ActivityLikeNotificationDto(user : final user) => user,
+    FollowingNotificationDto(user : final user) => user,
+    ActivityReplyNotificationDto(user : final user) => user,
+    ActivityReplyLikeNotificationDto(user : final user) => user,
+    ActivityReplySubscribedNotificationDto(user : final user) => user,
+    ActivityMessageNotificationDto(user : final user) => user,
+    _ => null,
+  };
 }

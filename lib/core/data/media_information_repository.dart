@@ -455,7 +455,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     required MediaSort mediaSort,
     CancelToken? token,
   }) {
-    return LoadPageUtil.loadPageWithoutDBCache(
+    return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
@@ -512,7 +512,7 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
       required int perPage,
       required String studioId,
       CancelToken? token}) {
-    return LoadPageUtil.loadPageWithoutDBCache<MediaEdge, MediaModel>(
+    return LoadPageUtil.loadPageWithoutOrderingCache<MediaEdge, MediaModel>(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {

@@ -57,7 +57,7 @@ mixin LoadPageUtil {
     }
   }
 
-  static Future<LoadResult<List<Model>>> loadPageWithoutDBCache<Dto, Model>({
+  static Future<LoadResult<List<Model>>> loadPageWithoutOrderingCache<Dto, Model>({
     required page,
     required perPage,
     required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,

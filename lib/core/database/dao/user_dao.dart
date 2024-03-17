@@ -20,4 +20,10 @@ class UserDao extends DatabaseAccessor<AniflowDatabase2> with _$UserDaoMixin {
   Future upsertUser(UserEntity user) {
     return into(userTable).insertOnConflictUpdate(user);
   }
+
+  Future insertOrIgnoreUsers(List<UserEntity> users) {
+    return batch((batch) {
+      batch.insertAll(userTable, users, mode: InsertMode.insertOrIgnore);
+    });
+  }
 }

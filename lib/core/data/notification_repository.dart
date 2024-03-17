@@ -2,8 +2,13 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/model/notification_type.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/mappers/media_mapper.dart';
+import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/network/model/notification.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 
 enum NotificationCategory {
@@ -25,6 +30,8 @@ abstract class NotificationRepository {
 
 class NotificationRepositoryImpl extends NotificationRepository {
   final AuthDataSource dataSource = AuthDataSource();
+  final userDao = AniflowDatabase2().userDao;
+  final mediaDao = AniflowDatabase2().mediaDao;
 
   @override
   Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
@@ -54,7 +61,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
           NotificationType.mediaMerge,
         ],
     };
-    return LoadPageUtil.loadPageWithoutDBCache(
+    return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) => dataSource.getNotifications(
@@ -66,7 +73,23 @@ class NotificationRepositoryImpl extends NotificationRepository {
         token: token,
       ),
       mapDtoToModel: (dto) => NotificationModel.fromDto(dto),
-      onInsertToDB: (dto) async {},
+      onInsertToDB: (dto) async {
+        final userEntities = dto
+            .map((e) => e.userDto)
+            .whereNotNull()
+            .map((e) => e.toEntity())
+            .toList();
+
+        await userDao.insertOrIgnoreUsers(userEntities);
+
+        final mediaEntities = dto
+            .map((e) => e.mediaDto)
+            .whereNotNull()
+            .map((e) => e.toEntity())
+            .toList();
+
+        await mediaDao.insertOrIgnoreMedia(mediaEntities);
+      },
     );
   }
 }

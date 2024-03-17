@@ -32,7 +32,7 @@ class SearchRepositoryImpl implements SearchRepository {
     required MediaType type,
     CancelToken? token,
   }) {
-    return LoadPageUtil.loadPageWithoutDBCache(
+    return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
       onGetNetworkRes: (int page, int perPage) => dataSource.searchAnimePage(
