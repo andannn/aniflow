@@ -91,7 +91,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
   Stream<List<MediaListAndMedia>> getAllMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
     final query = select(mediaListTable).join([
-      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+      innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
     ])
       ..where(
         mediaListTable.status.isIn(status) &
@@ -102,8 +102,9 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
     return query
         .map(
           (row) => MediaListAndMedia(
-              mediaListEntity: row.readTable(mediaListTable),
-              mediaEntity: row.readTable(mediaTable)),
+            mediaListEntity: row.readTable(mediaListTable),
+            mediaEntity: row.readTable(mediaTable),
+          ),
         )
         .watch();
   }
@@ -116,10 +117,9 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
         entities.map((e) => e.mediaListEntity),
       );
 
-      batch.insertAll(
+      batch.insertAllOnConflictUpdate(
         mediaTable,
         entities.map((e) => e.mediaEntity),
-        mode: InsertMode.insertOrIgnore,
       );
     });
   }
