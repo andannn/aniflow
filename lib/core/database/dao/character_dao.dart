@@ -115,7 +115,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
     return (query.map(
       (row) => CharacterAndVoiceActorRelation(
         characterEntity: row.readTable(characterTable),
-        voiceActorEntity: row.readTable(staffTable),
+        voiceActorEntity: row.readTableOrNull(staffTable),
         staffLanguage: row.read(characterVoiceActorCrossRefTable.language),
         characterRole: row.read(characterVoiceActorCrossRefTable.role),
       ),
