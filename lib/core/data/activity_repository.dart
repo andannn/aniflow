@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/model/activity_scope_category.dart';
 import 'package:aniflow/core/common/model/activity_type.dart';
 import 'package:aniflow/core/common/model/extension/activity_type_extension.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/activity_mapper.dart';
@@ -154,6 +155,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       onInsertToDB: (List<AniActivity> dto) async {
         final entities =
             dto.map((e) => ActivityAndUserRelation.fromDto(e)).toList();
+        logger.d('JQN $entities');
         await activityDao.upsertActivityEntities(entities);
       },
       mapDtoToModel: ActivityModel.fromDto,

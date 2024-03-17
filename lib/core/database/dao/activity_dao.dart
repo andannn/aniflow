@@ -110,11 +110,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
   }
 
   Future<ActivityAndUserRelation> getActivity(String id) {
-    final query = select(activityFilterTypePagingCrossRefTable).join([
-      innerJoin(
-          activityTable,
-          activityTable.id
-              .equalsExp(activityFilterTypePagingCrossRefTable.activityId)),
+    final query = select(activityTable).join([
       innerJoin(userTable, activityTable.userId.equalsExp(userTable.id)),
       leftOuterJoin(mediaTable, activityTable.mediaId.equalsExp(mediaTable.id))
     ])
