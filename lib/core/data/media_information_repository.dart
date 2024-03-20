@@ -171,15 +171,19 @@ class MediaInformationRepository {
       staffStream,
       studioStream,
       externalLinkStream,
-      (media, characterList, staffList, studioList, externalLinkList) => media
-          .toModel()
-          .copyWith(
-            characterAndVoiceActors:
-                characterList.map((e) => e.toModel()).toList(),
-            staffs: staffList.map((e) => e.toModel()).toList(),
-            studios: studioList.map((e) => e.toModel()).toList(),
-            externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
-          ),
+      (media, characterList, staffList, studioList, externalLinkList) {
+        print('JQN out ${media.genres} ');
+        print('JQN out ${media.id} ');
+        return media
+            .toModel()
+            .copyWith(
+          characterAndVoiceActors:
+          characterList.map((e) => e.toModel()).toList(),
+          staffs: staffList.map((e) => e.toModel()).toList(),
+          studios: studioList.map((e) => e.toModel()).toList(),
+          externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
+        );
+      },
     );
   }
 
