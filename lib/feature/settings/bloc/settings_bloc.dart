@@ -18,6 +18,7 @@ import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class SettingEvent {}
 
@@ -45,13 +46,10 @@ class _OnMediaTypeChanged extends SettingEvent {
   final MediaType type;
 }
 
+@injectable
 class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
-  SettingsBloc({
-    required AuthRepository authRepository,
-    required SettingsRepository settingsRepository,
-  })  : _settingsRepository = settingsRepository,
-        _authRepository = authRepository,
-        super(SettingsState()) {
+  SettingsBloc(this._settingsRepository, this._authRepository)
+      : super(SettingsState()) {
     on<_OnAniListSettingsChanged>(
       (event, emit) => emit(state.copyWith(settings: event.settings)),
     );
@@ -178,9 +176,8 @@ extension SettingsStateEx on SettingsState {
           ListSettingItem(
             title: 'Media contents',
             selectedOption: selectedMediaType._createSettingOption(),
-            options: MediaType.values
-                .map((e) => e._createSettingOption())
-                .toList(),
+            options:
+                MediaType.values.map((e) => e._createSettingOption()).toList(),
           ),
         ],
       ),

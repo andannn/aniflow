@@ -5,14 +5,14 @@ import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class NotificationPagingBloc extends PagingBloc<NotificationModel> {
-  NotificationPagingBloc({
-    required NotificationRepository repository,
-    required NotificationCategory category,
-  })  : _repository = repository,
-        _category = category,
-        super(const PageInit(data: []));
+  NotificationPagingBloc(
+    this._repository,
+    @factoryParam this._category,
+  ) : super(const PageInit(data: []));
 
   final NotificationRepository _repository;
   final NotificationCategory _category;

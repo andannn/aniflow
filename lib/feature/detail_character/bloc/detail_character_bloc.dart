@@ -8,6 +8,7 @@ import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class DetailCharacterEvent {}
 
@@ -25,13 +26,14 @@ class _OnLoadingChanged extends DetailCharacterEvent {
 
 class OnToggleLike extends DetailCharacterEvent {}
 
+@injectable
 class DetailCharacterBloc
     extends Bloc<DetailCharacterEvent, DetailCharacterState> {
-  DetailCharacterBloc({
-    required this.characterId,
-    required this.mediaRepository,
-    required this.favoriteRepository,
-  }) : super(DetailCharacterState()) {
+  DetailCharacterBloc(
+    @factoryParam this._characterId,
+    this._mediaRepository,
+    this._favoriteRepository,
+  ) : super(DetailCharacterState()) {
     on<_OnDetailCharacterInfoChanged>(
       (event, emit) => emit(state.copyWith(characterModel: event.model)),
     );
@@ -41,14 +43,14 @@ class DetailCharacterBloc
     on<OnToggleLike>((event, _) async {
       _toggleLikeCancelToken?.cancel();
       _toggleLikeCancelToken = CancelToken();
-      await favoriteRepository.toggleFavoriteCharacter(
-        characterId,
+      await _favoriteRepository.toggleFavoriteCharacter(
+        _characterId,
         _toggleLikeCancelToken!,
       );
     });
 
-    _detailCharacterSub = mediaRepository
-        .getDetailCharacterStream(characterId)
+    _detailCharacterSub = _mediaRepository
+        .getDetailCharacterStream(_characterId)
         .distinct()
         .listen((model) {
       add(_OnDetailCharacterInfoChanged(model: model));
@@ -57,9 +59,9 @@ class DetailCharacterBloc
     _init();
   }
 
-  final MediaInformationRepository mediaRepository;
-  final FavoriteRepository favoriteRepository;
-  final String characterId;
+  final MediaInformationRepository _mediaRepository;
+  final FavoriteRepository _favoriteRepository;
+  final String _characterId;
   StreamSubscription? _detailCharacterSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
@@ -75,8 +77,8 @@ class DetailCharacterBloc
 
   void _init() async {
     add(_OnLoadingChanged(isLoading: true));
-    final result = await mediaRepository.startFetchDetailCharacterInfo(
-      id: characterId,
+    final result = await _mediaRepository.startFetchDetailCharacterInfo(
+      id: _characterId,
       token: _contentFetchCancelToken,
     );
 

@@ -1,11 +1,11 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
 import 'package:aniflow/feature/settings/settings.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,8 +25,7 @@ class AuthDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AuthBloc(authRepository: context.read<AuthRepository>()),
+      create: (context) => getIt.get<AuthBloc>(),
       child: const AlertDialog(
         content: _AuthDialogContent(),
       ),
@@ -62,7 +61,6 @@ class _AuthDialogContent extends StatelessWidget {
           ],
         );
       },
-      bloc: AuthBloc(authRepository: context.read<AuthRepository>()),
     );
   }
 

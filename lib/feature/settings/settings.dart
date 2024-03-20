@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
-import 'package:aniflow/core/data/auth_repository.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
@@ -12,6 +10,7 @@ import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,10 +20,7 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => SettingsBloc(
-        settingsRepository: context.read<SettingsRepository>(),
-        authRepository: context.read<AuthRepository>(),
-      ),
+      create: (BuildContext context) => getIt.get<SettingsBloc>(),
       child: const _MediaSettingsPageContent(),
     );
   }

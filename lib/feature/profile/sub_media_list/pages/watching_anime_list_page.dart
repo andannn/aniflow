@@ -1,11 +1,11 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,10 +30,9 @@ class UserAnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => WatchingAnimeListPagingBloc(
-        userId,
-        perPageCount: AfConfig.defaultPerPageCount,
-        mediaListRepository: context.read<MediaListRepository>(),
+      create: (context) => getIt.get<WatchingAnimeListPagingBloc>(
+        param1: userId,
+        param2: AfConfig.defaultPerPageCount,
       ),
       child: const _WatchingAnimePageContent(),
     );
@@ -79,7 +78,8 @@ class _WatchingAnimePageContent extends StatelessWidget {
       title: model.animeModel!.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of(context).backStack
+        AfRouterDelegate.of(context)
+            .backStack
             .navigateToDetailMedia(model.animeModel!.id);
       },
     );

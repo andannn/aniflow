@@ -1,6 +1,4 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/core/data/favorite_repository.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -11,6 +9,7 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
 import 'package:aniflow/feature/detail_studio/bloc/studio_contents_paging_bloc.dart';
+import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -38,17 +37,11 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => DetailStudioBloc(
-            studioId: id,
-            mediaRepository: context.read<MediaInformationRepository>(),
-            favoriteRepository: context.read<FavoriteRepository>(),
-          ),
+          create: (BuildContext context) => getIt.get<DetailStudioBloc>(),
         ),
         BlocProvider(
-          create: (BuildContext context) => StudioContentsPagingBloc(
-            id,
-            mediaRepository: context.read<MediaInformationRepository>(),
-          ),
+          create: (BuildContext context) =>
+              getIt.get<StudioContentsPagingBloc>(),
         ),
       ],
       child: const _DetailStudioContent(),
@@ -166,7 +159,6 @@ class _DetailStudioContent extends StatelessWidget {
 
   Widget _buildMediaItem(BuildContext context,
       {required MediaModel item, required Function(String id) onMediaClick}) {
-
     final titleLanguage =
         AniFlowPreferences().aniListSettings.value.userTitleLanguage;
     return Column(

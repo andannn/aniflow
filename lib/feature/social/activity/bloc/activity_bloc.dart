@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class ActivityEvent {}
 
@@ -31,6 +32,7 @@ class _OnActivityTypeChanged extends ActivityEvent {
   final ActivityFilterType filterType;
 }
 
+@injectable
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   ActivityBloc(this.repository) : super(ActivityState()) {
     on<OnFilterTypeChanged>(

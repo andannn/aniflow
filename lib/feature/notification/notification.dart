@@ -9,6 +9,7 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/notification/bloc/notification_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,7 @@ class NotificationPageRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => NotificationBloc(),
+      create: (BuildContext context) => getIt.get<NotificationBloc>(),
       child: const _NotificationPageContent(),
     );
   }
@@ -108,10 +109,8 @@ class _NotificationPagingBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => NotificationPagingBloc(
-              category: category,
-              repository: context.read<NotificationRepository>(),
-            ),
+        create: (BuildContext context) =>
+            getIt.get<NotificationPagingBloc>(param1: category),
         child: const _NotificationPagingContent());
   }
 }
@@ -149,7 +148,7 @@ class _NotificationPagingContent extends StatelessWidget {
             case MediaNotification():
               navigator.navigateToDetailMedia(model.media.id);
             case MediaDeletionNotification():
-              // Do nothing.
+            // Do nothing.
           }
         },
         onNotificationClick: () {

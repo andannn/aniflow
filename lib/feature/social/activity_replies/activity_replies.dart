@@ -1,6 +1,5 @@
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
-import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
@@ -9,6 +8,7 @@ import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/feature/social/activity/activity.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_bloc.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,9 +40,8 @@ class ActivityRepliesRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => ActivityRepliesBloc(
-              activityId: activityId,
-              repository: context.read<ActivityRepository>(),
+        create: (BuildContext context) => getIt.get<ActivityRepliesBloc>(
+              param1: activityId,
             ),
         child: const _ActivityRepliesPageContent());
   }

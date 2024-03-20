@@ -10,6 +10,7 @@ import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 enum NotificationCategory {
   all,
@@ -19,21 +20,15 @@ enum NotificationCategory {
   media;
 }
 
-abstract class NotificationRepository {
-  Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
-    required int page,
-    required int perPage,
-    required NotificationCategory category,
-    CancelToken? token,
-  });
-}
+@lazySingleton
+class NotificationRepository {
+  NotificationRepository(this.dataSource);
 
-class NotificationRepositoryImpl extends NotificationRepository {
-  final AuthDataSource dataSource = AuthDataSource();
+  final AuthDataSource dataSource;
+
   final userDao = AniflowDatabase2().userDao;
   final mediaDao = AniflowDatabase2().mediaDao;
 
-  @override
   Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
     required int page,
     required int perPage,

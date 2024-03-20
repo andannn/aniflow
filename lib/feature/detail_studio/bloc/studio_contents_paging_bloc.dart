@@ -8,12 +8,14 @@ import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class StudioContentsPagingBloc extends PagingBloc<MediaModel> {
   StudioContentsPagingBloc(
-    this.studioId, {
-    required this.mediaRepository,
-  }) : super(const PageInit(data: []));
+    @factoryParam this.studioId,
+    this.mediaRepository,
+  ) : super(const PageInit(data: []));
 
   final String studioId;
   final MediaInformationRepository mediaRepository;

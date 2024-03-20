@@ -5,16 +5,16 @@ import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class AniFlowPage extends Page {
   const AniFlowPage({super.key});
@@ -86,14 +86,14 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
     });
 
     _mediaTypeSub =
-        SettingsRepositoryImpl().getMediaTypeStream().distinct().listen(
+        SettingsRepository().getMediaTypeStream().distinct().listen(
       (mediaType) {
         setState(() {
           _mediaType = mediaType;
         });
       },
     );
-    _authSub = AuthRepositoryImpl()
+    _authSub = GetIt.instance.get<AuthRepository>()
         .getAuthedUserStream()
         .distinct()
         .listen((userData) {
@@ -119,24 +119,13 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => DiscoverBloc(
-            settingsRepository: context.read<SettingsRepository>(),
-            mediaRepository: context.read<MediaInformationRepository>(),
-            authRepository: context.read<AuthRepository>(),
-            animeTrackListRepository: context.read<MediaListRepository>(),
-          ),
+          create: (context) => getIt.get<DiscoverBloc>(),
         ),
         BlocProvider(
-          create: (context) => TrackBloc(
-            settingsRepository: context.read<SettingsRepository>(),
-            mediaListRepository: context.read<MediaListRepository>(),
-            authRepository: context.read<AuthRepository>(),
-          ),
+          create: (context) => getIt.get<TrackBloc>()
         ),
         BlocProvider(
-          create: (context) => AuthBloc(
-            authRepository: context.read<AuthRepository>(),
-          ),
+          create: (context) => getIt.get<AuthBloc>(),
         ),
       ],
       child: Scaffold(

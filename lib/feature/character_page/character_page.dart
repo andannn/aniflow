@@ -2,7 +2,6 @@ import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -11,6 +10,7 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:aniflow/feature/character_page/bloc/character_paging_bloc.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +34,7 @@ class CharacterListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => CharacterPageBloc(),
+      create: (context) => getIt.get<CharacterPageBloc>(),
       child: _CharacterPageContent(animeId: animeId),
     );
   }
@@ -115,10 +115,9 @@ class _CharacterPagingBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => CharacterPagingBloc(
-        animeId,
-        staffLanguage,
-        aniListRepository: context.read<MediaInformationRepository>(),
+      create: (BuildContext context) => getIt.get<CharacterPagingBloc>(
+        param1: animeId,
+        param2: staffLanguage
       ),
       child: const _CharacterListPagingContent(),
     );

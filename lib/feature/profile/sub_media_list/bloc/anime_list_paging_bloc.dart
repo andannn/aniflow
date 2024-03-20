@@ -2,21 +2,21 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   WatchingAnimeListPagingBloc(
-    this.userId, {
-    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
-    required MediaListRepository mediaListRepository,
-  })  : _mediaListRepository = mediaListRepository,
-        super(const PageInit(data: []));
+    @factoryParam this.userId,
+    this._mediaListRepository,
+    @factoryParam this.perPageCount,
+  ) : super(const PageInit(data: []));
 
   final String userId;
   final MediaListRepository _mediaListRepository;
@@ -39,13 +39,13 @@ class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   }
 }
 
+@injectable
 class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   DroppedAnimeListPagingBloc(
-    this.userId, {
-    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
-    required MediaListRepository mediaListRepository,
-  })  : _mediaListRepository = mediaListRepository,
-        super(const PageInit(data: []));
+    @factoryParam this.userId,
+    this._mediaListRepository,
+    @factoryParam this.perPageCount,
+  ) : super(const PageInit(data: []));
 
   final String userId;
   final MediaListRepository _mediaListRepository;
@@ -68,13 +68,13 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   }
 }
 
+@injectable
 class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   CompleteAnimeListPagingBloc(
-    this.userId, {
-    this.perPageCount = AfConfig.profilePageDefaultPerPageCount,
-    required MediaListRepository mediaListRepository,
-  })  : _mediaListRepository = mediaListRepository,
-        super(const PageInit(data: []));
+    @factoryParam this.userId,
+    this._mediaListRepository,
+    @factoryParam this.perPageCount,
+  ) : super(const PageInit(data: []));
 
   final String userId;
   final MediaListRepository _mediaListRepository;

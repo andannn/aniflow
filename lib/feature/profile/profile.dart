@@ -1,11 +1,6 @@
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/activity_repository.dart';
-import 'package:aniflow/core/data/favorite_repository.dart';
-import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/data/user_info_repository.dart';
-import 'package:aniflow/core/data/user_statistics_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
@@ -22,6 +17,7 @@ import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bl
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/stats.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,9 +49,8 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => ProfileBloc(
-              userId: userId,
-              userInfoRepository: context.read<UserInfoRepository>(),
+        create: (BuildContext context) => getIt.get<ProfileBloc>(
+              param1: userId,
             ),
         child: _ProfilePageContent(showBackKey: showBackKey));
   }
@@ -81,70 +76,78 @@ class _ProfilePageContent extends StatelessWidget {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (BuildContext context) => FavoriteAnimePagingBloc(
-                  userState.id,
-                  favoriteRepository: context.read<FavoriteRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<FavoriteAnimePagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => FavoriteMangaPagingBloc(
-                  userState.id,
-                  favoriteRepository: context.read<FavoriteRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<FavoriteMangaPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => FavoriteCharacterPagingBloc(
-                  userState.id,
-                  favoriteRepository: context.read<FavoriteRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<FavoriteCharacterPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => FavoriteStaffPagingBloc(
-                  userState.id,
-                  favoriteRepository: context.read<FavoriteRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<FavoriteStaffPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => WatchingAnimeListPagingBloc(
-                  userState.id,
-                  mediaListRepository: context.read<MediaListRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<WatchingAnimeListPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => DroppedAnimeListPagingBloc(
-                  userState.id,
-                  mediaListRepository: context.read<MediaListRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<DroppedAnimeListPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => CompleteAnimeListPagingBloc(
-                  userState.id,
-                  mediaListRepository: context.read<MediaListRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<CompleteAnimeListPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => ReadingMangaListPagingBloc(
-                  userState.id,
-                  mediaListRepository: context.read<MediaListRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<ReadingMangaListPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => DroppedMangaListPagingBloc(
-                  userState.id,
-                  mediaListRepository: context.read<MediaListRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<DroppedMangaListPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => StatsBloc(
-                  userState.id,
-                  repository: context.read<UserStatisticsRepository>(),
+                create: (BuildContext context) => getIt.get<StatsBloc>(
+                  param1: userState.id,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => UserActivityPagingBloc(
-                  userState.id,
-                  perPageCount: AfConfig.defaultPerPageCount,
-                  activityRepository: context.read<ActivityRepository>(),
+                create: (BuildContext context) =>
+                    getIt.get<UserActivityPagingBloc>(
+                  param1: userState.id,
+                  param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
             ],

@@ -5,6 +5,7 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 
 mixin LoadingStateRepository<T> {
   final Map<T, bool> _loadingStateMap = {};
@@ -57,14 +58,13 @@ class _LoadingStateChanged extends ProfileEvent {
   final bool isLoading;
 }
 
+@injectable
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
     with LoadingStateRepository<Type> {
-  ProfileBloc({
-    required UserInfoRepository userInfoRepository,
-    String? userId,
-  })  : _userId = userId,
-        _userInfoRepository = userInfoRepository,
-        super(ProfileState()) {
+  ProfileBloc(
+    @factoryParam this._userId,
+    this._userInfoRepository,
+  ) : super(ProfileState()) {
     on<_OnUserDataLoaded>(
       (event, emit) => emit(state.copyWith(userData: event.userData)),
     );

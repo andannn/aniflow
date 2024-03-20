@@ -45,7 +45,8 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase2>
     final query = select(favoriteInfoTable).join([
       innerJoin(mediaTable, favoriteInfoTable.infoId.equalsExp(mediaTable.id))
     ])
-      ..where(favoriteInfoTable.favoriteType.equals(favoriteValue))
+      ..where(favoriteInfoTable.favoriteType.equals(favoriteValue) &
+          favoriteInfoTable.userId.equals(userId))
       ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
       ..limit(limit, offset: offset);
 
@@ -61,7 +62,8 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase2>
           characterTable, favoriteInfoTable.infoId.equalsExp(characterTable.id))
     ])
       ..where(favoriteInfoTable.favoriteType
-          .equals(FavoriteType.character.contentValues))
+              .equals(FavoriteType.character.contentValues) &
+          favoriteInfoTable.userId.equals(userId))
       ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
       ..limit(limit, offset: offset);
 
@@ -76,7 +78,8 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase2>
       innerJoin(staffTable, favoriteInfoTable.infoId.equalsExp(staffTable.id))
     ])
       ..where(favoriteInfoTable.favoriteType
-          .equals(FavoriteType.staff.contentValues))
+              .equals(FavoriteType.staff.contentValues) &
+          favoriteInfoTable.userId.equals(userId))
       ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
       ..limit(limit, offset: offset);
 

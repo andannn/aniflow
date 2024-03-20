@@ -3,7 +3,6 @@ import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -14,6 +13,7 @@ import 'package:aniflow/feature/social/activity/bloc/activity_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,9 +23,7 @@ class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ActivityBloc(
-        context.read<ActivityRepository>(),
-      ),
+      create: (BuildContext context) => getIt.get<ActivityBloc>(),
       child: const _ActivityPageContent(),
     );
   }
@@ -165,10 +163,9 @@ class ActivityPageBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ActivityPagingBloc(
-        userType: userType,
-        filterType: filterType,
-        repository: context.read<ActivityRepository>(),
+      create: (BuildContext context) => getIt.get<ActivityPagingBloc>(
+        param1: userType,
+        param2: filterType,
       ),
       child: const ActivityPageContent(),
     );
@@ -225,10 +222,8 @@ class ActivityStatusBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ActivityStatusBloc(
-        activityId: activityId,
-        repository: context.read<ActivityRepository>(),
-      ),
+      create: (BuildContext context) =>
+          getIt.get<ActivityStatusBloc>(param1: activityId),
       child: const ActivityItemContent(),
     );
   }

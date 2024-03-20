@@ -10,6 +10,7 @@ import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 class OnSearchStringCommit<T> extends PagingEvent<T> {
   final String searchString;
@@ -17,12 +18,12 @@ class OnSearchStringCommit<T> extends PagingEvent<T> {
   OnSearchStringCommit({required this.searchString});
 }
 
+@Injectable()
 class SearchPageBloc extends PagingBloc<MediaModel> {
-  SearchPageBloc({
-    required SearchRepository searchRepository,
-    required SettingsRepository settingsRepository,
-  })  : _searchRepository = searchRepository,
-        super(const PageInit(data: [])) {
+  SearchPageBloc(
+    this._searchRepository,
+    SettingsRepository settingsRepository,
+  ) : super(const PageInit(data: [])) {
     on<OnSearchStringCommit<MediaModel>>(_onSearchStringCommit);
 
     mediaType = settingsRepository.getMediaType();

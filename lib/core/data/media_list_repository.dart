@@ -17,75 +17,20 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
 
-abstract class MediaListRepository {
-  ///
-  Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
-    required List<MediaListStatus> status,
-    required MediaType type,
-    required int page,
-    required int perPage,
-    String? userId,
-    CancelToken? token,
-  });
+@lazySingleton
+class MediaListRepository {
+  MediaListRepository(
+      {required this.authDataSource, required this.aniListDataSource});
 
-  Stream<List<MediaListItemModel>> getMediaListStream(
-      {required List<MediaListStatus> status,
-      required String userId,
-      required MediaType type});
-
-  /// Sync mediaList by [mediaType] with 50 limit.
-  Future<LoadResult<void>> syncMediaList({
-    String? userId,
-    List<MediaListStatus> status = const [],
-    MediaType? mediaType,
-    CancelToken? token,
-  });
-
-  Future<LoadResult> syncMediaListItem({
-    String? userId,
-    required String mediaId,
-    required ScoreFormat format,
-    CancelToken? token,
-  });
-
-  Stream<Set<String>> getMediaListMediaIdsByUserStream(
-      {required String userId,
-      required List<MediaListStatus> status,
-      required MediaType type});
-
-  Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
-      {required String userId, required String animeId});
-
-  Future<LoadResult<void>> updateMediaList({
-    required String animeId,
-    MediaListStatus? status,
-    String? entryId,
-    int? progress,
-    int? progressVolumes,
-    double? score,
-    int? repeat,
-    bool private = false,
-    String? notes,
-    DateTime? startedAt,
-    DateTime? completedAt,
-    CancelToken? cancelToken,
-  });
-
-  Stream<bool> getIsReleasedOnlyStream();
-
-  void setIsReleasedOnly(bool isShowReleasedOnly);
-}
-
-class MediaListRepositoryImpl extends MediaListRepository {
   final mediaListDao = AniflowDatabase2().mediaListDao;
   final userDataDao = AniflowDatabase2().userDao;
   final mediaDao = AniflowDatabase2().mediaDao;
-  final AniListDataSource aniListDataSource = AniListDataSource();
-  final AuthDataSource authDataSource = AuthDataSource();
+  final AniListDataSource aniListDataSource;
+  final AuthDataSource authDataSource;
   final AniFlowPreferences preferences = AniFlowPreferences();
 
-  @override
   Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
     required List<MediaListStatus> status,
     required MediaType type,
@@ -123,7 +68,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
     );
   }
 
-  @override
   Future<LoadResult<void>> syncMediaList({
     String? userId,
     List<MediaListStatus> status = const [],
@@ -149,8 +93,7 @@ class MediaListRepositoryImpl extends MediaListRepository {
       );
 
       /// insert data to db.
-      final entities =
-          networkAnimeList.map((e) => e.toRelation()).toList();
+      final entities = networkAnimeList.map((e) => e.toRelation()).toList();
       await mediaListDao.upsertMediaListAndMediaRelations(entities);
 
       return LoadSuccess(data: null);
@@ -159,7 +102,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
     }
   }
 
-  @override
   Future<LoadResult> syncMediaListItem({
     String? userId,
     required String mediaId,
@@ -195,7 +137,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
     }
   }
 
-  @override
   Stream<List<MediaListItemModel>> getMediaListStream(
       {required List<MediaListStatus> status,
       required String userId,
@@ -211,7 +152,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
         );
   }
 
-  @override
   Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
       {required String userId, required String animeId}) {
     return mediaListDao.getMediaListOfUserStream(userId, animeId).map(
@@ -219,7 +159,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
         );
   }
 
-  @override
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
       {required String userId,
       required List<MediaListStatus> status,
@@ -233,7 +172,6 @@ class MediaListRepositoryImpl extends MediaListRepository {
         .map((e) => e.toSet());
   }
 
-  @override
   Future<LoadResult<void>> updateMediaList({
     required String animeId,
     MediaListStatus? status,
@@ -305,10 +243,8 @@ class MediaListRepositoryImpl extends MediaListRepository {
     }
   }
 
-  @override
   Stream<bool> getIsReleasedOnlyStream() => preferences.isShowReleaseOnly;
 
-  @override
   void setIsReleasedOnly(bool isShowReleasedOnly) =>
       preferences.isShowReleaseOnly.setValue(isShowReleasedOnly);
 }

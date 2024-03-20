@@ -13,6 +13,7 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class DetailAnimeEvent {}
 
@@ -47,18 +48,15 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
   final bool isLoading;
 }
 
+@injectable
 class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
-  DetailMediaBloc({
-    required this.mediaId,
-    required MediaInformationRepository aniListRepository,
-    required AuthRepository authRepository,
-    required FavoriteRepository favoriteRepository,
-    required MediaListRepository animeTrackListRepository,
-  })  : _mediaRepository = aniListRepository,
-        _mediaListRepository = animeTrackListRepository,
-        _favoriteRepository = favoriteRepository,
-        _authRepository = authRepository,
-        super(DetailMediaUiState()) {
+  DetailMediaBloc(
+    @factoryParam this.mediaId,
+    this._authRepository,
+    this._favoriteRepository,
+    this._mediaRepository,
+    this._mediaListRepository,
+  ) : super(DetailMediaUiState()) {
     on<_OnDetailAnimeModelChangedEvent>(
       (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
     );
@@ -88,7 +86,8 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   CancelToken? _networkActionCancelToken;
 
   void _init() async {
-    _detailAnimeSub = _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
+    _detailAnimeSub =
+        _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
       (animeModel) {
         add(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },

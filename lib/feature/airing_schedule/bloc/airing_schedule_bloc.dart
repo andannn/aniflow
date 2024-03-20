@@ -7,6 +7,7 @@ import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state.dart'
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class AiringScheduleEvent {}
 
@@ -22,12 +23,12 @@ class OnRequestScheduleData extends AiringScheduleEvent {
   OnRequestScheduleData(this.pageIndex);
 }
 
+@injectable
 class AiringScheduleBloc
     extends Bloc<AiringScheduleEvent, AiringScheduleState> {
-  AiringScheduleBloc({
-    required MediaInformationRepository mediaInfoRepository,
-  })  : _mediaInfoRepository = mediaInfoRepository,
-        super(AiringScheduleState()) {
+  AiringScheduleBloc(
+    this._mediaInfoRepository,
+  ) : super(AiringScheduleState()) {
     on<_OnScheduleKeyInitialized>(_onScheduleKeyInitialized);
     on<OnRequestScheduleData>(_onRequestScheduleData);
 

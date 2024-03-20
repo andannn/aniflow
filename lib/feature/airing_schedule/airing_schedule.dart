@@ -1,6 +1,5 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
@@ -9,6 +8,7 @@ import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state_exten
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_category.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,9 +27,7 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => AiringScheduleBloc(
-        mediaInfoRepository: context.read<MediaInformationRepository>(),
-      ),
+      create: (BuildContext context) => getIt.get<AiringScheduleBloc>(),
       lazy: false,
       child: const Scaffold(
         body: _AiringScheduleContent(),
