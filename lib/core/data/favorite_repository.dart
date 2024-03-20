@@ -26,38 +26,7 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-abstract class FavoriteRepository {
-  Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
-    required MediaType type,
-    required LoadType loadType,
-    String? userId,
-    CancelToken? token,
-  });
-
-  Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage({
-    required LoadType loadType,
-    String? userId,
-    CancelToken? token,
-  });
-
-  Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage({
-    required LoadType loadType,
-    String? userId,
-    CancelToken? token,
-  });
-
-  Future<LoadResult> toggleFavoriteManga(String id, CancelToken token);
-
-  Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token);
-
-  Future<LoadResult> toggleFavoriteCharacter(String id, CancelToken token);
-
-  Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token);
-
-  Future<LoadResult> toggleFavoriteStudio(String id, CancelToken cancelToken);
-}
-
-class FavoriteRepositoryImpl implements FavoriteRepository {
+class FavoriteRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final userDataDao = AniflowDatabase2().userDao;
   final mediaInfoDao = AniflowDatabase2().mediaDao;
@@ -67,7 +36,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   final favoriteDao = AniflowDatabase2().favoriteDao;
   final preferences = AniFlowPreferences();
 
-  @override
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
     required MediaType type,
     required LoadType loadType,
@@ -117,7 +85,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     );
   }
 
-  @override
   Future<LoadResult<List<CharacterModel>>> loadFavoriteCharacterByPage({
     required LoadType loadType,
     String? userId,
@@ -152,7 +119,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     );
   }
 
-  @override
   Future<LoadResult<List<StaffModel>>> loadFavoriteStaffByPage({
     required LoadType loadType,
     String? userId,
@@ -187,7 +153,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     );
   }
 
-  @override
   Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token) async {
     final animeEntity = await mediaInfoDao.getMedia(id);
     final isLiked = animeEntity.isFavourite ?? false;
@@ -216,7 +181,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     return result;
   }
 
-  @override
   Future<LoadResult> toggleFavoriteCharacter(
       String id, CancelToken token) async {
     final characterEntity = await characterDao.getCharacter(id);
@@ -246,13 +210,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     return result;
   }
 
-  @override
   Future<LoadResult> toggleFavoriteManga(String id, CancelToken token) {
     // TODO: implement toggleFavoriteManga
     throw UnimplementedError();
   }
 
-  @override
   Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token) async {
     final staffEntity = await staffDao.getStaff(id);
     if (staffEntity == null) {
@@ -285,7 +247,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     return result;
   }
 
-  @override
   Future<LoadResult> toggleFavoriteStudio(String id, CancelToken cancelToken) {
     // TODO: implement toggleFavoriteStudio
     throw UnimplementedError();

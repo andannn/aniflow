@@ -19,21 +19,11 @@ enum NotificationCategory {
   media;
 }
 
-abstract class NotificationRepository {
-  Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
-    required int page,
-    required int perPage,
-    required NotificationCategory category,
-    CancelToken? token,
-  });
-}
-
-class NotificationRepositoryImpl extends NotificationRepository {
+class NotificationRepository {
   final AuthDataSource dataSource = AuthDataSource();
   final userDao = AniflowDatabase2().userDao;
   final mediaDao = AniflowDatabase2().mediaDao;
 
-  @override
   Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
     required int page,
     required int perPage,

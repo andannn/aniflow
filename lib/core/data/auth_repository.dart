@@ -22,29 +22,7 @@ const String _clientId = '14409';
 const String authUrl =
     'https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&response_type=token';
 
-abstract class AuthRepository {
-  Future<bool> awaitAuthLogin();
-
-  FutureOr<bool> isTokenValid();
-
-  Stream<UserModel?> getAuthedUserStream();
-
-  Future<LoadResult> updateUserSettings({
-    UserTitleLanguage? userTitleLanguage,
-    UserStaffNameLanguage? userStaffNameLanguage,
-    bool? displayAdultContent,
-    ScoreFormat? scoreFormat,
-    CancelToken? token,
-  });
-
-  Future logout();
-
-  Stream<AniListSettings> getAniListSettingsStream();
-
-  Future<LoadResult> syncUserCondition();
-}
-
-class AuthRepositoryImpl implements AuthRepository {
+class AuthRepository {
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
   final AniFlowPreferences preferences = AniFlowPreferences();
@@ -55,7 +33,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   final animeTrackListDao = AniflowDatabase2().mediaListDao;
 
-  @override
   Future<bool> awaitAuthLogin() async {
     final authUri = Uri.parse(authUrl.replaceFirst('{client_id}', _clientId));
     final canLaunch = await canLaunchUrl(authUri);
@@ -95,10 +72,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  @override
   FutureOr<bool> isTokenValid() => authDataSource.isTokenValid();
 
-  @override
   Future logout() async {
     final userId = preferences.authedUserId.value;
     if (userId != null) {
@@ -109,7 +84,6 @@ class AuthRepositoryImpl implements AuthRepository {
     await preferences.authedUserId.setValue(null);
   }
 
-  @override
   Stream<UserModel?> getAuthedUserStream() {
     Stream<String?> userIdStream = preferences.authedUserId;
     return userIdStream.asyncMap((userId) async {
@@ -122,12 +96,10 @@ class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
-  @override
   Stream<AniListSettings> getAniListSettingsStream() {
     return preferences.aniListSettings;
   }
 
-  @override
   Future<LoadResult> updateUserSettings({
     UserTitleLanguage? userTitleLanguage,
     UserStaffNameLanguage? userStaffNameLanguage,
@@ -160,11 +132,10 @@ class AuthRepositoryImpl implements AuthRepository {
       onSyncWithRemote: (settings) async {
         final user = await authDataSource.updateUserSettings(
           param: UpdateUserMotionParam(
-            titleLanguage: userTitleLanguage,
-            displayAdultContent: displayAdultContent,
-            userStaffNameLanguage: userStaffNameLanguage,
-            scoreFormat: scoreFormat
-          ),
+              titleLanguage: userTitleLanguage,
+              displayAdultContent: displayAdultContent,
+              userStaffNameLanguage: userStaffNameLanguage,
+              scoreFormat: scoreFormat),
           token: token,
         );
         return AniListSettings.fromDto(user.options!, user.mediaListOptions!);
@@ -172,7 +143,6 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  @override
   Future<LoadResult> syncUserCondition() async {
     final userId = preferences.authedUserId.value;
     if (userId == null) {

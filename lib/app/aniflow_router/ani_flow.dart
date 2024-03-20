@@ -86,14 +86,14 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
     });
 
     _mediaTypeSub =
-        SettingsRepositoryImpl().getMediaTypeStream().distinct().listen(
+        SettingsRepository().getMediaTypeStream().distinct().listen(
       (mediaType) {
         setState(() {
           _mediaType = mediaType;
         });
       },
     );
-    _authSub = AuthRepositoryImpl()
+    _authSub = AuthRepository()
         .getAuthedUserStream()
         .distinct()
         .listen((userData) {

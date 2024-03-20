@@ -32,34 +32,34 @@ void main() async {
   /// run app after core instance initialized.
   runApp(MultiRepositoryProvider(providers: [
     RepositoryProvider<MediaInformationRepository>(
-      create: (context) => MediaInformationRepositoryImpl(),
+      create: (context) => MediaInformationRepository(),
     ),
     RepositoryProvider<SettingsRepository>(
-      create: (context) => SettingsRepositoryImpl(),
+      create: (context) => SettingsRepository(),
     ),
     RepositoryProvider<AuthRepository>(
-      create: (context) => AuthRepositoryImpl(),
+      create: (context) => AuthRepository(),
     ),
     RepositoryProvider<MediaListRepository>(
-      create: (context) => MediaListRepositoryImpl(),
+      create: (context) => MediaListRepository(),
     ),
     RepositoryProvider<SearchRepository>(
-      create: (context) => SearchRepositoryImpl(),
+      create: (context) => SearchRepository(),
     ),
     RepositoryProvider<FavoriteRepository>(
-      create: (context) => FavoriteRepositoryImpl(),
+      create: (context) => FavoriteRepository(),
     ),
     RepositoryProvider<ActivityRepository>(
-      create: (context) => ActivityRepositoryImpl(),
+      create: (context) => ActivityRepository(),
     ),
     RepositoryProvider<UserInfoRepository>(
-      create: (context) => UserInfoRepositoryImpl(),
+      create: (context) => UserInfoRepository(),
     ),
     RepositoryProvider<NotificationRepository>(
-      create: (context) => NotificationRepositoryImpl(),
+      create: (context) => NotificationRepository(),
     ),
     RepositoryProvider<UserStatisticsRepository>(
-      create: (context) => UserStatisticsRepositoryImpl(),
+      create: (context) => UserStatisticsRepository(),
     ),
   ], child: const AniFlowApp()));
 

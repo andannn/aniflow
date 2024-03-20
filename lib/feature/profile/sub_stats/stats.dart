@@ -193,7 +193,7 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
   final userTitleLanguage =
       AniFlowPreferences().aniListSettings.value.userTitleLanguage;
 
-  final UserStatisticsRepository repository = UserStatisticsRepositoryImpl();
+  final UserStatisticsRepository repository = UserStatisticsRepository();
 
   late final Future<LoadResult<List<MediaModel>>> future;
 

@@ -11,21 +11,10 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
 import 'package:dio/dio.dart';
 
-abstract class SearchRepository {
-  Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage({
-    required int page,
-    required int perPage,
-    required String search,
-    required MediaType type,
-    CancelToken? token,
-  });
-}
-
-class SearchRepositoryImpl implements SearchRepository {
+class SearchRepository {
   final AniListDataSource dataSource = AniListDataSource();
   final dao = AniflowDatabase2().mediaDao;
 
-  @override
   Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage({
     required int page,
     required int perPage,

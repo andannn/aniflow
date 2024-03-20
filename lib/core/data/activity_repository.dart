@@ -35,44 +35,11 @@ class ActivityStatus extends Equatable {
   List<Object?> get props => [replyCount, likeCount, isLiked];
 }
 
-abstract class ActivityRepository {
-  Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
-    required LoadType loadType,
-    required ActivityFilterType filterType,
-    required ActivityScopeCategory scopeType,
-    CancelToken? token,
-  });
-
-  Future<LoadResult<List<ActivityModel>>> loadUserActivitiesByPage({
-    required int page,
-    required int perPage,
-    required String userId,
-    CancelToken? token,
-  });
-
-  Future setActivityFilterType(ActivityFilterType type);
-
-  Future setActivityScopeCategory(ActivityScopeCategory scopeCategory);
-
-  Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream();
-
-  Stream<ActivityStatus?> getActivityStatusStream(String id);
-
-  Future<LoadResult> toggleActivityLike(String id, CancelToken token);
-
-  Future<LoadResult<List<ActivityReplyModel>>> getActivityReplies(
-      String activityId,
-      [CancelToken? token]);
-
-  Future<ActivityModel> getActivityModel(String activityId);
-}
-
-class ActivityRepositoryImpl implements ActivityRepository {
+class ActivityRepository {
   final AniListDataSource aniListDataSource = AniListDataSource();
   final activityDao = AniflowDatabase2().activityDao;
   final AniFlowPreferences preferences = AniFlowPreferences();
 
-  @override
   Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
     required LoadType loadType,
     required ActivityFilterType filterType,
@@ -126,7 +93,6 @@ class ActivityRepositoryImpl implements ActivityRepository {
     );
   }
 
-  @override
   Future<LoadResult<List<ActivityModel>>> loadUserActivitiesByPage({
     required int page,
     required int perPage,
@@ -160,7 +126,6 @@ class ActivityRepositoryImpl implements ActivityRepository {
     );
   }
 
-  @override
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream() {
     return CombineLatestStream.combine2(
       preferences.activityFilterType,
@@ -169,15 +134,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
     );
   }
 
-  @override
   Future setActivityFilterType(ActivityFilterType type) =>
       preferences.activityFilterType.setValue(type);
 
-  @override
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
       preferences.activityScopeCategory.setValue(scopeCategory);
 
-  @override
   Stream<ActivityStatus?> getActivityStatusStream(String id) =>
       activityDao.getActivityStatusStream(id).map(
             (entity) => entity == null
@@ -189,7 +151,6 @@ class ActivityRepositoryImpl implements ActivityRepository {
                   ),
           );
 
-  @override
   Future<LoadResult> toggleActivityLike(String id, CancelToken token) async {
     final activityStatus = await activityDao.getActivityStatus(id);
 
@@ -223,7 +184,6 @@ class ActivityRepositoryImpl implements ActivityRepository {
     );
   }
 
-  @override
   Future<LoadResult<List<ActivityReplyModel>>> getActivityReplies(
       String activityId,
       [CancelToken? token]) async {
@@ -238,7 +198,6 @@ class ActivityRepositoryImpl implements ActivityRepository {
     }
   }
 
-  @override
   Future<ActivityModel> getActivityModel(String activityId) async {
     final entity = await activityDao.getActivity(activityId);
     return entity.toModel();

@@ -10,22 +10,10 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:dio/dio.dart';
 
-abstract class UserStatisticsRepository {
-  Future<LoadResult<List<UserStatisticsModel>>> getUserStatics(
-      {required String userId,
-      required UserStatisticType type,
-      required UserStaticsSort sort,
-      CancelToken? cancelToken});
-
-  Future<LoadResult<List<MediaModel>>> getMediasById(
-      {required List<String> ids, CancelToken? cancelToken});
-}
-
-class UserStatisticsRepositoryImpl extends UserStatisticsRepository {
+class UserStatisticsRepository {
   final dataSource = AniListDataSource();
   final mediaDao = AniflowDatabase2().mediaDao;
 
-  @override
   Future<LoadResult<List<UserStatisticsModel>>> getUserStatics(
       {required String userId,
       required UserStatisticType type,
@@ -42,7 +30,6 @@ class UserStatisticsRepositoryImpl extends UserStatisticsRepository {
     }
   }
 
-  @override
   Future<LoadResult<List<MediaModel>>> getMediasById(
       {required List<String> ids, CancelToken? cancelToken}) async {
     try {

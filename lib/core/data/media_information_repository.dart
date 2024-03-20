@@ -46,80 +46,7 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// repository for get anime list.
-abstract class MediaInformationRepository {
-  Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
-    required MediaCategory category,
-    required LoadType loadType,
-    CancelToken? token,
-  });
-
-  Future<LoadResult<List<CharacterAndVoiceActorModel>>>
-      loadCharacterPageByAnimeId({
-    required String animeId,
-    required StaffLanguage language,
-    required LoadType loadType,
-    CancelToken? token,
-  });
-
-  Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId({
-    required String animeId,
-    required LoadType loadType,
-    CancelToken? token,
-  });
-
-  Stream<MediaModel> getDetailMediaInfoStream(String id);
-
-  Future<LoadResult<void>> startFetchDetailAnimeInfo(
-      {required String id, CancelToken? token});
-
-  /// Get all the airing schedule of the day of [dateTime].
-  Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
-      DateTime dateTime);
-
-  /// Refresh airing schedule data in range of [now - dayAgo, not + dayAfter].
-  /// The ani list api restrict the count to 50. so maybe we can only get
-  /// one or two days airing schedule when using this method.
-  Future<LoadResult<void>> refreshAiringSchedule(
-    DateTime now, {
-    int dayAgo = 0,
-    int dayAfter = 0,
-    CancelToken? token,
-  });
-
-  Future<LoadResult<void>> startFetchDetailCharacterInfo(
-      {required String id, CancelToken? token});
-
-  Stream<CharacterModel> getDetailCharacterStream(String id);
-
-  Future<LoadResult<void>> startFetchDetailStaffInfo(
-      {required String id, CancelToken? token});
-
-  Stream<StaffModel?> getDetailStaffStream(String id);
-
-  Future<LoadResult<List<CharacterAndMediaConnection>>>
-      loadVoiceActorContentsPage({
-    required int page,
-    required int perPage,
-    required String staffId,
-    required MediaSort mediaSort,
-    CancelToken? token,
-  });
-
-  Stream<StudioModel?> getStudioStream(String id);
-
-  Future<LoadResult<void>> startFetchDetailStudioInfo(
-      {required String id, required CancelToken token});
-
-  Future<LoadResult<List<MediaModel>>> loadStudioContentsPage({
-    required int page,
-    required int perPage,
-    required String studioId,
-    CancelToken? token,
-  });
-}
-
-class MediaInformationRepositoryImpl extends MediaInformationRepository {
+class MediaInformationRepository {
   final AniListDataSource dataSource = AniListDataSource();
 
   final mediaDao = AniflowDatabase2().mediaDao;
@@ -130,7 +57,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
 
   final AniFlowPreferences preferences = AniFlowPreferences();
 
-  @override
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,
     required LoadType loadType,
@@ -161,7 +87,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     );
   }
 
-  @override
   Future<LoadResult<List<CharacterAndVoiceActorModel>>>
       loadCharacterPageByAnimeId({
     required String animeId,
@@ -200,7 +125,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     );
   }
 
-  @override
   Future<LoadResult<List<StaffAndRoleModel>>> loadStaffPageByAnimeId({
     required String animeId,
     required LoadType loadType,
@@ -230,7 +154,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     );
   }
 
-  @override
   Stream<MediaModel> getDetailMediaInfoStream(String id) {
     final mediaStream = mediaDao.getMediaStream(id);
     final characterStream = characterDao.getCharacterListStream(id,
@@ -256,7 +179,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     );
   }
 
-  @override
   Future<LoadResult<void>> startFetchDetailAnimeInfo(
       {required String id, CancelToken? token}) async {
     try {
@@ -338,7 +260,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     }
   }
 
-  @override
   Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
       DateTime dateTime) async {
     final (startMs, endMs) = TimeUtil.getTimeRangeOfTheTargetDay(dateTime);
@@ -355,7 +276,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
         .toList();
   }
 
-  @override
+  /// Refresh airing schedule data in range of [now - dayAgo, not + dayAfter].
+  /// The ani list api restrict the count to 50. so maybe we can only get
+  /// one or two days airing schedule when using this method.
   Future<LoadResult<void>> refreshAiringSchedule(
     DateTime now, {
     int dayAgo = 0,
@@ -390,7 +313,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     }
   }
 
-  @override
   Future<LoadResult<void>> startFetchDetailCharacterInfo(
       {required String id, CancelToken? token}) async {
     try {
@@ -416,19 +338,16 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     }
   }
 
-  @override
   Stream<CharacterModel> getDetailCharacterStream(String id) {
     return characterDao.getCharacterAndRelatedMediaStreamById(id).map(
           (entity) => entity.toModel(),
         );
   }
 
-  @override
   Stream<StaffModel?> getDetailStaffStream(String id) {
     return staffDao.getStaffStream(id).map((entity) => entity?.toModel());
   }
 
-  @override
   Future<LoadResult<void>> startFetchDetailStaffInfo(
       {required String id, CancelToken? token}) async {
     try {
@@ -446,7 +365,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     }
   }
 
-  @override
   Future<LoadResult<List<CharacterAndMediaConnection>>>
       loadVoiceActorContentsPage({
     required int page,
@@ -484,11 +402,9 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     );
   }
 
-  @override
   Stream<StudioModel?> getStudioStream(String id) =>
       studioDao.getStudioStream(id).map((entity) => entity?.toModel());
 
-  @override
   Future<LoadResult<void>> startFetchDetailStudioInfo(
       {required String id, required CancelToken token}) async {
     try {
@@ -506,7 +422,6 @@ class MediaInformationRepositoryImpl extends MediaInformationRepository {
     }
   }
 
-  @override
   Future<LoadResult<List<MediaModel>>> loadStudioContentsPage(
       {required int page,
       required int perPage,
