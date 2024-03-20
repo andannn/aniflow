@@ -37,11 +37,15 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => getIt.get<DetailStudioBloc>(),
+          create: (BuildContext context) => getIt.get<DetailStudioBloc>(
+            param1: id,
+          ),
         ),
         BlocProvider(
           create: (BuildContext context) =>
-              getIt.get<StudioContentsPagingBloc>(),
+              getIt.get<StudioContentsPagingBloc>(
+                param1: id,
+              ),
         ),
       ],
       child: const _DetailStudioContent(),
