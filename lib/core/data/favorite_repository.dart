@@ -25,9 +25,13 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class FavoriteRepository {
-  final AniListDataSource aniListDataSource = AniListDataSource();
+  FavoriteRepository({required this.aniListDataSource});
+
+  final AniListDataSource aniListDataSource;
   final userDataDao = AniflowDatabase2().userDao;
   final mediaInfoDao = AniflowDatabase2().mediaDao;
   final staffDao = AniflowDatabase2().staffDao;

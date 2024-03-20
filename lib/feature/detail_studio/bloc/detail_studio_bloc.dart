@@ -8,6 +8,7 @@ import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class DetailStudioEvent {}
 
@@ -25,12 +26,13 @@ class _OnLoadingChanged extends DetailStudioEvent {
 
 class OnToggleLike extends DetailStudioEvent {}
 
+@injectable
 class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
-  DetailStudioBloc({
-    required this.studioId,
-    required this.mediaRepository,
-    required this.favoriteRepository,
-  }) : super(DetailStudioState()) {
+  DetailStudioBloc(
+    @factoryParam this.studioId,
+    this._mediaRepository,
+    this._favoriteRepository,
+  ) : super(DetailStudioState()) {
     on<_OnDetailStudioInfoChanged>(
       (event, emit) => emit(state.copyWith(studioModel: event.model)),
     );
@@ -39,18 +41,16 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     );
     on<OnToggleLike>(_onToggleLike);
 
-    _detailStudioSub = mediaRepository
-        .getStudioStream(studioId)
-        .distinct()
-        .listen((model) {
+    _detailStudioSub =
+        _mediaRepository.getStudioStream(studioId).distinct().listen((model) {
       add(_OnDetailStudioInfoChanged(model: model));
     });
 
     _init();
   }
 
-  final MediaInformationRepository mediaRepository;
-  final FavoriteRepository favoriteRepository;
+  final MediaInformationRepository _mediaRepository;
+  final FavoriteRepository _favoriteRepository;
   final String studioId;
   StreamSubscription? _detailStudioSub;
   final _contentFetchCancelToken = CancelToken();
@@ -67,7 +67,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
 
   void _init() async {
     add(_OnLoadingChanged(isLoading: true));
-    final result = await mediaRepository.startFetchDetailStudioInfo(
+    final result = await _mediaRepository.startFetchDetailStudioInfo(
       id: studioId,
       token: _contentFetchCancelToken,
     );
@@ -82,7 +82,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
       OnToggleLike event, Emitter<DetailStudioState> emit) async {
     _toggleLikeCancelToken?.cancel();
     _toggleLikeCancelToken = CancelToken();
-    final result = await favoriteRepository.toggleFavoriteStudio(
+    final result = await _favoriteRepository.toggleFavoriteStudio(
       studioId,
       _toggleLikeCancelToken!,
     );

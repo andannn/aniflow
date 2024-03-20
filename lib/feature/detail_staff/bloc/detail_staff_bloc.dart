@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class DetailStaffEvent {}
 
@@ -32,12 +33,13 @@ class _OnLoadingChanged extends DetailStaffEvent {
 
 class OnToggleLike extends DetailStaffEvent {}
 
+@injectable
 class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
-  DetailStaffBloc({
-    required this.staffId,
-    required this.mediaRepository,
-    required this.favoriteRepository,
-  }) : super(DetailStaffState()) {
+  DetailStaffBloc(
+    @factoryParam this.staffId,
+    this._mediaRepository,
+    this._favoriteRepository,
+  ) : super(DetailStaffState()) {
     on<_OnDetailStaffInfoChanged>(
       (event, emit) => emit(state.copyWith(staffModel: event.model)),
     );
@@ -49,7 +51,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
       (event, emit) => emit(state.copyWith(mediaSort: event.mediaSort)),
     );
 
-    _detailStaffSub = mediaRepository
+    _detailStaffSub = _mediaRepository
         .getDetailStaffStream(staffId)
         .distinct()
         .listen((model) {
@@ -59,8 +61,8 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     _init();
   }
 
-  final MediaInformationRepository mediaRepository;
-  final FavoriteRepository favoriteRepository;
+  final MediaInformationRepository _mediaRepository;
+  final FavoriteRepository _favoriteRepository;
   final String staffId;
   StreamSubscription? _detailStaffSub;
   final _contentFetchCancelToken = CancelToken();
@@ -77,7 +79,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
 
   void _init() async {
     add(_OnLoadingChanged(isLoading: true));
-    final result = await mediaRepository.startFetchDetailStaffInfo(
+    final result = await _mediaRepository.startFetchDetailStaffInfo(
       id: staffId,
       token: _contentFetchCancelToken,
     );
@@ -92,7 +94,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
       OnToggleLike event, Emitter<DetailStaffState> emit) async {
     _toggleLikeCancelToken?.cancel();
     _toggleLikeCancelToken = CancelToken();
-    final result = await favoriteRepository.toggleFavoriteStaff(
+    final result = await _favoriteRepository.toggleFavoriteStaff(
       staffId,
       _toggleLikeCancelToken!,
     );

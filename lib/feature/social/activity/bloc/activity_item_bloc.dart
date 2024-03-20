@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class ActivityItemEvent {}
 
@@ -16,15 +17,16 @@ class _OnActivityChangeEvent extends ActivityItemEvent {
 
 class OnToggleActivityLike extends ActivityItemEvent {}
 
+@injectable
 class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
-  ActivityStatusBloc({
-    required this.activityId,
-    required this.repository,
-  }) : super(null) {
+  ActivityStatusBloc(
+    this._repository,
+    @factoryParam this.activityId,
+  ) : super(null) {
     on<_OnActivityChangeEvent>((event, emit) => emit(event.activityStatus));
     on<OnToggleActivityLike>(_onToggleActivityLike);
 
-    _subscription = repository
+    _subscription = _repository
         .getActivityStatusStream(activityId)
         .distinct()
         .listen((status) {
@@ -32,7 +34,7 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
     });
   }
 
-  final ActivityRepository repository;
+  final ActivityRepository _repository;
   final String activityId;
 
   StreamSubscription? _subscription;
@@ -50,7 +52,7 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
     _toggleLikeCancelToken?.cancel();
     _toggleLikeCancelToken = CancelToken();
 
-    LoadResult result = await repository.toggleActivityLike(
+    LoadResult result = await _repository.toggleActivityLike(
       activityId,
       _toggleLikeCancelToken!,
     );

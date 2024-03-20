@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class ActivityRepliesEvent {}
 
@@ -26,10 +27,13 @@ class OnActivityLoaded extends ActivityRepliesEvent {
   OnActivityLoaded(this.activity);
 }
 
+@injectable
 class ActivityRepliesBloc
     extends Bloc<ActivityRepliesEvent, ActivityRepliesState> {
-  ActivityRepliesBloc({required this.activityId, required this.repository})
-      : super(const ActivityRepliesState()) {
+  ActivityRepliesBloc(
+    this._repository,
+    @factoryParam this.activityId,
+  ) : super(const ActivityRepliesState()) {
     on<OnLoadingStateChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
@@ -43,15 +47,15 @@ class ActivityRepliesBloc
     loadReplies();
   }
 
-  final ActivityRepository repository;
+  final ActivityRepository _repository;
   final String activityId;
 
   Future loadReplies() async {
-    final activity = await repository.getActivityModel(activityId);
+    final activity = await _repository.getActivityModel(activityId);
     add(OnActivityLoaded(activity));
 
     add(OnLoadingStateChanged(true));
-    final result = await repository.getActivityReplies(activityId);
+    final result = await _repository.getActivityReplies(activityId);
     switch (result) {
       case LoadError<List<ActivityReplyModel>>():
         ErrorHandler.handleException(exception: result.exception);

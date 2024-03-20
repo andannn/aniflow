@@ -9,17 +9,19 @@ import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 class _OnMediaSortChanged<CharacterAndMediaConnection>
     extends PagingEvent<CharacterAndMediaConnection> {}
 
+@injectable
 class VoiceActorContentsPagingBloc
     extends PagingBloc<CharacterAndMediaConnection> {
   VoiceActorContentsPagingBloc(
-    this.staffId, {
-    required this.mediaRepository,
-    mediaSort = MediaSort.newest,
-  })  : _mediaSort = mediaSort,
+    @factoryParam this.staffId,
+    this.mediaRepository,
+    @factoryParam MediaSort mediaSort,
+  )   : _mediaSort = mediaSort,
         super(const PageInit(data: [])) {
     on<_OnMediaSortChanged<CharacterAndMediaConnection>>(_onMediaSortChanged);
   }

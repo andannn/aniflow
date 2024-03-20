@@ -9,6 +9,7 @@ import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class StatsEvent {}
 
@@ -24,12 +25,13 @@ class _OnUserStatsContentChanged extends StatsEvent {
   _OnUserStatsContentChanged({required this.loadState});
 }
 
+@injectable
 class StatsBloc extends Bloc<StatsEvent, StatsState>
     with LoadingStateNotifier<StatsEvent, StatsState> {
   StatsBloc(
-    this.userId, {
-    required this.repository,
-  }) : super(const StatsState()) {
+    this.repository,
+    @factoryParam this.userId,
+  ) : super(const StatsState()) {
     on<OnStatsTypeChanged>(
       (event, emit) => emit(state.copyWith(type: event.type)),
     );

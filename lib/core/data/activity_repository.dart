@@ -19,6 +19,7 @@ import 'package:aniflow/core/network/model/likeable_type.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ActivityStatus extends Equatable {
@@ -35,8 +36,11 @@ class ActivityStatus extends Equatable {
   List<Object?> get props => [replyCount, likeCount, isLiked];
 }
 
+@lazySingleton
 class ActivityRepository {
-  final AniListDataSource aniListDataSource = AniListDataSource();
+  ActivityRepository({required this.aniListDataSource});
+
+  final AniListDataSource aniListDataSource;
   final activityDao = AniflowDatabase2().activityDao;
   final AniFlowPreferences preferences = AniFlowPreferences();
 

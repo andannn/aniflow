@@ -6,7 +6,9 @@ import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class SettingsRepository {
   final AniFlowPreferences preferences = AniFlowPreferences();
 

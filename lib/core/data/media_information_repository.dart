@@ -44,10 +44,14 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+@lazySingleton
 class MediaInformationRepository {
-  final AniListDataSource dataSource = AniListDataSource();
+  MediaInformationRepository({required this.dataSource});
+
+  final AniListDataSource dataSource;
 
   final mediaDao = AniflowDatabase2().mediaDao;
   final characterDao = AniflowDatabase2().characterDao;

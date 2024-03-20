@@ -10,6 +10,7 @@ import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 enum NotificationCategory {
   all,
@@ -19,8 +20,12 @@ enum NotificationCategory {
   media;
 }
 
+@lazySingleton
 class NotificationRepository {
-  final AuthDataSource dataSource = AuthDataSource();
+  NotificationRepository(this.dataSource);
+
+  final AuthDataSource dataSource;
+
   final userDao = AniflowDatabase2().userDao;
   final mediaDao = AniflowDatabase2().mediaDao;
 

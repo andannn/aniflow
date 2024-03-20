@@ -5,10 +5,6 @@ import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/auth_repository.dart';
-import 'package:aniflow/core/data/favorite_repository.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
@@ -32,6 +28,7 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,26 +42,20 @@ class DetailAnimePage extends Page {
 
   @override
   Route createRoute(BuildContext context) {
-    return DetailAnimeRoute(settings: this, animeId: animeId);
+    return DetailAnimeRoute(settings: this, mediaId: animeId);
   }
 }
 
 class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
-  final String animeId;
+  final String mediaId;
 
-  DetailAnimeRoute({required this.animeId, super.settings})
+  DetailAnimeRoute({required this.mediaId, super.settings})
       : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => DetailMediaBloc(
-        mediaId: animeId,
-        aniListRepository: context.read<MediaInformationRepository>(),
-        authRepository: context.read<AuthRepository>(),
-        animeTrackListRepository: context.read<MediaListRepository>(),
-        favoriteRepository: context.read<FavoriteRepository>(),
-      ),
+      create: (context) => getIt.get<DetailMediaBloc>(param1: mediaId),
       child: const Scaffold(body: _DetailAnimePageContent()),
     );
   }

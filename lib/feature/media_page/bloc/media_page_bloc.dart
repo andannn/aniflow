@@ -13,6 +13,7 @@ import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 class _OnTrackingAnimeIdsChanged<T> extends PagingEvent<T> {
   final Set<String> ids;
@@ -30,16 +31,14 @@ extension on PagingState<List<MediaModel>> {
   }
 }
 
+@injectable
 class AnimePageBloc extends PagingBloc<MediaModel> {
-  AnimePageBloc({
-    required this.category,
-    required AuthRepository authRepository,
-    required MediaInformationRepository aniListRepository,
-    required MediaListRepository animeTrackListRepository,
-  })  : _mediaInfoRepository = aniListRepository,
-        _authRepository = authRepository,
-        _animeTrackListRepository = animeTrackListRepository,
-        super(const PageInit(data: [])) {
+  AnimePageBloc(
+    @factoryParam this.category,
+    this._mediaInfoRepository,
+    this._animeTrackListRepository,
+    this._authRepository,
+  ) : super(const PageInit(data: [])) {
     on<_OnTrackingAnimeIdsChanged<MediaModel>>(_onTrackingAnimeIdsChanged);
 
     _init();

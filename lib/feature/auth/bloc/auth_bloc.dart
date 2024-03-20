@@ -9,6 +9,7 @@ import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class AuthEvent {}
 
@@ -26,15 +27,14 @@ extension AuthStateEx on AuthState {
   bool get isLoggedIn => userData != null;
 }
 
+@injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required AuthRepository authRepository})
-      : _authRepository = authRepository,
-        super(AuthState()) {
+  AuthBloc(this._authRepository) : super(AuthState()) {
     on<OnLoginButtonTapped>(_onLoginButtonTapped);
     on<OnLogoutButtonTapped>(_onLogoutButtonTapped);
     on<_OnUserDataChanged>(_onUserDataChanged);
 
-    _userDataSub = authRepository
+    _userDataSub = _authRepository
         .getAuthedUserStream()
         .distinct()
         .listen((userDataNullable) {

@@ -12,6 +12,7 @@ import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class ProfileStatsTabPage extends StatefulWidget {
   const ProfileStatsTabPage({super.key});
@@ -193,7 +194,8 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
   final userTitleLanguage =
       AniFlowPreferences().aniListSettings.value.userTitleLanguage;
 
-  final UserStatisticsRepository repository = UserStatisticsRepository();
+  final UserStatisticsRepository repository =
+      GetIt.instance.get<UserStatisticsRepository>();
 
   late final Future<LoadResult<List<MediaModel>>> future;
 

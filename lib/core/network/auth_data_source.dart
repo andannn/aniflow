@@ -2,10 +2,10 @@
 
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/notification_query_graphql.dart';
-import 'package:aniflow/core/network/client/ani_list_dio.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
@@ -14,30 +14,30 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class AuthDataSource {
-  static AuthDataSource? _instance;
+  AuthDataSource(this.dio);
 
-  factory AuthDataSource() => _instance ??= AuthDataSource._();
-
-  AuthDataSource._();
+  final Dio dio;
 
   String get _token =>
       isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
 
   Future<bool> isTokenValid() async {
     try {
-      await AniListDio().dio.post(
-            AniListDio.aniListUrl,
-            queryParameters: {'query': authCheckMotion},
-            options: Options(
-              headers: {
-                'Authorization': 'Bearer $_token',
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-              },
-            ),
-          );
+      await dio.post(
+        aniListUrl,
+        queryParameters: {'query': authCheckMotion},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $_token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        ),
+      );
     } on DioException catch (e) {
       if (e.response?.statusCode == StatusCode.unauthorized) {
         logger.d('token is expired');
@@ -49,11 +49,11 @@ class AuthDataSource {
   }
 
   Future<UserDto> getAuthedUserDataDto() async {
-    final response = await AniListDio().dio.post(
-          AniListDio.aniListUrl,
-          queryParameters: {'query': updateUserMotionGraphQLString},
-          options: createQueryOptions(_token),
-        );
+    final response = await dio.post(
+      aniListUrl,
+      queryParameters: {'query': updateUserMotionGraphQLString},
+      options: createQueryOptions(_token),
+    );
 
     final resultJson = response.data['data']['UpdateUser'];
     return UserDto.fromJson(resultJson);
@@ -82,12 +82,12 @@ class AuthDataSource {
       variablesMap['scoreFormat'] = param.scoreFormat;
     }
 
-    final response = await AniListDio().dio.post(
-          AniListDio.aniListUrl,
-          data: {'query': queryGraphQL, 'variables': variablesMap},
-          options: createQueryOptions(_token),
-          cancelToken: token,
-        );
+    final response = await dio.post(
+      aniListUrl,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+      cancelToken: token,
+    );
 
     final resultJson = response.data['data']['UpdateUser'];
     return UserDto.fromJson(resultJson);
@@ -129,15 +129,15 @@ class AuthDataSource {
       variablesMap['completedAt'] = param.completedAt!.toJson();
     }
 
-    final response = await AniListDio().dio.post(
-          AniListDio.aniListUrl,
-          data: {
-            'query': saveMediaListMotionGraphQLString,
-            'variables': variablesMap,
-          },
-          options: createQueryOptions(_token),
-          cancelToken: token,
-        );
+    final response = await dio.post(
+      aniListUrl,
+      data: {
+        'query': saveMediaListMotionGraphQLString,
+        'variables': variablesMap,
+      },
+      options: createQueryOptions(_token),
+      cancelToken: token,
+    );
 
     Map<String, dynamic> resultJson =
         response.data['data']['SaveMediaListEntry'];
@@ -154,15 +154,15 @@ class AuthDataSource {
       'type_in': param.type.map((e) => e.typeName).toList(),
     };
 
-    final response = await AniListDio().dio.post(
-          AniListDio.aniListUrl,
-          options: _createQueryOptions(),
-          data: {
-            'query': notificationQueryGraphql,
-            'variables': variablesMap,
-          },
-          cancelToken: token,
-        );
+    final response = await dio.post(
+      aniListUrl,
+      options: _createQueryOptions(),
+      data: {
+        'query': notificationQueryGraphql,
+        'variables': variablesMap,
+      },
+      cancelToken: token,
+    );
     List resultJson = response.data['data']['Page']['notifications'];
     return resultJson
         .map((e) => AniNotification.mapToAniNotification(e))

@@ -81,9 +81,12 @@ dependencies:
   drift: ^2.15.0
   sqlite3: ^2.4.0
   sqlite3_flutter_libs: ^0.5.0
+  get_it: ^7.6.7
+  injectable: ^2.3.5
 
 dev_dependencies:
   drift_dev: ^2.15.0
+  injectable_generator: 2.4.1
   flutter_test:
     sdk: flutter
 

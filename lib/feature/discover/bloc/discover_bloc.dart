@@ -23,6 +23,7 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class DiscoverEvent {}
 
@@ -74,17 +75,14 @@ extension DiscoverUiStateEx on DiscoverUiState {
   bool get isLoggedIn => userData != null;
 }
 
+@injectable
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   DiscoverBloc(
-      {required AuthRepository authRepository,
-      required SettingsRepository settingsRepository,
-      required MediaInformationRepository mediaRepository,
-      required MediaListRepository animeTrackListRepository})
-      : _settingsRepository = settingsRepository,
-        _authRepository = authRepository,
-        _mediaInfoRepository = mediaRepository,
-        _mediaListRepository = animeTrackListRepository,
-        super(DiscoverUiState()) {
+    this._settingsRepository,
+    this._authRepository,
+    this._mediaInfoRepository,
+    this._mediaListRepository,
+  ) : super(DiscoverUiState()) {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
     on<_OnUserDataChanged>(_onUserDataChanged);

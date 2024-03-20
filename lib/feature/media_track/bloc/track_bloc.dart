@@ -19,6 +19,7 @@ import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:injectable/injectable.dart';
 
 sealed class TrackEvent {}
 
@@ -78,15 +79,13 @@ class OnMediaListModified extends TrackEvent {
   final MediaListModifyResult result;
 }
 
+@injectable
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
-      {required MediaListRepository mediaListRepository,
-      required AuthRepository authRepository,
-      required SettingsRepository settingsRepository})
-      : _mediaListRepository = mediaListRepository,
-        _settingsRepository = settingsRepository,
-        _authRepository = authRepository,
-        super(TrackUiState()) {
+    this._mediaListRepository,
+    this._settingsRepository,
+    this._authRepository,
+  ) : super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
     on<_OnLoadStateChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),

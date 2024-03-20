@@ -3,8 +3,6 @@ import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
-import 'package:aniflow/core/data/favorite_repository.dart';
-import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
@@ -20,6 +18,7 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
+import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -47,16 +46,12 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => DetailStaffBloc(
-            staffId: id,
-            mediaRepository: context.read<MediaInformationRepository>(),
-            favoriteRepository: context.read<FavoriteRepository>(),
-          ),
+          create: (context) => getIt.get<DetailStaffBloc>(param1: id),
         ),
         BlocProvider(
-          create: (context) => VoiceActorContentsPagingBloc(
-            id,
-            mediaRepository: context.read<MediaInformationRepository>(),
+          create: (context) => getIt.get<VoiceActorContentsPagingBloc>(
+            param1: id,
+            param2: MediaSort.newest
           ),
         ),
       ],

@@ -15,6 +15,7 @@ import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String _clientId = '14409';
@@ -22,12 +23,15 @@ const String _clientId = '14409';
 const String authUrl =
     'https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&response_type=token';
 
+@lazySingleton
 class AuthRepository {
+  AuthRepository({required this.authDataSource});
+
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
   final AniFlowPreferences preferences = AniFlowPreferences();
 
-  final AuthDataSource authDataSource = AuthDataSource();
+  final AuthDataSource authDataSource;
 
   final userDataDao = AniflowDatabase2().userDao;
 

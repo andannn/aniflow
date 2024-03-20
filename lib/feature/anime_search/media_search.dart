@@ -1,12 +1,11 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/search_repository.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/search_anime_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/anime_search/bloc/anime_search_bloc.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,10 +24,7 @@ class SearchPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => SearchPageBloc(
-        settingsRepository: context.read<SettingsRepository>(),
-        searchRepository: context.read<SearchRepository>(),
-      ),
+      create: (BuildContext context) => getIt.get<SearchPageBloc>(),
       child: const _MediaSearchPageContent(),
     );
   }

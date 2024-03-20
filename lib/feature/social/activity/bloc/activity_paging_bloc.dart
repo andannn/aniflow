@@ -7,13 +7,15 @@ import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/refresh_paging_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
-  ActivityPagingBloc({
-    required this.userType,
-    required this.filterType,
-    required this.repository,
-  }) : super(const PageInit(data: []));
+  ActivityPagingBloc(
+    this.repository,
+    @factoryParam this.userType,
+    @factoryParam this.filterType,
+  ) : super(const PageInit(data: []));
 
   final ActivityRepository repository;
   final ActivityScopeCategory userType;

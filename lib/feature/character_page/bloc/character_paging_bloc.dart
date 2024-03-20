@@ -8,15 +8,16 @@ import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/refresh_paging_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class CharacterPagingBloc
     extends RefreshPagingBloc<CharacterAndVoiceActorModel> {
   CharacterPagingBloc(
-    this.animeId,
-    this.staffLanguage, {
-    required MediaInformationRepository aniListRepository,
-  })  : _mediaInfoRepository = aniListRepository,
-        super(const PageInit(data: []));
+    @factoryParam this.animeId,
+    @factoryParam this.staffLanguage,
+    this._mediaInfoRepository,
+  ) : super(const PageInit(data: []));
 
   final String animeId;
   final StaffLanguage staffLanguage;

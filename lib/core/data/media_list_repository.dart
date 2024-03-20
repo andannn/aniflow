@@ -17,13 +17,18 @@ import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class MediaListRepository {
+  MediaListRepository(
+      {required this.authDataSource, required this.aniListDataSource});
+
   final mediaListDao = AniflowDatabase2().mediaListDao;
   final userDataDao = AniflowDatabase2().userDao;
   final mediaDao = AniflowDatabase2().mediaDao;
-  final AniListDataSource aniListDataSource = AniListDataSource();
-  final AuthDataSource authDataSource = AuthDataSource();
+  final AniListDataSource aniListDataSource;
+  final AuthDataSource authDataSource;
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
