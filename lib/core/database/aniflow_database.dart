@@ -9,6 +9,7 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
+import 'package:aniflow/core/database/intercepters/log_Interceptor.dart';
 import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/activity_table.dart';
 import 'package:aniflow/core/database/tables/airing_schedule_table.dart';
@@ -102,6 +103,7 @@ LazyDatabase _openConnection() {
     // Explicitly tell it about the correct temporary directory.
     sqlite3.tempDirectory = cachebase;
 
-    return NativeDatabase.createInBackground(file);
+    return NativeDatabase.createInBackground(file)
+        .interceptWith(LogInterceptor());
   });
 }
