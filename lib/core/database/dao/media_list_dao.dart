@@ -118,6 +118,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
         entities.map((e) => e.mediaListEntity),
       );
 
+// TODO: only update like state here.
       batch.insertAllOnConflictUpdate(
         mediaTable,
         entities.map((e) => e.mediaEntity),
