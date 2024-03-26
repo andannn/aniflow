@@ -10,7 +10,7 @@ part 'airing_schedules_dao.g.dart';
   AiringScheduleTable,
   MediaTable,
 ])
-class AiringSchedulesDao extends DatabaseAccessor<AniflowDatabase2>
+class AiringSchedulesDao extends DatabaseAccessor<AniflowDatabase>
     with _$AiringSchedulesDaoMixin {
   AiringSchedulesDao(super.db);
 

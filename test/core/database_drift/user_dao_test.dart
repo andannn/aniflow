@@ -5,11 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('user dao test', () {
-    late AniflowDatabase2 db;
+    late AniflowDatabase db;
     late UserDao dao;
 
     setUp(() async {
-      db = AniflowDatabase2.test(NativeDatabase.memory());
+      db = AniflowDatabase.test(NativeDatabase.memory());
       dao = db.userDao;
     });
 

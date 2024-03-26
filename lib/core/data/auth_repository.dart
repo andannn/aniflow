@@ -9,7 +9,8 @@ import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
@@ -25,7 +26,7 @@ const String authUrl =
 
 @lazySingleton
 class AuthRepository {
-  AuthRepository({required this.authDataSource});
+  AuthRepository(this.authDataSource, this.userDataDao, this.animeTrackListDao);
 
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
@@ -33,9 +34,9 @@ class AuthRepository {
 
   final AuthDataSource authDataSource;
 
-  final userDataDao = AniflowDatabase2().userDao;
+  final UserDao userDataDao;
 
-  final animeTrackListDao = AniflowDatabase2().mediaListDao;
+  final MediaListDao animeTrackListDao;
 
   Future<bool> awaitAuthLogin() async {
     final authUri = Uri.parse(authUrl.replaceFirst('{client_id}', _clientId));

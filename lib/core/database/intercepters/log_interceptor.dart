@@ -16,7 +16,8 @@ class LogInterceptor extends QueryInterceptor {
       logger.d('$_tag => succeeded after ${stopwatch.elapsedMilliseconds}ms');
       return result;
     } on Object catch (e) {
-      logger.d('$_tag  => failed after ${stopwatch.elapsedMilliseconds}ms ($e)');
+      logger
+          .d('$_tag  => failed after ${stopwatch.elapsedMilliseconds}ms ($e)');
       rethrow;
     }
   }

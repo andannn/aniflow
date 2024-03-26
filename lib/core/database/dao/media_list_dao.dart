@@ -9,7 +9,7 @@ import 'package:drift/drift.dart';
 part 'media_list_dao.g.dart';
 
 @DriftAccessor(tables: [MediaListTable, MediaTable])
-class MediaListDao extends DatabaseAccessor<AniflowDatabase2>
+class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     with _$MediaListDaoMixin {
   MediaListDao(super.db);
 

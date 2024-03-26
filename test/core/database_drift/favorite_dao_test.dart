@@ -10,14 +10,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('anime_database_test', () {
-    late AniflowDatabase2 db;
+    late AniflowDatabase db;
     late FavoriteDao favoriteDao;
     late MediaDao mediaDao;
     late StaffDao staffDao;
     late CharacterDao characterDao;
 
     setUp(() async {
-      db = AniflowDatabase2.test(NativeDatabase.memory());
+      db = AniflowDatabase.test(NativeDatabase.memory());
       favoriteDao = db.favoriteDao;
       mediaDao = db.mediaDao;
       staffDao = db.staffDao;

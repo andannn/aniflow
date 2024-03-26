@@ -5,7 +5,9 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
@@ -22,11 +24,16 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class MediaListRepository {
   MediaListRepository(
-      {required this.authDataSource, required this.aniListDataSource});
+    this.authDataSource,
+    this.aniListDataSource,
+    this.mediaListDao,
+    this.userDataDao,
+    this.mediaDao,
+  );
 
-  final mediaListDao = AniflowDatabase2().mediaListDao;
-  final userDataDao = AniflowDatabase2().userDao;
-  final mediaDao = AniflowDatabase2().mediaDao;
+  final MediaListDao mediaListDao;
+  final UserDao userDataDao;
+  final MediaDao mediaDao;
   final AniListDataSource aniListDataSource;
   final AuthDataSource authDataSource;
   final AniFlowPreferences preferences = AniFlowPreferences();

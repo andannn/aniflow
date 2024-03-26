@@ -21,7 +21,7 @@ part 'character_dao.g.dart';
   MediaCharacterPagingCrossRefTable,
   StaffTable,
 ])
-class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
+class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     with _$CharacterDaoMixin {
   CharacterDao(super.db);
 
@@ -185,8 +185,8 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
               (e) => CharacterVoiceActorCrossRefTableCompanion(
                 characterId: Value(e.characterEntity.id),
                 staffId: Value(e.voiceActorEntity!.id),
-                role: Value.ofNullable(e.characterRole),
-                language: Value.ofNullable(e.staffLanguage),
+                role: Value.absentIfNull(e.characterRole),
+                language: Value.absentIfNull(e.staffLanguage),
               ),
             ),
         mode: InsertMode.insertOrReplace,

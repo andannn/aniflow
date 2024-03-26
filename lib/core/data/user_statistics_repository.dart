@@ -6,17 +6,20 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class UserStatisticsRepository {
-  UserStatisticsRepository({required this.dataSource});
+  UserStatisticsRepository(
+    this.mediaDao,
+    this.dataSource,
+  );
 
   final AniListDataSource dataSource;
-  final mediaDao = AniflowDatabase2().mediaDao;
+  final MediaDao mediaDao;
 
   Future<LoadResult<List<UserStatisticsModel>>> getUserStatics(
       {required String userId,

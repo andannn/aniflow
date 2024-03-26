@@ -16,7 +16,7 @@ part 'activity_dao.g.dart';
   MediaTable,
   ActivityFilterTypePagingCrossRefTable,
 ])
-class ActivityDao extends DatabaseAccessor<AniflowDatabase2>
+class ActivityDao extends DatabaseAccessor<AniflowDatabase>
     with _$ActivityDaoMixin {
   ActivityDao(super.db);
 
