@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 enum _OptionColumn {
   settings,
   notification,
+  // editProfile,
 }
 
 Future showAuthDialog(BuildContext context) => showDialog(
@@ -114,6 +115,9 @@ class _AuthDialogContent extends StatelessWidget {
       case _OptionColumn.notification:
         iconData = Icons.notifications_none;
         label = 'Notification';
+      // case _OptionColumn.editProfile:
+      //   iconData = Icons.edit;
+      //   label = 'Edit profile';
     }
     final color = Theme.of(context).colorScheme.onSurfaceVariant;
     return InkWell(
@@ -149,6 +153,9 @@ class _AuthDialogContent extends StatelessWidget {
       case _OptionColumn.notification:
         Navigator.pop(context);
         AfRouterDelegate.tryGet()?.backStack.navigateToNotification();
+      // case _OptionColumn.editProfile:
+      //   Navigator.pop(context);
+      //   Navigator.of(context, rootNavigator: true).push(EditProfileRoute());
     }
   }
 }
