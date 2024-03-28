@@ -12,6 +12,12 @@ import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/favorite_dao.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
+import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/character_mapper.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/database/mappers/staff_mapper.dart';
@@ -29,15 +35,24 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class FavoriteRepository {
-  FavoriteRepository({required this.aniListDataSource});
+  FavoriteRepository(
+      this.aniListDataSource,
+      this.userDataDao,
+      this.mediaInfoDao,
+      this.staffDao,
+      this.characterDao,
+      this.mediaListDao,
+      this.favoriteDao);
 
   final AniListDataSource aniListDataSource;
-  final userDataDao = AniflowDatabase2().userDao;
-  final mediaInfoDao = AniflowDatabase2().mediaDao;
-  final staffDao = AniflowDatabase2().staffDao;
-  final characterDao = AniflowDatabase2().characterDao;
-  final mediaListDao = AniflowDatabase2().mediaListDao;
-  final favoriteDao = AniflowDatabase2().favoriteDao;
+  final UserDao userDataDao;
+
+  final MediaDao mediaInfoDao;
+  final StaffDao staffDao;
+  final CharacterDao characterDao;
+  final MediaListDao mediaListDao;
+  final FavoriteDao favoriteDao;
+
   final preferences = AniFlowPreferences();
 
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({

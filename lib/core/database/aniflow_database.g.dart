@@ -7956,8 +7956,8 @@ class FavoriteInfoTableCompanion extends UpdateCompanion<FavoriteInfoEntity> {
   }
 }
 
-abstract class _$AniflowDatabase2 extends GeneratedDatabase {
-  _$AniflowDatabase2(QueryExecutor e) : super(e);
+abstract class _$AniflowDatabase extends GeneratedDatabase {
+  _$AniflowDatabase(QueryExecutor e) : super(e);
   late final $UserTableTable userTable = $UserTableTable(this);
   late final $StudioTableTable studioTable = $StudioTableTable(this);
   late final $StaffTableTable staffTable = $StaffTableTable(this);
@@ -7992,16 +7992,16 @@ abstract class _$AniflowDatabase2 extends GeneratedDatabase {
       $CategoryMediaPagingCrossRefTableTable(this);
   late final $FavoriteInfoTableTable favoriteInfoTable =
       $FavoriteInfoTableTable(this);
-  late final UserDao userDao = UserDao(this as AniflowDatabase2);
-  late final StudioDao studioDao = StudioDao(this as AniflowDatabase2);
-  late final StaffDao staffDao = StaffDao(this as AniflowDatabase2);
-  late final ActivityDao activityDao = ActivityDao(this as AniflowDatabase2);
+  late final UserDao userDao = UserDao(this as AniflowDatabase);
+  late final StudioDao studioDao = StudioDao(this as AniflowDatabase);
+  late final StaffDao staffDao = StaffDao(this as AniflowDatabase);
+  late final ActivityDao activityDao = ActivityDao(this as AniflowDatabase);
   late final AiringSchedulesDao airingSchedulesDao =
-      AiringSchedulesDao(this as AniflowDatabase2);
-  late final CharacterDao characterDao = CharacterDao(this as AniflowDatabase2);
-  late final MediaListDao mediaListDao = MediaListDao(this as AniflowDatabase2);
-  late final MediaDao mediaDao = MediaDao(this as AniflowDatabase2);
-  late final FavoriteDao favoriteDao = FavoriteDao(this as AniflowDatabase2);
+      AiringSchedulesDao(this as AniflowDatabase);
+  late final CharacterDao characterDao = CharacterDao(this as AniflowDatabase);
+  late final MediaListDao mediaListDao = MediaListDao(this as AniflowDatabase);
+  late final MediaDao mediaDao = MediaDao(this as AniflowDatabase);
+  late final FavoriteDao favoriteDao = FavoriteDao(this as AniflowDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

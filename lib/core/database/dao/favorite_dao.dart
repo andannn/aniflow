@@ -15,7 +15,7 @@ part 'favorite_dao.g.dart';
   CharacterTable,
   StaffTable,
 ])
-class FavoriteDao extends DatabaseAccessor<AniflowDatabase2>
+class FavoriteDao extends DatabaseAccessor<AniflowDatabase>
     with _$FavoriteDaoMixin {
   FavoriteDao(super.db);
 

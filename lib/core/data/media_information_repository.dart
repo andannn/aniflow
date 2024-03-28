@@ -18,7 +18,11 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
+import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/staff_dao.dart';
+import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/mappers/airing_schedule_mapper.dart';
 import 'package:aniflow/core/database/mappers/character_mapper.dart';
 import 'package:aniflow/core/database/mappers/media_external_link_mapper.dart';
@@ -49,16 +53,21 @@ import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class MediaInformationRepository {
-  MediaInformationRepository({required this.dataSource});
+  MediaInformationRepository(
+    this.dataSource,
+    this.characterDao,
+    this.staffDao,
+    this.studioDao,
+    this.airingScheduleDao,
+    this.mediaDao,
+  );
 
   final AniListDataSource dataSource;
-
-  final mediaDao = AniflowDatabase2().mediaDao;
-  final characterDao = AniflowDatabase2().characterDao;
-  final staffDao = AniflowDatabase2().staffDao;
-  final studioDao = AniflowDatabase2().studioDao;
-  final airingScheduleDao = AniflowDatabase2().airingSchedulesDao;
-
+  final MediaDao mediaDao;
+  final CharacterDao characterDao;
+  final StaffDao staffDao;
+  final StudioDao studioDao;
+  final AiringSchedulesDao airingScheduleDao;
   final AniFlowPreferences preferences = AniFlowPreferences();
 
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
@@ -172,17 +181,13 @@ class MediaInformationRepository {
       studioStream,
       externalLinkStream,
       (media, characterList, staffList, studioList, externalLinkList) {
-        print('JQN out ${media.genres} ');
-        print('JQN out ${media.id} ');
-        return media
-            .toModel()
-            .copyWith(
-          characterAndVoiceActors:
-          characterList.map((e) => e.toModel()).toList(),
-          staffs: staffList.map((e) => e.toModel()).toList(),
-          studios: studioList.map((e) => e.toModel()).toList(),
-          externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
-        );
+        return media.toModel().copyWith(
+              characterAndVoiceActors:
+                  characterList.map((e) => e.toModel()).toList(),
+              staffs: staffList.map((e) => e.toModel()).toList(),
+              studios: studioList.map((e) => e.toModel()).toList(),
+              externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
+            );
       },
     );
   }

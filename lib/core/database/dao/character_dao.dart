@@ -21,7 +21,7 @@ part 'character_dao.g.dart';
   MediaCharacterPagingCrossRefTable,
   StaffTable,
 ])
-class CharacterDao extends DatabaseAccessor<AniflowDatabase2>
+class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     with _$CharacterDaoMixin {
   CharacterDao(super.db);
 

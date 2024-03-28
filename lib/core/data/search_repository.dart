@@ -5,7 +5,7 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
@@ -14,10 +14,10 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class SearchRepository {
-  SearchRepository({required this.dataSource});
+  SearchRepository(this.dataSource, this.dao);
 
   final AniListDataSource dataSource;
-  final dao = AniflowDatabase2().mediaDao;
+  final MediaDao dao;
 
   Future<LoadResult<List<MediaModel>>> loadMediaSearchResultByPage({
     required int page,

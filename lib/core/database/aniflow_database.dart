@@ -9,6 +9,7 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
+import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
 import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/activity_table.dart';
 import 'package:aniflow/core/database/tables/airing_schedule_table.dart';
@@ -69,14 +70,10 @@ part 'aniflow_database.g.dart';
     FavoriteDao,
   ],
 )
-class AniflowDatabase2 extends _$AniflowDatabase2 {
-  static AniflowDatabase2? _instance;
+class AniflowDatabase extends _$AniflowDatabase {
+  AniflowDatabase() : super(_openConnection());
 
-  factory AniflowDatabase2() => _instance ??= AniflowDatabase2._();
-
-  AniflowDatabase2._() : super(_openConnection());
-
-  AniflowDatabase2.test(super.executor);
+  AniflowDatabase.test(super.executor);
 
   @override
   int get schemaVersion => 1;
@@ -102,6 +99,7 @@ LazyDatabase _openConnection() {
     // Explicitly tell it about the correct temporary directory.
     sqlite3.tempDirectory = cachebase;
 
-    return NativeDatabase.createInBackground(file);
+    return NativeDatabase.createInBackground(file)
+        .interceptWith(LogInterceptor());
   });
 }

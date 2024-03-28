@@ -11,7 +11,7 @@ part 'staff_dao.g.dart';
   StaffTable,
   MediaStaffPagingCrossRefTable,
 ])
-class StaffDao extends DatabaseAccessor<AniflowDatabase2> with _$StaffDaoMixin {
+class StaffDao extends DatabaseAccessor<AniflowDatabase> with _$StaffDaoMixin {
   StaffDao(super.db);
 
   Future upsertStaffEntities(List<StaffEntity> entities) async {

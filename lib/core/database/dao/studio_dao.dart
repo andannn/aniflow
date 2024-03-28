@@ -6,7 +6,7 @@ import 'package:drift/drift.dart';
 part 'studio_dao.g.dart';
 
 @DriftAccessor(tables: [StudioTable, StudioMediaCrossRefTable])
-class StudioDao extends DatabaseAccessor<AniflowDatabase2>
+class StudioDao extends DatabaseAccessor<AniflowDatabase>
     with _$StudioDaoMixin {
   StudioDao(super.db);
 

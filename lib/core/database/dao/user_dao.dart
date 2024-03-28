@@ -5,7 +5,7 @@ import 'package:drift/drift.dart';
 part 'user_dao.g.dart';
 
 @DriftAccessor(tables: [UserTable])
-class UserDao extends DatabaseAccessor<AniflowDatabase2> with _$UserDaoMixin {
+class UserDao extends DatabaseAccessor<AniflowDatabase> with _$UserDaoMixin {
   UserDao(super.db);
 
   Future<UserEntity?> getUser(String id) {

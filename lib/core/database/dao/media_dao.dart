@@ -16,7 +16,7 @@ part 'media_dao.g.dart';
   MediaExternalLinkTable,
   CategoryMediaPagingCrossRefTable
 ])
-class MediaDao extends DatabaseAccessor<AniflowDatabase2> with _$MediaDaoMixin {
+class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
   MediaDao(super.db);
 
   Future<MediaEntity> getMedia(String id) {

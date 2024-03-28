@@ -2,7 +2,8 @@ import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
-import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/media_dao.dart';
+import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/notification_query_graphql.dart';
@@ -22,12 +23,15 @@ enum NotificationCategory {
 
 @lazySingleton
 class NotificationRepository {
-  NotificationRepository(this.dataSource);
+  NotificationRepository(
+    this.dataSource,
+    this.userDao,
+    this.mediaDao,
+  );
 
   final AuthDataSource dataSource;
-
-  final userDao = AniflowDatabase2().userDao;
-  final mediaDao = AniflowDatabase2().mediaDao;
+  final UserDao userDao;
+  final MediaDao mediaDao;
 
   Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
     required int page,

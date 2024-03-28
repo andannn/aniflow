@@ -3,7 +3,7 @@
 part of 'media_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$MediaDaoMixin on DatabaseAccessor<AniflowDatabase2> {
+mixin _$MediaDaoMixin on DatabaseAccessor<AniflowDatabase> {
   $MediaTableTable get mediaTable => attachedDatabase.mediaTable;
   $MediaRelationCrossRefTableTable get mediaRelationCrossRefTable =>
       attachedDatabase.mediaRelationCrossRefTable;

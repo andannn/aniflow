@@ -3,6 +3,6 @@
 part of 'user_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$UserDaoMixin on DatabaseAccessor<AniflowDatabase2> {
+mixin _$UserDaoMixin on DatabaseAccessor<AniflowDatabase> {
   $UserTableTable get userTable => attachedDatabase.userTable;
 }
