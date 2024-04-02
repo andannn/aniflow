@@ -7,17 +7,15 @@ import com.andannn.aniflow.player.PlayerActivity.Companion.VIDEO_URL_KEY
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
 
 private const val TAG = "MainActivity"
 
 class MainActivity : FlutterActivity() {
     private lateinit var authChannel: EventChannel
+    private lateinit var methodChannel: MethodChannel
     private var authEventSink: EventChannel.EventSink? = null
 
     override fun getInitialRoute(): String? {
@@ -32,6 +30,10 @@ class MainActivity : FlutterActivity() {
             /* messenger = */ flutterEngine.dartExecutor.binaryMessenger,
             /* name = */ "com.andannn.animetracker/auth"
         )
+        methodChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "com.andannn.animetracker/navi"
+        )
         authChannel.setStreamHandler(
             /* handler = */ object : EventChannel.StreamHandler {
                 override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
@@ -42,12 +44,19 @@ class MainActivity : FlutterActivity() {
                     authEventSink = null
                 }
             })
-
-        startActivity(
-            Intent(this, PlayerActivity::class.java).apply {
-                putExtra(VIDEO_URL_KEY, "https://megacloud.tv/embed-2/e-1/OYYOcadiFeAU?k=1")
+        methodChannel.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "startPlayerActivity" -> {
+                    call.arguments
+                    startActivity(
+                        Intent(this, PlayerActivity::class.java).apply {
+                            putExtra(VIDEO_URL_KEY, "https://megacloud.tv/embed-2/e-1/OYYOcadiFeAU?k=1")
+                        }
+                    )
+                    result.success(null)
+                }
             }
-        )
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
