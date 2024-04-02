@@ -32,8 +32,8 @@ import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 
 class DetailAnimePage extends Page {
   final String animeId;
@@ -608,10 +608,15 @@ class _DetailAnimePageContent extends StatelessWidget {
       return const SizedBox();
     }
     const stringRes = 'Next airing schedule is EP.%s in %s';
-    return SizedBox(
-      width: double.infinity,
-      height: 200,
-      child: VideoPlayerWidget(),
+    return VerticalScaleSwitcher(
+      visible: true,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          sprintf(stringRes, [nextAiringEpisode, airingTimeString]),
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ),
     );
   }
 
@@ -807,46 +812,5 @@ class _ExternalLinkItem extends StatelessWidget {
           : const SizedBox(),
       label: Text(externalLink.site),
     );
-  }
-}
-
-class VideoPlayerWidget extends StatefulWidget {
-  const VideoPlayerWidget({super.key});
-
-  @override
-  VideoPlayerState createState() => VideoPlayerState();
-}
-
-class VideoPlayerState extends State<VideoPlayerWidget> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://megacloud.tv/embed-2/e-1/BE8WXrr2H1KS?k=1'))
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print('jqn ${_controller.value.isInitialized}');
-    return Center(
-      child: _controller.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            )
-          : Container(),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
   }
 }
