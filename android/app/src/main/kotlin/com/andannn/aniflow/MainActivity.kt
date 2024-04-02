@@ -2,6 +2,8 @@ package com.andannn.aniflow
 
 import android.content.Intent
 import android.util.Log
+import com.andannn.aniflow.player.PlayerActivity
+import com.andannn.aniflow.player.PlayerActivity.Companion.VIDEO_URL_KEY
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -40,6 +42,12 @@ class MainActivity : FlutterActivity() {
                     authEventSink = null
                 }
             })
+
+        startActivity(
+            Intent(this, PlayerActivity::class.java).apply {
+                putExtra(VIDEO_URL_KEY, "https://megacloud.tv/embed-2/e-1/OYYOcadiFeAU?k=1")
+            }
+        )
     }
 
     override fun onNewIntent(intent: Intent) {
