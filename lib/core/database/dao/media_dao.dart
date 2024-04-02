@@ -1,5 +1,4 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/media_and_relation_type_entity.dart';
 import 'package:aniflow/core/database/tables/category_media_paging_cross_reference_table.dart';
@@ -76,7 +75,6 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
   }
 
   Future upsertMedia(List<MediaEntity> entities) {
-    logger.d('JQN upsertMedia ${entities[0].genres}');
     return batch((batch) {
       batch.insertAll(mediaTable, entities, mode: InsertMode.replace);
     });

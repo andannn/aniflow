@@ -2,20 +2,20 @@ package com.andannn.aniflow
 
 import android.content.Intent
 import android.util.Log
+import com.andannn.aniflow.player.PlayerActivity
+import com.andannn.aniflow.player.PlayerActivity.Companion.VIDEO_URL_KEY
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
 
 private const val TAG = "MainActivity"
 
 class MainActivity : FlutterActivity() {
     private lateinit var authChannel: EventChannel
+    private lateinit var methodChannel: MethodChannel
     private var authEventSink: EventChannel.EventSink? = null
 
     override fun getInitialRoute(): String? {
@@ -30,6 +30,10 @@ class MainActivity : FlutterActivity() {
             /* messenger = */ flutterEngine.dartExecutor.binaryMessenger,
             /* name = */ "com.andannn.animetracker/auth"
         )
+        methodChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "com.andannn.animetracker/navi"
+        )
         authChannel.setStreamHandler(
             /* handler = */ object : EventChannel.StreamHandler {
                 override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
@@ -40,6 +44,20 @@ class MainActivity : FlutterActivity() {
                     authEventSink = null
                 }
             })
+        methodChannel.setMethodCallHandler { call, result ->
+            val arguments = call.arguments as List<*>
+            Log.d(TAG, "configureFlutterEngine: $arguments")
+            when (call.method) {
+                "startPlayerActivity" -> {
+                    startActivity(
+                        Intent(this, PlayerActivity::class.java).apply {
+                            putExtra(VIDEO_URL_KEY, arguments[0] as String)
+                        }
+                    )
+                    result.success(null)
+                }
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

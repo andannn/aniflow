@@ -19,6 +19,7 @@ mixin _$DetailMediaUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
   MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
+  Episode? get episode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailMediaUiStateCopyWith<DetailMediaUiState> get copyWith =>
@@ -34,7 +35,8 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       MediaModel? detailAnimeModel,
-      MediaListItemModel? mediaListItem});
+      MediaListItemModel? mediaListItem,
+      Episode? episode});
 
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
   $MediaListItemModelCopyWith<$Res>? get mediaListItem;
@@ -56,6 +58,7 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
+    Object? episode = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -70,6 +73,10 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
           ? _value.mediaListItem
           : mediaListItem // ignore: cast_nullable_to_non_nullable
               as MediaListItemModel?,
+      episode: freezed == episode
+          ? _value.episode
+          : episode // ignore: cast_nullable_to_non_nullable
+              as Episode?,
     ) as $Val);
   }
 
@@ -109,7 +116,8 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       MediaModel? detailAnimeModel,
-      MediaListItemModel? mediaListItem});
+      MediaListItemModel? mediaListItem,
+      Episode? episode});
 
   @override
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
@@ -131,6 +139,7 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
+    Object? episode = freezed,
   }) {
     return _then(_$DetailMediaUiStateImpl(
       isLoading: null == isLoading
@@ -145,6 +154,10 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
           ? _value.mediaListItem
           : mediaListItem // ignore: cast_nullable_to_non_nullable
               as MediaListItemModel?,
+      episode: freezed == episode
+          ? _value.episode
+          : episode // ignore: cast_nullable_to_non_nullable
+              as Episode?,
     ));
   }
 }
@@ -153,7 +166,10 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
 
 class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   _$DetailMediaUiStateImpl(
-      {this.isLoading = false, this.detailAnimeModel, this.mediaListItem});
+      {this.isLoading = false,
+      this.detailAnimeModel,
+      this.mediaListItem,
+      this.episode});
 
   @override
   @JsonKey()
@@ -162,10 +178,12 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   final MediaModel? detailAnimeModel;
   @override
   final MediaListItemModel? mediaListItem;
+  @override
+  final Episode? episode;
 
   @override
   String toString() {
-    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem)';
+    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, episode: $episode)';
   }
 
   @override
@@ -178,12 +196,13 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
             (identical(other.detailAnimeModel, detailAnimeModel) ||
                 other.detailAnimeModel == detailAnimeModel) &&
             (identical(other.mediaListItem, mediaListItem) ||
-                other.mediaListItem == mediaListItem));
+                other.mediaListItem == mediaListItem) &&
+            (identical(other.episode, episode) || other.episode == episode));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, detailAnimeModel, mediaListItem);
+  int get hashCode => Object.hash(
+      runtimeType, isLoading, detailAnimeModel, mediaListItem, episode);
 
   @JsonKey(ignore: true)
   @override
@@ -197,7 +216,8 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   factory _DetailMediaUiState(
       {final bool isLoading,
       final MediaModel? detailAnimeModel,
-      final MediaListItemModel? mediaListItem}) = _$DetailMediaUiStateImpl;
+      final MediaListItemModel? mediaListItem,
+      final Episode? episode}) = _$DetailMediaUiStateImpl;
 
   @override
   bool get isLoading;
@@ -205,6 +225,8 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   MediaModel? get detailAnimeModel;
   @override
   MediaListItemModel? get mediaListItem;
+  @override
+  Episode? get episode;
   @override
   @JsonKey(ignore: true)
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>

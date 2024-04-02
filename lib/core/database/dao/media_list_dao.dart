@@ -72,7 +72,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
       String userId, String mediaId) {
     return (select(mediaListTable)
           ..where((tbl) =>
-              mediaListTable.id.equals(mediaId) &
+              mediaListTable.mediaId.equals(mediaId) &
               mediaListTable.userId.equals(userId)))
         .watchSingleOrNull();
   }
@@ -113,9 +113,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   Future upsertMediaListAndMediaRelations(
       List<MediaListAndMediaRelation> entities) {
     return batch((batch) {
-      batch.insertAllOnConflictUpdate(
+      batch.insertAll(
         mediaListTable,
         entities.map((e) => e.mediaListEntity),
+        mode: InsertMode.replace
       );
 
 // TODO: only update like state here.
