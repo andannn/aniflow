@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/channel/navi_method_channel.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
@@ -149,6 +151,9 @@ class _DetailAnimePageContent extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeInfoSection(context, model),
+              ),
+              SliverToBoxAdapter(
+                child: _buildWatchNextEpisodeArea(context, state.episode),
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeRelations(
@@ -716,6 +721,18 @@ class _DetailAnimePageContent extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildWatchNextEpisodeArea(BuildContext context, Episode? episode) {
+    return VerticalScaleSwitcher(
+      visible: episode != null,
+      child: OutlinedButton(
+        onPressed: () {
+          NaviMethodChannel().startPlayerActivity(episode!.url);
+        },
+        child: Text('Ep.${episode?.epNumber} ${episode?.title}'),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
@@ -51,6 +52,7 @@ class HiAnimationDataSource {
     final result = await dio.get(
       '${hiAnimationUrl}ajax/v2/episode/list/$id',
     );
+    logger.d('getEpisodesById response ${result.data}');
     final document = parse(result.data['html']);
     final attrList =
         document.querySelector('div.ss-list')?.querySelectorAll('a') ?? [];

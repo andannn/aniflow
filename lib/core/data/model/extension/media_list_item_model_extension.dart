@@ -11,7 +11,7 @@ extension MediaListItemModelEx on MediaListItemModel {
       return true;
     }
 
-    final status = animeModel!.status;
+    final status = animeModel?.status;
     switch (status) {
       case MediaStatus.cancelled:
       case MediaStatus.hiatus:

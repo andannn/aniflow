@@ -45,12 +45,13 @@ class MainActivity : FlutterActivity() {
                 }
             })
         methodChannel.setMethodCallHandler { call, result ->
+            val arguments = call.arguments as List<*>
+            Log.d(TAG, "configureFlutterEngine: $arguments")
             when (call.method) {
                 "startPlayerActivity" -> {
-                    call.arguments
                     startActivity(
                         Intent(this, PlayerActivity::class.java).apply {
-                            putExtra(VIDEO_URL_KEY, "https://megacloud.tv/embed-2/e-1/OYYOcadiFeAU?k=1")
+                            putExtra(VIDEO_URL_KEY, arguments[0] as String)
                         }
                     )
                     result.success(null)
