@@ -28,15 +28,16 @@ class HiAnimationDataSource {
 
       final document = parse(result.data);
 
-      final elementOrNull = document
+      final elements = document
           .querySelectorAll('div.flw-item')
-          .firstOrNull
-          ?.querySelector('a');
+          .map((e) => e.querySelector('a'))
+          .whereNotNull()
+          .toList();
 
-      if (elementOrNull != null) {
-        final title = elementOrNull.attributes['title'] ?? '';
+      for (var element in elements) {
+        final title = element.attributes['title'] ?? '';
         if (isMatchKeywords(title)) {
-          final href = elementOrNull.attributes['href'] ?? '';
+          final href = element.attributes['href'] ?? '';
           return href.split('/').lastOrNull;
         }
       }
@@ -77,8 +78,7 @@ class HiAnimationDataSource {
     return serverList.map((e) => e.attributes['data-id'] ?? '').toList();
   }
 
-  Future<String> getLink(String serverId,
-      [CancelToken? cancelToken]) async {
+  Future<String> getLink(String serverId, [CancelToken? cancelToken]) async {
     final result = await dio
         .get('${hiAnimationUrl}ajax/v2/episode/sources', queryParameters: {
       'id': serverId,

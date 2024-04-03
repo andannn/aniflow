@@ -9,12 +9,12 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -58,6 +58,14 @@ class _OnEpisodeFound extends DetailAnimeEvent {
   final Episode episode;
 }
 
+class _OnFindEpisodeError extends DetailAnimeEvent {
+  _OnFindEpisodeError({required this.exception});
+
+  final Exception exception;
+}
+
+class _OnStartFindSource extends DetailAnimeEvent {}
+
 class HiAnimationSource extends Equatable {
   final int episode;
   final List<String> keywords;
@@ -66,6 +74,28 @@ class HiAnimationSource extends Equatable {
 
   @override
   List<Object?> get props => [episode, ...keywords];
+}
+
+sealed class LoadingState<T> {
+  const LoadingState();
+}
+
+class None<T> extends LoadingState<T> {
+  const None();
+}
+
+class Loading<T> extends LoadingState<T> {}
+
+class Ready<T> extends LoadingState<T> {
+  final T state;
+
+  Ready(this.state);
+}
+
+class Error<T> extends LoadingState<T> {
+  final Exception exception;
+
+  Error(this.exception);
 }
 
 @injectable
@@ -91,7 +121,13 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
     on<_OnEpisodeFound>(
-      (event, emit) => emit(state.copyWith(episode: event.episode)),
+      (event, emit) => emit(state.copyWith(episode: Ready(event.episode))),
+    );
+    on<_OnFindEpisodeError>(
+      (event, emit) => emit(state.copyWith(episode: Error(event.exception))),
+    );
+    on<_OnStartFindSource>(
+      (event, emit) => emit(state.copyWith(episode: Loading())),
     );
 
     _init();
@@ -142,13 +178,23 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     super.onChange(change);
     final progress = change.nextState.mediaListItem?.progress;
     final title = change.nextState.detailAnimeModel?.title;
+
     if (progress != null && title != null) {
+      final hasNextReleasingEpisode = change.nextState.mediaListItem
+              ?.copyWith(animeModel: change.nextState.detailAnimeModel)
+              .hasNextReleasingEpisode ==
+          true;
+      final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
+      if (nextProgress != null) {
         _updateHiAnimationSource(
           HiAnimationSource(
-            progress + 1,
-            [title.english, title.romaji].whereNotNull().toList(),
+            nextProgress + 1,
+            [title.english, title.romaji, title.native]
+                .where((e) => e.isNotEmpty)
+                .toList(),
           ),
         );
+      }
     }
   }
 
@@ -169,7 +215,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _networkActionCancelToken = CancelToken();
 
     add(_OnLoadingStateChanged(isLoading: true));
-    final results = await Future.wait([
+    await Future.wait([
       _mediaRepository.startFetchDetailAnimeInfo(
         id: mediaId,
         token: _networkActionCancelToken,
@@ -181,11 +227,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
     ]);
     add(_OnLoadingStateChanged(isLoading: false));
-
-    final result = results.whereType<LoadError>().firstOrNull;
-    if (result != null) {
-      ErrorHandler.handleException(exception: result.exception);
-    }
   }
 
   Future<void> _onMediaListModified(
@@ -229,11 +270,11 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   }
 
   void _updateHiAnimationSource(HiAnimationSource source) async {
-    logger.d('findPlaySource source ${source}');
     if (_hiAnimationSource != source) {
       _hiAnimationSource = source;
       _findPlaySourceCancelToken?.cancel();
       _findPlaySourceCancelToken = CancelToken();
+      add(_OnStartFindSource());
       final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
         source.keywords,
         source.episode.toString(),
@@ -244,6 +285,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
         case LoadError<Episode>():
           logger.d('findPlaySource failed ${result.exception}');
           ErrorHandler.handleException(exception: result.exception);
+          add(_OnFindEpisodeError(exception: result.exception));
         case LoadSuccess<Episode>():
           logger.d('findPlaySource success ${result.data}');
           add(_OnEpisodeFound(episode: result.data));

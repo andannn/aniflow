@@ -19,7 +19,7 @@ mixin _$DetailMediaUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
   MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
-  Episode? get episode => throw _privateConstructorUsedError;
+  LoadingState<Episode> get episode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailMediaUiStateCopyWith<DetailMediaUiState> get copyWith =>
@@ -36,7 +36,7 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
       {bool isLoading,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
-      Episode? episode});
+      LoadingState<Episode> episode});
 
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
   $MediaListItemModelCopyWith<$Res>? get mediaListItem;
@@ -58,7 +58,7 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
-    Object? episode = freezed,
+    Object? episode = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -73,10 +73,10 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
           ? _value.mediaListItem
           : mediaListItem // ignore: cast_nullable_to_non_nullable
               as MediaListItemModel?,
-      episode: freezed == episode
+      episode: null == episode
           ? _value.episode
           : episode // ignore: cast_nullable_to_non_nullable
-              as Episode?,
+              as LoadingState<Episode>,
     ) as $Val);
   }
 
@@ -117,7 +117,7 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
       {bool isLoading,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
-      Episode? episode});
+      LoadingState<Episode> episode});
 
   @override
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
@@ -139,7 +139,7 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
-    Object? episode = freezed,
+    Object? episode = null,
   }) {
     return _then(_$DetailMediaUiStateImpl(
       isLoading: null == isLoading
@@ -154,10 +154,10 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
           ? _value.mediaListItem
           : mediaListItem // ignore: cast_nullable_to_non_nullable
               as MediaListItemModel?,
-      episode: freezed == episode
+      episode: null == episode
           ? _value.episode
           : episode // ignore: cast_nullable_to_non_nullable
-              as Episode?,
+              as LoadingState<Episode>,
     ));
   }
 }
@@ -169,7 +169,7 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
       {this.isLoading = false,
       this.detailAnimeModel,
       this.mediaListItem,
-      this.episode});
+      this.episode = const None<Episode>()});
 
   @override
   @JsonKey()
@@ -179,7 +179,8 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   @override
   final MediaListItemModel? mediaListItem;
   @override
-  final Episode? episode;
+  @JsonKey()
+  final LoadingState<Episode> episode;
 
   @override
   String toString() {
@@ -217,7 +218,7 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
       {final bool isLoading,
       final MediaModel? detailAnimeModel,
       final MediaListItemModel? mediaListItem,
-      final Episode? episode}) = _$DetailMediaUiStateImpl;
+      final LoadingState<Episode> episode}) = _$DetailMediaUiStateImpl;
 
   @override
   bool get isLoading;
@@ -226,7 +227,7 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   @override
   MediaListItemModel? get mediaListItem;
   @override
-  Episode? get episode;
+  LoadingState<Episode> get episode;
   @override
   @JsonKey(ignore: true)
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
