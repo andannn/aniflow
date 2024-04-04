@@ -73,4 +73,10 @@ class PlayerViewModel(
 
         videoStateFlow.value = video
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        player.stop()
+        player.release()
+    }
 }

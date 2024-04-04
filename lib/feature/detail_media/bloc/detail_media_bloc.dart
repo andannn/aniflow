@@ -188,7 +188,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       if (nextProgress != null) {
         _updateHiAnimationSource(
           HiAnimationSource(
-            nextProgress + 1,
+            nextProgress,
             [title.english, title.romaji, title.native]
                 .where((e) => e.isNotEmpty)
                 .toList(),
