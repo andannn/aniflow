@@ -26,14 +26,14 @@ class HiAnimationRepository {
       List<String> keywords, String episode,
       [CancelToken? cancelToken]) async {
     try {
-      final animeId =
+      final animeHref =
           await datasource.searchAnimationByKeyword(keywords, cancelToken);
 
-      if (animeId == null) {
+      if (animeHref == null) {
         return LoadError(Exception('not find animation id.'));
       }
 
-      final episodes = await datasource.getEpisodesById(animeId, cancelToken);
+      final episodes = await datasource.getEpisodesById(animeHref, cancelToken);
 
       final epOrNull = episodes.firstWhereOrNull((e) => e.$3 == episode);
 
@@ -43,17 +43,19 @@ class HiAnimationRepository {
 
       final (episodeId, title, epNumber) = epOrNull;
 
-      final availableServerList =
-          await datasource.getAvailableServerIdList(episodeId, cancelToken);
+      // final availableServerList =
+      //     await datasource.getAvailableServerIdList(episodeId, cancelToken);
 
-      if (availableServerList.isEmpty) {
-        return LoadError(Exception('not find available server'));
-      }
+      // if (availableServerList.isEmpty) {
+      //   return LoadError(Exception('not find available server'));
+      // }
 
-      final link =
-          await datasource.getLink(availableServerList.first, cancelToken);
+      // final link =
+      //     await datasource.getLink(availableServerList.first, cancelToken);
 
-      return LoadSuccess(data: Episode(link, title, epNumber));
+      return LoadSuccess(
+          data: Episode(
+              '$hiAnimationUrl$animeHref?ep=$episodeId', title, epNumber));
     } on Exception catch (e) {
       return LoadError(e);
     }

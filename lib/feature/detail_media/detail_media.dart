@@ -761,8 +761,11 @@ class _DetailAnimePageContent extends StatelessWidget {
                 ),
               ),
             Ready<Episode>() => TextButton(
-                onPressed: () {
-                  NaviMethodChannel().startPlayerActivity(episode.state.url);
+                onPressed: () async {
+                  final url = Uri.parse(episode.state.url);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
                 },
                 child: Text(episode.state.title),
               ),

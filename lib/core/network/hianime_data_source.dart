@@ -15,10 +15,18 @@ class HiAnimationDataSource {
 
   Future<String?> searchAnimationByKeyword(List<String> keywords,
       [CancelToken? token]) async {
-    bool isMatchKeywords(String title) =>
-        keywords
-            .firstWhereOrNull((keyword) => title.similarityTo(keyword) > 0.7) !=
-        null;
+    bool isMatchKeywords(String title) {
+      final numbers =
+          title.split(' ').map((e) => int.tryParse(e)).whereNotNull().toList();
+      final hasNumber = numbers.isNotEmpty;
+      return keywords.firstWhereOrNull(
+                  (keyword) => title.similarityTo(keyword) > 0.7) !=
+              null &&
+          (!hasNumber ||
+              keywords.firstWhereOrNull(
+                      (e) => e.contains(numbers.last.toString())) !=
+                  null);
+    }
 
     for (var keyword in keywords) {
       final result = await dio.get(
@@ -37,8 +45,7 @@ class HiAnimationDataSource {
       for (var element in elements) {
         final title = element.attributes['title'] ?? '';
         if (isMatchKeywords(title)) {
-          final href = element.attributes['href'] ?? '';
-          return href.split('/').lastOrNull;
+          return element.attributes['href'] ?? '';
         }
       }
     }
