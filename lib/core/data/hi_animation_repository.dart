@@ -43,16 +43,6 @@ class HiAnimationRepository {
 
       final (episodeId, title, epNumber) = epOrNull;
 
-      // final availableServerList =
-      //     await datasource.getAvailableServerIdList(episodeId, cancelToken);
-
-      // if (availableServerList.isEmpty) {
-      //   return LoadError(Exception('not find available server'));
-      // }
-
-      // final link =
-      //     await datasource.getLink(availableServerList.first, cancelToken);
-
       return LoadSuccess(
           data: Episode(
               '$hiAnimationUrl$animeHref?ep=$episodeId', title, epNumber));

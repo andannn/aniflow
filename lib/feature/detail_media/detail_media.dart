@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
-import 'package:aniflow/core/channel/navi_method_channel.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';

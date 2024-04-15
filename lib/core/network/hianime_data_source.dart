@@ -84,31 +84,4 @@ class HiAnimationDataSource {
             ))
         .toList();
   }
-
-  Future<List<String>> getAvailableServerIdList(String episodeId,
-      [CancelToken? cancelToken]) async {
-    final result = await dio
-        .get('${hiAnimationUrl}ajax/v2/episode/servers', queryParameters: {
-      'episodeId': episodeId,
-    });
-    print(result.data['html']);
-    final document = parse(result.data['html']);
-    final serverList = document.querySelectorAll('div.server-item');
-    return serverList.map((e) => e.attributes['data-id'] ?? '').toList();
-  }
-
-  Future<String> getLink(String serverId, [CancelToken? cancelToken]) async {
-    final result = await dio
-        .get('${hiAnimationUrl}ajax/v2/episode/sources', queryParameters: {
-      'id': serverId,
-    });
-    // 0 = {map entry} "type" -> "iframe"
-    // 1 = {map entry} "link" -> "https://megacloud.tv/embed-2/e-1/CFDwFhuUXMy7?k=1"
-    // 2 = {map entry} "server" -> 4
-    // 3 = {map entry} "sources" -> [_GrowableList]
-    // 4 = {map entry} "tracks" -> [_GrowableList]
-    // 5 = {map entry} "htmlGuide" -> ""
-
-    return result.data['link'];
-  }
 }

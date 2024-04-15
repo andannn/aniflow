@@ -2,12 +2,9 @@ package com.andannn.aniflow
 
 import android.content.Intent
 import android.util.Log
-import com.andannn.aniflow.player.PlayerActivity
-import com.andannn.aniflow.player.PlayerActivity.Companion.VIDEO_URL_KEY
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
@@ -44,20 +41,6 @@ class MainActivity : FlutterActivity() {
                     authEventSink = null
                 }
             })
-        methodChannel.setMethodCallHandler { call, result ->
-            val arguments = call.arguments as List<*>
-            Log.d(TAG, "configureFlutterEngine: $arguments")
-            when (call.method) {
-                "startPlayerActivity" -> {
-                    startActivity(
-                        Intent(this, PlayerActivity::class.java).apply {
-                            putExtra(VIDEO_URL_KEY, arguments[0] as String)
-                        }
-                    )
-                    result.success(null)
-                }
-            }
-        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -80,3 +63,4 @@ class MainActivity : FlutterActivity() {
         }
     }
 }
+
