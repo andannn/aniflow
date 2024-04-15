@@ -119,10 +119,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         mode: InsertMode.replace
       );
 
-// TODO: only update like state here.
-      batch.insertAllOnConflictUpdate(
+      batch.insertAll(
         mediaTable,
         entities.map((e) => e.mediaEntity),
+        mode: InsertMode.insertOrIgnore
       );
     });
   }

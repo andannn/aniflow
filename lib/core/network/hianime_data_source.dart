@@ -16,16 +16,28 @@ class HiAnimationDataSource {
   Future<String?> searchAnimationByKeyword(List<String> keywords,
       [CancelToken? token]) async {
     bool isMatchKeywords(String title) {
-      final numbers =
-          title.split(' ').map((e) => int.tryParse(e)).whereNotNull().toList();
-      final hasNumber = numbers.isNotEmpty;
-      return keywords.firstWhereOrNull(
-                  (keyword) => title.similarityTo(keyword) > 0.7) !=
-              null &&
-          (!hasNumber ||
-              keywords.firstWhereOrNull(
-                      (e) => e.contains(numbers.last.toString())) !=
-                  null);
+      final numbers = keywords.first
+          .split(' ')
+          .map((e) => int.tryParse(e))
+          .whereNotNull()
+          .toList();
+      if (numbers.isNotEmpty) {
+        bool matchNumbers = true;
+        for (var element in numbers) {
+          if (!title.contains(element.toString())) {
+            matchNumbers = false;
+            break;
+          }
+        }
+        return matchNumbers &&
+            keywords
+                .where((keyword) => title.similarityTo(keyword) > 0.7)
+                .isNotEmpty;
+      } else {
+        return keywords
+            .where((keyword) => title.similarityTo(keyword) > 0.7)
+            .isNotEmpty;
+      }
     }
 
     for (var keyword in keywords) {
