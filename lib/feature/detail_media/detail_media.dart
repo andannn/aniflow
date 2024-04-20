@@ -744,34 +744,60 @@ class _DetailAnimePageContent extends StatelessWidget {
     final nextProgress = (state.mediaListItem!.progress ?? 0) + 1;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Row(
-        children: [
-          Text(
-            'Next to watch: Ep.$nextProgress',
-            style: Theme.of(context).textTheme.bodyMedium,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            children: [
+              Text(
+                'Next to watch: Ep.$nextProgress',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 12),
+              switch (episode) {
+                Loading<Episode>() => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: LoadingAnimationWidget.twistingDots(
+                      size: 20,
+                      leftDotColor: Theme.of(context).colorScheme.tertiary,
+                      rightDotColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                Ready<Episode>() => Column(
+                    children: [
+                      Text(episode.state.title),
+                      TextButton.icon(
+                        onPressed: () async {
+                          final url = Uri.parse(episode.state.url);
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          }
+                        },
+                        icon: const Icon(Icons.navigate_next),
+                        label: const Text('Watch now'),
+                      )
+                    ],
+                  ),
+                None<Episode>() => const SizedBox(),
+                Error<Episode>() => Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          'Can\'t find episode, click the bottom button and find manually.',
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: () async {},
+                        icon: const Icon(Icons.navigate_next),
+                        label: const Text('Search page'),
+                      )
+                    ],
+                  ),
+              }
+            ],
           ),
-          switch (episode) {
-            Loading<Episode>() => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: LoadingAnimationWidget.twistingDots(
-                  size: 20,
-                  leftDotColor: Theme.of(context).colorScheme.tertiary,
-                  rightDotColor: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            Ready<Episode>() => TextButton(
-                onPressed: () async {
-                  final url = Uri.parse(episode.state.url);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  }
-                },
-                child: Text(episode.state.title),
-              ),
-            None<Episode>() => const SizedBox(),
-            Error<Episode>() => const SizedBox(),
-          }
-        ],
+        ),
       ),
     );
   }
