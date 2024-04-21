@@ -68,12 +68,21 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .getSingleOrNull();
   }
 
-  Stream<MediaListEntity?> getMediaListOfUserStream(
+  Stream<MediaListAndMediaRelation?> getMediaListOfUserStream(
       String userId, String mediaId) {
-    return (select(mediaListTable)
-          ..where((tbl) =>
-              mediaListTable.mediaId.equals(mediaId) &
-              mediaListTable.userId.equals(userId)))
+    final query = select(mediaListTable).join([
+      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(mediaListTable.mediaId.equals(mediaId) &
+          mediaListTable.userId.equals(userId));
+
+    return query
+        .map(
+          (row) => MediaListAndMediaRelation(
+            mediaListEntity: row.readTable(mediaListTable),
+            mediaEntity: row.readTable(mediaTable),
+          ),
+        )
         .watchSingleOrNull();
   }
 
@@ -113,17 +122,11 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   Future upsertMediaListAndMediaRelations(
       List<MediaListAndMediaRelation> entities) {
     return batch((batch) {
-      batch.insertAll(
-        mediaListTable,
-        entities.map((e) => e.mediaListEntity),
-        mode: InsertMode.replace
-      );
+      batch.insertAll(mediaListTable, entities.map((e) => e.mediaListEntity),
+          mode: InsertMode.replace);
 
-      batch.insertAll(
-        mediaTable,
-        entities.map((e) => e.mediaEntity),
-        mode: InsertMode.insertOrIgnore
-      );
+      batch.insertAll(mediaTable, entities.map((e) => e.mediaEntity),
+          mode: InsertMode.insertOrIgnore);
     });
   }
 }

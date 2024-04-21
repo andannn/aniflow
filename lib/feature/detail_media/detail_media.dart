@@ -5,6 +5,7 @@ import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
@@ -746,7 +747,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
               Text(
@@ -765,36 +766,92 @@ class _DetailAnimePageContent extends StatelessWidget {
                   ),
                 Ready<Episode>() => Column(
                     children: [
-                      Text(episode.state.title),
-                      TextButton.icon(
-                        onPressed: () async {
-                          final url = Uri.parse(episode.state.url);
-                          if (await canLaunchUrl(url)) {
-                            await launchUrl(url);
-                          }
-                        },
-                        icon: const Icon(Icons.navigate_next),
-                        label: const Text('Watch now'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          episode.state.title,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () async {
+                              context.read<DetailMediaBloc>().add(
+                                    OnMarkWatchedClick(),
+                                  );
+                            },
+                            child: const Text('Mark watched'),
+                          ),
+                          FilledButton(
+                            onPressed: () async {
+                              final url = Uri.parse(episode.state.url);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              }
+                            },
+                            child: const Text('Watch now'),
+                          ),
+                        ],
                       )
                     ],
                   ),
                 None<Episode>() => const SizedBox(),
                 Error<Episode>() => Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'Can\'t find episode, click the bottom button and find manually.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
-                      TextButton.icon(
-                        onPressed: () async {},
-                        icon: const Icon(Icons.navigate_next),
-                        label: const Text('Search page'),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () async {
+                              context.read<DetailMediaBloc>().add(
+                                    OnMarkWatchedClick(),
+                                  );
+                            },
+                            child: const Text('Mark watched'),
+                          ),
+                          FilledButton(
+                            onPressed: () async {
+                              logger.d(
+                                  'JQN episode.searchUrl ${episode.searchUrl}');
+                              if (episode.searchUrl == null) {
+                                return;
+                              }
+
+                              final url = Uri.parse(episode.searchUrl!);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              }
+                            },
+                            child: const Text('Search page'),
+                          )
+                        ],
                       )
                     ],
                   ),
-              }
+              },
             ],
           ),
         ),

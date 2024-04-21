@@ -5,6 +5,7 @@ import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
 import 'package:string_similarity/string_similarity.dart';
 
+String hiAnimationDomain = "hianime.to";
 String hiAnimationUrl = "https://hianime.to/";
 
 @lazySingleton
