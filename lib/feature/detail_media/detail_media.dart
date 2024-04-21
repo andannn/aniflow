@@ -3,12 +3,13 @@ import 'dart:math';
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
-import 'package:aniflow/core/channel/navi_method_channel.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
+import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
@@ -34,6 +35,7 @@ import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -153,7 +155,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: _buildAnimeInfoSection(context, model),
               ),
               SliverToBoxAdapter(
-                child: _buildWatchNextEpisodeArea(context, state.episode),
+                child: _buildWatchNextEpisodeArea(context, state),
               ),
               SliverToBoxAdapter(
                 child: _buildAnimeRelations(
@@ -161,7 +163,6 @@ class _DetailAnimePageContent extends StatelessWidget {
                   relations: model.relations,
                 ),
               ),
-              const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildAnimeDescription(
                   context: context,
@@ -598,8 +599,6 @@ class _DetailAnimePageContent extends StatelessWidget {
               model.getAnimeInfoString(context),
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 8),
-            _buildAiringInfo(context, model)
           ],
         ),
       ),
@@ -686,6 +685,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 },
               ),
             ),
+            const SizedBox(height: 16)
           ],
         ),
       ),
@@ -725,14 +725,136 @@ class _DetailAnimePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildWatchNextEpisodeArea(BuildContext context, Episode? episode) {
-    return VerticalScaleSwitcher(
-      visible: episode != null,
-      child: OutlinedButton(
-        onPressed: () {
-          NaviMethodChannel().startPlayerActivity(episode!.url);
-        },
-        child: Text('Ep.${episode?.epNumber} ${episode?.title}'),
+  Widget _buildWatchNextEpisodeArea(
+      BuildContext context, DetailMediaUiState state) {
+    final mediaListItem =
+        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
+    final hasNextReleasingEpisode =
+        mediaListItem?.hasNextReleasingEpisode == true;
+
+    if (hasNextReleasingEpisode) {
+      // User tack the animation and have next airing episode.
+      return _buildNextEpisodeInfo(context, state);
+    } else {
+      return _buildAiringInfo(context, state.detailAnimeModel!);
+    }
+  }
+
+  Widget _buildNextEpisodeInfo(BuildContext context, DetailMediaUiState state) {
+    final episode = state.episode;
+    final nextProgress = (state.mediaListItem!.progress ?? 0) + 1;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Text(
+                'Next to watch: Ep.$nextProgress',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 12),
+              switch (episode) {
+                Loading<Episode>() => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: LoadingAnimationWidget.twistingDots(
+                      size: 20,
+                      leftDotColor: Theme.of(context).colorScheme.tertiary,
+                      rightDotColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                Ready<Episode>() => Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          episode.state.title,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () async {
+                              context.read<DetailMediaBloc>().add(
+                                    OnMarkWatchedClick(),
+                                  );
+                            },
+                            child: const Text('Mark watched'),
+                          ),
+                          FilledButton(
+                            onPressed: () async {
+                              final url = Uri.parse(episode.state.url);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              }
+                            },
+                            child: const Text('Watch now'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                None<Episode>() => const SizedBox(),
+                Error<Episode>() => Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          'Can\'t find episode, click the bottom button and find manually.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () async {
+                              context.read<DetailMediaBloc>().add(
+                                    OnMarkWatchedClick(),
+                                  );
+                            },
+                            child: const Text('Mark watched'),
+                          ),
+                          FilledButton(
+                            onPressed: () async {
+                              logger.d(
+                                  'JQN episode.searchUrl ${episode.searchUrl}');
+                              if (episode.searchUrl == null) {
+                                return;
+                              }
+
+                              final url = Uri.parse(episode.searchUrl!);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              }
+                            },
+                            child: const Text('Search page'),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+              },
+            ],
+          ),
+        ),
       ),
     );
   }

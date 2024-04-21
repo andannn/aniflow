@@ -123,7 +123,6 @@ class _AnimeTrackPageContent extends StatelessWidget {
               animeId: item.animeModel!.id,
               progress: item.progress! + 1,
               totalEpisode: item.animeModel!.episodes));
-          // mark watch
         },
         onLongPress: () async {
           final bloc = context.read<TrackBloc>();

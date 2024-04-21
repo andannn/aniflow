@@ -81,6 +81,5 @@ flutter {
 }
 
 dependencies {
-    implementation project(":player")
     implementation "androidx.multidex:multidex:2.0.1"
 }
