@@ -31,7 +31,8 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
     return (select(mediaTable)..where((tbl) => mediaTable.id.isIn(ids))).get();
   }
 
-  Future<List<MediaAndRelationTypeEntity>> getMediaRelations(String mediaId) {
+  Stream<List<MediaAndRelationTypeEntity>> getMediaRelationsStream(
+      String mediaId) {
     final query = select(mediaRelationCrossRefTable).join([
       innerJoin(mediaTable,
           mediaRelationCrossRefTable.relationId.equalsExp(mediaTable.id)),
@@ -43,7 +44,7 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
         mediaRelation: row.read(mediaRelationCrossRefTable.relationType),
         media: row.readTable(mediaTable),
       ),
-    )).get();
+    )).watch();
   }
 
   Future upsertMediaRelations(
@@ -134,51 +135,3 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
     });
   }
 }
-
-// @override
-// Future<MediaWithDetailInfo> getDetailMediaInfo(String id) async {
-//   final animeJson = await database.aniflowDB.query(
-//     Tables.mediaTable,
-//     where: '${MediaTableColumns.id}=$id',
-//     limit: 1,
-//   );
-//   final animeEntity = MediaEntity.fromJson(animeJson.first);
-//
-//   final characterResults = await getCharacterOfMediaByPage(id, page: 1);
-//
-//   final staffResults = await getStaffOfMediaByPage(id, page: 1);
-//
-//   final studios = await getStudioOfMedia(id);
-//
-//   String externalLinkSql =
-//       'select * from ${Tables.mediaExternalLickTable} as media '
-//       'where media.${MediaExternalLinkColumnValues.mediaId} = \'$id\' ';
-//   List externalLinkResults =
-//   await database.aniflowDB.rawQuery(externalLinkSql);
-//
-//   final mediaRelations = await getMediaRelations(id);
-//
-//   return MediaWithDetailInfo(
-//     mediaEntity: animeEntity,
-//     characterAndVoiceActors: characterResults,
-//     staffs: staffResults,
-//     externalLinks: externalLinkResults
-//         .map((e) => MediaExternalLinkEntity.fromJson(e))
-//         .toList(),
-//     mediaRelations: mediaRelations,
-//     studios: studios,
-//   );
-// }
-
-// @override
-// Stream<MediaWithDetailInfo> getDetailMediaInfoStream(String id) {
-//   return database.createStream(
-//       [
-//         Tables.mediaTable,
-//         Tables.studioTable,
-//         Tables.characterTable,
-//         Tables.staffTable,
-//         Tables.mediaExternalLickTable,
-//         Tables.mediaRelationCrossRef,
-//       ], () => getDetailMediaInfo(id));
-// }

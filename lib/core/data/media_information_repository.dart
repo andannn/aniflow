@@ -8,6 +8,7 @@ import 'package:aniflow/core/data/mappers/airing_schedule_mapper.dart';
 import 'package:aniflow/core/data/mappers/character_mapper.dart';
 import 'package:aniflow/core/data/mappers/media_external_link_mapper.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
+import 'package:aniflow/core/data/mappers/media_relation_mapper.dart';
 import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/mappers/studio_mapper.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
@@ -174,19 +175,29 @@ class MediaInformationRepository {
     final staffStream = staffDao.getStaffListStream(id);
     final studioStream = studioDao.getStudioOfMediaStream(id);
     final externalLinkStream = mediaDao.getAllExternalLinksOfMediaStream(id);
-    return CombineLatestStream.combine5(
+    final mediaRelationStream = mediaDao.getMediaRelationsStream(id);
+    return CombineLatestStream.combine6(
       mediaStream,
       characterStream,
       staffStream,
       studioStream,
       externalLinkStream,
-      (media, characterList, staffList, studioList, externalLinkList) {
+      mediaRelationStream,
+      (
+        media,
+        characterList,
+        staffList,
+        studioList,
+        externalLinkList,
+        mediaRelationList,
+      ) {
         return media.toModel().copyWith(
               characterAndVoiceActors:
                   characterList.map((e) => e.toModel()).toList(),
               staffs: staffList.map((e) => e.toModel()).toList(),
               studios: studioList.map((e) => e.toModel()).toList(),
               externalLinks: externalLinkList.map((e) => e.toModel()).toList(),
+              relations: mediaRelationList.map((e) => e.toModel()).toList(),
             );
       },
     );

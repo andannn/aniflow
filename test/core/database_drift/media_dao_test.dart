@@ -112,7 +112,8 @@ void main() {
 
     test('get_media_relation', () async {
       await dao.upsertMediaRelations('1', dummyMediaRelation);
-      final res = await dao.getMediaRelations('1');
+      final stream = dao.getMediaRelationsStream('1');
+      final res =  await stream.first;
       expect(res, equals(dummyMediaRelation));
     });
 
