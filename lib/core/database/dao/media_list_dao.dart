@@ -122,11 +122,17 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   Future upsertMediaListAndMediaRelations(
       List<MediaListAndMediaRelation> entities) {
     return batch((batch) {
-      batch.insertAll(mediaListTable, entities.map((e) => e.mediaListEntity),
-          mode: InsertMode.replace);
+      batch.insertAll(
+        mediaListTable,
+        entities.map((e) => e.mediaListEntity),
+        mode: InsertMode.replace,
+      );
 
-      batch.insertAll(mediaTable, entities.map((e) => e.mediaEntity),
-          mode: InsertMode.insertOrIgnore);
+      // insert the table or update columns except Value.absent().
+      batch.insertAllOnConflictUpdate(
+        mediaTable,
+        entities.map((e) => e.mediaEntity.toCompanion(true)),
+      );
     });
   }
 }

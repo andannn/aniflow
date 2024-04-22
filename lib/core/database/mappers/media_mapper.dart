@@ -32,7 +32,7 @@ extension MediaMapper on MediaDto {
     status: status?.toJson(),
     timeUntilAiring: nextAiringEpisode?.timeUntilAiring,
     nextAiringEpisode: nextAiringEpisode?.episode,
-    genres: jsonEncode(genres),
+    genres: genres.isNotEmpty ? jsonEncode(genres) : null,
     popularRanking: rankings
         .firstWhere(
           (e) => e?.type == 'POPULAR' && e?.allTime == false,

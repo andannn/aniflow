@@ -36,9 +36,9 @@ class _OnLoadStateChanged extends TrackEvent {
 }
 
 class _OnWatchingAnimeListChanged extends TrackEvent {
-  final List<MediaListItemModel> animeList;
+  final List<MediaListItemModel> mediaList;
 
-  _OnWatchingAnimeListChanged({required this.animeList});
+  _OnWatchingAnimeListChanged({required this.mediaList});
 }
 
 class _OnAniListSettingsChanged extends TrackEvent {
@@ -103,7 +103,29 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<OnAnimeMarkWatched>(_onAnimeMarkWatched);
     on<OnMediaListModified>(_onMediaListModified);
 
-    _init();
+    /// start listen user changed event.
+    _userStateSub ??= _authRepository.getAuthedUserStream().listen((userData) {
+      add(_OnUserStateChanged(userData: userData));
+    });
+
+    _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
+          (mediaType) {
+        add(_OnMediaTypeChanged(mediaType));
+      },
+    );
+
+    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
+          (settings) {
+        add(_OnAniListSettingsChanged(settings));
+      },
+    );
+
+    _showReleasedOnlySub ??= _mediaListRepository
+        .getIsReleasedOnlyStream()
+        .distinct()
+        .listen((showReleasedOnly) {
+      add(_OnShowFollowOnlyStateChanged(showReleasedOnly));
+    });
   }
 
   StreamSubscription? _userContentSub;
@@ -118,32 +140,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   String? _userId;
 
   var _watchingAnimeList = <MediaListItemModel>[];
-
-  void _init() async {
-    /// start listen user changed event.
-    _userStateSub ??= _authRepository.getAuthedUserStream().listen((userData) {
-      add(_OnUserStateChanged(userData: userData));
-    });
-
-    _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
-      (mediaType) {
-        add(_OnMediaTypeChanged(mediaType));
-      },
-    );
-
-    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
-      (settings) {
-        add(_OnAniListSettingsChanged(settings));
-      },
-    );
-
-    _showReleasedOnlySub ??= _mediaListRepository
-        .getIsReleasedOnlyStream()
-        .distinct()
-        .listen((showReleasedOnly) {
-      add(_OnShowFollowOnlyStateChanged(showReleasedOnly));
-    });
-  }
 
   @override
   Future<void> close() {
@@ -195,7 +191,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       return null;
     }
 
-    _watchingAnimeList = event.animeList;
+    _watchingAnimeList = event.mediaList;
 
     final needShowReleasedOnly = state.showReleasedOnly;
 
@@ -290,8 +286,8 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       status: [MediaListStatus.planning, MediaListStatus.current],
       type: state.currentMediaType,
       userId: userId,
-    ).listen((animeList) {
-      add(_OnWatchingAnimeListChanged(animeList: animeList));
+    ).listen((mediaList) {
+      add(_OnWatchingAnimeListChanged(mediaList: mediaList));
     });
   }
 
