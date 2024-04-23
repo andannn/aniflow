@@ -21,6 +21,7 @@ import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
@@ -302,7 +303,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _mediaListRepository.syncMediaList(
         userId: userId,
         status: [MediaListStatus.current, MediaListStatus.planning],
-        mediaType: AniFlowPreferences().mediaType.value,
+        mediaType: getIt.get<AniFlowPreferences>().mediaType.value,
       ),
     ]);
   }

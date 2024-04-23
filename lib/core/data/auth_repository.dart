@@ -26,11 +26,12 @@ const String authUrl =
 
 @lazySingleton
 class AuthRepository {
-  AuthRepository(this.authDataSource, this.userDataDao, this.animeTrackListDao);
+  AuthRepository(this.authDataSource, this.userDataDao, this.animeTrackListDao,
+      this.preferences);
 
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final AniFlowPreferences preferences;
 
   final AuthDataSource authDataSource;
 

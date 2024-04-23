@@ -1,6 +1,7 @@
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 
 class SearchAnimeItem extends StatelessWidget {
@@ -18,7 +19,7 @@ class SearchAnimeItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model,
-        language: AniFlowPreferences().aniListSettings.value.userTitleLanguage,
+        language: getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage,
         titleMaxLines: null,
         onClick: onClick,
       ),

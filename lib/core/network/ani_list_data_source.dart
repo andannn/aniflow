@@ -43,6 +43,7 @@ import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/main.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -55,8 +56,9 @@ class AniListDataSource {
 
   final Dio dio;
 
-  String get _token =>
-      isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
+  String get _token => isUnitTest
+      ? testToken
+      : getIt.get<AniFlowPreferences>().authToken.value ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {

@@ -17,6 +17,7 @@ import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
@@ -156,7 +157,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: AniFlowPreferences().mediaType.value,
+      mediaType: getIt.get<AniFlowPreferences>().mediaType.value,
     );
     add(_OnLoadStateChanged(isLoading: false));
 

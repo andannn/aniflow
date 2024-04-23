@@ -16,6 +16,7 @@ import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_pag
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/title_with_items_builder.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -105,7 +106,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
   Widget _buildGridItems(
       BuildContext context, FavoriteType type, dynamic model) {
     final language =
-        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
     final String coverImage;
     final String title;
     final String id;
@@ -116,7 +117,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       case FavoriteType.manga:
         coverImage = (model as MediaModel).coverImage?.large ?? '';
         title = model.title!.getTitle(
-            AniFlowPreferences().aniListSettings.value.userTitleLanguage);
+            getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage);
         id = model.id;
         onClick = () => navigator.navigateToDetailMedia(id);
       case FavoriteType.character:

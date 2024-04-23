@@ -17,6 +17,7 @@ import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/main.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
@@ -36,7 +37,7 @@ class MediaListRepository {
   final MediaDao mediaDao;
   final AniListDataSource aniListDataSource;
   final AuthDataSource authDataSource;
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final AniFlowPreferences preferences = getIt.get<AniFlowPreferences>();
 
   Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
     required List<MediaListStatus> status,
@@ -61,7 +62,7 @@ class MediaListRepository {
               userId: int.parse(targetUserId),
               mediaType: type,
               status: status,
-              format: AniFlowPreferences().aniListSettings.value.scoreFormat),
+              format: getIt.get<AniFlowPreferences>().aniListSettings.value.scoreFormat),
           token: token,
         );
       },
@@ -94,7 +95,7 @@ class MediaListRepository {
           mediaType: mediaType,
           status: status,
           userId: int.parse(targetUserId.toString()),
-          format: AniFlowPreferences().aniListSettings.value.scoreFormat,
+          format: getIt.get<AniFlowPreferences>().aniListSettings.value.scoreFormat,
         ),
         token: token,
       );

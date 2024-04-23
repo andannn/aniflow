@@ -86,7 +86,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
     });
 
     _mediaTypeSub =
-        SettingsRepository().getMediaTypeStream().distinct().listen(
+        getIt.get<SettingsRepository>().getMediaTypeStream().distinct().listen(
       (mediaType) {
         setState(() {
           _mediaType = mediaType;

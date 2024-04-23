@@ -11,6 +11,7 @@ import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/title_with_items_builder.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -173,7 +174,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
     return MediaPreviewItem(
       coverImage: model.animeModel!.coverImage?.large ?? '',
       title: model.animeModel!.title!.getTitle(
-          AniFlowPreferences().aniListSettings.value.userTitleLanguage),
+          getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
         AfRouterDelegate.of(context)

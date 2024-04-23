@@ -7,6 +7,7 @@ import 'package:aniflow/core/design_system/widget/date_time_button.dart';
 import 'package:aniflow/core/design_system/widget/max_limit_text_filed.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 
 class MediaListModifyResult {
@@ -204,8 +205,11 @@ class _UpdateMediaListBottomSheetState
               child: buildLabelWithChild(
                 label: 'Score',
                 child: ScoringWidget(
-                  format:
-                      AniFlowPreferences().aniListSettings.value.scoreFormat,
+                  format: getIt
+                      .get<AniFlowPreferences>()
+                      .aniListSettings
+                      .value
+                      .scoreFormat,
                   score: score ?? 0,
                   onScoreChanged: (value) {
                     setState(() {
@@ -307,7 +311,11 @@ class _UpdateMediaListBottomSheetState
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: MediaRowItem(
         model: widget.mediaModel,
-        language: AniFlowPreferences().aniListSettings.value.userTitleLanguage,
+        language: getIt
+            .get<AniFlowPreferences>()
+            .aniListSettings
+            .value
+            .userTitleLanguage,
       ),
     );
   }

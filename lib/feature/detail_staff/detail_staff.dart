@@ -81,7 +81,7 @@ class _DetailStaffContent extends StatelessWidget {
 
         final isFavourite = staff.isFavourite;
         final language =
-            AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+            getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -292,9 +292,9 @@ class _DetailStaffContent extends StatelessWidget {
     required Function(String id) onMediaClick,
   }) {
     final staffLanguage =
-        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
     final titleLanguage =
-        AniFlowPreferences().aniListSettings.value.userTitleLanguage;
+        getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;

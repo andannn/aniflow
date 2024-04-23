@@ -10,7 +10,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class SettingsRepository {
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  SettingsRepository(this.preferences);
+
+  final AniFlowPreferences preferences;
 
   AnimeSeasonParam getAnimeSeasonParam() {
     final seasonYear = preferences.seasonYear.value;

@@ -16,13 +16,13 @@ final getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  initDI(getIt);
+
   /// init shared preference used in app.
-  await AniFlowPreferences().init();
+  await getIt.get<AniFlowPreferences>().init();
 
   /// init firebase
   await Firebase.initializeApp();
-
-  initDI(getIt);
 
   /// run app after core instance initialized.
   runApp(const AniFlowApp());

@@ -17,6 +17,7 @@ import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -232,7 +233,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: AniFlowPreferences().aniListSettings.value.scoreFormat,
+        format: getIt.get<AniFlowPreferences>().aniListSettings.value.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);

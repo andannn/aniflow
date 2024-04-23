@@ -77,7 +77,7 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, CharacterModel model) {
     final language =
-        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
     return MediaPreviewItem(
       coverImage: model.mediumImage,
       title: model.name!.getNameByUserSetting(language),

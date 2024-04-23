@@ -10,6 +10,7 @@ import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -108,7 +109,7 @@ class UserStatics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userStaffLanguage =
-        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final statics = model;
@@ -192,7 +193,7 @@ class _MediaListFutureBuilder extends StatefulWidget {
 class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
     with AutomaticKeepAliveClientMixin {
   final userTitleLanguage =
-      AniFlowPreferences().aniListSettings.value.userTitleLanguage;
+      getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage;
 
   final UserStatisticsRepository repository =
       GetIt.instance.get<UserStatisticsRepository>();

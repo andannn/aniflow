@@ -38,11 +38,12 @@ class ActivityStatus extends Equatable {
 
 @lazySingleton
 class ActivityRepository {
-  ActivityRepository(this.activityDao, this.aniListDataSource);
+  ActivityRepository(
+      this.activityDao, this.aniListDataSource, this.preferences);
 
   final AniListDataSource aniListDataSource;
   final ActivityDao activityDao;
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final AniFlowPreferences preferences;
 
   Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
     required LoadType loadType,

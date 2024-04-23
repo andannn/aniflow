@@ -80,7 +80,7 @@ class _MediaListPageContent extends StatelessWidget {
       textStyle: Theme.of(context).textTheme.labelMedium,
       coverImage: model.coverImage?.large ?? '',
       title: model.title!.getTitle(
-          AniFlowPreferences().aniListSettings.value.userTitleLanguage),
+          getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(

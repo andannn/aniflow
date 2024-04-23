@@ -17,6 +17,8 @@ import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
+
 extension AnimeSourceEx on AnimeSource {
   String getAnimeSourceString(BuildContext context) {
     switch (this) {
@@ -205,7 +207,7 @@ extension ListActivityModelEx on ListActivityModel {
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
         text: media!.title!.getTitle(
-            AniFlowPreferences().aniListSettings.value.userTitleLanguage),
+            getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,
       ),

@@ -42,7 +42,8 @@ class FavoriteRepository {
       this.staffDao,
       this.characterDao,
       this.mediaListDao,
-      this.favoriteDao);
+      this.favoriteDao,
+      this.preferences);
 
   final AniListDataSource aniListDataSource;
   final UserDao userDataDao;
@@ -52,8 +53,7 @@ class FavoriteRepository {
   final CharacterDao characterDao;
   final MediaListDao mediaListDao;
   final FavoriteDao favoriteDao;
-
-  final preferences = AniFlowPreferences();
+  final AniFlowPreferences preferences;
 
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
     required MediaType type,

@@ -61,6 +61,7 @@ class MediaInformationRepository {
     this.studioDao,
     this.airingScheduleDao,
     this.mediaDao,
+    this.preferences,
   );
 
   final AniListDataSource dataSource;
@@ -69,7 +70,7 @@ class MediaInformationRepository {
   final StaffDao staffDao;
   final StudioDao studioDao;
   final AiringSchedulesDao airingScheduleDao;
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final AniFlowPreferences preferences;
 
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,

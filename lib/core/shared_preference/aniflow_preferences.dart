@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/shared_preference/state_stream.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 mixin _UserDataKey {
@@ -34,12 +35,9 @@ mixin _UserDataKey {
   static const themeSettingKey = 'theme_setting_key';
 }
 
+@lazySingleton
 class AniFlowPreferences {
-  static AniFlowPreferences? _instance;
-
-  factory AniFlowPreferences() => _instance ??= AniFlowPreferences._();
-
-  AniFlowPreferences._();
+  AniFlowPreferences();
 
   late SharedPreferences _preference;
   late MutableStateStream<MediaType> mediaType;
