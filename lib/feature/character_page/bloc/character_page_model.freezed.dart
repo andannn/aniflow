@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CharacterPageState {
   StaffLanguage get language => throw _privateConstructorUsedError;
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CharacterPageStateCopyWith<CharacterPageState> get copyWith =>
@@ -29,7 +31,8 @@ abstract class $CharacterPageStateCopyWith<$Res> {
           CharacterPageState value, $Res Function(CharacterPageState) then) =
       _$CharacterPageStateCopyWithImpl<$Res, CharacterPageState>;
   @useResult
-  $Res call({StaffLanguage language});
+  $Res call(
+      {StaffLanguage language, UserStaffNameLanguage userStaffNameLanguage});
 }
 
 /// @nodoc
@@ -46,12 +49,17 @@ class _$CharacterPageStateCopyWithImpl<$Res, $Val extends CharacterPageState>
   @override
   $Res call({
     Object? language = null,
+    Object? userStaffNameLanguage = null,
   }) {
     return _then(_value.copyWith(
       language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as StaffLanguage,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
     ) as $Val);
   }
 }
@@ -64,7 +72,8 @@ abstract class _$$CharacterPageStateImplCopyWith<$Res>
       __$$CharacterPageStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({StaffLanguage language});
+  $Res call(
+      {StaffLanguage language, UserStaffNameLanguage userStaffNameLanguage});
 }
 
 /// @nodoc
@@ -79,12 +88,17 @@ class __$$CharacterPageStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? language = null,
+    Object? userStaffNameLanguage = null,
   }) {
     return _then(_$CharacterPageStateImpl(
       language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
               as StaffLanguage,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
     ));
   }
 }
@@ -92,15 +106,20 @@ class __$$CharacterPageStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CharacterPageStateImpl implements _CharacterPageState {
-  _$CharacterPageStateImpl({this.language = StaffLanguage.japanese});
+  _$CharacterPageStateImpl(
+      {this.language = StaffLanguage.japanese,
+      this.userStaffNameLanguage = UserStaffNameLanguage.native});
 
   @override
   @JsonKey()
   final StaffLanguage language;
+  @override
+  @JsonKey()
+  final UserStaffNameLanguage userStaffNameLanguage;
 
   @override
   String toString() {
-    return 'CharacterPageState(language: $language)';
+    return 'CharacterPageState(language: $language, userStaffNameLanguage: $userStaffNameLanguage)';
   }
 
   @override
@@ -109,11 +128,13 @@ class _$CharacterPageStateImpl implements _CharacterPageState {
         (other.runtimeType == runtimeType &&
             other is _$CharacterPageStateImpl &&
             (identical(other.language, language) ||
-                other.language == language));
+                other.language == language) &&
+            (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
+                other.userStaffNameLanguage == userStaffNameLanguage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, language);
+  int get hashCode => Object.hash(runtimeType, language, userStaffNameLanguage);
 
   @JsonKey(ignore: true)
   @override
@@ -124,11 +145,15 @@ class _$CharacterPageStateImpl implements _CharacterPageState {
 }
 
 abstract class _CharacterPageState implements CharacterPageState {
-  factory _CharacterPageState({final StaffLanguage language}) =
+  factory _CharacterPageState(
+          {final StaffLanguage language,
+          final UserStaffNameLanguage userStaffNameLanguage}) =
       _$CharacterPageStateImpl;
 
   @override
   StaffLanguage get language;
+  @override
+  UserStaffNameLanguage get userStaffNameLanguage;
   @override
   @JsonKey(ignore: true)
   _$$CharacterPageStateImplCopyWith<_$CharacterPageStateImpl> get copyWith =>

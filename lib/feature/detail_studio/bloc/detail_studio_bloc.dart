@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -32,7 +33,10 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     @factoryParam this.studioId,
     this._mediaRepository,
     this._favoriteRepository,
-  ) : super(DetailStudioState()) {
+    AfPreferencesRepository preferences,
+  ) : super(DetailStudioState(
+          userTitleLanguage: preferences.userTitleLanguage,
+        )) {
     on<_OnDetailStudioInfoChanged>(
       (event, emit) => emit(state.copyWith(studioModel: event.model)),
     );

@@ -14,7 +14,6 @@ import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
@@ -50,9 +49,7 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
         ),
         BlocProvider(
           create: (context) => getIt.get<VoiceActorContentsPagingBloc>(
-            param1: id,
-            param2: MediaSort.newest
-          ),
+              param1: id, param2: MediaSort.newest),
         ),
       ],
       child: const _DetailStaffContent(),
@@ -80,8 +77,7 @@ class _DetailStaffContent extends StatelessWidget {
         }
 
         final isFavourite = staff.isFavourite;
-        final language =
-            getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
+        final language = state.userStaffNameLanguage;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -292,9 +288,9 @@ class _DetailStaffContent extends StatelessWidget {
     required Function(String id) onMediaClick,
   }) {
     final staffLanguage =
-        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
+        context.read<DetailStaffBloc>().state.userStaffNameLanguage;
     final titleLanguage =
-        getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage;
+        context.read<DetailStaffBloc>().state.userTitleLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;

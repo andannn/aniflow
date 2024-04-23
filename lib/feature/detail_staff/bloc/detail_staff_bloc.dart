@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -39,7 +40,10 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     @factoryParam this.staffId,
     this._mediaRepository,
     this._favoriteRepository,
-  ) : super(DetailStaffState()) {
+    AfPreferencesRepository preferences,
+  ) : super(DetailStaffState(
+          userStaffNameLanguage: preferences.userStaffNameLanguage,
+        )) {
     on<_OnDetailStaffInfoChanged>(
       (event, emit) => emit(state.copyWith(staffModel: event.model)),
     );

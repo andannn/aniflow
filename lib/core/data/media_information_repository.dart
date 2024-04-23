@@ -46,7 +46,7 @@ import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -70,7 +70,7 @@ class MediaInformationRepository {
   final StaffDao staffDao;
   final StudioDao studioDao;
   final AiringSchedulesDao airingScheduleDao;
-  final AniFlowPreferences preferences;
+  final AfPreferencesRepository preferences;
 
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,

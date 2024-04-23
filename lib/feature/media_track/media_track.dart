@@ -1,5 +1,6 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
@@ -112,6 +113,13 @@ class _AnimeTrackPageContent extends StatelessWidget {
     final language =
         context.read<TrackBloc>().state.settings?.userTitleLanguage ??
             UserTitleLanguage.native;
+
+    final scoreFormat = context.read<TrackBloc>().state.settings?.scoreFormat ??
+        ScoreFormat.point3;
+
+    final userTitleLanguage =
+        context.read<TrackBloc>().state.settings?.userTitleLanguage ??
+            UserTitleLanguage.native;
     return Padding(
       key: ValueKey('anime_track_list_item_${item.id}'),
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
@@ -130,6 +138,8 @@ class _AnimeTrackPageContent extends StatelessWidget {
             context,
             listItemModel: item,
             media: item.animeModel!,
+            scoreFormat: scoreFormat,
+            userTitleLanguage: userTitleLanguage,
           );
 
           if (result != null) {

@@ -42,8 +42,7 @@ import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/main.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -52,13 +51,14 @@ String aniListUrl = "https://graphql.anilist.co";
 
 @lazySingleton
 class AniListDataSource {
-  AniListDataSource({required this.dio});
+  AniListDataSource(this._preferences, this.dio);
 
   final Dio dio;
+  final AfPreferencesRepository _preferences;
 
   String get _token => isUnitTest
       ? testToken
-      : getIt.get<AniFlowPreferences>().authToken.value ?? '';
+      : _preferences.authToken.value ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {

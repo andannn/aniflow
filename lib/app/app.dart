@@ -5,7 +5,7 @@ import 'package:aniflow/app/root_router_delegate.dart';
 import 'package:aniflow/app/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/main.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class AniFlowAppState extends State<AniFlowApp> {
 
     rootRouterDelegate = RootRouterDelegate();
 
-    themeSub = getIt.get<AniFlowPreferences>().themeSetting.listen((setting) {
+    themeSub = getIt.get<AfPreferencesRepository>().themeSetting.listen((setting) {
       setState(() {
         this.setting = setting;
       });

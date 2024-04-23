@@ -15,9 +15,8 @@ import 'package:aniflow/core/data/model/extension/media_list_item_model_extensio
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -115,10 +114,16 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     @factoryParam this.mediaId,
     this._authRepository,
     this._favoriteRepository,
+    this._preferences,
     this._mediaRepository,
     this._mediaListRepository,
     this._hiAnimationRepository,
-  ) : super(DetailMediaUiState()) {
+    AfPreferencesRepository preferences,
+  ) : super(DetailMediaUiState(
+          userTitleLanguage: preferences.userTitleLanguage,
+          userStaffNameLanguage: preferences.userStaffNameLanguage,
+          scoreFormat: preferences.scoreFormat,
+        )) {
     on<_OnDetailAnimeModelChangedEvent>(
       (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
     );
@@ -152,6 +157,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
   final HiAnimationRepository _hiAnimationRepository;
+  final AfPreferencesRepository _preferences;
 
   HiAnimationSource? _hiAnimationSource;
 
@@ -233,7 +239,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: getIt.get<AniFlowPreferences>().aniListSettings.value.scoreFormat,
+        format: _preferences.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);

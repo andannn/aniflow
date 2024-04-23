@@ -5,7 +5,6 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
@@ -76,16 +75,16 @@ class _MediaListPageContent extends StatelessWidget {
   }
 
   Widget _buildGridItems(BuildContext context, MediaModel model) {
+    final userTitleLanguage = context.read<AnimePageBloc>().userTitleLanguage;
     return MediaPreviewItem(
       textStyle: Theme.of(context).textTheme.labelMedium,
       coverImage: model.coverImage?.large ?? '',
-      title: model.title!.getTitle(
-          getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage),
+      title: model.title!.getTitle(userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(
-          model.id,
-        );
+              model.id,
+            );
       },
     );
   }

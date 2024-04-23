@@ -1,15 +1,19 @@
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 
 class SearchAnimeItem extends StatelessWidget {
-  const SearchAnimeItem(
-      {required this.model, required this.onClick, super.key});
+  const SearchAnimeItem({
+    required this.model,
+    required this.onClick,
+    super.key,
+    required this.userTitleLanguage,
+  });
 
   final MediaModel model;
   final VoidCallback onClick;
+  final UserTitleLanguage userTitleLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class SearchAnimeItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model,
-        language: getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage,
+        language: userTitleLanguage,
         titleMaxLines: null,
         onClick: onClick,
       ),

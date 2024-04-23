@@ -18,6 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DetailStaffState {
   bool get isLoading => throw _privateConstructorUsedError;
   MediaSort get mediaSort => throw _privateConstructorUsedError;
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      throw _privateConstructorUsedError;
+  UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
   StaffModel? get staffModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +34,12 @@ abstract class $DetailStaffStateCopyWith<$Res> {
           DetailStaffState value, $Res Function(DetailStaffState) then) =
       _$DetailStaffStateCopyWithImpl<$Res, DetailStaffState>;
   @useResult
-  $Res call({bool isLoading, MediaSort mediaSort, StaffModel? staffModel});
+  $Res call(
+      {bool isLoading,
+      MediaSort mediaSort,
+      UserStaffNameLanguage userStaffNameLanguage,
+      UserTitleLanguage userTitleLanguage,
+      StaffModel? staffModel});
 
   $StaffModelCopyWith<$Res>? get staffModel;
 }
@@ -51,6 +59,8 @@ class _$DetailStaffStateCopyWithImpl<$Res, $Val extends DetailStaffState>
   $Res call({
     Object? isLoading = null,
     Object? mediaSort = null,
+    Object? userStaffNameLanguage = null,
+    Object? userTitleLanguage = null,
     Object? staffModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -62,6 +72,14 @@ class _$DetailStaffStateCopyWithImpl<$Res, $Val extends DetailStaffState>
           ? _value.mediaSort
           : mediaSort // ignore: cast_nullable_to_non_nullable
               as MediaSort,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
       staffModel: freezed == staffModel
           ? _value.staffModel
           : staffModel // ignore: cast_nullable_to_non_nullable
@@ -90,7 +108,12 @@ abstract class _$$DetailCharacterStateImplCopyWith<$Res>
       __$$DetailCharacterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, MediaSort mediaSort, StaffModel? staffModel});
+  $Res call(
+      {bool isLoading,
+      MediaSort mediaSort,
+      UserStaffNameLanguage userStaffNameLanguage,
+      UserTitleLanguage userTitleLanguage,
+      StaffModel? staffModel});
 
   @override
   $StaffModelCopyWith<$Res>? get staffModel;
@@ -109,6 +132,8 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? mediaSort = null,
+    Object? userStaffNameLanguage = null,
+    Object? userTitleLanguage = null,
     Object? staffModel = freezed,
   }) {
     return _then(_$DetailCharacterStateImpl(
@@ -120,6 +145,14 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
           ? _value.mediaSort
           : mediaSort // ignore: cast_nullable_to_non_nullable
               as MediaSort,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
       staffModel: freezed == staffModel
           ? _value.staffModel
           : staffModel // ignore: cast_nullable_to_non_nullable
@@ -134,6 +167,8 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
   _$DetailCharacterStateImpl(
       {this.isLoading = false,
       this.mediaSort = MediaSort.newest,
+      this.userStaffNameLanguage = UserStaffNameLanguage.native,
+      this.userTitleLanguage = UserTitleLanguage.native,
       this.staffModel});
 
   @override
@@ -143,11 +178,17 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
   @JsonKey()
   final MediaSort mediaSort;
   @override
+  @JsonKey()
+  final UserStaffNameLanguage userStaffNameLanguage;
+  @override
+  @JsonKey()
+  final UserTitleLanguage userTitleLanguage;
+  @override
   final StaffModel? staffModel;
 
   @override
   String toString() {
-    return 'DetailStaffState(isLoading: $isLoading, mediaSort: $mediaSort, staffModel: $staffModel)';
+    return 'DetailStaffState(isLoading: $isLoading, mediaSort: $mediaSort, userStaffNameLanguage: $userStaffNameLanguage, userTitleLanguage: $userTitleLanguage, staffModel: $staffModel)';
   }
 
   @override
@@ -159,13 +200,17 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
                 other.isLoading == isLoading) &&
             (identical(other.mediaSort, mediaSort) ||
                 other.mediaSort == mediaSort) &&
+            (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
+                other.userStaffNameLanguage == userStaffNameLanguage) &&
+            (identical(other.userTitleLanguage, userTitleLanguage) ||
+                other.userTitleLanguage == userTitleLanguage) &&
             (identical(other.staffModel, staffModel) ||
                 other.staffModel == staffModel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, mediaSort, staffModel);
+  int get hashCode => Object.hash(runtimeType, isLoading, mediaSort,
+      userStaffNameLanguage, userTitleLanguage, staffModel);
 
   @JsonKey(ignore: true)
   @override
@@ -180,12 +225,18 @@ abstract class _DetailCharacterState implements DetailStaffState {
   factory _DetailCharacterState(
       {final bool isLoading,
       final MediaSort mediaSort,
+      final UserStaffNameLanguage userStaffNameLanguage,
+      final UserTitleLanguage userTitleLanguage,
       final StaffModel? staffModel}) = _$DetailCharacterStateImpl;
 
   @override
   bool get isLoading;
   @override
   MediaSort get mediaSort;
+  @override
+  UserStaffNameLanguage get userStaffNameLanguage;
+  @override
+  UserTitleLanguage get userTitleLanguage;
   @override
   StaffModel? get staffModel;
   @override

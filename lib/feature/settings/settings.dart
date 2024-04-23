@@ -5,7 +5,7 @@ import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
@@ -56,7 +56,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
   void initState() {
     super.initState();
     themeSub =
-        getIt.get<AniFlowPreferences>().themeSetting.listen((setting) async {
+        getIt.get<AfPreferencesRepository>().themeSetting.listen((setting) async {
       await Future.delayed(const Duration(milliseconds: 100));
       setState(() {});
     });

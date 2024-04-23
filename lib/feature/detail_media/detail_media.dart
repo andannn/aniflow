@@ -28,7 +28,6 @@ import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/main.dart';
@@ -91,6 +90,8 @@ class _DetailAnimePageContent extends StatelessWidget {
             context,
             listItemModel: state.mediaListItem,
             media: state.detailAnimeModel!,
+            scoreFormat: state.scoreFormat,
+            userTitleLanguage: state.userTitleLanguage,
           );
 
           if (result != null) {
@@ -101,8 +102,7 @@ class _DetailAnimePageContent extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: AutoSizeText(
-              model.title!.getTitle(
-                  getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage),
+              model.title!.getTitle(state.userTitleLanguage),
               maxLines: 2,
             ),
             actions: [
@@ -395,7 +395,7 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildCharacterAndVoiceActorItem(
       BuildContext context, CharacterAndVoiceActorModel model) {
     final language =
-        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
+        context.read<DetailMediaBloc>().state.userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
@@ -484,7 +484,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildStaffItem(BuildContext context, StaffAndRoleModel model) {
     final language =
-        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
+        context.read<DetailMediaBloc>().state.userStaffNameLanguage;
     return Expanded(
       flex: 1,
       child: Padding(
@@ -816,8 +816,8 @@ class _DetailAnimePageContent extends StatelessWidget {
                               .textTheme
                               .labelLarge
                               ?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                         ),
                       ),
                       const SizedBox(height: 12),

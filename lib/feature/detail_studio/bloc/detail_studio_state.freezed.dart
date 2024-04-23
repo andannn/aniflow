@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DetailStudioState {
   bool get isLoading => throw _privateConstructorUsedError;
   StudioModel? get studioModel => throw _privateConstructorUsedError;
+  UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailStudioStateCopyWith<DetailStudioState> get copyWith =>
@@ -30,7 +31,10 @@ abstract class $DetailStudioStateCopyWith<$Res> {
           DetailStudioState value, $Res Function(DetailStudioState) then) =
       _$DetailStudioStateCopyWithImpl<$Res, DetailStudioState>;
   @useResult
-  $Res call({bool isLoading, StudioModel? studioModel});
+  $Res call(
+      {bool isLoading,
+      StudioModel? studioModel,
+      UserTitleLanguage userTitleLanguage});
 
   $StudioModelCopyWith<$Res>? get studioModel;
 }
@@ -50,6 +54,7 @@ class _$DetailStudioStateCopyWithImpl<$Res, $Val extends DetailStudioState>
   $Res call({
     Object? isLoading = null,
     Object? studioModel = freezed,
+    Object? userTitleLanguage = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -60,6 +65,10 @@ class _$DetailStudioStateCopyWithImpl<$Res, $Val extends DetailStudioState>
           ? _value.studioModel
           : studioModel // ignore: cast_nullable_to_non_nullable
               as StudioModel?,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
     ) as $Val);
   }
 
@@ -84,7 +93,10 @@ abstract class _$$DetailStudioStateImplCopyWith<$Res>
       __$$DetailStudioStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, StudioModel? studioModel});
+  $Res call(
+      {bool isLoading,
+      StudioModel? studioModel,
+      UserTitleLanguage userTitleLanguage});
 
   @override
   $StudioModelCopyWith<$Res>? get studioModel;
@@ -103,6 +115,7 @@ class __$$DetailStudioStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? studioModel = freezed,
+    Object? userTitleLanguage = null,
   }) {
     return _then(_$DetailStudioStateImpl(
       isLoading: null == isLoading
@@ -113,6 +126,10 @@ class __$$DetailStudioStateImplCopyWithImpl<$Res>
           ? _value.studioModel
           : studioModel // ignore: cast_nullable_to_non_nullable
               as StudioModel?,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
     ));
   }
 }
@@ -120,17 +137,23 @@ class __$$DetailStudioStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DetailStudioStateImpl implements _DetailStudioState {
-  _$DetailStudioStateImpl({this.isLoading = false, this.studioModel});
+  _$DetailStudioStateImpl(
+      {this.isLoading = false,
+      this.studioModel,
+      this.userTitleLanguage = UserTitleLanguage.native});
 
   @override
   @JsonKey()
   final bool isLoading;
   @override
   final StudioModel? studioModel;
+  @override
+  @JsonKey()
+  final UserTitleLanguage userTitleLanguage;
 
   @override
   String toString() {
-    return 'DetailStudioState(isLoading: $isLoading, studioModel: $studioModel)';
+    return 'DetailStudioState(isLoading: $isLoading, studioModel: $studioModel, userTitleLanguage: $userTitleLanguage)';
   }
 
   @override
@@ -141,11 +164,14 @@ class _$DetailStudioStateImpl implements _DetailStudioState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.studioModel, studioModel) ||
-                other.studioModel == studioModel));
+                other.studioModel == studioModel) &&
+            (identical(other.userTitleLanguage, userTitleLanguage) ||
+                other.userTitleLanguage == userTitleLanguage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, studioModel);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, studioModel, userTitleLanguage);
 
   @JsonKey(ignore: true)
   @override
@@ -158,12 +184,15 @@ class _$DetailStudioStateImpl implements _DetailStudioState {
 abstract class _DetailStudioState implements DetailStudioState {
   factory _DetailStudioState(
       {final bool isLoading,
-      final StudioModel? studioModel}) = _$DetailStudioStateImpl;
+      final StudioModel? studioModel,
+      final UserTitleLanguage userTitleLanguage}) = _$DetailStudioStateImpl;
 
   @override
   bool get isLoading;
   @override
   StudioModel? get studioModel;
+  @override
+  UserTitleLanguage get userTitleLanguage;
   @override
   @JsonKey(ignore: true)
   _$$DetailStudioStateImplCopyWith<_$DetailStudioStateImpl> get copyWith =>

@@ -13,11 +13,10 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import '../../../main.dart';
 
 extension AnimeSourceEx on AnimeSource {
   String getAnimeSourceString(BuildContext context) {
@@ -207,7 +206,7 @@ extension ListActivityModelEx on ListActivityModel {
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
         text: media!.title!.getTitle(
-            getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage),
+            getIt.get<AfPreferencesRepository>().aniListSettings.value.userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,
       ),

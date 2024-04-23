@@ -8,6 +8,7 @@ import 'package:aniflow/core/data/search_repository.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -23,6 +24,7 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
   SearchPageBloc(
     this._searchRepository,
     SettingsRepository settingsRepository,
+    this.preferences,
   ) : super(const PageInit(data: [])) {
     on<OnSearchStringCommit<MediaModel>>(_onSearchStringCommit);
 
@@ -33,6 +35,7 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
 
   String? _searchString;
   MediaType? mediaType;
+  final AfPreferencesRepository preferences;
 
   @override
   Future<void> onInit(OnInit<MediaModel> event,

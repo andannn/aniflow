@@ -1,26 +1,26 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/dialog/scoring_dialog.dart';
 import 'package:aniflow/core/design_system/widget/date_time_button.dart';
 import 'package:aniflow/core/design_system/widget/max_limit_text_filed.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 
 class MediaListModifyResult {
-  MediaListModifyResult(
-      {required this.score,
-      required this.progress,
-      required this.progressVolumes,
-      required this.repeat,
-      required this.status,
-      required this.notes,
-      required this.startedAt,
-      required this.completedAt,
-      this.private = false});
+  MediaListModifyResult({
+    required this.score,
+    required this.progress,
+    required this.progressVolumes,
+    required this.repeat,
+    required this.status,
+    required this.notes,
+    required this.startedAt,
+    required this.completedAt,
+    this.private = false,
+  });
 
   final double? score;
   final int? progress;
@@ -42,9 +42,12 @@ class StatusModel {
 }
 
 Future<MediaListModifyResult?> showUpdateMediaListBottomSheet(
-        BuildContext context,
-        {required MediaModel media,
-        MediaListItemModel? listItemModel}) =>
+  BuildContext context, {
+  required MediaModel media,
+  MediaListItemModel? listItemModel,
+      required ScoreFormat scoreFormat,
+      required UserTitleLanguage userTitleLanguage,
+}) =>
     showModalBottomSheet<MediaListModifyResult>(
         context: context,
         isScrollControlled: true,
@@ -52,15 +55,23 @@ Future<MediaListModifyResult?> showUpdateMediaListBottomSheet(
           return UpdateMediaListBottomSheet(
             mediaListItem: listItemModel,
             mediaModel: media,
+            scoreFormat: scoreFormat,
+            userTitleLanguage: userTitleLanguage,
           );
         });
 
 class UpdateMediaListBottomSheet extends StatefulWidget {
   const UpdateMediaListBottomSheet(
-      {super.key, required this.mediaModel, this.mediaListItem});
+      {super.key,
+      required this.mediaModel,
+      this.mediaListItem,
+      required this.scoreFormat,
+      required this.userTitleLanguage});
 
   final MediaListItemModel? mediaListItem;
   final MediaModel mediaModel;
+  final ScoreFormat scoreFormat;
+  final UserTitleLanguage userTitleLanguage;
 
   @override
   State<UpdateMediaListBottomSheet> createState() =>
@@ -78,6 +89,8 @@ class _UpdateMediaListBottomSheetState
   DateTime? startedAt;
   DateTime? completedAt;
   bool private = false;
+  late ScoreFormat scoreFormat;
+  late UserTitleLanguage userTitleLanguage;
 
   final List<StatusModel> statusModels = [
     ...MediaListStatus.values.map(
@@ -93,6 +106,8 @@ class _UpdateMediaListBottomSheetState
   void initState() {
     super.initState();
 
+    scoreFormat = widget.scoreFormat;
+    userTitleLanguage = widget.userTitleLanguage;
     score = widget.mediaListItem?.score;
     progress = widget.mediaListItem?.progress;
     repeat = widget.mediaListItem?.repeat;
@@ -172,30 +187,6 @@ class _UpdateMediaListBottomSheetState
               ),
             ),
             const Expanded(child: SizedBox())
-            // Flexible(
-            //   flex: 1,
-            //   child: buildLabelWithChild(
-            //     label: 'Private',
-            //     child: Switch(
-            //       value: private,
-            //       onChanged: (isOn) {
-            //         setState(() {
-            //           private = isOn;
-            //         });
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // Flexible(
-            //   flex: 1,
-            //   child: buildLabelWithChild(
-            //     label: 'Delete',
-            //     child: IconButton.outlined(
-            //       onPressed: () {},
-            //       icon: const Icon(Icons.delete, color: Colors.red),
-            //     ),
-            //   ),
-            // )
           ],
         ),
         const SizedBox(height: 8),
@@ -205,11 +196,7 @@ class _UpdateMediaListBottomSheetState
               child: buildLabelWithChild(
                 label: 'Score',
                 child: ScoringWidget(
-                  format: getIt
-                      .get<AniFlowPreferences>()
-                      .aniListSettings
-                      .value
-                      .scoreFormat,
+                  format: scoreFormat,
                   score: score ?? 0,
                   onScoreChanged: (value) {
                     setState(() {
@@ -311,11 +298,7 @@ class _UpdateMediaListBottomSheetState
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: MediaRowItem(
         model: widget.mediaModel,
-        language: getIt
-            .get<AniFlowPreferences>()
-            .aniListSettings
-            .value
-            .userTitleLanguage,
+        language: userTitleLanguage,
       ),
     );
   }

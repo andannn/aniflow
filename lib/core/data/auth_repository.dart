@@ -14,7 +14,7 @@ import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,7 +31,7 @@ class AuthRepository {
 
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
-  final AniFlowPreferences preferences;
+  final AfPreferencesRepository preferences;
 
   final AuthDataSource authDataSource;
 

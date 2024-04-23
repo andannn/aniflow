@@ -1,7 +1,7 @@
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
 import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
@@ -80,7 +80,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
   final UserInfoRepository _userInfoRepository;
 
   void _init() async {
-    final userId = _userId ?? getIt.get<AniFlowPreferences>().authedUserId.value;
+    final userId = _userId ?? getIt.get<AfPreferencesRepository>().authedUserId.value;
     final userData = await _userInfoRepository.getUserDataById(userId!);
     add(_OnUserDataLoaded(userData: userData));
   }

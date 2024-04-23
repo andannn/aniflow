@@ -5,7 +5,7 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +77,7 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, StaffModel model) {
     final language =
-        getIt.get<AniFlowPreferences>().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AfPreferencesRepository>().aniListSettings.value.userStaffNameLanguage;
     return MediaPreviewItem(
       coverImage: model.mediumImage,
       title: model.name!.getNameByUserSetting(language),

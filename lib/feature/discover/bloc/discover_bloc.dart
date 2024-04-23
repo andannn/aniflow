@@ -19,9 +19,8 @@ import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
@@ -83,6 +82,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     this._authRepository,
     this._mediaInfoRepository,
     this._mediaListRepository,
+    this._preferences,
   ) : super(DiscoverUiState()) {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
@@ -103,6 +103,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   final AuthRepository _authRepository;
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _mediaListRepository;
+  final AfPreferencesRepository _preferences;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _settingsSub;
@@ -303,7 +304,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _mediaListRepository.syncMediaList(
         userId: userId,
         status: [MediaListStatus.current, MediaListStatus.planning],
-        mediaType: getIt.get<AniFlowPreferences>().mediaType.value,
+        mediaType: _preferences.mediaType.value,
       ),
     ]);
   }

@@ -5,7 +5,6 @@ import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
 import 'package:aniflow/feature/detail_studio/bloc/studio_contents_paging_bloc.dart';
@@ -42,10 +41,9 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
           ),
         ),
         BlocProvider(
-          create: (BuildContext context) =>
-              getIt.get<StudioContentsPagingBloc>(
-                param1: id,
-              ),
+          create: (BuildContext context) => getIt.get<StudioContentsPagingBloc>(
+            param1: id,
+          ),
         ),
       ],
       child: const _DetailStudioContent(),
@@ -164,7 +162,7 @@ class _DetailStudioContent extends StatelessWidget {
   Widget _buildMediaItem(BuildContext context,
       {required MediaModel item, required Function(String id) onMediaClick}) {
     final titleLanguage =
-        getIt.get<AniFlowPreferences>().aniListSettings.value.userTitleLanguage;
+        context.read<DetailStudioBloc>().state.userTitleLanguage;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,

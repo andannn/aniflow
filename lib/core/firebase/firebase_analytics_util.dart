@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/firebase/data_size_property/data_type.dart';
 import 'package:aniflow/core/firebase/fa_event.dart';
 import 'package:aniflow/core/firebase/fa_user_property.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/main.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
@@ -74,7 +74,7 @@ extension FirebaseAnalyticsExtension on FirebaseAnalytics {
     return Future.wait(
       [
         setUserMediaContentProperty(
-            getIt.get<AniFlowPreferences>().mediaType.value),
+            getIt.get<AfPreferencesRepository>().mediaType.value),
       ],
     );
   }
