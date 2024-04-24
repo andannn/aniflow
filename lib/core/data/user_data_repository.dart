@@ -5,14 +5,14 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
-import 'package:aniflow/core/shared_preference/AfPreferences.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class AfPreferencesRepository implements AfPreferences {
-  AfPreferencesRepository(this._preferences);
+class UserDataRepository implements UserDataPreferences {
+  UserDataRepository(this._preferences);
 
-  final AfPreferences _preferences;
+  final UserDataPreferences _preferences;
 
   @override
   Stream<UserDataModel> get userDataStream => _preferences.userDataStream;

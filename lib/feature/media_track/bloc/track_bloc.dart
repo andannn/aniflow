@@ -12,12 +12,11 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/settings_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
@@ -86,6 +85,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     this._mediaListRepository,
     this._settingsRepository,
     this._authRepository,
+    this._userDataRepository,
   ) : super(TrackUiState()) {
     on<_OnUserStateChanged>(_onUserStateChanged);
     on<_OnLoadStateChanged>(
@@ -138,6 +138,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   final MediaListRepository _mediaListRepository;
   final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
+  final UserDataRepository _userDataRepository;
   String? _userId;
 
   var _watchingAnimeList = <MediaListItemModel>[];
@@ -157,7 +158,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: getIt.get<AfPreferencesRepository>().userData.mediaType,
+      mediaType: _userDataRepository.userData.mediaType,
     );
     add(_OnLoadStateChanged(isLoading: false));
 

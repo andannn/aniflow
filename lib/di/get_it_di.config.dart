@@ -16,7 +16,6 @@ import 'package:aniflow/core/common/definitions/anime_category.dart' as _i46;
 import 'package:aniflow/core/common/definitions/media_sort.dart' as _i40;
 import 'package:aniflow/core/common/definitions/staff_language.dart' as _i49;
 import 'package:aniflow/core/data/activity_repository.dart' as _i42;
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart' as _i19;
 import 'package:aniflow/core/data/auth_repository.dart' as _i23;
 import 'package:aniflow/core/data/favorite_repository.dart' as _i26;
 import 'package:aniflow/core/data/hi_animation_repository.dart' as _i8;
@@ -25,10 +24,11 @@ import 'package:aniflow/core/data/media_list_repository.dart' as _i29;
 import 'package:aniflow/core/data/notification_repository.dart' as _i30;
 import 'package:aniflow/core/data/search_repository.dart' as _i33;
 import 'package:aniflow/core/data/settings_repository.dart' as _i34;
-import 'package:aniflow/core/data/user_info_repository.dart' as _i16;
+import 'package:aniflow/core/data/user_data_repository.dart' as _i17;
+import 'package:aniflow/core/data/user_info_repository.dart' as _i18;
 import 'package:aniflow/core/data/user_statistics_repository.dart' as _i38;
 import 'package:aniflow/core/database/aniflow_database.dart' as _i3;
-import 'package:aniflow/core/database/dao/activity_dao.dart' as _i17;
+import 'package:aniflow/core/database/dao/activity_dao.dart' as _i19;
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart' as _i20;
 import 'package:aniflow/core/database/dao/character_dao.dart' as _i4;
 import 'package:aniflow/core/database/dao/favorite_dao.dart' as _i6;
@@ -42,9 +42,10 @@ import 'package:aniflow/core/network/ani_list_data_source.dart' as _i21;
 import 'package:aniflow/core/network/auth_data_source.dart' as _i22;
 import 'package:aniflow/core/network/di/di_network_module.dart' as _i69;
 import 'package:aniflow/core/network/hianime_data_source.dart' as _i7;
-import 'package:aniflow/core/shared_preference/AfPreferences.dart' as _i18;
 import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart'
     as _i70;
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
+    as _i16;
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart'
     as _i44;
 import 'package:aniflow/feature/anime_search/bloc/anime_search_bloc.dart'
@@ -145,32 +146,32 @@ extension GetItInjectableX on _i1.GetIt {
         () => dIDataBaseModule.getStudioDao(gh<_i3.AniflowDatabase>()));
     gh.factory<_i15.UserDao>(
         () => dIDataBaseModule.getUserDao(gh<_i3.AniflowDatabase>()));
-    gh.lazySingleton<_i16.UserInfoRepository>(
-        () => _i16.UserInfoRepository(gh<_i15.UserDao>()));
-    gh.factory<_i17.ActivityDao>(
+    gh.factory<_i16.UserDataPreferences>(
+        () => _i16.UserDataPreferences(gh<_i12.SharedPreferences>()));
+    gh.lazySingleton<_i17.UserDataRepository>(
+        () => _i17.UserDataRepository(gh<_i16.UserDataPreferences>()));
+    gh.lazySingleton<_i18.UserInfoRepository>(
+        () => _i18.UserInfoRepository(gh<_i15.UserDao>()));
+    gh.factory<_i19.ActivityDao>(
         () => dIDataBaseModule.getActivityDao(gh<_i3.AniflowDatabase>()));
-    gh.factory<_i18.AfPreferences>(
-        () => _i18.AfPreferences(gh<_i12.SharedPreferences>()));
-    gh.lazySingleton<_i19.AfPreferencesRepository>(
-        () => _i19.AfPreferencesRepository(gh<_i18.AfPreferences>()));
     gh.factory<_i20.AiringSchedulesDao>(() =>
         dIDataBaseModule.getAiringSchedulesDao(gh<_i3.AniflowDatabase>()));
     gh.lazySingleton<_i21.AniListDataSource>(() => _i21.AniListDataSource(
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
           gh<_i5.Dio>(),
         ));
     gh.lazySingleton<_i22.AuthDataSource>(() => _i22.AuthDataSource(
           gh<_i5.Dio>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i16.UserDataPreferences>(),
         ));
     gh.lazySingleton<_i23.AuthRepository>(() => _i23.AuthRepository(
           gh<_i22.AuthDataSource>(),
           gh<_i15.UserDao>(),
           gh<_i10.MediaListDao>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i16.UserDataPreferences>(),
         ));
     gh.factory<_i24.CharacterPageBloc>(
-        () => _i24.CharacterPageBloc(gh<_i19.AfPreferencesRepository>()));
+        () => _i24.CharacterPageBloc(gh<_i17.UserDataRepository>()));
     gh.factory<_i25.EditProfileBloc>(
         () => _i25.EditProfileBloc(gh<_i23.AuthRepository>()));
     gh.lazySingleton<_i26.FavoriteRepository>(() => _i26.FavoriteRepository(
@@ -181,7 +182,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i4.CharacterDao>(),
           gh<_i10.MediaListDao>(),
           gh<_i6.FavoriteDao>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i27.FavoriteStaffPagingBloc, String, int>((
       userId,
@@ -200,7 +201,7 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i14.StudioDao>(),
               gh<_i20.AiringSchedulesDao>(),
               gh<_i9.MediaDao>(),
-              gh<_i19.AfPreferencesRepository>(),
+              gh<_i17.UserDataRepository>(),
             ));
     gh.lazySingleton<_i29.MediaListRepository>(() => _i29.MediaListRepository(
           gh<_i22.AuthDataSource>(),
@@ -208,7 +209,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i10.MediaListDao>(),
           gh<_i15.UserDao>(),
           gh<_i9.MediaDao>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.lazySingleton<_i30.NotificationRepository>(
         () => _i30.NotificationRepository(
@@ -222,7 +223,8 @@ extension GetItInjectableX on _i1.GetIt {
     ) =>
         _i31.ProfileBloc(
           _userId,
-          gh<_i16.UserInfoRepository>(),
+          gh<_i18.UserInfoRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i32.ReadingMangaListPagingBloc, String, int>((
       userId,
@@ -238,7 +240,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i9.MediaDao>(),
         ));
     gh.lazySingleton<_i34.SettingsRepository>(
-        () => _i34.SettingsRepository(gh<_i19.AfPreferencesRepository>()));
+        () => _i34.SettingsRepository(gh<_i16.UserDataPreferences>()));
     gh.factoryParam<_i35.StaffPageBloc, String, dynamic>((
       animeId,
       _,
@@ -259,6 +261,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i29.MediaListRepository>(),
           gh<_i34.SettingsRepository>(),
           gh<_i23.AuthRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.lazySingleton<_i38.UserStatisticsRepository>(
         () => _i38.UserStatisticsRepository(
@@ -284,9 +287,9 @@ extension GetItInjectableX on _i1.GetIt {
           perPageCount,
         ));
     gh.lazySingleton<_i42.ActivityRepository>(() => _i42.ActivityRepository(
-          gh<_i17.ActivityDao>(),
+          gh<_i19.ActivityDao>(),
           gh<_i21.AniListDataSource>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i43.ActivityStatusBloc, String, dynamic>((
       activityId,
@@ -298,7 +301,7 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.factory<_i44.AiringScheduleBloc>(() => _i44.AiringScheduleBloc(
           gh<_i28.MediaInformationRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i45.AnimePageBloc, _i46.MediaCategory, dynamic>((
       category,
@@ -309,7 +312,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i28.MediaInformationRepository>(),
           gh<_i29.MediaListRepository>(),
           gh<_i23.AuthRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factory<_i47.AuthBloc>(() => _i47.AuthBloc(gh<_i23.AuthRepository>()));
     gh.factoryParam<_i48.CharacterPagingBloc, String, _i49.StaffLanguage>((
@@ -338,7 +341,7 @@ extension GetItInjectableX on _i1.GetIt {
           _characterId,
           gh<_i28.MediaInformationRepository>(),
           gh<_i26.FavoriteRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i51.DetailMediaBloc, String, dynamic>((
       mediaId,
@@ -348,11 +351,11 @@ extension GetItInjectableX on _i1.GetIt {
           mediaId,
           gh<_i23.AuthRepository>(),
           gh<_i26.FavoriteRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
           gh<_i28.MediaInformationRepository>(),
           gh<_i29.MediaListRepository>(),
           gh<_i8.HiAnimationRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i52.DetailStaffBloc, String, dynamic>((
       staffId,
@@ -362,7 +365,7 @@ extension GetItInjectableX on _i1.GetIt {
           staffId,
           gh<_i28.MediaInformationRepository>(),
           gh<_i26.FavoriteRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i53.DetailStudioBloc, String, dynamic>((
       studioId,
@@ -372,14 +375,14 @@ extension GetItInjectableX on _i1.GetIt {
           studioId,
           gh<_i28.MediaInformationRepository>(),
           gh<_i26.FavoriteRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factory<_i54.DiscoverBloc>(() => _i54.DiscoverBloc(
           gh<_i34.SettingsRepository>(),
           gh<_i23.AuthRepository>(),
           gh<_i28.MediaInformationRepository>(),
           gh<_i29.MediaListRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i41.DroppedAnimeListPagingBloc, String, int>((
       userId,
@@ -415,6 +418,7 @@ extension GetItInjectableX on _i1.GetIt {
         _i56.FavoriteCharacterPagingBloc(
           userId,
           gh<_i26.FavoriteRepository>(),
+          gh<_i17.UserDataRepository>(),
           perPageCount,
         ));
     gh.factoryParam<_i57.FavoriteMangaPagingBloc, String, int>((
@@ -438,7 +442,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i59.SearchPageBloc>(() => _i59.SearchPageBloc(
           gh<_i33.SearchRepository>(),
           gh<_i34.SettingsRepository>(),
-          gh<_i19.AfPreferencesRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factory<_i60.SettingsBloc>(() => _i60.SettingsBloc(
           gh<_i34.SettingsRepository>(),

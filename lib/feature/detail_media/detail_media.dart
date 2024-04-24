@@ -810,6 +810,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
+                          // ignore: lines_longer_than_80_chars
                           'Can\'t find episode, click the bottom button and find manually.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)

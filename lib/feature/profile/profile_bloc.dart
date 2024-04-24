@@ -1,9 +1,8 @@
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -65,6 +64,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
   ProfileBloc(
     @factoryParam this._userId,
     this._userInfoRepository,
+    this._userDataRepository,
   ) : super(ProfileState()) {
     on<_OnUserDataLoaded>(
       (event, emit) => emit(state.copyWith(userData: event.userData)),
@@ -78,10 +78,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
 
   final String? _userId;
   final UserInfoRepository _userInfoRepository;
+  final UserDataRepository _userDataRepository;
 
   void _init() async {
     final userId =
-        _userId ?? getIt.get<AfPreferencesRepository>().userData.authedUserId;
+        _userId ?? _userDataRepository.userData.authedUserId;
     final userData = await _userInfoRepository.getUserDataById(userId!);
     add(_OnUserDataLoaded(userData: userData));
   }

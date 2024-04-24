@@ -6,11 +6,11 @@ import 'package:aniflow/core/common/definitions/activity_type.dart';
 import 'package:aniflow/core/common/definitions/extension/activity_type_extension.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/activity_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/mappers/activity_mapper.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
@@ -43,7 +43,7 @@ class ActivityRepository {
 
   final AniListDataSource aniListDataSource;
   final ActivityDao activityDao;
-  final AfPreferencesRepository preferences;
+  final UserDataRepository preferences;
 
   Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
     required LoadType loadType,

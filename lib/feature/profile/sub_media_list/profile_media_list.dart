@@ -4,9 +4,9 @@ import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
@@ -174,7 +174,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
     return MediaPreviewItem(
       coverImage: model.animeModel!.coverImage?.large ?? '',
       title: model.animeModel!.title!.getTitle(
-          getIt.get<AfPreferencesRepository>().userData.userTitleLanguage),
+          getIt.get<UserDataRepository>().userData.userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
         AfRouterDelegate.of(context)

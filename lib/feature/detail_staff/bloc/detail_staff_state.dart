@@ -11,7 +11,8 @@ class DetailStaffState with _$DetailStaffState {
   factory DetailStaffState({
     @Default(false) bool isLoading,
     @Default(MediaSort.newest) MediaSort mediaSort,
-    @Default(UserStaffNameLanguage.native) UserStaffNameLanguage userStaffNameLanguage,
+    @Default(UserStaffNameLanguage.native)
+    UserStaffNameLanguage userStaffNameLanguage,
     @Default(UserTitleLanguage.native) UserTitleLanguage userTitleLanguage,
     StaffModel? staffModel,
   }) = _DetailCharacterState;

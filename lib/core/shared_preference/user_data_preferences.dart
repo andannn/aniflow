@@ -39,8 +39,8 @@ mixin _UserDataKey {
 }
 
 @injectable
-class AfPreferences {
-  AfPreferences(this._preferences);
+class UserDataPreferences {
+  UserDataPreferences(this._preferences);
 
   final SharedPreferences _preferences;
 

@@ -13,9 +13,9 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -118,7 +118,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     this._mediaRepository,
     this._mediaListRepository,
     this._hiAnimationRepository,
-    AfPreferencesRepository preferences,
+    UserDataRepository preferences,
   ) : super(DetailMediaUiState(
           userTitleLanguage: preferences.userData.userTitleLanguage,
           userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
@@ -157,7 +157,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
   final HiAnimationRepository _hiAnimationRepository;
-  final AfPreferencesRepository _preferences;
+  final UserDataRepository _preferences;
 
   HiAnimationSource? _hiAnimationSource;
 

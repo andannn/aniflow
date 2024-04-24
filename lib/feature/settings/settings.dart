@@ -5,7 +5,6 @@ import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
@@ -50,25 +49,15 @@ class _MediaSettingsPageContent extends StatefulWidget {
 }
 
 class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
-  late StreamSubscription themeSub;
 
   @override
   void initState() {
     super.initState();
-    themeSub = getIt
-        .get<AfPreferencesRepository>()
-        .userDataStream
-        .map((event) => event.themeSetting)
-        .listen((setting) async {
-      await Future.delayed(const Duration(milliseconds: 100));
-      setState(() {});
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    themeSub.cancel();
   }
 
   @override

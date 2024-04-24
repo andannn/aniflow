@@ -10,9 +10,9 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -51,7 +51,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
-  final AfPreferencesRepository _preferences;
+  final UserDataRepository _preferences;
 
   StreamSubscription? _trackingIdsStream;
   Set<String> _ids = {};

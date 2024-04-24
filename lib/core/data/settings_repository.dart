@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
-import 'package:aniflow/core/shared_preference/AfPreferences.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,7 +12,7 @@ import 'package:injectable/injectable.dart';
 class SettingsRepository {
   SettingsRepository(this.preferences);
 
-  final AfPreferences preferences;
+  final UserDataPreferences preferences;
 
   AnimeSeasonParam getAnimeSeasonParam() {
     final seasonYear = preferences.userData.seasonYear;

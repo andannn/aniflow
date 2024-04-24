@@ -19,6 +19,7 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
@@ -46,7 +47,6 @@ import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -70,7 +70,7 @@ class MediaInformationRepository {
   final StaffDao staffDao;
   final StudioDao studioDao;
   final AiringSchedulesDao airingScheduleDao;
-  final AfPreferencesRepository preferences;
+  final UserDataRepository preferences;
 
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,

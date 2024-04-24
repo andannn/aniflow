@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/util/collection_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
@@ -29,7 +29,7 @@ class AiringScheduleBloc
     extends Bloc<AiringScheduleEvent, AiringScheduleState> {
   AiringScheduleBloc(
     this._mediaInfoRepository,
-    AfPreferencesRepository preferences,
+    UserDataRepository preferences,
   ) : super(AiringScheduleState(
     userTitleLanguage : preferences.userData.userTitleLanguage,
   )) {

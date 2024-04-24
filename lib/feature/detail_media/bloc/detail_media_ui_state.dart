@@ -16,7 +16,8 @@ class DetailMediaUiState with _$DetailMediaUiState {
     MediaModel? detailAnimeModel,
     MediaListItemModel? mediaListItem,
     @Default(UserTitleLanguage.native) UserTitleLanguage userTitleLanguage,
-    @Default(UserStaffNameLanguage.native) UserStaffNameLanguage userStaffNameLanguage,
+    @Default(UserStaffNameLanguage.native)
+    UserStaffNameLanguage userStaffNameLanguage,
     @Default(ScoreFormat.point3) ScoreFormat scoreFormat,
     @Default(None<Episode>()) LoadingState<Episode> episode,
   }) = _DetailMediaUiState;
