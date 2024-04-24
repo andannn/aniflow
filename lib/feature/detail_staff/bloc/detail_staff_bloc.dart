@@ -42,7 +42,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     this._favoriteRepository,
     AfPreferencesRepository preferences,
   ) : super(DetailStaffState(
-          userStaffNameLanguage: preferences.userStaffNameLanguage,
+          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
         )) {
     on<_OnDetailStaffInfoChanged>(
       (event, emit) => emit(state.copyWith(staffModel: event.model)),

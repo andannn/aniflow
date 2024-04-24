@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/activity_type.dart';
 import 'package:aniflow/core/common/definitions/extension/activity_type_extension.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
+import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/activity_mapper.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
@@ -16,7 +17,6 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/likeable_type.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -132,18 +132,22 @@ class ActivityRepository {
   }
 
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream() {
+    final activityFilterTypeStream =
+        preferences.userDataStream.map((event) => event.activityFilterType);
+    final activityScopeCategoryStream =
+        preferences.userDataStream.map((event) => event.activityScopeCategory);
     return CombineLatestStream.combine2(
-      preferences.activityFilterType,
-      preferences.activityScopeCategory,
+      activityFilterTypeStream,
+      activityScopeCategoryStream,
       (filter, scope) => (filter, scope),
     );
   }
 
   Future setActivityFilterType(ActivityFilterType type) =>
-      preferences.activityFilterType.setValue(type);
+      preferences.setActivityFilterType(type);
 
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
-      preferences.activityScopeCategory.setValue(scopeCategory);
+      preferences.setActivityScopeCategory(scopeCategory);
 
   Stream<ActivityStatus?> getActivityStatusStream(String id) =>
       activityDao.getActivityStatusStream(id).map(

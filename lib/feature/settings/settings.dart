@@ -55,8 +55,11 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
   @override
   void initState() {
     super.initState();
-    themeSub =
-        getIt.get<AfPreferencesRepository>().themeSetting.listen((setting) async {
+    themeSub = getIt
+        .get<AfPreferencesRepository>()
+        .userDataStream
+        .map((event) => event.themeSetting)
+        .listen((setting) async {
       await Future.delayed(const Duration(milliseconds: 100));
       setState(() {});
     });

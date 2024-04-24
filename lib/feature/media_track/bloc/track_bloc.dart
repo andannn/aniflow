@@ -157,7 +157,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: getIt.get<AfPreferencesRepository>().mediaType.value,
+      mediaType: getIt.get<AfPreferencesRepository>().userData.mediaType,
     );
     add(_OnLoadStateChanged(isLoading: false));
 

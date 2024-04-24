@@ -56,7 +56,8 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   StreamSubscription? _trackingIdsStream;
   Set<String> _ids = {};
 
-  UserTitleLanguage get userTitleLanguage => _preferences.userTitleLanguage;
+  UserTitleLanguage get userTitleLanguage =>
+      _preferences.userData.userTitleLanguage;
 
   void _init() async {
     final userData = await _authRepository.getAuthedUserStream().first;

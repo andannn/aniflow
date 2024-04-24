@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
+import 'package:aniflow/core/shared_preference/AfPreferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,32 +12,34 @@ import 'package:injectable/injectable.dart';
 class SettingsRepository {
   SettingsRepository(this.preferences);
 
-  final AfPreferencesRepository preferences;
+  final AfPreferences preferences;
 
   AnimeSeasonParam getAnimeSeasonParam() {
-    final seasonYear = preferences.seasonYear.value;
-    final season = preferences.season.value;
+    final seasonYear = preferences.userData.seasonYear;
+    final season = preferences.userData.season;
 
     return AnimeSeasonParam(seasonYear: seasonYear, season: season);
   }
 
   Future setAnimeSeasonParam(AnimeSeasonParam param) async {
-    await preferences.season.setValue(param.season);
-    await preferences.seasonYear.setValue(param.seasonYear);
+    await preferences.setAnimeSeason(param.season);
+    await preferences.setSeasonYear(param.seasonYear);
   }
 
-  Stream<MediaType> getMediaTypeStream() => preferences.mediaType;
+  Stream<MediaType> getMediaTypeStream() =>
+      preferences.userDataStream.map((event) => event.mediaType);
 
   Future setMediaType(MediaType type) async {
-    await preferences.mediaType.setValue(type);
+    await preferences.setMediaType(type);
 
     unawaited(FirebaseAnalytics.instance.setUserMediaContentProperty(type));
   }
 
-  MediaType getMediaType() => preferences.mediaType.value;
+  MediaType getMediaType() => preferences.userData.mediaType;
 
-  Stream<ThemeSetting> getThemeSettingStream() => preferences.themeSetting;
+  Stream<ThemeSetting> getThemeSettingStream() =>
+      preferences.userDataStream.map((event) => event.themeSetting);
 
   Future setThemeSetting(ThemeSetting setting) =>
-      preferences.themeSetting.setValue(setting);
+      preferences.setThemeSetting(setting);
 }

@@ -3,93 +3,64 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
-import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
-import 'package:aniflow/core/common/setting/user_title_language.dart';
-import 'package:aniflow/core/common/state_stream.dart';
+import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/shared_preference/AfPreferences.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class AfPreferencesRepository {
-  AfPreferencesRepository(this._preferences) {
-    _init();
-  }
+class AfPreferencesRepository implements AfPreferences {
+  AfPreferencesRepository(this._preferences);
 
   final AfPreferences _preferences;
-  late MutableStateStream<MediaType> mediaType;
-  late MutableStateStream<AnimeSeason> season;
-  late MutableStateStream<int> seasonYear;
-  late MutableStateStream<ThemeSetting> themeSetting;
-  late MutableStateStream<bool> isShowReleaseOnly;
-  late MutableStateStream<ActivityScopeCategory> activityScopeCategory;
-  late MutableStateStream<ActivityFilterType> activityFilterType;
-  late MutableStateStream<String?> authedUserId;
-  late MutableStateStream<String?> authToken;
-  late MutableStateStream<AniListSettings> aniListSettings;
-  late MutableStateStream<DateTime?> authExpiredTime;
 
-  UserStaffNameLanguage get userStaffNameLanguage =>
-      aniListSettings.value.userStaffNameLanguage;
+  @override
+  Stream<UserDataModel> get userDataStream => _preferences.userDataStream;
 
-  UserTitleLanguage get userTitleLanguage =>
-      aniListSettings.value.userTitleLanguage;
+  @override
+  UserDataModel get userData => _preferences.userData;
 
-  ScoreFormat get scoreFormat => aniListSettings.value.scoreFormat;
+  @override
+  Future setActivityFilterType(ActivityFilterType category) =>
+      _preferences.setActivityFilterType(category);
 
-  void _init() async {
-    mediaType = MutableStateStream.create(
-      onGetValue: () => _preferences.mediaType,
-      onSetValue: _preferences.setMediaType,
-    );
+  @override
+  Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
+      _preferences.setActivityScopeCategory(scopeCategory);
 
-    season = MutableStateStream.create(
-      onGetValue: () => _preferences.season,
-      onSetValue: _preferences.setAnimeSeason,
-    );
+  @override
+  Future setAniListSettings(AniListSettings setting) =>
+      _preferences.setAniListSettings(setting);
 
-    seasonYear = MutableStateStream.create(
-      onGetValue: () => _preferences.seasonYear,
-      onSetValue: _preferences.setSeasonYear,
-    );
+  @override
+  Future setAnimeSeason(AnimeSeason season) =>
+      _preferences.setAnimeSeason(season);
 
-    themeSetting = MutableStateStream.create(
-        onGetValue: () => _preferences.themeSetting,
-        onSetValue: _preferences.setThemeSetting);
+  @override
+  Future setAuthExpiredTime(DateTime? dateTime) =>
+      _preferences.setAuthExpiredTime(dateTime);
 
-    isShowReleaseOnly = MutableStateStream.create(
-        onGetValue: () => _preferences.isShowReleaseOnly,
-        onSetValue: _preferences.setIsShowReleaseOnly);
+  @override
+  Future setAuthToken(String? authToken) =>
+      _preferences.setAuthToken(authToken);
 
-    activityScopeCategory = MutableStateStream.create(
-      onGetValue: () => _preferences.activityScopeCategory,
-      onSetValue: _preferences.setActivityScopeCategory,
-    );
+  @override
+  Future setAuthedUserId(String? userId) =>
+      _preferences.setAuthedUserId(userId);
 
-    activityFilterType = MutableStateStream.create(
-      onGetValue: () => _preferences.activityFilterType,
-      onSetValue: _preferences.setActivityFilterType,
-    );
+  @override
+  Future setIsShowReleaseOnly(bool showReleasedOnly) =>
+      _preferences.setIsShowReleaseOnly(showReleasedOnly);
 
-    authedUserId = MutableStateStream.create(
-      onGetValue: () => _preferences.authedUserId,
-      onSetValue: _preferences.setAuthedUserId,
-    );
+  @override
+  Future setMediaType(MediaType mediaType) =>
+      _preferences.setMediaType(mediaType);
 
-    authToken = MutableStateStream.create(
-      onGetValue: () => _preferences.authToken,
-      onSetValue: _preferences.setAuthToken,
-    );
+  @override
+  Future setSeasonYear(int seasonYear) =>
+      _preferences.setSeasonYear(seasonYear);
 
-    aniListSettings = MutableStateStream.create(
-      onGetValue: () => _preferences.aniListSettings,
-      onSetValue: _preferences.setAniListSettings,
-    );
-
-    authExpiredTime = MutableStateStream.create(
-      onGetValue: () => _preferences.authExpiredTime,
-      onSetValue: _preferences.setAuthExpiredTime,
-    );
-  }
+  @override
+  Future setThemeSetting(ThemeSetting setting) =>
+      _preferences.setThemeSetting(setting);
 }

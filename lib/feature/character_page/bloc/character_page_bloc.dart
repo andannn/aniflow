@@ -20,7 +20,7 @@ class CharacterPageBloc extends Bloc<CharacterPageEvent, CharacterPageState> {
     AfPreferencesRepository preferences,
   ) : super(
           CharacterPageState(
-              userStaffNameLanguage: preferences.userStaffNameLanguage),
+              userStaffNameLanguage: preferences.userData.userStaffNameLanguage),
         ) {
     on<OnStaffLanguageChanged>(_onStaffLanguageChanged);
   }

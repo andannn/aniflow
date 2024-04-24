@@ -85,9 +85,9 @@ class MediaInformationRepository {
         token: token,
         param: createAnimePageQueryParam(
             category,
-            preferences.season.value,
-            preferences.seasonYear.value,
-            preferences.aniListSettings.value.displayAdultContent),
+            preferences.userData.season,
+            preferences.userData.seasonYear,
+            preferences.userData.displayAdultContent),
       ),
       onGetEntityFromDB: (page, perPage) => mediaDao.getMediaByPage(
           category.getContentValue(),

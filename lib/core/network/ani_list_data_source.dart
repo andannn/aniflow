@@ -58,7 +58,7 @@ class AniListDataSource {
 
   String get _token => isUnitTest
       ? testToken
-      : _preferences.authToken.value ?? '';
+      : _preferences.userData.authToken ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {

@@ -66,7 +66,7 @@ class _StaffListPageContent extends StatelessWidget {
 
   Widget _buildListItems(BuildContext context, StaffAndRoleModel model) {
     final language =
-        getIt.get<AfPreferencesRepository>().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AfPreferencesRepository>().userData.userStaffNameLanguage;
     return SizedBox(
       height: 124,
       child: StaffItem(

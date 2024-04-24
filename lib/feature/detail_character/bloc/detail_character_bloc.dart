@@ -36,8 +36,8 @@ class DetailCharacterBloc
     this._favoriteRepository,
     AfPreferencesRepository preferences,
   ) : super(DetailCharacterState(
-          userStaffNameLanguage: preferences.userStaffNameLanguage,
-          userTitleLanguage: preferences.userTitleLanguage,
+          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
+          userTitleLanguage: preferences.userData.userTitleLanguage,
         )) {
     on<_OnDetailCharacterInfoChanged>(
       (event, emit) => emit(state.copyWith(characterModel: event.model)),

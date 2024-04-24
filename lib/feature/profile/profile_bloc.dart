@@ -80,7 +80,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
   final UserInfoRepository _userInfoRepository;
 
   void _init() async {
-    final userId = _userId ?? getIt.get<AfPreferencesRepository>().authedUserId.value;
+    final userId =
+        _userId ?? getIt.get<AfPreferencesRepository>().userData.authedUserId;
     final userData = await _userInfoRepository.getUserDataById(userId!);
     add(_OnUserDataLoaded(userData: userData));
   }

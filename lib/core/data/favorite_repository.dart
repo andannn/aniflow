@@ -61,7 +61,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.authedUserId.value;
+    userId ??= preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -109,7 +109,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.authedUserId.value;
+    userId ??= preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -143,7 +143,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.authedUserId.value;
+    userId ??= preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }

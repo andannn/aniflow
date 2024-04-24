@@ -120,9 +120,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     this._hiAnimationRepository,
     AfPreferencesRepository preferences,
   ) : super(DetailMediaUiState(
-          userTitleLanguage: preferences.userTitleLanguage,
-          userStaffNameLanguage: preferences.userStaffNameLanguage,
-          scoreFormat: preferences.scoreFormat,
+          userTitleLanguage: preferences.userData.userTitleLanguage,
+          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
+          scoreFormat: preferences.userData.scoreFormat,
         )) {
     on<_OnDetailAnimeModelChangedEvent>(
       (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
@@ -239,7 +239,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: _preferences.scoreFormat,
+        format: _preferences.userData.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);

@@ -31,7 +31,7 @@ class AiringScheduleBloc
     this._mediaInfoRepository,
     AfPreferencesRepository preferences,
   ) : super(AiringScheduleState(
-    userTitleLanguage : preferences.userTitleLanguage,
+    userTitleLanguage : preferences.userData.userTitleLanguage,
   )) {
     on<_OnScheduleKeyInitialized>(_onScheduleKeyInitialized);
     on<OnRequestScheduleData>(_onRequestScheduleData);

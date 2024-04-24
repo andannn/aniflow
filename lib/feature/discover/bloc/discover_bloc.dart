@@ -304,7 +304,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _mediaListRepository.syncMediaList(
         userId: userId,
         status: [MediaListStatus.current, MediaListStatus.planning],
-        mediaType: _preferences.mediaType.value,
+        mediaType: _preferences.userData.mediaType,
       ),
     ]);
   }

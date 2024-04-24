@@ -109,7 +109,7 @@ class UserStatics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userStaffLanguage =
-        getIt.get<AfPreferencesRepository>().aniListSettings.value.userStaffNameLanguage;
+        getIt.get<AfPreferencesRepository>().userData.userStaffNameLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final statics = model;
@@ -193,7 +193,7 @@ class _MediaListFutureBuilder extends StatefulWidget {
 class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
     with AutomaticKeepAliveClientMixin {
   final userTitleLanguage =
-      getIt.get<AfPreferencesRepository>().aniListSettings.value.userTitleLanguage;
+      getIt.get<AfPreferencesRepository>().userData.userTitleLanguage;
 
   final UserStatisticsRepository repository =
       GetIt.instance.get<UserStatisticsRepository>();

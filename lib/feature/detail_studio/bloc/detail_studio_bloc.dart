@@ -35,7 +35,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     this._favoriteRepository,
     AfPreferencesRepository preferences,
   ) : super(DetailStudioState(
-          userTitleLanguage: preferences.userTitleLanguage,
+          userTitleLanguage: preferences.userData.userTitleLanguage,
         )) {
     on<_OnDetailStudioInfoChanged>(
       (event, emit) => emit(state.copyWith(studioModel: event.model)),

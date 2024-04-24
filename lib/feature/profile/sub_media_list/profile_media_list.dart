@@ -174,7 +174,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
     return MediaPreviewItem(
       coverImage: model.animeModel!.coverImage?.large ?? '',
       title: model.animeModel!.title!.getTitle(
-          getIt.get<AfPreferencesRepository>().aniListSettings.value.userTitleLanguage),
+          getIt.get<AfPreferencesRepository>().userData.userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
         AfRouterDelegate.of(context)

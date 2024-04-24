@@ -11,7 +11,7 @@ import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/data/aniflow_preferences_repository.dart';
+import 'package:aniflow/core/shared_preference/AfPreferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -21,11 +21,11 @@ class AuthDataSource {
   AuthDataSource(this.dio, this.preferences);
 
   final Dio dio;
-  final AfPreferencesRepository preferences;
+  final AfPreferences preferences;
 
   String get _token => isUnitTest
       ? testToken
-      : preferences.authToken.value ?? '';
+      : preferences.userData.authToken ?? '';
 
   Future<bool> isTokenValid() async {
     try {
