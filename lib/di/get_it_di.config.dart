@@ -289,7 +289,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i42.ActivityRepository>(() => _i42.ActivityRepository(
           gh<_i19.ActivityDao>(),
           gh<_i21.AniListDataSource>(),
-          gh<_i17.UserDataRepository>(),
+          gh<_i16.UserDataPreferences>(),
         ));
     gh.factoryParam<_i43.ActivityStatusBloc, String, dynamic>((
       activityId,

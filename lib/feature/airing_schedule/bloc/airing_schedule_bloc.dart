@@ -36,22 +36,18 @@ class AiringScheduleBloc
     on<_OnScheduleKeyInitialized>(_onScheduleKeyInitialized);
     on<OnRequestScheduleData>(_onRequestScheduleData);
 
-    _init();
-  }
-
-  final MediaInformationRepository _mediaInfoRepository;
-
-  final _currentDateTime = DateTime.now();
-
-  void _init() async {
     /// create schedule keys of 6 days before and 6 days after.
     List<SchedulePageKey> keys =
-        createScheduleKeys(_currentDateTime, daysAgo: 6, daysAfter: 6);
+    createScheduleKeys(_currentDateTime, daysAgo: 6, daysAfter: 6);
     add(_OnScheduleKeyInitialized(keys));
 
     /// load today schedule.
     add(OnRequestScheduleData(6));
   }
+
+  final MediaInformationRepository _mediaInfoRepository;
+
+  final _currentDateTime = DateTime.now();
 
   FutureOr<void> _onScheduleKeyInitialized(
       _OnScheduleKeyInitialized event, Emitter<AiringScheduleState> emit) {
