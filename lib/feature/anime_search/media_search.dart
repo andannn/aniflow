@@ -79,8 +79,11 @@ class _MediaSearchPageContent extends StatelessWidget {
   }
 
   Widget _buildListItems(BuildContext context, MediaModel model) {
-    final userTitleLanguage =
-        context.read<SearchPageBloc>().preferences.userData.userTitleLanguage;
+    final userTitleLanguage = context
+        .read<SearchPageBloc>()
+        .userDataRepository
+        .userData
+        .userTitleLanguage;
     return SearchAnimeItem(
       userTitleLanguage: userTitleLanguage,
       model: model,

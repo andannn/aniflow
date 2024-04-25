@@ -22,8 +22,7 @@ class OnSearchStringCommit<T> extends PagingEvent<T> {
 class SearchPageBloc extends PagingBloc<MediaModel> {
   SearchPageBloc(
     this._searchRepository,
-    UserDataRepository userDataRepository,
-    this.preferences,
+    this.userDataRepository,
   ) : super(const PageInit(data: [])) {
     on<OnSearchStringCommit<MediaModel>>(_onSearchStringCommit);
 
@@ -34,7 +33,7 @@ class SearchPageBloc extends PagingBloc<MediaModel> {
 
   String? _searchString;
   MediaType? mediaType;
-  final UserDataRepository preferences;
+  final UserDataRepository userDataRepository;
 
   @override
   Future<void> onInit(OnInit<MediaModel> event,

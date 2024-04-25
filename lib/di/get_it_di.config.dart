@@ -441,7 +441,6 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i59.SearchPageBloc>(() => _i59.SearchPageBloc(
           gh<_i33.SearchRepository>(),
           gh<_i17.UserDataRepository>(),
-          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i60.StatsBloc, String, dynamic>((
       userId,
