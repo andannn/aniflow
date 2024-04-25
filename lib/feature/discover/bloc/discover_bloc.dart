@@ -16,7 +16,6 @@ import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
@@ -78,11 +77,10 @@ extension DiscoverUiStateEx on DiscoverUiState {
 @injectable
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   DiscoverBloc(
-    this._settingsRepository,
     this._authRepository,
     this._mediaInfoRepository,
     this._mediaListRepository,
-    this._preferences,
+    this._userDataRepository,
   ) : super(DiscoverUiState()) {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
@@ -99,11 +97,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     _init();
   }
 
-  final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _mediaListRepository;
-  final UserDataRepository _preferences;
+  final UserDataRepository _userDataRepository;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _settingsSub;
@@ -131,11 +128,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
         AnimeSeasonUtil.getAnimeSeasonByDataTime(DateTime.now());
 
     /// get the saved anime season.
-    final savedAnimeSeasonParam = _settingsRepository.getAnimeSeasonParam();
+    final savedAnimeSeasonParam = _userDataRepository.getAnimeSeasonParam();
 
     if (currentAnimeSeasonParam != savedAnimeSeasonParam) {
       // season changed.
-      await _settingsRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
+      await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
     _userDataSub ??= _authRepository.getAuthedUserStream().listen(
@@ -144,7 +141,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       },
     );
 
-    _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
+    _mediaTypeSub = _userDataRepository.userDataStream
+        .map((event) => event.mediaType)
+        .distinct()
+        .listen(
       (mediaType) {
         add(_OnMediaTypeChanged(mediaType));
       },
@@ -304,7 +304,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       _mediaListRepository.syncMediaList(
         userId: userId,
         status: [MediaListStatus.current, MediaListStatus.planning],
-        mediaType: _preferences.userData.mediaType,
+        mediaType: _userDataRepository.userData.mediaType,
       ),
     ]);
   }

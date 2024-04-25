@@ -11,7 +11,6 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
@@ -83,7 +82,6 @@ class OnMediaListModified extends TrackEvent {
 class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   TrackBloc(
     this._mediaListRepository,
-    this._settingsRepository,
     this._authRepository,
     this._userDataRepository,
   ) : super(TrackUiState()) {
@@ -109,14 +107,17 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       add(_OnUserStateChanged(userData: userData));
     });
 
-    _mediaTypeSub = _settingsRepository.getMediaTypeStream().distinct().listen(
-          (mediaType) {
+    _mediaTypeSub = _userDataRepository.userDataStream
+        .map((event) => event.mediaType)
+        .distinct()
+        .listen(
+      (mediaType) {
         add(_OnMediaTypeChanged(mediaType));
       },
     );
 
     _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
-          (settings) {
+      (settings) {
         add(_OnAniListSettingsChanged(settings));
       },
     );
@@ -136,7 +137,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   StreamSubscription? _showReleasedOnlySub;
 
   final MediaListRepository _mediaListRepository;
-  final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
   final UserDataRepository _userDataRepository;
   String? _userId;

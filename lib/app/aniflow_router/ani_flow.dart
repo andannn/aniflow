@@ -6,7 +6,7 @@ import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
@@ -26,8 +26,7 @@ class AniFlowPage extends Page {
 }
 
 class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AniFlowRoute({super.settings})
-      : super(allowSnapshotting: false);
+  AniFlowRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -49,7 +48,8 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
   late AfRouterDelegate afRouterDelegate;
 
   var currentTopLevel = TopLevelNavigation.discover;
-  bool get needHideNavigationBar  => afRouterDelegate.isTopRouteFullScreen;
+
+  bool get needHideNavigationBar => afRouterDelegate.isTopRouteFullScreen;
 
   late StreamSubscription _mediaTypeSub;
   late StreamSubscription _authSub;
@@ -85,15 +85,20 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
       });
     });
 
-    _mediaTypeSub =
-        getIt.get<SettingsRepository>().getMediaTypeStream().distinct().listen(
+    _mediaTypeSub = getIt
+        .get<UserDataRepository>()
+        .userDataStream
+        .map((event) => event.mediaType)
+        .distinct()
+        .listen(
       (mediaType) {
         setState(() {
           _mediaType = mediaType;
         });
       },
     );
-    _authSub = GetIt.instance.get<AuthRepository>()
+    _authSub = GetIt.instance
+        .get<AuthRepository>()
         .getAuthedUserStream()
         .distinct()
         .listen((userData) {
@@ -121,9 +126,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
         BlocProvider(
           create: (context) => getIt.get<DiscoverBloc>(),
         ),
-        BlocProvider(
-          create: (context) => getIt.get<TrackBloc>()
-        ),
+        BlocProvider(create: (context) => getIt.get<TrackBloc>()),
         BlocProvider(
           create: (context) => getIt.get<AuthBloc>(),
         ),

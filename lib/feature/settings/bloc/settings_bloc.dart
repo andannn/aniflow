@@ -12,7 +12,7 @@ import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:bloc/bloc.dart';
@@ -47,7 +47,7 @@ class _OnMediaTypeChanged extends SettingEvent {
 
 @injectable
 class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
-  SettingsBloc(this._settingsRepository, this._authRepository)
+  SettingsBloc(this._userDataRepository, this._authRepository)
       : super(SettingsState()) {
     on<_OnAniListSettingsChanged>(
       (event, emit) => emit(state.copyWith(settings: event.settings)),
@@ -63,7 +63,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
     _init();
   }
 
-  final SettingsRepository _settingsRepository;
+  final UserDataRepository _userDataRepository;
   final AuthRepository _authRepository;
 
   StreamSubscription? _settingsSub;
@@ -87,13 +87,17 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
       },
     );
 
-    _themeSub ??= _settingsRepository.getThemeSettingStream().listen(
+    _themeSub ??= _userDataRepository.userDataStream
+        .map((event) => event.themeSetting)
+        .listen(
       (settings) {
         add(_OnThemeSettingChanged(settings));
       },
     );
 
-    _mediaTypeSub ??= _settingsRepository.getMediaTypeStream().listen(
+    _mediaTypeSub ??= _userDataRepository.userDataStream
+        .map((event) => event.mediaType)
+        .listen(
       (type) {
         add(_OnMediaTypeChanged(type));
       },
@@ -126,9 +130,9 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
         );
       case ThemeSetting():
-        await _settingsRepository.setThemeSetting(setting);
+        await _userDataRepository.setThemeSetting(setting);
       case MediaType():
-        await _settingsRepository.setMediaType(setting);
+        await _userDataRepository.setMediaType(setting);
 
       default:
         throw 'Invalid type';
