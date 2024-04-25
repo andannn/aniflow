@@ -7,14 +7,13 @@ import 'package:aniflow/core/common/definitions/anime_source.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -199,31 +198,32 @@ extension MediaNotificationEx on MediaNotification {
 }
 
 extension ListActivityModelEx on ListActivityModel {
-  List<TextSpan> createTextSpanList(BuildContext buildContext,
+  List<TextSpan> createTextSpanList(
+      BuildContext buildContext, UserTitleLanguage userTitleLanguage,
       {required VoidCallback onMediaClick}) {
     final colorScheme = Theme.of(buildContext).colorScheme;
     return [
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
-        text: media!.title!.getTitle(
-            getIt.get<UserDataRepository>().userData.userTitleLanguage),
+        text: media!.title!.getTitle(userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,
       ),
     ];
   }
 }
+
 extension StaffLanguageEx on StaffLanguage {
   String label(BuildContext context) => switch (this) {
-    StaffLanguage.japanese => 'Japanese',
-    StaffLanguage.english => 'English',
-    StaffLanguage.korean => 'Korean',
-    StaffLanguage.french => 'French',
-    StaffLanguage.german => 'German',
-    StaffLanguage.italian => 'Italian',
-    StaffLanguage.spanish => 'Spanish',
-    StaffLanguage.portuguese => 'Portuguese',
-    StaffLanguage.hebrew => 'Hebrew',
-    StaffLanguage.hungarian => 'Hungarian',
-  };
+        StaffLanguage.japanese => 'Japanese',
+        StaffLanguage.english => 'English',
+        StaffLanguage.korean => 'Korean',
+        StaffLanguage.french => 'French',
+        StaffLanguage.german => 'German',
+        StaffLanguage.italian => 'Italian',
+        StaffLanguage.spanish => 'Spanish',
+        StaffLanguage.portuguese => 'Portuguese',
+        StaffLanguage.hebrew => 'Hebrew',
+        StaffLanguage.hungarian => 'Hungarian',
+      };
 }

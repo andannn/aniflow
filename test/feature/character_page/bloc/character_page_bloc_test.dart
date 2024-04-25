@@ -31,7 +31,8 @@ void main() {
     blocTest(
       'OnStaffLanguageChanged',
       build: () => CharacterPageBloc(userDataRepository),
-      act: (bloc ) => bloc.add(OnStaffLanguageChanged(staffLanguage: StaffLanguage.german)),
+      act: (bloc) =>
+          bloc.add(OnStaffLanguageChanged(staffLanguage: StaffLanguage.german)),
       expect: () => [CharacterPageState(language: StaffLanguage.german)],
     );
   });
