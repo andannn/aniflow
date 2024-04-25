@@ -102,6 +102,10 @@ abstract class AFLocalizations {
   String getMediaSortString(MediaSort sort);
 
   static AFLocalizations of([BuildContext? context]) {
+    if (context == null && globalContext == null) {
+      return JaAniFLowLocalizations();
+    }
+
     return Localizations.of<AFLocalizations>(
         context ?? globalContext!, AFLocalizations)!;
   }
