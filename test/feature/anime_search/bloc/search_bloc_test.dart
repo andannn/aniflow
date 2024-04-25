@@ -25,7 +25,7 @@ void main() {
     tearDown(() async {});
 
     blocTest(
-      'OnSearchStringCommit',
+      'Init state',
       build: () => SearchPageBloc(searchRepository, userDataRepository),
       act: (bloc) => bloc.add(OnSearchStringCommit(searchString: "Test")),
       expect: () => isNotEmpty,
