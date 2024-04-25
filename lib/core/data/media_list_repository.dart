@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
@@ -16,7 +17,6 @@ import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
@@ -29,6 +29,7 @@ class MediaListRepository {
     this.mediaListDao,
     this.userDataDao,
     this.mediaDao,
+    this.preferences,
   );
 
   final MediaListDao mediaListDao;
@@ -36,7 +37,7 @@ class MediaListRepository {
   final MediaDao mediaDao;
   final AniListDataSource aniListDataSource;
   final AuthDataSource authDataSource;
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final UserDataRepository preferences;
 
   Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
     required List<MediaListStatus> status,
@@ -46,7 +47,7 @@ class MediaListRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    final targetUserId = userId ?? preferences.authedUserId.value;
+    final targetUserId = userId ?? preferences.userData.authedUserId;
     if (targetUserId == null) {
       /// No user.
       return LoadError(const NotFoundException());
@@ -61,7 +62,7 @@ class MediaListRepository {
               userId: int.parse(targetUserId),
               mediaType: type,
               status: status,
-              format: AniFlowPreferences().aniListSettings.value.scoreFormat),
+              format: preferences.userData.scoreFormat),
           token: token,
         );
       },
@@ -82,7 +83,7 @@ class MediaListRepository {
     CancelToken? token,
   }) async {
     try {
-      final targetUserId = userId ?? preferences.authedUserId.value;
+      final targetUserId = userId ?? preferences.userData.authedUserId;
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
@@ -94,7 +95,7 @@ class MediaListRepository {
           mediaType: mediaType,
           status: status,
           userId: int.parse(targetUserId.toString()),
-          format: AniFlowPreferences().aniListSettings.value.scoreFormat,
+          format: preferences.userData.scoreFormat,
         ),
         token: token,
       );
@@ -116,7 +117,7 @@ class MediaListRepository {
     CancelToken? token,
   }) async {
     try {
-      final targetUserId = userId ?? preferences.authedUserId.value;
+      final targetUserId = userId ?? preferences.userData.authedUserId;
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
@@ -194,7 +195,7 @@ class MediaListRepository {
     CancelToken? cancelToken,
   }) async {
     final entity = await mediaListDao.getMediaListItem(animeId);
-    final targetUserId = preferences.authedUserId.value;
+    final targetUserId = preferences.userData.authedUserId;
 
     if (targetUserId == null) {
       /// no login, return with error.
@@ -250,8 +251,9 @@ class MediaListRepository {
     }
   }
 
-  Stream<bool> getIsReleasedOnlyStream() => preferences.isShowReleaseOnly;
+  Stream<bool> getIsReleasedOnlyStream() =>
+      preferences.userDataStream.map((e) => e.isShowReleaseOnly);
 
   void setIsReleasedOnly(bool isShowReleasedOnly) =>
-      preferences.isShowReleaseOnly.setValue(isShowReleasedOnly);
+      preferences.setIsShowReleaseOnly(isShowReleasedOnly);
 }

@@ -4,8 +4,9 @@ import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/root_router_delegate.dart';
 import 'package:aniflow/app/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/main.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,8 +33,7 @@ class AniFlowAppState extends State<AniFlowApp> {
   late RouteInformationProvider informationParser;
   late RootRouterDelegate rootRouterDelegate;
 
-  ThemeMode get themeMode =>
-      switch (setting) {
+  ThemeMode get themeMode => switch (setting) {
         ThemeSetting.dark => ThemeMode.dark,
         ThemeSetting.light => ThemeMode.light,
         ThemeSetting.system => ThemeMode.system,
@@ -50,14 +50,18 @@ class AniFlowAppState extends State<AniFlowApp> {
 
     informationParser = PlatformRouteInformationProvider(
       initialRouteInformation: RouteInformation(
-        uri: Uri.parse(WidgetsBinding
-            .instance.platformDispatcher.defaultRouteName),
+        uri: Uri.parse(
+            WidgetsBinding.instance.platformDispatcher.defaultRouteName),
       ),
     );
 
     rootRouterDelegate = RootRouterDelegate();
 
-    themeSub = AniFlowPreferences().themeSetting.listen((setting) {
+    themeSub = getIt
+        .get<UserDataRepository>()
+        .userDataStream
+        .map((event) => event.themeSetting)
+        .listen((setting) {
       setState(() {
         this.setting = setting;
       });

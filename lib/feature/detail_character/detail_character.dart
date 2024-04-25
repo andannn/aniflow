@@ -10,7 +10,6 @@ import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:aniflow/main.dart';
@@ -63,8 +62,7 @@ class _DetailCharacterContent extends StatelessWidget {
       }
 
       final isFavourite = character.isFavourite;
-      final language =
-          AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+      final language = state.userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -159,11 +157,12 @@ class _DetailCharacterContent extends StatelessWidget {
   }
 
   Widget _buildGridItems(BuildContext context, MediaModel model) {
+    final userTitleLanguage =
+        context.read<DetailCharacterBloc>().state.userTitleLanguage;
     return MediaPreviewItem(
       textStyle: Theme.of(context).textTheme.labelMedium,
       coverImage: model.coverImage?.large ?? '',
-      title: model.title!.getTitle(
-          AniFlowPreferences().aniListSettings.value.userTitleLanguage),
+      title: model.title!.getTitle(userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(

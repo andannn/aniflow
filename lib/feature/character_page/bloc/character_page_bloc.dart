@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/staff_language.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +16,13 @@ class OnStaffLanguageChanged extends CharacterPageEvent {
 
 @injectable
 class CharacterPageBloc extends Bloc<CharacterPageEvent, CharacterPageState> {
-  CharacterPageBloc() : super(CharacterPageState()) {
+  CharacterPageBloc(
+    UserDataRepository preferences,
+  ) : super(
+          CharacterPageState(
+              userStaffNameLanguage:
+                  preferences.userData.userStaffNameLanguage),
+        ) {
     on<OnStaffLanguageChanged>(_onStaffLanguageChanged);
   }
 

@@ -19,6 +19,10 @@ mixin _$DetailMediaUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
   MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
+  UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      throw _privateConstructorUsedError;
+  ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
   LoadingState<Episode> get episode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,6 +40,9 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
       {bool isLoading,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
+      UserTitleLanguage userTitleLanguage,
+      UserStaffNameLanguage userStaffNameLanguage,
+      ScoreFormat scoreFormat,
       LoadingState<Episode> episode});
 
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
@@ -58,6 +65,9 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
+    Object? userTitleLanguage = null,
+    Object? userStaffNameLanguage = null,
+    Object? scoreFormat = null,
     Object? episode = null,
   }) {
     return _then(_value.copyWith(
@@ -73,6 +83,18 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
           ? _value.mediaListItem
           : mediaListItem // ignore: cast_nullable_to_non_nullable
               as MediaListItemModel?,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      scoreFormat: null == scoreFormat
+          ? _value.scoreFormat
+          : scoreFormat // ignore: cast_nullable_to_non_nullable
+              as ScoreFormat,
       episode: null == episode
           ? _value.episode
           : episode // ignore: cast_nullable_to_non_nullable
@@ -117,6 +139,9 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
       {bool isLoading,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
+      UserTitleLanguage userTitleLanguage,
+      UserStaffNameLanguage userStaffNameLanguage,
+      ScoreFormat scoreFormat,
       LoadingState<Episode> episode});
 
   @override
@@ -139,6 +164,9 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
+    Object? userTitleLanguage = null,
+    Object? userStaffNameLanguage = null,
+    Object? scoreFormat = null,
     Object? episode = null,
   }) {
     return _then(_$DetailMediaUiStateImpl(
@@ -154,6 +182,18 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
           ? _value.mediaListItem
           : mediaListItem // ignore: cast_nullable_to_non_nullable
               as MediaListItemModel?,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      scoreFormat: null == scoreFormat
+          ? _value.scoreFormat
+          : scoreFormat // ignore: cast_nullable_to_non_nullable
+              as ScoreFormat,
       episode: null == episode
           ? _value.episode
           : episode // ignore: cast_nullable_to_non_nullable
@@ -169,6 +209,9 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
       {this.isLoading = false,
       this.detailAnimeModel,
       this.mediaListItem,
+      this.userTitleLanguage = UserTitleLanguage.native,
+      this.userStaffNameLanguage = UserStaffNameLanguage.native,
+      this.scoreFormat = ScoreFormat.point3,
       this.episode = const None<Episode>()});
 
   @override
@@ -180,11 +223,20 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   final MediaListItemModel? mediaListItem;
   @override
   @JsonKey()
+  final UserTitleLanguage userTitleLanguage;
+  @override
+  @JsonKey()
+  final UserStaffNameLanguage userStaffNameLanguage;
+  @override
+  @JsonKey()
+  final ScoreFormat scoreFormat;
+  @override
+  @JsonKey()
   final LoadingState<Episode> episode;
 
   @override
   String toString() {
-    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, episode: $episode)';
+    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, episode: $episode)';
   }
 
   @override
@@ -198,12 +250,25 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
                 other.detailAnimeModel == detailAnimeModel) &&
             (identical(other.mediaListItem, mediaListItem) ||
                 other.mediaListItem == mediaListItem) &&
+            (identical(other.userTitleLanguage, userTitleLanguage) ||
+                other.userTitleLanguage == userTitleLanguage) &&
+            (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
+                other.userStaffNameLanguage == userStaffNameLanguage) &&
+            (identical(other.scoreFormat, scoreFormat) ||
+                other.scoreFormat == scoreFormat) &&
             (identical(other.episode, episode) || other.episode == episode));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, isLoading, detailAnimeModel, mediaListItem, episode);
+      runtimeType,
+      isLoading,
+      detailAnimeModel,
+      mediaListItem,
+      userTitleLanguage,
+      userStaffNameLanguage,
+      scoreFormat,
+      episode);
 
   @JsonKey(ignore: true)
   @override
@@ -218,6 +283,9 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
       {final bool isLoading,
       final MediaModel? detailAnimeModel,
       final MediaListItemModel? mediaListItem,
+      final UserTitleLanguage userTitleLanguage,
+      final UserStaffNameLanguage userStaffNameLanguage,
+      final ScoreFormat scoreFormat,
       final LoadingState<Episode> episode}) = _$DetailMediaUiStateImpl;
 
   @override
@@ -226,6 +294,12 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   MediaModel? get detailAnimeModel;
   @override
   MediaListItemModel? get mediaListItem;
+  @override
+  UserTitleLanguage get userTitleLanguage;
+  @override
+  UserStaffNameLanguage get userStaffNameLanguage;
+  @override
+  ScoreFormat get scoreFormat;
   @override
   LoadingState<Episode> get episode;
   @override

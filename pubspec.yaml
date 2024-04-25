@@ -86,6 +86,8 @@ dependencies:
   image_picker: ^1.0.7
   html: ^0.15.4
   string_similarity: ^2.0.0
+  bloc_test: ^9.1.7
+  mockito: ^5.4.4
 
 dev_dependencies:
   drift_dev: ^2.15.0

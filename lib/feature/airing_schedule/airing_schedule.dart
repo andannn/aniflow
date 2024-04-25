@@ -189,6 +189,8 @@ class _TimeLineItemState extends State<_TimeLineItem> {
         context, MaterialLocalizations)!;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final userTitleLanguage =
+        context.read<AiringScheduleBloc>().state.userTitleLanguage;
 
     return Padding(
       padding: const EdgeInsets.only(left: 16),
@@ -225,8 +227,10 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                         top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
                     child: AiringMediaItem(
                       model: schedule,
+                      userTitleLanguage: userTitleLanguage,
                       onClick: () {
-                        AfRouterDelegate.of(context).backStack
+                        AfRouterDelegate.of(context)
+                            .backStack
                             .navigateToDetailMedia(schedule.animeModel.id);
                       },
                     ),

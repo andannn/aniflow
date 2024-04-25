@@ -11,6 +11,7 @@ import 'package:aniflow/core/data/mappers/staff_mapper.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
@@ -27,7 +28,6 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -42,7 +42,8 @@ class FavoriteRepository {
       this.staffDao,
       this.characterDao,
       this.mediaListDao,
-      this.favoriteDao);
+      this.favoriteDao,
+      this.preferences);
 
   final AniListDataSource aniListDataSource;
   final UserDao userDataDao;
@@ -52,8 +53,7 @@ class FavoriteRepository {
   final CharacterDao characterDao;
   final MediaListDao mediaListDao;
   final FavoriteDao favoriteDao;
-
-  final preferences = AniFlowPreferences();
+  final UserDataRepository preferences;
 
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
     required MediaType type,
@@ -61,7 +61,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.authedUserId.value;
+    userId ??= preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -109,7 +109,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.authedUserId.value;
+    userId ??= preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -143,7 +143,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.authedUserId.value;
+    userId ??= preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }

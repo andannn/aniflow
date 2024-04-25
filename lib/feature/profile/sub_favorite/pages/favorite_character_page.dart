@@ -1,11 +1,11 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +53,7 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
     return BlocBuilder<FavoriteCharacterPagingBloc,
         PagingState<List<CharacterModel>>>(builder: (context, state) {
       final pagingState = state;
+      final userData = context.read<FavoriteCharacterPagingBloc>().userData;
       return Scaffold(
         appBar: AppBar(
           title: const Text('Favorite character'),
@@ -69,15 +70,18 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
             crossAxisCount: 3,
             childAspectRatio: 3.0 / 5.2,
           ),
-          onBuildItem: (context, model) => _buildListItems(context, model),
+          onBuildItem: (context, model) =>
+              _buildListItems(context, model, userData.userStaffNameLanguage),
         ),
       );
     });
   }
 
-  Widget _buildListItems(BuildContext context, CharacterModel model) {
-    final language =
-        AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+  Widget _buildListItems(
+    BuildContext context,
+    CharacterModel model,
+    UserStaffNameLanguage language,
+  ) {
     return MediaPreviewItem(
       coverImage: model.mediumImage,
       title: model.name!.getNameByUserSetting(language),

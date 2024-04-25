@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/util/collection_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
@@ -28,26 +29,25 @@ class AiringScheduleBloc
     extends Bloc<AiringScheduleEvent, AiringScheduleState> {
   AiringScheduleBloc(
     this._mediaInfoRepository,
-  ) : super(AiringScheduleState()) {
+    UserDataRepository preferences,
+  ) : super(AiringScheduleState(
+    userTitleLanguage : preferences.userData.userTitleLanguage,
+  )) {
     on<_OnScheduleKeyInitialized>(_onScheduleKeyInitialized);
     on<OnRequestScheduleData>(_onRequestScheduleData);
 
-    _init();
-  }
-
-  final MediaInformationRepository _mediaInfoRepository;
-
-  final _currentDateTime = DateTime.now();
-
-  void _init() async {
     /// create schedule keys of 6 days before and 6 days after.
     List<SchedulePageKey> keys =
-        createScheduleKeys(_currentDateTime, daysAgo: 6, daysAfter: 6);
+    createScheduleKeys(_currentDateTime, daysAgo: 6, daysAfter: 6);
     add(_OnScheduleKeyInitialized(keys));
 
     /// load today schedule.
     add(OnRequestScheduleData(6));
   }
+
+  final MediaInformationRepository _mediaInfoRepository;
+
+  final _currentDateTime = DateTime.now();
 
   FutureOr<void> _onScheduleKeyInitialized(
       _OnScheduleKeyInitialized event, Emitter<AiringScheduleState> emit) {

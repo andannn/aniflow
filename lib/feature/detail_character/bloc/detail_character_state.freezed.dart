@@ -18,6 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DetailCharacterState {
   bool get isLoading => throw _privateConstructorUsedError;
   CharacterModel? get characterModel => throw _privateConstructorUsedError;
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      throw _privateConstructorUsedError;
+  UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailCharacterStateCopyWith<DetailCharacterState> get copyWith =>
@@ -30,7 +33,11 @@ abstract class $DetailCharacterStateCopyWith<$Res> {
           $Res Function(DetailCharacterState) then) =
       _$DetailCharacterStateCopyWithImpl<$Res, DetailCharacterState>;
   @useResult
-  $Res call({bool isLoading, CharacterModel? characterModel});
+  $Res call(
+      {bool isLoading,
+      CharacterModel? characterModel,
+      UserStaffNameLanguage userStaffNameLanguage,
+      UserTitleLanguage userTitleLanguage});
 
   $CharacterModelCopyWith<$Res>? get characterModel;
 }
@@ -51,6 +58,8 @@ class _$DetailCharacterStateCopyWithImpl<$Res,
   $Res call({
     Object? isLoading = null,
     Object? characterModel = freezed,
+    Object? userStaffNameLanguage = null,
+    Object? userTitleLanguage = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -61,6 +70,14 @@ class _$DetailCharacterStateCopyWithImpl<$Res,
           ? _value.characterModel
           : characterModel // ignore: cast_nullable_to_non_nullable
               as CharacterModel?,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
     ) as $Val);
   }
 
@@ -85,7 +102,11 @@ abstract class _$$DetailCharacterStateImplCopyWith<$Res>
       __$$DetailCharacterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, CharacterModel? characterModel});
+  $Res call(
+      {bool isLoading,
+      CharacterModel? characterModel,
+      UserStaffNameLanguage userStaffNameLanguage,
+      UserTitleLanguage userTitleLanguage});
 
   @override
   $CharacterModelCopyWith<$Res>? get characterModel;
@@ -104,6 +125,8 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? characterModel = freezed,
+    Object? userStaffNameLanguage = null,
+    Object? userTitleLanguage = null,
   }) {
     return _then(_$DetailCharacterStateImpl(
       isLoading: null == isLoading
@@ -114,6 +137,14 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
           ? _value.characterModel
           : characterModel // ignore: cast_nullable_to_non_nullable
               as CharacterModel?,
+      userStaffNameLanguage: null == userStaffNameLanguage
+          ? _value.userStaffNameLanguage
+          : userStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
     ));
   }
 }
@@ -121,17 +152,27 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DetailCharacterStateImpl implements _DetailCharacterState {
-  _$DetailCharacterStateImpl({this.isLoading = false, this.characterModel});
+  _$DetailCharacterStateImpl(
+      {this.isLoading = false,
+      this.characterModel,
+      this.userStaffNameLanguage = UserStaffNameLanguage.native,
+      this.userTitleLanguage = UserTitleLanguage.native});
 
   @override
   @JsonKey()
   final bool isLoading;
   @override
   final CharacterModel? characterModel;
+  @override
+  @JsonKey()
+  final UserStaffNameLanguage userStaffNameLanguage;
+  @override
+  @JsonKey()
+  final UserTitleLanguage userTitleLanguage;
 
   @override
   String toString() {
-    return 'DetailCharacterState(isLoading: $isLoading, characterModel: $characterModel)';
+    return 'DetailCharacterState(isLoading: $isLoading, characterModel: $characterModel, userStaffNameLanguage: $userStaffNameLanguage, userTitleLanguage: $userTitleLanguage)';
   }
 
   @override
@@ -142,11 +183,16 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.characterModel, characterModel) ||
-                other.characterModel == characterModel));
+                other.characterModel == characterModel) &&
+            (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
+                other.userStaffNameLanguage == userStaffNameLanguage) &&
+            (identical(other.userTitleLanguage, userTitleLanguage) ||
+                other.userTitleLanguage == userTitleLanguage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, characterModel);
+  int get hashCode => Object.hash(runtimeType, isLoading, characterModel,
+      userStaffNameLanguage, userTitleLanguage);
 
   @JsonKey(ignore: true)
   @override
@@ -160,12 +206,18 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
 abstract class _DetailCharacterState implements DetailCharacterState {
   factory _DetailCharacterState(
       {final bool isLoading,
-      final CharacterModel? characterModel}) = _$DetailCharacterStateImpl;
+      final CharacterModel? characterModel,
+      final UserStaffNameLanguage userStaffNameLanguage,
+      final UserTitleLanguage userTitleLanguage}) = _$DetailCharacterStateImpl;
 
   @override
   bool get isLoading;
   @override
   CharacterModel? get characterModel;
+  @override
+  UserStaffNameLanguage get userStaffNameLanguage;
+  @override
+  UserTitleLanguage get userTitleLanguage;
   @override
   @JsonKey(ignore: true)
   _$$DetailCharacterStateImplCopyWith<_$DetailCharacterStateImpl>

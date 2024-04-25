@@ -19,6 +19,7 @@ mixin _$AiringScheduleState {
   List<SchedulePageKey> get scheduleKeys => throw _privateConstructorUsedError;
   Map<SchedulePageKey, SchedulePageState> get schedulePageMap =>
       throw _privateConstructorUsedError;
+  UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AiringScheduleStateCopyWith<AiringScheduleState> get copyWith =>
@@ -33,7 +34,8 @@ abstract class $AiringScheduleStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<SchedulePageKey> scheduleKeys,
-      Map<SchedulePageKey, SchedulePageState> schedulePageMap});
+      Map<SchedulePageKey, SchedulePageState> schedulePageMap,
+      UserTitleLanguage userTitleLanguage});
 }
 
 /// @nodoc
@@ -51,6 +53,7 @@ class _$AiringScheduleStateCopyWithImpl<$Res, $Val extends AiringScheduleState>
   $Res call({
     Object? scheduleKeys = null,
     Object? schedulePageMap = null,
+    Object? userTitleLanguage = null,
   }) {
     return _then(_value.copyWith(
       scheduleKeys: null == scheduleKeys
@@ -61,6 +64,10 @@ class _$AiringScheduleStateCopyWithImpl<$Res, $Val extends AiringScheduleState>
           ? _value.schedulePageMap
           : schedulePageMap // ignore: cast_nullable_to_non_nullable
               as Map<SchedulePageKey, SchedulePageState>,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
     ) as $Val);
   }
 }
@@ -75,7 +82,8 @@ abstract class _$$AiringScheduleStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {List<SchedulePageKey> scheduleKeys,
-      Map<SchedulePageKey, SchedulePageState> schedulePageMap});
+      Map<SchedulePageKey, SchedulePageState> schedulePageMap,
+      UserTitleLanguage userTitleLanguage});
 }
 
 /// @nodoc
@@ -91,6 +99,7 @@ class __$$AiringScheduleStateImplCopyWithImpl<$Res>
   $Res call({
     Object? scheduleKeys = null,
     Object? schedulePageMap = null,
+    Object? userTitleLanguage = null,
   }) {
     return _then(_$AiringScheduleStateImpl(
       scheduleKeys: null == scheduleKeys
@@ -101,6 +110,10 @@ class __$$AiringScheduleStateImplCopyWithImpl<$Res>
           ? _value._schedulePageMap
           : schedulePageMap // ignore: cast_nullable_to_non_nullable
               as Map<SchedulePageKey, SchedulePageState>,
+      userTitleLanguage: null == userTitleLanguage
+          ? _value.userTitleLanguage
+          : userTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
     ));
   }
 }
@@ -110,7 +123,8 @@ class __$$AiringScheduleStateImplCopyWithImpl<$Res>
 class _$AiringScheduleStateImpl implements _AiringScheduleState {
   _$AiringScheduleStateImpl(
       {final List<SchedulePageKey> scheduleKeys = const [],
-      final Map<SchedulePageKey, SchedulePageState> schedulePageMap = const {}})
+      final Map<SchedulePageKey, SchedulePageState> schedulePageMap = const {},
+      this.userTitleLanguage = UserTitleLanguage.native})
       : _scheduleKeys = scheduleKeys,
         _schedulePageMap = schedulePageMap;
 
@@ -133,8 +147,12 @@ class _$AiringScheduleStateImpl implements _AiringScheduleState {
   }
 
   @override
+  @JsonKey()
+  final UserTitleLanguage userTitleLanguage;
+
+  @override
   String toString() {
-    return 'AiringScheduleState(scheduleKeys: $scheduleKeys, schedulePageMap: $schedulePageMap)';
+    return 'AiringScheduleState(scheduleKeys: $scheduleKeys, schedulePageMap: $schedulePageMap, userTitleLanguage: $userTitleLanguage)';
   }
 
   @override
@@ -145,14 +163,17 @@ class _$AiringScheduleStateImpl implements _AiringScheduleState {
             const DeepCollectionEquality()
                 .equals(other._scheduleKeys, _scheduleKeys) &&
             const DeepCollectionEquality()
-                .equals(other._schedulePageMap, _schedulePageMap));
+                .equals(other._schedulePageMap, _schedulePageMap) &&
+            (identical(other.userTitleLanguage, userTitleLanguage) ||
+                other.userTitleLanguage == userTitleLanguage));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_scheduleKeys),
-      const DeepCollectionEquality().hash(_schedulePageMap));
+      const DeepCollectionEquality().hash(_schedulePageMap),
+      userTitleLanguage);
 
   @JsonKey(ignore: true)
   @override
@@ -164,14 +185,16 @@ class _$AiringScheduleStateImpl implements _AiringScheduleState {
 
 abstract class _AiringScheduleState implements AiringScheduleState {
   factory _AiringScheduleState(
-          {final List<SchedulePageKey> scheduleKeys,
-          final Map<SchedulePageKey, SchedulePageState> schedulePageMap}) =
-      _$AiringScheduleStateImpl;
+      {final List<SchedulePageKey> scheduleKeys,
+      final Map<SchedulePageKey, SchedulePageState> schedulePageMap,
+      final UserTitleLanguage userTitleLanguage}) = _$AiringScheduleStateImpl;
 
   @override
   List<SchedulePageKey> get scheduleKeys;
   @override
   Map<SchedulePageKey, SchedulePageState> get schedulePageMap;
+  @override
+  UserTitleLanguage get userTitleLanguage;
   @override
   @JsonKey(ignore: true)
   _$$AiringScheduleStateImplCopyWith<_$AiringScheduleStateImpl> get copyWith =>

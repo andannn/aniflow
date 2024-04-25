@@ -1,6 +1,6 @@
+import 'package:aniflow/core/common/state_stream.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
-import 'package:aniflow/core/shared_preference/state_stream.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 

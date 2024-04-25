@@ -7,6 +7,7 @@ import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/network/api/activity_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
@@ -42,7 +43,6 @@ import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -51,12 +51,14 @@ String aniListUrl = "https://graphql.anilist.co";
 
 @lazySingleton
 class AniListDataSource {
-  AniListDataSource({required this.dio});
+  AniListDataSource(this._preferences, this.dio);
 
   final Dio dio;
+  final UserDataRepository _preferences;
 
-  String get _token =>
-      isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
+  String get _token => isUnitTest
+      ? testToken
+      : _preferences.userData.authToken ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {

@@ -5,7 +5,7 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/search_repository.dart';
-import 'package:aniflow/core/data/settings_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -22,17 +22,18 @@ class OnSearchStringCommit<T> extends PagingEvent<T> {
 class SearchPageBloc extends PagingBloc<MediaModel> {
   SearchPageBloc(
     this._searchRepository,
-    SettingsRepository settingsRepository,
+    this.userDataRepository,
   ) : super(const PageInit(data: [])) {
     on<OnSearchStringCommit<MediaModel>>(_onSearchStringCommit);
 
-    mediaType = settingsRepository.getMediaType();
+    mediaType = userDataRepository.userData.mediaType;
   }
 
   final SearchRepository _searchRepository;
 
   String? _searchString;
   MediaType? mediaType;
+  final UserDataRepository userDataRepository;
 
   @override
   Future<void> onInit(OnInit<MediaModel> event,

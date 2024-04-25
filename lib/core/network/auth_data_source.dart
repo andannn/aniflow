@@ -11,19 +11,21 @@ import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class AuthDataSource {
-  AuthDataSource(this.dio);
+  AuthDataSource(this.dio, this.preferences);
 
   final Dio dio;
+  final UserDataPreferences preferences;
 
-  String get _token =>
-      isUnitTest ? testToken : AniFlowPreferences().authToken.value ?? '';
+  String get _token => isUnitTest
+      ? testToken
+      : preferences.userData.authToken ?? '';
 
   Future<bool> isTokenValid() async {
     try {

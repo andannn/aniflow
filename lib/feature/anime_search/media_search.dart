@@ -79,7 +79,13 @@ class _MediaSearchPageContent extends StatelessWidget {
   }
 
   Widget _buildListItems(BuildContext context, MediaModel model) {
+    final userTitleLanguage = context
+        .read<SearchPageBloc>()
+        .userDataRepository
+        .userData
+        .userTitleLanguage;
     return SearchAnimeItem(
+      userTitleLanguage: userTitleLanguage,
       model: model,
       onClick: () {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(model.id);

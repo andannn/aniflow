@@ -67,7 +67,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onLogoutButtonTapped(
       OnLogoutButtonTapped event, Emitter<AuthState> emit) async {
     await _authRepository.logout();
-    Navigator.pop(globalContext!);
+
+    if (globalContext != null) {
+      Navigator.pop(globalContext!);
+    }
+
     showSnackBarMessage(label: AFLocalizations.of().logoutSuccessMessage);
   }
 

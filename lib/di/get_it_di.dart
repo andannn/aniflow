@@ -3,4 +3,4 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 @injectableInit
-void initDI(GetIt getIt) => getIt.init();
+Future initDI(GetIt getIt) => getIt.init();

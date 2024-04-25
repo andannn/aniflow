@@ -7,7 +7,6 @@ import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widg
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:aniflow/feature/character_page/bloc/character_paging_bloc.dart';
 import 'package:aniflow/main.dart';
@@ -116,9 +115,7 @@ class _CharacterPagingBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => getIt.get<CharacterPagingBloc>(
-        param1: animeId,
-        param2: staffLanguage
-      ),
+          param1: animeId, param2: staffLanguage),
       child: const _CharacterListPagingContent(),
     );
   }
@@ -134,7 +131,7 @@ class _CharacterListPagingContent extends StatelessWidget {
         builder: (context, state) {
       final pagingState = state;
       final language =
-          AniFlowPreferences().aniListSettings.value.userStaffNameLanguage;
+          context.read<CharacterPageBloc>().state.userStaffNameLanguage;
       return PagingContent<CharacterAndVoiceActorModel, CharacterPagingBloc>(
         pagingState: pagingState,
         onBuildItem: (context, model) => _buildListItems(

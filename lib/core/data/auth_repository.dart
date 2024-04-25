@@ -8,13 +8,14 @@ import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
+import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,11 +27,16 @@ const String authUrl =
 
 @lazySingleton
 class AuthRepository {
-  AuthRepository(this.authDataSource, this.userDataDao, this.animeTrackListDao);
+  AuthRepository(
+    this.authDataSource,
+    this.userDataDao,
+    this.animeTrackListDao,
+    this.preferences,
+  );
 
   final AuthEventChannel authEventChannel = AuthEventChannel();
 
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final UserDataPreferences preferences;
 
   final AuthDataSource authDataSource;
 
@@ -53,8 +59,8 @@ class AuthRepository {
             .timeout(const Duration(minutes: 10));
 
         /// save token.
-        await preferences.authToken.setValue(authResult.token);
-        await preferences.authExpiredTime.setValue(
+        await preferences.setAuthToken(authResult.token);
+        await preferences.setAuthExpiredTime(
           DateTime.fromMillisecondsSinceEpoch(
             DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
           ),
@@ -64,8 +70,8 @@ class AuthRepository {
         final userDto = await authDataSource.getAuthedUserDataDto();
         final userEntity = userDto.toEntity();
         await userDataDao.upsertUser(userEntity);
-        await preferences.authedUserId.setValue(userEntity.id);
-        await preferences.aniListSettings.setValue(
+        await preferences.setAuthToken(userEntity.id);
+        await preferences.setAniListSettings(
           AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
         );
 
@@ -80,17 +86,18 @@ class AuthRepository {
   FutureOr<bool> isTokenValid() => authDataSource.isTokenValid();
 
   Future logout() async {
-    final userId = preferences.authedUserId.value;
+    final userId = preferences.userData.authedUserId;
     if (userId != null) {
       await animeTrackListDao.removeMediaListOfUser(userId);
     }
-    await preferences.authExpiredTime.setValue(null);
-    await preferences.authToken.setValue(null);
-    await preferences.authedUserId.setValue(null);
+    await preferences.setAuthExpiredTime(null);
+    await preferences.setAuthToken(null);
+    await preferences.setAuthedUserId(null);
   }
 
   Stream<UserModel?> getAuthedUserStream() {
-    Stream<String?> userIdStream = preferences.authedUserId;
+    Stream<String?> userIdStream =
+        preferences.userDataStream.map((e) => e.authedUserId);
     return userIdStream.asyncMap((userId) async {
       if (userId == null) {
         return null;
@@ -102,7 +109,7 @@ class AuthRepository {
   }
 
   Stream<AniListSettings> getAniListSettingsStream() {
-    return preferences.aniListSettings;
+    return preferences.userDataStream.map((event) => event.aniListSettings);
   }
 
   Future<LoadResult> updateUserSettings({
@@ -113,7 +120,7 @@ class AuthRepository {
     CancelToken? token,
   }) {
     return NetworkUtil.postMutationAndRevertWhenException(
-      initialModel: preferences.aniListSettings.value,
+      initialModel: preferences.userData.aniListSettings,
       onModifyModel: (settings) {
         var newSettings = settings.copyWith();
         if (userTitleLanguage != null) {
@@ -133,7 +140,7 @@ class AuthRepository {
         }
         return newSettings;
       },
-      onSaveLocal: (settings) => preferences.aniListSettings.setValue(settings),
+      onSaveLocal: (settings) => preferences.setAniListSettings(settings),
       onSyncWithRemote: (settings) async {
         final user = await authDataSource.updateUserSettings(
           param: UpdateUserMotionParam(
@@ -149,7 +156,7 @@ class AuthRepository {
   }
 
   Future<LoadResult> syncUserCondition() async {
-    final userId = preferences.authedUserId.value;
+    final userId = preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(Exception('No user'));
     }
@@ -158,7 +165,7 @@ class AuthRepository {
       final userDto = await authDataSource.getAuthedUserDataDto();
       final userEntity = userDto.toEntity();
       await userDataDao.upsertUser(userEntity);
-      await preferences.aniListSettings.setValue(
+      await preferences.setAniListSettings(
         AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
       );
       return LoadSuccess(data: null);

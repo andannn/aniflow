@@ -16,7 +16,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
 import 'package:aniflow/core/network/model/ani_activity.dart';
 import 'package:aniflow/core/network/model/likeable_type.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -38,11 +38,12 @@ class ActivityStatus extends Equatable {
 
 @lazySingleton
 class ActivityRepository {
-  ActivityRepository(this.activityDao, this.aniListDataSource);
+  ActivityRepository(
+      this.activityDao, this.aniListDataSource, this.preferences);
 
   final AniListDataSource aniListDataSource;
   final ActivityDao activityDao;
-  final AniFlowPreferences preferences = AniFlowPreferences();
+  final UserDataPreferences preferences;
 
   Future<LoadResult<List<ActivityModel>>> loadActivitiesByPage({
     required LoadType loadType,
@@ -131,18 +132,22 @@ class ActivityRepository {
   }
 
   Stream<(ActivityFilterType, ActivityScopeCategory)> getActivityTypeStream() {
+    final activityFilterTypeStream =
+        preferences.userDataStream.map((event) => event.activityFilterType);
+    final activityScopeCategoryStream =
+        preferences.userDataStream.map((event) => event.activityScopeCategory);
     return CombineLatestStream.combine2(
-      preferences.activityFilterType,
-      preferences.activityScopeCategory,
+      activityFilterTypeStream,
+      activityScopeCategoryStream,
       (filter, scope) => (filter, scope),
     );
   }
 
   Future setActivityFilterType(ActivityFilterType type) =>
-      preferences.activityFilterType.setValue(type);
+      preferences.setActivityFilterType(type);
 
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
-      preferences.activityScopeCategory.setValue(scopeCategory);
+      preferences.setActivityScopeCategory(scopeCategory);
 
   Stream<ActivityStatus?> getActivityStatusStream(String id) =>
       activityDao.getActivityStatusStream(id).map(

@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
 import 'package:aniflow/di/get_it_di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,13 +15,10 @@ final getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// init shared preference used in app.
-  await AniFlowPreferences().init();
+  await initDI(getIt);
 
   /// init firebase
   await Firebase.initializeApp();
-
-  initDI(getIt);
 
   /// run app after core instance initialized.
   runApp(const AniFlowApp());

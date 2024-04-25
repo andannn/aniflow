@@ -74,6 +74,7 @@ class HiAnimationDataSource {
       '${hiAnimationUrl}ajax/v2/episode/list/$id',
     );
     logger.d('getEpisodesById response ${result.data}');
+    // ignore: avoid_dynamic_calls
     final document = parse(result.data['html']);
     final attrList =
         document.querySelector('div.ss-list')?.querySelectorAll('a') ?? [];

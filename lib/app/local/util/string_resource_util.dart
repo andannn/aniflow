@@ -13,7 +13,8 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
-import 'package:aniflow/core/shared_preference/aniflow_preferences.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -205,7 +206,7 @@ extension ListActivityModelEx on ListActivityModel {
       TextSpan(text: '${status.toString()} $progress of '),
       TextSpan(
         text: media!.title!.getTitle(
-            AniFlowPreferences().aniListSettings.value.userTitleLanguage),
+            getIt.get<UserDataRepository>().userData.userTitleLanguage),
         style: TextStyle(color: colorScheme.tertiary),
         recognizer: TapGestureRecognizer()..onTap = onMediaClick,
       ),
