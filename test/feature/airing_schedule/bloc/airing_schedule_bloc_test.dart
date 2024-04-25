@@ -5,7 +5,7 @@ import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'airing_schedule_bloc_test.mocks.dart';
+import '../../../core/data/mocks/media_information_repository_mock.dart';
 
 void main() {
   group('airing_schedule_bloc_test', () {
@@ -28,6 +28,14 @@ void main() {
       'initial state',
       build: () =>
           AiringScheduleBloc(mediaInformationRepository, userDataRepository),
+      expect: () => isNotEmpty,
+    );
+
+    blocTest(
+      'OnRequestScheduleData event state.',
+      build: () =>
+          AiringScheduleBloc(mediaInformationRepository, userDataRepository),
+      act: (bloc) => bloc.add(OnRequestScheduleData(1)),
       expect: () => isNotEmpty,
     );
   });
