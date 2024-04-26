@@ -7956,6 +7956,299 @@ class FavoriteInfoTableCompanion extends UpdateCompanion<FavoriteInfoEntity> {
   }
 }
 
+class $EpisodeTableTable extends EpisodeTable
+    with TableInfo<$EpisodeTableTable, EpisodeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EpisodeTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'episode_id', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _animeIdMeta =
+      const VerificationMeta('animeId');
+  @override
+  late final GeneratedColumn<String> animeId = GeneratedColumn<String>(
+      'episode_anime_cross_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'episode_title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _urlMeta = const VerificationMeta('url');
+  @override
+  late final GeneratedColumn<String> url = GeneratedColumn<String>(
+      'episode_url', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _episodeNumMeta =
+      const VerificationMeta('episodeNum');
+  @override
+  late final GeneratedColumn<int> episodeNum = GeneratedColumn<int>(
+      'episode_number', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, animeId, title, url, episodeNum];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'episode_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<EpisodeEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('episode_id')) {
+      context.handle(
+          _idMeta, id.isAcceptableOrUnknown(data['episode_id']!, _idMeta));
+    }
+    if (data.containsKey('episode_anime_cross_id')) {
+      context.handle(
+          _animeIdMeta,
+          animeId.isAcceptableOrUnknown(
+              data['episode_anime_cross_id']!, _animeIdMeta));
+    } else if (isInserting) {
+      context.missing(_animeIdMeta);
+    }
+    if (data.containsKey('episode_title')) {
+      context.handle(_titleMeta,
+          title.isAcceptableOrUnknown(data['episode_title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('episode_url')) {
+      context.handle(
+          _urlMeta, url.isAcceptableOrUnknown(data['episode_url']!, _urlMeta));
+    } else if (isInserting) {
+      context.missing(_urlMeta);
+    }
+    if (data.containsKey('episode_number')) {
+      context.handle(
+          _episodeNumMeta,
+          episodeNum.isAcceptableOrUnknown(
+              data['episode_number']!, _episodeNumMeta));
+    } else if (isInserting) {
+      context.missing(_episodeNumMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EpisodeEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EpisodeEntity(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}episode_id']),
+      animeId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}episode_anime_cross_id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}episode_title'])!,
+      url: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}episode_url'])!,
+      episodeNum: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}episode_number'])!,
+    );
+  }
+
+  @override
+  $EpisodeTableTable createAlias(String alias) {
+    return $EpisodeTableTable(attachedDatabase, alias);
+  }
+}
+
+class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
+  final int? id;
+  final String animeId;
+  final String title;
+  final String url;
+  final int episodeNum;
+  const EpisodeEntity(
+      {this.id,
+      required this.animeId,
+      required this.title,
+      required this.url,
+      required this.episodeNum});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['episode_id'] = Variable<int>(id);
+    }
+    map['episode_anime_cross_id'] = Variable<String>(animeId);
+    map['episode_title'] = Variable<String>(title);
+    map['episode_url'] = Variable<String>(url);
+    map['episode_number'] = Variable<int>(episodeNum);
+    return map;
+  }
+
+  EpisodeTableCompanion toCompanion(bool nullToAbsent) {
+    return EpisodeTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      animeId: Value(animeId),
+      title: Value(title),
+      url: Value(url),
+      episodeNum: Value(episodeNum),
+    );
+  }
+
+  factory EpisodeEntity.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EpisodeEntity(
+      id: serializer.fromJson<int?>(json['id']),
+      animeId: serializer.fromJson<String>(json['animeId']),
+      title: serializer.fromJson<String>(json['title']),
+      url: serializer.fromJson<String>(json['url']),
+      episodeNum: serializer.fromJson<int>(json['episodeNum']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'animeId': serializer.toJson<String>(animeId),
+      'title': serializer.toJson<String>(title),
+      'url': serializer.toJson<String>(url),
+      'episodeNum': serializer.toJson<int>(episodeNum),
+    };
+  }
+
+  EpisodeEntity copyWith(
+          {Value<int?> id = const Value.absent(),
+          String? animeId,
+          String? title,
+          String? url,
+          int? episodeNum}) =>
+      EpisodeEntity(
+        id: id.present ? id.value : this.id,
+        animeId: animeId ?? this.animeId,
+        title: title ?? this.title,
+        url: url ?? this.url,
+        episodeNum: episodeNum ?? this.episodeNum,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('EpisodeEntity(')
+          ..write('id: $id, ')
+          ..write('animeId: $animeId, ')
+          ..write('title: $title, ')
+          ..write('url: $url, ')
+          ..write('episodeNum: $episodeNum')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, animeId, title, url, episodeNum);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EpisodeEntity &&
+          other.id == this.id &&
+          other.animeId == this.animeId &&
+          other.title == this.title &&
+          other.url == this.url &&
+          other.episodeNum == this.episodeNum);
+}
+
+class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
+  final Value<int?> id;
+  final Value<String> animeId;
+  final Value<String> title;
+  final Value<String> url;
+  final Value<int> episodeNum;
+  const EpisodeTableCompanion({
+    this.id = const Value.absent(),
+    this.animeId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.url = const Value.absent(),
+    this.episodeNum = const Value.absent(),
+  });
+  EpisodeTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String animeId,
+    required String title,
+    required String url,
+    required int episodeNum,
+  })  : animeId = Value(animeId),
+        title = Value(title),
+        url = Value(url),
+        episodeNum = Value(episodeNum);
+  static Insertable<EpisodeEntity> custom({
+    Expression<int>? id,
+    Expression<String>? animeId,
+    Expression<String>? title,
+    Expression<String>? url,
+    Expression<int>? episodeNum,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'episode_id': id,
+      if (animeId != null) 'episode_anime_cross_id': animeId,
+      if (title != null) 'episode_title': title,
+      if (url != null) 'episode_url': url,
+      if (episodeNum != null) 'episode_number': episodeNum,
+    });
+  }
+
+  EpisodeTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<String>? animeId,
+      Value<String>? title,
+      Value<String>? url,
+      Value<int>? episodeNum}) {
+    return EpisodeTableCompanion(
+      id: id ?? this.id,
+      animeId: animeId ?? this.animeId,
+      title: title ?? this.title,
+      url: url ?? this.url,
+      episodeNum: episodeNum ?? this.episodeNum,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['episode_id'] = Variable<int>(id.value);
+    }
+    if (animeId.present) {
+      map['episode_anime_cross_id'] = Variable<String>(animeId.value);
+    }
+    if (title.present) {
+      map['episode_title'] = Variable<String>(title.value);
+    }
+    if (url.present) {
+      map['episode_url'] = Variable<String>(url.value);
+    }
+    if (episodeNum.present) {
+      map['episode_number'] = Variable<int>(episodeNum.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EpisodeTableCompanion(')
+          ..write('id: $id, ')
+          ..write('animeId: $animeId, ')
+          ..write('title: $title, ')
+          ..write('url: $url, ')
+          ..write('episodeNum: $episodeNum')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AniflowDatabase extends GeneratedDatabase {
   _$AniflowDatabase(QueryExecutor e) : super(e);
   late final $UserTableTable userTable = $UserTableTable(this);
@@ -7992,6 +8285,7 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
       $CategoryMediaPagingCrossRefTableTable(this);
   late final $FavoriteInfoTableTable favoriteInfoTable =
       $FavoriteInfoTableTable(this);
+  late final $EpisodeTableTable episodeTable = $EpisodeTableTable(this);
   late final UserDao userDao = UserDao(this as AniflowDatabase);
   late final StudioDao studioDao = StudioDao(this as AniflowDatabase);
   late final StaffDao staffDao = StaffDao(this as AniflowDatabase);
@@ -8002,6 +8296,7 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
   late final MediaListDao mediaListDao = MediaListDao(this as AniflowDatabase);
   late final MediaDao mediaDao = MediaDao(this as AniflowDatabase);
   late final FavoriteDao favoriteDao = FavoriteDao(this as AniflowDatabase);
+  late final EpisodeDao episodeDao = EpisodeDao(this as AniflowDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8024,6 +8319,7 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
         mediaStaffPagingCrossRefTable,
         mediaExternalLinkTable,
         categoryMediaPagingCrossRefTable,
-        favoriteInfoTable
+        favoriteInfoTable,
+        episodeTable
       ];
 }

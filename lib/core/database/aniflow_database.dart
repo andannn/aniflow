@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
@@ -17,6 +18,7 @@ import 'package:aniflow/core/database/tables/category_media_paging_cross_referen
 import 'package:aniflow/core/database/tables/character_media_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/character_voice_actor_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/episode_table.dart';
 import 'package:aniflow/core/database/tables/favorite_info_table.dart';
 import 'package:aniflow/core/database/tables/media_character_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/media_external_link_table.dart';
@@ -57,6 +59,7 @@ part 'aniflow_database.g.dart';
     MediaExternalLinkTable,
     CategoryMediaPagingCrossRefTable,
     FavoriteInfoTable,
+    EpisodeTable,
   ],
   daos: [
     UserDao,
@@ -68,6 +71,7 @@ part 'aniflow_database.g.dart';
     MediaListDao,
     MediaDao,
     FavoriteDao,
+    EpisodeDao,
   ],
 )
 class AniflowDatabase extends _$AniflowDatabase {
