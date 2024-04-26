@@ -190,6 +190,7 @@ extension GetItInjectableX on _i1.GetIt {
         _i27.FavoriteStaffPagingBloc(
           userId,
           gh<_i26.FavoriteRepository>(),
+          gh<_i17.UserDataRepository>(),
           perPageCount,
         ));
     gh.lazySingleton<_i28.MediaInformationRepository>(
@@ -249,6 +250,7 @@ extension GetItInjectableX on _i1.GetIt {
         _i35.StaffPageBloc(
           animeId,
           gh<_i28.MediaInformationRepository>(),
+          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i36.StudioContentsPagingBloc, String, dynamic>((
       studioId,
@@ -355,7 +357,6 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i28.MediaInformationRepository>(),
           gh<_i29.MediaListRepository>(),
           gh<_i8.HiAnimationRepository>(),
-          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i52.DetailStaffBloc, String, dynamic>((
       staffId,
@@ -448,6 +449,7 @@ extension GetItInjectableX on _i1.GetIt {
     ) =>
         _i60.StatsBloc(
           gh<_i38.UserStatisticsRepository>(),
+          gh<_i17.UserDataRepository>(),
           userId,
         ));
     gh.factoryParam<_i61.UserActivityPagingBloc, String, int>((
@@ -457,6 +459,7 @@ extension GetItInjectableX on _i1.GetIt {
         _i61.UserActivityPagingBloc(
           userId,
           gh<_i42.ActivityRepository>(),
+          gh<_i17.UserDataRepository>(),
           perPageCount,
         ));
     gh.factory<_i62.ActivityBloc>(
@@ -468,6 +471,7 @@ extension GetItInjectableX on _i1.GetIt {
     ) =>
         _i63.ActivityPagingBloc(
           gh<_i42.ActivityRepository>(),
+          gh<_i17.UserDataRepository>(),
           userType,
           filterType,
         ));

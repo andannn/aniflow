@@ -1,4 +1,5 @@
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
@@ -13,9 +14,11 @@ class ActivityItem extends StatelessWidget {
       super.key,
       this.onMediaClick,
       this.onUserIconClick,
-      this.onActivityClick});
+      this.onActivityClick,
+      required this.userTitleLanguage});
 
   final ActivityModel model;
+  final UserTitleLanguage userTitleLanguage;
   final Function(String activityId)? onActivityClick;
   final Function(String mediaId)? onMediaClick;
   final Function(String userId)? onUserIconClick;
@@ -101,6 +104,7 @@ class ActivityItem extends StatelessWidget {
                               .copyWith(color: colorScheme.onSurfaceVariant),
                           children: activity.createTextSpanList(
                             context,
+                            userTitleLanguage,
                             onMediaClick: () {
                               onMediaClick?.call(activity.media!.id);
                             },

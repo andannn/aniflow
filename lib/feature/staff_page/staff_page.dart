@@ -1,6 +1,6 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
@@ -58,15 +58,18 @@ class _StaffListPageContent extends StatelessWidget {
         ),
         body: PagingContent<StaffAndRoleModel, StaffPageBloc>(
           pagingState: pagingState,
-          onBuildItem: (context, model) => _buildListItems(context, model),
+          onBuildItem: (context, model) => _buildListItems(
+            context,
+            model,
+            context.read<StaffPageBloc>().userStaffNameLanguage,
+          ),
         ),
       );
     });
   }
 
-  Widget _buildListItems(BuildContext context, StaffAndRoleModel model) {
-    final language =
-        getIt.get<UserDataRepository>().userData.userStaffNameLanguage;
+  Widget _buildListItems(BuildContext context, StaffAndRoleModel model,
+      UserStaffNameLanguage language) {
     return SizedBox(
       height: 124,
       child: StaffItem(

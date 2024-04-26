@@ -45,6 +45,8 @@ class _ProfileActivityPageState extends State<ProfileActivityPage> {
   Widget _buildActivityItem(BuildContext context, ActivityModel model) {
     return ActivityItem(
       model: model,
+      userTitleLanguage:
+          context.read<UserActivityPagingBloc>().userTitleLanguage,
       onMediaClick: (id) {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
       },

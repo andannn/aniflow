@@ -1,19 +1,16 @@
 import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/data/user_statistics_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class ProfileStatsTabPage extends StatefulWidget {
   const ProfileStatsTabPage({super.key});
@@ -96,20 +93,23 @@ class _ProfileMediaListTabPageState extends State<ProfileStatsTabPage> {
       {required BuildContext context, required UserStatisticsModel model}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-      child: UserStatics(model: model),
+      child: UserStatics(
+        model: model,
+        userStaffLanguage: context.read<StatsBloc>().userStaffNameLanguage,
+      ),
     );
   }
 }
 
 class UserStatics extends StatelessWidget {
-  const UserStatics({super.key, required this.model});
+  const UserStatics(
+      {super.key, required this.model, required this.userStaffLanguage});
 
   final UserStatisticsModel model;
+  final UserStaffNameLanguage userStaffLanguage;
 
   @override
   Widget build(BuildContext context) {
-    final userStaffLanguage =
-        getIt.get<UserDataRepository>().userData.userStaffNameLanguage;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final statics = model;
@@ -171,7 +171,8 @@ class UserStatics extends StatelessWidget {
           const SizedBox(height: 20),
           SizedBox(
             height: 180,
-            child: _MediaListFutureBuilder(model.mediaIds),
+            child: _MediaListFutureBuilder(
+                model.mediaIds, context.read<StatsBloc>()),
           ),
           const SizedBox(height: 20),
         ],
@@ -181,9 +182,10 @@ class UserStatics extends StatelessWidget {
 }
 
 class _MediaListFutureBuilder extends StatefulWidget {
-  const _MediaListFutureBuilder(this.mediaIds);
+  const _MediaListFutureBuilder(this.mediaIds, this.bloc);
 
   final List<String> mediaIds;
+  final StatsBloc bloc;
 
   @override
   State<_MediaListFutureBuilder> createState() =>
@@ -192,19 +194,13 @@ class _MediaListFutureBuilder extends StatefulWidget {
 
 class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
     with AutomaticKeepAliveClientMixin {
-  final userTitleLanguage =
-      getIt.get<UserDataRepository>().userData.userTitleLanguage;
-
-  final UserStatisticsRepository repository =
-      GetIt.instance.get<UserStatisticsRepository>();
-
   late final Future<LoadResult<List<MediaModel>>> future;
 
   @override
   void initState() {
     super.initState();
 
-    future = repository.getMediasById(ids: widget.mediaIds);
+    future = widget.bloc.getMediasById(ids: widget.mediaIds);
   }
 
   @override

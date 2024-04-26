@@ -2,6 +2,7 @@ import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
@@ -185,16 +186,21 @@ class ActivityPageContent extends StatelessWidget {
             .add(OnLoadingStateChanged(isLoading: isLoading));
 
         return PagingContent<ActivityModel, ActivityPagingBloc>(
-          onBuildItem: _buildActivityItem,
+          onBuildItem: (context, model) {
+            return _buildActivityItem(context, model,
+                context.read<ActivityPagingBloc>().userTitleLanguage);
+          },
           pagingState: state,
         );
       },
     );
   }
 
-  Widget _buildActivityItem(BuildContext context, ActivityModel model) {
+  Widget _buildActivityItem(BuildContext context, ActivityModel model,
+      UserTitleLanguage userTitleLanguage) {
     return ActivityItem(
       model: model,
+      userTitleLanguage: userTitleLanguage,
       onMediaClick: (id) {
         AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
       },

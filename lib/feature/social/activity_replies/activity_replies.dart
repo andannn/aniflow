@@ -1,6 +1,7 @@
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
@@ -78,6 +79,10 @@ class _ActivityRepliesPageContent extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
                   child: ActivityItem(
                     model: activityModel,
+                    userTitleLanguage: getIt
+                        .get<UserDataRepository>()
+                        .userData
+                        .userTitleLanguage,
                     onBuildActivityStatusWidget: (activityId) =>
                         ActivityStatusBlocProvider(
                       key: ValueKey('activity_status_$activityId'),

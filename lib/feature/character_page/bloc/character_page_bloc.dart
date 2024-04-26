@@ -17,11 +17,11 @@ class OnStaffLanguageChanged extends CharacterPageEvent {
 @injectable
 class CharacterPageBloc extends Bloc<CharacterPageEvent, CharacterPageState> {
   CharacterPageBloc(
-    UserDataRepository preferences,
+    UserDataRepository userDataRepository,
   ) : super(
           CharacterPageState(
               userStaffNameLanguage:
-                  preferences.userData.userStaffNameLanguage),
+                  userDataRepository.userData.userStaffNameLanguage),
         ) {
     on<OnStaffLanguageChanged>(_onStaffLanguageChanged);
   }

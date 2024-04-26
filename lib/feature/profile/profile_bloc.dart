@@ -1,3 +1,5 @@
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -79,6 +81,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
   final String? _userId;
   final UserInfoRepository _userInfoRepository;
   final UserDataRepository _userDataRepository;
+
+  UserTitleLanguage get userTitleLanguage =>
+      _userDataRepository.userData.userTitleLanguage;
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      _userDataRepository.userData.userStaffNameLanguage;
 
   void _init() async {
     final userId =
