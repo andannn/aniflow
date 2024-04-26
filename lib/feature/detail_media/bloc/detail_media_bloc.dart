@@ -114,15 +114,15 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     @factoryParam this.mediaId,
     this._authRepository,
     this._favoriteRepository,
-    this._preferences,
+    this._userDataRepository,
     this._mediaRepository,
     this._mediaListRepository,
     this._hiAnimationRepository,
-    UserDataRepository preferences,
   ) : super(DetailMediaUiState(
-          userTitleLanguage: preferences.userData.userTitleLanguage,
-          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
-          scoreFormat: preferences.userData.scoreFormat,
+          userTitleLanguage: _userDataRepository.userData.userTitleLanguage,
+          userStaffNameLanguage:
+          _userDataRepository.userData.userStaffNameLanguage,
+          scoreFormat: _userDataRepository.userData.scoreFormat,
         )) {
     on<_OnDetailAnimeModelChangedEvent>(
       (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
@@ -157,7 +157,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
   final HiAnimationRepository _hiAnimationRepository;
-  final UserDataRepository _preferences;
+  final UserDataRepository _userDataRepository;
 
   HiAnimationSource? _hiAnimationSource;
 
@@ -239,7 +239,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: _preferences.userData.scoreFormat,
+        format: _userDataRepository.userData.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);

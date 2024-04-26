@@ -357,7 +357,6 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i28.MediaInformationRepository>(),
           gh<_i29.MediaListRepository>(),
           gh<_i8.HiAnimationRepository>(),
-          gh<_i17.UserDataRepository>(),
         ));
     gh.factoryParam<_i52.DetailStaffBloc, String, dynamic>((
       staffId,
