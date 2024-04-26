@@ -298,7 +298,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
         source.animeId,
         source.keywords,
-        source.episode,
+        source.episode.toString(),
         _findPlaySourceCancelToken,
       );
 

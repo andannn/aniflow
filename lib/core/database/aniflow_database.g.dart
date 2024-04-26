@@ -7990,9 +7990,9 @@ class $EpisodeTableTable extends EpisodeTable
   static const VerificationMeta _episodeNumMeta =
       const VerificationMeta('episodeNum');
   @override
-  late final GeneratedColumn<int> episodeNum = GeneratedColumn<int>(
+  late final GeneratedColumn<String> episodeNum = GeneratedColumn<String>(
       'episode_number', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, animeId, title, url, episodeNum];
   @override
@@ -8055,7 +8055,7 @@ class $EpisodeTableTable extends EpisodeTable
       url: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}episode_url'])!,
       episodeNum: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}episode_number'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}episode_number'])!,
     );
   }
 
@@ -8070,7 +8070,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
   final String animeId;
   final String title;
   final String url;
-  final int episodeNum;
+  final String episodeNum;
   const EpisodeEntity(
       {this.id,
       required this.animeId,
@@ -8086,7 +8086,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     map['episode_anime_cross_id'] = Variable<String>(animeId);
     map['episode_title'] = Variable<String>(title);
     map['episode_url'] = Variable<String>(url);
-    map['episode_number'] = Variable<int>(episodeNum);
+    map['episode_number'] = Variable<String>(episodeNum);
     return map;
   }
 
@@ -8108,7 +8108,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       animeId: serializer.fromJson<String>(json['animeId']),
       title: serializer.fromJson<String>(json['title']),
       url: serializer.fromJson<String>(json['url']),
-      episodeNum: serializer.fromJson<int>(json['episodeNum']),
+      episodeNum: serializer.fromJson<String>(json['episodeNum']),
     );
   }
   @override
@@ -8119,7 +8119,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       'animeId': serializer.toJson<String>(animeId),
       'title': serializer.toJson<String>(title),
       'url': serializer.toJson<String>(url),
-      'episodeNum': serializer.toJson<int>(episodeNum),
+      'episodeNum': serializer.toJson<String>(episodeNum),
     };
   }
 
@@ -8128,7 +8128,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
           String? animeId,
           String? title,
           String? url,
-          int? episodeNum}) =>
+          String? episodeNum}) =>
       EpisodeEntity(
         id: id.present ? id.value : this.id,
         animeId: animeId ?? this.animeId,
@@ -8166,7 +8166,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
   final Value<String> animeId;
   final Value<String> title;
   final Value<String> url;
-  final Value<int> episodeNum;
+  final Value<String> episodeNum;
   const EpisodeTableCompanion({
     this.id = const Value.absent(),
     this.animeId = const Value.absent(),
@@ -8179,7 +8179,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     required String animeId,
     required String title,
     required String url,
-    required int episodeNum,
+    required String episodeNum,
   })  : animeId = Value(animeId),
         title = Value(title),
         url = Value(url),
@@ -8189,7 +8189,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     Expression<String>? animeId,
     Expression<String>? title,
     Expression<String>? url,
-    Expression<int>? episodeNum,
+    Expression<String>? episodeNum,
   }) {
     return RawValuesInsertable({
       if (id != null) 'episode_id': id,
@@ -8205,7 +8205,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
       Value<String>? animeId,
       Value<String>? title,
       Value<String>? url,
-      Value<int>? episodeNum}) {
+      Value<String>? episodeNum}) {
     return EpisodeTableCompanion(
       id: id ?? this.id,
       animeId: animeId ?? this.animeId,
@@ -8231,7 +8231,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
       map['episode_url'] = Variable<String>(url.value);
     }
     if (episodeNum.present) {
-      map['episode_number'] = Variable<int>(episodeNum.value);
+      map['episode_number'] = Variable<String>(episodeNum.value);
     }
     return map;
   }

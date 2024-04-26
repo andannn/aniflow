@@ -9,7 +9,7 @@ class EpisodeDao extends DatabaseAccessor<AniflowDatabase>
     with _$EpisodeDaoMixin {
   EpisodeDao(super.db);
 
-  Future<EpisodeEntity?> findEpisode(String animeId, int episode) async {
+  Future<EpisodeEntity?> findEpisode(String animeId, String episode) async {
     return (select(episodeTable)
           ..where((tbl) =>
               tbl.animeId.equals(animeId) & tbl.episodeNum.equals(episode)))

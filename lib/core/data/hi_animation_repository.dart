@@ -33,7 +33,7 @@ class HiAnimationRepository {
   final EpisodeDao episodeDao;
 
   Future<LoadResult<Episode>> searchPlaySourceByKeyword(
-      String animeId, List<String> keywords, int episode,
+      String animeId, List<String> keywords, String episode,
       [CancelToken? cancelToken]) async {
     final episodeOrNull = await episodeDao.findEpisode(animeId, episode);
 
@@ -81,7 +81,7 @@ class HiAnimationRepository {
           animeId: animeId,
           title: title,
           url: url,
-          episodeNum: int.parse(epNumber),
+          episodeNum: epNumber,
         ),
       );
       return LoadSuccess(
