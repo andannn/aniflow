@@ -70,7 +70,7 @@ class AuthRepository {
         final userDto = await authDataSource.getAuthedUserDataDto();
         final userEntity = userDto.toEntity();
         await userDataDao.upsertUser(userEntity);
-        await preferences.setAuthToken(userEntity.id);
+        await preferences.setAuthedUserId(userEntity.id);
         await preferences.setAniListSettings(
           AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
         );
