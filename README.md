@@ -26,7 +26,8 @@ flutter run
 
 ## Stack
  - Network: [Dio](https://pub.dev/packages/dio)
- - Database: [Sqflite](https://pub.dev/packages/sqflite)
- - State Managment: [Bloc](https://pub.dev/packages/bloc)
+ - Database: [Drift](https://drift.simonbinder.eu/)
+   - $ dart run drift_dev schema dump lib/core/database/aniflow_database.dart lib/core/database/drift_schemas/
+ - State Management: [Bloc](https://pub.dev/packages/bloc)
  - Dynamic theme: [dynamic_color](https://pub.dev/packages/dynamic_color)
  - Architecture: MVVM
