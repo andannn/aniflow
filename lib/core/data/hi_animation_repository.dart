@@ -1,4 +1,6 @@
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/network/hianime_data_source.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
@@ -25,13 +27,26 @@ class Episode extends Equatable {
 
 @Injectable()
 class HiAnimationRepository {
-  HiAnimationRepository(this.datasource);
+  HiAnimationRepository(this.datasource, this.episodeDao);
 
   final HiAnimationDataSource datasource;
+  final EpisodeDao episodeDao;
 
   Future<LoadResult<Episode>> searchPlaySourceByKeyword(
-      List<String> keywords, String episode,
+      String animeId, List<String> keywords, String episode,
       [CancelToken? cancelToken]) async {
+    final episodeOrNull = await episodeDao.findEpisode(animeId, episode);
+
+    if (episodeOrNull != null) {
+      return LoadSuccess(
+        data: Episode(
+          episodeOrNull.url,
+          episodeOrNull.title,
+          episodeOrNull.episodeNum.toString(),
+        ),
+      );
+    }
+
     try {
       final animeHref =
           await datasource.searchAnimationByKeyword(keywords, cancelToken);
@@ -59,7 +74,16 @@ class HiAnimationRepository {
       }
 
       final (episodeId, title, epNumber) = epOrNull;
+      final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
 
+      await episodeDao.upsertEpisode(
+        EpisodeEntity(
+          animeId: animeId,
+          title: title,
+          url: url,
+          episodeNum: epNumber,
+        ),
+      );
       return LoadSuccess(
           data: Episode(
               '$hiAnimationUrl$animeHref?ep=$episodeId', title, epNumber));

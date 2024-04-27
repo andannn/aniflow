@@ -2,6 +2,7 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
@@ -33,4 +34,6 @@ abstract class DIDataBaseModule {
   MediaDao geMediaDao(AniflowDatabase db) => db.mediaDao;
 
   FavoriteDao geFavoriteDao(AniflowDatabase db) => db.favoriteDao;
+
+  EpisodeDao geEpisodeDao(AniflowDatabase db) => db.episodeDao;
 }

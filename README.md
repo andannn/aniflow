@@ -28,6 +28,8 @@ flutter run
  - Network: [Dio](https://pub.dev/packages/dio)
  - Database: [Drift](https://drift.simonbinder.eu/)
    - $ dart run drift_dev schema dump lib/core/database/aniflow_database.dart lib/core/database/drift_schemas/
+   - $ dart run drift_dev schema steps lib/core/database/drift_schemas/ lib/core/database/drift_schemas/schema_versions.dart
+   - $ dart run drift_dev schema generate lib/core/database/drift_schemas/ test/core/database/generated_migrations/
  - State Management: [Bloc](https://pub.dev/packages/bloc)
  - Dynamic theme: [dynamic_color](https://pub.dev/packages/dynamic_color)
  - Architecture: MVVM

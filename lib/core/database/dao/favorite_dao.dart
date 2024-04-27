@@ -25,7 +25,7 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase>
       batch.insertAllOnConflictUpdate(
         favoriteInfoTable,
         ids.map(
-          (id) => FavoriteInfoTableCompanion.insert(
+          (id) => FavoriteInfoTableCompanion. insert(
             favoriteType: type.contentValues,
             infoId: id,
             userId: userId,

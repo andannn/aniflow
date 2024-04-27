@@ -76,13 +76,14 @@ class _OnFindEpisodeError extends DetailAnimeEvent {
 class _OnStartFindSource extends DetailAnimeEvent {}
 
 class HiAnimationSource extends Equatable {
+  final String animeId;
   final int episode;
   final List<String> keywords;
 
-  const HiAnimationSource(this.episode, this.keywords);
+  const HiAnimationSource(this.animeId, this.episode, this.keywords);
 
   @override
-  List<Object?> get props => [episode, ...keywords];
+  List<Object?> get props => [animeId, episode, ...keywords];
 }
 
 sealed class LoadingState<T> {
@@ -121,7 +122,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   ) : super(DetailMediaUiState(
           userTitleLanguage: _userDataRepository.userData.userTitleLanguage,
           userStaffNameLanguage:
-          _userDataRepository.userData.userStaffNameLanguage,
+              _userDataRepository.userData.userStaffNameLanguage,
           scoreFormat: _userDataRepository.userData.scoreFormat,
         )) {
     on<_OnDetailAnimeModelChangedEvent>(
@@ -202,9 +203,11 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       final hasNextReleasingEpisode =
           change.nextState.mediaListItem?.hasNextReleasingEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
+      final animeId = change.nextState.detailAnimeModel!.id;
       if (nextProgress != null) {
         _updateHiAnimationSource(
           HiAnimationSource(
+            animeId,
             nextProgress,
             [title.english, title.romaji, title.native]
                 .where((e) => e.isNotEmpty)
@@ -293,6 +296,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       _findPlaySourceCancelToken = CancelToken();
       add(_OnStartFindSource());
       final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
+        source.animeId,
         source.keywords,
         source.episode.toString(),
         _findPlaySourceCancelToken,

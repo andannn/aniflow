@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
+import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
+import 'package:aniflow/core/database/drift_schemas/schema_versions.dart';
 import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
 import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/activity_table.dart';
@@ -17,6 +19,7 @@ import 'package:aniflow/core/database/tables/category_media_paging_cross_referen
 import 'package:aniflow/core/database/tables/character_media_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/character_voice_actor_cross_reference_table.dart';
+import 'package:aniflow/core/database/tables/episode_table.dart';
 import 'package:aniflow/core/database/tables/favorite_info_table.dart';
 import 'package:aniflow/core/database/tables/media_character_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/media_external_link_table.dart';
@@ -57,6 +60,7 @@ part 'aniflow_database.g.dart';
     MediaExternalLinkTable,
     CategoryMediaPagingCrossRefTable,
     FavoriteInfoTable,
+    EpisodeTable,
   ],
   daos: [
     UserDao,
@@ -68,6 +72,7 @@ part 'aniflow_database.g.dart';
     MediaListDao,
     MediaDao,
     FavoriteDao,
+    EpisodeDao,
   ],
 )
 class AniflowDatabase extends _$AniflowDatabase {
@@ -76,7 +81,21 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase.test(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.createTable(schema.episodeTable);
+        },
+      ),
+    );
+  }
 }
 
 LazyDatabase _openConnection() {
