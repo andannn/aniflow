@@ -10,6 +10,7 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
+import 'package:aniflow/core/database/drift_schemas/schema_versions.dart';
 import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
 import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/activity_table.dart';
@@ -80,7 +81,21 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase.test(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.createTable(schema.episodeTable);
+        },
+      ),
+    );
+  }
 }
 
 LazyDatabase _openConnection() {
