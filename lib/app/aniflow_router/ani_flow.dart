@@ -46,6 +46,8 @@ class AniFlowAppScaffold extends StatefulWidget {
 
 class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
   late AfRouterDelegate afRouterDelegate;
+  ChildBackButtonDispatcher childBackButtonDispatcher =
+      ChildBackButtonDispatcher(rootBackButtonDispatcher);
 
   var currentTopLevel = TopLevelNavigation.discover;
 
@@ -77,6 +79,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
   @override
   void initState() {
     super.initState();
+    childBackButtonDispatcher.takePriority();
     afRouterDelegate = AfRouterDelegate();
 
     afRouterDelegate.addListener(() {
@@ -131,19 +134,21 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
           create: (context) => getIt.get<AuthBloc>(),
         ),
       ],
-      child: Scaffold(
-        body: Router(
-          routerDelegate: afRouterDelegate,
-          backButtonDispatcher: RootBackButtonDispatcher(),
-        ),
-        bottomNavigationBar: VerticalScaleSwitcher(
-          visible: !needHideNavigationBar,
-          child: _animeTrackerNavigationBar(
-            navigationList: _topLevelNavigationList,
-            selected: currentTopLevel,
-            onNavigateToDestination: (navigation) async {
-              afRouterDelegate.backStack.navigateToTopLevelPage(navigation);
-            },
+      child: PopScope(
+        child: Scaffold(
+          body: Router(
+            routerDelegate: afRouterDelegate,
+            backButtonDispatcher: childBackButtonDispatcher,
+          ),
+          bottomNavigationBar: VerticalScaleSwitcher(
+            visible: !needHideNavigationBar,
+            child: _animeTrackerNavigationBar(
+              navigationList: _topLevelNavigationList,
+              selected: currentTopLevel,
+              onNavigateToDestination: (navigation) async {
+                afRouterDelegate.backStack.navigateToTopLevelPage(navigation);
+              },
+            ),
           ),
         ),
       ),
