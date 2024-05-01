@@ -1,7 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
-import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
+import 'package:aniflow/app/routing/ani_flow_route_path.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
@@ -9,31 +8,16 @@ import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
 
-class AfRouterBackStack with ChangeNotifier {
+mixin AfRouterBackStackMixin
+    on ChangeNotifier, RouterDelegate<AniFlowRoutePath> {
   List<AniFlowRoutePath> get stack => _backStack;
 
-  List<AniFlowRoutePath> _backStack = [];
+  List<AniFlowRoutePath> _backStack = [const AniFlowHomePath()];
 
   /// get current path.
   AniFlowRoutePath get currentPath => _backStack.last;
 
-  /// get current top level.
-  TopLevelNavigation get currentTopLevelNavigation =>
-      _backStack.whereType<TopLevelRoutePath>().last.topLevel;
-
   bool get isTopRouteFullScreen => _backStack.lastOrNull?.isFullScreen ?? true;
-
-  void navigateToTopLevelPage(TopLevelNavigation navigation) {
-    if (navigation == TopLevelNavigation.discover) {
-      _backStack = [const DiscoverRoutePath()];
-    } else {
-      _backStack = [const DiscoverRoutePath(), navigation.toRoutePath()];
-    }
-
-    notifyListeners();
-
-    FirebaseAnalytics.instance.logAniFlowPathChangeEvent(navigation.toRoutePath());
-  }
 
   void navigateToAnimeList(MediaCategory category) {
     _pushAsSingleton(CategoryAnimeListRoutePath(category));
@@ -133,7 +117,8 @@ class AfRouterBackStack with ChangeNotifier {
     FirebaseAnalytics.instance.logAniFlowPathChangeEvent(path);
   }
 
-  void setNewRoutePath(AniFlowRoutePath path) {
-    _pushAsSingleton(path);
+  @override
+  Future<void> setNewRoutePath(AniFlowRoutePath configuration) async {
+    _pushAsSingleton(configuration);
   }
 }

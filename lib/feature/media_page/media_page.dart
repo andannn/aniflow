@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -82,7 +82,7 @@ class _MediaListPageContent extends StatelessWidget {
       title: model.title!.getTitle(userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(
+        RootRouterDelegate.of().navigateToDetailMedia(
               model.id,
             );
       },

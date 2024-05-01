@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
@@ -77,7 +77,7 @@ class _StaffListPageContent extends StatelessWidget {
         language: language,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onStaffClick: () {
-          AfRouterDelegate.of(context).backStack.navigateToDetailStaff(
+          RootRouterDelegate.of().navigateToDetailStaff(
                 model.staff.id,
               );
         },

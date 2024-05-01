@@ -1,5 +1,5 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
@@ -202,15 +202,13 @@ class ActivityPageContent extends StatelessWidget {
       model: model,
       userTitleLanguage: userTitleLanguage,
       onMediaClick: (id) {
-        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
+        RootRouterDelegate.of().navigateToDetailMedia(id);
       },
       onUserIconClick: (id) {
-        AfRouterDelegate.of(context).backStack.navigateToUserProfile(id);
+        RootRouterDelegate.of().navigateToUserProfile(id);
       },
       onActivityClick: (id) {
-        AfRouterDelegate.of(context)
-            .backStack
-            .navigateToActivityRepliesPage(id);
+        RootRouterDelegate.of().navigateToActivityRepliesPage(id);
       },
       onBuildActivityStatusWidget: (activityId) => ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),

@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -165,9 +165,7 @@ class _DetailCharacterContent extends StatelessWidget {
       title: model.title!.getTitle(userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(
-              model.id,
-            );
+        RootRouterDelegate.of().navigateToDetailMedia(model.id);
       },
     );
   }

@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
-import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
+import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
+import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
@@ -16,8 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-class AniFlowPage extends Page {
-  const AniFlowPage({super.key});
+class AniFlowHomePage extends Page {
+  const AniFlowHomePage({super.key});
 
   @override
   Route createRoute(BuildContext context) {
@@ -50,8 +49,6 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
       ChildBackButtonDispatcher(rootBackButtonDispatcher);
 
   var currentTopLevel = TopLevelNavigation.discover;
-
-  bool get needHideNavigationBar => afRouterDelegate.isTopRouteFullScreen;
 
   late StreamSubscription _mediaTypeSub;
   late StreamSubscription _authSub;
@@ -134,22 +131,17 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> {
           create: (context) => getIt.get<AuthBloc>(),
         ),
       ],
-      child: PopScope(
-        child: Scaffold(
-          body: Router(
-            routerDelegate: afRouterDelegate,
-            backButtonDispatcher: childBackButtonDispatcher,
-          ),
-          bottomNavigationBar: VerticalScaleSwitcher(
-            visible: !needHideNavigationBar,
-            child: _animeTrackerNavigationBar(
-              navigationList: _topLevelNavigationList,
-              selected: currentTopLevel,
-              onNavigateToDestination: (navigation) async {
-                afRouterDelegate.backStack.navigateToTopLevelPage(navigation);
-              },
-            ),
-          ),
+      child: Scaffold(
+        body: Router(
+          routerDelegate: afRouterDelegate,
+          backButtonDispatcher: childBackButtonDispatcher,
+        ),
+        bottomNavigationBar: _animeTrackerNavigationBar(
+          navigationList: _topLevelNavigationList,
+          selected: currentTopLevel,
+          onNavigateToDestination: (navigation) async {
+            afRouterDelegate.navigateToTopLevelPage(navigation);
+          },
         ),
       ),
     );

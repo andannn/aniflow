@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
@@ -89,7 +89,7 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
       title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of(context).backStack.navigateToDetailStaff(model.id);
+        RootRouterDelegate.of().navigateToDetailStaff(model.id);
       },
     );
   }

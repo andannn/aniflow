@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
@@ -199,9 +199,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   context,
                   studios: model.studios,
                   onStudioClick: (id) {
-                    AfRouterDelegate.of(context)
-                        .backStack
-                        .navigateToDetailStudio(id);
+                    RootRouterDelegate.of().navigateToDetailStudio(id);
                   },
                 ),
               ),
@@ -359,10 +357,8 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AfRouterDelegate.of(context)
-                        .backStack
-                        .navigateToCharacterList(
-                            context.read<DetailMediaBloc>().mediaId);
+                    RootRouterDelegate.of().navigateToCharacterList(
+                        context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
                 ),
@@ -406,14 +402,12 @@ class _DetailAnimePageContent extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onCharacterTap: () {
             final characterId = model.characterModel.id;
-            AfRouterDelegate.of(context)
-                .backStack
-                .navigateToDetailCharacter(characterId);
+            RootRouterDelegate.of().navigateToDetailCharacter(characterId);
           },
           onVoiceActorTop: () {
             final id = model.voiceActorModel?.id;
             if (id != null) {
-              AfRouterDelegate.of(context).backStack.navigateToDetailStaff(id);
+              RootRouterDelegate.of().navigateToDetailStaff(id);
             }
           },
         ),
@@ -444,7 +438,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    AfRouterDelegate.of(context).backStack.navigateToStaffList(
+                    RootRouterDelegate.of().navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -494,9 +488,9 @@ class _DetailAnimePageContent extends StatelessWidget {
           language: language,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onStaffClick: () {
-            AfRouterDelegate.of(context).backStack.navigateToDetailStaff(
-                  model.staff.id,
-                );
+            RootRouterDelegate.of().navigateToDetailStaff(
+              model.staff.id,
+            );
           },
         ),
       ),
@@ -677,8 +671,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   return MediaRelationWidget(
                     model: relation,
                     onClick: () {
-                      AfRouterDelegate.of(context)
-                          .backStack
+                      RootRouterDelegate.of()
                           .navigateToDetailMedia(relation.media.id);
                     },
                   );

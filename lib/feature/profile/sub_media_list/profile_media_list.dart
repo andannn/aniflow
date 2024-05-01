@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -138,9 +138,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of(context)
-                    .backStack
-                    .navigateToMediaListPage(type, userId);
+                RootRouterDelegate.of().navigateToMediaListPage(type, userId);
               },
             ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
@@ -175,9 +173,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
           context.read<ProfileBloc>().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        AfRouterDelegate.of(context)
-            .backStack
-            .navigateToDetailMedia(model.animeModel!.id);
+        RootRouterDelegate.of().navigateToDetailMedia(model.animeModel!.id);
       },
     );
   }

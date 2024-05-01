@@ -1,5 +1,5 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
@@ -152,14 +152,13 @@ class _CharacterListPagingContent extends StatelessWidget {
         language: language,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onCharacterTap: () {
-          AfRouterDelegate.of(context)
-              .backStack
+          RootRouterDelegate.of()
               .navigateToDetailCharacter(model.characterModel.id);
         },
         onVoiceActorTop: () {
           final id = model.voiceActorModel?.id;
           if (id != null) {
-            AfRouterDelegate.of(context).backStack.navigateToDetailStaff(id);
+            RootRouterDelegate.of().navigateToDetailStaff(id);
           }
         },
       ),

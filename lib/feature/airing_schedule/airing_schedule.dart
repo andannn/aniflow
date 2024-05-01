@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
@@ -229,8 +229,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                       model: schedule,
                       userTitleLanguage: userTitleLanguage,
                       onClick: () {
-                        AfRouterDelegate.of(context)
-                            .backStack
+                        RootRouterDelegate.of()
                             .navigateToDetailMedia(schedule.animeModel.id);
                       },
                     ),

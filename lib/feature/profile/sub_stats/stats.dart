@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -232,8 +232,7 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
                       clipBehavior: Clip.antiAlias,
                       child: InkWell(
                         onTap: () {
-                          AfRouterDelegate.of(context)
-                              .backStack
+                          RootRouterDelegate.of()
                               .navigateToDetailMedia(model.id);
                         },
                         child: AspectRatio(

@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -94,9 +94,8 @@ class _DetailStudioContent extends StatelessWidget {
               for (final widget in _buildYearAndMediaContentWidgets(
                 context,
                 mediaGroupList: pagingState.data.mediaGroupList,
-                onMediaClick: (String id) => AfRouterDelegate.of(context)
-                    .backStack
-                    .navigateToDetailMedia(id),
+                onMediaClick: (String id) =>
+                    RootRouterDelegate.of().navigateToDetailMedia(id),
               ))
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),

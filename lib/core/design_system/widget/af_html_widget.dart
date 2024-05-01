@@ -1,5 +1,5 @@
-import 'package:aniflow/app/root_router_delegate.dart';
-import 'package:aniflow/app/root_router_info_parser.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/widgets.dart';

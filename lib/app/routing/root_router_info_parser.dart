@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/ani_flow_route_path.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -19,7 +19,7 @@ class RootRouterInfoParser extends RouteInformationParser<AniFlowRoutePath> {
     }
 
     logger.d('$_tag Default route launched: DiscoverRoutePath');
-    return const DiscoverRoutePath();
+    return const AniFlowHomePath();
   }
 
   static AniFlowRoutePath? parseRoutePath(Uri uri) {
