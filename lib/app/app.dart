@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
-import 'package:aniflow/app/root_router_delegate.dart';
-import 'package:aniflow/app/root_router_info_parser.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
@@ -30,7 +30,7 @@ class AniFlowAppState extends State<AniFlowApp> {
   var key = UniqueKey();
   var setting = ThemeSetting.system;
   late StreamSubscription themeSub;
-  late RouteInformationProvider informationParser;
+  late RouteInformationProvider informationProvider;
   late RootRouterDelegate rootRouterDelegate;
 
   ThemeMode get themeMode => switch (setting) {
@@ -48,7 +48,7 @@ class AniFlowAppState extends State<AniFlowApp> {
       systemNavigationBarColor: Colors.transparent,
     ));
 
-    informationParser = PlatformRouteInformationProvider(
+    informationProvider = PlatformRouteInformationProvider(
       initialRouteInformation: RouteInformation(
         uri: Uri.parse(
             WidgetsBinding.instance.platformDispatcher.defaultRouteName),
@@ -129,9 +129,9 @@ class AniFlowAppState extends State<AniFlowApp> {
                 Locale('ja'),
               ],
               routerDelegate: rootRouterDelegate,
-              routeInformationProvider: informationParser,
+              routeInformationProvider: informationProvider,
               routeInformationParser: const RootRouterInfoParser(),
-              backButtonDispatcher: RootBackButtonDispatcher(),
+              backButtonDispatcher: rootRouterDelegate.backButtonDispatcher,
             );
           },
         );

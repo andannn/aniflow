@@ -1,4 +1,4 @@
-import 'package:aniflow/app/aniflow_router/top_level_navigation.dart';
+import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/anime_search/media_search.dart';
@@ -7,9 +7,7 @@ import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/detail_staff/detail_staff.dart';
 import 'package:aniflow/feature/detail_studio/detail_studio.dart';
-import 'package:aniflow/feature/discover/discover.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
-import 'package:aniflow/feature/media_track/media_track.dart';
 import 'package:aniflow/feature/notification/notification.dart';
 import 'package:aniflow/feature/profile/profile.dart';
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_anime_page.dart';
@@ -22,7 +20,6 @@ import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_
 import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
 import 'package:aniflow/feature/social/activity_replies/activity_replies.dart';
-import 'package:aniflow/feature/social/social.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -36,41 +33,12 @@ sealed class AniFlowRoutePath extends Equatable {
   List<Object?> get props => [];
 }
 
-abstract class TopLevelRoutePath extends AniFlowRoutePath {
-  final TopLevelNavigation topLevel;
 
-  const TopLevelRoutePath(this.topLevel);
-
-  @override
-  List<Object?> get props => [topLevel];
-}
-
-class DiscoverRoutePath extends TopLevelRoutePath {
-  const DiscoverRoutePath() : super(TopLevelNavigation.discover);
+class AniFlowHomePath extends AniFlowRoutePath {
+  const AniFlowHomePath() : super(isFullScreen: true);
 
   @override
-  String toString() => 'discover_page';
-}
-
-class TrackRoutePath extends TopLevelRoutePath {
-  const TrackRoutePath() : super(TopLevelNavigation.track);
-
-  @override
-  String toString() => 'track_page';
-}
-
-class SocialRoutePath extends TopLevelRoutePath {
-  const SocialRoutePath() : super(TopLevelNavigation.social);
-
-  @override
-  String toString() => 'social_page';
-}
-
-class ProfileRoutePath extends TopLevelRoutePath {
-  const ProfileRoutePath() : super(TopLevelNavigation.profile);
-
-  @override
-  String toString() => 'profile_page';
+  String toString() => 'home_page';
 }
 
 class SearchRoutePath extends AniFlowRoutePath {
@@ -305,8 +273,8 @@ class ActivityRepliesRoutePath extends AniFlowRoutePath {
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
-      case DiscoverRoutePath(topLevel: final _):
-        return DiscoverPage(key: ValueKey(toString()));
+      case AniFlowHomePath():
+        return AniFlowHomePage(key: ValueKey(toString()));
       case CategoryAnimeListRoutePath(category: final category):
         return MediaListPage(key: ValueKey(toString()), category: category);
       case MediaCharacterListRoutePath(id: final animeId):
@@ -315,12 +283,6 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return StaffListPage(key: ValueKey(toString()), animeId: animeId);
       case DetailMediaRoutePath(id: final animeId):
         return DetailAnimePage(key: ValueKey(toString()), animeId: animeId);
-      case TrackRoutePath(topLevel: final _):
-        return AnimeTrackPage(key: ValueKey(toString()));
-      case SocialRoutePath(topLevel: final _):
-        return SocialPage(key: ValueKey(toString()));
-      case ProfileRoutePath(topLevel: final _):
-        return ProfilePage(key: ValueKey(toString()));
       case UserProfileRoutePath(id: final id):
         return ProfilePage(
           key: ValueKey(toString()),

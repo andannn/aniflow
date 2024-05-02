@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
@@ -48,15 +48,13 @@ class _ProfileActivityPageState extends State<ProfileActivityPage> {
       userTitleLanguage:
           context.read<UserActivityPagingBloc>().userTitleLanguage,
       onMediaClick: (id) {
-        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
+        RootRouterDelegate.get().navigateToDetailMedia(id);
       },
       onUserIconClick: (id) {
-        AfRouterDelegate.of(context).backStack.navigateToUserProfile(id);
+        RootRouterDelegate.get().navigateToUserProfile(id);
       },
       onActivityClick: (id) {
-        AfRouterDelegate.of(context)
-            .backStack
-            .navigateToActivityRepliesPage(id);
+        RootRouterDelegate.get().navigateToActivityRepliesPage(id);
       },
       onBuildActivityStatusWidget: (activityId) => ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),

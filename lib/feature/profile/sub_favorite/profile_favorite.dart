@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -90,9 +90,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   return;
                 }
 
-                AfRouterDelegate.of(context)
-                    .backStack
-                    .navigateToFavoritePage(type, userId);
+                RootRouterDelegate.get().navigateToFavoritePage(type, userId);
               },
             ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
@@ -108,7 +106,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     final String coverImage;
     final String title;
     final String id;
-    final navigator = AfRouterDelegate.of(context).backStack;
+    final navigator = RootRouterDelegate.get();
     final VoidCallback onClick;
     switch (type) {
       case FavoriteType.anime:

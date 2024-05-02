@@ -185,8 +185,8 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
               (e) => CharacterVoiceActorCrossRefTableCompanion(
                 characterId: Value(e.characterEntity.id),
                 staffId: Value(e.voiceActorEntity!.id),
-                role: Value.absentIfNull(e.characterRole),
-                language: Value.absentIfNull(e.staffLanguage),
+                role: Value.ofNullable(e.characterRole),
+                language: Value.ofNullable(e.staffLanguage),
               ),
             ),
         mode: InsertMode.insertOrReplace,

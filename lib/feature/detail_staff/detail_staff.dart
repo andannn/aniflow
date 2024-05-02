@@ -1,5 +1,5 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
@@ -170,10 +170,10 @@ class _DetailStaffContent extends StatelessWidget {
     bloc.mediaSort = mediaSort;
 
     void onCharacterClick(String id) =>
-        AfRouterDelegate.of(context).backStack.navigateToDetailCharacter(id);
+        RootRouterDelegate.get().navigateToDetailCharacter(id);
 
     void onMediaClick(String id) =>
-        AfRouterDelegate.of(context).backStack.navigateToDetailMedia(id);
+        RootRouterDelegate.get().navigateToDetailMedia(id);
 
     List<Widget> buildItemListWidget() {
       if (mediaSort == MediaSort.newest || mediaSort == MediaSort.oldest) {

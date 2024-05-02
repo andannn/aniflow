@@ -1,18 +1,23 @@
-import 'package:aniflow/app/aniflow_router/ani_flow.dart';
-import 'package:aniflow/app/aniflow_router/ani_flow_route_path.dart';
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
+import 'package:aniflow/app/routing/af_router_back_stack.dart';
+import 'package:aniflow/app/routing/ani_flow_route_path.dart';
 import 'package:flutter/material.dart';
 
 class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<AniFlowRoutePath> {
+    with
+        ChangeNotifier,
+        PopNavigatorRouterDelegateMixin<AniFlowRoutePath>,
+        AfRouterBackStackMixin {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
+  final routeObserver = RouteObserver();
+  final backButtonDispatcher = RootBackButtonDispatcher();
+
   static BuildContext? _routerContext;
 
-  static RootRouterDelegate of() =>
+  static RootRouterDelegate get() =>
       Router.of(_routerContext!).routerDelegate as RootRouterDelegate;
 
   @override
@@ -20,8 +25,9 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     _routerContext = context;
     return Navigator(
       key: navigatorKey,
-      pages: const [AniFlowPage()],
+      pages: stack.map((path) => path.generatePage()).toList(),
       onPopPage: _onPopPage,
+      observers: [routeObserver],
     );
   }
 
@@ -31,12 +37,7 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
       return false;
     }
 
+    popBackStack();
     return true;
-  }
-
-  @override
-  Future<void> setNewRoutePath(configuration) async {
-    final afRouter = AfRouterDelegate.tryGet();
-    afRouter?.backStack.setNewRoutePath(configuration);
   }
 }

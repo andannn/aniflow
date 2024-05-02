@@ -1,5 +1,5 @@
-import 'package:aniflow/app/aniflow_router/ani_flow_router_delegate.dart';
 import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/design_system/widget/notification_item_widget.dart';
@@ -132,7 +132,7 @@ class _NotificationPagingContent extends StatelessWidget {
   }
 
   Widget _buildNotificationItem(BuildContext context, NotificationModel model) {
-    final navigator = AfRouterDelegate.of(context).backStack;
+    final navigator = RootRouterDelegate.get();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
       child: NotificationItem(
