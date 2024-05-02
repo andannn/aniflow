@@ -199,7 +199,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   context,
                   studios: model.studios,
                   onStudioClick: (id) {
-                    RootRouterDelegate.of().navigateToDetailStudio(id);
+                    RootRouterDelegate.get().navigateToDetailStudio(id);
                   },
                 ),
               ),
@@ -357,7 +357,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    RootRouterDelegate.of().navigateToCharacterList(
+                    RootRouterDelegate.get().navigateToCharacterList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -402,12 +402,12 @@ class _DetailAnimePageContent extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onCharacterTap: () {
             final characterId = model.characterModel.id;
-            RootRouterDelegate.of().navigateToDetailCharacter(characterId);
+            RootRouterDelegate.get().navigateToDetailCharacter(characterId);
           },
           onVoiceActorTop: () {
             final id = model.voiceActorModel?.id;
             if (id != null) {
-              RootRouterDelegate.of().navigateToDetailStaff(id);
+              RootRouterDelegate.get().navigateToDetailStaff(id);
             }
           },
         ),
@@ -438,7 +438,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                 const Expanded(flex: 1, child: SizedBox()),
                 TextButton(
                   onPressed: () {
-                    RootRouterDelegate.of().navigateToStaffList(
+                    RootRouterDelegate.get().navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
                   child: const Text('More'),
@@ -488,7 +488,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           language: language,
           textStyle: Theme.of(context).textTheme.bodyMedium,
           onStaffClick: () {
-            RootRouterDelegate.of().navigateToDetailStaff(
+            RootRouterDelegate.get().navigateToDetailStaff(
               model.staff.id,
             );
           },
@@ -671,7 +671,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                   return MediaRelationWidget(
                     model: relation,
                     onClick: () {
-                      RootRouterDelegate.of()
+                      RootRouterDelegate.get()
                           .navigateToDetailMedia(relation.media.id);
                     },
                   );

@@ -78,7 +78,7 @@ class _DroppedAnimePageContent extends StatelessWidget {
       title: model.animeModel!.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailMedia(model.animeModel!.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.animeModel!.id);
       },
     );
   }

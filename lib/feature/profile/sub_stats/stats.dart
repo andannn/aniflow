@@ -232,7 +232,7 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
                       clipBehavior: Clip.antiAlias,
                       child: InkWell(
                         onTap: () {
-                          RootRouterDelegate.of()
+                          RootRouterDelegate.get()
                               .navigateToDetailMedia(model.id);
                         },
                         child: AspectRatio(

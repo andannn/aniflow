@@ -138,7 +138,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
                   return;
                 }
 
-                RootRouterDelegate.of().navigateToMediaListPage(type, userId);
+                RootRouterDelegate.get().navigateToMediaListPage(type, userId);
               },
             ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
@@ -173,7 +173,7 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
           context.read<ProfileBloc>().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailMedia(model.animeModel!.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.animeModel!.id);
       },
     );
   }

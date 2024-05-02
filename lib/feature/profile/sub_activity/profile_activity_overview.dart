@@ -48,13 +48,13 @@ class _ProfileActivityPageState extends State<ProfileActivityPage> {
       userTitleLanguage:
           context.read<UserActivityPagingBloc>().userTitleLanguage,
       onMediaClick: (id) {
-        RootRouterDelegate.of().navigateToDetailMedia(id);
+        RootRouterDelegate.get().navigateToDetailMedia(id);
       },
       onUserIconClick: (id) {
-        RootRouterDelegate.of().navigateToUserProfile(id);
+        RootRouterDelegate.get().navigateToUserProfile(id);
       },
       onActivityClick: (id) {
-        RootRouterDelegate.of().navigateToActivityRepliesPage(id);
+        RootRouterDelegate.get().navigateToActivityRepliesPage(id);
       },
       onBuildActivityStatusWidget: (activityId) => ActivityStatusBlocProvider(
         key: ValueKey('activity_status_$activityId'),

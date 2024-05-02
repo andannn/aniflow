@@ -1,4 +1,5 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
@@ -151,7 +152,7 @@ class _AuthDialogContent extends StatelessWidget {
         Navigator.of(context, rootNavigator: true).push(SettingsPageRoute());
       case _OptionColumn.notification:
         Navigator.pop(context);
-        // AfRouterDelegate.tryGet()?.navigateToNotification();
+        RootRouterDelegate.get().navigateToNotification();
       // case _OptionColumn.editProfile:
       //   Navigator.pop(context);
       //   Navigator.of(context, rootNavigator: true).push(EditProfileRoute());

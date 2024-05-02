@@ -10,7 +10,6 @@ class AfRouterDelegate extends RouterDelegate<TopLevelRoutePath>
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
-  RouteObserver routeObserver = RouteObserver();
 
   List<TopLevelRoutePath> _backStack = [const DiscoverRoutePath()];
 
@@ -28,7 +27,6 @@ class AfRouterDelegate extends RouterDelegate<TopLevelRoutePath>
       key: navigatorKey,
       pages: _backStack.map((path) => path.generatePage()).toList(),
       onPopPage: _onPopPage,
-      observers: [routeObserver],
     );
   }
 

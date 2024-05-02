@@ -170,10 +170,10 @@ class _DetailStaffContent extends StatelessWidget {
     bloc.mediaSort = mediaSort;
 
     void onCharacterClick(String id) =>
-        RootRouterDelegate.of().navigateToDetailCharacter(id);
+        RootRouterDelegate.get().navigateToDetailCharacter(id);
 
     void onMediaClick(String id) =>
-        RootRouterDelegate.of().navigateToDetailMedia(id);
+        RootRouterDelegate.get().navigateToDetailMedia(id);
 
     List<Widget> buildItemListWidget() {
       if (mediaSort == MediaSort.newest || mediaSort == MediaSort.oldest) {

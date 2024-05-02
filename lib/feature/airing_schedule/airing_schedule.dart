@@ -229,7 +229,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
                       model: schedule,
                       userTitleLanguage: userTitleLanguage,
                       onClick: () {
-                        RootRouterDelegate.of()
+                        RootRouterDelegate.get()
                             .navigateToDetailMedia(schedule.animeModel.id);
                       },
                     ),

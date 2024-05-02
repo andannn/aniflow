@@ -90,7 +90,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
                   return;
                 }
 
-                RootRouterDelegate.of().navigateToFavoritePage(type, userId);
+                RootRouterDelegate.get().navigateToFavoritePage(type, userId);
               },
             ),
           const SliverPadding(padding: EdgeInsets.only(top: 20)),
@@ -106,7 +106,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
     final String coverImage;
     final String title;
     final String id;
-    final navigator = RootRouterDelegate.of();
+    final navigator = RootRouterDelegate.get();
     final VoidCallback onClick;
     switch (type) {
       case FavoriteType.anime:

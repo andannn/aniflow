@@ -87,7 +87,7 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
       title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailCharacter(model.id);
+        RootRouterDelegate.get().navigateToDetailCharacter(model.id);
       },
     );
   }

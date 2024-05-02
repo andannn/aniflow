@@ -79,7 +79,7 @@ class _FavoriteMangaListPageContent extends StatelessWidget {
       title: model.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailMedia(model.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.id);
       },
     );
   }

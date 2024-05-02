@@ -131,7 +131,7 @@ class AniFlowAppState extends State<AniFlowApp> {
               routerDelegate: rootRouterDelegate,
               routeInformationProvider: informationProvider,
               routeInformationParser: const RootRouterInfoParser(),
-              backButtonDispatcher: rootBackButtonDispatcher,
+              backButtonDispatcher: rootRouterDelegate.backButtonDispatcher,
             );
           },
         );
@@ -139,5 +139,3 @@ class AniFlowAppState extends State<AniFlowApp> {
     );
   }
 }
-
-final rootBackButtonDispatcher = RootBackButtonDispatcher();

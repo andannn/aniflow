@@ -27,7 +27,7 @@ class AfHtmlWidget extends StatelessWidget {
 
         if (newRouteOrNull != null) {
           logger.d('$_tag url handled by app navigator. $newRouteOrNull');
-          RootRouterDelegate.of().setNewRoutePath(newRouteOrNull);
+          RootRouterDelegate.get().setNewRoutePath(newRouteOrNull);
           return true;
         }
 

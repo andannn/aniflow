@@ -88,7 +88,7 @@ class _MediaSearchPageContent extends StatelessWidget {
       userTitleLanguage: userTitleLanguage,
       model: model,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailMedia(model.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.id);
       },
     );
   }

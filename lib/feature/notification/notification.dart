@@ -132,7 +132,7 @@ class _NotificationPagingContent extends StatelessWidget {
   }
 
   Widget _buildNotificationItem(BuildContext context, NotificationModel model) {
-    final navigator = RootRouterDelegate.of();
+    final navigator = RootRouterDelegate.get();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
       child: NotificationItem(

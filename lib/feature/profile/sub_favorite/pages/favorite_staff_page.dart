@@ -89,7 +89,7 @@ class _FavoriteStaffListPageContent extends StatelessWidget {
       title: model.name!.getNameByUserSetting(language),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailStaff(model.id);
+        RootRouterDelegate.get().navigateToDetailStaff(model.id);
       },
     );
   }

@@ -12,9 +12,12 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
+  final routeObserver = RouteObserver();
+  final backButtonDispatcher = RootBackButtonDispatcher();
+
   static BuildContext? _routerContext;
 
-  static RootRouterDelegate of() =>
+  static RootRouterDelegate get() =>
       Router.of(_routerContext!).routerDelegate as RootRouterDelegate;
 
   @override
@@ -24,6 +27,7 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
       key: navigatorKey,
       pages: stack.map((path) => path.generatePage()).toList(),
       onPopPage: _onPopPage,
+      observers: [routeObserver],
     );
   }
 

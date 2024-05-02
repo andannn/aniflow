@@ -60,7 +60,7 @@ class DiscoverScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12.0),
                 child: IconButton(
                   onPressed: () {
-                    RootRouterDelegate.of().navigateToSearch();
+                    RootRouterDelegate.get().navigateToSearch();
                   },
                   icon: const Icon(Icons.search_rounded),
                 ),
@@ -162,10 +162,10 @@ class DiscoverScreen extends StatelessWidget {
         animeModels: animeModels,
         isLoading: isLoading,
         onMoreClick: () {
-          RootRouterDelegate.of().navigateToAnimeList(category);
+          RootRouterDelegate.get().navigateToAnimeList(category);
         },
         onAnimeClick: (id) {
-          RootRouterDelegate.of().navigateToDetailMedia(id);
+          RootRouterDelegate.get().navigateToDetailMedia(id);
         },
       ),
     );

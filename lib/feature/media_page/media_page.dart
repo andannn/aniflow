@@ -82,7 +82,7 @@ class _MediaListPageContent extends StatelessWidget {
       title: model.title!.getTitle(userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailMedia(
+        RootRouterDelegate.get().navigateToDetailMedia(
               model.id,
             );
       },

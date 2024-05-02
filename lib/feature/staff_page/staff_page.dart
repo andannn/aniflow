@@ -77,7 +77,7 @@ class _StaffListPageContent extends StatelessWidget {
         language: language,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onStaffClick: () {
-          RootRouterDelegate.of().navigateToDetailStaff(
+          RootRouterDelegate.get().navigateToDetailStaff(
                 model.staff.id,
               );
         },

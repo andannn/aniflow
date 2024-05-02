@@ -95,7 +95,7 @@ class _DetailStudioContent extends StatelessWidget {
                 context,
                 mediaGroupList: pagingState.data.mediaGroupList,
                 onMediaClick: (String id) =>
-                    RootRouterDelegate.of().navigateToDetailMedia(id),
+                    RootRouterDelegate.get().navigateToDetailMedia(id),
               ))
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -165,7 +165,7 @@ class _DetailCharacterContent extends StatelessWidget {
       title: model.title!.getTitle(userTitleLanguage),
       isFollowing: model.isFollowing,
       onClick: () {
-        RootRouterDelegate.of().navigateToDetailMedia(model.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.id);
       },
     );
   }
