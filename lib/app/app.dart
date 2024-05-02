@@ -105,15 +105,24 @@ class AniFlowAppState extends State<AniFlowApp> {
                 brightness: Brightness.dark,
               );
             }
+
+            const pageTransitionsTheme = PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
+            );
             return MaterialApp.router(
               themeMode: themeMode,
               theme: ThemeData(
                 useMaterial3: true,
                 colorScheme: lightColorScheme,
+                pageTransitionsTheme: pageTransitionsTheme,
               ),
               darkTheme: ThemeData(
                 useMaterial3: true,
                 colorScheme: darkColorScheme,
+                pageTransitionsTheme: pageTransitionsTheme,
               ),
               localizationsDelegates: [
                 AnimeTrackerLocalizationsDelegate(),
