@@ -314,12 +314,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     MediaType type,
   ) {
     final sub = _mediaListRepository.getMediaListStream(
-      status: [MediaListStatus.current],
+      status: [MediaListStatus.current, MediaListStatus.planning],
       userId: userId,
       type: type,
     ).listen((mediaList) {
-      final nextToWatchMedia =
-          mediaList.where((e) => e.hasNextReleasingEpisode).toList();
+      final nextToWatchMedia = mediaList
+          .where((e) => e.hasNextReleasingEpisode)
+          .sorted((a, b) => (b.updatedAt ?? 0).compareTo(a.updatedAt ?? 0));
       add(_OnNextToWatchMediaChanged(nextToWatchMedia));
     });
     return sub;

@@ -136,7 +136,7 @@ class _DetailStaffContent extends StatelessWidget {
     final description = staff.description ?? '';
     return VerticalScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
-      child: Column(
+      builder: () =>  Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
