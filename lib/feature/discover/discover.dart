@@ -2,12 +2,16 @@ import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
+import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/feature/auth/auth_dialog.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
@@ -49,6 +53,7 @@ class DiscoverScreen extends StatelessWidget {
         final userData = state.userData;
         final hasUnreadNotification =
             userData != null && userData.unreadNotificationCount != 0;
+        final nextToWatchMediaList = state.nextToWatchMediaList;
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
         return Scaffold(
@@ -110,13 +115,102 @@ class DiscoverScreen extends StatelessWidget {
               await context.read<DiscoverBloc>().onPullToRefreshTriggered();
             },
             child: CustomScrollView(
-              cacheExtent: AfConfig.defaultCatchExtend,
-              slivers:
-                  _buildCategoriesByMediaType(context, map, currentMediaType),
-            ),
+                cacheExtent: AfConfig.defaultCatchExtend,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: _buildNextToWatchMedia(
+                      context,
+                      nextToWatchMediaList,
+                      state.settings?.userTitleLanguage ??
+                          UserTitleLanguage.romaji,
+                    ),
+                  ),
+                  ..._buildCategoriesByMediaType(
+                    context,
+                    map,
+                    currentMediaType,
+                  ),
+                ]),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildNextToWatchMedia(
+    BuildContext context,
+    List<MediaListItemModel> models,
+    UserTitleLanguage titleLanguage,
+  ) {
+    return VerticalScaleSwitcher(
+      visible: models.isNotEmpty,
+      builder: () => Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Card.outlined(
+            clipBehavior: Clip.hardEdge,
+            color: Colors.red,
+            elevation: 0,
+            child: InkWell(
+              onTap: () {
+                RootRouterDelegate.get()
+                    .navigateToDetailMedia(models.first.animeModel!.id);
+              },
+              child: Stack(
+                children: [
+                  SizedBox.expand(
+                    child: AFNetworkImage(
+                      imageUrl: models.first.animeModel?.bannerImage ?? '',
+                    ),
+                  ),
+                  Container(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .background
+                        .withOpacity(0.8),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: ShapeDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            shape: const StadiumBorder(),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 6.0,
+                            ),
+                            child: Text(
+                              'Up next',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: SizedBox()),
+                        Text(
+                          models.first.animeModel?.title
+                                  ?.getTitle(titleLanguage) ??
+                              '',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                            'Next Episode: Ep.${(models.first.progress ?? 0) + 1}'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 

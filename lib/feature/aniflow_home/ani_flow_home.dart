@@ -13,7 +13,6 @@ import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -51,7 +50,8 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
   AfRouterDelegate afRouterDelegate = AfRouterDelegate();
   RouteObserver rootObserver = RootRouterDelegate.get().routeObserver;
 
-  final rootBackButtonDispatcher = RootRouterDelegate.get().backButtonDispatcher;
+  final rootBackButtonDispatcher =
+      RootRouterDelegate.get().backButtonDispatcher;
   final childBackButtonDispatcher =
       ChildBackButtonDispatcher(RootRouterDelegate.get().backButtonDispatcher);
 

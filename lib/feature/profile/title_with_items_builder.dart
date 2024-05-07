@@ -19,7 +19,7 @@ List<Widget> buildTitleBarWithContent({
     SliverToBoxAdapter(
       child: VerticalScaleSwitcher(
         visible: items.isNotEmpty,
-        child: Padding(
+        builder: () => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           child: Row(
             children: [

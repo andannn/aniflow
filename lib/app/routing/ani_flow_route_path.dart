@@ -1,6 +1,6 @@
-import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
+import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/feature/anime_search/media_search.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
 import 'package:aniflow/feature/detail_character/detail_character.dart';

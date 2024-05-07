@@ -132,7 +132,7 @@ class _DetailCharacterContent extends StatelessWidget {
     final description = character.description ?? '';
     return VerticalScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
-      child: Column(
+      builder: () => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
