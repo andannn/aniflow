@@ -3,7 +3,7 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
+import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
