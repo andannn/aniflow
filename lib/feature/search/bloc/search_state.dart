@@ -1,4 +1,4 @@
-import 'package:aniflow/feature/anime_search/bloc/search_type.dart';
+import 'package:aniflow/feature/search/bloc/search_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'search_state.freezed.dart';

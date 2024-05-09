@@ -1,6 +1,6 @@
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/feature/anime_search/bloc/search_type.dart';
-import 'package:aniflow/feature/anime_search/bloc/search_state.dart';
+import 'package:aniflow/feature/search/bloc/search_state.dart';
+import 'package:aniflow/feature/search/bloc/search_type.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 

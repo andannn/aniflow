@@ -1,6 +1,6 @@
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
-import 'package:aniflow/feature/anime_search/bloc/search_type.dart';
+import 'package:aniflow/feature/search/bloc/search_type.dart';
 import 'package:flutter/material.dart';
 
 abstract class AFLocalizations {

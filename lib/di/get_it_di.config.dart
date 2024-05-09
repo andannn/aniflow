@@ -49,11 +49,11 @@ import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i17;
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart'
     as _i46;
-import 'package:aniflow/feature/anime_search/bloc/character_search_result_paging_bloc.dart'
+import 'package:aniflow/feature/search/bloc/character_search_result_paging_bloc.dart'
     as _i52;
-import 'package:aniflow/feature/anime_search/bloc/media_search_result_paging_bloc.dart'
+import 'package:aniflow/feature/search/bloc/media_search_result_paging_bloc.dart'
     as _i61;
-import 'package:aniflow/feature/anime_search/bloc/search_bloc.dart' as _i34;
+import 'package:aniflow/feature/search/bloc/search_bloc.dart' as _i34;
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart' as _i49;
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart'
     as _i25;

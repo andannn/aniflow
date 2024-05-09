@@ -1,13 +1,14 @@
-import 'package:aniflow/core/data/search_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
+import 'package:aniflow/feature/search/bloc/search_bloc.dart';
+import 'package:aniflow/feature/search/bloc/search_state.dart';
+import 'package:aniflow/feature/search/bloc/search_type.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/data/mocks/search_repository_mock.dart';
 
 void main() {
   group('search_bloc_test', () {
-    late SearchRepository searchRepository;
     late UserDataRepository userDataRepository;
 
     setUp(() async {
@@ -17,16 +18,26 @@ void main() {
       final sharedPref = await SharedPreferences.getInstance();
       UserDataPreferences preferences = UserDataPreferences(sharedPref);
       userDataRepository = UserDataRepository(preferences);
-      searchRepository = MockSearchRepository();
     });
 
     tearDown(() async {});
-    //
-    // blocTest(
-    //   'Init state',
-    //   build: () => MediaSearchPagingBloc(searchRepository, userDataRepository),
-    //   act: (bloc) => bloc.add(OnSearchStringCommit(searchString: "Test")),
-    //   expect: () => isNotEmpty,
-    // );
+
+    blocTest(
+      'OnSearchStringCommit Event',
+      build: () => SearchBloc(userDataRepository),
+      act: (bloc) => bloc.add(OnSearchStringCommit("Test")),
+      expect: () => [
+        const SearchState(keyword: 'Test', selectedSearchType: SearchType.anime)
+      ],
+    );
+
+    blocTest(
+      'OnSearchTypeSelected Event',
+      build: () => SearchBloc(userDataRepository),
+      act: (bloc) => bloc.add(OnSearchTypeSelected(SearchType.manga)),
+      expect: () => [
+        const SearchState(keyword: null, selectedSearchType: SearchType.manga)
+      ],
+    );
   });
 }

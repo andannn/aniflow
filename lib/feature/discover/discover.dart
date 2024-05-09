@@ -201,7 +201,9 @@ class DiscoverScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                            'Next Episode: Ep.${(models.first.progress ?? 0) + 1}'),
+                          "Next Episode: "
+                              "Ep.${(models.first.progress ?? 0) + 1}",
+                        ),
                       ],
                     ),
                   ),

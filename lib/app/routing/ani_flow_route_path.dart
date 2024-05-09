@@ -1,7 +1,6 @@
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
-import 'package:aniflow/feature/anime_search/search_page.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
 import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
@@ -19,6 +18,7 @@ import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_anime_list_
 import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
+import 'package:aniflow/feature/search/search_page.dart';
 import 'package:aniflow/feature/social/activity_replies/activity_replies.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:equatable/equatable.dart';

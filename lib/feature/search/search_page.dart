@@ -5,18 +5,17 @@ import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/search_anime_item.dart';
+import 'package:aniflow/core/design_system/widget/search_character_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/feature/anime_search/bloc/character_search_result_paging_bloc.dart';
-import 'package:aniflow/feature/anime_search/bloc/media_search_result_paging_bloc.dart';
-import 'package:aniflow/feature/anime_search/bloc/search_bloc.dart';
-import 'package:aniflow/feature/anime_search/bloc/search_state.dart';
-import 'package:aniflow/feature/anime_search/bloc/search_type.dart';
+import 'package:aniflow/feature/search/bloc/character_search_result_paging_bloc.dart';
+import 'package:aniflow/feature/search/bloc/media_search_result_paging_bloc.dart';
+import 'package:aniflow/feature/search/bloc/search_bloc.dart';
+import 'package:aniflow/feature/search/bloc/search_state.dart';
+import 'package:aniflow/feature/search/bloc/search_type.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../core/design_system/widget/search_character_item.dart';
 
 class SearchPage extends Page {
   const SearchPage({super.key});
@@ -176,7 +175,7 @@ class SearchResultPagingBlocProvider extends StatelessWidget {
 }
 
 class _MediaSearchResultPagingContent extends StatelessWidget {
-  const _MediaSearchResultPagingContent({super.key});
+  const _MediaSearchResultPagingContent();
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +204,7 @@ class _MediaSearchResultPagingContent extends StatelessWidget {
 }
 
 class _CharacterSearchResultPagingContent extends StatelessWidget {
-  const _CharacterSearchResultPagingContent({super.key});
+  const _CharacterSearchResultPagingContent();
 
   @override
   Widget build(BuildContext context) {
