@@ -1,18 +1,15 @@
 import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/data/model/character_model.dart';
-import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
-import 'package:aniflow/core/design_system/widget/search_anime_item.dart';
-import 'package:aniflow/core/design_system/widget/search_character_item.dart';
-import 'package:aniflow/core/paging/page_loading_state.dart';
-import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/feature/search/bloc/character_search_result_paging_bloc.dart';
-import 'package:aniflow/feature/search/bloc/media_search_result_paging_bloc.dart';
 import 'package:aniflow/feature/search/bloc/search_bloc.dart';
 import 'package:aniflow/feature/search/bloc/search_state.dart';
 import 'package:aniflow/feature/search/bloc/search_type.dart';
+import 'package:aniflow/feature/search/paging/character_search_result_paging_bloc.dart';
+import 'package:aniflow/feature/search/paging/character_search_result_paging_content.dart';
+import 'package:aniflow/feature/search/paging/media_search_result_paging_bloc.dart';
+import 'package:aniflow/feature/search/paging/media_search_result_paging_content.dart';
+import 'package:aniflow/feature/search/paging/staff_search_result_paging_bloc.dart';
+import 'package:aniflow/feature/search/paging/staff_search_result_paging_content.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +63,7 @@ class _MediaSearchPageContent extends StatelessWidget {
                 const SizedBox(height: 12),
                 Expanded(
                   child: keyword != null
-                      ? SearchResultPagingBlocProvider(
+                      ? _SearchResultPagingBlocProvider(
                           key: ValueKey('${keyword}_$selectedSearchType'),
                           keyword: keyword,
                           selectedSearchType: selectedSearchType,
@@ -127,8 +124,8 @@ class _MediaSearchPageContent extends StatelessWidget {
   }
 }
 
-class SearchResultPagingBlocProvider extends StatelessWidget {
-  const SearchResultPagingBlocProvider({
+class _SearchResultPagingBlocProvider extends StatelessWidget {
+  const _SearchResultPagingBlocProvider({
     super.key,
     required this.keyword,
     required this.selectedSearchType,
@@ -146,7 +143,7 @@ class SearchResultPagingBlocProvider extends StatelessWidget {
             param1: MediaType.anime,
             param2: keyword,
           ),
-          child: const _MediaSearchResultPagingContent(),
+          child: const MediaSearchResultPagingContent(),
         );
       case SearchType.manga:
         return BlocProvider(
@@ -154,80 +151,27 @@ class SearchResultPagingBlocProvider extends StatelessWidget {
             param1: MediaType.manga,
             param2: keyword,
           ),
-          child: const _MediaSearchResultPagingContent(),
+          child: const MediaSearchResultPagingContent(),
         );
       case SearchType.character:
         return BlocProvider(
           create: (context) => getIt.get<CharacterSearchResultPagingBloc>(
             param1: keyword,
           ),
-          child: const _CharacterSearchResultPagingContent(),
+          child: const CharacterSearchResultPagingContent(),
         );
       case SearchType.staff:
-      // TODO: Handle this case.
+        return BlocProvider(
+          create: (context) => getIt.get<StaffSearchResultPagingBloc>(
+            param1: keyword,
+          ),
+          child: const StaffSearchResultPagingContent(),
+        );
       case SearchType.studio:
       // TODO: Handle this case.
       case SearchType.user:
         // TODO: Handle this case.
         return const Placeholder();
     }
-  }
-}
-
-class _MediaSearchResultPagingContent extends StatelessWidget {
-  const _MediaSearchResultPagingContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MediaSearchResultPagingBloc,
-        PagingState<List<MediaModel>>>(
-      builder: (context, state) {
-        return PagingContent(onBuildItem: _buildListItems, pagingState: state);
-      },
-    );
-  }
-
-  Widget _buildListItems(BuildContext context, MediaModel model) {
-    final userTitleLanguage = context
-        .read<SearchBloc>()
-        .userDataRepository
-        .userData
-        .userTitleLanguage;
-    return SearchMediaItem(
-      userTitleLanguage: userTitleLanguage,
-      model: model,
-      onClick: () {
-        RootRouterDelegate.get().navigateToDetailMedia(model.id);
-      },
-    );
-  }
-}
-
-class _CharacterSearchResultPagingContent extends StatelessWidget {
-  const _CharacterSearchResultPagingContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CharacterSearchResultPagingBloc,
-        PagingState<List<CharacterModel>>>(
-      builder: (context, state) {
-        return PagingContent(onBuildItem: _buildListItems, pagingState: state);
-      },
-    );
-  }
-
-  Widget _buildListItems(BuildContext context, CharacterModel model) {
-    final userStaffNameLanguage = context
-        .read<SearchBloc>()
-        .userDataRepository
-        .userData
-        .userStaffNameLanguage;
-    return SearchCharacterItem(
-      userStaffNameLanguage: userStaffNameLanguage,
-      model: model,
-      onClick: () {
-        RootRouterDelegate.get().navigateToDetailCharacter(model.id);
-      },
-    );
   }
 }
