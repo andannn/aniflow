@@ -40,6 +40,7 @@ import 'package:aniflow/core/network/model/page_info.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
@@ -56,9 +57,8 @@ class AniListDataSource {
   final Dio dio;
   final UserDataRepository _preferences;
 
-  String get _token => isUnitTest
-      ? testToken
-      : _preferences.userData.authToken ?? '';
+  String get _token =>
+      isUnitTest ? testToken : _preferences.userData.authToken ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {
@@ -313,14 +313,14 @@ class AniListDataSource {
     return airingSchedules;
   }
 
-  Future<List<MediaDto>> searchAnimePage({
+  Future<List<MediaDto>> searchMediaPage({
     required int page,
     required int perPage,
     required MediaType type,
     required String search,
     CancelToken? token,
   }) async {
-    final queryGraphQL = searchQueryGraphql;
+    final queryGraphQL = searchMediaQueryGraphql;
     final variablesMap = <String, dynamic>{
       'search': search,
       'page': page,
@@ -338,6 +338,106 @@ class AniListDataSource {
         resultJson.map((e) => MediaDto.fromJson(e)).toList();
 
     return mediaList;
+  }
+
+  Future<List<CharacterDto>> searchCharacterPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchCharacterQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final List resultJson = response.data['data']['page']['characters'];
+    final List<CharacterDto> characterList =
+        resultJson.map((e) => CharacterDto.fromJson(e)).toList();
+
+    return characterList;
+  }
+
+  Future<List<StudioDto>> searchStudioPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchStudioQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final List resultJson = response.data['data']['page']['studios'];
+    final List<StudioDto> studioList =
+        resultJson.map((e) => StudioDto.fromJson(e)).toList();
+
+    return studioList;
+  }
+
+  Future<List<UserDto>> searchUserPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchUserQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final List resultJson = response.data['data']['page']['users'];
+    final List<UserDto> userList =
+        resultJson.map((e) => UserDto.fromJson(e)).toList();
+
+    return userList;
+  }
+
+  Future<List<StaffDto>> searchStaffPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchStaffQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final List resultJson = response.data['data']['page']['staff'];
+    final List<StaffDto> staffList =
+        resultJson.map((e) => StaffDto.fromJson(e)).toList();
+
+    return staffList;
   }
 
   Future<List<MediaDto>> getFavoriteAnimeMedia({
