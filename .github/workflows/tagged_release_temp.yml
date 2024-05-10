@@ -1,0 +1,24 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: 'tagged-release'
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  tagged-release:
+    name: 'Tagged Release'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/aniflow-keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
