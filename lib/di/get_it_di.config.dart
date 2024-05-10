@@ -9,14 +9,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart'
-    as _i71;
+    as _i72;
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart'
-    as _i70;
-import 'package:aniflow/core/common/definitions/anime_category.dart' as _i50;
-import 'package:aniflow/core/common/definitions/media_sort.dart' as _i44;
-import 'package:aniflow/core/common/definitions/media_type.dart' as _i64;
-import 'package:aniflow/core/common/definitions/staff_language.dart' as _i53;
-import 'package:aniflow/core/data/activity_repository.dart' as _i46;
+    as _i71;
+import 'package:aniflow/core/common/definitions/anime_category.dart' as _i51;
+import 'package:aniflow/core/common/definitions/media_sort.dart' as _i45;
+import 'package:aniflow/core/common/definitions/media_type.dart' as _i65;
+import 'package:aniflow/core/common/definitions/staff_language.dart' as _i54;
+import 'package:aniflow/core/data/activity_repository.dart' as _i47;
 import 'package:aniflow/core/data/auth_repository.dart' as _i24;
 import 'package:aniflow/core/data/favorite_repository.dart' as _i27;
 import 'package:aniflow/core/data/hi_animation_repository.dart' as _i9;
@@ -26,7 +26,7 @@ import 'package:aniflow/core/data/notification_repository.dart' as _i31;
 import 'package:aniflow/core/data/search_repository.dart' as _i35;
 import 'package:aniflow/core/data/user_data_repository.dart' as _i18;
 import 'package:aniflow/core/data/user_info_repository.dart' as _i19;
-import 'package:aniflow/core/data/user_statistics_repository.dart' as _i42;
+import 'package:aniflow/core/data/user_statistics_repository.dart' as _i43;
 import 'package:aniflow/core/database/aniflow_database.dart' as _i3;
 import 'package:aniflow/core/database/dao/activity_dao.dart' as _i20;
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart' as _i21;
@@ -38,77 +38,79 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart' as _i11;
 import 'package:aniflow/core/database/dao/staff_dao.dart' as _i14;
 import 'package:aniflow/core/database/dao/studio_dao.dart' as _i15;
 import 'package:aniflow/core/database/dao/user_dao.dart' as _i16;
-import 'package:aniflow/core/database/di/database_module.dart' as _i73;
+import 'package:aniflow/core/database/di/database_module.dart' as _i74;
 import 'package:aniflow/core/network/ani_list_data_source.dart' as _i22;
 import 'package:aniflow/core/network/auth_data_source.dart' as _i23;
-import 'package:aniflow/core/network/di/di_network_module.dart' as _i74;
+import 'package:aniflow/core/network/di/di_network_module.dart' as _i75;
 import 'package:aniflow/core/network/hianime_data_source.dart' as _i8;
 import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart'
-    as _i75;
+    as _i76;
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i17;
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart'
-    as _i48;
-import 'package:aniflow/feature/auth/bloc/auth_bloc.dart' as _i51;
+    as _i49;
+import 'package:aniflow/feature/auth/bloc/auth_bloc.dart' as _i52;
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart'
     as _i25;
 import 'package:aniflow/feature/character_page/bloc/character_paging_bloc.dart'
-    as _i52;
+    as _i53;
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart'
-    as _i55;
-import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart'
     as _i56;
-import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart'
+import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart'
     as _i57;
-import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart'
-    as _i43;
-import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart'
+import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart'
     as _i58;
+import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart'
+    as _i44;
+import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart'
+    as _i59;
 import 'package:aniflow/feature/detail_studio/bloc/studio_contents_paging_bloc.dart'
     as _i39;
-import 'package:aniflow/feature/discover/bloc/discover_bloc.dart' as _i59;
+import 'package:aniflow/feature/discover/bloc/discover_bloc.dart' as _i60;
 import 'package:aniflow/feature/edit_profile/bloc/edit_profile_bloc.dart'
     as _i26;
-import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart' as _i49;
+import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart' as _i50;
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart' as _i41;
 import 'package:aniflow/feature/notification/bloc/notification_bloc.dart'
     as _i12;
 import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart'
-    as _i65;
+    as _i66;
 import 'package:aniflow/feature/profile/profile_bloc.dart' as _i32;
 import 'package:aniflow/feature/profile/sub_activity/user_activity_paging_bloc.dart'
-    as _i67;
+    as _i68;
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart'
-    as _i60;
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart'
     as _i61;
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart'
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart'
     as _i62;
+import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart'
+    as _i63;
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart'
     as _i28;
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart'
-    as _i45;
+    as _i46;
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart'
     as _i33;
-import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart' as _i66;
+import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart' as _i67;
 import 'package:aniflow/feature/search/bloc/search_bloc.dart' as _i34;
 import 'package:aniflow/feature/search/paging/character_search_result_paging_bloc.dart'
-    as _i54;
+    as _i55;
 import 'package:aniflow/feature/search/paging/media_search_result_paging_bloc.dart'
-    as _i63;
+    as _i64;
 import 'package:aniflow/feature/search/paging/staff_search_result_paging_bloc.dart'
     as _i38;
 import 'package:aniflow/feature/search/paging/studio_search_result_paging_bloc.dart'
     as _i40;
+import 'package:aniflow/feature/search/paging/user_search_result_paging_bloc.dart'
+    as _i42;
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart' as _i36;
 import 'package:aniflow/feature/social/activity/bloc/activity_bloc.dart'
-    as _i68;
-import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart'
-    as _i47;
-import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart'
     as _i69;
+import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart'
+    as _i48;
+import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart'
+    as _i70;
 import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_bloc.dart'
-    as _i72;
+    as _i73;
 import 'package:aniflow/feature/staff_page/bloc/staff_page_bloc.dart' as _i37;
 import 'package:dio/dio.dart' as _i5;
 import 'package:get_it/get_it.dart' as _i1;
@@ -256,6 +258,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i4.CharacterDao>(),
           gh<_i14.StaffDao>(),
           gh<_i15.StudioDao>(),
+          gh<_i16.UserDao>(),
         ));
     gh.factory<_i36.SettingsBloc>(() => _i36.SettingsBloc(
           gh<_i18.UserDataRepository>(),
@@ -299,99 +302,107 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i24.AuthRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.lazySingleton<_i42.UserStatisticsRepository>(
-        () => _i42.UserStatisticsRepository(
+    gh.factoryParam<_i42.UserSearchResultPagingBloc, String, dynamic>((
+      _searchString,
+      _,
+    ) =>
+        _i42.UserSearchResultPagingBloc(
+          _searchString,
+          gh<_i35.SearchRepository>(),
+        ));
+    gh.lazySingleton<_i43.UserStatisticsRepository>(
+        () => _i43.UserStatisticsRepository(
               gh<_i10.MediaDao>(),
               gh<_i22.AniListDataSource>(),
             ));
-    gh.factoryParam<_i43.VoiceActorContentsPagingBloc, String, _i44.MediaSort>((
+    gh.factoryParam<_i44.VoiceActorContentsPagingBloc, String, _i45.MediaSort>((
       staffId,
       mediaSort,
     ) =>
-        _i43.VoiceActorContentsPagingBloc(
+        _i44.VoiceActorContentsPagingBloc(
           staffId,
           gh<_i29.MediaInformationRepository>(),
           mediaSort,
         ));
-    gh.factoryParam<_i45.WatchingAnimeListPagingBloc, String, int>((
+    gh.factoryParam<_i46.WatchingAnimeListPagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i45.WatchingAnimeListPagingBloc(
+        _i46.WatchingAnimeListPagingBloc(
           userId,
           gh<_i30.MediaListRepository>(),
           perPageCount,
         ));
-    gh.lazySingleton<_i46.ActivityRepository>(() => _i46.ActivityRepository(
+    gh.lazySingleton<_i47.ActivityRepository>(() => _i47.ActivityRepository(
           gh<_i20.ActivityDao>(),
           gh<_i22.AniListDataSource>(),
           gh<_i17.UserDataPreferences>(),
         ));
-    gh.factoryParam<_i47.ActivityStatusBloc, String, dynamic>((
+    gh.factoryParam<_i48.ActivityStatusBloc, String, dynamic>((
       activityId,
       _,
     ) =>
-        _i47.ActivityStatusBloc(
-          gh<_i46.ActivityRepository>(),
+        _i48.ActivityStatusBloc(
+          gh<_i47.ActivityRepository>(),
           activityId,
         ));
-    gh.factory<_i48.AiringScheduleBloc>(() => _i48.AiringScheduleBloc(
+    gh.factory<_i49.AiringScheduleBloc>(() => _i49.AiringScheduleBloc(
           gh<_i29.MediaInformationRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.factoryParam<_i49.AnimePageBloc, _i50.MediaCategory, dynamic>((
+    gh.factoryParam<_i50.AnimePageBloc, _i51.MediaCategory, dynamic>((
       category,
       _,
     ) =>
-        _i49.AnimePageBloc(
+        _i50.AnimePageBloc(
           category,
           gh<_i29.MediaInformationRepository>(),
           gh<_i30.MediaListRepository>(),
           gh<_i24.AuthRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.factory<_i51.AuthBloc>(() => _i51.AuthBloc(gh<_i24.AuthRepository>()));
-    gh.factoryParam<_i52.CharacterPagingBloc, String, _i53.StaffLanguage>((
+    gh.factory<_i52.AuthBloc>(() => _i52.AuthBloc(gh<_i24.AuthRepository>()));
+    gh.factoryParam<_i53.CharacterPagingBloc, String, _i54.StaffLanguage>((
       animeId,
       staffLanguage,
     ) =>
-        _i52.CharacterPagingBloc(
+        _i53.CharacterPagingBloc(
           animeId,
           staffLanguage,
           gh<_i29.MediaInformationRepository>(),
         ));
-    gh.factoryParam<_i54.CharacterSearchResultPagingBloc, String, dynamic>((
+    gh.factoryParam<_i55.CharacterSearchResultPagingBloc, String, dynamic>((
       _searchString,
       _,
     ) =>
-        _i54.CharacterSearchResultPagingBloc(
+        _i55.CharacterSearchResultPagingBloc(
           _searchString,
           gh<_i35.SearchRepository>(),
         ));
-    gh.factoryParam<_i45.CompleteAnimeListPagingBloc, String, int>((
+    gh.factoryParam<_i46.CompleteAnimeListPagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i45.CompleteAnimeListPagingBloc(
+        _i46.CompleteAnimeListPagingBloc(
           userId,
           gh<_i30.MediaListRepository>(),
           perPageCount,
         ));
-    gh.factoryParam<_i55.DetailCharacterBloc, String, dynamic>((
+    gh.factoryParam<_i56.DetailCharacterBloc, String, dynamic>((
       _characterId,
       _,
     ) =>
-        _i55.DetailCharacterBloc(
+        _i56.DetailCharacterBloc(
           _characterId,
           gh<_i29.MediaInformationRepository>(),
           gh<_i27.FavoriteRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.factoryParam<_i56.DetailMediaBloc, String, dynamic>((
+    gh.factoryParam<_i57.DetailMediaBloc, String, dynamic>((
       mediaId,
       _,
     ) =>
-        _i56.DetailMediaBloc(
+        _i57.DetailMediaBloc(
           mediaId,
           gh<_i24.AuthRepository>(),
           gh<_i27.FavoriteRepository>(),
@@ -400,37 +411,37 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i30.MediaListRepository>(),
           gh<_i9.HiAnimationRepository>(),
         ));
-    gh.factoryParam<_i57.DetailStaffBloc, String, dynamic>((
+    gh.factoryParam<_i58.DetailStaffBloc, String, dynamic>((
       staffId,
       _,
     ) =>
-        _i57.DetailStaffBloc(
+        _i58.DetailStaffBloc(
           staffId,
           gh<_i29.MediaInformationRepository>(),
           gh<_i27.FavoriteRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.factoryParam<_i58.DetailStudioBloc, String, dynamic>((
+    gh.factoryParam<_i59.DetailStudioBloc, String, dynamic>((
       studioId,
       _,
     ) =>
-        _i58.DetailStudioBloc(
+        _i59.DetailStudioBloc(
           studioId,
           gh<_i29.MediaInformationRepository>(),
           gh<_i27.FavoriteRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.factory<_i59.DiscoverBloc>(() => _i59.DiscoverBloc(
+    gh.factory<_i60.DiscoverBloc>(() => _i60.DiscoverBloc(
           gh<_i24.AuthRepository>(),
           gh<_i29.MediaInformationRepository>(),
           gh<_i30.MediaListRepository>(),
           gh<_i18.UserDataRepository>(),
         ));
-    gh.factoryParam<_i45.DroppedAnimeListPagingBloc, String, int>((
+    gh.factoryParam<_i46.DroppedAnimeListPagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i45.DroppedAnimeListPagingBloc(
+        _i46.DroppedAnimeListPagingBloc(
           userId,
           gh<_i30.MediaListRepository>(),
           perPageCount,
@@ -444,98 +455,98 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i30.MediaListRepository>(),
           perPageCount,
         ));
-    gh.factoryParam<_i60.FavoriteAnimePagingBloc, String, int>((
+    gh.factoryParam<_i61.FavoriteAnimePagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i60.FavoriteAnimePagingBloc(
+        _i61.FavoriteAnimePagingBloc(
           userId,
           perPageCount,
           gh<_i27.FavoriteRepository>(),
         ));
-    gh.factoryParam<_i61.FavoriteCharacterPagingBloc, String, int>((
+    gh.factoryParam<_i62.FavoriteCharacterPagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i61.FavoriteCharacterPagingBloc(
+        _i62.FavoriteCharacterPagingBloc(
           userId,
           gh<_i27.FavoriteRepository>(),
           gh<_i18.UserDataRepository>(),
           perPageCount,
         ));
-    gh.factoryParam<_i62.FavoriteMangaPagingBloc, String, int>((
+    gh.factoryParam<_i63.FavoriteMangaPagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i62.FavoriteMangaPagingBloc(
+        _i63.FavoriteMangaPagingBloc(
           userId,
           gh<_i27.FavoriteRepository>(),
           perPageCount,
         ));
-    gh.factoryParam<_i63.MediaSearchResultPagingBloc, _i64.MediaType, String>((
+    gh.factoryParam<_i64.MediaSearchResultPagingBloc, _i65.MediaType, String>((
       _mediaType,
       _searchString,
     ) =>
-        _i63.MediaSearchResultPagingBloc(
+        _i64.MediaSearchResultPagingBloc(
           _mediaType,
           _searchString,
           gh<_i35.SearchRepository>(),
         ));
-    gh.factoryParam<_i65.NotificationPagingBloc, _i31.NotificationCategory,
+    gh.factoryParam<_i66.NotificationPagingBloc, _i31.NotificationCategory,
         dynamic>((
       _category,
       _,
     ) =>
-        _i65.NotificationPagingBloc(
+        _i66.NotificationPagingBloc(
           gh<_i31.NotificationRepository>(),
           _category,
         ));
-    gh.factoryParam<_i66.StatsBloc, String, dynamic>((
+    gh.factoryParam<_i67.StatsBloc, String, dynamic>((
       userId,
       _,
     ) =>
-        _i66.StatsBloc(
-          gh<_i42.UserStatisticsRepository>(),
+        _i67.StatsBloc(
+          gh<_i43.UserStatisticsRepository>(),
           gh<_i18.UserDataRepository>(),
           userId,
         ));
-    gh.factoryParam<_i67.UserActivityPagingBloc, String, int>((
+    gh.factoryParam<_i68.UserActivityPagingBloc, String, int>((
       userId,
       perPageCount,
     ) =>
-        _i67.UserActivityPagingBloc(
+        _i68.UserActivityPagingBloc(
           userId,
-          gh<_i46.ActivityRepository>(),
+          gh<_i47.ActivityRepository>(),
           gh<_i18.UserDataRepository>(),
           perPageCount,
         ));
-    gh.factory<_i68.ActivityBloc>(
-        () => _i68.ActivityBloc(gh<_i46.ActivityRepository>()));
-    gh.factoryParam<_i69.ActivityPagingBloc, _i70.ActivityScopeCategory,
-        _i71.ActivityFilterType>((
+    gh.factory<_i69.ActivityBloc>(
+        () => _i69.ActivityBloc(gh<_i47.ActivityRepository>()));
+    gh.factoryParam<_i70.ActivityPagingBloc, _i71.ActivityScopeCategory,
+        _i72.ActivityFilterType>((
       userType,
       filterType,
     ) =>
-        _i69.ActivityPagingBloc(
-          gh<_i46.ActivityRepository>(),
+        _i70.ActivityPagingBloc(
+          gh<_i47.ActivityRepository>(),
           gh<_i18.UserDataRepository>(),
           userType,
           filterType,
         ));
-    gh.factoryParam<_i72.ActivityRepliesBloc, String, dynamic>((
+    gh.factoryParam<_i73.ActivityRepliesBloc, String, dynamic>((
       activityId,
       _,
     ) =>
-        _i72.ActivityRepliesBloc(
-          gh<_i46.ActivityRepository>(),
+        _i73.ActivityRepliesBloc(
+          gh<_i47.ActivityRepository>(),
           activityId,
         ));
     return this;
   }
 }
 
-class _$DIDataBaseModule extends _i73.DIDataBaseModule {}
+class _$DIDataBaseModule extends _i74.DIDataBaseModule {}
 
-class _$DINetworkModule extends _i74.DINetworkModule {}
+class _$DINetworkModule extends _i75.DINetworkModule {}
 
-class _$RegisterModule extends _i75.RegisterModule {}
+class _$RegisterModule extends _i76.RegisterModule {}

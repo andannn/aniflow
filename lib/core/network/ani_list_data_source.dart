@@ -40,6 +40,7 @@ import 'package:aniflow/core/network/model/page_info.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/auth_request_util.dart';
@@ -387,6 +388,31 @@ class AniListDataSource {
         resultJson.map((e) => StudioDto.fromJson(e)).toList();
 
     return studioList;
+  }
+
+  Future<List<UserDto>> searchUserPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchUserQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final List resultJson = response.data['data']['page']['users'];
+    final List<UserDto> userList =
+        resultJson.map((e) => UserDto.fromJson(e)).toList();
+
+    return userList;
   }
 
   Future<List<StaffDto>> searchStaffPage({

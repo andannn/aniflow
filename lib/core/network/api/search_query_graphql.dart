@@ -1,6 +1,7 @@
 
 import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:aniflow/core/network/api/query_media_character_page_graphql.dart';
+import 'package:aniflow/core/network/api/user_content_graphql.dart';
 
 String get searchMediaQueryGraphql =>
 '''
@@ -56,6 +57,17 @@ query (\$page: Int, \$perPage: Int, \$search: String) {
       isAnimationStudio
       siteUrl
       isFavourite
+    }
+  }
+}
+''';
+
+String get searchUserQueryGraphql =>
+'''
+query (\$page: Int, \$perPage: Int, \$search: String) {
+  page: Page(page: \$page, perPage: \$perPage) {
+    users(search: \$search) {
+      $userContentQueryGraphql
     }
   }
 }

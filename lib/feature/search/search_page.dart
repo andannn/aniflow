@@ -12,6 +12,8 @@ import 'package:aniflow/feature/search/paging/staff_search_result_paging_bloc.da
 import 'package:aniflow/feature/search/paging/staff_search_result_paging_content.dart';
 import 'package:aniflow/feature/search/paging/studio_search_result_paging_bloc.dart';
 import 'package:aniflow/feature/search/paging/studio_search_result_paging_content.dart';
+import 'package:aniflow/feature/search/paging/user_search_result_paging_bloc.dart';
+import 'package:aniflow/feature/search/paging/user_search_result_paging_content.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -177,8 +179,12 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
           child: const StudioSearchResultPagingContent(),
         );
       case SearchType.user:
-        // TODO: Handle this case.
-        return const Placeholder();
+        return BlocProvider(
+          create: (context) => getIt.get<UserSearchResultPagingBloc>(
+            param1: keyword,
+          ),
+          child: const UserSearchResultPagingContent(),
+        );
     }
   }
 }
