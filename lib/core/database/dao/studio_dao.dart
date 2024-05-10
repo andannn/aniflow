@@ -57,4 +57,13 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase>
 
     return (query.map((row) => row.readTable(studioTable))).watch();
   }
+
+  Future insertOrIgnoreEntities(List<StudioEntity> entities) async {
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        studioTable,
+        entities.map((e) => e.toCompanion(true)),
+      );
+    });
+  }
 }

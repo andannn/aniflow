@@ -364,6 +364,31 @@ class AniListDataSource {
     return characterList;
   }
 
+  Future<List<StudioDto>> searchStudioPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchStudioQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+      options: createQueryOptions(_token),
+    );
+    final List resultJson = response.data['data']['page']['studios'];
+    final List<StudioDto> studioList =
+        resultJson.map((e) => StudioDto.fromJson(e)).toList();
+
+    return studioList;
+  }
+
   Future<List<StaffDto>> searchStaffPage({
     required int page,
     required int perPage,

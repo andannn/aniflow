@@ -45,3 +45,18 @@ query (\$page: Int, \$perPage: Int, \$search: String) {
   }
 }
 ''';
+
+String get searchStudioQueryGraphql =>
+'''
+query (\$page: Int, \$perPage: Int, \$search: String) {
+  page: Page(page: \$page, perPage: \$perPage) {
+    studios(search: \$search) {
+      id
+      name
+      isAnimationStudio
+      siteUrl
+      isFavourite
+    }
+  }
+}
+''';
