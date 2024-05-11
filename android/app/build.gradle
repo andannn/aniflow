@@ -85,17 +85,22 @@ android {
 }
 
 task moveKeyStoreRelease {
-    doFirst {
-        if (project.hasProperty("android") && android.buildTypes.release) {
-            def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
-            def allFilesFromDir = new File(tmpFilePath).listFiles()
-            if (allFilesFromDir != null) {
-                def keystoreFile = allFilesFromDir.first()
-                keystoreFile.renameTo("keystore/aniflow-keystore.jks")
-                println("keystoreFile is moved to $keystoreFile")
-            } else {
+    if (project.hasProperty("android") && android.buildTypes.release) {
+        def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
+        def allFilesFromDir = new File(tmpFilePath).listFiles()
+        if (allFilesFromDir != null) {
+            def keystoreFile = allFilesFromDir.first()
+
+            if (keystoreFile == null || keystoreFile.name != 'aniflow-keystore.jks') {
                 throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
             }
+
+            copy {
+                from keystoreFile.absolutePath
+                into "$projectDir/keystore"
+            }
+        } else {
+            throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
         }
     }
 }
