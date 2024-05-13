@@ -83,8 +83,6 @@ class AuthRepository {
     }
   }
 
-  FutureOr<bool> isTokenValid() => authDataSource.isTokenValid();
-
   Future logout() async {
     final userId = preferences.userData.authedUserId;
     if (userId != null) {

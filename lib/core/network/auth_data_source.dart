@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
@@ -9,52 +7,20 @@ import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
-import 'package:aniflow/core/network/util/auth_request_util.dart';
-import 'package:aniflow/core/network/util/http_status_util.dart';
-import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class AuthDataSource {
-  AuthDataSource(this.dio, this.preferences);
+  AuthDataSource(this.dio);
 
   final Dio dio;
-  final UserDataPreferences preferences;
-
-  String get _token => isUnitTest
-      ? testToken
-      : preferences.userData.authToken ?? '';
-
-  Future<bool> isTokenValid() async {
-    try {
-      await dio.post(
-        aniListUrl,
-        queryParameters: {'query': authCheckMotion},
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $_token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-    } on DioException catch (e) {
-      if (e.response?.statusCode == StatusCode.unauthorized) {
-        logger.d('token is expired');
-      }
-      return false;
-    }
-
-    return true;
-  }
 
   Future<UserDto> getAuthedUserDataDto() async {
     final response = await dio.post(
       aniListUrl,
       queryParameters: {'query': updateUserMotionGraphQLString},
-      options: createQueryOptions(_token),
     );
 
     final resultJson = response.data['data']['UpdateUser'];
@@ -87,7 +53,6 @@ class AuthDataSource {
     final response = await dio.post(
       aniListUrl,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
       cancelToken: token,
     );
 
@@ -137,7 +102,6 @@ class AuthDataSource {
         'query': saveMediaListMotionGraphQLString,
         'variables': variablesMap,
       },
-      options: createQueryOptions(_token),
       cancelToken: token,
     );
 
@@ -158,7 +122,6 @@ class AuthDataSource {
 
     final response = await dio.post(
       aniListUrl,
-      options: _createQueryOptions(),
       data: {
         'query': notificationQueryGraphql,
         'variables': variablesMap,
@@ -170,15 +133,5 @@ class AuthDataSource {
         .map((e) => AniNotification.mapToAniNotification(e))
         .whereNotNull()
         .toList();
-  }
-
-  Options _createQueryOptions() {
-    return Options(
-      headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
   }
 }
