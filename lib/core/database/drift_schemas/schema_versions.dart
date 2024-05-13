@@ -1349,8 +1349,503 @@ i1.GeneratedColumn<String> _column_148(String aliasedName) =>
 i1.GeneratedColumn<String> _column_149(String aliasedName) =>
     i1.GeneratedColumn<String>('episode_number', aliasedName, false,
         type: i1.DriftSqlType.string);
+
+final class Schema3 extends i0.VersionedSchema {
+  Schema3({required super.database}) : super(version: 3);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    userTable,
+    studioTable,
+    staffTable,
+    activityTable,
+    airingScheduleTable,
+    characterTable,
+    mediaListTable,
+    mediaTable,
+    studioMediaCrossRefTable,
+    characterRelatedMediaCrossRefTable,
+    activityFilterTypePagingCrossRefTable,
+    mediaCharacterPagingCrossRefTable,
+    characterVoiceActorCrossRefTable,
+    mediaRelationCrossRefTable,
+    mediaStaffPagingCrossRefTable,
+    mediaExternalLinkTable,
+    categoryMediaPagingCrossRefTable,
+    favoriteInfoTable,
+    episodeTable,
+  ];
+  late final Shape0 userTable = Shape0(
+      source: i0.VersionedTable(
+        entityName: 'user_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(user_data_id)',
+        ],
+        columns: [
+          _column_0,
+          _column_1,
+          _column_2,
+          _column_3,
+          _column_4,
+          _column_5,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape1 studioTable = Shape1(
+      source: i0.VersionedTable(
+        entityName: 'studio_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(studio_id)',
+        ],
+        columns: [
+          _column_6,
+          _column_7,
+          _column_8,
+          _column_9,
+          _column_10,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape2 staffTable = Shape2(
+      source: i0.VersionedTable(
+        entityName: 'staff_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(staff_id)',
+        ],
+        columns: [
+          _column_11,
+          _column_12,
+          _column_13,
+          _column_14,
+          _column_15,
+          _column_16,
+          _column_17,
+          _column_18,
+          _column_19,
+          _column_20,
+          _column_21,
+          _column_22,
+          _column_23,
+          _column_24,
+          _column_25,
+          _column_26,
+          _column_27,
+          _column_28,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape3 activityTable = Shape3(
+      source: i0.VersionedTable(
+        entityName: 'activity_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(activity_id)',
+        ],
+        columns: [
+          _column_29,
+          _column_30,
+          _column_31,
+          _column_32,
+          _column_33,
+          _column_34,
+          _column_35,
+          _column_36,
+          _column_37,
+          _column_38,
+          _column_39,
+          _column_40,
+          _column_41,
+          _column_42,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape4 airingScheduleTable = Shape4(
+      source: i0.VersionedTable(
+        entityName: 'airing_schedule_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(airing_schedules_id)',
+        ],
+        columns: [
+          _column_43,
+          _column_44,
+          _column_45,
+          _column_46,
+          _column_47,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape5 characterTable = Shape5(
+      source: i0.VersionedTable(
+        entityName: 'character_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(character_id)',
+        ],
+        columns: [
+          _column_48,
+          _column_49,
+          _column_50,
+          _column_51,
+          _column_52,
+          _column_53,
+          _column_54,
+          _column_55,
+          _column_56,
+          _column_57,
+          _column_58,
+          _column_59,
+          _column_60,
+          _column_61,
+          _column_62,
+          _column_63,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape6 mediaListTable = Shape6(
+      source: i0.VersionedTable(
+        entityName: 'media_list_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(media_list_id)',
+        ],
+        columns: [
+          _column_64,
+          _column_65,
+          _column_66,
+          _column_67,
+          _column_68,
+          _column_69,
+          _column_70,
+          _column_71,
+          _column_72,
+          _column_73,
+          _column_74,
+          _column_75,
+          _column_76,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape19 mediaTable = Shape19(
+      source: i0.VersionedTable(
+        entityName: 'media_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(id)',
+        ],
+        columns: [
+          _column_77,
+          _column_78,
+          _column_79,
+          _column_80,
+          _column_81,
+          _column_82,
+          _column_83,
+          _column_84,
+          _column_85,
+          _column_86,
+          _column_87,
+          _column_88,
+          _column_89,
+          _column_90,
+          _column_91,
+          _column_92,
+          _column_93,
+          _column_94,
+          _column_95,
+          _column_96,
+          _column_97,
+          _column_98,
+          _column_99,
+          _column_100,
+          _column_101,
+          _column_102,
+          _column_103,
+          _column_104,
+          _column_105,
+          _column_106,
+          _column_107,
+          _column_150,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape8 studioMediaCrossRefTable = Shape8(
+      source: i0.VersionedTable(
+        entityName: 'studio_media_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(studio_media_cross_ref_studio_id, studio_media_cross_ref_media_id)',
+        ],
+        columns: [
+          _column_108,
+          _column_109,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape9 characterRelatedMediaCrossRefTable = Shape9(
+      source: i0.VersionedTable(
+        entityName: 'character_related_media_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(character_and_media_relation_cross_ref_character_id, character_and_media_relation_cross_ref_media_id)',
+        ],
+        columns: [
+          _column_110,
+          _column_111,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape10 activityFilterTypePagingCrossRefTable = Shape10(
+      source: i0.VersionedTable(
+        entityName: 'activity_filter_type_paging_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'UNIQUE(activity_filter_type_cross_activity_id, activity_filter_type_cross_filter_category)',
+        ],
+        columns: [
+          _column_112,
+          _column_113,
+          _column_114,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape11 mediaCharacterPagingCrossRefTable = Shape11(
+      source: i0.VersionedTable(
+        entityName: 'media_character_paging_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(media_character_cross_anime_id, media_character_cross_character_id)',
+        ],
+        columns: [
+          _column_115,
+          _column_116,
+          _column_117,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape12 characterVoiceActorCrossRefTable = Shape12(
+      source: i0.VersionedTable(
+        entityName: 'character_voice_actor_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'UNIQUE(character_voice_actor_cross_character_id, character_voice_actor_cross_staff_id)',
+        ],
+        columns: [
+          _column_118,
+          _column_119,
+          _column_120,
+          _column_121,
+          _column_122,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape13 mediaRelationCrossRefTable = Shape13(
+      source: i0.VersionedTable(
+        entityName: 'media_relation_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(media_relation_cross_ref_owner_media_id, media_relation_cross_ref_relation_media_id)',
+        ],
+        columns: [
+          _column_123,
+          _column_124,
+          _column_125,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape14 mediaStaffPagingCrossRefTable = Shape14(
+      source: i0.VersionedTable(
+        entityName: 'media_staff_paging_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(media_staff_cross_staff_id, media_staff_cross_anime_id)',
+        ],
+        columns: [
+          _column_126,
+          _column_127,
+          _column_128,
+          _column_129,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape15 mediaExternalLinkTable = Shape15(
+      source: i0.VersionedTable(
+        entityName: 'media_external_link_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(external_link_id)',
+        ],
+        columns: [
+          _column_130,
+          _column_131,
+          _column_132,
+          _column_133,
+          _column_134,
+          _column_135,
+          _column_136,
+          _column_137,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape16 categoryMediaPagingCrossRefTable = Shape16(
+      source: i0.VersionedTable(
+        entityName: 'category_media_paging_cross_ref_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(anime_category_cross_category_id, anime_category_cross_media_id)',
+        ],
+        columns: [
+          _column_138,
+          _column_139,
+          _column_140,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape17 favoriteInfoTable = Shape17(
+      source: i0.VersionedTable(
+        entityName: 'favorite_info_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [],
+        columns: [
+          _column_141,
+          _column_142,
+          _column_143,
+          _column_144,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape18 episodeTable = Shape18(
+      source: i0.VersionedTable(
+        entityName: 'episode_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [],
+        columns: [
+          _column_145,
+          _column_146,
+          _column_147,
+          _column_148,
+          _column_149,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+}
+
+class Shape19 extends i0.VersionedTable {
+  Shape19({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get type =>
+      columnsByName['media_type']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get englishTitle =>
+      columnsByName['english_title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get romajiTitle =>
+      columnsByName['romaji_title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get nativeTitle =>
+      columnsByName['native_title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get coverImageExtraLarge =>
+      columnsByName['cover_image_extra_large']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get coverImageLarge =>
+      columnsByName['cover_image_large']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get coverImageMedium =>
+      columnsByName['cover_image_medium']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get coverImageColor =>
+      columnsByName['cover_image_color']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get description =>
+      columnsByName['description']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get episodes =>
+      columnsByName['episodes']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get seasonYear =>
+      columnsByName['season_year']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get season =>
+      columnsByName['season']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get source =>
+      columnsByName['source']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get status =>
+      columnsByName['status']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get hashtag =>
+      columnsByName['hashtag']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get bannerImage =>
+      columnsByName['banner_image']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get averageScore =>
+      columnsByName['average_score']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get trailerId =>
+      columnsByName['trailer_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get trailerSite =>
+      columnsByName['trailer_site']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get trailerThumbnail =>
+      columnsByName['trailer_thumbnail']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get genres =>
+      columnsByName['genres']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get trending =>
+      columnsByName['trending']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get favourites =>
+      columnsByName['favourites']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get popularRanking =>
+      columnsByName['popular_ranking']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get ratedRanking =>
+      columnsByName['rated_ranking']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get nextAiringEpisode =>
+      columnsByName['next_airing_episode']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get timeUntilAiring =>
+      columnsByName['time_until_airing']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get startDate =>
+      columnsByName['start_date']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get endDate =>
+      columnsByName['end_date']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<bool> get isFavourite =>
+      columnsByName['is_favourite']! as i1.GeneratedColumn<bool>;
+  i1.GeneratedColumn<int> get nextAiringEpisodeUpdateTime =>
+      columnsByName['next_airing_episode_update_time']!
+          as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<int> _column_150(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+        'next_airing_episode_update_time', aliasedName, true,
+        type: i1.DriftSqlType.int);
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -1359,6 +1854,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from1To2(migrator, schema);
         return 2;
+      case 2:
+        final schema = Schema3(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from2To3(migrator, schema);
+        return 3;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -1367,8 +1867,10 @@ i0.MigrationStepWithVersion migrationSteps({
 
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) =>
     i0.VersionedSchema.stepByStepHelper(
         step: migrationSteps(
       from1To2: from1To2,
+      from2To3: from2To3,
     ));

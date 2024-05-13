@@ -81,7 +81,7 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase.test(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -92,6 +92,12 @@ class AniflowDatabase extends _$AniflowDatabase {
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
           await m.createTable(schema.episodeTable);
+        },
+        from2To3: (Migrator m, Schema3 schema) async {
+          await m.addColumn(
+            schema.mediaTable,
+            schema.mediaTable.nextAiringEpisodeUpdateTime,
+          );
         },
       ),
     );
