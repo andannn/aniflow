@@ -22,7 +22,11 @@ class StaffDao extends DatabaseAccessor<AniflowDatabase> with _$StaffDaoMixin {
 
   Future insertOrIgnoreStaffEntities(List<StaffEntity> entities) async {
     await batch((batch) {
-      batch.insertAll(staffTable, entities, mode: InsertMode.insertOrIgnore);
+      batch.insertAll(
+        staffTable,
+        entities,
+        mode: InsertMode.insertOrIgnore,
+      );
     });
   }
 

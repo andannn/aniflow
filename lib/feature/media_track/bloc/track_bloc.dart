@@ -17,7 +17,6 @@ import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 
 sealed class TrackEvent {}
@@ -227,16 +226,15 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   }
 
   List<MediaListItemModel> _getTrimmedMediaList(bool needShowReleasedOnly) {
-    List<MediaListItemModel> animeList;
+    List<MediaListItemModel> mediaList;
     if (needShowReleasedOnly) {
-      animeList =
+      mediaList =
           _watchingAnimeList.where((e) => e.hasNextReleasingEpisode).toList();
     } else {
-      animeList = _watchingAnimeList;
+      mediaList = _watchingAnimeList;
     }
-    final sorted =
-        animeList.sorted((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
-    return sorted.reversed.toList();
+
+    return mediaList;
   }
 
   Future<void> _onAnimeMarkWatched(

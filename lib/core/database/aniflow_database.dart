@@ -94,8 +94,7 @@ class AniflowDatabase extends _$AniflowDatabase {
           CREATE TRIGGER IF NOT EXISTS update_next_airing_episode_update_time_trigger
           AFTER UPDATE OF next_airing_episode ON media_table
           WHEN (
-              (OLD.next_airing_episode IS NULL AND NEW.next_airing_episode IS NOT NULL)
-              OR (OLD.next_airing_episode IS NOT NULL AND NEW.next_airing_episode IS NULL)
+              (OLD.next_airing_episode IS NOT NULL AND NEW.next_airing_episode IS NULL)
               OR OLD.next_airing_episode != NEW.next_airing_episode
           )
           BEGIN

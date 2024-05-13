@@ -318,9 +318,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       userId: userId,
       type: type,
     ).listen((mediaList) {
-      final nextToWatchMedia = mediaList
-          .where((e) => e.hasNextReleasingEpisode)
-          .sorted((a, b) => (b.updatedAt ?? 0).compareTo(a.updatedAt ?? 0));
+      final nextToWatchMedia =
+          mediaList.where((e) => e.hasNextReleasingEpisode).toList();
       add(_OnNextToWatchMediaChanged(nextToWatchMedia));
     });
     return sub;
