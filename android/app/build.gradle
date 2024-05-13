@@ -85,7 +85,7 @@ android {
 }
 
 task moveKeyStoreRelease {
-    if (project.hasProperty("android") && android.buildTypes.release) {
+    if (project.hasProperty("android") && project.hasProperty('release')) {
         def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
         def allFilesFromDir = new File(tmpFilePath).listFiles()
         if (allFilesFromDir != null) {
