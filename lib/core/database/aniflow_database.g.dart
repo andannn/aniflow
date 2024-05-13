@@ -4133,9 +4133,10 @@ class $MediaTableTable extends MediaTable
   static const VerificationMeta _nextAiringEpisodeUpdateTimeMeta =
       const VerificationMeta('nextAiringEpisodeUpdateTime');
   @override
-  late final GeneratedColumn<int> nextAiringEpisodeUpdateTime =
-      GeneratedColumn<int>('next_airing_episode_update_time', aliasedName, true,
-          type: DriftSqlType.int, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> nextAiringEpisodeUpdateTime =
+      GeneratedColumn<DateTime>(
+          'next_airing_episode_update_time', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -4424,7 +4425,7 @@ class $MediaTableTable extends MediaTable
       isFavourite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favourite']),
       nextAiringEpisodeUpdateTime: attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
+          DriftSqlType.dateTime,
           data['${effectivePrefix}next_airing_episode_update_time']),
     );
   }
@@ -4467,7 +4468,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
   final int? startDate;
   final int? endDate;
   final bool? isFavourite;
-  final int? nextAiringEpisodeUpdateTime;
+  final DateTime? nextAiringEpisodeUpdateTime;
   const MediaEntity(
       {required this.id,
       this.type,
@@ -4597,7 +4598,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
     }
     if (!nullToAbsent || nextAiringEpisodeUpdateTime != null) {
       map['next_airing_episode_update_time'] =
-          Variable<int>(nextAiringEpisodeUpdateTime);
+          Variable<DateTime>(nextAiringEpisodeUpdateTime);
     }
     return map;
   }
@@ -4733,7 +4734,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       endDate: serializer.fromJson<int?>(json['endDate']),
       isFavourite: serializer.fromJson<bool?>(json['isFavourite']),
       nextAiringEpisodeUpdateTime:
-          serializer.fromJson<int?>(json['nextAiringEpisodeUpdateTime']),
+          serializer.fromJson<DateTime?>(json['nextAiringEpisodeUpdateTime']),
     );
   }
   @override
@@ -4772,7 +4773,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       'endDate': serializer.toJson<int?>(endDate),
       'isFavourite': serializer.toJson<bool?>(isFavourite),
       'nextAiringEpisodeUpdateTime':
-          serializer.toJson<int?>(nextAiringEpisodeUpdateTime),
+          serializer.toJson<DateTime?>(nextAiringEpisodeUpdateTime),
     };
   }
 
@@ -4808,7 +4809,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           Value<int?> startDate = const Value.absent(),
           Value<int?> endDate = const Value.absent(),
           Value<bool?> isFavourite = const Value.absent(),
-          Value<int?> nextAiringEpisodeUpdateTime = const Value.absent()}) =>
+          Value<DateTime?> nextAiringEpisodeUpdateTime =
+              const Value.absent()}) =>
       MediaEntity(
         id: id ?? this.id,
         type: type.present ? type.value : this.type,
@@ -5008,7 +5010,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
   final Value<int?> startDate;
   final Value<int?> endDate;
   final Value<bool?> isFavourite;
-  final Value<int?> nextAiringEpisodeUpdateTime;
+  final Value<DateTime?> nextAiringEpisodeUpdateTime;
   final Value<int> rowid;
   const MediaTableCompanion({
     this.id = const Value.absent(),
@@ -5112,7 +5114,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     Expression<int>? startDate,
     Expression<int>? endDate,
     Expression<bool>? isFavourite,
-    Expression<int>? nextAiringEpisodeUpdateTime,
+    Expression<DateTime>? nextAiringEpisodeUpdateTime,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5186,7 +5188,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       Value<int?>? startDate,
       Value<int?>? endDate,
       Value<bool?>? isFavourite,
-      Value<int?>? nextAiringEpisodeUpdateTime,
+      Value<DateTime?>? nextAiringEpisodeUpdateTime,
       Value<int>? rowid}) {
     return MediaTableCompanion(
       id: id ?? this.id,
@@ -5325,7 +5327,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     }
     if (nextAiringEpisodeUpdateTime.present) {
       map['next_airing_episode_update_time'] =
-          Variable<int>(nextAiringEpisodeUpdateTime.value);
+          Variable<DateTime>(nextAiringEpisodeUpdateTime.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);

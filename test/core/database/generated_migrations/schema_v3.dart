@@ -615,9 +615,10 @@ class MediaTable extends Table with TableInfo {
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("is_favourite" IN (0, 1))'));
-  late final GeneratedColumn<int> nextAiringEpisodeUpdateTime =
-      GeneratedColumn<int>('next_airing_episode_update_time', aliasedName, true,
-          type: DriftSqlType.int, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> nextAiringEpisodeUpdateTime =
+      GeneratedColumn<DateTime>(
+          'next_airing_episode_update_time', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,

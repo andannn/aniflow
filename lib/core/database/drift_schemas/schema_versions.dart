@@ -1834,15 +1834,15 @@ class Shape19 extends i0.VersionedTable {
       columnsByName['end_date']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<bool> get isFavourite =>
       columnsByName['is_favourite']! as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<int> get nextAiringEpisodeUpdateTime =>
+  i1.GeneratedColumn<DateTime> get nextAiringEpisodeUpdateTime =>
       columnsByName['next_airing_episode_update_time']!
-          as i1.GeneratedColumn<int>;
+          as i1.GeneratedColumn<DateTime>;
 }
 
-i1.GeneratedColumn<int> _column_150(String aliasedName) =>
-    i1.GeneratedColumn<int>(
+i1.GeneratedColumn<DateTime> _column_150(String aliasedName) =>
+    i1.GeneratedColumn<DateTime>(
         'next_airing_episode_update_time', aliasedName, true,
-        type: i1.DriftSqlType.int);
+        type: i1.DriftSqlType.dateTime);
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,

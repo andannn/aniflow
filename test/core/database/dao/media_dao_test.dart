@@ -1,6 +1,7 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/relations/media_and_relation_type_entity.dart';
+import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,6 +24,7 @@ void main() {
           id: '5784',
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
+          nextAiringEpisode: 11,
           nativeTitle: '間の楔',
           coverImageExtraLarge:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
@@ -113,7 +115,7 @@ void main() {
     test('get_media_relation', () async {
       await dao.upsertMediaRelations('1', dummyMediaRelation);
       final stream = dao.getMediaRelationsStream('1');
-      final res =  await stream.first;
+      final res = await stream.first;
       expect(res, equals(dummyMediaRelation));
     });
 
@@ -124,12 +126,14 @@ void main() {
     });
 
     test('external links', () async {
-      final stream =  dao.getAllExternalLinksOfMediaStream('5784');
+      final stream = dao.getAllExternalLinksOfMediaStream('5784');
 
       await dao.upsertMediaExternalLinks(dummyExternalLinks);
       final expectation = expectLater(
         stream,
-        emitsInOrder([[dummyExternalLinks[0]]]),
+        emitsInOrder([
+          [dummyExternalLinks[0]]
+        ]),
       );
 
       await expectation;
@@ -143,6 +147,15 @@ void main() {
       final res = await dao.getMediaByPage('trendingAnime', page: 1);
 
       expect(res, equals([]));
+    });
+
+    test('test update_next_airing_episode_update_time_trigger', () async {
+      await dao.upsertMedia(dummyAnimeData);
+
+      await (db.update(db.mediaTable)..where((t) => t.id.equals('5784')))
+          .write(const MediaTableCompanion(nextAiringEpisode: Value(12)));
+
+      await (db.select(db.mediaTable)..where((t) => t.id.equals('5784'))).get();
     });
   });
 }
