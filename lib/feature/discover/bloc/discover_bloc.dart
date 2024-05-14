@@ -15,7 +15,6 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -309,7 +308,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     return sub;
   }
 
-  StreamSubscription<List<MediaListItemModel>> _startListenNextToWatchList(
+  StreamSubscription _startListenNextToWatchList(
     String userId,
     MediaType type,
   ) {
@@ -317,10 +316,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       status: [MediaListStatus.current, MediaListStatus.planning],
       userId: userId,
       type: type,
-    ).listen((mediaList) {
-      final nextToWatchMedia = mediaList
-          .where((e) => e.hasNextReleasingEpisode)
-          .sorted((a, b) => (b.updatedAt ?? 0).compareTo(a.updatedAt ?? 0));
+    ).listen((sorted) {
+      final nextToWatchMedia = sorted.newUpdateList;
       add(_OnNextToWatchMediaChanged(nextToWatchMedia));
     });
     return sub;

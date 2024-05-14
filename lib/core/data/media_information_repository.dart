@@ -212,7 +212,7 @@ class MediaInformationRepository {
           await dataSource.getNetworkAnime(id: int.parse(id), token: token);
 
       /// insert anime info to db.
-      await mediaDao.upsertMedia([networkResult.toEntity()]);
+      await mediaDao.insertOrUpdateMedia([networkResult.toEntity()]);
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];

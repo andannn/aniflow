@@ -22,10 +22,9 @@ class AiringSchedulesDao extends DatabaseAccessor<AniflowDatabase>
         schedules.map((e) => e.airingSchedule),
       );
 
-      batch.insertAll(
+      batch.insertAllOnConflictUpdate(
         mediaTable,
-        schedules.map((e) => e.mediaEntity),
-        mode: InsertMode.insertOrIgnore,
+        schedules.map((e) => e.mediaEntity.toCompanion(true)),
       );
     });
   }

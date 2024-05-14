@@ -25,4 +25,12 @@ void main() {
     // database has the expected schema.
     await verifier.migrateAndValidate(db, 2);
   });
+
+// TODO:
+  // test('upgrade from v2 to v3', () async {
+  //   final connection = await verifier.startAt(2);
+  //   final db = AniflowDatabase.test(connection);
+  //
+  //   await verifier.migrateAndValidate(db, 3);
+  // });
 }

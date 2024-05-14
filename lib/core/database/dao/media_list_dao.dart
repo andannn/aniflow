@@ -88,7 +88,11 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
 
   Future upsertMediaListEntities(List<MediaListEntity> entities) async {
     await batch((batch) {
-      batch.insertAllOnConflictUpdate(mediaListTable, entities);
+      batch.insertAll(
+        mediaListTable,
+        entities,
+        mode: InsertMode.insertOrReplace,
+      );
     });
   }
 
@@ -97,8 +101,25 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .go();
   }
 
-  Stream<List<MediaListAndMediaRelation>> getAllMediaListOfUserStream(
-      String userId, List<String> status, String mediaType) {
+  Stream<(List<MediaListAndMediaRelation>, List<MediaListAndMediaRelation>)>
+      getAllMediaListOfUserStream(
+          String userId, List<String> status, String mediaType) {
+    (List<MediaListAndMediaRelation>, List<MediaListAndMediaRelation>) sortList(
+        List<MediaListAndMediaRelation> list) {
+      final map = list.groupListsBy(
+          (e) => e.mediaEntity.nextAiringEpisodeUpdateTime != null);
+      // Ordered by newest to oldest.
+      final newUpdateList = (map[true] ?? [])
+          .sortedBy((e) => e.mediaEntity.nextAiringEpisodeUpdateTime!)
+          .reversed
+          .toList();
+      final otherList = (map[false] ?? [])
+          .sortedBy<num>((e) => e.mediaListEntity.updatedAt!)
+          .reversed
+          .toList();
+      return (newUpdateList, otherList);
+    }
+
     final query = select(mediaListTable).join([
       innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
     ])
@@ -115,7 +136,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
             mediaEntity: row.readTable(mediaTable),
           ),
         )
-        .watch();
+        .watch()
+        .distinct(
+            (pre, next) => const DeepCollectionEquality().equals(pre, next))
+        .map(sortList);
   }
 
   /// upsert mediaList and ignore media when conflict.
