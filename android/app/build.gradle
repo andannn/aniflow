@@ -85,7 +85,7 @@ android {
 }
 
 task moveKeyStoreRelease {
-    if (project.hasProperty("android") && project.hasProperty('release')) {
+    if (project.gradle.startParameter.taskNames.any { it.contains("Release") }) {
         def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
         def allFilesFromDir = new File(tmpFilePath).listFiles()
         if (allFilesFromDir != null) {
@@ -102,6 +102,8 @@ task moveKeyStoreRelease {
         } else {
             throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
         }
+    } else {
+        println("Debug mode. skip moving keystore file.")
     }
 }
 flutter {
