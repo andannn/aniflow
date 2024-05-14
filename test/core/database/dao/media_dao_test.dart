@@ -120,7 +120,7 @@ void main() {
     });
 
     test('get_medias', () async {
-      await dao.upsertMedia(dummyAnimeData);
+      await dao.insertOrUpdateMedia(dummyAnimeData);
       final res = await dao.getMedias(['5784', '8917']);
       expect(res.length, equals(2));
     });
@@ -150,7 +150,7 @@ void main() {
     });
 
     test('test update_next_airing_episode_update_time_trigger', () async {
-      await dao.upsertMedia(dummyAnimeData);
+      await dao.insertOrUpdateMedia(dummyAnimeData);
 
       await (db.update(db.mediaTable)..where((t) => t.id.equals('5784')))
           .write(const MediaTableCompanion(nextAiringEpisode: Value(12)));

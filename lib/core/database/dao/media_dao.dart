@@ -74,9 +74,12 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
     });
   }
 
-  Future upsertMedia(List<MediaEntity> entities) {
+  Future insertOrUpdateMedia(List<MediaEntity> entities) {
     return batch((batch) {
-      batch.insertAll(mediaTable, entities, mode: InsertMode.replace);
+      batch.insertAllOnConflictUpdate(
+        mediaTable,
+        entities.map((e) => e.toCompanion(true)),
+      );
     });
   }
 

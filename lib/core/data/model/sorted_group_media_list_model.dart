@@ -12,3 +12,7 @@ class SortedGroupMediaListModel {
   final List<MediaListItemModel> newUpdateList;
   final List<MediaListItemModel> otherList;
 }
+
+extension SortedGroupMediaListModelEx on SortedGroupMediaListModel {
+  bool get isEmpty => newUpdateList.isEmpty && otherList.isEmpty;
+}

@@ -182,7 +182,7 @@ class FavoriteRepository {
         final isFavourite = anime.isFavourite ?? false;
         return anime.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (status) => mediaInfoDao.upsertMedia([status]),
+      onSaveLocal: (status) => mediaInfoDao.insertOrUpdateMedia([status]),
       onSyncWithRemote: (status) async {
         await aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(animeId: int.parse(id)), token);

@@ -101,20 +101,23 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .go();
   }
 
-  Stream<List<MediaListAndMediaRelation>> getAllMediaListOfUserStream(
-      String userId, List<String> status, String mediaType) {
-    List<MediaListAndMediaRelation> sortList(
+  Stream<(List<MediaListAndMediaRelation>, List<MediaListAndMediaRelation>)>
+      getAllMediaListOfUserStream(
+          String userId, List<String> status, String mediaType) {
+    (List<MediaListAndMediaRelation>, List<MediaListAndMediaRelation>) sortList(
         List<MediaListAndMediaRelation> list) {
       final map = list.groupListsBy(
           (e) => e.mediaEntity.nextAiringEpisodeUpdateTime != null);
       // Ordered by newest to oldest.
       final newUpdateList = (map[true] ?? [])
           .sortedBy((e) => e.mediaEntity.nextAiringEpisodeUpdateTime!)
-          .reversed;
+          .reversed
+          .toList();
       final otherList = (map[false] ?? [])
           .sortedBy<num>((e) => e.mediaListEntity.updatedAt!)
-          .reversed;
-      return [...newUpdateList, ...otherList];
+          .reversed
+          .toList();
+      return (newUpdateList, otherList);
     }
 
     final query = select(mediaListTable).join([
