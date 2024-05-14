@@ -48,5 +48,4 @@ class MediaModel with _$MediaModel {
     @Default([]) List<MediaRelationModel> relations,
     @Default([]) List<StudioModel> studios,
   }) = _MediaModel;
-
 }
