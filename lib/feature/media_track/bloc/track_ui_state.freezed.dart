@@ -19,8 +19,10 @@ mixin _$TrackUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get showReleasedOnly => throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
-  MediaListLoadState get animeLoadState => throw _privateConstructorUsedError;
+  SortedGroupMediaListModel? get sortedGroupMediaListModel =>
+      throw _privateConstructorUsedError;
   AniListSettings? get settings => throw _privateConstructorUsedError;
+  UserModel? get userData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TrackUiStateCopyWith<TrackUiState> get copyWith =>
@@ -37,10 +39,12 @@ abstract class $TrackUiStateCopyWith<$Res> {
       {bool isLoading,
       bool showReleasedOnly,
       MediaType currentMediaType,
-      MediaListLoadState animeLoadState,
-      AniListSettings? settings});
+      SortedGroupMediaListModel? sortedGroupMediaListModel,
+      AniListSettings? settings,
+      UserModel? userData});
 
   $AniListSettingsCopyWith<$Res>? get settings;
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -59,8 +63,9 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
     Object? isLoading = null,
     Object? showReleasedOnly = null,
     Object? currentMediaType = null,
-    Object? animeLoadState = null,
+    Object? sortedGroupMediaListModel = freezed,
     Object? settings = freezed,
+    Object? userData = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -75,14 +80,18 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
           ? _value.currentMediaType
           : currentMediaType // ignore: cast_nullable_to_non_nullable
               as MediaType,
-      animeLoadState: null == animeLoadState
-          ? _value.animeLoadState
-          : animeLoadState // ignore: cast_nullable_to_non_nullable
-              as MediaListLoadState,
+      sortedGroupMediaListModel: freezed == sortedGroupMediaListModel
+          ? _value.sortedGroupMediaListModel
+          : sortedGroupMediaListModel // ignore: cast_nullable_to_non_nullable
+              as SortedGroupMediaListModel?,
       settings: freezed == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as AniListSettings?,
+      userData: freezed == userData
+          ? _value.userData
+          : userData // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ) as $Val);
   }
 
@@ -95,6 +104,18 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
 
     return $AniListSettingsCopyWith<$Res>(_value.settings!, (value) {
       return _then(_value.copyWith(settings: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<$Res>? get userData {
+    if (_value.userData == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.userData!, (value) {
+      return _then(_value.copyWith(userData: value) as $Val);
     });
   }
 }
@@ -111,11 +132,14 @@ abstract class _$$TrackUiStateImplCopyWith<$Res>
       {bool isLoading,
       bool showReleasedOnly,
       MediaType currentMediaType,
-      MediaListLoadState animeLoadState,
-      AniListSettings? settings});
+      SortedGroupMediaListModel? sortedGroupMediaListModel,
+      AniListSettings? settings,
+      UserModel? userData});
 
   @override
   $AniListSettingsCopyWith<$Res>? get settings;
+  @override
+  $UserModelCopyWith<$Res>? get userData;
 }
 
 /// @nodoc
@@ -132,8 +156,9 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? showReleasedOnly = null,
     Object? currentMediaType = null,
-    Object? animeLoadState = null,
+    Object? sortedGroupMediaListModel = freezed,
     Object? settings = freezed,
+    Object? userData = freezed,
   }) {
     return _then(_$TrackUiStateImpl(
       isLoading: null == isLoading
@@ -148,14 +173,18 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
           ? _value.currentMediaType
           : currentMediaType // ignore: cast_nullable_to_non_nullable
               as MediaType,
-      animeLoadState: null == animeLoadState
-          ? _value.animeLoadState
-          : animeLoadState // ignore: cast_nullable_to_non_nullable
-              as MediaListLoadState,
+      sortedGroupMediaListModel: freezed == sortedGroupMediaListModel
+          ? _value.sortedGroupMediaListModel
+          : sortedGroupMediaListModel // ignore: cast_nullable_to_non_nullable
+              as SortedGroupMediaListModel?,
       settings: freezed == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as AniListSettings?,
+      userData: freezed == userData
+          ? _value.userData
+          : userData // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
     ));
   }
 }
@@ -167,8 +196,9 @@ class _$TrackUiStateImpl implements _TrackUiState {
       {this.isLoading = false,
       this.showReleasedOnly = false,
       this.currentMediaType = MediaType.anime,
-      this.animeLoadState = const MediaStateInitState(),
-      this.settings});
+      this.sortedGroupMediaListModel,
+      this.settings,
+      this.userData});
 
   @override
   @JsonKey()
@@ -180,14 +210,15 @@ class _$TrackUiStateImpl implements _TrackUiState {
   @JsonKey()
   final MediaType currentMediaType;
   @override
-  @JsonKey()
-  final MediaListLoadState animeLoadState;
+  final SortedGroupMediaListModel? sortedGroupMediaListModel;
   @override
   final AniListSettings? settings;
+  @override
+  final UserModel? userData;
 
   @override
   String toString() {
-    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, currentMediaType: $currentMediaType, animeLoadState: $animeLoadState, settings: $settings)';
+    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, currentMediaType: $currentMediaType, sortedGroupMediaListModel: $sortedGroupMediaListModel, settings: $settings, userData: $userData)';
   }
 
   @override
@@ -201,15 +232,18 @@ class _$TrackUiStateImpl implements _TrackUiState {
                 other.showReleasedOnly == showReleasedOnly) &&
             (identical(other.currentMediaType, currentMediaType) ||
                 other.currentMediaType == currentMediaType) &&
-            (identical(other.animeLoadState, animeLoadState) ||
-                other.animeLoadState == animeLoadState) &&
+            (identical(other.sortedGroupMediaListModel,
+                    sortedGroupMediaListModel) ||
+                other.sortedGroupMediaListModel == sortedGroupMediaListModel) &&
             (identical(other.settings, settings) ||
-                other.settings == settings));
+                other.settings == settings) &&
+            (identical(other.userData, userData) ||
+                other.userData == userData));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, showReleasedOnly,
-      currentMediaType, animeLoadState, settings);
+      currentMediaType, sortedGroupMediaListModel, settings, userData);
 
   @JsonKey(ignore: true)
   @override
@@ -223,8 +257,9 @@ abstract class _TrackUiState implements TrackUiState {
       {final bool isLoading,
       final bool showReleasedOnly,
       final MediaType currentMediaType,
-      final MediaListLoadState animeLoadState,
-      final AniListSettings? settings}) = _$TrackUiStateImpl;
+      final SortedGroupMediaListModel? sortedGroupMediaListModel,
+      final AniListSettings? settings,
+      final UserModel? userData}) = _$TrackUiStateImpl;
 
   @override
   bool get isLoading;
@@ -233,9 +268,11 @@ abstract class _TrackUiState implements TrackUiState {
   @override
   MediaType get currentMediaType;
   @override
-  MediaListLoadState get animeLoadState;
+  SortedGroupMediaListModel? get sortedGroupMediaListModel;
   @override
   AniListSettings? get settings;
+  @override
+  UserModel? get userData;
   @override
   @JsonKey(ignore: true)
   _$$TrackUiStateImplCopyWith<_$TrackUiStateImpl> get copyWith =>

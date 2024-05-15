@@ -1,5 +1,6 @@
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/feature/search/bloc/search_type.dart';
 import 'package:flutter/material.dart';
 
 abstract class AFLocalizations {
@@ -100,6 +101,8 @@ abstract class AFLocalizations {
   String get mangaLabel;
 
   String getMediaSortString(MediaSort sort);
+
+  String getSearchTypeString(SearchType type);
 
   static AFLocalizations of([BuildContext? context]) {
     if (context == null && globalContext == null) {
@@ -265,6 +268,16 @@ class EnAniFlowLocalizations extends AFLocalizations {
     MediaSort.favorite => 'Favorite',
     MediaSort.popularity => 'Popularity',
   };
+
+  @override
+  String getSearchTypeString(SearchType type)  => switch (type) {
+    SearchType.anime => 'Anime',
+    SearchType.manga => 'Manga',
+    SearchType.character => 'Character',
+    SearchType.staff => 'Voice Actor/Staff',
+    SearchType.studio => 'Studio',
+    SearchType.user => 'User',
+  };
 }
 
 class JaAniFLowLocalizations extends AFLocalizations {
@@ -421,6 +434,16 @@ class JaAniFLowLocalizations extends AFLocalizations {
     MediaSort.favorite => 'お気に入り',
     MediaSort.popularity => '人気',
   };
+
+  @override
+  String getSearchTypeString(SearchType type)  => switch (type) {
+    SearchType.anime => 'アニメ',
+    SearchType.manga => '漫画',
+    SearchType.character => 'キャラクター',
+    SearchType.staff => '声優/スタッフ',
+    SearchType.studio => 'スタジオ',
+    SearchType.user => 'ユーサー',
+  };
 }
 
 class CNAniFlowLocalizations extends AFLocalizations {
@@ -576,5 +599,15 @@ class CNAniFlowLocalizations extends AFLocalizations {
     MediaSort.averageScore => '平均分数',
     MediaSort.favorite => '最爱',
     MediaSort.popularity => '人气',
+  };
+
+  @override
+  String getSearchTypeString(SearchType type)  => switch (type) {
+    SearchType.anime => '动画',
+    SearchType.manga => '漫画',
+    SearchType.character => '角色',
+    SearchType.staff => '声优/工作人员',
+    SearchType.studio => '工作室',
+    SearchType.user => '用户',
   };
 }

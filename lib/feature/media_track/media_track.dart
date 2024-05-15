@@ -3,14 +3,14 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
-import 'package:aniflow/core/design_system/widget/af_toogle_button.dart';
+import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
+import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
 import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
-import 'package:aniflow/feature/media_track/bloc/user_anime_list_load_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,17 +61,16 @@ class _AnimeTrackPageContent extends StatelessWidget {
 
   List<Widget> _buildTrackSectionContents(
       BuildContext context, TrackUiState state) {
-    final animeLoadState = state.animeLoadState;
-    if (animeLoadState is MediaStateNoUser) {
+    final userData = state.userData;
+    final sortedList = state.sortedGroupMediaListModel;
+    if (userData == null) {
       return [
         _buildNoUserHint(context),
       ];
-    } else if (animeLoadState is MediaStateInitState) {
+    } else if (sortedList == null) {
       return [];
     } else {
-      final animeList = (animeLoadState as MediaStateLoaded).followingMediaList;
-
-      if (animeList.isEmpty) {
+      if (sortedList.isEmpty == true) {
         return [
           SliverFillRemaining(
             child: Center(
@@ -92,6 +91,8 @@ class _AnimeTrackPageContent extends StatelessWidget {
       final showReleasedOnly = state.showReleasedOnly;
 
       final isAnime = state.currentMediaType == MediaType.anime;
+      final newUpdateList = sortedList.newUpdateList;
+      final otherList = sortedList.otherList;
       return [
         SliverVisibility(
           visible: isAnime,
@@ -101,15 +102,29 @@ class _AnimeTrackPageContent extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => _buildMediaListItem(context, animeList[index]),
-            childCount: animeList.length,
+            (context, index) =>
+                _buildMediaListItem(context, newUpdateList[index], true),
+            childCount: newUpdateList.length,
           ),
-        )
+        ),
+        SliverToBoxAdapter(
+          child: (newUpdateList.isNotEmpty && otherList.isNotEmpty)
+              ? const Divider()
+              : const SizedBox(),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) =>
+                _buildMediaListItem(context, otherList[index], false),
+            childCount: otherList.length,
+          ),
+        ),
       ];
     }
   }
 
-  Widget? _buildMediaListItem(BuildContext context, MediaListItemModel item) {
+  Widget? _buildMediaListItem(
+      BuildContext context, MediaListItemModel item, bool showNewBadge) {
     final language =
         context.read<TrackBloc>().state.settings?.userTitleLanguage ??
             UserTitleLanguage.native;
@@ -126,6 +141,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
       child: MediaListItem(
         model: item,
         language: language,
+        showNewBadge: showNewBadge,
         onMarkWatchedClick: () {
           context.read<TrackBloc>().add(OnAnimeMarkWatched(
               animeId: item.animeModel!.id,

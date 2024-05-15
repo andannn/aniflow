@@ -61,10 +61,9 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
         ),
       );
 
-      batch.insertAll(
+      batch.insertAllOnConflictUpdate(
         mediaTable,
-        relationEntity.map((e) => e.media),
-        mode: InsertMode.insertOrIgnore,
+        relationEntity.map((e) => e.media.toCompanion(true)),
       );
     });
   }
@@ -75,9 +74,12 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
     });
   }
 
-  Future upsertMedia(List<MediaEntity> entities) {
+  Future insertOrUpdateMedia(List<MediaEntity> entities) {
     return batch((batch) {
-      batch.insertAll(mediaTable, entities, mode: InsertMode.replace);
+      batch.insertAllOnConflictUpdate(
+        mediaTable,
+        entities.map((e) => e.toCompanion(true)),
+      );
     });
   }
 
@@ -131,7 +133,10 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
         ),
       );
 
-      batch.insertAll(mediaTable, medias, mode: InsertMode.insertOrIgnore);
+      batch.insertAllOnConflictUpdate(
+        mediaTable,
+        medias.map((e) => e.toCompanion(true)),
+      );
     });
   }
 }

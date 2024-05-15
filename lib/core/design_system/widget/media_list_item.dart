@@ -9,19 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MediaListItem extends StatelessWidget {
-  const MediaListItem(
-      {super.key,
-      required this.model,
-      required this.onMarkWatchedClick,
-      required this.onClick,
-      required this.language,
-      required this.onLongPress});
+  const MediaListItem({
+    super.key,
+    required this.model,
+    this.showNewBadge = false,
+    required this.onMarkWatchedClick,
+    required this.onClick,
+    required this.language,
+    required this.onLongPress,
+  });
 
   final MediaListItemModel model;
   final VoidCallback onClick;
   final VoidCallback onLongPress;
   final VoidCallback onMarkWatchedClick;
   final UserTitleLanguage language;
+  final bool showNewBadge;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,7 @@ class MediaListItem extends StatelessWidget {
           child: MediaRowItem(
             model: model.animeModel!,
             language: language,
+            showNewBadge: showNewBadge,
             watchingInfo: _buildWatchingInfoLabel(context, model),
             titleMaxLines: null,
             watchInfoTextColor: model.hasNextReleasingEpisode

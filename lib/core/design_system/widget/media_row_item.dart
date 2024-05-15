@@ -4,21 +4,25 @@ import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/design_system/icons/icons.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MediaRowItem extends StatelessWidget {
-  const MediaRowItem(
-      {required this.model,
-      required this.language,
-      this.onClick,
-      this.watchInfoTextColor,
-      this.watchingInfo,
-      super.key,
-      this.titleMaxLines = 2,
-      this.onLongPress});
+  const MediaRowItem({
+    required this.model,
+    required this.language,
+    this.onClick,
+    this.watchInfoTextColor,
+    this.watchingInfo,
+    super.key,
+    this.titleMaxLines = 2,
+    this.showNewBadge = false,
+    this.onLongPress,
+  });
 
   final MediaModel model;
+  final bool showNewBadge;
   final String? watchingInfo;
   final VoidCallback? onClick;
   final VoidCallback? onLongPress;
@@ -50,34 +54,52 @@ class MediaRowItem extends StatelessWidget {
             const SizedBox(width: 16),
             Expanded(
               flex: 1,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
-                  const SizedBox(height: 4),
-                  Text(
-                    model.title!.getTitle(language),
-                    style: textTheme.titleMedium
-                        ?.copyWith(color: surfaceTextColor),
-                    maxLines: titleMaxLines,
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 4),
+                      Text(
+                        model.title!.getTitle(language),
+                        style: textTheme.titleMedium
+                            ?.copyWith(color: surfaceTextColor),
+                        maxLines: titleMaxLines,
+                      ),
+                      const SizedBox(height: 16),
+                      watchingInfo != null
+                          ? Text(
+                              watchingInfo!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: watchInfoTextColor),
+                            )
+                          : const SizedBox(),
+                      const SizedBox(height: 16),
+                      Text(
+                        model.getAnimeInfoString(context),
+                        style: textTheme.bodySmall
+                            ?.copyWith(color: surfaceTextColor),
+                      ),
+                      const SizedBox(height: 4),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  watchingInfo != null
-                      ? Text(
-                          watchingInfo!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: watchInfoTextColor),
-                        )
-                      : const SizedBox(),
-                  const SizedBox(height: 16),
-                  Text(
-                    model.getAnimeInfoString(context),
-                    style:
-                        textTheme.bodySmall?.copyWith(color: surfaceTextColor),
-                  ),
-                  const SizedBox(height: 4),
+                  if (showNewBadge)
+                    Positioned(
+                      right: -8,
+                      bottom: -8,
+                      child: SizedBox.square(
+                        dimension: 36,
+                        child: Image.asset(
+                          ATIcons.icNewBadge,
+                          color: Colors.red,
+                        ),
+                      ),
+                    )
+                  else
+                    const SizedBox(),
                 ],
               ),
             ),

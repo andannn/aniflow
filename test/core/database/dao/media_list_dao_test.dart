@@ -1,6 +1,8 @@
+import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/relations/sorted_group_media_list_entity.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -80,12 +82,51 @@ void main() {
     test('upsert and get mediaList stream', () async {
       final stream =
           dao.getAllMediaListOfUserStream('22', ['current'], 'anime');
-      await dao.upsertMediaListAndMediaRelations(dummyData);
-
+      final data = [
+        MediaListAndMediaRelation(
+          mediaEntity: MediaEntity(
+            id: '8917',
+            type: 'anime',
+            nativeTitle: 'モーレツ宇宙海賊',
+            nextAiringEpisode: 3,
+            status: MediaStatus.releasing.toJson(),
+            nextAiringEpisodeUpdateTime: DateTime.now()
+                .subtract(const Duration(days: 3))
+                .add(const Duration(seconds: 1)),
+          ),
+          mediaListEntity: const MediaListEntity(
+            id: '1',
+            progress: 1,
+            status: 'current',
+            userId: '22',
+            mediaId: '8917',
+          ),
+        ),
+        MediaListAndMediaRelation(
+          mediaEntity: MediaEntity(
+            id: '8111',
+            type: 'anime',
+            nativeTitle: 'ヨルクラ  ',
+            nextAiringEpisodeUpdateTime:
+                DateTime.now().subtract(const Duration(days: 4, seconds: 1)),
+          ),
+          mediaListEntity: const MediaListEntity(
+            id: '2',
+            status: 'current',
+            userId: '22',
+            mediaId: '8111',
+          ),
+        )
+      ];
+      await dao.upsertMediaListAndMediaRelations(data);
       final expectation = expectLater(
         stream,
         emitsInOrder([
-          [dummyData[0]]
+          SortedGroupMediaListEntity([
+            data[0]
+          ], [
+            data[1],
+          ])
         ]),
       );
 

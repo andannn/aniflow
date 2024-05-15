@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class VerticalScaleSwitcher extends StatelessWidget {
   const VerticalScaleSwitcher(
-      {required this.child, required this.visible, super.key});
+      {required this.builder, required this.visible, super.key});
 
-  final Widget child;
+  final Widget Function() builder;
   final bool visible;
 
   @override
@@ -14,7 +14,7 @@ class VerticalScaleSwitcher extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       switchInCurve: Curves.ease,
       transitionBuilder: buildSizeTransition,
-      child: visible ? child : const SizedBox(),
+      child: visible ? builder() : const SizedBox(),
     );
   }
 }

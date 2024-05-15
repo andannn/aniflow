@@ -6,8 +6,6 @@ import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
-import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/network/api/activity_detail_query_graphql.dart';
 import 'package:aniflow/core/network/api/activity_like_mution_graphql.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
@@ -40,9 +38,9 @@ import 'package:aniflow/core/network/model/page_info.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
+import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
-import 'package:aniflow/core/network/util/auth_request_util.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -51,14 +49,9 @@ String aniListUrl = "https://graphql.anilist.co";
 
 @lazySingleton
 class AniListDataSource {
-  AniListDataSource(this._preferences, this.dio);
+  AniListDataSource(this.dio);
 
   final Dio dio;
-  final UserDataRepository _preferences;
-
-  String get _token => isUnitTest
-      ? testToken
-      : _preferences.userData.authToken ?? '';
 
   Future<MediaDto> getNetworkAnime(
       {required int id, CancelToken? token}) async {
@@ -70,7 +63,6 @@ class AniListDataSource {
       aniListUrl,
       data: {'query': queryGraphQL, 'variables': variablesMap},
       cancelToken: token,
-      options: createQueryOptions(_token),
     );
 
     final resultJson = response.data['data']['Media'];
@@ -150,7 +142,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final List resultJson =
@@ -177,7 +168,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final List resultJson = response.data['data']['Media']['staff']['edges'];
@@ -213,7 +203,6 @@ class AniListDataSource {
             aniListUrl,
             cancelToken: token,
             data: {'query': queryGraphQL, 'variables': variablesMap},
-            options: createQueryOptions(_token),
           );
           return response.data;
         },
@@ -246,7 +235,6 @@ class AniListDataSource {
         aniListUrl,
         cancelToken: token,
         data: {'query': queryGraphQL, 'variables': variablesMap},
-        options: createQueryOptions(_token),
       );
 
       final List resultJson = response.data['data']['Page']['mediaList'];
@@ -274,7 +262,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final Map<String, dynamic> resultJson = response.data['data']['MediaList'];
@@ -304,7 +291,6 @@ class AniListDataSource {
         'query': queryGraphQL,
         'variables': variablesMap,
       },
-      options: createQueryOptions(_token),
     );
     final List resultJson = response.data['data']['Page']['airingSchedules'];
     final airingSchedules =
@@ -313,14 +299,14 @@ class AniListDataSource {
     return airingSchedules;
   }
 
-  Future<List<MediaDto>> searchAnimePage({
+  Future<List<MediaDto>> searchMediaPage({
     required int page,
     required int perPage,
     required MediaType type,
     required String search,
     CancelToken? token,
   }) async {
-    final queryGraphQL = searchQueryGraphql;
+    final queryGraphQL = searchMediaQueryGraphql;
     final variablesMap = <String, dynamic>{
       'search': search,
       'page': page,
@@ -331,13 +317,108 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final List resultJson = response.data['data']['page']['media'];
     final List<MediaDto> mediaList =
         resultJson.map((e) => MediaDto.fromJson(e)).toList();
 
     return mediaList;
+  }
+
+  Future<List<CharacterDto>> searchCharacterPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchCharacterQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+    );
+    final List resultJson = response.data['data']['page']['characters'];
+    final List<CharacterDto> characterList =
+        resultJson.map((e) => CharacterDto.fromJson(e)).toList();
+
+    return characterList;
+  }
+
+  Future<List<StudioDto>> searchStudioPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchStudioQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+    );
+    final List resultJson = response.data['data']['page']['studios'];
+    final List<StudioDto> studioList =
+        resultJson.map((e) => StudioDto.fromJson(e)).toList();
+
+    return studioList;
+  }
+
+  Future<List<UserDto>> searchUserPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchUserQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+    );
+    final List resultJson = response.data['data']['page']['users'];
+    final List<UserDto> userList =
+        resultJson.map((e) => UserDto.fromJson(e)).toList();
+
+    return userList;
+  }
+
+  Future<List<StaffDto>> searchStaffPage({
+    required int page,
+    required int perPage,
+    required String search,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = searchStaffQueryGraphql;
+    final variablesMap = <String, dynamic>{
+      'search': search,
+      'page': page,
+      'perPage': perPage,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+    );
+    final List resultJson = response.data['data']['page']['staff'];
+    final List<StaffDto> staffList =
+        resultJson.map((e) => StaffDto.fromJson(e)).toList();
+
+    return staffList;
   }
 
   Future<List<MediaDto>> getFavoriteAnimeMedia({
@@ -356,7 +437,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final List resultJson =
         response.data['data']['User']['favourites']['anime']['nodes'];
@@ -382,7 +462,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final List resultJson =
@@ -409,7 +488,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final List resultJson =
         response.data['data']['User']['favourites']['characters']['nodes'];
@@ -436,7 +514,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final List resultJson =
         response.data['data']['User']['favourites']['staff']['nodes'];
@@ -480,7 +557,6 @@ class AniListDataSource {
         'query': queryGraphQL,
         'variables': variablesMap,
       },
-      options: createQueryOptions(_token),
     );
     final List resultJson = response.data['data']['Page']['activities'];
     final activities = resultJson
@@ -517,7 +593,6 @@ class AniListDataSource {
         'query': queryGraphQL,
         'variables': variablesMap,
       },
-      options: createQueryOptions(_token),
     );
   }
 
@@ -532,7 +607,6 @@ class AniListDataSource {
         'query': queryGraphQL,
         'variables': variablesMap,
       },
-      options: createQueryOptions(_token),
     );
   }
 
@@ -549,7 +623,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final Map<String, dynamic> resultJson = response.data['data']['Character'];
     final characterDto = CharacterDto.fromJson(resultJson);
@@ -570,7 +643,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final Map<String, dynamic> resultJson = response.data['data']['Staff'];
     final staffDto = StaffDto.fromJson(resultJson);
@@ -592,7 +664,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final Map<String, dynamic> resultJson =
@@ -615,7 +686,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
     final Map<String, dynamic> resultJson = response.data['data']['Studio'];
     final studioDto = StudioDto.fromJson(resultJson);
@@ -636,7 +706,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final Map<String, dynamic> resultJson =
@@ -668,7 +737,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final Map<String, dynamic> resultJson = type.isManga
@@ -698,7 +766,6 @@ class AniListDataSource {
       aniListUrl,
       cancelToken: token,
       data: {'query': queryGraphQL, 'variables': variablesMap},
-      options: createQueryOptions(_token),
     );
 
     final List resultList = response.data['data']['Page']['media'];
@@ -721,7 +788,6 @@ class AniListDataSource {
         'query': queryGraphQL,
         'variables': variablesMap,
       },
-      options: createQueryOptions(_token),
     );
     final Map<String, dynamic> resultJson = response.data['data']['Activity'];
 

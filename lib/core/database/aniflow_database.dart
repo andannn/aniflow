@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:aniflow/core/database/dao/activity_dao.dart';
@@ -81,17 +82,44 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase.test(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
+
+  @override
+  DriftDatabaseOptions get options =>
+      const DriftDatabaseOptions(storeDateTimeAsText: true);
 
   @override
   MigrationStrategy get migration {
+    Future updateNextEpisodeUpdateTimeTrigger() => customStatement('''
+          CREATE TRIGGER IF NOT EXISTS update_next_airing_episode_update_time_trigger
+          AFTER UPDATE OF next_airing_episode ON media_table
+          WHEN (
+              (OLD.next_airing_episode IS NOT NULL AND NEW.next_airing_episode IS NULL)
+              OR OLD.next_airing_episode != NEW.next_airing_episode
+          )
+          BEGIN
+            UPDATE media_table
+            SET next_airing_episode_update_time = DATETIME('now')
+            WHERE id = OLD.id;
+          END;
+        ''');
     return MigrationStrategy(
       onCreate: (Migrator m) async {
         await m.createAll();
+
+        await updateNextEpisodeUpdateTimeTrigger();
       },
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
           await m.createTable(schema.episodeTable);
+        },
+        from2To3: (Migrator m, Schema3 schema) async {
+          await m.addColumn(
+            schema.mediaTable,
+            schema.mediaTable.nextAiringEpisodeUpdateTime,
+          );
+
+          await updateNextEpisodeUpdateTimeTrigger();
         },
       ),
     );

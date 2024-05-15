@@ -3,8 +3,8 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:flutter/material.dart';
 
-class SearchAnimeItem extends StatelessWidget {
-  const SearchAnimeItem({
+class SearchMediaItem extends StatelessWidget {
+  const SearchMediaItem({
     required this.model,
     required this.onClick,
     super.key,

@@ -309,7 +309,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       {required BuildContext context, required String? description}) {
     return VerticalScaleSwitcher(
       visible: description != null,
-      child: Padding(
+      builder: () =>  Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,7 +343,7 @@ class _DetailAnimePageContent extends StatelessWidget {
         : models.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: models.isNotEmpty,
-      child: Column(
+      builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -424,7 +424,7 @@ class _DetailAnimePageContent extends StatelessWidget {
         : staffs.length * itemHeight;
     return VerticalScaleSwitcher(
       visible: staffs.isNotEmpty,
-      child: Column(
+      builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -515,7 +515,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       BuildContext context, List<MediaExternalLinkModel> externalLinks) {
     return VerticalScaleSwitcher(
       visible: externalLinks.isNotEmpty,
-      child: Column(
+      builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -543,7 +543,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       {required VoidCallback onTrailerClick, TrailerModel? trailerModel}) {
     return VerticalScaleSwitcher(
       visible: trailerModel != null,
-      child: Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -568,7 +568,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final hashTags = model.hashtags;
     return VerticalScaleSwitcher(
       visible: hashTags.isNotEmpty,
-      child: Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Wrap(
           spacing: 10,
@@ -584,7 +584,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final infoString = model.getAnimeInfoString(context);
     return VerticalScaleSwitcher(
       visible: infoString.isNotEmpty,
-      child: Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -608,7 +608,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     const stringRes = 'Next airing schedule is EP.%s in %s';
     return VerticalScaleSwitcher(
       visible: true,
-      child: Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
           sprintf(stringRes, [nextAiringEpisode, airingTimeString]),
@@ -652,7 +652,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       required List<MediaRelationModel> relations}) {
     return VerticalScaleSwitcher(
       visible: relations.isNotEmpty,
-      child: Padding(
+      builder: () =>  Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -692,7 +692,7 @@ class _DetailAnimePageContent extends StatelessWidget {
   }) {
     return VerticalScaleSwitcher(
       visible: studios.isNotEmpty,
-      child: Column(
+      builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(

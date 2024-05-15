@@ -34,10 +34,9 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
         mode: InsertMode.insertOrIgnore,
       );
 
-      batch.insertAll(
+      batch.insertAllOnConflictUpdate(
         mediaTable,
-        entities.map((e) => e.media).whereNotNull(),
-        mode: InsertMode.insertOrIgnore,
+        entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
       );
     });
   }
@@ -69,8 +68,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
 
       batch.insertAll(
         mediaTable,
-        entities.map((e) => e.media).whereNotNull(),
-        mode: InsertMode.insertOrIgnore,
+        entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
       );
     });
   }

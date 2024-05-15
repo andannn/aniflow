@@ -4130,6 +4130,13 @@ class $MediaTableTable extends MediaTable
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("is_favourite" IN (0, 1))'));
+  static const VerificationMeta _nextAiringEpisodeUpdateTimeMeta =
+      const VerificationMeta('nextAiringEpisodeUpdateTime');
+  @override
+  late final GeneratedColumn<DateTime> nextAiringEpisodeUpdateTime =
+      GeneratedColumn<DateTime>(
+          'next_airing_episode_update_time', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -4162,7 +4169,8 @@ class $MediaTableTable extends MediaTable
         timeUntilAiring,
         startDate,
         endDate,
-        isFavourite
+        isFavourite,
+        nextAiringEpisodeUpdateTime
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4337,6 +4345,13 @@ class $MediaTableTable extends MediaTable
           isFavourite.isAcceptableOrUnknown(
               data['is_favourite']!, _isFavouriteMeta));
     }
+    if (data.containsKey('next_airing_episode_update_time')) {
+      context.handle(
+          _nextAiringEpisodeUpdateTimeMeta,
+          nextAiringEpisodeUpdateTime.isAcceptableOrUnknown(
+              data['next_airing_episode_update_time']!,
+              _nextAiringEpisodeUpdateTimeMeta));
+    }
     return context;
   }
 
@@ -4409,6 +4424,9 @@ class $MediaTableTable extends MediaTable
           .read(DriftSqlType.int, data['${effectivePrefix}end_date']),
       isFavourite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favourite']),
+      nextAiringEpisodeUpdateTime: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime,
+          data['${effectivePrefix}next_airing_episode_update_time']),
     );
   }
 
@@ -4450,6 +4468,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
   final int? startDate;
   final int? endDate;
   final bool? isFavourite;
+  final DateTime? nextAiringEpisodeUpdateTime;
   const MediaEntity(
       {required this.id,
       this.type,
@@ -4481,7 +4500,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       this.timeUntilAiring,
       this.startDate,
       this.endDate,
-      this.isFavourite});
+      this.isFavourite,
+      this.nextAiringEpisodeUpdateTime});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -4576,6 +4596,10 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
     if (!nullToAbsent || isFavourite != null) {
       map['is_favourite'] = Variable<bool>(isFavourite);
     }
+    if (!nullToAbsent || nextAiringEpisodeUpdateTime != null) {
+      map['next_airing_episode_update_time'] =
+          Variable<DateTime>(nextAiringEpisodeUpdateTime);
+    }
     return map;
   }
 
@@ -4666,6 +4690,10 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       isFavourite: isFavourite == null && nullToAbsent
           ? const Value.absent()
           : Value(isFavourite),
+      nextAiringEpisodeUpdateTime:
+          nextAiringEpisodeUpdateTime == null && nullToAbsent
+              ? const Value.absent()
+              : Value(nextAiringEpisodeUpdateTime),
     );
   }
 
@@ -4705,6 +4733,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       startDate: serializer.fromJson<int?>(json['startDate']),
       endDate: serializer.fromJson<int?>(json['endDate']),
       isFavourite: serializer.fromJson<bool?>(json['isFavourite']),
+      nextAiringEpisodeUpdateTime:
+          serializer.fromJson<DateTime?>(json['nextAiringEpisodeUpdateTime']),
     );
   }
   @override
@@ -4742,6 +4772,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       'startDate': serializer.toJson<int?>(startDate),
       'endDate': serializer.toJson<int?>(endDate),
       'isFavourite': serializer.toJson<bool?>(isFavourite),
+      'nextAiringEpisodeUpdateTime':
+          serializer.toJson<DateTime?>(nextAiringEpisodeUpdateTime),
     };
   }
 
@@ -4776,7 +4808,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           Value<int?> timeUntilAiring = const Value.absent(),
           Value<int?> startDate = const Value.absent(),
           Value<int?> endDate = const Value.absent(),
-          Value<bool?> isFavourite = const Value.absent()}) =>
+          Value<bool?> isFavourite = const Value.absent(),
+          Value<DateTime?> nextAiringEpisodeUpdateTime =
+              const Value.absent()}) =>
       MediaEntity(
         id: id ?? this.id,
         type: type.present ? type.value : this.type,
@@ -4827,6 +4861,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         startDate: startDate.present ? startDate.value : this.startDate,
         endDate: endDate.present ? endDate.value : this.endDate,
         isFavourite: isFavourite.present ? isFavourite.value : this.isFavourite,
+        nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime.present
+            ? nextAiringEpisodeUpdateTime.value
+            : this.nextAiringEpisodeUpdateTime,
       );
   @override
   String toString() {
@@ -4861,7 +4898,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           ..write('timeUntilAiring: $timeUntilAiring, ')
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
-          ..write('isFavourite: $isFavourite')
+          ..write('isFavourite: $isFavourite, ')
+          ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime')
           ..write(')'))
         .toString();
   }
@@ -4898,7 +4936,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         timeUntilAiring,
         startDate,
         endDate,
-        isFavourite
+        isFavourite,
+        nextAiringEpisodeUpdateTime
       ]);
   @override
   bool operator ==(Object other) =>
@@ -4934,7 +4973,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           other.timeUntilAiring == this.timeUntilAiring &&
           other.startDate == this.startDate &&
           other.endDate == this.endDate &&
-          other.isFavourite == this.isFavourite);
+          other.isFavourite == this.isFavourite &&
+          other.nextAiringEpisodeUpdateTime ==
+              this.nextAiringEpisodeUpdateTime);
 }
 
 class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
@@ -4969,6 +5010,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
   final Value<int?> startDate;
   final Value<int?> endDate;
   final Value<bool?> isFavourite;
+  final Value<DateTime?> nextAiringEpisodeUpdateTime;
   final Value<int> rowid;
   const MediaTableCompanion({
     this.id = const Value.absent(),
@@ -5002,6 +5044,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.startDate = const Value.absent(),
     this.endDate = const Value.absent(),
     this.isFavourite = const Value.absent(),
+    this.nextAiringEpisodeUpdateTime = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   MediaTableCompanion.insert({
@@ -5036,6 +5079,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.startDate = const Value.absent(),
     this.endDate = const Value.absent(),
     this.isFavourite = const Value.absent(),
+    this.nextAiringEpisodeUpdateTime = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id);
   static Insertable<MediaEntity> custom({
@@ -5070,6 +5114,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     Expression<int>? startDate,
     Expression<int>? endDate,
     Expression<bool>? isFavourite,
+    Expression<DateTime>? nextAiringEpisodeUpdateTime,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5105,6 +5150,8 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       if (startDate != null) 'start_date': startDate,
       if (endDate != null) 'end_date': endDate,
       if (isFavourite != null) 'is_favourite': isFavourite,
+      if (nextAiringEpisodeUpdateTime != null)
+        'next_airing_episode_update_time': nextAiringEpisodeUpdateTime,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5141,6 +5188,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       Value<int?>? startDate,
       Value<int?>? endDate,
       Value<bool?>? isFavourite,
+      Value<DateTime?>? nextAiringEpisodeUpdateTime,
       Value<int>? rowid}) {
     return MediaTableCompanion(
       id: id ?? this.id,
@@ -5174,6 +5222,8 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       isFavourite: isFavourite ?? this.isFavourite,
+      nextAiringEpisodeUpdateTime:
+          nextAiringEpisodeUpdateTime ?? this.nextAiringEpisodeUpdateTime,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5275,6 +5325,10 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     if (isFavourite.present) {
       map['is_favourite'] = Variable<bool>(isFavourite.value);
     }
+    if (nextAiringEpisodeUpdateTime.present) {
+      map['next_airing_episode_update_time'] =
+          Variable<DateTime>(nextAiringEpisodeUpdateTime.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5315,6 +5369,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('isFavourite: $isFavourite, ')
+          ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();

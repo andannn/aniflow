@@ -74,4 +74,7 @@ class MediaTable extends Table {
   IntColumn get endDate => integer().named('end_date').nullable()();
 
   BoolColumn get isFavourite => boolean().named('is_favourite').nullable()();
+
+  DateTimeColumn get nextAiringEpisodeUpdateTime =>
+      dateTime().named('next_airing_episode_update_time').nullable()();
 }

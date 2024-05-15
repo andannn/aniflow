@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
@@ -145,7 +146,7 @@ class MediaListRepository {
     }
   }
 
-  Stream<List<MediaListItemModel>> getMediaListStream(
+  Stream<SortedGroupMediaListModel> getMediaListStream(
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
@@ -156,7 +157,10 @@ class MediaListRepository {
           type.toJson(),
         )
         .map(
-          (models) => models.map((e) => e.toModel()).toList(),
+          (sorted) => SortedGroupMediaListModel(
+            sorted.newUpdateList.map((e) => e.toModel()).toList(),
+            sorted.otherList.map((e) => e.toModel()).toList(),
+          ),
         );
   }
 

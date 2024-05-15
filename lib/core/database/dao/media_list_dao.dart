@@ -1,6 +1,9 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
+import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/relations/sorted_group_media_list_entity.dart';
 import 'package:aniflow/core/database/tables/media_list_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
 import 'package:collection/collection.dart';
@@ -88,7 +91,11 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
 
   Future upsertMediaListEntities(List<MediaListEntity> entities) async {
     await batch((batch) {
-      batch.insertAllOnConflictUpdate(mediaListTable, entities);
+      batch.insertAll(
+        mediaListTable,
+        entities,
+        mode: InsertMode.insertOrReplace,
+      );
     });
   }
 
@@ -97,8 +104,34 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .go();
   }
 
-  Stream<List<MediaListAndMediaRelation>> getAllMediaListOfUserStream(
+  Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
+    SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
+      bool isNewUpdateMedia(MediaListAndMediaRelation relation) {
+        final updateTime = relation.mediaEntity.nextAiringEpisodeUpdateTime;
+        if (updateTime == null) {
+          return false;
+        }
+
+        final isInRange = DateTime.now().difference(updateTime) <
+            const Duration(days: newUpdateDayRange);
+        final hasNextEpisode = relation.hasNextReleasingEpisode;
+        return isInRange && hasNextEpisode;
+      }
+
+      final map = list.groupListsBy((e) => isNewUpdateMedia(e));
+      // Ordered by newest to oldest.
+      final newUpdateList = (map[true] ?? [])
+          .sortedBy((e) => e.mediaEntity.nextAiringEpisodeUpdateTime!)
+          .reversed
+          .toList();
+      final otherList = (map[false] ?? [])
+          .sortedBy<num>((e) => e.mediaListEntity.updatedAt ?? 0)
+          .reversed
+          .toList();
+      return SortedGroupMediaListEntity(newUpdateList, otherList);
+    }
+
     final query = select(mediaListTable).join([
       innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
     ])
@@ -115,7 +148,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
             mediaEntity: row.readTable(mediaTable),
           ),
         )
-        .watch();
+        .watch()
+        .distinct(
+            (pre, next) => const DeepCollectionEquality().equals(pre, next))
+        .map(sortList);
   }
 
   /// upsert mediaList and ignore media when conflict.

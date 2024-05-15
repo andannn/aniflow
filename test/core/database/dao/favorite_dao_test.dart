@@ -52,7 +52,7 @@ void main() {
     ];
 
     test('get_favorite_anime', () async {
-      await mediaDao.upsertMedia(dummyMediaData);
+      await mediaDao.insertOrUpdateMedia(dummyMediaData);
       await favoriteDao
           .insertFavoritesCrossRef('1', FavoriteType.anime, ['33']);
       await favoriteDao
