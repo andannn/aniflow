@@ -309,7 +309,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       {required BuildContext context, required String? description}) {
     return VerticalScaleSwitcher(
       visible: description != null,
-      builder: () =>  Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,9 +319,7 @@ class _DetailAnimePageContent extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             description != null
-                ? Card(
-                    elevation: 0,
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                ? Card.filled(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AfHtmlWidget(html: description),
@@ -652,7 +650,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       required List<MediaRelationModel> relations}) {
     return VerticalScaleSwitcher(
       visible: relations.isNotEmpty,
-      builder: () =>  Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

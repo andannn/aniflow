@@ -92,19 +92,13 @@ class AniFlowAppState extends State<AniFlowApp> {
             ColorScheme lightColorScheme;
             ColorScheme darkColorScheme;
 
-            if (lightDynamic != null && darkDynamic != null) {
-              lightColorScheme = lightDynamic.harmonized();
-              darkColorScheme = darkDynamic.harmonized();
-            } else {
-              // Otherwise, use fallback schemes.
-              lightColorScheme = ColorScheme.fromSeed(
-                seedColor: brandColor,
-              );
-              darkColorScheme = ColorScheme.fromSeed(
-                seedColor: brandColor,
-                brightness: Brightness.dark,
-              );
-            }
+            lightColorScheme = ColorScheme.fromSeed(
+              seedColor: lightDynamic?.primary ?? brandColor,
+            );
+            darkColorScheme = ColorScheme.fromSeed(
+              seedColor: darkDynamic?.primary ?? brandColor,
+              brightness: Brightness.dark,
+            );
             return MaterialApp.router(
               themeMode: themeMode,
               theme: ThemeData(

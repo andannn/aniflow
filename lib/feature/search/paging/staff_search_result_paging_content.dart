@@ -61,9 +61,7 @@ class SearchStaffItem extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final surfaceTextColor = colorScheme.onSurfaceVariant;
     final textTheme = Theme.of(context).textTheme;
-    return Card(
-      elevation: 0,
-      color: colorScheme.surfaceVariant,
+    return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onClick,

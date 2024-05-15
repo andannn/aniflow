@@ -54,7 +54,8 @@ class _MediaSearchPageContent extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            backgroundColor:
+                Theme.of(context).colorScheme.surfaceContainerHighest,
             title: _buildSearchArea(context, selectedSearchType),
           ),
           body: Padding(

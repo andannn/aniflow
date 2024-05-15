@@ -20,10 +20,8 @@ class MediaRelationWidget extends StatelessWidget {
     final labelStyle = textTheme.bodyLarge!
         .copyWith(color: Theme.of(context).colorScheme.primary);
 
-    return Card(
-      elevation: 0,
+    return Card.filled(
       clipBehavior: Clip.hardEdge,
-      color: Theme.of(context).colorScheme.surfaceVariant,
       child: InkWell(
         onTap: onClick,
         child: Row(

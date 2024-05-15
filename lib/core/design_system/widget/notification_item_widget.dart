@@ -53,9 +53,7 @@ class NotificationItem extends StatelessWidget {
           MediaDeletionNotification() => ''
         };
 
-    return Card(
-      elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+    return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onNotificationClick,

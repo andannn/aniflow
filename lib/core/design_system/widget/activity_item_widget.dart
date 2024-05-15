@@ -44,9 +44,7 @@ class ActivityItem extends StatelessWidget {
         '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
     return Container(
       constraints: const BoxConstraints(minHeight: 120),
-      child: Card(
-        elevation: 0,
-        color: colorScheme.surfaceVariant,
+      child: Card.filled(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onActivityClick != null
@@ -153,8 +151,6 @@ class ActivityItem extends StatelessWidget {
     final timeUntilNowString =
         '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
     return Card(
-      elevation: 0,
-      color: colorScheme.surfaceVariant,
       child: InkWell(
         onTap: onActivityClick != null
             ? () {

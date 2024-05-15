@@ -56,7 +56,7 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
           (e) => MediaRelationCrossRefTableCompanion(
             ownerId: Value(ownerId),
             relationId: Value(e.media.id),
-            relationType: Value.ofNullable(e.mediaRelation),
+            relationType: Value.absentIfNull(e.mediaRelation),
           ),
         ),
       );

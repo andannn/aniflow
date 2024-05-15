@@ -67,7 +67,6 @@ class _DetailStaffContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DetailStaffBloc, DetailStaffState>(
       builder: (BuildContext context, state) {
-        final colorScheme = Theme.of(context).colorScheme;
         final staff = state.staffModel;
         final isLoading = state.isLoading;
         final mediaSort = state.mediaSort;
@@ -101,9 +100,7 @@ class _DetailStaffContent extends StatelessWidget {
               SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
-                  child: Card(
-                    elevation: 0,
-                    color: colorScheme.surfaceVariant,
+                  child: Card.filled(
                     clipBehavior: Clip.antiAlias,
                     child: AFNetworkImage(imageUrl: staff.largeImage),
                   ),

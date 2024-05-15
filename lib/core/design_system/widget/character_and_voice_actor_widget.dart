@@ -24,10 +24,8 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = textStyle?.copyWith(
         color: Theme.of(context).colorScheme.onSurfaceVariant);
-    return Card(
-      elevation: 0,
+    return Card.filled(
       clipBehavior: Clip.hardEdge,
-      color: Theme.of(context).colorScheme.surfaceVariant,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [

@@ -41,13 +41,13 @@ class _AFNetworkImageState extends State<AFNetworkImage>
 
   Widget _buildErrorWidget(BuildContext context, String url, Object error) {
     return Container(
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
     );
   }
 
   Widget buildPlaceHolderWidget(BuildContext context, String url) {
     return Container(
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
     );
   }
 }

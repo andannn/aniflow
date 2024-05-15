@@ -52,7 +52,6 @@ class _DetailCharacterContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DetailCharacterBloc, DetailCharacterState>(
         builder: (BuildContext context, state) {
-      final colorScheme = Theme.of(context).colorScheme;
       final character = state.characterModel;
       final isLoading = state.isLoading;
       final relatedMedias = state.characterModel?.relatedMedias ?? [];
@@ -89,9 +88,7 @@ class _DetailCharacterContent extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
-                  child: Card(
-                    elevation: 0,
-                    color: colorScheme.surfaceVariant,
+                  child: Card.filled(
                     clipBehavior: Clip.antiAlias,
                     child: AFNetworkImage(imageUrl: character.largeImage),
                   ),
