@@ -34,7 +34,7 @@ class MediaListItem extends StatelessWidget {
       opacity: hasNextReleasingEpisode ? 1.0 : 0.7,
       child: Card(
         elevation: 0,
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         clipBehavior: Clip.antiAlias,
         child: MarkWatchSlideWidget(
           onWatchedClick: onMarkWatchedClick,

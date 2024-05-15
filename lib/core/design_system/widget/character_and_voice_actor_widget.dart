@@ -27,7 +27,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
     return Card(
       elevation: 0,
       clipBehavior: Clip.hardEdge,
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      color: Theme.of(context).colorScheme.surfaceVariant,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [

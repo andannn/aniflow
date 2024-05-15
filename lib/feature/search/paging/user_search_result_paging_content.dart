@@ -37,7 +37,7 @@ class UserSearchResultPagingContent extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: colorScheme.surfaceContainerHighest,
+      color: colorScheme.surfaceVariant,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onClick,
