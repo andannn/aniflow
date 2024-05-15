@@ -23,7 +23,7 @@ class MediaRelationWidget extends StatelessWidget {
     return Card(
       elevation: 0,
       clipBehavior: Clip.hardEdge,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: InkWell(
         onTap: onClick,
         child: Row(

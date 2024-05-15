@@ -55,7 +55,7 @@ class NotificationItem extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onNotificationClick,
