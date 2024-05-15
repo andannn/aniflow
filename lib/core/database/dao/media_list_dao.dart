@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 import 'package:aniflow/core/database/relations/sorted_group_media_list_entity.dart';
@@ -105,8 +106,17 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
     SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
-      final map = list.groupListsBy(
-          (e) => e.mediaEntity.nextAiringEpisodeUpdateTime != null);
+      bool isNewUpdateMedia(MediaListAndMediaRelation relation) {
+        final updateTime = relation.mediaEntity.nextAiringEpisodeUpdateTime;
+        if (updateTime == null) {
+          return false;
+        }
+
+        return DateTime.now().difference(updateTime) <
+            const Duration(days: newUpdateDayRange);
+      }
+
+      final map = list.groupListsBy((e) => isNewUpdateMedia(e));
       // Ordered by newest to oldest.
       final newUpdateList = (map[true] ?? [])
           .sortedBy((e) => e.mediaEntity.nextAiringEpisodeUpdateTime!)

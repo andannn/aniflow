@@ -87,7 +87,9 @@ void main() {
             id: '8917',
             type: 'anime',
             nativeTitle: 'モーレツ宇宙海賊',
-            nextAiringEpisodeUpdateTime: DateTime(2000),
+            nextAiringEpisodeUpdateTime: DateTime.now()
+                .subtract(const Duration(days: 3))
+                .add(const Duration(seconds: 1)),
           ),
           mediaListEntity: const MediaListEntity(
             id: '1',
@@ -101,7 +103,8 @@ void main() {
             id: '8111',
             type: 'anime',
             nativeTitle: 'ヨルクラ  ',
-            nextAiringEpisodeUpdateTime: DateTime(2001),
+            nextAiringEpisodeUpdateTime:
+                DateTime.now().subtract(const Duration(days: 4, seconds: 1)),
           ),
           mediaListEntity: const MediaListEntity(
             id: '2',
@@ -111,13 +114,15 @@ void main() {
           ),
         )
       ];
-      await dao.upsertMediaListAndMediaRelations(
-          data
-      );
+      await dao.upsertMediaListAndMediaRelations(data);
       final expectation = expectLater(
         stream,
         emitsInOrder([
-          SortedGroupMediaListEntity([data[1], data[0]], [])
+          SortedGroupMediaListEntity([
+            data[0]
+          ], [
+            data[1],
+          ])
         ]),
       );
 
