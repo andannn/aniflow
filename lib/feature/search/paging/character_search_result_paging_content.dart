@@ -61,7 +61,7 @@ class SearchCharacterItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Card(
       elevation: 0,
-      color: colorScheme.surfaceVariant,
+      color: colorScheme.surfaceContainerHighest,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onClick,

@@ -29,7 +29,7 @@ class MediaPreviewItem extends StatelessWidget {
         children: [
           Card(
             elevation: 0,
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: onClick,

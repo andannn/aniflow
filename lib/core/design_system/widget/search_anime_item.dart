@@ -19,7 +19,7 @@ class SearchMediaItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model,

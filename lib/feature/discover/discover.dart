@@ -165,10 +165,8 @@ class DiscoverScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .background
-                        .withOpacity(0.8),
+                    color:
+                        Theme.of(context).colorScheme.surface.withOpacity(0.8),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -202,7 +200,7 @@ class DiscoverScreen extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           "Next Episode: "
-                              "Ep.${(models.first.progress ?? 0) + 1}",
+                          "Ep.${(models.first.progress ?? 0) + 1}",
                         ),
                       ],
                     ),
@@ -351,7 +349,7 @@ class _MediaCategoryPreview extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 0,
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             clipBehavior: Clip.antiAlias,
             child: const SizedBox(width: 160, height: 280),
           );
