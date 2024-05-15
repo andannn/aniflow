@@ -8,7 +8,7 @@ part of 'character_dto.dart';
 
 _$CharacterDtoImpl _$$CharacterDtoImplFromJson(Map<String, dynamic> json) =>
     _$CharacterDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       image: json['image'] == null
           ? null
           : CharacterImageDto.fromJson(json['image'] as Map<String, dynamic>),
@@ -23,7 +23,7 @@ _$CharacterDtoImpl _$$CharacterDtoImplFromJson(Map<String, dynamic> json) =>
       age: json['age'] as String?,
       bloodType: json['bloodType'] as String?,
       siteUrl: json['siteUrl'] as String?,
-      favourites: json['favourites'] as int?,
+      favourites: (json['favourites'] as num?)?.toInt(),
       isFavourite: json['isFavourite'] as bool? ?? false,
       media: json['media'] == null
           ? null

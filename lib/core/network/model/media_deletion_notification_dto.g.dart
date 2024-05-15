@@ -9,12 +9,12 @@ part of 'media_deletion_notification_dto.dart';
 _$MediaDeletionNotificationDtoImpl _$$MediaDeletionNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$MediaDeletionNotificationDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       deletedMediaTitle: json['deletedMediaTitle'] as String?,
       reason: json['reason'] as String?,
       context: json['context'] as String?,
-      createdAt: json['createdAt'] as int?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$MediaDeletionNotificationDtoImplToJson(

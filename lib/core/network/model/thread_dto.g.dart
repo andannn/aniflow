@@ -8,19 +8,19 @@ part of 'thread_dto.dart';
 
 _$ThreadDtoImpl _$$ThreadDtoImplFromJson(Map<String, dynamic> json) =>
     _$ThreadDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       user: json['user'] == null
           ? null
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
       body: json['body'] as String?,
-      replyCommentId: json['replyCommentId'] as int?,
-      replyCount: json['replyCount'] as int?,
-      viewCount: json['viewCount'] as int?,
-      likeCount: json['likeCount'] as int?,
-      isLiked: json['isLiked'] as int?,
-      repliedAt: json['repliedAt'] as int?,
-      createdAt: json['createdAt'] as int?,
-      updatedAt: json['updatedAt'] as int?,
+      replyCommentId: (json['replyCommentId'] as num?)?.toInt(),
+      replyCount: (json['replyCount'] as num?)?.toInt(),
+      viewCount: (json['viewCount'] as num?)?.toInt(),
+      likeCount: (json['likeCount'] as num?)?.toInt(),
+      isLiked: (json['isLiked'] as num?)?.toInt(),
+      repliedAt: (json['repliedAt'] as num?)?.toInt(),
+      createdAt: (json['createdAt'] as num?)?.toInt(),
+      updatedAt: (json['updatedAt'] as num?)?.toInt(),
       siteUrl: json['siteUrl'] as String?,
       isLocked: json['isLocked'] as bool?,
     );

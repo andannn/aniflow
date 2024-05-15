@@ -8,13 +8,13 @@ part of 'user_statistics_dto.dart';
 
 _$UserStaticsDtoImpl _$$UserStaticsDtoImplFromJson(Map<String, dynamic> json) =>
     _$UserStaticsDtoImpl(
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
       meanScore: (json['meanScore'] as num?)?.toDouble(),
-      standardDeviation: json['standardDeviation'] as int?,
-      minutesWatched: json['minutesWatched'] as int?,
-      episodesWatched: json['episodesWatched'] as int?,
-      chaptersRead: json['chaptersRead'] as int?,
-      volumesRead: json['volumesRead'] as int?,
+      standardDeviation: (json['standardDeviation'] as num?)?.toInt(),
+      minutesWatched: (json['minutesWatched'] as num?)?.toInt(),
+      episodesWatched: (json['episodesWatched'] as num?)?.toInt(),
+      chaptersRead: (json['chaptersRead'] as num?)?.toInt(),
+      volumesRead: (json['volumesRead'] as num?)?.toInt(),
       formats: (json['formats'] as List<dynamic>?)
               ?.map((e) =>
                   UserFormatStaticsDto.fromJson(e as Map<String, dynamic>))

@@ -9,11 +9,11 @@ part of 'media_data_change_notification_dto.dart';
 _$MediaDataChangeNotificationDtoImpl
     _$$MediaDataChangeNotificationDtoImplFromJson(Map<String, dynamic> json) =>
         _$MediaDataChangeNotificationDtoImpl(
-          id: json['id'] as int? ?? -1,
+          id: (json['id'] as num?)?.toInt() ?? -1,
           type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-          mediaId: json['mediaId'] as int?,
+          mediaId: (json['mediaId'] as num?)?.toInt(),
           context: json['context'] as String?,
-          createdAt: json['createdAt'] as int?,
+          createdAt: (json['createdAt'] as num?)?.toInt(),
           reason: json['reason'] as String?,
           media: json['media'] == null
               ? null

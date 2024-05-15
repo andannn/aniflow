@@ -8,14 +8,15 @@ part of 'user_dto.dart';
 
 _$UserDtoImpl _$$UserDtoImplFromJson(Map<String, dynamic> json) =>
     _$UserDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       name: json['name'] as String? ?? '',
       avatar: (json['avatar'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String),
           ) ??
           const {},
       bannerImage: json['bannerImage'] as String? ?? '',
-      unreadNotificationCount: json['unreadNotificationCount'] as int? ?? 0,
+      unreadNotificationCount:
+          (json['unreadNotificationCount'] as num?)?.toInt() ?? 0,
       options: json['options'] == null
           ? null
           : UserOptions.fromJson(json['options'] as Map<String, dynamic>),

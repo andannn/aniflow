@@ -8,7 +8,7 @@ part of 'staff_dto.dart';
 
 _$StaffDtoImpl _$$StaffDtoImplFromJson(Map<String, dynamic> json) =>
     _$StaffDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       image: json['image'] == null
           ? null
           : StaffImageDto.fromJson(json['image'] as Map<String, dynamic>),
@@ -24,10 +24,10 @@ _$StaffDtoImpl _$$StaffDtoImplFromJson(Map<String, dynamic> json) =>
       dateOfDeath: json['dateOfDeath'] == null
           ? null
           : FuzzyDateDto.fromJson(json['dateOfDeath'] as Map<String, dynamic>),
-      age: json['age'] as int?,
+      age: (json['age'] as num?)?.toInt(),
       isFavourite: json['isFavourite'] as bool? ?? false,
       yearsActive: (json['yearsActive'] as List<dynamic>?)
-              ?.map((e) => e as int)
+              ?.map((e) => (e as num).toInt())
               .toList() ??
           const [],
       homeTown: json['homeTown'] as String?,

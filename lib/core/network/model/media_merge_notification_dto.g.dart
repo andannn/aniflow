@@ -9,13 +9,13 @@ part of 'media_merge_notification_dto.dart';
 _$MediaMergeNotificationDtoImpl _$$MediaMergeNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$MediaMergeNotificationDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
       mediaId: json['mediaId'] as String?,
       deletedMediaTitle: (json['deletedMediaTitle'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      createdAt: json['createdAt'] as int?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
       reason: json['reason'] as String?,
       context: json['context'] as String?,
       media: json['media'] == null

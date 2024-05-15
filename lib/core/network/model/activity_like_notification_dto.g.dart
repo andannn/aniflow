@@ -9,11 +9,11 @@ part of 'activity_like_notification_dto.dart';
 _$ActivityLikeNotificationDtoImpl _$$ActivityLikeNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$ActivityLikeNotificationDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-      userId: json['userId'] as int?,
+      userId: (json['userId'] as num?)?.toInt(),
       context: json['context'] as String?,
-      createdAt: json['createdAt'] as int?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
       user: json['user'] == null
           ? null
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),

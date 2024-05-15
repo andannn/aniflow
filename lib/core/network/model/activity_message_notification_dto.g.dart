@@ -9,12 +9,12 @@ part of 'activity_message_notification_dto.dart';
 _$ActivityMessageNotificationDtoImpl
     _$$ActivityMessageNotificationDtoImplFromJson(Map<String, dynamic> json) =>
         _$ActivityMessageNotificationDtoImpl(
-          id: json['id'] as int? ?? -1,
+          id: (json['id'] as num?)?.toInt() ?? -1,
           type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-          userId: json['userId'] as int?,
-          activityId: json['activityId'] as int?,
+          userId: (json['userId'] as num?)?.toInt(),
+          activityId: (json['activityId'] as num?)?.toInt(),
           context: json['context'] as String?,
-          createdAt: json['createdAt'] as int?,
+          createdAt: (json['createdAt'] as num?)?.toInt(),
           user: json['user'] == null
               ? null
               : UserDto.fromJson(json['user'] as Map<String, dynamic>),
