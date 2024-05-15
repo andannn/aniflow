@@ -103,7 +103,7 @@ class _DetailStaffContent extends StatelessWidget {
                   widthFactor: 0.65,
                   child: Card(
                     elevation: 0,
-                    color: colorScheme.surfaceContainerHighest,
+                    color: colorScheme.surfaceVariant,
                     clipBehavior: Clip.antiAlias,
                     child: AFNetworkImage(imageUrl: staff.largeImage),
                   ),

@@ -289,7 +289,8 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   ),
                   Container(
                     height: 50,
-                    color: Theme.of(context).colorScheme.surface.withAlpha(122),
+                    color:
+                        Theme.of(context).colorScheme.background.withAlpha(122),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -337,7 +338,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         Container(
           height: 50,
           width: double.infinity,
-          color: Theme.of(context).colorScheme.surface,
+          color: Theme.of(context).colorScheme.background,
           child: Column(
             children: [
               Expanded(

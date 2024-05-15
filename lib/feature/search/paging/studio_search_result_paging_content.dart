@@ -36,7 +36,7 @@ class StudioSearchResultPagingContent extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: colorScheme.surfaceContainerHighest,
+      color: colorScheme.surfaceVariant,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onClick,
@@ -50,8 +50,7 @@ class StudioSearchResultPagingContent extends StatelessWidget {
                 flex: 1,
                 child: Text(
                   model.name ?? '',
-                  style:
-                      textTheme.titleMedium?.copyWith(color: surfaceTextColor),
+                  style: textTheme.titleMedium?.copyWith(color: surfaceTextColor),
                   maxLines: 2,
                 ),
               ),

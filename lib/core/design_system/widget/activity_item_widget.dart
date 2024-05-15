@@ -46,7 +46,7 @@ class ActivityItem extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 120),
       child: Card(
         elevation: 0,
-        color: colorScheme.surfaceContainerHighest,
+        color: colorScheme.surfaceVariant,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onActivityClick != null
@@ -154,7 +154,7 @@ class ActivityItem extends StatelessWidget {
         '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
     return Card(
       elevation: 0,
-      color: colorScheme.surfaceContainerHighest,
+      color: colorScheme.surfaceVariant,
       child: InkWell(
         onTap: onActivityClick != null
             ? () {
