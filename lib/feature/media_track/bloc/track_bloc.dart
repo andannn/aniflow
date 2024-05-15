@@ -147,7 +147,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       final (userNullable, type) = record;
 
       if (userNullable != null) {
-        /// user id changed, start listen following media.
         return _mediaListRepository.getMediaListStream(
           status: [MediaListStatus.planning, MediaListStatus.current],
           type: type,

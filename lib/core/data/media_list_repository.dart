@@ -158,8 +158,8 @@ class MediaListRepository {
         )
         .map(
           (sorted) => SortedGroupMediaListModel(
-            sorted.$1.map((e) => e.toModel()).toList(),
-            sorted.$2.map((e) => e.toModel()).toList(),
+            sorted.newUpdateList.map((e) => e.toModel()).toList(),
+            sorted.otherList.map((e) => e.toModel()).toList(),
           ),
         );
   }

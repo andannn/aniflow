@@ -1,6 +1,7 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
+import 'package:aniflow/core/database/relations/sorted_group_media_list_entity.dart';
 import 'package:aniflow/core/database/tables/media_list_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
 import 'package:collection/collection.dart';
@@ -101,11 +102,9 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .go();
   }
 
-  Stream<(List<MediaListAndMediaRelation>, List<MediaListAndMediaRelation>)>
-      getAllMediaListOfUserStream(
-          String userId, List<String> status, String mediaType) {
-    (List<MediaListAndMediaRelation>, List<MediaListAndMediaRelation>) sortList(
-        List<MediaListAndMediaRelation> list) {
+  Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
+      String userId, List<String> status, String mediaType) {
+    SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
       final map = list.groupListsBy(
           (e) => e.mediaEntity.nextAiringEpisodeUpdateTime != null);
       // Ordered by newest to oldest.
@@ -117,7 +116,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
           .sortedBy<num>((e) => e.mediaListEntity.updatedAt!)
           .reversed
           .toList();
-      return (newUpdateList, otherList);
+      return SortedGroupMediaListEntity(newUpdateList, otherList);
     }
 
     final query = select(mediaListTable).join([
