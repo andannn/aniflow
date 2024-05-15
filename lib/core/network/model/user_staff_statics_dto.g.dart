@@ -9,13 +9,14 @@ part of 'user_staff_statics_dto.dart';
 _$UserStaffStaticsDtoImpl _$$UserStaffStaticsDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$UserStaffStaticsDtoImpl(
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
       meanScore: (json['meanScore'] as num?)?.toDouble(),
-      minutesWatched: json['minutesWatched'] as int?,
-      chaptersRead: json['chaptersRead'] as int?,
-      mediaIds:
-          (json['mediaIds'] as List<dynamic>?)?.map((e) => e as int).toList() ??
-              const [],
+      minutesWatched: (json['minutesWatched'] as num?)?.toInt(),
+      chaptersRead: (json['chaptersRead'] as num?)?.toInt(),
+      mediaIds: (json['mediaIds'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          const [],
       staff: json['staff'] == null
           ? null
           : StaffDto.fromJson(json['staff'] as Map<String, dynamic>),

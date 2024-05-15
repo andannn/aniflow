@@ -66,7 +66,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
         mode: InsertMode.insertOrIgnore,
       );
 
-      batch.insertAll(
+      batch.insertAllOnConflictUpdate(
         mediaTable,
         entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
       );

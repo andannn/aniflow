@@ -16,7 +16,7 @@ _$UserOptionsImpl _$$UserOptionsImplFromJson(Map<String, dynamic> json) =>
       displayAdultContent: json['displayAdultContent'] as bool? ?? false,
       airingNotifications: json['airingNotifications'] as bool? ?? false,
       profileColor: json['profileColor'] as String?,
-      activityMergeTime: json['activityMergeTime'] as int?,
+      activityMergeTime: (json['activityMergeTime'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$UserOptionsImplToJson(_$UserOptionsImpl instance) =>

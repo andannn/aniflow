@@ -13,7 +13,7 @@ _$MediaExternalLinkModelImpl _$$MediaExternalLinkModelImplFromJson(
       site: json['site'] as String? ?? '',
       type: $enumDecodeNullable(_$MediaExternalLinkTypeEnumMap, json['type']) ??
           MediaExternalLinkType.info,
-      siteId: json['siteId'] as int? ?? -1,
+      siteId: (json['siteId'] as num?)?.toInt() ?? -1,
       icon: json['icon'] as String? ?? '',
       color: json['color'] as String? ?? '',
     );

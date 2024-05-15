@@ -8,7 +8,7 @@ part of 'media_tag_dto.dart';
 
 _$MediaTagDtoImpl _$$MediaTagDtoImplFromJson(Map<String, dynamic> json) =>
     _$MediaTagDtoImpl(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       description: json['description'] as String?,
       category: json['category'] as String?,

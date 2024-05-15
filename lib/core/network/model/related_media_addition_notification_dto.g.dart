@@ -10,11 +10,11 @@ _$RelatedMediaAdditionNotificationDtoImpl
     _$$RelatedMediaAdditionNotificationDtoImplFromJson(
             Map<String, dynamic> json) =>
         _$RelatedMediaAdditionNotificationDtoImpl(
-          id: json['id'] as int? ?? -1,
+          id: (json['id'] as num?)?.toInt() ?? -1,
           type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-          mediaId: json['mediaId'] as int?,
+          mediaId: (json['mediaId'] as num?)?.toInt(),
           context: json['context'] as String?,
-          createdAt: json['createdAt'] as int?,
+          createdAt: (json['createdAt'] as num?)?.toInt(),
           media: json['media'] == null
               ? null
               : MediaDto.fromJson(json['media'] as Map<String, dynamic>),

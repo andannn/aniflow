@@ -8,9 +8,9 @@ part of 'fuzzy_date_dto.dart';
 
 _$FuzzyDateDtoImpl _$$FuzzyDateDtoImplFromJson(Map<String, dynamic> json) =>
     _$FuzzyDateDtoImpl(
-      year: json['year'] as int?,
-      month: json['month'] as int?,
-      day: json['day'] as int?,
+      year: (json['year'] as num?)?.toInt(),
+      month: (json['month'] as num?)?.toInt(),
+      day: (json['day'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$FuzzyDateDtoImplToJson(_$FuzzyDateDtoImpl instance) =>

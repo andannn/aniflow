@@ -9,13 +9,14 @@ part of 'user_format_statics_dto.dart';
 _$UserFormatStaticsDtoImpl _$$UserFormatStaticsDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$UserFormatStaticsDtoImpl(
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
       meanScore: (json['meanScore'] as num?)?.toDouble(),
-      minutesWatched: json['minutesWatched'] as int?,
-      chaptersRead: json['chaptersRead'] as int?,
-      mediaIds:
-          (json['mediaIds'] as List<dynamic>?)?.map((e) => e as int).toList() ??
-              const [],
+      minutesWatched: (json['minutesWatched'] as num?)?.toInt(),
+      chaptersRead: (json['chaptersRead'] as num?)?.toInt(),
+      mediaIds: (json['mediaIds'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          const [],
       status: $enumDecodeNullable(_$MediaListStatusEnumMap, json['status']),
     );
 

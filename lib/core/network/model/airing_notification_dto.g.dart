@@ -9,15 +9,15 @@ part of 'airing_notification_dto.dart';
 _$AiringNotificationDtoImpl _$$AiringNotificationDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$AiringNotificationDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type']),
-      animeId: json['animeId'] as int?,
-      episode: json['episode'] as int?,
+      animeId: (json['animeId'] as num?)?.toInt(),
+      episode: (json['episode'] as num?)?.toInt(),
       contexts: (json['contexts'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      createdAt: json['createdAt'] as int?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
       media: json['media'] == null
           ? null
           : MediaDto.fromJson(json['media'] as Map<String, dynamic>),

@@ -8,7 +8,7 @@ part of 'anime_rank.dart';
 
 _$AnimeRankImpl _$$AnimeRankImplFromJson(Map<String, dynamic> json) =>
     _$AnimeRankImpl(
-      rank: json['rank'] as int?,
+      rank: (json['rank'] as num?)?.toInt(),
       type: json['type'] as String?,
       allTime: json['allTime'] as bool?,
     );
