@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
@@ -112,8 +113,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
           return false;
         }
 
-        return DateTime.now().difference(updateTime) <
+        final isInRange = DateTime.now().difference(updateTime) <
             const Duration(days: newUpdateDayRange);
+        final hasNextEpisode = relation.hasNextReleasingEpisode;
+        return isInRange && hasNextEpisode;
       }
 
       final map = list.groupListsBy((e) => isNewUpdateMedia(e));
@@ -123,7 +126,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
           .reversed
           .toList();
       final otherList = (map[false] ?? [])
-          .sortedBy<num>((e) => e.mediaListEntity.updatedAt!)
+          .sortedBy<num>((e) => e.mediaListEntity.updatedAt ?? 0)
           .reversed
           .toList();
       return SortedGroupMediaListEntity(newUpdateList, otherList);

@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
@@ -87,12 +88,15 @@ void main() {
             id: '8917',
             type: 'anime',
             nativeTitle: 'モーレツ宇宙海賊',
+            nextAiringEpisode: 3,
+            status: MediaStatus.releasing.toJson(),
             nextAiringEpisodeUpdateTime: DateTime.now()
                 .subtract(const Duration(days: 3))
                 .add(const Duration(seconds: 1)),
           ),
           mediaListEntity: const MediaListEntity(
             id: '1',
+            progress: 1,
             status: 'current',
             userId: '22',
             mediaId: '8917',
