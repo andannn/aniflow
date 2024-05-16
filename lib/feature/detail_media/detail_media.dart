@@ -30,6 +30,7 @@ import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +146,15 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: _buildAnimeBasicInfoBar(
                   context: context,
                   model: model,
+                  onImageClick: () {
+                    final image = model.coverImage?.extraLarge;
+                    if (image != null) {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        image,
+                        PreviewSource(model.id, PreviewType.mediaCover),
+                      );
+                    }
+                  },
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
@@ -219,7 +229,9 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildAnimeBasicInfoBar(
-      {required BuildContext context, required MediaModel model}) {
+      {required BuildContext context,
+      required MediaModel model,
+      required Function() onImageClick}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: IntrinsicHeight(
@@ -230,11 +242,20 @@ class _DetailAnimePageContent extends StatelessWidget {
               flex: 1,
               child: SizedBox(
                 height: 1,
-                child: Card(
-                  elevation: 0,
-                  clipBehavior: Clip.hardEdge,
-                  child: AFNetworkImage(
-                    imageUrl: model.coverImage?.large ?? '',
+                child: InkWell(
+                  onTap: onImageClick,
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    )),
+                    child: Hero(
+                      tag:  PreviewSource(model.id, PreviewType.mediaCover),
+                      child: AFNetworkImage(
+                        imageUrl: model.coverImage?.large ?? '',
+                      ),
+                    ),
                   ),
                 ),
               ),

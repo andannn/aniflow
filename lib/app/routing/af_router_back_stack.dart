@@ -4,6 +4,7 @@ import 'package:aniflow/app/routing/ani_flow_route_path.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
@@ -93,6 +94,10 @@ mixin AfRouterBackStackMixin
 
   void navigateToActivityRepliesPage(String id) {
     _pushAsSingleton(ActivityRepliesRoutePath(id));
+  }
+
+  void navigateImagePreviewPage(String imageUrl, PreviewSource source) {
+    _pushAsSingleton(ImagePreviewRoutePath(imageUrl, source));
   }
 
   void popBackStack() {

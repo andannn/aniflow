@@ -6,6 +6,7 @@ import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/detail_staff/detail_staff.dart';
 import 'package:aniflow/feature/detail_studio/detail_studio.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/notification/notification.dart';
 import 'package:aniflow/feature/profile/profile.dart';
@@ -32,7 +33,6 @@ sealed class AniFlowRoutePath extends Equatable {
   @override
   List<Object?> get props => [];
 }
-
 
 class AniFlowHomePath extends AniFlowRoutePath {
   const AniFlowHomePath() : super(isFullScreen: true);
@@ -270,6 +270,20 @@ class ActivityRepliesRoutePath extends AniFlowRoutePath {
   String toString() => 'activity_replies_page_$id';
 }
 
+class ImagePreviewRoutePath extends AniFlowRoutePath {
+  const ImagePreviewRoutePath(this.imageUrl, this.source)
+      : super(isFullScreen: true);
+
+  final String imageUrl;
+  final PreviewSource source;
+
+  @override
+  List<Object?> get props => [imageUrl, source];
+
+  @override
+  String toString() => 'image_preview_${imageUrl}_$source';
+}
+
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
@@ -321,6 +335,12 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return DetailStudioPage(key: ValueKey(toString()), id: id);
       case ActivityRepliesRoutePath(id: final id):
         return ActivityRepliesPage(key: ValueKey(toString()), activityId: id);
+      case ImagePreviewRoutePath(
+          imageUrl: final imageUrl,
+          source: final source
+        ):
+        return ImagePreviewPage(
+            key: ValueKey(toString()), image: imageUrl, source: source);
       default:
         return const MaterialPage(child: SizedBox());
     }

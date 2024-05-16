@@ -17,6 +17,7 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
@@ -100,9 +101,24 @@ class _DetailStaffContent extends StatelessWidget {
               SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
-                  child: Card.filled(
-                    clipBehavior: Clip.antiAlias,
-                    child: AFNetworkImage(imageUrl: staff.largeImage),
+                  child: InkWell(
+                    onTap: () {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        staff.largeImage,
+                        PreviewSource(staff.id, PreviewType.staff),
+                      );
+                    },
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      )),
+                      child: Hero(
+                        tag: PreviewSource(staff.id, PreviewType.staff),
+                        child: AFNetworkImage(imageUrl: staff.largeImage),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -133,7 +149,7 @@ class _DetailStaffContent extends StatelessWidget {
     final description = staff.description ?? '';
     return VerticalScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
-      builder: () =>  Column(
+      builder: () => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
