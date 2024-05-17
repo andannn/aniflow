@@ -251,7 +251,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     )),
                     child: Hero(
-                      tag:  PreviewSource(model.id, PreviewType.mediaCover),
+                      tag: PreviewSource(model.id, PreviewType.mediaCover),
                       child: AFNetworkImage(
                         imageUrl: model.coverImage?.large ?? '',
                       ),
@@ -517,14 +517,17 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 0,
-        clipBehavior: Clip.hardEdge,
-        child: AFNetworkImage(
-          height: 128,
-          imageUrl: bannerImage ?? '',
+    return VerticalScaleSwitcher(
+      visible: bannerImage != null && bannerImage.isNotEmpty,
+      builder: () => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          elevation: 0,
+          clipBehavior: Clip.hardEdge,
+          child: AFNetworkImage(
+            height: 128,
+            imageUrl: bannerImage ?? '',
+          ),
         ),
       ),
     );
