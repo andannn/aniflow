@@ -18,8 +18,6 @@ mixin AfRouterBackStackMixin
   /// get current path.
   AniFlowRoutePath get currentPath => _backStack.last;
 
-  bool get isTopRouteFullScreen => _backStack.lastOrNull?.isFullScreen ?? true;
-
   void navigateToAnimeList(MediaCategory category) {
     _pushAsSingleton(CategoryAnimeListRoutePath(category));
   }

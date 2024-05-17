@@ -26,30 +26,28 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 sealed class AniFlowRoutePath extends Equatable {
-  const AniFlowRoutePath({this.isFullScreen = false});
-
-  final bool isFullScreen;
+  const AniFlowRoutePath();
 
   @override
   List<Object?> get props => [];
 }
 
 class AniFlowHomePath extends AniFlowRoutePath {
-  const AniFlowHomePath() : super(isFullScreen: true);
+  const AniFlowHomePath() : super();
 
   @override
   String toString() => 'home_page';
 }
 
 class SearchRoutePath extends AniFlowRoutePath {
-  const SearchRoutePath() : super(isFullScreen: true);
+  const SearchRoutePath() : super();
 
   @override
   String toString() => 'search_page';
 }
 
 class FavoriteStaffListPath extends AniFlowRoutePath {
-  const FavoriteStaffListPath(this.id) : super(isFullScreen: true);
+  const FavoriteStaffListPath(this.id) : super();
 
   final String id;
 
@@ -61,7 +59,7 @@ class FavoriteStaffListPath extends AniFlowRoutePath {
 }
 
 class FavoriteCharacterListPath extends AniFlowRoutePath {
-  const FavoriteCharacterListPath(this.id) : super(isFullScreen: true);
+  const FavoriteCharacterListPath(this.id) : super();
   final String id;
 
   @override
@@ -72,7 +70,7 @@ class FavoriteCharacterListPath extends AniFlowRoutePath {
 }
 
 class FavoriteAnimeListPath extends AniFlowRoutePath {
-  const FavoriteAnimeListPath(this.id) : super(isFullScreen: true);
+  const FavoriteAnimeListPath(this.id) : super();
   final String id;
 
   @override
@@ -83,7 +81,7 @@ class FavoriteAnimeListPath extends AniFlowRoutePath {
 }
 
 class FavoriteMangaListPath extends AniFlowRoutePath {
-  const FavoriteMangaListPath(this.id) : super(isFullScreen: true);
+  const FavoriteMangaListPath(this.id) : super();
   final String id;
 
   @override
@@ -94,7 +92,7 @@ class FavoriteMangaListPath extends AniFlowRoutePath {
 }
 
 class WatchingAnimeListPath extends AniFlowRoutePath {
-  const WatchingAnimeListPath(this.id) : super(isFullScreen: true);
+  const WatchingAnimeListPath(this.id) : super();
   final String id;
 
   @override
@@ -105,7 +103,7 @@ class WatchingAnimeListPath extends AniFlowRoutePath {
 }
 
 class CompletedAnimePath extends AniFlowRoutePath {
-  const CompletedAnimePath(this.id) : super(isFullScreen: true);
+  const CompletedAnimePath(this.id) : super();
   final String id;
 
   @override
@@ -116,7 +114,7 @@ class CompletedAnimePath extends AniFlowRoutePath {
 }
 
 class DroppedAnimePath extends AniFlowRoutePath {
-  const DroppedAnimePath(this.id) : super(isFullScreen: true);
+  const DroppedAnimePath(this.id) : super();
   final String id;
 
   @override
@@ -127,7 +125,7 @@ class DroppedAnimePath extends AniFlowRoutePath {
 }
 
 class ReadingMangaPath extends AniFlowRoutePath {
-  const ReadingMangaPath(this.id) : super(isFullScreen: true);
+  const ReadingMangaPath(this.id) : super();
   final String id;
 
   @override
@@ -138,7 +136,7 @@ class ReadingMangaPath extends AniFlowRoutePath {
 }
 
 class DroppedMangaPath extends AniFlowRoutePath {
-  const DroppedMangaPath(this.id) : super(isFullScreen: true);
+  const DroppedMangaPath(this.id) : super();
   final String id;
 
   @override
@@ -149,7 +147,7 @@ class DroppedMangaPath extends AniFlowRoutePath {
 }
 
 class UserProfileRoutePath extends AniFlowRoutePath {
-  const UserProfileRoutePath(this.id) : super(isFullScreen: true);
+  const UserProfileRoutePath(this.id) : super();
 
   final String id;
 
@@ -161,7 +159,7 @@ class UserProfileRoutePath extends AniFlowRoutePath {
 }
 
 class CategoryAnimeListRoutePath extends AniFlowRoutePath {
-  const CategoryAnimeListRoutePath(this.category) : super(isFullScreen: true);
+  const CategoryAnimeListRoutePath(this.category) : super();
 
   final MediaCategory category;
 
@@ -173,7 +171,7 @@ class CategoryAnimeListRoutePath extends AniFlowRoutePath {
 }
 
 class MediaCharacterListRoutePath extends AniFlowRoutePath {
-  const MediaCharacterListRoutePath(this.id) : super(isFullScreen: true);
+  const MediaCharacterListRoutePath(this.id) : super();
 
   final String id;
 
@@ -185,7 +183,7 @@ class MediaCharacterListRoutePath extends AniFlowRoutePath {
 }
 
 class MediaStaffListRoutePath extends AniFlowRoutePath {
-  const MediaStaffListRoutePath(this.id) : super(isFullScreen: true);
+  const MediaStaffListRoutePath(this.id) : super();
 
   final String id;
 
@@ -197,7 +195,7 @@ class MediaStaffListRoutePath extends AniFlowRoutePath {
 }
 
 class DetailMediaRoutePath extends AniFlowRoutePath {
-  const DetailMediaRoutePath(this.id) : super(isFullScreen: true);
+  const DetailMediaRoutePath(this.id) : super();
 
   final String id;
 
@@ -209,7 +207,7 @@ class DetailMediaRoutePath extends AniFlowRoutePath {
 }
 
 class DetailCharacterPath extends AniFlowRoutePath {
-  const DetailCharacterPath(this.id) : super(isFullScreen: true);
+  const DetailCharacterPath(this.id) : super();
 
   final String id;
 
@@ -221,7 +219,7 @@ class DetailCharacterPath extends AniFlowRoutePath {
 }
 
 class DetailStaffPath extends AniFlowRoutePath {
-  const DetailStaffPath(this.id) : super(isFullScreen: true);
+  const DetailStaffPath(this.id) : super();
 
   final String id;
 
@@ -233,21 +231,21 @@ class DetailStaffPath extends AniFlowRoutePath {
 }
 
 class AiringScheduleRoutePath extends AniFlowRoutePath {
-  const AiringScheduleRoutePath() : super(isFullScreen: true);
+  const AiringScheduleRoutePath() : super();
 
   @override
   String toString() => 'airing_schedule_page';
 }
 
 class NotificationRoutePath extends AniFlowRoutePath {
-  const NotificationRoutePath() : super(isFullScreen: true);
+  const NotificationRoutePath() : super();
 
   @override
   String toString() => 'notification_page';
 }
 
 class DetailStudioRoutePath extends AniFlowRoutePath {
-  const DetailStudioRoutePath(this.id) : super(isFullScreen: true);
+  const DetailStudioRoutePath(this.id) : super();
 
   final String id;
 
@@ -259,7 +257,7 @@ class DetailStudioRoutePath extends AniFlowRoutePath {
 }
 
 class ActivityRepliesRoutePath extends AniFlowRoutePath {
-  const ActivityRepliesRoutePath(this.id) : super(isFullScreen: true);
+  const ActivityRepliesRoutePath(this.id) : super();
 
   final String id;
 
@@ -271,8 +269,7 @@ class ActivityRepliesRoutePath extends AniFlowRoutePath {
 }
 
 class ImagePreviewRoutePath extends AniFlowRoutePath {
-  const ImagePreviewRoutePath(this.imageUrl, this.source)
-      : super(isFullScreen: true);
+  const ImagePreviewRoutePath(this.imageUrl, this.source) : super();
 
   final String imageUrl;
   final PreviewSource source;
