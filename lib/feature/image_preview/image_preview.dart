@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
@@ -6,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:platform_downloader/platform_downloader.dart';
 
 const heroImagePreviewTag = 'hero_image_preview';
 
@@ -65,9 +67,9 @@ class ImagePreviewRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _ImagePreviewContentWidget extends StatefulWidget {
-  const _ImagePreviewContentWidget(this.image, this.source);
+  const _ImagePreviewContentWidget(this.imageUrl, this.source);
 
-  final String image;
+  final String imageUrl;
   final PreviewSource source;
 
   @override
@@ -105,7 +107,7 @@ class _ImagePreviewContentWidgetState
                   child: Hero(
                     tag: widget.source,
                     child: CachedNetworkImage(
-                      imageUrl: widget.image,
+                      imageUrl: widget.imageUrl,
                       width: double.infinity,
                       fit: BoxFit.fitWidth,
                       cacheManager: CustomCacheManager(),
@@ -134,9 +136,7 @@ class _ImagePreviewContentWidgetState
             child: AnimatedFadeSwitcher(
               visible: !_isImmersiveMode,
               builder: () => PopupMenuAnchor(
-                menuItems: const [
-                  'Save'
-                ],
+                menuItems: const ['Save'],
                 builder: (context, controller, child) {
                   return IconButton(
                     onPressed: () {
@@ -156,6 +156,12 @@ class _ImagePreviewContentWidgetState
                       child: Text(item),
                     ),
                     onPressed: () {
+                      if (item == 'Save') {
+                        PlatformDownloader().downloadImageToExternalStorage(
+                          widget.imageUrl,
+                          AfConfig.imageDownloadFolder,
+                        );
+                      }
                     },
                   );
                 },
