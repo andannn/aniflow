@@ -88,6 +88,8 @@ dependencies:
   string_similarity: ^2.0.0
   bloc_test: ^9.1.7
   mockito: ^5.4.4
+  platform_downloader:
+    path: ./platform_downloader
 
 dev_dependencies:
   drift_dev: ^2.15.0

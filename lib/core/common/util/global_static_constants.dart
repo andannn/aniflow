@@ -15,6 +15,8 @@ mixin AfConfig {
   static const double detailPagePreviewItemHeight = 133.0;
   static const int characterColumnCount = 3;
   static const int staffColumnCount = 2;
+
+  static const String imageDownloadFolder = 'aniflow';
 }
 
 /// Only for test

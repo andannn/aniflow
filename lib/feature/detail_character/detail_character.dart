@@ -12,6 +12,7 @@ import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,9 +89,26 @@ class _DetailCharacterContent extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
-                  child: Card.filled(
-                    clipBehavior: Clip.antiAlias,
-                    child: AFNetworkImage(imageUrl: character.largeImage),
+                  child: InkWell(
+                    onTap: () {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        character.largeImage,
+                        PreviewSource(character.id, PreviewType.character),
+                      );
+                    },
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      )),
+                      child: Hero(
+                        tag: PreviewSource(character.id, PreviewType.character),
+                        child: AFNetworkImage(
+                          imageUrl: character.largeImage,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -127,7 +145,7 @@ class _DetailCharacterContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final items = character.createDescriptionItem(context);
     final description = character.description ?? '';
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
       builder: () => Column(
         mainAxisSize: MainAxisSize.min,

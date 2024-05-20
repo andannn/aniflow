@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class AFNetworkImage extends StatefulWidget {
+class AFNetworkImage extends StatelessWidget {
   const AFNetworkImage(
       {required this.imageUrl, super.key, this.width, this.height});
 
@@ -11,28 +11,23 @@ class AFNetworkImage extends StatefulWidget {
   final double? height;
 
   @override
-  State<AFNetworkImage> createState() => _AFNetworkImageState();
-}
-
-class _AFNetworkImageState extends State<AFNetworkImage>
-    with SingleTickerProviderStateMixin {
-  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        int? cacheWidthInPixel;
-        final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-        if (constraints.hasBoundedWidth) {
-          cacheWidthInPixel = (constraints.maxWidth * devicePixelRatio).toInt();
-        }
+// TODO: set memCacheWidth will cause image flicker when using Hero animation.
+//      int? cacheWidthInPixel;
+//      final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+//      if (constraints.hasBoundedWidth) {
+//        cacheWidthInPixel = (constraints.maxWidth * devicePixelRatio).toInt();
+//      }
         return CachedNetworkImage(
-          imageUrl: widget.imageUrl,
-          width: widget.width,
-          height: widget.height,
-          memCacheWidth: cacheWidthInPixel,
+          imageUrl: imageUrl,
+          width: width,
+          height: height,
+//        memCacheWidth: cacheWidthInPixel,
           fit: BoxFit.cover,
           errorWidget: _buildErrorWidget,
-          placeholder: buildPlaceHolderWidget,
+          placeholder: _buildPlaceHolderWidget,
           cacheManager: CustomCacheManager(),
         );
       },
@@ -45,7 +40,7 @@ class _AFNetworkImageState extends State<AFNetworkImage>
     );
   }
 
-  Widget buildPlaceHolderWidget(BuildContext context, String url) {
+  Widget _buildPlaceHolderWidget(BuildContext context, String url) {
     return Container(
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
     );

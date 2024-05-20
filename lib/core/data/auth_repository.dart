@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/core/channel/auth_event_channel.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -15,6 +14,7 @@ import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/platform/auth_event_channel.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';

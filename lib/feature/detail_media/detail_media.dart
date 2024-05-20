@@ -30,6 +30,7 @@ import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +146,15 @@ class _DetailAnimePageContent extends StatelessWidget {
                 child: _buildAnimeBasicInfoBar(
                   context: context,
                   model: model,
+                  onImageClick: () {
+                    final image = model.coverImage?.extraLarge;
+                    if (image != null) {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        image,
+                        PreviewSource(model.id, PreviewType.mediaCover),
+                      );
+                    }
+                  },
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
@@ -219,7 +229,9 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildAnimeBasicInfoBar(
-      {required BuildContext context, required MediaModel model}) {
+      {required BuildContext context,
+      required MediaModel model,
+      required Function() onImageClick}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: IntrinsicHeight(
@@ -230,11 +242,20 @@ class _DetailAnimePageContent extends StatelessWidget {
               flex: 1,
               child: SizedBox(
                 height: 1,
-                child: Card(
-                  elevation: 0,
-                  clipBehavior: Clip.hardEdge,
-                  child: AFNetworkImage(
-                    imageUrl: model.coverImage?.large ?? '',
+                child: InkWell(
+                  onTap: onImageClick,
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    )),
+                    child: Hero(
+                      tag: PreviewSource(model.id, PreviewType.mediaCover),
+                      child: AFNetworkImage(
+                        imageUrl: model.coverImage?.large ?? '',
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -307,7 +328,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildAnimeDescription(
       {required BuildContext context, required String? description}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: description != null,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -339,7 +360,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final pageHeight = canFillPage
         ? AfConfig.characterColumnCount * itemHeight
         : models.length * itemHeight;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: models.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,7 +441,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final pageHeight = canFillPage
         ? AfConfig.staffColumnCount * itemHeight
         : staffs.length * itemHeight;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: staffs.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,14 +517,17 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 0,
-        clipBehavior: Clip.hardEdge,
-        child: AFNetworkImage(
-          height: 128,
-          imageUrl: bannerImage ?? '',
+    return AnimatedScaleSwitcher(
+      visible: bannerImage != null && bannerImage.isNotEmpty,
+      builder: () => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          elevation: 0,
+          clipBehavior: Clip.hardEdge,
+          child: AFNetworkImage(
+            height: 128,
+            imageUrl: bannerImage ?? '',
+          ),
         ),
       ),
     );
@@ -511,7 +535,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildExternalLinkSection(
       BuildContext context, List<MediaExternalLinkModel> externalLinks) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: externalLinks.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -539,7 +563,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildTrailerSection(BuildContext context,
       {required VoidCallback onTrailerClick, TrailerModel? trailerModel}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: trailerModel != null,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -564,7 +588,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildTwitterHashTags(BuildContext context, MediaModel model) {
     final hashTags = model.hashtags;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: hashTags.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -580,7 +604,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildAnimeInfoSection(BuildContext context, MediaModel model) {
     final infoString = model.getAnimeInfoString(context);
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: infoString.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -604,7 +628,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       return const SizedBox();
     }
     const stringRes = 'Next airing schedule is EP.%s in %s';
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: true,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -648,7 +672,7 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildAnimeRelations(
       {required BuildContext context,
       required List<MediaRelationModel> relations}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: relations.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -688,7 +712,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     required List<StudioModel> studios,
     required Function(String id) onStudioClick,
   }) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: studios.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

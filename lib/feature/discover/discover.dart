@@ -142,7 +142,7 @@ class DiscoverScreen extends StatelessWidget {
     List<MediaListItemModel> models,
     UserTitleLanguage titleLanguage,
   ) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: models.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(12.0),
