@@ -12,7 +12,7 @@ import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
-import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,8 +92,7 @@ class _DetailCharacterContent extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       RootRouterDelegate.get().navigateImagePreviewPage(
-                        character.largeImage,
-                        PreviewSource(character.id, PreviewType.character),
+                        character.previewSource,
                       );
                     },
                     child: Container(
@@ -103,7 +102,7 @@ class _DetailCharacterContent extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       )),
                       child: Hero(
-                        tag: PreviewSource(character.id, PreviewType.character),
+                        tag: character.previewSource,
                         child: AFNetworkImage(
                           imageUrl: character.largeImage,
                         ),

@@ -1,10 +1,13 @@
 package com.andannn.downloader.platform_downloader
 
+import android.util.Log
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+
+private const val TAG = "PlatformDownloader"
 
 /** PlatformDownloaderPlugin */
 class PlatformDownloaderPlugin : FlutterPlugin, MethodCallHandler {
@@ -34,6 +37,10 @@ class PlatformDownloaderPlugin : FlutterPlugin, MethodCallHandler {
         val url = call.argument<String>(PARAM_URL) ?: return result.notImplemented()
         val subPath = call.argument<String>(PARAM_SUB_PATH) ?: return result.notImplemented()
         val fileName = call.argument<String?>(PARAM_FILE_NAME)
+        Log.d(
+            TAG,
+            "onDownloadImageToExternalStorageCall: url: $url, subPath: $subPath, fileName: $fileName."
+        )
         downloader.downloadImageToExternalStorage(url, subPath, fileName)
         result.success(null)
     }
