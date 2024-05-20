@@ -1,4 +1,7 @@
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
+import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +69,7 @@ class _ImagePreviewContentWidget extends StatefulWidget {
 
   final String image;
   final PreviewSource source;
+
   @override
   State<_ImagePreviewContentWidget> createState() =>
       _ImagePreviewContentWidgetState();
@@ -73,8 +77,7 @@ class _ImagePreviewContentWidget extends StatefulWidget {
 
 class _ImagePreviewContentWidgetState
     extends State<_ImagePreviewContentWidget> {
-
-  var _isImmersiveMode = true;
+  var _isImmersiveMode = false;
 
   @override
   void initState() {
@@ -91,21 +94,75 @@ class _ImagePreviewContentWidgetState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        color: Theme.of(context).colorScheme.surfaceDim,
-        child: Hero(
-          tag: widget.source,
-          child: GestureDetector(
-            onTap: _onImageCLick,
-            child: CachedNetworkImage(
-              imageUrl: widget.image,
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
-              cacheManager: CustomCacheManager(),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _onImageCLick,
+              child: Container(
+                color: Colors.transparent,
+                child: Center(
+                  child: Hero(
+                    tag: widget.source,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.image,
+                      width: double.infinity,
+                      fit: BoxFit.fitWidth,
+                      cacheManager: CustomCacheManager(),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+          Positioned(
+            left: 12,
+            top: 48,
+            child: AnimatedFadeSwitcher(
+              visible: !_isImmersiveMode,
+              builder: () => IconButton(
+                onPressed: () {
+                  RootRouterDelegate.get().popRoute();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 12,
+            top: 48,
+            child: AnimatedFadeSwitcher(
+              visible: !_isImmersiveMode,
+              builder: () => PopupMenuAnchor(
+                menuItems: const [
+                  'Save'
+                ],
+                builder: (context, controller, child) {
+                  return IconButton(
+                    onPressed: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    },
+                    icon: const Icon(Icons.more_horiz),
+                  );
+                },
+                menuItemBuilder: (context, item) {
+                  return MenuItemButton(
+                    child: Container(
+                      constraints: const BoxConstraints(minWidth: 120),
+                      child: Text(item),
+                    ),
+                    onPressed: () {
+                    },
+                  );
+                },
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

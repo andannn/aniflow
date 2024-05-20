@@ -328,7 +328,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildAnimeDescription(
       {required BuildContext context, required String? description}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: description != null,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -360,7 +360,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final pageHeight = canFillPage
         ? AfConfig.characterColumnCount * itemHeight
         : models.length * itemHeight;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: models.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +441,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final pageHeight = canFillPage
         ? AfConfig.staffColumnCount * itemHeight
         : staffs.length * itemHeight;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: staffs.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -517,7 +517,7 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: bannerImage != null && bannerImage.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -535,7 +535,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildExternalLinkSection(
       BuildContext context, List<MediaExternalLinkModel> externalLinks) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: externalLinks.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,7 +563,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildTrailerSection(BuildContext context,
       {required VoidCallback onTrailerClick, TrailerModel? trailerModel}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: trailerModel != null,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -588,7 +588,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildTwitterHashTags(BuildContext context, MediaModel model) {
     final hashTags = model.hashtags;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: hashTags.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -604,7 +604,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildAnimeInfoSection(BuildContext context, MediaModel model) {
     final infoString = model.getAnimeInfoString(context);
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: infoString.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -628,7 +628,7 @@ class _DetailAnimePageContent extends StatelessWidget {
       return const SizedBox();
     }
     const stringRes = 'Next airing schedule is EP.%s in %s';
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: true,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -672,7 +672,7 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildAnimeRelations(
       {required BuildContext context,
       required List<MediaRelationModel> relations}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: relations.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -712,7 +712,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     required List<StudioModel> studios,
     required Function(String id) onStudioClick,
   }) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: studios.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

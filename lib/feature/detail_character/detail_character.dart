@@ -145,7 +145,7 @@ class _DetailCharacterContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final items = character.createDescriptionItem(context);
     final description = character.description ?? '';
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
       builder: () => Column(
         mainAxisSize: MainAxisSize.min,
