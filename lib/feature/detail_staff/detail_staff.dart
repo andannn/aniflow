@@ -17,7 +17,7 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
-import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
@@ -104,8 +104,7 @@ class _DetailStaffContent extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       RootRouterDelegate.get().navigateImagePreviewPage(
-                        staff.largeImage,
-                        PreviewSource(staff.id, PreviewType.staff),
+                        staff.previewSource,
                       );
                     },
                     child: Container(
@@ -115,7 +114,7 @@ class _DetailStaffContent extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       )),
                       child: Hero(
-                        tag: PreviewSource(staff.id, PreviewType.staff),
+                        tag: staff.previewSource,
                         child: AFNetworkImage(imageUrl: staff.largeImage),
                       ),
                     ),

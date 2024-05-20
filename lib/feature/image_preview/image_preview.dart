@@ -11,55 +11,41 @@ import 'package:platform_downloader/platform_downloader.dart';
 
 const heroImagePreviewTag = 'hero_image_preview';
 
-enum PreviewType {
-  mediaCover('${heroImagePreviewTag}_media_cover'),
-  staff('${heroImagePreviewTag}_staff'),
-  character('${heroImagePreviewTag}_character');
-
-  final String tag;
-
-  const PreviewType(this.tag);
-}
-
 class PreviewSource extends Equatable {
-  final String id;
-  final PreviewType type;
+  final String imageUrl;
+  final String? savedFileTitle;
 
-  const PreviewSource(this.id, this.type);
+  const PreviewSource({required this.imageUrl, this.savedFileTitle});
 
   @override
-  List<Object?> get props => [id, type];
+  List<Object?> get props => [imageUrl, savedFileTitle];
 }
 
 class ImagePreviewPage extends Page {
-  final String image;
   final PreviewSource source;
 
   const ImagePreviewPage({
-    required this.image,
     required this.source,
     super.key,
   });
 
   @override
   Route createRoute(BuildContext context) {
-    return ImagePreviewRoute(settings: this, image: image, source: source);
+    return ImagePreviewRoute(settings: this, source: source);
   }
 }
 
 class ImagePreviewRoute extends PageRoute with MaterialRouteTransitionMixin {
   ImagePreviewRoute({
     super.settings,
-    required this.image,
     required this.source,
   }) : super(allowSnapshotting: false);
 
-  final String image;
   final PreviewSource source;
 
   @override
   Widget buildContent(BuildContext context) {
-    return _ImagePreviewContentWidget(image, source);
+    return _ImagePreviewContentWidget(source);
   }
 
   @override
@@ -67,9 +53,8 @@ class ImagePreviewRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _ImagePreviewContentWidget extends StatefulWidget {
-  const _ImagePreviewContentWidget(this.imageUrl, this.source);
+  const _ImagePreviewContentWidget(this.source);
 
-  final String imageUrl;
   final PreviewSource source;
 
   @override
@@ -107,7 +92,7 @@ class _ImagePreviewContentWidgetState
                   child: Hero(
                     tag: widget.source,
                     child: CachedNetworkImage(
-                      imageUrl: widget.imageUrl,
+                      imageUrl: widget.source.imageUrl,
                       width: double.infinity,
                       fit: BoxFit.fitWidth,
                       cacheManager: CustomCacheManager(),
@@ -158,8 +143,9 @@ class _ImagePreviewContentWidgetState
                     onPressed: () {
                       if (item == 'Save') {
                         PlatformDownloader().downloadImageToExternalStorage(
-                          widget.imageUrl,
+                          widget.source.imageUrl,
                           AfConfig.imageDownloadFolder,
+                          widget.source.savedFileTitle
                         );
                       }
                     },

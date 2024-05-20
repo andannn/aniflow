@@ -269,16 +269,15 @@ class ActivityRepliesRoutePath extends AniFlowRoutePath {
 }
 
 class ImagePreviewRoutePath extends AniFlowRoutePath {
-  const ImagePreviewRoutePath(this.imageUrl, this.source) : super();
+  const ImagePreviewRoutePath(this.source) : super();
 
-  final String imageUrl;
   final PreviewSource source;
 
   @override
-  List<Object?> get props => [imageUrl, source];
+  List<Object?> get props => [source];
 
   @override
-  String toString() => 'image_preview_${imageUrl}_$source';
+  String toString() => 'image_preview_$source';
 }
 
 extension AniFlowRoutePathEx on AniFlowRoutePath {
@@ -332,12 +331,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return DetailStudioPage(key: ValueKey(toString()), id: id);
       case ActivityRepliesRoutePath(id: final id):
         return ActivityRepliesPage(key: ValueKey(toString()), activityId: id);
-      case ImagePreviewRoutePath(
-          imageUrl: final imageUrl,
-          source: final source
-        ):
-        return ImagePreviewPage(
-            key: ValueKey(toString()), image: imageUrl, source: source);
+      case ImagePreviewRoutePath(source: final source):
+        return ImagePreviewPage(key: ValueKey(toString()), source: source);
       default:
         return const MaterialPage(child: SizedBox());
     }

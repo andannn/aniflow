@@ -30,7 +30,7 @@ import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
-import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +139,17 @@ class _DetailAnimePageContent extends StatelessWidget {
             cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
               SliverToBoxAdapter(
-                child: _buildBannerSectionSection(context, model.bannerImage),
+                child: _buildBannerSectionSection(
+                  context,
+                  model,
+                  onImageClick: () {
+                    final image = model.bannerImage;
+                    if (image != null) {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                          model.bannerImagePreviewSource);
+                    }
+                  },
+                ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
@@ -149,10 +159,8 @@ class _DetailAnimePageContent extends StatelessWidget {
                   onImageClick: () {
                     final image = model.coverImage?.extraLarge;
                     if (image != null) {
-                      RootRouterDelegate.get().navigateImagePreviewPage(
-                        image,
-                        PreviewSource(model.id, PreviewType.mediaCover),
-                      );
+                      RootRouterDelegate.get()
+                          .navigateImagePreviewPage(model.coverPreviewSource);
                     }
                   },
                 ),
@@ -251,7 +259,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     )),
                     child: Hero(
-                      tag: PreviewSource(model.id, PreviewType.mediaCover),
+                      tag: model.coverPreviewSource,
                       child: AFNetworkImage(
                         imageUrl: model.coverImage?.large ?? '',
                       ),
@@ -516,17 +524,24 @@ class _DetailAnimePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
+  Widget _buildBannerSectionSection(BuildContext context, MediaModel model,
+      {required Function() onImageClick}) {
     return AnimatedScaleSwitcher(
-      visible: bannerImage != null && bannerImage.isNotEmpty,
+      visible: model.bannerImage != null && model.bannerImage!.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Card(
-          elevation: 0,
-          clipBehavior: Clip.hardEdge,
-          child: AFNetworkImage(
-            height: 128,
-            imageUrl: bannerImage ?? '',
+        child: InkWell(
+          onTap: onImageClick,
+          child: Card(
+            elevation: 0,
+            clipBehavior: Clip.hardEdge,
+            child: Hero(
+              tag: model.bannerImagePreviewSource,
+              child: AFNetworkImage(
+                height: 128,
+                imageUrl: model.bannerImage ?? '',
+              ),
+            ),
           ),
         ),
       ),

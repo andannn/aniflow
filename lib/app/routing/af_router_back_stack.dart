@@ -94,8 +94,8 @@ mixin AfRouterBackStackMixin
     _pushAsSingleton(ActivityRepliesRoutePath(id));
   }
 
-  void navigateImagePreviewPage(String imageUrl, PreviewSource source) {
-    _pushAsSingleton(ImagePreviewRoutePath(imageUrl, source));
+  void navigateImagePreviewPage(PreviewSource source) {
+    _pushAsSingleton(ImagePreviewRoutePath(source));
   }
 
   void popBackStack() {
