@@ -21,7 +21,6 @@ import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
-import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
@@ -38,6 +37,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../core/design_system/widget/shrinkable_floating_action_button.dart';
 
 class DetailAnimePage extends Page {
   final String animeId;
@@ -68,8 +69,42 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailAnimePageContent extends StatelessWidget {
+class _DetailAnimePageContent extends StatefulWidget {
   const _DetailAnimePageContent();
+
+  @override
+  State<_DetailAnimePageContent> createState() =>
+      _DetailAnimePageContentState();
+}
+
+class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
+
+  late ScrollController controller;
+
+  /// Shrink the FAB button when user scroll 300 pixel in this page.
+  bool isFabShrinkByScroll = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+
+    controller.addListener(() {
+      final needShrinkFabButton = controller.position.pixels > 300;
+      if (isFabShrinkByScroll != needShrinkFabButton) {
+        setState(() {
+          isFabShrinkByScroll = needShrinkFabButton;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,36 +141,35 @@ class _DetailAnimePageContent extends StatelessWidget {
               model.title!.getTitle(state.userTitleLanguage),
               maxLines: 2,
             ),
-            actions: [
-              isLoading
-                  ? LoadingIndicator(isLoading: isLoading)
-                  : IconButton(
+          ),
+          floatingActionButton: !isLoading
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    FloatingActionButton.small(
                       onPressed: () {
                         context.read<DetailMediaBloc>().add(
                               OnToggleFavoriteState(
                                   isAnime: true, mediaId: model.id),
                             );
                       },
-                      icon: isFavorite
+                      child: isFavorite
                           ? const Icon(Icons.favorite, color: Colors.red)
                           : const Icon(Icons.favorite_outline),
                     ),
-              const SizedBox(width: 10),
-            ],
-          ),
-          floatingActionButton: !isLoading
-              ? hasDescription
-                  ? FloatingActionButton.extended(
+                    const SizedBox(height: 8),
+                    ShrinkableFloatingActionButton(
+                      isExtended: hasDescription && !isFabShrinkByScroll,
                       icon: Icon(statusIcon),
                       label: Text(stateString),
                       onPressed: floatingButtonClickAction,
-                    )
-                  : FloatingActionButton(
-                      onPressed: floatingButtonClickAction,
-                      child: Icon(statusIcon),
-                    )
+                    ),
+                  ],
+                )
               : const SizedBox(),
           body: CustomScrollView(
+            controller: controller,
             cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
               SliverToBoxAdapter(
