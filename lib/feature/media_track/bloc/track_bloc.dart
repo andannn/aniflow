@@ -13,7 +13,7 @@ import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
-import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
+import 'package:aniflow/feature/update_media_list_page/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';

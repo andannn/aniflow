@@ -6,17 +6,19 @@ class ShrinkableFloatingActionButton extends StatelessWidget {
     required this.isExtended,
     required this.onPressed,
     this.icon,
-    this.label,
+    this.label, this.heroTag,
   });
 
   final bool isExtended;
   final VoidCallback onPressed;
   final Widget? icon;
   final Widget? label;
+  final Object? heroTag;
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      heroTag: heroTag,
       onPressed: onPressed,
       label: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),

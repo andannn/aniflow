@@ -25,11 +25,11 @@ import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
-import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
+import 'package:aniflow/feature/update_media_list_page/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,6 @@ class _DetailAnimePageContent extends StatefulWidget {
 }
 
 class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
-
   late ScrollController controller;
 
   /// Shrink the FAB button when user scroll 300 pixel in this page.
@@ -121,15 +120,11 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
         final isFavorite = model.isFavourite;
 
         void floatingButtonClickAction() async {
+          final mediaListId = state.mediaListItem!.id;
           final bloc = context.read<DetailMediaBloc>();
-          final result = await showUpdateMediaListBottomSheet(
-            context,
-            listItemModel: state.mediaListItem,
-            media: state.detailAnimeModel!,
-            scoreFormat: state.scoreFormat,
-            userTitleLanguage: state.userTitleLanguage,
-          );
-
+          RootRouterDelegate.get().navigateToMediaListUpdatePage(mediaListId);
+          MediaListModifyResult? result =
+              await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {
             bloc.add(OnMediaListModified(result: result));
           }
@@ -160,6 +155,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
                     ),
                     const SizedBox(height: 8),
                     ShrinkableFloatingActionButton(
+                      heroTag: mediaListUpdatePageHeroTag,
                       isExtended: hasDescription && !isFabShrinkByScroll,
                       icon: Icon(statusIcon),
                       label: Text(stateString),

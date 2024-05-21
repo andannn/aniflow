@@ -22,6 +22,7 @@ import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list
 import 'package:aniflow/feature/search/search_page.dart';
 import 'package:aniflow/feature/social/activity_replies/activity_replies.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
+import 'package:aniflow/feature/update_media_list_page/update_media_list_bottom_sheet.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -280,6 +281,18 @@ class ImagePreviewRoutePath extends AniFlowRoutePath {
   String toString() => 'image_preview_$source';
 }
 
+class MediaListUpdateRoutePath extends AniFlowRoutePath {
+  const MediaListUpdateRoutePath(this.mediaListId) : super();
+
+  final String mediaListId;
+
+  @override
+  List<Object?> get props => [mediaListId];
+
+  @override
+  String toString() => 'media_list_update_$mediaListId';
+}
+
 extension AniFlowRoutePathEx on AniFlowRoutePath {
   Page generatePage() {
     switch (this) {
@@ -333,6 +346,11 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return ActivityRepliesPage(key: ValueKey(toString()), activityId: id);
       case ImagePreviewRoutePath(source: final source):
         return ImagePreviewPage(key: ValueKey(toString()), source: source);
+      case MediaListUpdateRoutePath(mediaListId: final mediaListId):
+        return UpdateMediaListPage(
+          key: ValueKey(toString()),
+          mediaListId: mediaListId,
+        );
       default:
         return const MaterialPage(child: SizedBox());
     }

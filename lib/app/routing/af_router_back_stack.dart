@@ -98,6 +98,10 @@ mixin AfRouterBackStackMixin
     _pushAsSingleton(ImagePreviewRoutePath(source));
   }
 
+  void navigateToMediaListUpdatePage(String mediaListId) {
+    _pushAsSingleton(MediaListUpdateRoutePath(mediaListId));
+  }
+
   void popBackStack() {
     _backStack.removeLast();
     notifyListeners();

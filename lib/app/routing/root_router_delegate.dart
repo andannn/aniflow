@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:aniflow/app/routing/af_router_back_stack.dart';
 import 'package:aniflow/app/routing/ani_flow_route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     with
@@ -14,6 +17,8 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   final routeObserver = RouteObserver();
   final backButtonDispatcher = RootBackButtonDispatcher();
+
+  final _pageResultStreamController = StreamController<dynamic>.broadcast();
 
   static BuildContext? _routerContext;
 
@@ -37,7 +42,19 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
       return false;
     }
 
+    _pageResultStreamController.add(result);
     popBackStack();
     return true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _pageResultStreamController.close();
+  }
+
+  Future<T> awaitPageResult<T>() {
+    return _pageResultStreamController.stream.whereType<T>().first;
   }
 }

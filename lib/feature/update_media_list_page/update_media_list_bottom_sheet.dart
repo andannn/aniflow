@@ -1,12 +1,16 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/dialog/scoring_dialog.dart';
 import 'package:aniflow/core/design_system/widget/date_time_button.dart';
 import 'package:aniflow/core/design_system/widget/max_limit_text_filed.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
+import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 
 class MediaListModifyResult {
@@ -41,27 +45,77 @@ class StatusModel {
   final IconData icon;
 }
 
-Future<MediaListModifyResult?> showUpdateMediaListBottomSheet(
-  BuildContext context, {
-  required MediaModel media,
-  MediaListItemModel? listItemModel,
-      required ScoreFormat scoreFormat,
-      required UserTitleLanguage userTitleLanguage,
-}) =>
-    showModalBottomSheet<MediaListModifyResult>(
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return UpdateMediaListBottomSheet(
-            mediaListItem: listItemModel,
-            mediaModel: media,
-            scoreFormat: scoreFormat,
-            userTitleLanguage: userTitleLanguage,
-          );
-        });
+class UpdateMediaListPage extends Page<MediaListModifyResult> {
+  final String mediaListId;
 
-class UpdateMediaListBottomSheet extends StatefulWidget {
-  const UpdateMediaListBottomSheet(
+  const UpdateMediaListPage({required this.mediaListId, super.key});
+
+  @override
+  Route<MediaListModifyResult> createRoute(BuildContext context) {
+    return UpdateMediaListRoute(settings: this, mediaListId: mediaListId);
+  }
+}
+
+class UpdateMediaListRoute extends PageRoute<MediaListModifyResult>
+    with MaterialRouteTransitionMixin<MediaListModifyResult> {
+  final String mediaListId;
+
+  UpdateMediaListRoute({required this.mediaListId, super.settings})
+      : super(allowSnapshotting: false);
+
+  @override
+  Widget buildContent(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: MediaListFutureBuilder(mediaListId: mediaListId),
+    );
+  }
+
+  @override
+  bool get maintainState => true;
+}
+
+const mediaListUpdatePageHeroTag = 'media_list_update_page_hero_tag';
+
+class MediaListFutureBuilder extends StatelessWidget {
+  const MediaListFutureBuilder({super.key, required this.mediaListId});
+
+  final String mediaListId;
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaListRepo = getIt.get<MediaListRepository>();
+    final userDataRepo = getIt.get<UserDataRepository>();
+
+    return FutureBuilder(
+      future: mediaListRepo.getMediaListItemByMediaId(mediaListId: mediaListId),
+      builder:
+          (BuildContext context, AsyncSnapshot<MediaListItemModel?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final mediaListItem = snapshot.data;
+          final mediaModel = mediaListItem?.animeModel;
+          if (mediaListItem != null && mediaModel != null) {
+            final scoreFormat = userDataRepo.userData.scoreFormat;
+            final userTitleLanguage = userDataRepo.userData.userTitleLanguage;
+            return UpdateMediaListBottomWidget(
+              mediaModel: mediaModel,
+              mediaListItem: mediaListItem,
+              scoreFormat: scoreFormat,
+              userTitleLanguage: userTitleLanguage,
+            );
+          } else {
+            return Scaffold(body: const SizedBox());
+          }
+        } else {
+          return Scaffold(body: const SizedBox());
+        }
+      },
+    );
+  }
+}
+
+class UpdateMediaListBottomWidget extends StatefulWidget {
+  const UpdateMediaListBottomWidget(
       {super.key,
       required this.mediaModel,
       this.mediaListItem,
@@ -74,12 +128,12 @@ class UpdateMediaListBottomSheet extends StatefulWidget {
   final UserTitleLanguage userTitleLanguage;
 
   @override
-  State<UpdateMediaListBottomSheet> createState() =>
-      _UpdateMediaListBottomSheetState();
+  State<UpdateMediaListBottomWidget> createState() =>
+      _UpdateMediaListBottomWidgetState();
 }
 
-class _UpdateMediaListBottomSheetState
-    extends State<UpdateMediaListBottomSheet> {
+class _UpdateMediaListBottomWidgetState
+    extends State<UpdateMediaListBottomWidget> {
   double? score;
   int? progress;
   int? progressVolumes;
