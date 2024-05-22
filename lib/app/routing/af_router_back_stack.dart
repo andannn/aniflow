@@ -3,6 +3,7 @@
 import 'package:aniflow/app/routing/ani_flow_route_path.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
@@ -96,6 +97,10 @@ mixin AfRouterBackStackMixin
 
   void navigateImagePreviewPage(PreviewSource source) {
     _pushAsSingleton(ImagePreviewRoutePath(source));
+  }
+
+  void navigateToMediaListUpdatePage(MediaListItemModel mediaListItem) {
+    _pushAsSingleton(MediaListUpdateRoutePath(mediaListItem));
   }
 
   void popBackStack() {

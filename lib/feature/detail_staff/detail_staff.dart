@@ -10,7 +10,6 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
-import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
@@ -69,7 +68,6 @@ class _DetailStaffContent extends StatelessWidget {
     return BlocBuilder<DetailStaffBloc, DetailStaffState>(
       builder: (BuildContext context, state) {
         final staff = state.staffModel;
-        final isLoading = state.isLoading;
         final mediaSort = state.mediaSort;
 
         if (staff == null) {
@@ -79,22 +77,17 @@ class _DetailStaffContent extends StatelessWidget {
         final isFavourite = staff.isFavourite;
         final language = state.userStaffNameLanguage;
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<DetailStaffBloc>().add(OnToggleLike());
+            },
+            child: isFavourite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline),
+          ),
           appBar: AppBar(
             centerTitle: true,
             title: Text(staff.name!.getNameByUserSetting(language)),
-            actions: [
-              isLoading
-                  ? LoadingIndicator(isLoading: isLoading)
-                  : IconButton(
-                      onPressed: () {
-                        context.read<DetailStaffBloc>().add(OnToggleLike());
-                      },
-                      icon: isFavourite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
-                    ),
-              const SizedBox(width: 10),
-            ],
           ),
           body: CustomScrollView(
             slivers: [

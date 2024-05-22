@@ -16,12 +16,10 @@ class MediaListItem extends StatelessWidget {
     required this.onMarkWatchedClick,
     required this.onClick,
     required this.language,
-    required this.onLongPress,
   });
 
   final MediaListItemModel model;
   final VoidCallback onClick;
-  final VoidCallback onLongPress;
   final VoidCallback onMarkWatchedClick;
   final UserTitleLanguage language;
   final bool showNewBadge;
@@ -47,7 +45,6 @@ class MediaListItem extends StatelessWidget {
                 ? colorScheme.primary
                 : colorScheme.secondary,
             onClick: onClick,
-            onLongPress: onLongPress,
           ),
         ),
       ),

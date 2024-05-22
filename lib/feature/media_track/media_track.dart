@@ -1,13 +1,11 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
-import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
@@ -129,12 +127,6 @@ class _AnimeTrackPageContent extends StatelessWidget {
         context.read<TrackBloc>().state.settings?.userTitleLanguage ??
             UserTitleLanguage.native;
 
-    final scoreFormat = context.read<TrackBloc>().state.settings?.scoreFormat ??
-        ScoreFormat.point3;
-
-    final userTitleLanguage =
-        context.read<TrackBloc>().state.settings?.userTitleLanguage ??
-            UserTitleLanguage.native;
     return Padding(
       key: ValueKey('anime_track_list_item_${item.id}'),
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
@@ -147,22 +139,6 @@ class _AnimeTrackPageContent extends StatelessWidget {
               animeId: item.animeModel!.id,
               progress: item.progress! + 1,
               totalEpisode: item.animeModel!.episodes));
-        },
-        onLongPress: () async {
-          final bloc = context.read<TrackBloc>();
-          final result = await showUpdateMediaListBottomSheet(
-            context,
-            listItemModel: item,
-            media: item.animeModel!,
-            scoreFormat: scoreFormat,
-            userTitleLanguage: userTitleLanguage,
-          );
-
-          if (result != null) {
-            bloc.add(
-              OnMediaListModified(result: result, mediaId: item.animeModel!.id),
-            );
-          }
         },
         onClick: () {
           RootRouterDelegate.get().navigateToDetailMedia(item.animeModel!.id);

@@ -15,8 +15,8 @@ import 'package:aniflow/core/data/model/extension/media_list_item_model_extensio
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
-import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
+import 'package:aniflow/feature/update_media_list_page/media_list_modify_result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';

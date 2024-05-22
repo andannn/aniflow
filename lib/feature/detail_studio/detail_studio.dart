@@ -3,7 +3,6 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
-import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
@@ -61,9 +60,7 @@ class _DetailStudioContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DetailStudioBloc, DetailStudioState>(
       builder: (BuildContext context, state) {
-        // final colorScheme = Theme.of(context).colorScheme;
         final studio = state.studioModel;
-        final isLoading = state.isLoading;
         if (studio == null) {
           return const LoadingDummyScaffold();
         }
@@ -71,22 +68,17 @@ class _DetailStudioContent extends StatelessWidget {
         final pagingState = context.watch<StudioContentsPagingBloc>().state;
         final isFavourite = studio.isFavourite;
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<DetailStudioBloc>().add(OnToggleLike());
+            },
+            child: isFavourite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline),
+          ),
           appBar: AppBar(
             centerTitle: true,
             title: Text(studio.name ?? ''),
-            actions: [
-              isLoading
-                  ? LoadingIndicator(isLoading: isLoading)
-                  : IconButton(
-                      onPressed: () {
-                        context.read<DetailStudioBloc>().add(OnToggleLike());
-                      },
-                      icon: isFavourite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
-                    ),
-              const SizedBox(width: 10),
-            ],
           ),
           body: CustomScrollView(
             slivers: [

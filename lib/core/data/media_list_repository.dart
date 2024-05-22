@@ -171,6 +171,13 @@ class MediaListRepository {
         );
   }
 
+  Future<MediaListItemModel?> getMediaListItemByMediaId(
+      {required String mediaListId}) {
+    return mediaListDao.getMediaListItemByMediaListId(mediaListId).then(
+          (entity) => entity?.toModel(),
+        );
+  }
+
   Stream<Set<String>> getMediaListMediaIdsByUserStream(
       {required String userId,
       required List<MediaListStatus> status,
