@@ -140,16 +140,6 @@ class _AnimeTrackPageContent extends StatelessWidget {
               progress: item.progress! + 1,
               totalEpisode: item.animeModel!.episodes));
         },
-        onLongPress: () async {
-          // final bloc = context.read<TrackBloc>();
-          // final result = await null;
-          //
-          // if (result != null) {
-          //   bloc.add(
-          //     OnMediaListModified(result: result, mediaId: item.animeModel!.id),
-          //   );
-          // }
-        },
         onClick: () {
           RootRouterDelegate.get().navigateToDetailMedia(item.animeModel!.id);
         },

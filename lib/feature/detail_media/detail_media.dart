@@ -22,6 +22,7 @@ import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
+import 'package:aniflow/core/design_system/widget/shrinkable_floating_action_button.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
@@ -29,7 +30,8 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
-import 'package:aniflow/feature/update_media_list_page/update_media_list_bottom_sheet.dart';
+import 'package:aniflow/feature/update_media_list_page/media_list_modify_result.dart';
+import 'package:aniflow/feature/update_media_list_page/media_list_update_page.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +39,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../core/design_system/widget/shrinkable_floating_action_button.dart';
 
 class DetailAnimePage extends Page {
   final String animeId;
@@ -63,6 +63,15 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
       create: (context) => getIt.get<DetailMediaBloc>(param1: mediaId),
       child: const Scaffold(body: _DetailAnimePageContent()),
     );
+  }
+
+  @override
+  bool canTransitionTo(TransitionRoute nextRoute) {
+    if (nextRoute is MediaListUpdateRoute) {
+      return false;
+    } else {
+      return super.canTransitionTo(nextRoute);
+    }
   }
 
   @override
@@ -120,9 +129,9 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
         final isFavorite = model.isFavourite;
 
         void floatingButtonClickAction() async {
-          final mediaListId = state.mediaListItem!.id;
           final bloc = context.read<DetailMediaBloc>();
-          RootRouterDelegate.get().navigateToMediaListUpdatePage(mediaListId);
+          RootRouterDelegate.get()
+              .navigateToMediaListUpdatePage(state.mediaListItem!);
           MediaListModifyResult? result =
               await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {

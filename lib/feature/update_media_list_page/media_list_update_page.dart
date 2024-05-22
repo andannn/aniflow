@@ -1,7 +1,7 @@
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
-import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -9,33 +9,9 @@ import 'package:aniflow/core/design_system/dialog/scoring_dialog.dart';
 import 'package:aniflow/core/design_system/widget/date_time_button.dart';
 import 'package:aniflow/core/design_system/widget/max_limit_text_filed.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
-import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/feature/update_media_list_page/media_list_modify_result.dart';
 import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
-
-class MediaListModifyResult {
-  MediaListModifyResult({
-    required this.score,
-    required this.progress,
-    required this.progressVolumes,
-    required this.repeat,
-    required this.status,
-    required this.notes,
-    required this.startedAt,
-    required this.completedAt,
-    this.private = false,
-  });
-
-  final double? score;
-  final int? progress;
-  final int? progressVolumes;
-  final int? repeat;
-  final MediaListStatus? status;
-  final String? notes;
-  final DateTime? startedAt;
-  final DateTime? completedAt;
-  final bool private;
-}
 
 class StatusModel {
   StatusModel({required this.status, required this.label, required this.icon});
@@ -46,70 +22,84 @@ class StatusModel {
 }
 
 class UpdateMediaListPage extends Page<MediaListModifyResult> {
-  final String mediaListId;
+  final MediaListItemModel mediaListItem;
 
-  const UpdateMediaListPage({required this.mediaListId, super.key});
+  const UpdateMediaListPage({required this.mediaListItem, super.key});
 
   @override
   Route<MediaListModifyResult> createRoute(BuildContext context) {
-    return UpdateMediaListRoute(settings: this, mediaListId: mediaListId);
+    return MediaListUpdateRoute(settings: this, mediaListItem: mediaListItem);
   }
 }
 
-class UpdateMediaListRoute extends PageRoute<MediaListModifyResult>
+class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
     with MaterialRouteTransitionMixin<MediaListModifyResult> {
-  final String mediaListId;
+  final MediaListItemModel mediaListItem;
 
-  UpdateMediaListRoute({required this.mediaListId, super.settings})
+  MediaListUpdateRoute({required this.mediaListItem, super.settings})
       : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: MediaListFutureBuilder(mediaListId: mediaListId),
-    );
+    return MediaListUpdatePageContent(mediaListItem: mediaListItem);
   }
 
   @override
-  bool get maintainState => true;
+  bool get maintainState => false;
+
+  @override
+  bool get opaque => false;
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(opacity: animation, child: child);
+  }
 }
 
 const mediaListUpdatePageHeroTag = 'media_list_update_page_hero_tag';
 
-class MediaListFutureBuilder extends StatelessWidget {
-  const MediaListFutureBuilder({super.key, required this.mediaListId});
+class MediaListUpdatePageContent extends StatelessWidget {
+  const MediaListUpdatePageContent({super.key, required this.mediaListItem});
 
-  final String mediaListId;
+  final MediaListItemModel mediaListItem;
 
   @override
   Widget build(BuildContext context) {
-    final mediaListRepo = getIt.get<MediaListRepository>();
+    final mediaModel = mediaListItem.animeModel!;
     final userDataRepo = getIt.get<UserDataRepository>();
+    final scoreFormat = userDataRepo.userData.scoreFormat;
+    final userTitleLanguage = userDataRepo.userData.userTitleLanguage;
 
-    return FutureBuilder(
-      future: mediaListRepo.getMediaListItemByMediaId(mediaListId: mediaListId),
-      builder:
-          (BuildContext context, AsyncSnapshot<MediaListItemModel?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          final mediaListItem = snapshot.data;
-          final mediaModel = mediaListItem?.animeModel;
-          if (mediaListItem != null && mediaModel != null) {
-            final scoreFormat = userDataRepo.userData.scoreFormat;
-            final userTitleLanguage = userDataRepo.userData.userTitleLanguage;
-            return UpdateMediaListBottomWidget(
-              mediaModel: mediaModel,
-              mediaListItem: mediaListItem,
-              scoreFormat: scoreFormat,
-              userTitleLanguage: userTitleLanguage,
-            );
-          } else {
-            return Scaffold(body: const SizedBox());
-          }
-        } else {
-          return Scaffold(body: const SizedBox());
-        }
+    return GestureDetector(
+      onTap: () {
+        RootRouterDelegate.get().popBackStack();
       },
+      child: Container(
+        constraints: const BoxConstraints.expand(),
+        color: Theme.of(context).colorScheme.surfaceDim.withAlpha(200),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Hero(
+                  tag: mediaListUpdatePageHeroTag,
+                  child: Card(
+                    child: UpdateMediaListBottomWidget(
+                      mediaModel: mediaModel,
+                      mediaListItem: mediaListItem,
+                      scoreFormat: scoreFormat,
+                      userTitleLanguage: userTitleLanguage,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -342,7 +332,7 @@ class _UpdateMediaListBottomWidgetState
         ),
         const SizedBox(height: 8),
         _buildControlSection(context),
-        const SizedBox(height: 32),
+        const SizedBox(height: 16),
       ],
     );
   }
