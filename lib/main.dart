@@ -21,7 +21,12 @@ void main() async {
   await Firebase.initializeApp();
 
   /// run app after core instance initialized.
-  runApp(const AniFlowApp());
+  runApp(
+    const RootRestorationScope(
+      restorationId: 'root_restoration',
+      child: AniFlowApp(),
+    ),
+  );
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterError(errorDetails);

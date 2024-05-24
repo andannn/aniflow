@@ -28,20 +28,20 @@ class RootRouterInfoParser extends RouteInformationParser<AniFlowRoutePath> {
     if (path.contains('anime') || path.contains('manga')) {
       final mediaId = path.split('/')[2];
       logger.d('$_tag DetailMediaRoute deep link detected: mediaID: $mediaId');
-      return DetailMediaRoutePath(mediaId);
+      return DetailMediaRoutePath(id: mediaId);
     }
 
     if (path.contains('character')) {
       final characterId = path.split('/')[2];
       logger.d('$_tag DetailCharacter deep link detected: '
           'characterId: $characterId');
-      return DetailCharacterPath(characterId);
+      return DetailCharacterPath(id: characterId);
     }
 
     if (path.contains('staff')) {
       final staffId = path.split('/')[2];
       logger.d('$_tag DetailStaffPath deep link detected: staffId: $staffId');
-      return DetailStaffPath(staffId);
+      return DetailStaffPath(id: staffId);
     }
 
     return null;
