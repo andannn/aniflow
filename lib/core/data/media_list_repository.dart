@@ -171,7 +171,7 @@ class MediaListRepository {
         );
   }
 
-  Future<MediaListItemModel?> getMediaListItemByMediaId(
+  Future<MediaListItemModel?> getMediaListItemByMediaListId(
       {required String mediaListId}) {
     return mediaListDao.getMediaListItemByMediaListId(mediaListId).then(
           (entity) => entity?.toModel(),

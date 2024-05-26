@@ -10,6 +10,7 @@ import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
@@ -76,6 +77,7 @@ class _DetailStaffContent extends StatelessWidget {
 
         final isFavourite = staff.isFavourite;
         final language = state.userStaffNameLanguage;
+        final isLoading = state.isLoading;
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -88,6 +90,12 @@ class _DetailStaffContent extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: Text(staff.name!.getNameByUserSetting(language)),
+            actions: [
+              isLoading
+                  ? LoadingIndicator(isLoading: isLoading)
+                  : const SizedBox(),
+              const SizedBox(width: 10),
+            ],
           ),
           body: CustomScrollView(
             slivers: [

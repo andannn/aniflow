@@ -3,23 +3,13 @@ import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/feature/image_preview/preview_source.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:platform_downloader/platform_downloader.dart';
 
 const heroImagePreviewTag = 'hero_image_preview';
-
-class PreviewSource extends Equatable {
-  final String imageUrl;
-  final String? savedFileTitle;
-
-  const PreviewSource({required this.imageUrl, this.savedFileTitle});
-
-  @override
-  List<Object?> get props => [imageUrl, savedFileTitle];
-}
 
 class ImagePreviewPage extends Page {
   final PreviewSource source;

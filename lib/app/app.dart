@@ -100,6 +100,7 @@ class AniFlowAppState extends State<AniFlowApp> {
               brightness: Brightness.dark,
             );
             return MaterialApp.router(
+              restorationScopeId: "root",
               themeMode: themeMode,
               theme: ThemeData(
                 useMaterial3: true,

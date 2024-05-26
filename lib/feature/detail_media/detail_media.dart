@@ -21,6 +21,7 @@ import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/shrinkable_floating_action_button.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
@@ -30,8 +31,8 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
-import 'package:aniflow/feature/update_media_list_page/media_list_modify_result.dart';
-import 'package:aniflow/feature/update_media_list_page/media_list_update_page.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
   late ScrollController controller;
 
   /// Shrink the FAB button when user scroll 300 pixel in this page.
-  bool isFabShrinkByScroll = false;
+  bool isScrollOverLimite = false;
 
   @override
   void initState() {
@@ -99,9 +100,9 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
 
     controller.addListener(() {
       final needShrinkFabButton = controller.position.pixels > 300;
-      if (isFabShrinkByScroll != needShrinkFabButton) {
+      if (isScrollOverLimite != needShrinkFabButton) {
         setState(() {
-          isFabShrinkByScroll = needShrinkFabButton;
+          isScrollOverLimite = needShrinkFabButton;
         });
       }
     });
@@ -122,11 +123,11 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
         if (model == null) {
           return const LoadingDummyScaffold();
         }
-        final isLoading = state.isLoading;
         final stateString = state.mediaListItem?.status?.stateString ?? '';
         final hasDescription = stateString.isNotEmpty;
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite;
+        final isLoading = state.isLoading;
 
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
@@ -145,34 +146,43 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
               model.title!.getTitle(state.userTitleLanguage),
               maxLines: 2,
             ),
+            actions: [
+              isLoading
+                  ? LoadingIndicator(isLoading: isLoading)
+                  : const SizedBox(),
+              const SizedBox(width: 10),
+            ],
           ),
-          floatingActionButton: !isLoading
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    FloatingActionButton.small(
-                      onPressed: () {
-                        context.read<DetailMediaBloc>().add(
-                              OnToggleFavoriteState(
-                                  isAnime: true, mediaId: model.id),
-                            );
-                      },
-                      child: isFavorite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
-                    ),
-                    const SizedBox(height: 8),
-                    ShrinkableFloatingActionButton(
-                      heroTag: mediaListUpdatePageHeroTag,
-                      isExtended: hasDescription && !isFabShrinkByScroll,
-                      icon: Icon(statusIcon),
-                      label: Text(stateString),
-                      onPressed: floatingButtonClickAction,
-                    ),
-                  ],
-                )
-              : const SizedBox(),
+          floatingActionButton: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AnimatedFadeSwitcher(
+                visible: !isScrollOverLimite,
+                builder: () => FloatingActionButton.small(
+                  onPressed: () {
+                    context.read<DetailMediaBloc>().add(
+                          OnToggleFavoriteState(
+                            isAnime: true,
+                            mediaId: model.id,
+                          ),
+                        );
+                  },
+                  child: isFavorite
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_outline),
+                ),
+              ),
+              const SizedBox(height: 8),
+              ShrinkableFloatingActionButton(
+                heroTag: mediaListUpdatePageHeroTag,
+                isExtended: hasDescription && !isScrollOverLimite,
+                icon: Icon(statusIcon),
+                label: Text(stateString),
+                onPressed: floatingButtonClickAction,
+              ),
+            ],
+          ),
           body: CustomScrollView(
             controller: controller,
             cacheExtent: AfConfig.defaultCatchExtend,

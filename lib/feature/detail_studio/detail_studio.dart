@@ -3,6 +3,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
@@ -67,6 +68,7 @@ class _DetailStudioContent extends StatelessWidget {
 
         final pagingState = context.watch<StudioContentsPagingBloc>().state;
         final isFavourite = studio.isFavourite;
+        final isLoading = state.isLoading;
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -79,6 +81,12 @@ class _DetailStudioContent extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: Text(studio.name ?? ''),
+            actions: [
+              isLoading
+                  ? LoadingIndicator(isLoading: isLoading)
+                  : const SizedBox(),
+              const SizedBox(width: 10),
+            ],
           ),
           body: CustomScrollView(
             slivers: [

@@ -1,7 +1,7 @@
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
-import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/feature/image_preview/preview_source.dart';
 
 extension CharacterModelEx on CharacterModel {
   PreviewSource get previewSource => PreviewSource(
