@@ -21,6 +21,7 @@ import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
+import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
 import 'package:aniflow/core/design_system/widget/shrinkable_floating_action_button.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
@@ -126,6 +127,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
         final hasDescription = stateString.isNotEmpty;
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite;
+        final isLoading = state.isLoading;
 
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
@@ -144,6 +146,12 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
               model.title!.getTitle(state.userTitleLanguage),
               maxLines: 2,
             ),
+            actions: [
+              isLoading
+                  ? LoadingIndicator(isLoading: isLoading)
+                  : const SizedBox(),
+              const SizedBox(width: 10),
+            ],
           ),
           floatingActionButton: Column(
             mainAxisSize: MainAxisSize.min,

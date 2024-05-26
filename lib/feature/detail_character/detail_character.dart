@@ -70,18 +70,21 @@ class _DetailCharacterContent extends StatelessWidget {
           actions: [
             isLoading
                 ? LoadingIndicator(isLoading: isLoading)
-                : IconButton(
-                    onPressed: () {
-                      context.read<DetailCharacterBloc>().add(OnToggleLike());
-                    },
-                    icon: isFavourite
-                        ? const Icon(Icons.favorite, color: Colors.red)
-                        : const Icon(Icons.favorite_outline),
-                  ),
+                : const SizedBox(),
             const SizedBox(width: 10),
           ],
         ),
-        // padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => {},
+          child: IconButton(
+            onPressed: () {
+              context.read<DetailCharacterBloc>().add(OnToggleLike());
+            },
+            icon: isFavourite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline),
+          ),
+        ),
         body: CustomScrollView(
           slivers: [
             SliverPadding(
