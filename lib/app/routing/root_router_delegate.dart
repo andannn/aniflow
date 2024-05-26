@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:aniflow/app/routing/af_router_back_stack.dart';
-import 'package:aniflow/app/routing/ani_flow_page_generator.dart';
-import 'package:aniflow/app/routing/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/model/af_router_back_stack.dart';
+import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/util/ani_flow_page_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -20,6 +20,10 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   @override
   GlobalKey<RootNavigatorWidgetState> get backStackKey => _backStackKey;
+
+  @override
+  AniFlowRoutePath? get currentConfiguration =>
+      _backStackKey.currentState?.restorableAfStack.value.last;
 
   final routeObserver = RouteObserver();
   final backButtonDispatcher = RootBackButtonDispatcher();
@@ -118,11 +122,13 @@ class RestorableAfStack extends RestorableValue<List<AniFlowRoutePath>> {
 
   @override
   List<AniFlowRoutePath> fromPrimitives(Object? data) {
-    return jsonDecode(data!.toString());
+    return (jsonDecode(data!.toString()) as List)
+        .map((e) => AniFlowRoutePath.fromJson(e))
+        .toList();
   }
 
   @override
   Object? toPrimitives() {
-    return jsonEncode(value);
+    return jsonEncode(value.map((e) => e.toJson()).toList());
   }
 }

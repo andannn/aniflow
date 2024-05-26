@@ -1,4 +1,4 @@
-import 'package:aniflow/app/routing/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/cupertino.dart';
 

@@ -30,8 +30,8 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
-import 'package:aniflow/feature/update_media_list_page/media_list_modify_result.dart';
-import 'package:aniflow/feature/update_media_list_page/media_list_update_page.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';

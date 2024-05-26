@@ -1,5 +1,5 @@
 
-import 'package:aniflow/app/routing/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ani_flow_route_path_list.freezed.dart';

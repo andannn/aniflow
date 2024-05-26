@@ -1,4 +1,4 @@
-import 'package:aniflow/app/routing/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
@@ -7,6 +7,7 @@ import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/detail_staff/detail_staff.dart';
 import 'package:aniflow/feature/detail_studio/detail_studio.dart';
 import 'package:aniflow/feature/image_preview/image_preview.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/notification/notification.dart';
 import 'package:aniflow/feature/profile/profile.dart';
@@ -78,10 +79,10 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case ImagePreviewRoutePath(source: final source):
         return ImagePreviewPage(key: ValueKey(toString()), source: source);
       case MediaListUpdateRoutePath(mediaListId: final mediaListId):
-        // return UpdateMediaListPage(
-        //   key: ValueKey(toString()),
-        //   mediaListItem: mediaListId,
-        // );
+        return UpdateMediaListPage(
+          key: ValueKey(toString()),
+          mediaListId: mediaListId,
+        );
       default:
         return const MaterialPage(child: SizedBox());
     }

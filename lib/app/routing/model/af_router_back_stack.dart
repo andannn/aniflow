@@ -1,6 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/routing/ani_flow_route_path.dart';
+import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
@@ -106,7 +106,7 @@ mixin AfRouterBackStackMixin
   }
 
   void popBackStack() {
-    stack.value = stack.value..removeLast();
+    stack.value = [...stack.value]..removeLast();
     notifyListeners();
 
     final topPageOrNull = stack.value.lastOrNull;
@@ -117,10 +117,10 @@ mixin AfRouterBackStackMixin
 
   void _pushAsSingleton(AniFlowRoutePath path) {
     if (stack.value.contains(path)) {
-      stack.value = stack.value..remove(path);
+      stack.value = [...stack.value]..remove(path);
     }
 
-    stack.value = stack.value..add(path);
+    stack.value = [...stack.value, path];
 
     notifyListeners();
 
@@ -129,6 +129,12 @@ mixin AfRouterBackStackMixin
 
   @override
   Future<void> setNewRoutePath(AniFlowRoutePath configuration) async {
+    if (stack.value.isNotEmpty && configuration is AniFlowHomePath) {
+      // when app launched by re-construction, the back stack is restored
+      // and already having initial value.
+      return;
+    }
+
     _pushAsSingleton(configuration);
   }
 }
