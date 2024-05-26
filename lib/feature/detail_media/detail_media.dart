@@ -122,7 +122,6 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
         if (model == null) {
           return const LoadingDummyScaffold();
         }
-        final isLoading = state.isLoading;
         final stateString = state.mediaListItem?.status?.stateString ?? '';
         final hasDescription = stateString.isNotEmpty;
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
@@ -146,36 +145,36 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
               maxLines: 2,
             ),
           ),
-          floatingActionButton: !isLoading
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    AnimatedFadeSwitcher(
-                      visible: !isScrollOverLimite,
-                      builder: () => FloatingActionButton.small(
-                        onPressed: () {
-                          context.read<DetailMediaBloc>().add(
-                                OnToggleFavoriteState(
-                                    isAnime: true, mediaId: model.id),
-                              );
-                        },
-                        child: isFavorite
-                            ? const Icon(Icons.favorite, color: Colors.red)
-                            : const Icon(Icons.favorite_outline),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ShrinkableFloatingActionButton(
-                      heroTag: mediaListUpdatePageHeroTag,
-                      isExtended: hasDescription && !isScrollOverLimite,
-                      icon: Icon(statusIcon),
-                      label: Text(stateString),
-                      onPressed: floatingButtonClickAction,
-                    ),
-                  ],
-                )
-              : const SizedBox(),
+          floatingActionButton: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AnimatedFadeSwitcher(
+                visible: !isScrollOverLimite,
+                builder: () => FloatingActionButton.small(
+                  onPressed: () {
+                    context.read<DetailMediaBloc>().add(
+                          OnToggleFavoriteState(
+                            isAnime: true,
+                            mediaId: model.id,
+                          ),
+                        );
+                  },
+                  child: isFavorite
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_outline),
+                ),
+              ),
+              const SizedBox(height: 8),
+              ShrinkableFloatingActionButton(
+                heroTag: mediaListUpdatePageHeroTag,
+                isExtended: hasDescription && !isScrollOverLimite,
+                icon: Icon(statusIcon),
+                label: Text(stateString),
+                onPressed: floatingButtonClickAction,
+              ),
+            ],
+          ),
           body: CustomScrollView(
             controller: controller,
             cacheExtent: AfConfig.defaultCatchExtend,
