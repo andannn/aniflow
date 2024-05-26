@@ -90,7 +90,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
   late ScrollController controller;
 
   /// Shrink the FAB button when user scroll 300 pixel in this page.
-  bool isFabShrinkByScroll = false;
+  bool isScrollOverLimite = false;
 
   @override
   void initState() {
@@ -99,9 +99,9 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
 
     controller.addListener(() {
       final needShrinkFabButton = controller.position.pixels > 300;
-      if (isFabShrinkByScroll != needShrinkFabButton) {
+      if (isScrollOverLimite != needShrinkFabButton) {
         setState(() {
-          isFabShrinkByScroll = needShrinkFabButton;
+          isScrollOverLimite = needShrinkFabButton;
         });
       }
     });
@@ -151,21 +151,24 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    FloatingActionButton.small(
-                      onPressed: () {
-                        context.read<DetailMediaBloc>().add(
-                              OnToggleFavoriteState(
-                                  isAnime: true, mediaId: model.id),
-                            );
-                      },
-                      child: isFavorite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
+                    AnimatedFadeSwitcher(
+                      visible: !isScrollOverLimite,
+                      builder: () => FloatingActionButton.small(
+                        onPressed: () {
+                          context.read<DetailMediaBloc>().add(
+                                OnToggleFavoriteState(
+                                    isAnime: true, mediaId: model.id),
+                              );
+                        },
+                        child: isFavorite
+                            ? const Icon(Icons.favorite, color: Colors.red)
+                            : const Icon(Icons.favorite_outline),
+                      ),
                     ),
                     const SizedBox(height: 8),
                     ShrinkableFloatingActionButton(
                       heroTag: mediaListUpdatePageHeroTag,
-                      isExtended: hasDescription && !isFabShrinkByScroll,
+                      isExtended: hasDescription && !isScrollOverLimite,
                       icon: Icon(statusIcon),
                       label: Text(stateString),
                       onPressed: floatingButtonClickAction,
