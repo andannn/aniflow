@@ -1,4 +1,4 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -30,7 +30,7 @@ class NotificationItem extends StatelessWidget {
     final timeUntilNowDuration = DateTime.now().difference(
         DateTime.fromMillisecondsSinceEpoch(notification.createdAt * 1000));
     final timeUntilNowString =
-        '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
+        '${TimeUtil.getFormattedDuration(context, timeUntilNowDuration)} ago';
 
     Widget buildContentRow() => switch (notification) {
           AiringNotification() =>

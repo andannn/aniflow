@@ -1,5 +1,6 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
@@ -49,7 +50,7 @@ class _StaffListPageContent extends StatelessWidget {
       final pagingState = state;
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Staffs'),
+          title: Text(context.appLocal.staff),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
@@ -88,7 +89,7 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
         }
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Schedule"),
+            title: Text(context.appLocal.schedule),
             bottom: _buildAiringScheduleTabs(context, scheduleKeys),
           ),
           body: TabBarView(

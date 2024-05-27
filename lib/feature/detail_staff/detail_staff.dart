@@ -1,8 +1,8 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
@@ -399,7 +399,6 @@ class _DetailStaffContent extends StatelessWidget {
       {required BuildContext context,
       required MediaSort mediaSort,
       required Function(MediaSort) onMediaSortChanged}) {
-    final afLocalizations = AFLocalizations.of(context);
     final items = [
       MediaSort.popularity,
       MediaSort.averageScore,
@@ -424,7 +423,7 @@ class _DetailStaffContent extends StatelessWidget {
               },
               icon: const Icon(Icons.filter_alt),
               label: Text(
-                afLocalizations.getMediaSortString(mediaSort),
+                mediaSort.translated(context),
               ),
             );
           },
@@ -432,7 +431,9 @@ class _DetailStaffContent extends StatelessWidget {
             return MenuItemButton(
               child: Container(
                 constraints: const BoxConstraints(minWidth: 80),
-                child: Text(afLocalizations.getMediaSortString(item)),
+                child: Text(
+                  item.translated(context),
+                ),
               ),
               onPressed: () {
                 onMediaSortChanged.call(item);

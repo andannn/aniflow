@@ -1,13 +1,19 @@
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:flutter/material.dart';
 
 Future<bool?> showRestartAppDialog(BuildContext context) => showDialog(
       context: context,
       builder: (context) {
-        final localization =
-        Localizations.of<MaterialLocalizations>(
+        final localization = Localizations.of<MaterialLocalizations>(
             context, MaterialLocalizations)!;
         return AlertDialog(
-          content: const Text('Restart App to apply setting.'),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              context.appLocal.restartAppHint,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {

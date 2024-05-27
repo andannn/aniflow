@@ -1,5 +1,5 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -53,7 +53,7 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                   ),
                   const Expanded(flex: 1, child: SizedBox()),
                   Text(
-                    model.role?.getCharacterRoleString(context) ?? '',
+                    model.role?.translated(context) ?? '',
                     style: style,
                   ),
                 ],
@@ -77,7 +77,8 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
                     textAlign: TextAlign.right,
                   ),
                   const Expanded(flex: 1, child: SizedBox()),
-                  Text(model.staffLanguage?.label(context) ?? '', style: style),
+                  Text(model.staffLanguage?.translated(context) ?? '',
+                      style: style),
                 ],
               ),
             ),

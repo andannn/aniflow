@@ -1,5 +1,5 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/design_system/widget/notification_item_widget.dart';
@@ -49,7 +49,7 @@ class _NotificationPageContent extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Notification'),
+            title: Text(context.appLocal.notification),
             actions: [
               PopupMenuAnchor(
                 menuItems: NotificationCategory.values,
@@ -64,7 +64,7 @@ class _NotificationPageContent extends StatelessWidget {
                     },
                     icon: const Icon(Icons.filter_alt),
                     label: Text(
-                      category.label(context),
+                      category.translated(context),
                     ),
                   );
                 },
@@ -72,7 +72,7 @@ class _NotificationPageContent extends StatelessWidget {
                   return MenuItemButton(
                     child: Container(
                       constraints: const BoxConstraints(minWidth: 80),
-                      child: Text(item.label(context)),
+                      child: Text(item.translated(context)),
                     ),
                     onPressed: () {
                       context

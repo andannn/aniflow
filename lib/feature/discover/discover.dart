@@ -1,9 +1,9 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -58,7 +58,7 @@ class DiscoverScreen extends StatelessWidget {
         final isLoading = state.isLoading;
         return Scaffold(
           appBar: AppBar(
-            title: Text(AFLocalizations.of(context).discover),
+            title: Text(context.appLocal.discover),
             actions: [
               LoadingIndicator(isLoading: isLoading),
               Padding(
@@ -150,8 +150,6 @@ class DiscoverScreen extends StatelessWidget {
           aspectRatio: 16 / 9,
           child: Card.outlined(
             clipBehavior: Clip.hardEdge,
-            color: Colors.red,
-            elevation: 0,
             child: InkWell(
               onTap: () {
                 RootRouterDelegate.get()
@@ -199,8 +197,8 @@ class DiscoverScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Next Episode: "
-                          "Ep.${(models.first.progress ?? 0) + 1}",
+                          context.appLocal
+                              .nextEpToWatch((models.first.progress ?? 0) + 1),
                         ),
                       ],
                     ),
@@ -328,13 +326,18 @@ class _MediaCategoryPreview extends StatelessWidget {
   }
 
   Widget _buildTitleBar(BuildContext context) {
-    String title = category.getMediaCategoryTitle(context);
+    String title = category.translated(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(children: [
         Text(title, style: Theme.of(context).textTheme.titleMedium),
         const Expanded(flex: 1, child: SizedBox()),
-        TextButton(onPressed: onMoreClick, child: const Text('More')),
+        TextButton(
+          onPressed: onMoreClick,
+          child: Text(
+            context.materialLocal.moreButtonTooltip,
+          ),
+        ),
       ]),
     );
   }

@@ -1,11 +1,10 @@
 import 'dart:math';
 
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
@@ -16,7 +15,7 @@ import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
-import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/data/model/trailer_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
@@ -38,7 +37,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailAnimePage extends Page {
@@ -91,7 +89,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
   late ScrollController controller;
 
   /// Shrink the FAB button when user scroll 300 pixel in this page.
-  bool isScrollOverLimite = false;
+  bool isScrollOverLimit = false;
 
   @override
   void initState() {
@@ -100,9 +98,9 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
 
     controller.addListener(() {
       final needShrinkFabButton = controller.position.pixels > 300;
-      if (isScrollOverLimite != needShrinkFabButton) {
+      if (isScrollOverLimit != needShrinkFabButton) {
         setState(() {
-          isScrollOverLimite = needShrinkFabButton;
+          isScrollOverLimit = needShrinkFabButton;
         });
       }
     });
@@ -158,7 +156,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               AnimatedFadeSwitcher(
-                visible: !isScrollOverLimite,
+                visible: !isScrollOverLimit,
                 builder: () => FloatingActionButton.small(
                   onPressed: () {
                     context.read<DetailMediaBloc>().add(
@@ -176,7 +174,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
               const SizedBox(height: 8),
               ShrinkableFloatingActionButton(
                 heroTag: mediaListUpdatePageHeroTag,
-                isExtended: hasDescription && !isScrollOverLimite,
+                isExtended: hasDescription && !isScrollOverLimit,
                 icon: Icon(statusIcon),
                 label: Text(stateString),
                 onPressed: floatingButtonClickAction,
@@ -393,7 +391,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AFLocalizations.of(context).animeDescription,
+              context.appLocal.animeDescription,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             description != null
@@ -427,7 +425,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
             child: Row(
               children: [
                 Text(
-                  AFLocalizations.of(context).characters,
+                  context.appLocal.characters,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Expanded(flex: 1, child: SizedBox()),
@@ -436,7 +434,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
                     RootRouterDelegate.get().navigateToCharacterList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
-                  child: const Text('More'),
+                  child: Text(context.materialLocal.moreButtonTooltip),
                 ),
               ],
             ),
@@ -508,7 +506,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
             child: Row(
               children: [
                 Text(
-                  AFLocalizations.of(context).staff,
+                  context.appLocal.staff,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Expanded(flex: 1, child: SizedBox()),
@@ -517,7 +515,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
                     RootRouterDelegate.get().navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
-                  child: const Text('More'),
+                  child: Text(context.materialLocal.moreButtonTooltip),
                 ),
               ],
             ),
@@ -607,7 +605,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'External & Streaming links',
+              context.appLocal.externalLinks,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -636,7 +634,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AFLocalizations.of(context).trailer,
+              context.appLocal.trailer,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
@@ -688,17 +686,16 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
   Widget _buildAiringInfo(BuildContext context, MediaModel model) {
     final nextAiringEpisode = model.nextAiringEpisode;
     final airingTimeString = model.getReleasingTimeString(context);
-    if (airingTimeString.isEmpty) {
-      return const SizedBox();
-    }
-    const stringRes = 'Next airing schedule is EP.%s in %s';
     return AnimatedScaleSwitcher(
-      visible: true,
-      builder: () => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          sprintf(stringRes, [nextAiringEpisode, airingTimeString]),
-          style: Theme.of(context).textTheme.bodyMedium,
+      visible: airingTimeString.isNotEmpty && nextAiringEpisode != null,
+      builder: () => Card.filled(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            context.appLocal
+                .nextAiringInfo(nextAiringEpisode!, airingTimeString),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ),
       ),
     );
@@ -744,7 +741,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Relations',
+              context.appLocal.relations,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(
@@ -784,7 +781,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'Studio',
+              context.appLocal.studio,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -806,133 +803,146 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
 
   Widget _buildWatchNextEpisodeArea(
       BuildContext context, DetailMediaUiState state) {
-    final mediaListItem =
-        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
-    final hasNextReleasingEpisode =
-        mediaListItem?.hasNextReleasingEpisode == true;
-
-    if (hasNextReleasingEpisode) {
-      // User tack the animation and have next airing episode.
-      return _buildNextEpisodeInfo(context, state);
-    } else {
-      return _buildAiringInfo(context, state.detailAnimeModel!);
-    }
+    return Column(
+      children: [
+        _buildAiringInfo(context, state.detailAnimeModel!),
+        _buildNextEpisodeInfo(context, state),
+      ],
+    );
   }
 
   Widget _buildNextEpisodeInfo(BuildContext context, DetailMediaUiState state) {
     final episode = state.episode;
-    final nextProgress = (state.mediaListItem!.progress ?? 0) + 1;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Text(
-                'Next to watch: Ep.$nextProgress',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 12),
-              switch (episode) {
-                Loading<Episode>() => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: LoadingAnimationWidget.twistingDots(
-                      size: 20,
-                      leftDotColor: Theme.of(context).colorScheme.tertiary,
-                      rightDotColor: Theme.of(context).colorScheme.primary,
+    final nextProgress = (state.mediaListItem?.progress ?? 0) + 1;
+    final mediaListItem =
+        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
+    final hasNextReleasedEpisode =
+        mediaListItem?.hasNextReleasedEpisode == true;
+    return AnimatedScaleSwitcher(
+      visible: hasNextReleasedEpisode,
+      builder: () => Padding(
+        key: ValueKey(episode.runtimeType),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Text(
+                  context.appLocal.nextEpToWatch(nextProgress),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+                switch (episode) {
+                  Loading<Episode>() => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: LoadingAnimationWidget.twistingDots(
+                              size: 20,
+                              leftDotColor:
+                                  Theme.of(context).colorScheme.tertiary,
+                              rightDotColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                Ready<Episode>() => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          episode.state.title,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.tertiary,
-                              ),
+                  Ready<Episode>() => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            episode.state.title,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () async {
-                              context.read<DetailMediaBloc>().add(
-                                    OnMarkWatchedClick(),
-                                  );
-                            },
-                            child: const Text('Mark watched'),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () async {
+                                context.read<DetailMediaBloc>().add(
+                                      OnMarkWatchedClick(),
+                                    );
+                              },
+                              child: Text(context.appLocal.markWatched),
+                            ),
+                            FilledButton(
+                              onPressed: () async {
+                                final url = Uri.parse(episode.state.url);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                              child: Text(context.appLocal.watchNow),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  None<Episode>() => const SizedBox(),
+                  Error<Episode>() => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            // ignore: lines_longer_than_80_chars
+                            'Can\'t find episode, click the bottom button and find manually.',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
                           ),
-                          FilledButton(
-                            onPressed: () async {
-                              final url = Uri.parse(episode.state.url);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              }
-                            },
-                            child: const Text('Watch now'),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                None<Episode>() => const SizedBox(),
-                Error<Episode>() => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          // ignore: lines_longer_than_80_chars
-                          'Can\'t find episode, click the bottom button and find manually.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () async {
-                              context.read<DetailMediaBloc>().add(
-                                    OnMarkWatchedClick(),
-                                  );
-                            },
-                            child: const Text('Mark watched'),
-                          ),
-                          FilledButton(
-                            onPressed: () async {
-                              logger.d(
-                                  'JQN episode.searchUrl ${episode.searchUrl}');
-                              if (episode.searchUrl == null) {
-                                return;
-                              }
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () async {
+                                context.read<DetailMediaBloc>().add(
+                                      OnMarkWatchedClick(),
+                                    );
+                              },
+                              child: Text(context.appLocal.markWatched),
+                            ),
+                            FilledButton(
+                              onPressed: () async {
+                                logger.d(
+                                    'episode.searchUrl ${episode.searchUrl}');
+                                if (episode.searchUrl == null) {
+                                  return;
+                                }
 
-                              final url = Uri.parse(episode.searchUrl!);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              }
-                            },
-                            child: const Text('Search page'),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-              },
-            ],
+                                final url = Uri.parse(episode.searchUrl!);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                              child: Text(context.appLocal.toSearch),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                },
+              ],
+            ),
           ),
         ),
       ),

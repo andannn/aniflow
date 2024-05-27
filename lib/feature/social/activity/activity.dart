@@ -1,9 +1,9 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -51,7 +51,7 @@ class _ActivityPageContent extends StatelessWidget {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  title: const Text('Activity'),
+                  title: Text(context.appLocal.activity),
                   pinned: true,
                   snap: true,
                   floating: true,
@@ -69,7 +69,7 @@ class _ActivityPageContent extends StatelessWidget {
                           },
                           icon: const Icon(Icons.filter_alt),
                           label: Text(
-                            filterType.label(context),
+                            filterType.translated(context),
                           ),
                         );
                       },
@@ -77,7 +77,7 @@ class _ActivityPageContent extends StatelessWidget {
                         return MenuItemButton(
                           child: Container(
                             constraints: const BoxConstraints(minWidth: 80),
-                            child: Text(item.label(context)),
+                            child: Text(item.translated(context)),
                           ),
                           onPressed: () {
                             context
@@ -129,16 +129,16 @@ class _ActivityPageContent extends StatelessWidget {
       children: [
         const SizedBox(width: 12),
         SegmentedButton<ActivityScopeCategory>(
-          segments: const [
+          segments:  [
             ButtonSegment(
               value: ActivityScopeCategory.global,
-              label: Text('Global'),
-              icon: Icon(Icons.public),
+              label: Text(context.appLocal.global),
+              icon: const Icon(Icons.public),
             ),
             ButtonSegment(
               value: ActivityScopeCategory.following,
-              label: Text('Following'),
-              icon: Icon(Icons.person_2),
+              label: Text(context.appLocal.following),
+              icon: const Icon(Icons.person_2),
             ),
           ],
           selected: {userType},

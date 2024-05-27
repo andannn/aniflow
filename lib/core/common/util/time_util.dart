@@ -1,3 +1,6 @@
+import 'package:aniflow/core/common/util/string_resource_util.dart';
+import 'package:flutter/material.dart';
+
 mixin TimeUtil {
   /// Calculate minus from [seconds]
   static Duration durationFromSeconds(int seconds) {
@@ -11,24 +14,20 @@ mixin TimeUtil {
     );
   }
 
-  static String? getFormattedDuration(Duration duration) {
+  static String? getFormattedDuration(BuildContext context, Duration duration) {
     final result = <String>[];
     final days = duration.inDays;
     final hours = duration.inHours % 60;
     final minutes = duration.inMinutes % 60;
-    final seconds = duration.inSeconds % 60;
-
+    final local = context.appLocal;
     if (days != 0) {
-      result.add('$days days');
+      result.add('$days${local.days}');
     }
     if (hours != 0) {
-      result.add('$hours hours');
+      result.add('$hours${local.hours}');
     }
     if (minutes != 0) {
-      result.add('$minutes minutes');
-    }
-    if (seconds != 0) {
-      result.add('$seconds seconds');
+      result.add('$minutes${local.minutes}');
     }
     return result.firstOrNull;
   }

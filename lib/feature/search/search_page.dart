@@ -1,5 +1,5 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/feature/search/bloc/search_bloc.dart';
 import 'package:aniflow/feature/search/bloc/search_state.dart';
@@ -92,7 +92,7 @@ class _MediaSearchPageContent extends StatelessWidget {
               context.read<SearchBloc>().add(OnSearchTypeSelected(e));
             }
           },
-          label: AFLocalizations.of(context).getSearchTypeString(e),
+          label: e.translated(context),
         );
 
     return SizedBox(
@@ -122,7 +122,7 @@ class _MediaSearchPageContent extends StatelessWidget {
           }
         },
         decoration: InputDecoration(
-          labelText: AFLocalizations.of(context).getSearchTypeString(type),
+          labelText: type.translated(context),
         ),
       ),
     );

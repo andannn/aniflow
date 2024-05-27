@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
@@ -58,9 +58,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final isSuccess = await _authRepository.awaitAuthLogin();
     if (isSuccess) {
       logger.d('login success');
-      showSnackBarMessage(label: AFLocalizations.of().loginSuccessMessage);
+      showSnackBarMessage(
+          label: globalContext!.appLocal.loginSuccessMessage);
     } else {
-      showSnackBarMessage(label: AFLocalizations.of().loginFailedMessage);
+      showSnackBarMessage(
+          label: globalContext!.appLocal.loginFailedMessage);
     }
   }
 
@@ -72,7 +74,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       Navigator.pop(globalContext!);
     }
 
-    showSnackBarMessage(label: AFLocalizations.of().logoutSuccessMessage);
+    showSnackBarMessage(
+        label: globalContext!.appLocal.logoutSuccessMessage);
   }
 
   FutureOr<void> _onUserDataChanged(

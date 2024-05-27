@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -167,12 +168,12 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       if (isShowReleasedOnly) {
         final newList = sortedGroupMediaList.newUpdateList
             .where(
-              (e) => e.hasNextReleasingEpisode,
+              (e) => e.hasNextReleasedEpisode,
             )
             .toList();
         final otherList = sortedGroupMediaList.otherList
             .where(
-              (e) => e.hasNextReleasingEpisode,
+              (e) => e.hasNextReleasedEpisode,
             )
             .toList();
         add(
@@ -241,12 +242,12 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       if (isFinished) {
 //TODO: change to score dialog.
         showSnackBarMessage(
-          label: AFLocalizations.of().animeCompleted,
+          label: globalContext!.appLocal.animeCompleted,
           duration: SnackBarDuration.short,
         );
       } else {
         showSnackBarMessage(
-          label: AFLocalizations.of().animeMarkWatched,
+          label: globalContext!.appLocal.animeMarkWatched,
           duration: SnackBarDuration.short,
         );
       }

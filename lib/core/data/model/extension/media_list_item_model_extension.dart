@@ -4,7 +4,7 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 
 extension MediaListItemModelEx on MediaListItemModel {
-  bool get hasNextReleasingEpisode {
+  bool get hasNextReleasedEpisode {
     return _hasNextReleasingEpisode(
       type: animeModel!.type.toJson(),
       status: (animeModel!.status ?? MediaStatus.finished).toJson(),

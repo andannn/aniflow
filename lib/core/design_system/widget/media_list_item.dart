@@ -1,7 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
@@ -26,7 +26,7 @@ class MediaListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
+    final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     final colorScheme = Theme.of(context).colorScheme;
     return Opacity(
       opacity: hasNextReleasingEpisode ? 1.0 : 0.7,
@@ -41,7 +41,7 @@ class MediaListItem extends StatelessWidget {
             showNewBadge: showNewBadge,
             watchingInfo: _buildWatchingInfoLabel(context, model),
             titleMaxLines: null,
-            watchInfoTextColor: model.hasNextReleasingEpisode
+            watchInfoTextColor: model.hasNextReleasedEpisode
                 ? colorScheme.primary
                 : colorScheme.secondary,
             onClick: onClick,
@@ -53,14 +53,15 @@ class MediaListItem extends StatelessWidget {
 
   String _buildWatchingInfoLabel(
       BuildContext context, MediaListItemModel model) {
-    final hasNextReleasingEpisode = model.hasNextReleasingEpisode;
+    final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     String label = '';
     if (hasNextReleasingEpisode) {
-      label = 'Next Episode: EP.${model.progress! + 1}';
+      label = context.appLocal.nextEpToWatch(model.progress! + 1);
     } else {
       if (model.animeModel!.nextAiringEpisode != null) {
-        label =
-            'Next Episode: EP.${model.animeModel!.nextAiringEpisode} in ${model.animeModel!.getReleasingTimeString(context)}';
+        label = context.appLocal.nextAiringInfo(
+            model.animeModel!.nextAiringEpisode!,
+            model.animeModel!.getReleasingTimeString(context));
       }
     }
     return label;
@@ -90,7 +91,7 @@ class MarkWatchSlideWidget extends StatelessWidget {
               onWatchedClick.call();
             },
             icon: Icons.remove_red_eye_outlined,
-            label: 'Mark watched',
+            label: context.appLocal.markWatched,
             backgroundColor: Theme.of(context).colorScheme.inverseSurface,
             foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
           ),
