@@ -56,6 +56,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLoginButtonTapped(
       OnLoginButtonTapped event, Emitter<AuthState> emit) async {
     final isSuccess = await _authRepository.awaitAuthLogin();
+
+// TODO: remove.
+    if (globalContext == null) {
+      return;
+    }
     if (isSuccess) {
       logger.d('login success');
       showSnackBarMessage(
@@ -72,6 +77,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (globalContext != null) {
       Navigator.pop(globalContext!);
+    }
+
+// TODO: remove.
+    if (globalContext == null) {
+      return;
     }
 
     showSnackBarMessage(
