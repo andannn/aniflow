@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/profile/profile_bloc.dart';
@@ -204,7 +205,7 @@ class _UserProfileState extends State<_UserProfile>
                   showBackKey: widget.showBackKey,
                   tabController: _tabController,
                   tabs: ProfileTabType.values
-                      .map((e) => Text(e.getLocalString(context)))
+                      .map((e) => Text(e.translated(context)))
                       .toList(),
                 ),
                 pinned: true,

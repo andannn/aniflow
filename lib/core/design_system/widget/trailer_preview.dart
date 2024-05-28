@@ -1,4 +1,4 @@
-import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/data/model/trailer_model.dart';
 import 'package:aniflow/core/design_system/icons/icons.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';

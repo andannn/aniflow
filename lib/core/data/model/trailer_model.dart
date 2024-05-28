@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'trailter_model.freezed.dart';
+part 'trailer_model.freezed.dart';
 
 @freezed
 class TrailerModel with _$TrailerModel {

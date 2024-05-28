@@ -1,5 +1,5 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
@@ -94,13 +94,13 @@ class _AuthDialogContent extends StatelessWidget {
           onPressed: () {
             context.read<AuthBloc>().add(OnLogoutButtonTapped());
           },
-          child: Text(AFLocalizations.of(context).logout));
+          child: Text(context.appLocal.logout));
     } else {
       return OutlinedButton(
           onPressed: () {
             context.read<AuthBloc>().add(OnLoginButtonTapped());
           },
-          child: Text(AFLocalizations.of(context).login));
+          child: Text(context.appLocal.login));
     }
   }
 
@@ -111,10 +111,10 @@ class _AuthDialogContent extends StatelessWidget {
     switch (option) {
       case _OptionColumn.settings:
         iconData = Icons.settings_outlined;
-        label = 'Settings';
+        label = context.appLocal.settings;
       case _OptionColumn.notification:
         iconData = Icons.notifications_none;
-        label = 'Notification';
+        label = context.appLocal.notification;
       // case _OptionColumn.editProfile:
       //   iconData = Icons.edit;
       //   label = 'Edit profile';

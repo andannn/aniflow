@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
@@ -10,6 +10,7 @@ import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/collection_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -231,7 +232,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       logger.d('AimeTracker refresh failed');
 
       /// data sync failed and show snack bar message.
-      showSnackBarMessage(label: AFLocalizations.of().dataRefreshFailed);
+      showSnackBarMessage(
+          label: globalContext!.appLocal.dataRefreshFailed);
     }
 
     add(_OnLoadStateChanged(false));

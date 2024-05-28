@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
@@ -10,6 +9,7 @@ import 'package:aniflow/main.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 /// context of app root.
@@ -110,8 +110,8 @@ class AniFlowAppState extends State<AniFlowApp> {
                 useMaterial3: true,
                 colorScheme: darkColorScheme,
               ),
-              localizationsDelegates: [
-                AnimeTrackerLocalizationsDelegate(),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,

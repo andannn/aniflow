@@ -2,6 +2,7 @@ import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -211,11 +212,11 @@ class _UpdateMediaListBottomWidgetState
           children: [
             Expanded(
               child: buildLabelWithChild(
-                label: 'Status',
+                label: context.appLocal.status,
                 child: DropdownButton(
                   value: status,
                   isExpanded: true,
-                  hint: const Text('Status'),
+                  hint: Text(context.appLocal.status),
                   iconSize: 0,
                   items: statusModels
                       .map(
@@ -367,7 +368,7 @@ class _UpdateMediaListBottomWidgetState
           onPressed: () {
             Navigator.of(context).pop(null);
           },
-          child: const Text('Cancel'),
+          child: Text(context.materialLocal.cancelButtonLabel),
         ),
         TextButton(
           onPressed: () {
@@ -384,7 +385,7 @@ class _UpdateMediaListBottomWidgetState
             );
             Navigator.of(context).pop(result);
           },
-          child: const Text('Apply'),
+          child: Text(context.materialLocal.okButtonLabel),
         ),
         const SizedBox(width: 8),
       ],

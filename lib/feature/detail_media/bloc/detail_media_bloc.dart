@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
+import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
@@ -201,7 +202,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
     if (progress != null && title != null) {
       final hasNextReleasingEpisode =
-          change.nextState.mediaListItem?.hasNextReleasingEpisode == true;
+          change.nextState.mediaListItem?.hasNextReleasedEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
       final animeId = change.nextState.detailAnimeModel!.id;
       if (nextProgress != null) {
@@ -349,12 +350,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       if (isFinished) {
 //TODO: change to score dialog.
         showSnackBarMessage(
-          label: AFLocalizations.of().animeCompleted,
+          label: globalContext!.appLocal.animeCompleted,
           duration: SnackBarDuration.short,
         );
       } else {
         showSnackBarMessage(
-          label: AFLocalizations.of().animeMarkWatched,
+          label: globalContext!.appLocal.animeMarkWatched,
           duration: SnackBarDuration.short,
         );
       }

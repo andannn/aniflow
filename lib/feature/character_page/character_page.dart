@@ -1,7 +1,7 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -52,7 +52,7 @@ class _CharacterPageContent extends StatelessWidget {
     final staffLanguage = context.watch<CharacterPageBloc>().state.language;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Characters'),
+        title: Text(context.appLocal.characters),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -73,7 +73,7 @@ class _CharacterPageContent extends StatelessWidget {
                 },
                 icon: const Icon(Icons.filter_alt),
                 label: Text(
-                  staffLanguage.label(context),
+                  staffLanguage.translated(context),
                 ),
               );
             },
@@ -81,7 +81,7 @@ class _CharacterPageContent extends StatelessWidget {
               return MenuItemButton(
                 child: Container(
                   constraints: const BoxConstraints(minWidth: 80),
-                  child: Text(item.label(context)),
+                  child: Text(item.translated(context)),
                 ),
                 onPressed: () {
                   context

@@ -8,7 +8,7 @@ import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/data/model/media_cover_image_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
-import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/data/model/trailer_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';

@@ -1,5 +1,6 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -50,10 +51,7 @@ class _MediaListPageContent extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            context
-                .read<AnimePageBloc>()
-                .category
-                .getMediaCategoryTitle(context),
+            context.read<AnimePageBloc>().category.translated(context),
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -83,8 +81,8 @@ class _MediaListPageContent extends StatelessWidget {
       isFollowing: model.isFollowing,
       onClick: () {
         RootRouterDelegate.get().navigateToDetailMedia(
-              model.id,
-            );
+          model.id,
+        );
       },
     );
   }

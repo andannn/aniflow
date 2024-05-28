@@ -1,6 +1,7 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
@@ -167,7 +168,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
     final isAnime = state.currentMediaType == MediaType.anime;
     final isLoading = state.isLoading;
     return AppBar(
-      title: const Text('Track'),
+      title: Text(context.appLocal.track),
       actions: [
         LoadingIndicator(isLoading: isLoading),
         const SizedBox(width: 10),
@@ -195,7 +196,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Track your favorite anime or manga',
+              context.appLocal.welcomHint,
               style: Theme.of(context).textTheme.headlineSmall,
               softWrap: true,
               textAlign: TextAlign.center,
@@ -205,7 +206,7 @@ class _AnimeTrackPageContent extends StatelessWidget {
               onPressed: () {
                 context.read<AuthBloc>().add(OnLoginButtonTapped());
               },
-              child: const Text('Join now'),
+              child: Text(context.appLocal.joinNow),
             )
           ],
         ),
