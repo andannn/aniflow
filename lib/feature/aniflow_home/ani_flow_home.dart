@@ -1,18 +1,17 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
+import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/discover/bloc/discover_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
-import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
-import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
-import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -46,7 +45,7 @@ class AniFlowAppScaffold extends StatefulWidget {
 }
 
 class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
-    with RouteAware {
+    with RouteAware, ShowSnackBarMixin {
   AfRouterDelegate afRouterDelegate = AfRouterDelegate();
   RouteObserver rootObserver = RootRouterDelegate.get().routeObserver;
 
@@ -90,7 +89,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
       });
     });
 
-    _mediaTypeSub = getIt
+    _mediaTypeSub = GetIt.instance
         .get<UserDataRepository>()
         .userDataStream
         .map((event) => event.mediaType)
@@ -165,16 +164,14 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
 
   @override
   Widget build(BuildContext context) {
-    globalContext = context;
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt.get<DiscoverBloc>(),
+          create: (context) => GetIt.instance.get<DiscoverBloc>(),
         ),
-        BlocProvider(create: (context) => getIt.get<TrackBloc>()),
+        BlocProvider(create: (context) => GetIt.instance.get<TrackBloc>()),
         BlocProvider(
-          create: (context) => getIt.get<AuthBloc>(),
+          create: (context) => GetIt.instance.get<AuthBloc>(),
         ),
       ],
       child: Scaffold(

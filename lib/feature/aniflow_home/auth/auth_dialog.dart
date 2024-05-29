@@ -2,12 +2,12 @@ import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
-import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
-import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
+import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_ui_state.dart';
 import 'package:aniflow/feature/settings/settings.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 enum _OptionColumn {
   settings,
@@ -26,7 +26,7 @@ class AuthDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<AuthBloc>(),
+      create: (context) => GetIt.instance.get<AuthBloc>(),
       child: const AlertDialog(
         content: _AuthDialogContent(),
       ),
@@ -92,6 +92,7 @@ class _AuthDialogContent extends StatelessWidget {
     if (isLoggedIn) {
       return OutlinedButton(
           onPressed: () {
+            Navigator.pop(context);
             context.read<AuthBloc>().add(OnLogoutButtonTapped());
           },
           child: Text(context.appLocal.logout));

@@ -10,13 +10,13 @@ import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
 import 'package:aniflow/core/design_system/widget/short_num_label_icon_button.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
-import 'package:aniflow/feature/social/activity/bloc/activity_bloc.dart';
-import 'package:aniflow/feature/social/activity/bloc/activity_item_bloc.dart';
-import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart';
-import 'package:aniflow/feature/social/activity/bloc/activity_state.dart';
-import 'package:aniflow/main.dart';
+import 'package:aniflow/feature/aniflow_home/social/activity/bloc/activity_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/social/activity/bloc/activity_item_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/social/activity/bloc/activity_paging_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/social/activity/bloc/activity_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({super.key});
@@ -24,7 +24,7 @@ class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<ActivityBloc>(),
+      create: (BuildContext context) => GetIt.instance.get<ActivityBloc>(),
       child: const _ActivityPageContent(),
     );
   }
@@ -164,7 +164,7 @@ class ActivityPageBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<ActivityPagingBloc>(
+      create: (BuildContext context) => GetIt.instance.get<ActivityPagingBloc>(
         param1: userType,
         param2: filterType,
       ),
@@ -227,7 +227,7 @@ class ActivityStatusBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          getIt.get<ActivityStatusBloc>(param1: activityId),
+          GetIt.instance.get<ActivityStatusBloc>(param1: activityId),
       child: const ActivityItemContent(),
     );
   }

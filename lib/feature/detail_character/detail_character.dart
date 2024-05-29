@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -13,9 +14,9 @@ import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switch
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class DetailCharacterPage extends Page {
   final String id;
@@ -37,8 +38,10 @@ class DetailCharacterRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<DetailCharacterBloc>(param1: id),
-      child: const _DetailCharacterContent(),
+      create: (context) => GetIt.instance.get<DetailCharacterBloc>(param1: id),
+      child: const ScaffoldMessenger(
+        child: _DetailCharacterContent(),
+      ),
     );
   }
 
@@ -46,9 +49,16 @@ class DetailCharacterRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailCharacterContent extends StatelessWidget {
+class _DetailCharacterContent extends StatefulWidget {
   const _DetailCharacterContent();
 
+  @override
+  State<_DetailCharacterContent> createState() =>
+      _DetailCharacterContentState();
+}
+
+class _DetailCharacterContentState extends State<_DetailCharacterContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailCharacterBloc, DetailCharacterState>(

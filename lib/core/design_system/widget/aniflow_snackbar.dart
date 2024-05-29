@@ -1,19 +1,12 @@
-import 'package:aniflow/app/app.dart';
 import 'package:flutter/material.dart';
 
-/// show snack bar.
-/// if the [context] is null, [globalContext] will be used to show snack bar.
-ScaffoldFeatureController<dynamic, SnackBarClosedReason>? showSnackBarMessage(
-    {BuildContext? context,
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSnackBarMessage(
+    {required BuildContext context,
     String label = '',
     String action = '',
     SnackBarDuration duration = SnackBarDuration.long}) {
-  if (context == null && globalContext == null) {
-    return null;
-  }
-
-  return ScaffoldMessenger.of(context ?? globalContext!).showSnackBar(
-    _createSnackBar(context ?? globalContext!, label, action, duration),
+  return ScaffoldMessenger.of(context).showSnackBar(
+    _createSnackBar(context, label, action, duration),
   );
 }
 

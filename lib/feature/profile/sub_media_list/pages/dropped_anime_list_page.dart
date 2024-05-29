@@ -5,9 +5,9 @@ import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class DroppedAnimePage extends Page {
   const DroppedAnimePage({super.key, required this.userId});
@@ -30,7 +30,7 @@ class UserAnimeListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<DroppedAnimeListPagingBloc>(
+      create: (context) => GetIt.instance.get<DroppedAnimeListPagingBloc>(
         param1: userId,
         param2: AfConfig.defaultPerPageCount,
       ),

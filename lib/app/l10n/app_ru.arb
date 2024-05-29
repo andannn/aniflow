@@ -100,5 +100,8 @@
 	"hours": "часы",
 	"minutes": "Минуты",
 	"nextEpToWatch": "Дальше к просмотру: Эпизод {episode}",
-	"nextAiringInfo": "Эпизод {nextEpisode} выйдет через {durationUtilAir}"
+	"nextAiringInfo": "Эпизод {nextEpisode} выйдет через {durationUtilAir}",
+	"connectionTimeOutMessage": "Время ожидания соединения истекло.",
+	"networkErrorMessage": "Ошибка сети (код состояния: {statusCode}).",
+	"noNetworkMessage": "переводится на русский как \"Нет подключения к сети."
 }

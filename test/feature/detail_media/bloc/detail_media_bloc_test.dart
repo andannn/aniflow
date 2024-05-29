@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
@@ -50,7 +51,8 @@ void main() {
           userDataRepository,
           mediaRepository,
           mediaListRepository,
-          hiAnimationRepository),
+          hiAnimationRepository,
+          MessageRepository()),
       expect: () => isNotEmpty,
     );
   });

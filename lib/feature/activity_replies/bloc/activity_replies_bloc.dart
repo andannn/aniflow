@@ -1,9 +1,10 @@
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
-import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
+import 'package:aniflow/feature/activity_replies/bloc/activity_replies_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -31,7 +32,8 @@ class OnActivityLoaded extends ActivityRepliesEvent {
 class ActivityRepliesBloc
     extends Bloc<ActivityRepliesEvent, ActivityRepliesState> {
   ActivityRepliesBloc(
-    this._repository,
+    this._activityRepository,
+    this._messageRepository,
     @factoryParam this.activityId,
   ) : super(const ActivityRepliesState()) {
     on<OnLoadingStateChanged>(
@@ -47,18 +49,23 @@ class ActivityRepliesBloc
     loadReplies();
   }
 
-  final ActivityRepository _repository;
+  final ActivityRepository _activityRepository;
+  final MessageRepository _messageRepository;
   final String activityId;
 
   Future loadReplies() async {
-    final activity = await _repository.getActivityModel(activityId);
+    final activity = await _activityRepository.getActivityModel(activityId);
     add(OnActivityLoaded(activity));
 
     add(OnLoadingStateChanged(true));
-    final result = await _repository.getActivityReplies(activityId);
+    final result = await _activityRepository.getActivityReplies(activityId);
     switch (result) {
       case LoadError<List<ActivityReplyModel>>():
-        ErrorHandler.handleException(exception: result.exception);
+        final message =
+            await ErrorHandler.convertExceptionToMessage(result.exception);
+        if (message != null) {
+          _messageRepository.showMessage(message);
+        }
       case LoadSuccess<List<ActivityReplyModel>>():
         add(OnRepliesLoaded(result.data));
     }

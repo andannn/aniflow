@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -34,6 +34,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     this._mediaRepository,
     this._favoriteRepository,
     UserDataRepository preferences,
+    this._messageRepository,
   ) : super(DetailStudioState(
           userTitleLanguage: preferences.userData.userTitleLanguage,
         )) {
@@ -55,6 +56,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
 
   final MediaInformationRepository _mediaRepository;
   final FavoriteRepository _favoriteRepository;
+  final MessageRepository _messageRepository;
   final String studioId;
   StreamSubscription? _detailStudioSub;
   final _contentFetchCancelToken = CancelToken();
@@ -77,7 +79,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     );
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     }
     add(_OnLoadingChanged(isLoading: false));
   }
@@ -92,7 +94,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     );
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     }
   }
 }

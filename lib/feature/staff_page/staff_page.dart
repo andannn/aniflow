@@ -6,9 +6,9 @@ import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/staff_page/bloc/staff_page_bloc.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 
 class StaffListPage extends Page {
@@ -31,7 +31,7 @@ class StaffListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<StaffPageBloc>(param1: animeId),
+      create: (context) => GetIt.instance.get<StaffPageBloc>(param1: animeId),
       child: const _StaffListPageContent(),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/app/app.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
@@ -9,9 +10,9 @@ import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   SettingsPageRoute({super.settings}) : super(allowSnapshotting: false);
@@ -19,8 +20,10 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<SettingsBloc>(),
-      child: const _MediaSettingsPageContent(),
+      create: (BuildContext context) => GetIt.instance.get<SettingsBloc>(),
+      child: const ScaffoldMessenger(
+        child: _MediaSettingsPageContent(),
+      ),
     );
   }
 
@@ -48,17 +51,8 @@ class _MediaSettingsPageContent extends StatefulWidget {
       _MediaSettingsPageContentState();
 }
 
-class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
+    with ShowSnackBarMixin {
 
   @override
   Widget build(BuildContext context) {

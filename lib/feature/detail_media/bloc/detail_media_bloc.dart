@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
@@ -15,7 +14,6 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
 import 'package:bloc/bloc.dart';
@@ -120,6 +118,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     this._mediaRepository,
     this._mediaListRepository,
     this._hiAnimationRepository,
+    this._messageRepository,
   ) : super(DetailMediaUiState(
           userTitleLanguage: _userDataRepository.userData.userTitleLanguage,
           userStaffNameLanguage:
@@ -160,6 +159,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   final AuthRepository _authRepository;
   final HiAnimationRepository _hiAnimationRepository;
   final UserDataRepository _userDataRepository;
+  final MessageRepository _messageRepository;
 
   HiAnimationSource? _hiAnimationSource;
 
@@ -236,7 +236,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _networkActionCancelToken = CancelToken();
 
     add(_OnLoadingStateChanged(isLoading: true));
-    await Future.wait([
+    final resultList = await Future.wait([
       _mediaRepository.startFetchDetailAnimeInfo(
         id: mediaId,
         token: _networkActionCancelToken,
@@ -248,6 +248,15 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
     ]);
     add(_OnLoadingStateChanged(isLoading: false));
+
+    final fetchDetailResult = resultList[0];
+    final syncListResult = resultList[1];
+    if (fetchDetailResult is LoadError) {
+      _messageRepository.handleException(fetchDetailResult.exception);
+    }
+    if (syncListResult is LoadError) {
+      _messageRepository.handleException(syncListResult.exception);
+    }
   }
 
   Future<void> _onMediaListModified(
@@ -270,7 +279,11 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     add(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
+      }
     }
   }
 
@@ -306,12 +319,17 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       switch (result) {
         case LoadError<Episode>(exception: final exception):
           logger.d('findPlaySource failed ${result.exception}');
-          ErrorHandler.handleException(exception: result.exception);
           if (exception is NotFoundEpisodeException) {
             add(_OnFindEpisodeError(
                 exception: result.exception, searchUrl: exception.searchUrl));
           } else {
             add(_OnFindEpisodeError(exception: result.exception));
+          }
+
+          final message =
+              await ErrorHandler.convertExceptionToMessage(result.exception);
+          if (message != null) {
+            _messageRepository.showMessage(message);
           }
         case LoadSuccess<Episode>():
           logger.d('findPlaySource success ${result.data}');
@@ -345,19 +363,16 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     add(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
+      }
     } else {
       if (isFinished) {
-//TODO: change to score dialog.
-        showSnackBarMessage(
-          label: globalContext!.appLocal.animeCompleted,
-          duration: SnackBarDuration.short,
-        );
+        _messageRepository.showMessage(const MediaCompletedMessage());
       } else {
-        showSnackBarMessage(
-          label: globalContext!.appLocal.animeMarkWatched,
-          duration: SnackBarDuration.short,
-        );
+        _messageRepository.showMessage(const MediaMarkWatchedMessage());
       }
     }
   }
