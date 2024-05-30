@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
@@ -47,8 +48,11 @@ class _OnMediaTypeChanged extends SettingEvent {
 
 @injectable
 class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
-  SettingsBloc(this._userDataRepository, this._authRepository)
-      : super(SettingsState()) {
+  SettingsBloc(
+    this._userDataRepository,
+    this._authRepository,
+    this._messageRepository,
+  ) : super(SettingsState()) {
     on<_OnAniListSettingsChanged>(
       (event, emit) => emit(state.copyWith(settings: event.settings)),
     );
@@ -65,6 +69,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
 
   final UserDataRepository _userDataRepository;
   final AuthRepository _authRepository;
+  final MessageRepository _messageRepository;
 
   StreamSubscription? _settingsSub;
   StreamSubscription? _themeSub;
@@ -139,7 +144,11 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
     }
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
+      }
     }
   }
 

@@ -6,12 +6,12 @@ import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
-import 'package:aniflow/feature/social/activity/activity.dart';
-import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_bloc.dart';
-import 'package:aniflow/feature/social/activity_replies/bloc/activity_replies_state.dart';
-import 'package:aniflow/main.dart';
+import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart';
+import 'package:aniflow/feature/activity_replies/bloc/activity_replies_state.dart';
+import 'package:aniflow/feature/aniflow_home/social/activity/activity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class ActivityRepliesPage extends Page {
   const ActivityRepliesPage({
@@ -41,7 +41,8 @@ class ActivityRepliesRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => getIt.get<ActivityRepliesBloc>(
+        create: (BuildContext context) =>
+            GetIt.instance.get<ActivityRepliesBloc>(
               param1: activityId,
             ),
         child: const _ActivityRepliesPageContent());
@@ -79,7 +80,7 @@ class _ActivityRepliesPageContent extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8),
                   child: ActivityItem(
                     model: activityModel,
-                    userTitleLanguage: getIt
+                    userTitleLanguage: GetIt.instance
                         .get<UserDataRepository>()
                         .userData
                         .userTitleLanguage,

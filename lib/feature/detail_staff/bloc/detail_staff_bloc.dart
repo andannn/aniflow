@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_sort.dart';
-import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -39,6 +39,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
   DetailStaffBloc(
     @factoryParam this.staffId,
     this._mediaRepository,
+    this._messageRepository,
     this._favoriteRepository,
     UserDataRepository preferences,
   ) : super(DetailStaffState(
@@ -67,6 +68,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
 
   final MediaInformationRepository _mediaRepository;
   final FavoriteRepository _favoriteRepository;
+  final MessageRepository _messageRepository;
   final String staffId;
   StreamSubscription? _detailStaffSub;
   final _contentFetchCancelToken = CancelToken();
@@ -89,7 +91,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     );
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     }
     add(_OnLoadingChanged(isLoading: false));
   }
@@ -104,7 +106,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     );
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     }
   }
 }

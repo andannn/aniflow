@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
-import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
+import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_ui_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 sealed class AuthEvent {}
@@ -29,7 +26,10 @@ extension AuthStateEx on AuthState {
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(this._authRepository) : super(AuthState()) {
+  AuthBloc(
+    this._authRepository,
+    this._messageRepository,
+  ) : super(AuthState()) {
     on<OnLoginButtonTapped>(_onLoginButtonTapped);
     on<OnLogoutButtonTapped>(_onLogoutButtonTapped);
     on<_OnUserDataChanged>(_onUserDataChanged);
@@ -43,6 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final AuthRepository _authRepository;
+  final MessageRepository _messageRepository;
 
   StreamSubscription? _userDataSub;
 
@@ -57,35 +58,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       OnLoginButtonTapped event, Emitter<AuthState> emit) async {
     final isSuccess = await _authRepository.awaitAuthLogin();
 
-// TODO: remove.
-    if (globalContext == null) {
-      return;
-    }
     if (isSuccess) {
       logger.d('login success');
-      showSnackBarMessage(
-          label: globalContext!.appLocal.loginSuccessMessage);
+      _messageRepository.showMessage(const LoginSuccessMessage());
     } else {
-      showSnackBarMessage(
-          label: globalContext!.appLocal.loginFailedMessage);
+      _messageRepository.showMessage(const LoginFailedMessage());
     }
   }
 
   FutureOr<void> _onLogoutButtonTapped(
       OnLogoutButtonTapped event, Emitter<AuthState> emit) async {
     await _authRepository.logout();
-
-    if (globalContext != null) {
-      Navigator.pop(globalContext!);
-    }
-
-// TODO: remove.
-    if (globalContext == null) {
-      return;
-    }
-
-    showSnackBarMessage(
-        label: globalContext!.appLocal.logoutSuccessMessage);
+    _messageRepository.showMessage(const LoginSuccessMessage());
   }
 
   FutureOr<void> _onUserDataChanged(

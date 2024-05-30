@@ -1,16 +1,15 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/collection_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -19,9 +18,8 @@ import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
-import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
+import 'package:aniflow/feature/aniflow_home/discover/bloc/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
@@ -90,6 +88,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
     this._mediaInfoRepository,
     this._mediaListRepository,
     this._userDataRepository,
+    this._messageRepository,
   ) : super(DiscoverUiState()) {
     on<_OnMediaLoaded>(_onMediaLoaded);
     on<_OnMediaLoadError>(_onMediaLoadError);
@@ -187,6 +186,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _mediaListRepository;
   final UserDataRepository _userDataRepository;
+  final MessageRepository _messageRepository;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _settingsSub;
@@ -232,8 +232,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState> {
       logger.d('AimeTracker refresh failed');
 
       /// data sync failed and show snack bar message.
-      showSnackBarMessage(
-          label: globalContext!.appLocal.dataRefreshFailed);
+      _messageRepository.showMessage(const DataRefreshFailedMessage());
     }
 
     add(_OnLoadStateChanged(false));

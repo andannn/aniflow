@@ -100,5 +100,8 @@
 	"hours": "Std.",
 	"minutes": "Protokoll",
 	"nextEpToWatch": "Als nächstes anzusehen: Folge {episode}",
-	"nextAiringInfo": ""
+	"nextAiringInfo": "",
+	"connectionTimeOutMessage": "Verbindungszeitüberschreitung.",
+	"networkErrorMessage": "Netzwerkfehler (Statuscode: {statusCode}).",
+	"noNetworkMessage": "übersetzt auf Deutsch ist \"Keine Netzwerkverbindung."
 }

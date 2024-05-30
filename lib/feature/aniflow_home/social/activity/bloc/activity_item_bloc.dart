@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -20,13 +21,14 @@ class OnToggleActivityLike extends ActivityItemEvent {}
 @injectable
 class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
   ActivityStatusBloc(
-    this._repository,
+    this._activityRepository,
+    this._messageRepository,
     @factoryParam this.activityId,
   ) : super(null) {
     on<_OnActivityChangeEvent>((event, emit) => emit(event.activityStatus));
     on<OnToggleActivityLike>(_onToggleActivityLike);
 
-    _subscription = _repository
+    _subscription = _activityRepository
         .getActivityStatusStream(activityId)
         .distinct()
         .listen((status) {
@@ -34,7 +36,8 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
     });
   }
 
-  final ActivityRepository _repository;
+  final ActivityRepository _activityRepository;
+  final MessageRepository _messageRepository;
   final String activityId;
 
   StreamSubscription? _subscription;
@@ -52,13 +55,17 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
     _toggleLikeCancelToken?.cancel();
     _toggleLikeCancelToken = CancelToken();
 
-    LoadResult result = await _repository.toggleActivityLike(
+    LoadResult result = await _activityRepository.toggleActivityLike(
       activityId,
       _toggleLikeCancelToken!,
     );
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
+      }
     }
   }
 }

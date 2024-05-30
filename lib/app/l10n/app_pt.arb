@@ -100,5 +100,8 @@
 	"hours": "horas",
 	"minutes": "minutos",
 	"nextEpToWatch": "Próximo a assistir: Episódio {episode}",
-	"nextAiringInfo": "O episódio {nextEpisode} será transmitido em {durationUtilAir}"
+	"nextAiringInfo": "O episódio {nextEpisode} será transmitido em {durationUtilAir}",
+	"connectionTimeOutMessage": "Tempo de conexão esgotado.",
+	"networkErrorMessage": "Erro de Rede (código de status: {statusCode}).",
+	"noNetworkMessage": "traduzido para o português é \"Sem conexão de rede."
 }

@@ -1,4 +1,4 @@
-import 'package:aniflow/feature/social/activity/activity.dart';
+import 'package:aniflow/feature/aniflow_home/social/activity/activity.dart';
 import 'package:flutter/material.dart';
 
 class SocialPage extends Page {

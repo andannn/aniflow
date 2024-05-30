@@ -5,15 +5,12 @@ import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
-import 'package:aniflow/main.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-/// context of app root.
-BuildContext? globalContext;
+import 'package:get_it/get_it.dart';
 
 class AniFlowApp extends StatefulWidget {
   const AniFlowApp({super.key});
@@ -57,7 +54,7 @@ class AniFlowAppState extends State<AniFlowApp> {
 
     rootRouterDelegate = RootRouterDelegate();
 
-    themeSub = getIt
+    themeSub = GetIt.instance
         .get<UserDataRepository>()
         .userDataStream
         .map((event) => event.themeSetting)

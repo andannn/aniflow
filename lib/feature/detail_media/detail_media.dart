@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
@@ -32,10 +33,10 @@ import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
-import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -59,8 +60,10 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<DetailMediaBloc>(param1: mediaId),
-      child: const Scaffold(body: _DetailAnimePageContent()),
+      create: (context) => GetIt.instance.get<DetailMediaBloc>(param1: mediaId),
+      child: const ScaffoldMessenger(
+        child: _DetailAnimePageContent(),
+      ),
     );
   }
 
@@ -85,7 +88,8 @@ class _DetailAnimePageContent extends StatefulWidget {
       _DetailAnimePageContentState();
 }
 
-class _DetailAnimePageContentState extends State<_DetailAnimePageContent> {
+class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
+    with ShowSnackBarMixin {
   late ScrollController controller;
 
   /// Shrink the FAB button when user scroll 300 pixel in this page.

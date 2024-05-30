@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -33,6 +34,7 @@ class DetailCharacterBloc
   DetailCharacterBloc(
     @factoryParam this._characterId,
     this._mediaRepository,
+    this._messageRepository,
     this._favoriteRepository,
     UserDataRepository preferences,
   ) : super(DetailCharacterState(
@@ -66,7 +68,9 @@ class DetailCharacterBloc
 
   final MediaInformationRepository _mediaRepository;
   final FavoriteRepository _favoriteRepository;
+  final MessageRepository _messageRepository;
   final String _characterId;
+
   StreamSubscription? _detailCharacterSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
@@ -88,7 +92,11 @@ class DetailCharacterBloc
     );
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
+      }
     }
     add(_OnLoadingChanged(isLoading: false));
   }

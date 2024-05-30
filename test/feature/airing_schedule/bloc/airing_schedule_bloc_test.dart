@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
@@ -26,15 +27,21 @@ void main() {
 
     blocTest(
       'initial state',
-      build: () =>
-          AiringScheduleBloc(mediaInformationRepository, userDataRepository),
+      build: () => AiringScheduleBloc(
+        mediaInformationRepository,
+        userDataRepository,
+        MessageRepository(),
+      ),
       expect: () => isNotEmpty,
     );
 
     blocTest(
       'OnRequestScheduleData event state.',
-      build: () =>
-          AiringScheduleBloc(mediaInformationRepository, userDataRepository),
+      build: () => AiringScheduleBloc(
+        mediaInformationRepository,
+        userDataRepository,
+        MessageRepository(),
+      ),
       act: (bloc) => bloc.add(OnRequestScheduleData(1)),
       expect: () => isNotEmpty,
     );

@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/common/util/error_handler.dart';
-import 'package:aniflow/core/common/util/string_resource_util.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -13,9 +11,8 @@ import 'package:aniflow/core/data/model/extension/media_list_item_model_extensio
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
+import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_ui_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
-import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -84,6 +81,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     this._mediaListRepository,
     this._authRepository,
     this._userDataRepository,
+    this._messageRepository,
   ) : super(TrackUiState()) {
     on<_OnUserStateChanged>(
       (event, emit) => emit(state.copyWith(userData: event.userData)),
@@ -200,6 +198,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   final MediaListRepository _mediaListRepository;
   final AuthRepository _authRepository;
   final UserDataRepository _userDataRepository;
+  final MessageRepository _messageRepository;
 
   @override
   Future<void> close() {
@@ -221,7 +220,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     add(_OnLoadStateChanged(isLoading: false));
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     }
   }
 
@@ -237,19 +236,12 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     add(_OnLoadStateChanged(isLoading: false));
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     } else {
       if (isFinished) {
-//TODO: change to score dialog.
-        showSnackBarMessage(
-          label: globalContext!.appLocal.animeCompleted,
-          duration: SnackBarDuration.short,
-        );
+        _messageRepository.showMessage(const MediaCompletedMessage());
       } else {
-        showSnackBarMessage(
-          label: globalContext!.appLocal.animeMarkWatched,
-          duration: SnackBarDuration.short,
-        );
+        _messageRepository.showMessage(const MediaMarkWatchedMessage());
       }
     }
   }
@@ -270,7 +262,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
       completedAt: state.completedAt,
     );
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      _messageRepository.handleException(result.exception);
     }
   }
 }

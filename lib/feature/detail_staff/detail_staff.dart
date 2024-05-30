@@ -1,6 +1,7 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -18,11 +19,11 @@ import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
-import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class DetailStaffPage extends Page {
   final String id;
@@ -46,14 +47,16 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt.get<DetailStaffBloc>(param1: id),
+          create: (context) => GetIt.instance.get<DetailStaffBloc>(param1: id),
         ),
         BlocProvider(
-          create: (context) => getIt.get<VoiceActorContentsPagingBloc>(
+          create: (context) => GetIt.instance.get<VoiceActorContentsPagingBloc>(
               param1: id, param2: MediaSort.newest),
         ),
       ],
-      child: const _DetailStaffContent(),
+      child: const ScaffoldMessenger(
+        child: _DetailStaffContent(),
+      ),
     );
   }
 
@@ -61,9 +64,15 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailStaffContent extends StatelessWidget {
+class _DetailStaffContent extends StatefulWidget {
   const _DetailStaffContent();
 
+  @override
+  State<_DetailStaffContent> createState() => _DetailStaffContentState();
+}
+
+class _DetailStaffContentState extends State<_DetailStaffContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailStaffBloc, DetailStaffState>(

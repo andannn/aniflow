@@ -114,7 +114,8 @@ abstract class PagingBloc<T> extends Bloc<PagingEvent<T>, PagingState<List<T>>>
   FutureOr<void> _onPageErrorEvent(
       _OnPageErrorEvent<T> event, Emitter<PagingState<List<T>>> emit) {
     emit(state.toError(event.exception));
-    ErrorHandler.handleException(exception: event.exception);
+// TODO:
+    ErrorHandler.convertExceptionToMessage(event.exception);
   }
 
   FutureOr<void> _onRequestLoadPageEvent(

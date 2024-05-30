@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
+import 'package:aniflow/feature/activity_replies/activity_replies.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
@@ -21,7 +22,6 @@ import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_
 import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
 import 'package:aniflow/feature/search/search_page.dart';
-import 'package:aniflow/feature/social/activity_replies/activity_replies.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:flutter/material.dart';
 

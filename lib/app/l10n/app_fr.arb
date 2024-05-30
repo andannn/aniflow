@@ -100,5 +100,8 @@
 	"hours": "Heures",
 	"minutes": "minutes",
 	"nextEpToWatch": "Prochain à regarder : Épisode {episode}",
-	"nextAiringInfo": "L'épisode {nextEpisode} sera diffusé dans {durationUtilAir}"
+	"nextAiringInfo": "L'épisode {nextEpisode} sera diffusé dans {durationUtilAir}",
+	"connectionTimeOutMessage": "Délai de connexion dépassé.",
+	"networkErrorMessage": "Erreur réseau (code de statut : {statusCode}).",
+	"noNetworkMessage": "Pas de connexion réseau."
 }

@@ -117,5 +117,15 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"connectionTimeOutMessage": "Connection timeout.",
+	"networkErrorMessage": "Network Error (status code: {statusCode}).",
+	"@networkErrorMessage": {
+		"placeholders": {
+			"statusCode": {
+				"type": "int"
+			}
+		}
+	},
+	"noNetworkMessage": "No network connection."
 }

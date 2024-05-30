@@ -13,9 +13,9 @@ import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_bloc.dart';
 import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_page_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class StatusModel {
   StatusModel({required this.status, required this.label, required this.icon});
@@ -46,7 +46,8 @@ class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<MediaListUpdateBloc>(param1: mediaListId),
+      create: (context) =>
+          GetIt.instance.get<MediaListUpdateBloc>(param1: mediaListId),
       child: const MediaListUpdatePageContent(),
     );
   }
@@ -79,7 +80,7 @@ class MediaListUpdatePageContent extends StatelessWidget {
         return const SizedBox();
       }
 
-      final userDataRepo = getIt.get<UserDataRepository>();
+      final userDataRepo = GetIt.instance.get<UserDataRepository>();
       final scoreFormat = userDataRepo.userData.scoreFormat;
       final userTitleLanguage = userDataRepo.userData.userTitleLanguage;
 

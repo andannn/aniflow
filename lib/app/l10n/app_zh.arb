@@ -100,5 +100,8 @@
 	"hours": "小时",
 	"minutes": "分",
 	"nextEpToWatch": "下次观看：第 {episode}集",
-	"nextAiringInfo": "第{nextEpisode}集将在{durationUtilAir}后播出。"
+	"nextAiringInfo": "第{nextEpisode}集将在{durationUtilAir}后播出。",
+	"connectionTimeOutMessage": "连接超时。",
+	"networkErrorMessage": "网络错误（状态码：{statusCode}）。",
+	"noNetworkMessage": "没有网络连接。"
 }

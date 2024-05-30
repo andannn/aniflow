@@ -13,9 +13,9 @@ import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
-import 'package:aniflow/feature/auth/auth_dialog.dart';
-import 'package:aniflow/feature/discover/bloc/discover_bloc.dart';
-import 'package:aniflow/feature/discover/bloc/discover_ui_state.dart';
+import 'package:aniflow/feature/aniflow_home/auth/auth_dialog.dart';
+import 'package:aniflow/feature/aniflow_home/discover/bloc/discover_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/discover/bloc/discover_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

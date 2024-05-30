@@ -7,9 +7,9 @@ import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
-import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
-import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
-import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
+import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +28,7 @@ class AnimeTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return const Scaffold(
-      body: _AnimeTrackPageContent(),
+      body: _MediaTrackPageContent(),
     );
   }
 
@@ -36,9 +36,14 @@ class AnimeTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _AnimeTrackPageContent extends StatelessWidget {
-  const _AnimeTrackPageContent();
+class _MediaTrackPageContent extends StatefulWidget {
+  const _MediaTrackPageContent();
 
+  @override
+  State<_MediaTrackPageContent> createState() => _MediaTrackPageContentState();
+}
+
+class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrackBloc, TrackUiState>(builder: (context, state) {

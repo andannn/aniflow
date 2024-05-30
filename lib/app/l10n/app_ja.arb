@@ -100,5 +100,8 @@
 	"hours": "時間",
 	"minutes": "分",
 	"nextEpToWatch": "次に見るエピソード: {episode}話",
-	"nextAiringInfo": "{nextEpisode}話は{durationUtilAir}後に放送予定"
+	"nextAiringInfo": "{nextEpisode}話は{durationUtilAir}後に放送予定",
+	"connectionTimeOutMessage": "接続がタイムアウトしました。",
+	"networkErrorMessage": "ネットワークエラー（ステータスコード：{statusCode}）。",
+	"noNetworkMessage": "ネットワークに接続されていません。"
 }

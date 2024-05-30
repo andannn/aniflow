@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -34,6 +35,7 @@ void main() {
       build: () => DetailCharacterBloc(
         '1',
         mediaRepository,
+        MessageRepository(),
         favoriteRepository,
         userDataRepository,
       ),
@@ -45,6 +47,7 @@ void main() {
       build: () => DetailCharacterBloc(
         '1',
         mediaRepository,
+        MessageRepository(),
         favoriteRepository,
         userDataRepository,
       ),
