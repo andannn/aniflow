@@ -30,7 +30,10 @@ class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return const AniFlowAppScaffold();
+    return const RootRestorationScope(
+      restorationId: 'aniflow_route',
+      child: AniFlowAppScaffold(),
+    );
   }
 
   @override
@@ -169,13 +172,16 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
         BlocProvider(
           create: (context) => GetIt.instance.get<DiscoverBloc>(),
         ),
-        BlocProvider(create: (context) => GetIt.instance.get<TrackBloc>()),
+        BlocProvider(
+          create: (context) => GetIt.instance.get<TrackBloc>(),
+        ),
         BlocProvider(
           create: (context) => GetIt.instance.get<AuthBloc>(),
         ),
       ],
       child: Scaffold(
         body: Router(
+          restorationScopeId: "aniflow_home",
           routerDelegate: afRouterDelegate,
           backButtonDispatcher: childBackButtonDispatcher,
         ),

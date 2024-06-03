@@ -23,6 +23,9 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
       key: _topLevelStateKey,
       navigatorKey: _navigatorKey,
       onPopPage: _onPopPage,
+      onRouteChanged: () {
+        notifyListeners();
+      },
     );
   }
 
@@ -33,7 +36,6 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
     _topLevelState.value = navigation;
-    notifyListeners();
 
 // TODO:
 //     FirebaseAnalytics.instance
@@ -47,7 +49,6 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
     }
 
     _topLevelState.value = TopLevelNavigation.discover;
-    notifyListeners();
 
     return true;
   }
@@ -58,10 +59,12 @@ class TopLevelNavigator extends StatefulWidget {
     super.key,
     required this.navigatorKey,
     this.onPopPage,
+    required this.onRouteChanged,
   });
 
   final GlobalKey<NavigatorState> navigatorKey;
   final PopPageCallback? onPopPage;
+  final VoidCallback onRouteChanged;
 
   @override
   State<TopLevelNavigator> createState() => _TopLevelNavigatorState();
@@ -69,13 +72,25 @@ class TopLevelNavigator extends StatefulWidget {
 
 class _TopLevelNavigatorState extends State<TopLevelNavigator>
     with RestorationMixin {
-  final topLevel = RestorableEnum<TopLevelNavigation>(
+  final topLevel = _CustomRestorableEnum<TopLevelNavigation>(
     TopLevelNavigation.discover,
     values: TopLevelNavigation.values,
   );
 
   Set<TopLevelNavigation> get _backStack =>
       {TopLevelNavigation.discover, topLevel.value};
+
+  @override
+  void initState() {
+    super.initState();
+    topLevel.addListener(widget.onRouteChanged);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    topLevel.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,5 +111,15 @@ class _TopLevelNavigatorState extends State<TopLevelNavigator>
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(topLevel, 'top_level_value');
+  }
+}
+
+class _CustomRestorableEnum<T extends Enum> extends RestorableEnum<T> {
+  _CustomRestorableEnum(super.defaultValue, {required super.values});
+
+  @override
+  void initWithValue(T value) {
+    super.initWithValue(value);
+    notifyListeners();
   }
 }
