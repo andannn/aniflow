@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/core/design_system/widget/aniflow_snackbar.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -11,6 +10,16 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/subjects.dart';
 
 const String _tag = 'Message';
+
+enum SnackBarDuration {
+  short(Duration(milliseconds: 1000)),
+  medium(Duration(milliseconds: 2000)),
+  long(Duration(milliseconds: 4000));
+
+  final Duration showDuration;
+
+  const SnackBarDuration(this.showDuration);
+}
 
 sealed class Message extends Equatable {
   final SnackBarDuration duration;
@@ -85,8 +94,7 @@ class NoNetworkMessage extends Message {
   const NoNetworkMessage() : super(duration: SnackBarDuration.medium);
 
   @override
-  String translated(BuildContext context) =>
-      context.appLocal.noNetworkMessage;
+  String translated(BuildContext context) => context.appLocal.noNetworkMessage;
 }
 
 @lazySingleton
@@ -164,7 +172,7 @@ mixin ShowSnackBarMixin<T extends StatefulWidget> on State<T> {
   }
 
   void _showSnackBar(Message message) async {
-    _currentSnackBarController = showSnackBarMessage(
+    _currentSnackBarController = _showSnackBarMessage(
       context: context,
       label: message.translated(context),
       duration: message.duration,
@@ -173,5 +181,29 @@ mixin ShowSnackBarMixin<T extends StatefulWidget> on State<T> {
     await _currentSnackBarController?.closed.then((reason) {
       logger.d('$_tag snack bar of message $message closed. reason: $reason.');
     });
+  }
+
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>?
+      _showSnackBarMessage(
+          {required BuildContext context,
+          String label = '',
+          String action = '',
+          SnackBarDuration duration = SnackBarDuration.long}) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      _createSnackBar(context, label, action, duration),
+    );
+  }
+
+  SnackBar _createSnackBar(BuildContext context, String label, String action,
+      SnackBarDuration duration) {
+    return SnackBar(
+      content: Text(label),
+      duration: duration.showDuration,
+      behavior: SnackBarBehavior.floating,
+      dismissDirection: DismissDirection.vertical,
+      action: action.isNotEmpty
+          ? SnackBarAction(label: action, onPressed: () {})
+          : null,
+    );
   }
 }
