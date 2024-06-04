@@ -23,9 +23,7 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
       key: _topLevelStateKey,
       navigatorKey: _navigatorKey,
       onPopPage: _onPopPage,
-      onRouteChanged: () {
-        notifyListeners();
-      },
+      onRouteChanged: _onRouteChanged,
     );
   }
 
@@ -51,6 +49,12 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
     _topLevelState.value = TopLevelNavigation.discover;
 
     return true;
+  }
+
+  void _onRouteChanged() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
   }
 }
 
