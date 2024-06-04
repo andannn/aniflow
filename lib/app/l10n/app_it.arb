@@ -103,5 +103,11 @@
 	"nextAiringInfo": "L'episodio {nextEpisode} sarà trasmesso tra {durationUtilAir}",
 	"connectionTimeOutMessage": "Timeout di connessione.",
 	"networkErrorMessage": "Errore di rete (codice di stato: {statusCode}).",
-	"noNetworkMessage": "Nessuna connessione di rete."
+	"noNetworkMessage": "Nessuna connessione di rete.",
+	"app": "Applicazione",
+	"about": "Su",
+	"theme": "Tema",
+	"titleLanguage": "Lingua del titolo",
+	"staffCharacterNameLanguage": "Lingua dei nomi del personale e dei personaggi",
+	"scoringSystem": "Sistema di punteggio"
 }

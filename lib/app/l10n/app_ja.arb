@@ -103,5 +103,11 @@
 	"nextAiringInfo": "{nextEpisode}話は{durationUtilAir}後に放送予定",
 	"connectionTimeOutMessage": "接続がタイムアウトしました。",
 	"networkErrorMessage": "ネットワークエラー（ステータスコード：{statusCode}）。",
-	"noNetworkMessage": "ネットワークに接続されていません。"
+	"noNetworkMessage": "ネットワークに接続されていません。",
+	"app": "アプリ",
+	"about": "アバウト",
+	"theme": "テーマ",
+	"titleLanguage": "タイトル言語",
+	"staffCharacterNameLanguage": "スタッフ＆キャラクター名の言語",
+	"scoringSystem": "スコアリングシステム"
 }

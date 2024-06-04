@@ -103,5 +103,11 @@
 	"nextAiringInfo": "",
 	"connectionTimeOutMessage": "Verbindungszeitüberschreitung.",
 	"networkErrorMessage": "Netzwerkfehler (Statuscode: {statusCode}).",
-	"noNetworkMessage": "übersetzt auf Deutsch ist \"Keine Netzwerkverbindung."
+	"noNetworkMessage": "übersetzt auf Deutsch ist \"Keine Netzwerkverbindung.",
+	"app": "App",
+	"about": "Über",
+	"theme": "Thema",
+	"titleLanguage": "Titelsprache",
+	"staffCharacterNameLanguage": "Sprache für Mitarbeiter- und Charakternamen",
+	"scoringSystem": "Punktesystem"
 }

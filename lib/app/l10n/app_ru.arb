@@ -103,5 +103,11 @@
 	"nextAiringInfo": "Эпизод {nextEpisode} выйдет через {durationUtilAir}",
 	"connectionTimeOutMessage": "Время ожидания соединения истекло.",
 	"networkErrorMessage": "Ошибка сети (код состояния: {statusCode}).",
-	"noNetworkMessage": "переводится на русский как \"Нет подключения к сети."
+	"noNetworkMessage": "переводится на русский как \"Нет подключения к сети.",
+	"app": "Приложение",
+	"about": "О",
+	"theme": "Тема",
+	"titleLanguage": "Язык заголовка",
+	"staffCharacterNameLanguage": "Язык имен персонала и персонажей",
+	"scoringSystem": "Система подсчета очков"
 }

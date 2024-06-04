@@ -103,5 +103,11 @@
 	"nextAiringInfo": "L'épisode {nextEpisode} sera diffusé dans {durationUtilAir}",
 	"connectionTimeOutMessage": "Délai de connexion dépassé.",
 	"networkErrorMessage": "Erreur réseau (code de statut : {statusCode}).",
-	"noNetworkMessage": "Pas de connexion réseau."
+	"noNetworkMessage": "Pas de connexion réseau.",
+	"app": "Application",
+	"about": "À propos de",
+	"theme": "Thème",
+	"titleLanguage": "Langue du titre",
+	"staffCharacterNameLanguage": "Langue des noms du personnel et des personnages",
+	"scoringSystem": "Système de notation"
 }

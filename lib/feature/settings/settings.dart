@@ -4,6 +4,7 @@ import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
@@ -53,7 +54,6 @@ class _MediaSettingsPageContent extends StatefulWidget {
 
 class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
     with ShowSnackBarMixin {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
@@ -62,7 +62,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Settings"),
+            title: Text(context.appLocal.settings),
           ),
           body: ListView.builder(
             itemCount: categories.length,
@@ -88,7 +88,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
-              category.title,
+              category.titleBuilder(context),
               style: textTheme.bodyLarge!.copyWith(color: colorScheme.primary),
             ),
           ),
@@ -145,7 +145,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
           child: Row(
             children: [
               Text(
-                settingItem.title,
+                settingItem.titleBuilder(context),
                 style: textTheme.headlineSmall,
               ),
               const Expanded(child: SizedBox()),
@@ -160,14 +160,14 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
         );
       case ListSettingItem<T>(
           selectedOption: var selectedOption,
-          title: var title,
+          titleBuilder: var titleBuilder,
           options: var options
         ):
         return InkWell(
           onTap: () async {
             final result = await showSettingsDialog<T>(
               context: context,
-              title: title,
+              title: titleBuilder(context),
               selectedOption: selectedOption.setting,
               options: options,
             );
@@ -181,7 +181,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  settingItem.title,
+                  settingItem.titleBuilder(context),
                   style: textTheme.titleLarge,
                 ),
                 const SizedBox(height: 2),
@@ -203,7 +203,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
             child: Row(
               children: [
                 Text(
-                  settingItem.title,
+                  settingItem.titleBuilder(context),
                   style: textTheme.headlineSmall,
                 ),
               ],

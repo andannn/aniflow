@@ -127,5 +127,11 @@
 			}
 		}
 	},
-	"noNetworkMessage": "No network connection."
+	"noNetworkMessage": "No network connection.",
+	"app": "App",
+	"about": "About",
+	"theme": "Theme",
+	"titleLanguage": "Title Language",
+	"staffCharacterNameLanguage": "Staff & Character Name Language",
+	"scoringSystem": "Scoring System"
 }

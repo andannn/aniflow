@@ -11,6 +11,7 @@ import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -175,17 +176,17 @@ extension SettingsStateEx on SettingsState {
 
     return [
       SettingCategory(
-        title: 'App',
+        titleBuilder: (context) => context.appLocal.app,
         settingItems: [
           ListSettingItem(
-            title: 'Dark mode preference',
+            titleBuilder: (context) => context.appLocal.theme,
             selectedOption: selectedTheme._createSettingOption(),
             options: ThemeSetting.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           ListSettingItem(
-            title: 'Media contents',
+            titleBuilder: (context) => 'Contents',
             selectedOption: selectedMediaType._createSettingOption(),
             options:
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
@@ -193,17 +194,19 @@ extension SettingsStateEx on SettingsState {
         ],
       ),
       SettingCategory(
-        title: 'Anime & Manga',
+        titleBuilder: (context) =>
+            '${context.appLocal.animeLabel} & ${context.appLocal.mangaLabel}',
         settingItems: [
           ListSettingItem(
-            title: 'Title Language',
+            titleBuilder: (context) => context.appLocal.titleLanguage,
             selectedOption: selectedTitleLanguage._createSettingOption(),
             options: UserTitleLanguage.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           ListSettingItem(
-            title: 'Staff & Character Name Language',
+            titleBuilder: (context) =>
+                context.appLocal.staffCharacterNameLanguage,
             selectedOption:
                 selectedUserStaffNameLanguage._createSettingOption(),
             options: UserStaffNameLanguage.values
@@ -211,16 +214,16 @@ extension SettingsStateEx on SettingsState {
                 .toList(),
           ),
           SwitchSettingItem(
-            title: '18+ content',
+            titleBuilder: (context) => '18+ content',
             current: DisplayAdultContent.getSetting(isDisplayAdultContent),
           ),
         ],
       ),
       SettingCategory(
-        title: 'Lists',
+        titleBuilder: (context) => context.appLocal.list,
         settingItems: [
           ListSettingItem(
-            title: 'Scoring System',
+            titleBuilder: (context) => context.appLocal.scoringSystem,
             selectedOption: selectedScoreFormat._createSettingOption(),
             options: ScoreFormat.values
                 .map((e) => e._createSettingOption())
@@ -229,9 +232,11 @@ extension SettingsStateEx on SettingsState {
         ],
       ),
       SettingCategory(
-        title: 'About',
+        titleBuilder: (context) => context.appLocal.about,
         settingItems: [
-          SingleLineWithTapActionSettingItem<About>(title: 'More Info')
+          SingleLineWithTapActionSettingItem<About>(
+            titleBuilder: (context) => context.materialLocal.moreButtonTooltip,
+          )
         ],
       ),
     ];

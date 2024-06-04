@@ -103,5 +103,11 @@
 	"nextAiringInfo": "O episódio {nextEpisode} será transmitido em {durationUtilAir}",
 	"connectionTimeOutMessage": "Tempo de conexão esgotado.",
 	"networkErrorMessage": "Erro de Rede (código de status: {statusCode}).",
-	"noNetworkMessage": "traduzido para o português é \"Sem conexão de rede."
+	"noNetworkMessage": "traduzido para o português é \"Sem conexão de rede.",
+	"app": "Aplicativo",
+	"about": "Sobre",
+	"theme": "Tema",
+	"titleLanguage": "Idioma do título",
+	"staffCharacterNameLanguage": "Idioma dos nomes do pessoal e dos personagens",
+	"scoringSystem": "Sistema de pontuação"
 }

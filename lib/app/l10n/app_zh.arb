@@ -103,5 +103,11 @@
 	"nextAiringInfo": "第{nextEpisode}集将在{durationUtilAir}后播出。",
 	"connectionTimeOutMessage": "连接超时。",
 	"networkErrorMessage": "网络错误（状态码：{statusCode}）。",
-	"noNetworkMessage": "没有网络连接。"
+	"noNetworkMessage": "没有网络连接。",
+	"app": "应用",
+	"about": "关于",
+	"theme": "主题",
+	"titleLanguage": "标题语言",
+	"staffCharacterNameLanguage": "人员和角色名称语言",
+	"scoringSystem": "评分系统"
 }
