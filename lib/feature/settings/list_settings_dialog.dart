@@ -62,7 +62,9 @@ class SettingsDialog<T> extends StatelessWidget {
       {required T selectedOption, required Function(T) onOptionClick}) {
     final colorScheme = Theme.of(context).colorScheme;
     return ListTile(
-      title: Text(option.description),
+      title: Text(
+        option.descriptionBuilder(context),
+      ),
       horizontalTitleGap: 2.0,
       minLeadingWidth: 10,
       shape: const StadiumBorder(),

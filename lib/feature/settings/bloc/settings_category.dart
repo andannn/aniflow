@@ -1,24 +1,27 @@
 import 'package:aniflow/core/common/setting/setting.dart';
+import 'package:flutter/cupertino.dart';
+
+typedef StringBuilder = String Function(BuildContext);
 
 class SettingCategory {
   SettingCategory({
-    required this.title,
+    required this.titleBuilder,
     required this.settingItems,
-    this.subTitle,
+    this.subTitleBuilder,
   });
 
-  final String title;
-  final String? subTitle;
+  final StringBuilder titleBuilder;
+  final StringBuilder? subTitleBuilder;
   final List<SettingItem> settingItems;
 }
 
 sealed class SettingItem<T extends Setting> {
-  final String title;
+  final StringBuilder titleBuilder;
   final String? subTitle;
   final Type type = T;
 
   SettingItem({
-    required this.title,
+    required this.titleBuilder,
     this.subTitle,
   });
 }
@@ -26,7 +29,7 @@ sealed class SettingItem<T extends Setting> {
 class SingleLineWithTapActionSettingItem<T extends Setting>
     extends SettingItem<T> {
   SingleLineWithTapActionSettingItem({
-    required super.title,
+    required super.titleBuilder,
     super.subTitle,
   });
 }
@@ -36,7 +39,7 @@ class SwitchSettingItem<T extends BooleanSetting> extends SettingItem {
 
   SwitchSettingItem({
     required this.current,
-    required super.title,
+    required super.titleBuilder,
     super.subTitle,
   });
 }
@@ -46,7 +49,7 @@ class ListSettingItem<T extends Setting> extends SettingItem {
   final List<SettingOption<T>> options;
 
   ListSettingItem({
-    required super.title,
+    required super.titleBuilder,
     required this.selectedOption,
     required this.options,
     super.subTitle,
@@ -54,8 +57,11 @@ class ListSettingItem<T extends Setting> extends SettingItem {
 }
 
 class SettingOption<T> {
-  SettingOption({required this.setting, required this.description});
+  SettingOption({
+    required this.setting,
+    required this.descriptionBuilder,
+  });
 
   final T setting;
-  final String description;
+  final StringBuilder descriptionBuilder;
 }

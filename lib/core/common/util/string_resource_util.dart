@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_relation.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
@@ -166,11 +167,21 @@ extension MediaCategoryEx on MediaCategory {
 
 extension FavoriteTypeEx on FavoriteType {
   String translated(BuildContext context) => switch (this) {
-    FavoriteType.anime =>  context.appLocal.animeLabel,
-    FavoriteType.manga => context.appLocal.mangaAnimation,
-    FavoriteType.character => context.appLocal.characters,
-    FavoriteType.staff => context.appLocal.staff,
-  };
+        FavoriteType.anime => context.appLocal.animeLabel,
+        FavoriteType.manga => context.appLocal.mangaAnimation,
+        FavoriteType.character => context.appLocal.characters,
+        FavoriteType.staff => context.appLocal.staff,
+      };
+}
+
+extension MediaListStatusEx on MediaListStatus {
+  String translated(BuildContext context) => switch (this) {
+        MediaListStatus.current => context.appLocal.current,
+        MediaListStatus.completed => context.appLocal.completed,
+        MediaListStatus.dropped => context.appLocal.dropped,
+        MediaListStatus.paused => context.appLocal.paused,
+        MediaListStatus.planning => context.appLocal.planning,
+      };
 }
 
 extension AnimeModelEx on MediaModel {
