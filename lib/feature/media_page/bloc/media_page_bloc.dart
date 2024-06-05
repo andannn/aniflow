@@ -63,7 +63,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
     final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
       _trackingIdsStream = _animeTrackListRepository
-          .getMediaListMediaIdsByUserStream(
+          .getMediaIdsOfUserStream(
             userId: userData.id,
             status: [MediaListStatus.planning, MediaListStatus.current],
 //TODO:

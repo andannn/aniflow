@@ -178,7 +178,7 @@ class MediaListRepository {
         );
   }
 
-  Stream<Set<String>> getMediaListMediaIdsByUserStream(
+  Stream<Set<String>> getMediaIdsOfUserStream(
       {required String userId,
       required List<MediaListStatus> status,
       required MediaType type}) {

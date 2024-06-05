@@ -22,7 +22,7 @@ enum MediaCategory {
   /// South korea top.
   topManhwa;
 
-  static List<MediaCategory> getALlCategoryByType(MediaType type) {
+  static List<MediaCategory> getAllCategoryByType(MediaType type) {
     if (type == MediaType.anime) {
       return [
         currentSeasonAnime,

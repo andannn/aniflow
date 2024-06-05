@@ -9,7 +9,7 @@ import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
 import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
-import 'package:aniflow/feature/aniflow_home/discover/bloc/discover_bloc.dart';
+import 'package:aniflow/feature/aniflow_home/discover/discover_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:flutter/material.dart';

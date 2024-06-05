@@ -363,6 +363,15 @@ class MediaInformationRepository {
     }
   }
 
+  Stream<List<MediaModel>> getMediasOfCategory({
+    required MediaCategory category,
+    required int max,
+  }) {
+    return mediaDao.getMediasStream(category.getContentValue(), limit: max).map(
+          (e) => e.map((e) => e.toModel()).toList(),
+        );
+  }
+
   Stream<CharacterModel> getDetailCharacterStream(String id) {
     return characterDao.getCharacterAndRelatedMediaStreamById(id).map(
           (entity) => entity.toModel(),
