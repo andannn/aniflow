@@ -6,7 +6,7 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/feature/aniflow_home/discover/bloc/media_category_preview_state.dart';
+import 'package:aniflow/feature/aniflow_home/discover/media_category_preview/media_category_preview_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';

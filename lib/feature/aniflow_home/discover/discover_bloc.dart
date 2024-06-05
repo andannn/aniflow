@@ -12,10 +12,9 @@ import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/feature/aniflow_home/discover/bloc/discover_ui_state.dart';
+import 'package:aniflow/feature/aniflow_home/discover/discover_ui_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,12 +31,6 @@ class _OnAniListSettingsChanged extends DiscoverEvent {
   _OnAniListSettingsChanged(this.settings);
 
   final AniListSettings settings;
-}
-
-class _OnNextToWatchMediaChanged extends DiscoverEvent {
-  _OnNextToWatchMediaChanged(this.mediaList);
-
-  final List<MediaListItemModel> mediaList;
 }
 
 class _OnLoadStateChanged extends DiscoverEvent {
@@ -72,10 +65,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     on<_OnAniListSettingsChanged>(
       (event, emit) => emit(state.copyWith(settings: event.settings)),
     );
-    on<_OnNextToWatchMediaChanged>(
-      (event, emit) =>
-          emit(state.copyWith(nextToWatchMediaList: event.mediaList)),
-    );
     on<_OnMediaTypeChanged>(
       (event, emit) => emit(state.copyWith(currentMediaType: event.mediaType)),
     );
@@ -103,20 +92,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         add(_OnAniListSettingsChanged(settings));
       },
     );
-
-    stream
-        .map((e) => (e.userData?.id, e.currentMediaType))
-        .distinct()
-        .listen((record) async {
-      var (String? userNullable, MediaType type) = record;
-
-      await _trackedMediaIdsSub?.cancel();
-      await _nextToWatchMediaSub?.cancel();
-      if (userNullable != null) {
-        /// user id changed, start listen following media.
-        _nextToWatchMediaSub = _startListenNextToWatchList(userNullable, type);
-      }
-    });
 
     stream
         .map((e) => e.userData?.id)
@@ -158,13 +133,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   StreamSubscription? _userDataSub;
   StreamSubscription? _settingsSub;
   StreamSubscription? _mediaTypeSub;
-  StreamSubscription? _trackedMediaIdsSub;
-  StreamSubscription? _nextToWatchMediaSub;
 
   @override
   Future<void> close() {
     _userDataSub?.cancel();
-    _trackedMediaIdsSub?.cancel();
     _mediaTypeSub?.cancel();
     _settingsSub?.cancel();
 
@@ -194,21 +166,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       loadType: const Refresh(6),
     );
     finishLoading(category.toString(), result);
-  }
-
-  StreamSubscription _startListenNextToWatchList(
-    String userId,
-    MediaType type,
-  ) {
-    final sub = _mediaListRepository.getMediaListStream(
-      status: [MediaListStatus.current, MediaListStatus.planning],
-      userId: userId,
-      type: type,
-    ).listen((sorted) {
-      final nextToWatchMedia = sorted.newUpdateList;
-      add(_OnNextToWatchMediaChanged(nextToWatchMedia));
-    });
-    return sub;
   }
 
   Future _refreshAllMediaList(String userId) async {
