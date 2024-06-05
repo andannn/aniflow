@@ -45,7 +45,7 @@ class SearchPageRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _MediaSearchPageContent extends StatefulWidget {
-  const _MediaSearchPageContent({super.key});
+  const _MediaSearchPageContent();
 
   @override
   State<_MediaSearchPageContent> createState() =>

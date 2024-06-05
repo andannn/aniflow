@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-
 class StaffListPage extends Page {
   final String animeId;
 
@@ -79,9 +78,7 @@ class _StaffListPageContent extends StatelessWidget {
         language: language,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onStaffClick: () {
-          RootRouterDelegate.get().navigateToDetailStaff(
-                model.staff.id,
-              );
+          RootRouterDelegate.get().navigateToDetailStaff(model.staff.id);
         },
       ),
     );
