@@ -101,6 +101,18 @@ void main() {
       expect(res, equals(dummyAnimeData));
     });
 
+    test('anime_dao_insert_and_get_stream', () async {
+      await dao.upsertMediaByCategory('trendingAnime', medias: dummyAnimeData);
+
+      final steam = dao.getMediasStream('trendingAnime', limit: 5);
+
+      final expectation = expectLater(
+        steam,
+        emitsInOrder([dummyAnimeData]),
+      );
+      await expectation;
+    });
+
     test('user_data_insert_and_get_cross_ref', () async {
       await dao.upsertMediaByCategory('trendingAnime',
           medias: dummyAnimeData.sublist(0, 2));

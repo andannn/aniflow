@@ -17,8 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DiscoverUiState {
   bool get isLoading => throw _privateConstructorUsedError;
-  Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap =>
-      throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
   UserModel? get userData => throw _privateConstructorUsedError;
   AniListSettings? get settings => throw _privateConstructorUsedError;
@@ -38,7 +36,6 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
-      Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       MediaType currentMediaType,
       UserModel? userData,
       AniListSettings? settings,
@@ -62,7 +59,6 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? categoryMediaMap = null,
     Object? currentMediaType = null,
     Object? userData = freezed,
     Object? settings = freezed,
@@ -73,10 +69,6 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      categoryMediaMap: null == categoryMediaMap
-          ? _value.categoryMediaMap
-          : categoryMediaMap // ignore: cast_nullable_to_non_nullable
-              as Map<MediaCategory, PagingState<List<MediaModel>>>,
       currentMediaType: null == currentMediaType
           ? _value.currentMediaType
           : currentMediaType // ignore: cast_nullable_to_non_nullable
@@ -131,7 +123,6 @@ abstract class _$$DiscoverUiStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
-      Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
       MediaType currentMediaType,
       UserModel? userData,
       AniListSettings? settings,
@@ -155,7 +146,6 @@ class __$$DiscoverUiStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? categoryMediaMap = null,
     Object? currentMediaType = null,
     Object? userData = freezed,
     Object? settings = freezed,
@@ -166,10 +156,6 @@ class __$$DiscoverUiStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      categoryMediaMap: null == categoryMediaMap
-          ? _value._categoryMediaMap
-          : categoryMediaMap // ignore: cast_nullable_to_non_nullable
-              as Map<MediaCategory, PagingState<List<MediaModel>>>,
       currentMediaType: null == currentMediaType
           ? _value.currentMediaType
           : currentMediaType // ignore: cast_nullable_to_non_nullable
@@ -195,35 +181,15 @@ class __$$DiscoverUiStateImplCopyWithImpl<$Res>
 class _$DiscoverUiStateImpl implements _DiscoverUiState {
   _$DiscoverUiStateImpl(
       {this.isLoading = false,
-      final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap =
-          const {
-        MediaCategory.currentSeasonAnime: PageLoading(data: [], page: 1),
-        MediaCategory.nextSeasonAnime: PageLoading(data: [], page: 1),
-        MediaCategory.trendingAnime: PageLoading(data: [], page: 1),
-        MediaCategory.movieAnime: PageLoading(data: [], page: 1),
-        MediaCategory.trendingManga: PageLoading(data: [], page: 1),
-        MediaCategory.allTimePopularManga: PageLoading(data: [], page: 1),
-        MediaCategory.topManhwa: PageLoading(data: [], page: 1)
-      },
       this.currentMediaType = MediaType.anime,
       this.userData,
       this.settings,
       final List<MediaListItemModel> nextToWatchMediaList = const []})
-      : _categoryMediaMap = categoryMediaMap,
-        _nextToWatchMediaList = nextToWatchMediaList;
+      : _nextToWatchMediaList = nextToWatchMediaList;
 
   @override
   @JsonKey()
   final bool isLoading;
-  final Map<MediaCategory, PagingState<List<MediaModel>>> _categoryMediaMap;
-  @override
-  @JsonKey()
-  Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap {
-    if (_categoryMediaMap is EqualUnmodifiableMapView) return _categoryMediaMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_categoryMediaMap);
-  }
-
   @override
   @JsonKey()
   final MediaType currentMediaType;
@@ -243,7 +209,7 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
 
   @override
   String toString() {
-    return 'DiscoverUiState(isLoading: $isLoading, categoryMediaMap: $categoryMediaMap, currentMediaType: $currentMediaType, userData: $userData, settings: $settings, nextToWatchMediaList: $nextToWatchMediaList)';
+    return 'DiscoverUiState(isLoading: $isLoading, currentMediaType: $currentMediaType, userData: $userData, settings: $settings, nextToWatchMediaList: $nextToWatchMediaList)';
   }
 
   @override
@@ -253,8 +219,6 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
             other is _$DiscoverUiStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other._categoryMediaMap, _categoryMediaMap) &&
             (identical(other.currentMediaType, currentMediaType) ||
                 other.currentMediaType == currentMediaType) &&
             (identical(other.userData, userData) ||
@@ -269,7 +233,6 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
-      const DeepCollectionEquality().hash(_categoryMediaMap),
       currentMediaType,
       userData,
       settings,
@@ -285,18 +248,15 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
 
 abstract class _DiscoverUiState implements DiscoverUiState {
   factory _DiscoverUiState(
-      {final bool isLoading,
-      final Map<MediaCategory, PagingState<List<MediaModel>>> categoryMediaMap,
-      final MediaType currentMediaType,
-      final UserModel? userData,
-      final AniListSettings? settings,
-      final List<MediaListItemModel>
-          nextToWatchMediaList}) = _$DiscoverUiStateImpl;
+          {final bool isLoading,
+          final MediaType currentMediaType,
+          final UserModel? userData,
+          final AniListSettings? settings,
+          final List<MediaListItemModel> nextToWatchMediaList}) =
+      _$DiscoverUiStateImpl;
 
   @override
   bool get isLoading;
-  @override
-  Map<MediaCategory, PagingState<List<MediaModel>>> get categoryMediaMap;
   @override
   MediaType get currentMediaType;
   @override
