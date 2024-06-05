@@ -109,5 +109,19 @@
 	"theme": "Thema",
 	"titleLanguage": "Titelsprache",
 	"staffCharacterNameLanguage": "Sprache für Mitarbeiter- und Charakternamen",
-	"scoringSystem": "Punktesystem"
+	"scoringSystem": "Punktesystem",
+	"contents": "Inhalte",
+	"dark": "Dunkel",
+	"light": "Hell",
+	"systemDefault": "Systemstandard",
+	"cantFindThisEpisode": "Kann diese Episode nicht finden.",
+	"totalRewatches": "Gesamt-Wiederholungen",
+	"startDate": "Startdatum",
+	"finishDate": "Enddatum",
+	"notes": "Notizen",
+	"current": "Aktuell",
+	"completed": "Abgeschlossen",
+	"dropped": "Abgebrochen",
+	"paused": "Pausiert",
+	"planning": "Geplant"
 }

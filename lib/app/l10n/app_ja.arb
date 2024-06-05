@@ -109,5 +109,20 @@
 	"theme": "テーマ",
 	"titleLanguage": "タイトル言語",
 	"staffCharacterNameLanguage": "スタッフ＆キャラクター名の言語",
-	"scoringSystem": "スコアリングシステム"
+	"scoringSystem": "スコアリングシステム",
+	"contents": "コンテンツ",
+	"dark": "ダーク",
+	"light": "ライト",
+	"systemDefault": "システムデフォルト",
+	"cantFindThisEpisode": "このエピソードが見つかりません。",
+	"totalRewatches": "合計再視聴回数",
+	"startDate": "開始日",
+	"finishDate": "終了日",
+	"notes": "ノート",
+	"current": "現在",
+	"completed": "完了",
+	"dropped": "中止",
+	"paused": "一時停止",
+	"planning": "計画中"
+
 }

@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/episode_dao.dart';
@@ -47,6 +48,9 @@ class HiAnimationRepository {
       );
     }
 
+    final searchWebUrl =
+        Uri.http(hiAnimationDomain, '/search', {'keyword': keywords[0]})
+            .toString();
     try {
       final animeHref =
           await datasource.searchAnimationByKeyword(keywords, cancelToken);
@@ -54,9 +58,7 @@ class HiAnimationRepository {
       if (animeHref == null) {
         return LoadError(NotFoundEpisodeException(
           message: 'not find animation id.',
-          searchUrl:
-              Uri.http(hiAnimationDomain, '/search', {'keyword': keywords[0]})
-                  .toString(),
+          searchUrl: searchWebUrl,
         ));
       }
 
@@ -67,9 +69,7 @@ class HiAnimationRepository {
       if (epOrNull == null) {
         return LoadError(NotFoundEpisodeException(
           message: 'not find episode: $episode',
-          searchUrl:
-              Uri.http(hiAnimationDomain, '/search', {'keyword': keywords[0]})
-                  .toString(),
+          searchUrl: searchWebUrl,
         ));
       }
 
@@ -88,9 +88,17 @@ class HiAnimationRepository {
           data: Episode(
               '$hiAnimationUrl$animeHref?ep=$episodeId', title, epNumber));
     } on Exception catch (e) {
-      return LoadError(e);
+      logger.e('Exception on searchPlaySourceByKeyword: $e');
+      return LoadError(NotFoundEpisodeException(
+        message: e.toString(),
+        searchUrl: searchWebUrl,
+      ));
     } on Error catch (e) {
-      return LoadError(Exception(e));
+      logger.e('Error on searchPlaySourceByKeyword: $e');
+      return LoadError(NotFoundEpisodeException(
+        message: e.toString(),
+        searchUrl: searchWebUrl,
+      ));
     }
   }
 }

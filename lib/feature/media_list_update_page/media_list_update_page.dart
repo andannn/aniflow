@@ -77,7 +77,10 @@ class MediaListUpdatePageContent extends StatelessWidget {
       final mediaListItem = state.mediaListItemModel;
       final mediaModel = mediaListItem?.animeModel;
       if (mediaListItem == null || mediaModel == null) {
-        return const SizedBox();
+        return const Hero(
+          tag: mediaListUpdatePageHeroTag,
+          child: SizedBox(),
+        );
       }
 
       final userDataRepo = GetIt.instance.get<UserDataRepository>();
@@ -150,11 +153,11 @@ class _UpdateMediaListBottomWidgetState
   late ScoreFormat scoreFormat;
   late UserTitleLanguage userTitleLanguage;
 
-  final List<StatusModel> statusModels = [
+  List<StatusModel> getStatusModels(BuildContext context) => [
     ...MediaListStatus.values.map(
       (e) => StatusModel(
         status: e,
-        label: e.stateString,
+        label: e.translated(context),
         icon: e.statusIcon,
       ),
     ),
@@ -219,7 +222,7 @@ class _UpdateMediaListBottomWidgetState
                   isExpanded: true,
                   hint: Text(context.appLocal.status),
                   iconSize: 0,
-                  items: statusModels
+                  items: getStatusModels(context)
                       .map(
                         (e) => DropdownMenuItem(
                           value: e.status,
@@ -252,7 +255,7 @@ class _UpdateMediaListBottomWidgetState
           children: [
             Expanded(
               child: buildLabelWithChild(
-                label: 'Score',
+                label: context.appLocal.scoring,
                 child: ScoringWidget(
                   format: scoreFormat,
                   score: score ?? 0,
@@ -292,7 +295,7 @@ class _UpdateMediaListBottomWidgetState
             ),
             Expanded(
               child: buildLabelWithChild(
-                label: 'Total Rewatches',
+                label: context.appLocal.totalRewatches,
                 child: MaxLimitTextFiled(
                   initialValue: repeat ?? 0,
                   onValueApplied: (value) {
@@ -308,7 +311,7 @@ class _UpdateMediaListBottomWidgetState
           children: [
             Expanded(
               child: buildLabelWithChild(
-                label: 'Start Date',
+                label: context.appLocal.startDate,
                 child: DateTimeButton(
                   dateTime: startedAt,
                   onDateTimeChanged: (time) {
@@ -321,7 +324,7 @@ class _UpdateMediaListBottomWidgetState
             ),
             Expanded(
               child: buildLabelWithChild(
-                label: 'Finish Date',
+                label: context.appLocal.finishDate,
                 child: DateTimeButton(
                   dateTime: completedAt,
                   onDateTimeChanged: (time) {
@@ -336,7 +339,7 @@ class _UpdateMediaListBottomWidgetState
         ),
         const SizedBox(height: 16),
         buildLabelWithChild(
-          label: 'Notes',
+          label: context.appLocal.notes,
           child: TextFormField(
             initialValue: notes,
             onChanged: (text) {

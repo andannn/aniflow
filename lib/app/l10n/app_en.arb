@@ -133,5 +133,19 @@
 	"theme": "Theme",
 	"titleLanguage": "Title Language",
 	"staffCharacterNameLanguage": "Staff & Character Name Language",
-	"scoringSystem": "Scoring System"
+	"scoringSystem": "Scoring System",
+	"contents": "Contents",
+	"dark": "Dark",
+	"light": "Light",
+	"systemDefault": "System default",
+	"cantFindThisEpisode": "Can\\'t find this episode.",
+	"totalRewatches": "Total Rewatches",
+	"startDate": "Start date",
+	"finishDate": "Finish Date",
+	"notes": "Notes",
+	"current": "Current",
+	"completed": "Completed",
+	"dropped": "Dropped",
+	"paused": "Paused",
+	"planning": "Planning"
 }

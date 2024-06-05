@@ -109,5 +109,19 @@
 	"theme": "主题",
 	"titleLanguage": "标题语言",
 	"staffCharacterNameLanguage": "人员和角色名称语言",
-	"scoringSystem": "评分系统"
+	"scoringSystem": "评分系统",
+	"contents": "内容",
+	"dark": "深色",
+	"light": "浅色",
+	"systemDefault": "系统默认",
+	"cantFindThisEpisode": "找不到这一集。",
+	"totalRewatches": "总重播次数",
+	"startDate": "开始日期",
+	"finishDate": "结束日期",
+	"notes": "笔记",
+	"current": "当前",
+	"completed": "已完成",
+	"dropped": "已放弃",
+	"paused": "已暂停",
+	"planning": "计划中"
 }

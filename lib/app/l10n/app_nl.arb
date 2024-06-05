@@ -109,5 +109,19 @@
 	"theme": "Thema",
 	"titleLanguage": "Titel taal",
 	"staffCharacterNameLanguage": "Taal voor personeels- en personagenamen",
-	"scoringSystem": "Score systeem"
+	"scoringSystem": "Score systeem",
+	"contents": "Inhoud",
+	"dark": "Donker",
+	"light": "Licht",
+	"systemDefault": "Systeemstandaard",
+	"cantFindThisEpisode": "Kan deze aflevering niet vinden.",
+	"totalRewatches": "Totaal opnieuw bekeken",
+	"startDate": "Startdatum",
+	"finishDate": "Voltooiingsdatum",
+	"notes": "Notities",
+	"current": "Huidig",
+	"completed": "Voltooid",
+	"dropped": "Afgebroken",
+	"paused": "Gepauzeerd",
+	"planning": "Plannen"
 }

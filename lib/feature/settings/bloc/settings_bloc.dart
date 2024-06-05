@@ -186,7 +186,7 @@ extension SettingsStateEx on SettingsState {
                 .toList(),
           ),
           ListSettingItem(
-            titleBuilder: (context) => 'Contents',
+            titleBuilder: (context) => context.appLocal.contents,
             selectedOption: selectedMediaType._createSettingOption(),
             options:
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
@@ -214,7 +214,7 @@ extension SettingsStateEx on SettingsState {
                 .toList(),
           ),
           SwitchSettingItem(
-            titleBuilder: (context) => '18+ content',
+            titleBuilder: (context) => '18+ ${context.appLocal.contents}',
             current: DisplayAdultContent.getSetting(isDisplayAdultContent),
           ),
         ],
@@ -248,12 +248,19 @@ extension on UserTitleLanguage {
     switch (this) {
       case UserTitleLanguage.romaji:
         return SettingOption(
-            setting: this, description: 'Romaji (Shingeki no kyojin)');
+          setting: this,
+          descriptionBuilder: (context) => 'Romaji (Shingeki no kyojin)',
+        );
       case UserTitleLanguage.english:
         return SettingOption(
-            setting: this, description: 'English (Attack on Titan)');
+          setting: this,
+          descriptionBuilder: (context) => 'English (Attack on Titan)',
+        );
       case UserTitleLanguage.native:
-        return SettingOption(setting: this, description: 'Native (進撃の巨人)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => 'Native (進撃の巨人)',
+        );
     }
   }
 }
@@ -263,13 +270,20 @@ extension on UserStaffNameLanguage {
     switch (this) {
       case UserStaffNameLanguage.romajiWestern:
         return SettingOption(
-            setting: this,
-            description: 'Romaji, Western Order (Atsumi Tanezaki)');
+          setting: this,
+          descriptionBuilder: (context) =>
+              'Romaji, Western Order (Atsumi Tanezaki)',
+        );
       case UserStaffNameLanguage.romaji:
         return SettingOption(
-            setting: this, description: 'Romaji (Tanezaki Atsumi)');
+          setting: this,
+          descriptionBuilder: (context) => 'Romaji (Tanezaki Atsumi)',
+        );
       case UserStaffNameLanguage.native:
-        return SettingOption(setting: this, description: 'Native (種﨑敦美)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => 'Native (種﨑敦美)',
+        );
     }
   }
 }
@@ -278,16 +292,30 @@ extension on ScoreFormat {
   SettingOption<ScoreFormat> _createSettingOption() {
     switch (this) {
       case ScoreFormat.point100:
-        return SettingOption(setting: this, description: '100 Point (55/100)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '100 Point (55/100)',
+        );
       case ScoreFormat.point10Decimal:
         return SettingOption(
-            setting: this, description: '10 Point Decimal (5.5/10)');
+          setting: this,
+          descriptionBuilder: (context) => '10 Point Decimal (5.5/10)',
+        );
       case ScoreFormat.point10:
-        return SettingOption(setting: this, description: '10 Point (5/10)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '10 Point (5/10)',
+        );
       case ScoreFormat.point5:
-        return SettingOption(setting: this, description: '5 Star (3/5)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '5 Star (3/5)',
+        );
       case ScoreFormat.point3:
-        return SettingOption(setting: this, description: '3 Point Smiley :)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '3 Point Smiley :)',
+        );
     }
   }
 }
@@ -296,11 +324,20 @@ extension on ThemeSetting {
   SettingOption<ThemeSetting> _createSettingOption() {
     switch (this) {
       case ThemeSetting.dark:
-        return SettingOption(setting: this, description: 'Dark');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.dark,
+        );
       case ThemeSetting.light:
-        return SettingOption(setting: this, description: 'Light');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.light,
+        );
       case ThemeSetting.system:
-        return SettingOption(setting: this, description: 'System default');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.systemDefault,
+        );
     }
   }
 }
@@ -309,9 +346,15 @@ extension on MediaType {
   SettingOption<MediaType> _createSettingOption() {
     switch (this) {
       case MediaType.anime:
-        return SettingOption(setting: this, description: 'Anime');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.animeLabel,
+        );
       case MediaType.manga:
-        return SettingOption(setting: this, description: 'Manga');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.mangaLabel,
+        );
     }
   }
 }

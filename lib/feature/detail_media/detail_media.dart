@@ -125,7 +125,8 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
         if (model == null) {
           return const LoadingDummyScaffold();
         }
-        final stateString = state.mediaListItem?.status?.stateString ?? '';
+        final stateString =
+            state.mediaListItem?.status?.translated(context) ?? '';
         final hasDescription = stateString.isNotEmpty;
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite;
@@ -901,8 +902,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            // ignore: lines_longer_than_80_chars
-                            'Can\'t find episode, click the bottom button and find manually.',
+                            context.appLocal.cantFindThisEpisode,
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme

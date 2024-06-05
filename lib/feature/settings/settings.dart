@@ -186,7 +186,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  selectedOption.description,
+                  selectedOption.descriptionBuilder(context),
                   style: textTheme.bodySmall,
                 ),
               ],

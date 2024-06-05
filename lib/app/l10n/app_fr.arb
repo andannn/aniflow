@@ -109,5 +109,19 @@
 	"theme": "Thème",
 	"titleLanguage": "Langue du titre",
 	"staffCharacterNameLanguage": "Langue des noms du personnel et des personnages",
-	"scoringSystem": "Système de notation"
+	"scoringSystem": "Système de notation",
+	"contents": "Contenus",
+	"dark": "Sombre",
+	"light": "Clair",
+	"systemDefault": "Défaut du système",
+	"cantFindThisEpisode": "Impossible de trouver cet épisode.",
+	"totalRewatches": "Relectures totales",
+	"startDate": "Date de début",
+	"finishDate": "Date de fin",
+	"notes": "Notes",
+	"current": "Actuel",
+	"completed": "Terminé",
+	"dropped": "Abandonné",
+	"paused": "En pause",
+	"planning": "Planification"
 }

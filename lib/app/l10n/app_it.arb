@@ -109,5 +109,19 @@
 	"theme": "Tema",
 	"titleLanguage": "Lingua del titolo",
 	"staffCharacterNameLanguage": "Lingua dei nomi del personale e dei personaggi",
-	"scoringSystem": "Sistema di punteggio"
+	"scoringSystem": "Sistema di punteggio",
+	"contents": "Contenuti",
+	"dark": "Scuro",
+	"light": "Chiaro",
+	"systemDefault": "Predefinito di sistema",
+	"cantFindThisEpisode": "Impossibile trovare questo episodio.",
+	"totalRewatches": "Riproduzioni totali",
+	"startDate": "Data di inizio",
+	"finishDate": "Data di fine",
+	"notes": "Note",
+	"current": "Corrente",
+	"completed": "Completato",
+	"dropped": "Abbandonato",
+	"paused": "In pausa",
+	"planning": "Pianificazione"
 }

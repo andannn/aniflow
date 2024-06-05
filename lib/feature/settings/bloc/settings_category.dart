@@ -2,6 +2,7 @@ import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:flutter/cupertino.dart';
 
 typedef StringBuilder = String Function(BuildContext);
+
 class SettingCategory {
   SettingCategory({
     required this.titleBuilder,
@@ -56,8 +57,11 @@ class ListSettingItem<T extends Setting> extends SettingItem {
 }
 
 class SettingOption<T> {
-  SettingOption({required this.setting, required this.description});
+  SettingOption({
+    required this.setting,
+    required this.descriptionBuilder,
+  });
 
   final T setting;
-  final String description;
+  final StringBuilder descriptionBuilder;
 }
