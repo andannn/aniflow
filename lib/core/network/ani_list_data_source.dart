@@ -793,4 +793,24 @@ class AniListDataSource {
 
     return AniActivity.mapToAniActivity(resultJson)!;
   }
+
+  Future<List<CharacterDto>> getCharactersOfBirthday(int page, int perPage,
+      [CancelToken? token]) async {
+    final queryGraphQL = birthdayCharacterPageQueryGraphQLString;
+    final variablesMap = <String, dynamic>{
+      'page': page,
+      'perPage': perPage,
+    };
+
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {
+        'query': queryGraphQL,
+        'variables': variablesMap,
+      },
+    );
+
+    return [];
+  }
 }
