@@ -71,26 +71,28 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
 
   /// upsert character table and ignore media table if conflict.
   Future upsertCharacterAndRelatedMedia(
-      CharacterAndRelatedMediaRelation entity) {
+      List<CharacterAndRelatedMediaRelation> entities) {
     return batch((batch) {
-      batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
+      for (final entity in entities) {
+        batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
 
-      batch.insertAll(
-        mediaTable,
-        entity.medias,
-        mode: InsertMode.insertOrIgnore,
-      );
+        batch.insertAll(
+          mediaTable,
+          entity.medias,
+          mode: InsertMode.insertOrIgnore,
+        );
 
-      batch.insertAll(
-        characterRelatedMediaCrossRefTable,
-        entity.medias.map(
-          (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
-            characterId: entity.character.id,
-            mediaId: media.id,
+        batch.insertAll(
+          characterRelatedMediaCrossRefTable,
+          entity.medias.map(
+            (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
+              characterId: entity.character.id,
+              mediaId: media.id,
+            ),
           ),
-        ),
-        mode: InsertMode.replace,
-      );
+          mode: InsertMode.replace,
+        );
+      }
     });
   }
 

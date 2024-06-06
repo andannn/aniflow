@@ -63,7 +63,7 @@ void main() {
     test('insert_and_get_character_and_related_media', () async {
       final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
-      await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
+      await dao.upsertCharacterAndRelatedMedia([dummyCharacterAndRelatedMedia]);
 
       final expectation1 = expectLater(
         stream.map((e) => e.medias),
@@ -76,7 +76,7 @@ void main() {
     test('insert_and_get_related_media', () async {
       final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
-      await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
+      await dao.upsertCharacterAndRelatedMedia([dummyCharacterAndRelatedMedia]);
 
       final expectation1 = expectLater(
         stream.map((e) => e.medias),
@@ -89,7 +89,7 @@ void main() {
     test('insert_and_get_character', () async {
       final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
-      await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
+      await dao.upsertCharacterAndRelatedMedia([dummyCharacterAndRelatedMedia]);
 
       final expectation1 = expectLater(
         stream.map((e) => e.character),

@@ -12,7 +12,7 @@ import 'package:aniflow/core/common/definitions/activity_filter_type.dart'
     as _i77;
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart'
     as _i76;
-import 'package:aniflow/core/common/definitions/anime_category.dart' as _i56;
+import 'package:aniflow/core/common/definitions/media_category.dart' as _i56;
 import 'package:aniflow/core/common/definitions/media_sort.dart' as _i50;
 import 'package:aniflow/core/common/definitions/media_type.dart' as _i35;
 import 'package:aniflow/core/common/definitions/staff_language.dart' as _i59;

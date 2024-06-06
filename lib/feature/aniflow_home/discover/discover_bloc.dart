@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
-import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';

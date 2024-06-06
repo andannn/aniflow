@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/feature/image_preview/preview_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

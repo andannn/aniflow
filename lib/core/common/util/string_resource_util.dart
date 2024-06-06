@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
-import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
