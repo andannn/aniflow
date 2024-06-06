@@ -36,7 +36,7 @@ query (\$id: Int) {
 
 String get birthdayCharacterPageQueryGraphQLString => '''
 query(\$page: Int, \$perPage: Int) {
-  page: Page(page: \$page, perPage: \$page) {
+  page: Page(page: \$page, perPage: \$perPage) {
     characters(isBirthday: true, sort: [FAVOURITES_DESC]) {
       id
       name {

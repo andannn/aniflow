@@ -810,7 +810,7 @@ class AniListDataSource {
         'variables': variablesMap,
       },
     );
-
-    return [];
+    final List resultList = response.data['data']['page']['characters'];
+    return resultList.map((e) => CharacterDto.fromJson(e)).toList();
   }
 }
