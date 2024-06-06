@@ -142,7 +142,7 @@ void main() {
     test('insert_and_get_characters_in_birthday', () async {
       final now = DateTime.now();
       final dummyData = [
-         CharacterAndRelatedMediaRelation(
+        CharacterAndRelatedMediaRelation(
           character: CharacterEntity(
             id: '4',
             firstName: 'character a',
@@ -165,7 +165,7 @@ void main() {
           ],
         ),
       ];
-      await dao.upsertCharacterAndRelatedMediaWithOrder(dummyData);
+      await dao.upsertBirthdayCharacters(dummyData);
 
       final list = await dao.getBirthdayCharacters(1, 100);
 

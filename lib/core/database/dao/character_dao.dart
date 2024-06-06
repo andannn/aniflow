@@ -97,7 +97,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     });
   }
 
-  Future upsertCharacterAndRelatedMediaWithOrder(
+  Future upsertBirthdayCharacters(
       List<CharacterAndRelatedMediaRelation> entities) {
     return batch((batch) {
       for (final entity in entities) {
@@ -108,9 +108,13 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
             mediaId: Value(entity.character.id),
             timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
           ),
+          mode: InsertMode.insertOrReplace,
         );
 
-        batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
+        batch.insertAllOnConflictUpdate(
+          characterTable,
+          [entity.character.toCompanion(true)],
+        );
 
         batch.insertAll(
           mediaTable,

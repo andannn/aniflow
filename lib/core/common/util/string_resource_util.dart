@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
-import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_relation.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';

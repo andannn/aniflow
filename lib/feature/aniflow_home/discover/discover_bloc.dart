@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
-import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/character_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -58,6 +59,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     this._mediaListRepository,
     this._userDataRepository,
     this._messageRepository,
+    this._characterRepository,
   ) : super(DiscoverUiState()) {
     on<_OnUserDataChanged>(
       (event, emit) => emit(state.copyWith(userData: event.userData)),
@@ -122,6 +124,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam),
       );
     }
+
+    _refreshBirthdayCharacters();
   }
 
   final AuthRepository _authRepository;
@@ -129,6 +133,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   final MediaListRepository _mediaListRepository;
   final UserDataRepository _userDataRepository;
   final MessageRepository _messageRepository;
+  final CharacterRepository _characterRepository;
 
   StreamSubscription? _userDataSub;
   StreamSubscription? _settingsSub;
@@ -176,6 +181,14 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       mediaType: _userDataRepository.userData.mediaType,
     );
     finishLoading('_refreshAllMediaList', result);
+  }
+
+  Future _refreshBirthdayCharacters() async {
+    startLoading('_refreshBirthdayCharacters');
+    final result = await _characterRepository.loadBirthdayCharacterPage(
+      loadType: const Refresh(12),
+    );
+    finishLoading('_refreshBirthdayCharacters', result);
   }
 
   @override

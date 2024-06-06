@@ -26,9 +26,7 @@ void main() {
     test('_', () async {
       try {
         await dataSource.getCharactersOfBirthday(1, 12);
-      } on DioException catch (e) {
-        print(e);
-      }
+      } on DioException catch (_) {}
     });
   });
 }
