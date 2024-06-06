@@ -350,14 +350,11 @@ class MediaInformationRepository {
       final mediaEntityList =
           characterDto.media?.edges.map((e) => e.media!.toEntity()).toList() ??
               [];
-      await characterDao.upsertCharacterAndRelatedMedia(
-        [
-          CharacterAndRelatedMediaRelation(
-            character: characterEntity,
-            medias: mediaEntityList,
-          )
-        ],
-      );
+      await characterDao
+          .upsertCharacterAndRelatedMedia(CharacterAndRelatedMediaRelation(
+        character: characterEntity,
+        medias: mediaEntityList,
+      ));
 
       return LoadSuccess(data: null);
     } on Exception catch (exception) {

@@ -63,7 +63,7 @@ void main() {
     test('insert_and_get_character_and_related_media', () async {
       final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
-      await dao.upsertCharacterAndRelatedMedia([dummyCharacterAndRelatedMedia]);
+      await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 
       final expectation1 = expectLater(
         stream.map((e) => e.medias),
@@ -76,7 +76,7 @@ void main() {
     test('insert_and_get_related_media', () async {
       final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
-      await dao.upsertCharacterAndRelatedMedia([dummyCharacterAndRelatedMedia]);
+      await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 
       final expectation1 = expectLater(
         stream.map((e) => e.medias),
@@ -89,7 +89,7 @@ void main() {
     test('insert_and_get_character', () async {
       final stream = dao.getCharacterAndRelatedMediaStreamById('4');
 
-      await dao.upsertCharacterAndRelatedMedia([dummyCharacterAndRelatedMedia]);
+      await dao.upsertCharacterAndRelatedMedia(dummyCharacterAndRelatedMedia);
 
       final expectation1 = expectLater(
         stream.map((e) => e.character),
@@ -137,6 +137,39 @@ void main() {
           staffLanguage: 'japanese', page: 1);
 
       expect(res, equals([]));
+    });
+
+    test('insert_and_get_characters_in_birthday', () async {
+      final now = DateTime.now();
+      final dummyData = [
+         CharacterAndRelatedMediaRelation(
+          character: CharacterEntity(
+            id: '4',
+            firstName: 'character a',
+            dateOfBirth: now,
+          ),
+          medias: const [
+            MediaEntity(id: '1', nativeTitle: 'media a'),
+            MediaEntity(id: '2', nativeTitle: "media b"),
+          ],
+        ),
+        CharacterAndRelatedMediaRelation(
+          character: CharacterEntity(
+            id: '3',
+            firstName: 'character b',
+            dateOfBirth: now.subtract(const Duration(days: 1, milliseconds: 1)),
+          ),
+          medias: const [
+            MediaEntity(id: '6', nativeTitle: 'media x'),
+            MediaEntity(id: '7', nativeTitle: "media y"),
+          ],
+        ),
+      ];
+      await dao.upsertCharacterAndRelatedMediaWithOrder(dummyData);
+
+      final list = await dao.getBirthdayCharacters(1, 100);
+
+      expect(list, equals([dummyData[0]]));
     });
   });
 }

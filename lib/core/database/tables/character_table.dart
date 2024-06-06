@@ -36,8 +36,8 @@ class CharacterTable extends Table {
 
   TextColumn get siteUrl => text().named('character_site_url').nullable()();
 
-  IntColumn get dateOfBirth =>
-      integer().named('character_dateOfBirth').nullable()();
+  DateTimeColumn get dateOfBirth =>
+      dateTime().named('character_dateOfBirth').nullable()();
 
   IntColumn get favourites =>
       integer().named('character_favourites').nullable()();

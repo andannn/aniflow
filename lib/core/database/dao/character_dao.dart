@@ -1,7 +1,9 @@
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
 import 'package:aniflow/core/database/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/tables/category_media_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/character_media_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/character_voice_actor_cross_reference_table.dart';
@@ -19,6 +21,7 @@ part 'character_dao.g.dart';
   CharacterVoiceActorCrossRefTable,
   MediaTable,
   MediaCharacterPagingCrossRefTable,
+  CategoryMediaPagingCrossRefTable,
   StaffTable,
 ])
 class CharacterDao extends DatabaseAccessor<AniflowDatabase>
@@ -71,9 +74,42 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
 
   /// upsert character table and ignore media table if conflict.
   Future upsertCharacterAndRelatedMedia(
+      CharacterAndRelatedMediaRelation entity) {
+    return batch((batch) {
+      batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
+
+      batch.insertAll(
+        mediaTable,
+        entity.medias,
+        mode: InsertMode.insertOrIgnore,
+      );
+
+      batch.insertAll(
+        characterRelatedMediaCrossRefTable,
+        entity.medias.map(
+          (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
+            characterId: entity.character.id,
+            mediaId: media.id,
+          ),
+        ),
+        mode: InsertMode.replace,
+      );
+    });
+  }
+
+  Future upsertCharacterAndRelatedMediaWithOrder(
       List<CharacterAndRelatedMediaRelation> entities) {
     return batch((batch) {
       for (final entity in entities) {
+        batch.insert(
+          categoryMediaPagingCrossRefTable,
+          CategoryMediaPagingCrossRefTableCompanion(
+            category: const Value(CategoryColumnsValues.birthdayCharacters),
+            mediaId: Value(entity.character.id),
+            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+          ),
+        );
+
         batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
 
         batch.insertAll(
@@ -94,6 +130,95 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
         );
       }
     });
+  }
+
+  Stream<List<CharacterAndRelatedMediaRelation>> getBirthdayCharactersStream(
+      int count) {
+    final query = select(categoryMediaPagingCrossRefTable).join([
+      innerJoin(
+          characterTable,
+          characterTable.id
+              .equalsExp(categoryMediaPagingCrossRefTable.mediaId)),
+      leftOuterJoin(
+          characterRelatedMediaCrossRefTable,
+          characterRelatedMediaCrossRefTable.characterId
+              .equalsExp(characterTable.id)),
+      leftOuterJoin(mediaTable,
+          characterRelatedMediaCrossRefTable.mediaId.equalsExp(mediaTable.id)),
+    ])
+      ..where(
+        categoryMediaPagingCrossRefTable.category
+                .equals(CategoryColumnsValues.birthdayCharacters) &
+            characterTable.dateOfBirth.month.equals(DateTime.now().month) &
+            characterTable.dateOfBirth.day.equals(DateTime.now().day),
+      )
+      ..orderBy([OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
+      ..limit(count);
+    final recordStream = query
+        .map(
+          (row) => (
+            character: row.readTable(characterTable),
+            media: row.readTable(mediaTable),
+          ),
+        )
+        .watch();
+    return recordStream.map(
+      (record) => record
+          .groupListsBy((e) => e.character)
+          .values
+          .map(
+            (e) => CharacterAndRelatedMediaRelation(
+              character: e.first.character,
+              medias: e.map((e) => e.media).toList(),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Future<List<CharacterAndRelatedMediaRelation>> getBirthdayCharacters(
+      int page, int perPage) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    final query = select(categoryMediaPagingCrossRefTable).join([
+      innerJoin(
+          characterTable,
+          characterTable.id
+              .equalsExp(categoryMediaPagingCrossRefTable.mediaId)),
+      leftOuterJoin(
+          characterRelatedMediaCrossRefTable,
+          characterRelatedMediaCrossRefTable.characterId
+              .equalsExp(characterTable.id)),
+      leftOuterJoin(mediaTable,
+          characterRelatedMediaCrossRefTable.mediaId.equalsExp(mediaTable.id)),
+    ])
+      ..where(
+        categoryMediaPagingCrossRefTable.category
+                .equals(CategoryColumnsValues.birthdayCharacters) &
+            characterTable.dateOfBirth.month.equals(DateTime.now().month) &
+            characterTable.dateOfBirth.day.equals(DateTime.now().day),
+      )
+      ..orderBy([OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
+      ..limit(limit, offset: offset);
+
+    final resultRecord = await query
+        .map(
+          (row) => (
+            character: row.readTable(characterTable),
+            media: row.readTable(mediaTable),
+          ),
+        )
+        .get();
+    return resultRecord
+        .groupListsBy((e) => e.character)
+        .values
+        .map(
+          (e) => CharacterAndRelatedMediaRelation(
+            character: e.first.character,
+            medias: e.map((e) => e.media).toList(),
+          ),
+        )
+        .toList();
   }
 
   Future<CharacterEntity> getCharacter(String id) {

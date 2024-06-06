@@ -2617,9 +2617,9 @@ class $CharacterTableTable extends CharacterTable
   static const VerificationMeta _dateOfBirthMeta =
       const VerificationMeta('dateOfBirth');
   @override
-  late final GeneratedColumn<int> dateOfBirth = GeneratedColumn<int>(
+  late final GeneratedColumn<DateTime> dateOfBirth = GeneratedColumn<DateTime>(
       'character_dateOfBirth', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _favouritesMeta =
       const VerificationMeta('favourites');
   @override
@@ -2791,8 +2791,8 @@ class $CharacterTableTable extends CharacterTable
           DriftSqlType.string, data['${effectivePrefix}character_blood_type']),
       siteUrl: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}character_site_url']),
-      dateOfBirth: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}character_dateOfBirth']),
+      dateOfBirth: attachedDatabase.typeMapping.read(DriftSqlType.dateTime,
+          data['${effectivePrefix}character_dateOfBirth']),
       favourites: attachedDatabase.typeMapping.read(
           DriftSqlType.int, data['${effectivePrefix}character_favourites']),
       isFavourite: attachedDatabase.typeMapping.read(
@@ -2820,7 +2820,7 @@ class CharacterEntity extends DataClass implements Insertable<CharacterEntity> {
   final String? age;
   final String? bloodType;
   final String? siteUrl;
-  final int? dateOfBirth;
+  final DateTime? dateOfBirth;
   final int? favourites;
   final bool? isFavourite;
   const CharacterEntity(
@@ -2881,7 +2881,7 @@ class CharacterEntity extends DataClass implements Insertable<CharacterEntity> {
       map['character_site_url'] = Variable<String>(siteUrl);
     }
     if (!nullToAbsent || dateOfBirth != null) {
-      map['character_dateOfBirth'] = Variable<int>(dateOfBirth);
+      map['character_dateOfBirth'] = Variable<DateTime>(dateOfBirth);
     }
     if (!nullToAbsent || favourites != null) {
       map['character_favourites'] = Variable<int>(favourites);
@@ -2957,7 +2957,7 @@ class CharacterEntity extends DataClass implements Insertable<CharacterEntity> {
       age: serializer.fromJson<String?>(json['age']),
       bloodType: serializer.fromJson<String?>(json['bloodType']),
       siteUrl: serializer.fromJson<String?>(json['siteUrl']),
-      dateOfBirth: serializer.fromJson<int?>(json['dateOfBirth']),
+      dateOfBirth: serializer.fromJson<DateTime?>(json['dateOfBirth']),
       favourites: serializer.fromJson<int?>(json['favourites']),
       isFavourite: serializer.fromJson<bool?>(json['isFavourite']),
     );
@@ -2979,7 +2979,7 @@ class CharacterEntity extends DataClass implements Insertable<CharacterEntity> {
       'age': serializer.toJson<String?>(age),
       'bloodType': serializer.toJson<String?>(bloodType),
       'siteUrl': serializer.toJson<String?>(siteUrl),
-      'dateOfBirth': serializer.toJson<int?>(dateOfBirth),
+      'dateOfBirth': serializer.toJson<DateTime?>(dateOfBirth),
       'favourites': serializer.toJson<int?>(favourites),
       'isFavourite': serializer.toJson<bool?>(isFavourite),
     };
@@ -2999,7 +2999,7 @@ class CharacterEntity extends DataClass implements Insertable<CharacterEntity> {
           Value<String?> age = const Value.absent(),
           Value<String?> bloodType = const Value.absent(),
           Value<String?> siteUrl = const Value.absent(),
-          Value<int?> dateOfBirth = const Value.absent(),
+          Value<DateTime?> dateOfBirth = const Value.absent(),
           Value<int?> favourites = const Value.absent(),
           Value<bool?> isFavourite = const Value.absent()}) =>
       CharacterEntity(
@@ -3097,7 +3097,7 @@ class CharacterTableCompanion extends UpdateCompanion<CharacterEntity> {
   final Value<String?> age;
   final Value<String?> bloodType;
   final Value<String?> siteUrl;
-  final Value<int?> dateOfBirth;
+  final Value<DateTime?> dateOfBirth;
   final Value<int?> favourites;
   final Value<bool?> isFavourite;
   final Value<int> rowid;
@@ -3153,7 +3153,7 @@ class CharacterTableCompanion extends UpdateCompanion<CharacterEntity> {
     Expression<String>? age,
     Expression<String>? bloodType,
     Expression<String>? siteUrl,
-    Expression<int>? dateOfBirth,
+    Expression<DateTime>? dateOfBirth,
     Expression<int>? favourites,
     Expression<bool>? isFavourite,
     Expression<int>? rowid,
@@ -3193,7 +3193,7 @@ class CharacterTableCompanion extends UpdateCompanion<CharacterEntity> {
       Value<String?>? age,
       Value<String?>? bloodType,
       Value<String?>? siteUrl,
-      Value<int?>? dateOfBirth,
+      Value<DateTime?>? dateOfBirth,
       Value<int?>? favourites,
       Value<bool?>? isFavourite,
       Value<int>? rowid}) {
@@ -3261,7 +3261,7 @@ class CharacterTableCompanion extends UpdateCompanion<CharacterEntity> {
       map['character_site_url'] = Variable<String>(siteUrl.value);
     }
     if (dateOfBirth.present) {
-      map['character_dateOfBirth'] = Variable<int>(dateOfBirth.value);
+      map['character_dateOfBirth'] = Variable<DateTime>(dateOfBirth.value);
     }
     if (favourites.present) {
       map['character_favourites'] = Variable<int>(favourites.value);
@@ -9477,7 +9477,7 @@ typedef $$CharacterTableTableInsertCompanionBuilder = CharacterTableCompanion
   Value<String?> age,
   Value<String?> bloodType,
   Value<String?> siteUrl,
-  Value<int?> dateOfBirth,
+  Value<DateTime?> dateOfBirth,
   Value<int?> favourites,
   Value<bool?> isFavourite,
   Value<int> rowid,
@@ -9497,7 +9497,7 @@ typedef $$CharacterTableTableUpdateCompanionBuilder = CharacterTableCompanion
   Value<String?> age,
   Value<String?> bloodType,
   Value<String?> siteUrl,
-  Value<int?> dateOfBirth,
+  Value<DateTime?> dateOfBirth,
   Value<int?> favourites,
   Value<bool?> isFavourite,
   Value<int> rowid,
@@ -9537,7 +9537,7 @@ class $$CharacterTableTableTableManager extends RootTableManager<
             Value<String?> age = const Value.absent(),
             Value<String?> bloodType = const Value.absent(),
             Value<String?> siteUrl = const Value.absent(),
-            Value<int?> dateOfBirth = const Value.absent(),
+            Value<DateTime?> dateOfBirth = const Value.absent(),
             Value<int?> favourites = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -9575,7 +9575,7 @@ class $$CharacterTableTableTableManager extends RootTableManager<
             Value<String?> age = const Value.absent(),
             Value<String?> bloodType = const Value.absent(),
             Value<String?> siteUrl = const Value.absent(),
-            Value<int?> dateOfBirth = const Value.absent(),
+            Value<DateTime?> dateOfBirth = const Value.absent(),
             Value<int?> favourites = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -9682,7 +9682,7 @@ class $$CharacterTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<int> get dateOfBirth => $state.composableBuilder(
+  ColumnFilters<DateTime> get dateOfBirth => $state.composableBuilder(
       column: $state.table.dateOfBirth,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
@@ -9766,7 +9766,7 @@ class $$CharacterTableTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<int> get dateOfBirth => $state.composableBuilder(
+  ColumnOrderings<DateTime> get dateOfBirth => $state.composableBuilder(
       column: $state.table.dateOfBirth,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
