@@ -136,31 +136,44 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     });
   }
 
-  JoinedSelectStatement<HasResultSet, dynamic> _birthdayCharactersQuery(
-          limit, offset) =>
-      select(categoryMediaPagingCrossRefTable).join([
-        innerJoin(
-            characterTable,
-            characterTable.id
-                .equalsExp(categoryMediaPagingCrossRefTable.mediaId)),
-        leftOuterJoin(
-            characterRelatedMediaCrossRefTable,
-            characterRelatedMediaCrossRefTable.characterId
-                .equalsExp(characterTable.id)),
-        leftOuterJoin(
-            mediaTable,
-            characterRelatedMediaCrossRefTable.mediaId
-                .equalsExp(mediaTable.id)),
-      ])
-        ..where(
-          categoryMediaPagingCrossRefTable.category
-                  .equals(CategoryColumnsValues.birthdayCharacters) &
-              characterTable.dateOfBirth.month.equals(DateTime.now().month) &
-              characterTable.dateOfBirth.day.equals(DateTime.now().day),
-        )
-        ..orderBy(
-            [OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
-        ..limit(limit, offset: offset);
+  Selectable<QueryRow> _birthdayCharactersQuery(limit, offset) {
+    final customQuery = '''
+      SELECT * 
+      FROM (
+        SELECT * FROM ${categoryMediaPagingCrossRefTable.actualTableName}
+        WHERE ${categoryMediaPagingCrossRefTable.category.name} = ?
+        LIMIT ?
+        OFFSET ?
+      )
+      INNER JOIN ${characterTable.actualTableName}
+      ON ${categoryMediaPagingCrossRefTable.mediaId.name} = ${characterTable.id.name}
+      LEFT OUTER JOIN ${characterRelatedMediaCrossRefTable.actualTableName}
+      ON ${characterRelatedMediaCrossRefTable.characterId.name} = ${characterTable.id.name}
+      LEFT OUTER JOIN ${mediaTable.actualTableName}
+      ON ${characterRelatedMediaCrossRefTable.mediaId.name} = ${mediaTable.id.name}
+      WHERE
+      (CAST(strftime('%m', ${characterTable.dateOfBirth.name}) AS INTEGER)) = ? AND
+      (CAST(strftime('%d', ${characterTable.dateOfBirth.name}) AS INTEGER)) = ?
+      ORDER BY ${categoryMediaPagingCrossRefTable.timeStamp.name} ASC 
+    ''';
+
+    return customSelect(
+      customQuery,
+      variables: [
+        const Variable(CategoryColumnsValues.birthdayCharacters),
+        Variable.withInt(limit),
+        Variable.withInt(offset),
+        Variable.withInt(DateTime.now().month),
+        Variable.withInt(DateTime.now().day),
+      ],
+      readsFrom: {
+        categoryMediaPagingCrossRefTable,
+        characterTable,
+        mediaTable,
+        characterRelatedMediaCrossRefTable,
+      },
+    );
+  }
 
   Stream<List<CharacterAndRelatedMediaRelation>> getBirthdayCharactersStream(
       int count) {
@@ -168,8 +181,8 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     final recordStream = query
         .map(
           (row) => (
-            character: row.readTable(characterTable),
-            media: row.readTable(mediaTable),
+            character: characterTable.map(row.data),
+            media: mediaTable.map(row.data),
           ),
         )
         .watch();
@@ -196,8 +209,8 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     final resultRecord = await query
         .map(
           (row) => (
-            character: row.readTable(characterTable),
-            media: row.readTable(mediaTable),
+            character: characterTable.map(row.data),
+            media: mediaTable.map(row.data),
           ),
         )
         .get();
