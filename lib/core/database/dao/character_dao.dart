@@ -184,15 +184,20 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
       int page, int perPage) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
+    final mediaTableWithRn = customSelect(
+      'SELECT media_table.*, ROW_NUMBER() OVER (PARTITION BY MediaEntity.a_id ORDER BY media_table.id) as rn FROM media_table',
+      readsFrom: {mediaTable},
+    ).watch();
     final query = select(categoryMediaPagingCrossRefTable).join([
       innerJoin(
-          characterTable,
-          characterTable.id
-              .equalsExp(categoryMediaPagingCrossRefTable.mediaId)),
+        characterTable,
+        characterTable.id.equalsExp(categoryMediaPagingCrossRefTable.mediaId),
+      ),
       leftOuterJoin(
-          characterRelatedMediaCrossRefTable,
-          characterRelatedMediaCrossRefTable.characterId
-              .equalsExp(characterTable.id)),
+        characterRelatedMediaCrossRefTable,
+        characterRelatedMediaCrossRefTable.characterId
+            .equalsExp(characterTable.id),
+      ),
       leftOuterJoin(mediaTable,
           characterRelatedMediaCrossRefTable.mediaId.equalsExp(mediaTable.id)),
     ])
@@ -227,6 +232,13 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
 
   Future<CharacterEntity> getCharacter(String id) {
     return (select(characterTable)..where((t) => t.id.equals(id))).getSingle();
+  }
+
+  Future clearBirthdayCharacters() async {
+    return (delete(categoryMediaPagingCrossRefTable)
+          ..where((tbl) => categoryMediaPagingCrossRefTable.category
+              .equals(CategoryColumnsValues.birthdayCharacters)))
+        .go();
   }
 
   Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(

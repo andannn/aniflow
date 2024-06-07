@@ -33,7 +33,7 @@ class CharacterRepository {
           characterDao.getBirthdayCharacters(page, perPage),
       onInsertEntityToDB: (entities) =>
           characterDao.upsertBirthdayCharacters(entities),
-      onClearDbCache: () async {},
+      onClearDbCache: () => characterDao.clearBirthdayCharacters(),
       mapDtoToEntity: (dto) => dto.toRelation(),
       mapEntityToModel: (entity) => entity.toModel(),
     );

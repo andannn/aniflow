@@ -10,6 +10,7 @@ import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/character_with_media_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -316,64 +317,15 @@ class _DetailStaffContentState extends State<_DetailStaffContent>
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;
-    const borderColor = Colors.white;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: () => onCharacterClick.call(item.character.id),
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: AspectRatio(
-              aspectRatio: 3.0 / 4,
-              child: Stack(
-                children: [
-                  SizedBox.expand(
-                    child: AFNetworkImage(
-                      imageUrl: item.character.mediumImage,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: InkWell(
-                      onTap: () => onMediaClick.call(item.media!.id),
-                      child: SizedBox(
-                        width: 50,
-                        child: AspectRatio(
-                          aspectRatio: 4.0 / 5,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  color: borderColor,
-                                  width: 2,
-                                  strokeAlign: 1.0,
-                                ),
-                                left: BorderSide(
-                                  color: borderColor,
-                                  width: 2,
-                                  strokeAlign: 1.0,
-                                ),
-                              ),
-                              borderRadius: BorderRadiusDirectional.only(
-                                topStart: Radius.circular(15),
-                              ),
-                            ),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: AFNetworkImage(
-                              imageUrl: item.media?.coverImage?.medium ?? '',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        CharacterWithMediaItemWidget(
+          character: item.character,
+          media: item.media,
+          onCharacterClick: onCharacterClick,
+          onMediaClick: onMediaClick,
         ),
         RichText(
           text: TextSpan(
