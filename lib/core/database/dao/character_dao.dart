@@ -136,28 +136,35 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     });
   }
 
+  JoinedSelectStatement<HasResultSet, dynamic> _birthdayCharactersQuery(
+          limit, offset) =>
+      select(categoryMediaPagingCrossRefTable).join([
+        innerJoin(
+            characterTable,
+            characterTable.id
+                .equalsExp(categoryMediaPagingCrossRefTable.mediaId)),
+        leftOuterJoin(
+            characterRelatedMediaCrossRefTable,
+            characterRelatedMediaCrossRefTable.characterId
+                .equalsExp(characterTable.id)),
+        leftOuterJoin(
+            mediaTable,
+            characterRelatedMediaCrossRefTable.mediaId
+                .equalsExp(mediaTable.id)),
+      ])
+        ..where(
+          categoryMediaPagingCrossRefTable.category
+                  .equals(CategoryColumnsValues.birthdayCharacters) &
+              characterTable.dateOfBirth.month.equals(DateTime.now().month) &
+              characterTable.dateOfBirth.day.equals(DateTime.now().day),
+        )
+        ..orderBy(
+            [OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
+        ..limit(limit, offset: offset);
+
   Stream<List<CharacterAndRelatedMediaRelation>> getBirthdayCharactersStream(
       int count) {
-    final query = select(categoryMediaPagingCrossRefTable).join([
-      innerJoin(
-          characterTable,
-          characterTable.id
-              .equalsExp(categoryMediaPagingCrossRefTable.mediaId)),
-      leftOuterJoin(
-          characterRelatedMediaCrossRefTable,
-          characterRelatedMediaCrossRefTable.characterId
-              .equalsExp(characterTable.id)),
-      leftOuterJoin(mediaTable,
-          characterRelatedMediaCrossRefTable.mediaId.equalsExp(mediaTable.id)),
-    ])
-      ..where(
-        categoryMediaPagingCrossRefTable.category
-                .equals(CategoryColumnsValues.birthdayCharacters) &
-            characterTable.dateOfBirth.month.equals(DateTime.now().month) &
-            characterTable.dateOfBirth.day.equals(DateTime.now().day),
-      )
-      ..orderBy([OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
-      ..limit(count);
+    final query = _birthdayCharactersQuery(count, 0);
     final recordStream = query
         .map(
           (row) => (
@@ -184,31 +191,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
       int page, int perPage) async {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
-    final mediaTableWithRn = customSelect(
-      'SELECT media_table.*, ROW_NUMBER() OVER (PARTITION BY MediaEntity.a_id ORDER BY media_table.id) as rn FROM media_table',
-      readsFrom: {mediaTable},
-    ).watch();
-    final query = select(categoryMediaPagingCrossRefTable).join([
-      innerJoin(
-        characterTable,
-        characterTable.id.equalsExp(categoryMediaPagingCrossRefTable.mediaId),
-      ),
-      leftOuterJoin(
-        characterRelatedMediaCrossRefTable,
-        characterRelatedMediaCrossRefTable.characterId
-            .equalsExp(characterTable.id),
-      ),
-      leftOuterJoin(mediaTable,
-          characterRelatedMediaCrossRefTable.mediaId.equalsExp(mediaTable.id)),
-    ])
-      ..where(
-        categoryMediaPagingCrossRefTable.category
-                .equals(CategoryColumnsValues.birthdayCharacters) &
-            characterTable.dateOfBirth.month.equals(DateTime.now().month) &
-            characterTable.dateOfBirth.day.equals(DateTime.now().day),
-      )
-      ..orderBy([OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
-      ..limit(limit, offset: offset);
+    final query = _birthdayCharactersQuery(limit, offset);
 
     final resultRecord = await query
         .map(
