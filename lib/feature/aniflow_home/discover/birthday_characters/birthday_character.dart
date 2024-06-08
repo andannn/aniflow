@@ -69,7 +69,7 @@ class BirthdayCharactersWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget itemBuilder(CharacterModel model) {
       return SizedBox(
-        width: 150,
+        width: 165,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -135,6 +135,14 @@ class BirthdayCharactersWidget extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(8, (index) => const Text('\uD83C\uDF89')),
+            ),
+          ),
+          const SizedBox(height: 12),
         ],
       ),
     );
