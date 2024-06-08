@@ -105,6 +105,10 @@ mixin AfRouterBackStackMixin
     _pushAsSingleton(MediaListUpdateRoutePath(mediaListId: mediaListItem.id));
   }
 
+  void navigateToBirthdayCharacterPage() {
+    _pushAsSingleton(const BirthdayCharacterPagePath());
+  }
+
   void popBackStack() {
     stack.value = [...stack.value]..removeLast();
     notifyListeners();

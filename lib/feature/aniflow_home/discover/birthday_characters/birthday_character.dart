@@ -160,7 +160,9 @@ class BirthdayCharactersWidget extends StatelessWidget {
         ),
         const Expanded(flex: 1, child: SizedBox()),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            RootRouterDelegate.get().navigateToBirthdayCharacterPage();
+          },
           child: Text(
             context.materialLocal.moreButtonTooltip,
           ),

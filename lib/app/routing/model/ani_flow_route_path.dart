@@ -96,6 +96,9 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
     required String mediaListId,
   }) = MediaListUpdateRoutePath;
 
+  const factory AniFlowRoutePath.birthdayCharacterPage() =
+      BirthdayCharacterPagePath;
+
   factory AniFlowRoutePath.fromJson(Map<String, dynamic> json) =>
       _$AniFlowRoutePathFromJson(json);
 }
