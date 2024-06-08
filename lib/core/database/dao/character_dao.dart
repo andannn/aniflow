@@ -142,6 +142,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
       FROM (
         SELECT * FROM ${categoryMediaPagingCrossRefTable.actualTableName}
         WHERE ${categoryMediaPagingCrossRefTable.category.name} = ?
+        ORDER BY ${categoryMediaPagingCrossRefTable.timeStamp.name} ASC 
         LIMIT ?
         OFFSET ?
       )
@@ -154,7 +155,6 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
       WHERE
       (CAST(strftime('%m', ${characterTable.dateOfBirth.name}) AS INTEGER)) = ? AND
       (CAST(strftime('%d', ${characterTable.dateOfBirth.name}) AS INTEGER)) = ?
-      ORDER BY ${categoryMediaPagingCrossRefTable.timeStamp.name} ASC 
     ''';
 
     return customSelect(

@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
@@ -46,12 +47,8 @@ class _BirthdayCharactersPageContent extends StatelessWidget {
       final pagingState = state;
       return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.maybePop(context);
-            },
-          ),
+          title: Text(context.appLocal.todayBirthdayCharacter(
+              context.materialLocal.formatMediumDate(DateTime.now()))),
         ),
         body: PagingContent<CharacterModel, BirthdayCharacterPageBloc>(
           pagingState: pagingState,
