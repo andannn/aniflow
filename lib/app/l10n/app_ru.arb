@@ -123,5 +123,6 @@
 	"completed": "Завершено",
 	"dropped": "Прервано",
 	"paused": "Приостановлено",
-	"planning": "Планируется"
+	"planning": "Планируется",
+	"todayBirthdayCharacter": "Сегодня день рождения персонажа {date}"
 }

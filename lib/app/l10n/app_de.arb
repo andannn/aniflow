@@ -123,5 +123,6 @@
 	"completed": "Abgeschlossen",
 	"dropped": "Abgebrochen",
 	"paused": "Pausiert",
-	"planning": "Geplant"
+	"planning": "Geplant",
+	"todayBirthdayCharacter": "Heute hat der Charakter {date} Geburtstag"
 }

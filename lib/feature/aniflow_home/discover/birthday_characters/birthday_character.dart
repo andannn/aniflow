@@ -10,6 +10,7 @@ import 'package:aniflow/core/design_system/widget/character_with_media_item_widg
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_state.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -143,7 +144,12 @@ class BirthdayCharactersWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(children: [
-        Text("AAAAA", style: Theme.of(context).textTheme.titleMedium),
+        AutoSizeText(
+          context.appLocal.todayBirthdayCharacter(
+            context.materialLocal.formatMediumDate(DateTime.now()),
+          ),
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
         const Expanded(flex: 1, child: SizedBox()),
         TextButton(
           onPressed: () {},
