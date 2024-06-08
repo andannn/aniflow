@@ -152,6 +152,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     final userId = state.userData?.id;
     return Future.wait([
       _refreshAllMediaPreview(),
+      _refreshBirthdayCharacters(),
       if (userId != null) _refreshAllMediaList(userId) else Future.value(),
     ]);
   }
