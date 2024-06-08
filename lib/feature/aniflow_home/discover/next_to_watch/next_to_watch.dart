@@ -84,7 +84,9 @@ class NextToWatchAnimeWidget extends StatelessWidget {
                 children: [
                   SizedBox.expand(
                     child: AFNetworkImage(
-                      imageUrl: models.first.animeModel?.bannerImage ?? '',
+                      imageUrl: models.first.animeModel?.bannerImage ??
+                          models.first.animeModel?.coverImage?.large ??
+                          '',
                     ),
                   ),
                   Container(
