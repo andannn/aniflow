@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/feature/image_preview/preview_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -95,6 +95,9 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
   const factory AniFlowRoutePath.mediaListUpdate({
     required String mediaListId,
   }) = MediaListUpdateRoutePath;
+
+  const factory AniFlowRoutePath.birthdayCharacterPage() =
+      BirthdayCharacterPagePath;
 
   factory AniFlowRoutePath.fromJson(Map<String, dynamic> json) =>
       _$AniFlowRoutePathFromJson(json);

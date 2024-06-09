@@ -2,8 +2,8 @@
 
 import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/definitions/anime_category.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
 import 'package:aniflow/feature/image_preview/preview_source.dart';
@@ -103,6 +103,10 @@ mixin AfRouterBackStackMixin
 
   void navigateToMediaListUpdatePage(MediaListItemModel mediaListItem) {
     _pushAsSingleton(MediaListUpdateRoutePath(mediaListId: mediaListItem.id));
+  }
+
+  void navigateToBirthdayCharacterPage() {
+    _pushAsSingleton(const BirthdayCharacterPagePath());
   }
 
   void popBackStack() {

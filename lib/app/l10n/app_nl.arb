@@ -123,5 +123,6 @@
 	"completed": "Voltooid",
 	"dropped": "Afgebroken",
 	"paused": "Gepauzeerd",
-	"planning": "Plannen"
+	"planning": "Plannen",
+	"todayBirthdayCharacter": "Vandaag is de verjaardag van het personage {date}"
 }

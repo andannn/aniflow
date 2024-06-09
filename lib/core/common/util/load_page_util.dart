@@ -31,7 +31,7 @@ mixin LoadPageUtil {
               data: dbAnimeList.map((e) => mapEntityToModel(e)).toList());
         case Append(page: int page, perPage: int perPage):
           final dbResult = await onGetEntityFromDB(page, perPage);
-          if (dbResult.isEmpty) {
+          if (dbResult.length < perPage) {
             /// the data in database is not enough for one page.
             /// try to get data from network.
             final networkRes = await onGetNetworkRes(page, perPage);

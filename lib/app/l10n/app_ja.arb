@@ -123,6 +123,6 @@
 	"completed": "完了",
 	"dropped": "中止",
 	"paused": "一時停止",
-	"planning": "計画中"
-
+	"planning": "計画中",
+	"todayBirthdayCharacter": "今日 {date} 誕生日のキャラクター"
 }

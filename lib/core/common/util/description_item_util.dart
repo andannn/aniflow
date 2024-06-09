@@ -21,7 +21,7 @@ extension CharacterModelEx on CharacterModel {
       descriptionItemList.add(
         DescriptionItem(
           key: 'Birthday: ',
-          value: localization.formatShortDate(dateOfBirth!),
+          value: localization.formatMediumDate(dateOfBirth!),
         ),
       );
     }
@@ -78,7 +78,8 @@ extension StaffModelEx on StaffModel {
       final startYear = yearsActive[0];
       final endYear = yearsActive.elementAtOrNull(1);
       descriptionItemList.add(
-        DescriptionItem(key: 'Years active: ', value: '$startYear-${endYear ?? 'Present'}'),
+        DescriptionItem(
+            key: 'Years active: ', value: '$startYear-${endYear ?? 'Present'}'),
       );
     }
 

@@ -48,6 +48,7 @@ mixin CategoryColumnsValues {
   static const String trendingManga = 'trending_manga';
   static const String allTimePopularManga = 'all_time_popular_manga';
   static const String topManhwa = 'top_manhwa';
+  static const String birthdayCharacters = 'birthdayCharacters';
 }
 
 extension MediaCategoryEx on MediaCategory {

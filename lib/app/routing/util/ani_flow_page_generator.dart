@@ -2,6 +2,7 @@ import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/feature/activity_replies/activity_replies.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
+import 'package:aniflow/feature/birthday_characters_page/birthday_characters_page.dart';
 import 'package:aniflow/feature/character_page/character_page.dart';
 import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
@@ -83,6 +84,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
           key: ValueKey(toString()),
           mediaListId: mediaListId,
         );
+      case BirthdayCharacterPagePath():
+        return BirthdayCharactersPage(key: ValueKey(toString()));
       default:
         return const MaterialPage(child: SizedBox());
     }

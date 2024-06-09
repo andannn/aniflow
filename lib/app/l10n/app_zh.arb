@@ -123,5 +123,6 @@
 	"completed": "已完成",
 	"dropped": "已放弃",
 	"paused": "已暂停",
-	"planning": "计划中"
+	"planning": "计划中",
+	"todayBirthdayCharacter": "今天 {date} 生日的角色"
 }

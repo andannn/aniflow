@@ -147,5 +147,13 @@
 	"completed": "Completed",
 	"dropped": "Dropped",
 	"paused": "Paused",
-	"planning": "Planning"
+	"planning": "Planning",
+	"todayBirthdayCharacter": "今日 {date} 誕生日のキャラクター",
+	"@todayBirthdayCharacter": {
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	}
 }
