@@ -82,7 +82,7 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase.test(super.executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   DriftDatabaseOptions get options =>
@@ -120,6 +120,18 @@ class AniflowDatabase extends _$AniflowDatabase {
           );
 
           await updateNextEpisodeUpdateTimeTrigger();
+        },
+        from3To4: (Migrator m, Schema4 schema) async {
+          await delete(characterTable).go();
+          await m.alterTable(
+            TableMigration(
+              characterTable,
+              columnTransformer: {
+                characterTable.dateOfBirth:
+                    characterTable.dateOfBirth.cast<DateTime>(),
+              },
+            ),
+          );
         },
       ),
     );
