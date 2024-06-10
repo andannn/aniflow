@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -12,9 +13,10 @@ import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
-import 'package:aniflow/main.dart';
+import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class DetailCharacterPage extends Page {
   final String id;
@@ -36,8 +38,10 @@ class DetailCharacterRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<DetailCharacterBloc>(param1: id),
-      child: const _DetailCharacterContent(),
+      create: (context) => GetIt.instance.get<DetailCharacterBloc>(param1: id),
+      child: const ScaffoldMessenger(
+        child: _DetailCharacterContent(),
+      ),
     );
   }
 
@@ -45,14 +49,20 @@ class DetailCharacterRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailCharacterContent extends StatelessWidget {
+class _DetailCharacterContent extends StatefulWidget {
   const _DetailCharacterContent();
 
+  @override
+  State<_DetailCharacterContent> createState() =>
+      _DetailCharacterContentState();
+}
+
+class _DetailCharacterContentState extends State<_DetailCharacterContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailCharacterBloc, DetailCharacterState>(
         builder: (BuildContext context, state) {
-      final colorScheme = Theme.of(context).colorScheme;
       final character = state.characterModel;
       final isLoading = state.isLoading;
       final relatedMedias = state.characterModel?.relatedMedias ?? [];
@@ -70,18 +80,21 @@ class _DetailCharacterContent extends StatelessWidget {
           actions: [
             isLoading
                 ? LoadingIndicator(isLoading: isLoading)
-                : IconButton(
-                    onPressed: () {
-                      context.read<DetailCharacterBloc>().add(OnToggleLike());
-                    },
-                    icon: isFavourite
-                        ? const Icon(Icons.favorite, color: Colors.red)
-                        : const Icon(Icons.favorite_outline),
-                  ),
+                : const SizedBox(),
             const SizedBox(width: 10),
           ],
         ),
-        // padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => {},
+          child: IconButton(
+            onPressed: () {
+              context.read<DetailCharacterBloc>().add(OnToggleLike());
+            },
+            icon: isFavourite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline),
+          ),
+        ),
         body: CustomScrollView(
           slivers: [
             SliverPadding(
@@ -89,11 +102,25 @@ class _DetailCharacterContent extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
-                  child: Card(
-                    elevation: 0,
-                    color: colorScheme.surfaceVariant,
-                    clipBehavior: Clip.antiAlias,
-                    child: AFNetworkImage(imageUrl: character.largeImage),
+                  child: InkWell(
+                    onTap: () {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        character.previewSource,
+                      );
+                    },
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      )),
+                      child: Hero(
+                        tag: character.previewSource,
+                        child: AFNetworkImage(
+                          imageUrl: character.largeImage,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -130,7 +157,7 @@ class _DetailCharacterContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final items = character.createDescriptionItem(context);
     final description = character.description ?? '';
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
       builder: () => Column(
         mainAxisSize: MainAxisSize.min,

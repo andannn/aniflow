@@ -1,5 +1,6 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
 import 'package:aniflow/core/design_system/widget/notification_item_widget.dart';
@@ -9,9 +10,9 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/notification/bloc/notification_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart';
 import 'package:aniflow/feature/notification/bloc/notification_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class NotificationPage extends Page {
   const NotificationPage({super.key});
@@ -29,8 +30,10 @@ class NotificationPageRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<NotificationBloc>(),
-      child: const _NotificationPageContent(),
+      create: (BuildContext context) => GetIt.instance.get<NotificationBloc>(),
+      child: const ScaffoldMessenger(
+        child: _NotificationPageContent(),
+      ),
     );
   }
 
@@ -38,9 +41,16 @@ class NotificationPageRoute extends PageRoute
   bool get maintainState => true;
 }
 
-class _NotificationPageContent extends StatelessWidget {
+class _NotificationPageContent extends StatefulWidget {
   const _NotificationPageContent();
 
+  @override
+  State<_NotificationPageContent> createState() =>
+      _NotificationPageContentState();
+}
+
+class _NotificationPageContentState extends State<_NotificationPageContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotificationBloc, NotificationState>(
@@ -49,7 +59,7 @@ class _NotificationPageContent extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Notification'),
+            title: Text(context.appLocal.notification),
             actions: [
               PopupMenuAnchor(
                 menuItems: NotificationCategory.values,
@@ -64,7 +74,7 @@ class _NotificationPageContent extends StatelessWidget {
                     },
                     icon: const Icon(Icons.filter_alt),
                     label: Text(
-                      category.label(context),
+                      category.translated(context),
                     ),
                   );
                 },
@@ -72,7 +82,7 @@ class _NotificationPageContent extends StatelessWidget {
                   return MenuItemButton(
                     child: Container(
                       constraints: const BoxConstraints(minWidth: 80),
-                      child: Text(item.label(context)),
+                      child: Text(item.translated(context)),
                     ),
                     onPressed: () {
                       context
@@ -110,7 +120,7 @@ class _NotificationPagingBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (BuildContext context) =>
-            getIt.get<NotificationPagingBloc>(param1: category),
+            GetIt.instance.get<NotificationPagingBloc>(param1: category),
         child: const _NotificationPagingContent());
   }
 }

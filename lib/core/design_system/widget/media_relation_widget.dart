@@ -1,4 +1,4 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -20,10 +20,8 @@ class MediaRelationWidget extends StatelessWidget {
     final labelStyle = textTheme.bodyLarge!
         .copyWith(color: Theme.of(context).colorScheme.primary);
 
-    return Card(
-      elevation: 0,
+    return Card.filled(
       clipBehavior: Clip.hardEdge,
-      color: Theme.of(context).colorScheme.surfaceVariant,
       child: InkWell(
         onTap: onClick,
         child: Row(
@@ -42,7 +40,10 @@ class MediaRelationWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.type.toJson(), style: labelStyle),
+                  Text(
+                    model.type.translated(context),
+                    style: labelStyle,
+                  ),
                   const SizedBox(height: 8),
                   Container(
                     constraints:

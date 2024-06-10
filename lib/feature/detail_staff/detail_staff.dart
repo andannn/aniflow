@@ -1,14 +1,16 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:aniflow/core/design_system/widget/character_with_media_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -17,11 +19,12 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
 import 'package:aniflow/feature/detail_staff/bloc/voice_actor_contents_paging_bloc.dart';
-import 'package:aniflow/main.dart';
+import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class DetailStaffPage extends Page {
   final String id;
@@ -45,14 +48,16 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt.get<DetailStaffBloc>(param1: id),
+          create: (context) => GetIt.instance.get<DetailStaffBloc>(param1: id),
         ),
         BlocProvider(
-          create: (context) => getIt.get<VoiceActorContentsPagingBloc>(
+          create: (context) => GetIt.instance.get<VoiceActorContentsPagingBloc>(
               param1: id, param2: MediaSort.newest),
         ),
       ],
-      child: const _DetailStaffContent(),
+      child: const ScaffoldMessenger(
+        child: _DetailStaffContent(),
+      ),
     );
   }
 
@@ -60,16 +65,20 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailStaffContent extends StatelessWidget {
+class _DetailStaffContent extends StatefulWidget {
   const _DetailStaffContent();
 
+  @override
+  State<_DetailStaffContent> createState() => _DetailStaffContentState();
+}
+
+class _DetailStaffContentState extends State<_DetailStaffContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailStaffBloc, DetailStaffState>(
       builder: (BuildContext context, state) {
-        final colorScheme = Theme.of(context).colorScheme;
         final staff = state.staffModel;
-        final isLoading = state.isLoading;
         final mediaSort = state.mediaSort;
 
         if (staff == null) {
@@ -78,21 +87,23 @@ class _DetailStaffContent extends StatelessWidget {
 
         final isFavourite = staff.isFavourite;
         final language = state.userStaffNameLanguage;
+        final isLoading = state.isLoading;
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<DetailStaffBloc>().add(OnToggleLike());
+            },
+            child: isFavourite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline),
+          ),
           appBar: AppBar(
             centerTitle: true,
             title: Text(staff.name!.getNameByUserSetting(language)),
             actions: [
               isLoading
                   ? LoadingIndicator(isLoading: isLoading)
-                  : IconButton(
-                      onPressed: () {
-                        context.read<DetailStaffBloc>().add(OnToggleLike());
-                      },
-                      icon: isFavourite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
-                    ),
+                  : const SizedBox(),
               const SizedBox(width: 10),
             ],
           ),
@@ -101,11 +112,23 @@ class _DetailStaffContent extends StatelessWidget {
               SliverToBoxAdapter(
                 child: FractionallySizedBox(
                   widthFactor: 0.65,
-                  child: Card(
-                    elevation: 0,
-                    color: colorScheme.surfaceVariant,
-                    clipBehavior: Clip.antiAlias,
-                    child: AFNetworkImage(imageUrl: staff.largeImage),
+                  child: InkWell(
+                    onTap: () {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        staff.previewSource,
+                      );
+                    },
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      )),
+                      child: Hero(
+                        tag: staff.previewSource,
+                        child: AFNetworkImage(imageUrl: staff.largeImage),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -134,9 +157,9 @@ class _DetailStaffContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final items = staff.createDescriptionItem(context);
     final description = staff.description ?? '';
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: items.isNotEmpty || description.isNotEmpty,
-      builder: () =>  Column(
+      builder: () => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -294,64 +317,15 @@ class _DetailStaffContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final role = item.role;
-    const borderColor = Colors.white;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: () => onCharacterClick.call(item.character.id),
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: AspectRatio(
-              aspectRatio: 3.0 / 4,
-              child: Stack(
-                children: [
-                  SizedBox.expand(
-                    child: AFNetworkImage(
-                      imageUrl: item.character.mediumImage,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: InkWell(
-                      onTap: () => onMediaClick.call(item.media!.id),
-                      child: SizedBox(
-                        width: 50,
-                        child: AspectRatio(
-                          aspectRatio: 4.0 / 5,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  color: borderColor,
-                                  width: 2,
-                                  strokeAlign: 1.0,
-                                ),
-                                left: BorderSide(
-                                  color: borderColor,
-                                  width: 2,
-                                  strokeAlign: 1.0,
-                                ),
-                              ),
-                              borderRadius: BorderRadiusDirectional.only(
-                                topStart: Radius.circular(15),
-                              ),
-                            ),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: AFNetworkImage(
-                              imageUrl: item.media?.coverImage?.medium ?? '',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        CharacterWithMediaItemWidget(
+          character: item.character,
+          media: item.media,
+          onCharacterClick: onCharacterClick,
+          onMediaClick: onMediaClick,
         ),
         RichText(
           text: TextSpan(
@@ -386,7 +360,6 @@ class _DetailStaffContent extends StatelessWidget {
       {required BuildContext context,
       required MediaSort mediaSort,
       required Function(MediaSort) onMediaSortChanged}) {
-    final afLocalizations = AFLocalizations.of(context);
     final items = [
       MediaSort.popularity,
       MediaSort.averageScore,
@@ -411,7 +384,7 @@ class _DetailStaffContent extends StatelessWidget {
               },
               icon: const Icon(Icons.filter_alt),
               label: Text(
-                afLocalizations.getMediaSortString(mediaSort),
+                mediaSort.translated(context),
               ),
             );
           },
@@ -419,7 +392,9 @@ class _DetailStaffContent extends StatelessWidget {
             return MenuItemButton(
               child: Container(
                 constraints: const BoxConstraints(minWidth: 80),
-                child: Text(afLocalizations.getMediaSortString(item)),
+                child: Text(
+                  item.translated(context),
+                ),
               ),
               onPressed: () {
                 onMediaSortChanged.call(item);

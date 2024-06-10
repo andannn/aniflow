@@ -1,33 +1,43 @@
 import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:flutter/material.dart';
 
-class AfRouterDelegate extends RouterDelegate<TopLevelRoutePath>
+class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   AfRouterDelegate();
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+  final GlobalKey<_TopLevelNavigatorState> _topLevelStateKey = GlobalKey();
 
   @override
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
-
-  List<TopLevelRoutePath> _backStack = [const DiscoverRoutePath()];
-
   /// get current top level.
-  TopLevelNavigation get currentTopLevelNavigation =>
-      _backStack.last.topLevel;
+  RestorableEnum<TopLevelNavigation> get _topLevelState =>
+      _topLevelStateKey.currentState!.topLevel;
+
+  TopLevelNavigation get currentTopLevelNavigation => _topLevelState.value;
 
   @override
   Widget build(BuildContext context) {
-    if (_backStack.isEmpty) {
-      return const SizedBox();
-    }
-
-    return Navigator(
-      key: navigatorKey,
-      pages: _backStack.map((path) => path.generatePage()).toList(),
+    return TopLevelNavigator(
+      key: _topLevelStateKey,
+      navigatorKey: _navigatorKey,
       onPopPage: _onPopPage,
+      onRouteChanged: _onRouteChanged,
     );
+  }
+
+  @override
+  Future<void> setNewRoutePath(TopLevelNavigation configuration) {
+    throw UnimplementedError();
+  }
+
+  void navigateToTopLevelPage(TopLevelNavigation navigation) {
+    _topLevelState.value = navigation;
+
+// TODO:
+//     FirebaseAnalytics.instance
+//         .logAniFlowPathChangeEvent(navigation.toRoutePath());
   }
 
   /// Judgment of whether need to pop current page.
@@ -36,27 +46,84 @@ class AfRouterDelegate extends RouterDelegate<TopLevelRoutePath>
       return false;
     }
 
-    _backStack.removeLast();
-    notifyListeners();
+    _topLevelState.value = TopLevelNavigation.discover;
+
     return true;
   }
 
+  void _onRouteChanged() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
+  }
+}
+
+class TopLevelNavigator extends StatefulWidget {
+  const TopLevelNavigator({
+    super.key,
+    required this.navigatorKey,
+    this.onPopPage,
+    required this.onRouteChanged,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
+  final PopPageCallback? onPopPage;
+  final VoidCallback onRouteChanged;
+
   @override
-  Future<void> setNewRoutePath(TopLevelRoutePath configuration) {
-    throw UnimplementedError();
+  State<TopLevelNavigator> createState() => _TopLevelNavigatorState();
+}
+
+class _TopLevelNavigatorState extends State<TopLevelNavigator>
+    with RestorationMixin {
+  final topLevel = _CustomRestorableEnum<TopLevelNavigation>(
+    TopLevelNavigation.discover,
+    values: TopLevelNavigation.values,
+  );
+
+  Set<TopLevelNavigation> get _backStack =>
+      {TopLevelNavigation.discover, topLevel.value};
+
+  @override
+  void initState() {
+    super.initState();
+    topLevel.addListener(widget.onRouteChanged);
   }
 
-  void navigateToTopLevelPage(TopLevelNavigation navigation) {
-    if (navigation == TopLevelNavigation.discover) {
-      _backStack = [const DiscoverRoutePath()];
-    } else {
-      _backStack = [const DiscoverRoutePath(), navigation.toRoutePath()];
+  @override
+  void dispose() {
+    super.dispose();
+    topLevel.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_backStack.isEmpty) {
+      return const SizedBox();
     }
 
-    notifyListeners();
+    return Navigator(
+      key: widget.navigatorKey,
+      pages: _backStack.map((path) => path.toPage()).toList(),
+      onPopPage: widget.onPopPage,
+    );
+  }
 
-// TODO:
-//     FirebaseAnalytics.instance
-//         .logAniFlowPathChangeEvent(navigation.toRoutePath());
+  @override
+  String? get restorationId => 'top_level_navigator';
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(topLevel, 'top_level_value');
+  }
+}
+
+class _CustomRestorableEnum<T extends Enum> extends RestorableEnum<T> {
+  _CustomRestorableEnum(super.defaultValue, {required super.values});
+
+  @override
+  void initWithValue(T value) {
+    super.initWithValue(value);
+    notifyListeners();
   }
 }

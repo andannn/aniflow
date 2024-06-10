@@ -14,5 +14,7 @@ mixin _$CharacterDaoMixin on DatabaseAccessor<AniflowDatabase> {
   $MediaCharacterPagingCrossRefTableTable
       get mediaCharacterPagingCrossRefTable =>
           attachedDatabase.mediaCharacterPagingCrossRefTable;
+  $CategoryMediaPagingCrossRefTableTable get categoryMediaPagingCrossRefTable =>
+      attachedDatabase.categoryMediaPagingCrossRefTable;
   $StaffTableTable get staffTable => attachedDatabase.staffTable;
 }

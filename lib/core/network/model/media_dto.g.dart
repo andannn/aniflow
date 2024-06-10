@@ -8,7 +8,7 @@ part of 'media_dto.dart';
 
 _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
     _$MediaDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       title: json['title'] == null
           ? null
           : MediaTitle.fromJson(json['title'] as Map<String, dynamic>),
@@ -20,14 +20,14 @@ _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String?,
       status: $enumDecodeNullable(_$MediaStatusEnumMap, json['status']),
       source: $enumDecodeNullable(_$AnimeSourceEnumMap, json['source']),
-      episodes: json['episodes'] as int?,
-      seasonYear: json['seasonYear'] as int?,
+      episodes: (json['episodes'] as num?)?.toInt(),
+      seasonYear: (json['seasonYear'] as num?)?.toInt(),
       season: $enumDecodeNullable(_$AnimeSeasonEnumMap, json['season']),
       hashtag: json['hashtag'] as String?,
       bannerImage: json['bannerImage'] as String?,
-      averageScore: json['averageScore'] as int?,
-      trending: json['trending'] as int?,
-      favourites: json['favourites'] as int?,
+      averageScore: (json['averageScore'] as num?)?.toInt(),
+      trending: (json['trending'] as num?)?.toInt(),
+      favourites: (json['favourites'] as num?)?.toInt(),
       startDate: json['startDate'] == null
           ? null
           : FuzzyDateDto.fromJson(json['startDate'] as Map<String, dynamic>),

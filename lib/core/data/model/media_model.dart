@@ -10,7 +10,7 @@ import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
-import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/data/model/trailer_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'media_model.freezed.dart';

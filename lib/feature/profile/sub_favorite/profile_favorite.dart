@@ -2,6 +2,7 @@
 
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -82,7 +83,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
               context: context,
               onBuildItem: (context, item) =>
                   _buildGridItems(context, type, item),
-              title: type.getLocalString(context),
+              title: type.translated(context),
               state: getPagingStateByType(type),
               onMoreClick: () {
                 final userId = context.read<ProfileBloc>().state.userData?.id;
@@ -101,8 +102,7 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
 
   Widget _buildGridItems(
       BuildContext context, FavoriteType type, dynamic model) {
-    final language =
-        context.read<ProfileBloc>().userStaffNameLanguage;
+    final language = context.read<ProfileBloc>().userStaffNameLanguage;
     final String coverImage;
     final String title;
     final String id;
@@ -112,8 +112,8 @@ class _ProfileFavoriteTabPageState extends State<ProfileFavoriteTabPage> {
       case FavoriteType.anime:
       case FavoriteType.manga:
         coverImage = (model as MediaModel).coverImage?.large ?? '';
-        title = model.title!.getTitle(
-            context.read<ProfileBloc>().userTitleLanguage);
+        title = model.title!
+            .getTitle(context.read<ProfileBloc>().userTitleLanguage);
         id = model.id;
         onClick = () => navigator.navigateToDetailMedia(id);
       case FavoriteType.character:

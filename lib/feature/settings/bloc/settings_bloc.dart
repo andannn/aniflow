@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
@@ -10,6 +11,7 @@ import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -47,8 +49,11 @@ class _OnMediaTypeChanged extends SettingEvent {
 
 @injectable
 class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
-  SettingsBloc(this._userDataRepository, this._authRepository)
-      : super(SettingsState()) {
+  SettingsBloc(
+    this._userDataRepository,
+    this._authRepository,
+    this._messageRepository,
+  ) : super(SettingsState()) {
     on<_OnAniListSettingsChanged>(
       (event, emit) => emit(state.copyWith(settings: event.settings)),
     );
@@ -65,6 +70,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
 
   final UserDataRepository _userDataRepository;
   final AuthRepository _authRepository;
+  final MessageRepository _messageRepository;
 
   StreamSubscription? _settingsSub;
   StreamSubscription? _themeSub;
@@ -139,7 +145,11 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
     }
 
     if (result is LoadError) {
-      ErrorHandler.handleException(exception: result.exception);
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
+      }
     }
   }
 
@@ -166,17 +176,17 @@ extension SettingsStateEx on SettingsState {
 
     return [
       SettingCategory(
-        title: 'App',
+        titleBuilder: (context) => context.appLocal.app,
         settingItems: [
           ListSettingItem(
-            title: 'Dark mode preference',
+            titleBuilder: (context) => context.appLocal.theme,
             selectedOption: selectedTheme._createSettingOption(),
             options: ThemeSetting.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           ListSettingItem(
-            title: 'Media contents',
+            titleBuilder: (context) => context.appLocal.contents,
             selectedOption: selectedMediaType._createSettingOption(),
             options:
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
@@ -184,17 +194,19 @@ extension SettingsStateEx on SettingsState {
         ],
       ),
       SettingCategory(
-        title: 'Anime & Manga',
+        titleBuilder: (context) =>
+            '${context.appLocal.animeLabel} & ${context.appLocal.mangaLabel}',
         settingItems: [
           ListSettingItem(
-            title: 'Title Language',
+            titleBuilder: (context) => context.appLocal.titleLanguage,
             selectedOption: selectedTitleLanguage._createSettingOption(),
             options: UserTitleLanguage.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           ListSettingItem(
-            title: 'Staff & Character Name Language',
+            titleBuilder: (context) =>
+                context.appLocal.staffCharacterNameLanguage,
             selectedOption:
                 selectedUserStaffNameLanguage._createSettingOption(),
             options: UserStaffNameLanguage.values
@@ -202,16 +214,16 @@ extension SettingsStateEx on SettingsState {
                 .toList(),
           ),
           SwitchSettingItem(
-            title: '18+ content',
+            titleBuilder: (context) => '18+ ${context.appLocal.contents}',
             current: DisplayAdultContent.getSetting(isDisplayAdultContent),
           ),
         ],
       ),
       SettingCategory(
-        title: 'Lists',
+        titleBuilder: (context) => context.appLocal.list,
         settingItems: [
           ListSettingItem(
-            title: 'Scoring System',
+            titleBuilder: (context) => context.appLocal.scoringSystem,
             selectedOption: selectedScoreFormat._createSettingOption(),
             options: ScoreFormat.values
                 .map((e) => e._createSettingOption())
@@ -220,9 +232,11 @@ extension SettingsStateEx on SettingsState {
         ],
       ),
       SettingCategory(
-        title: 'About',
+        titleBuilder: (context) => context.appLocal.about,
         settingItems: [
-          SingleLineWithTapActionSettingItem<About>(title: 'More Info')
+          SingleLineWithTapActionSettingItem<About>(
+            titleBuilder: (context) => context.materialLocal.moreButtonTooltip,
+          )
         ],
       ),
     ];
@@ -234,12 +248,19 @@ extension on UserTitleLanguage {
     switch (this) {
       case UserTitleLanguage.romaji:
         return SettingOption(
-            setting: this, description: 'Romaji (Shingeki no kyojin)');
+          setting: this,
+          descriptionBuilder: (context) => 'Romaji (Shingeki no kyojin)',
+        );
       case UserTitleLanguage.english:
         return SettingOption(
-            setting: this, description: 'English (Attack on Titan)');
+          setting: this,
+          descriptionBuilder: (context) => 'English (Attack on Titan)',
+        );
       case UserTitleLanguage.native:
-        return SettingOption(setting: this, description: 'Native (進撃の巨人)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => 'Native (進撃の巨人)',
+        );
     }
   }
 }
@@ -249,13 +270,20 @@ extension on UserStaffNameLanguage {
     switch (this) {
       case UserStaffNameLanguage.romajiWestern:
         return SettingOption(
-            setting: this,
-            description: 'Romaji, Western Order (Atsumi Tanezaki)');
+          setting: this,
+          descriptionBuilder: (context) =>
+              'Romaji, Western Order (Atsumi Tanezaki)',
+        );
       case UserStaffNameLanguage.romaji:
         return SettingOption(
-            setting: this, description: 'Romaji (Tanezaki Atsumi)');
+          setting: this,
+          descriptionBuilder: (context) => 'Romaji (Tanezaki Atsumi)',
+        );
       case UserStaffNameLanguage.native:
-        return SettingOption(setting: this, description: 'Native (種﨑敦美)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => 'Native (種﨑敦美)',
+        );
     }
   }
 }
@@ -264,16 +292,30 @@ extension on ScoreFormat {
   SettingOption<ScoreFormat> _createSettingOption() {
     switch (this) {
       case ScoreFormat.point100:
-        return SettingOption(setting: this, description: '100 Point (55/100)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '100 Point (55/100)',
+        );
       case ScoreFormat.point10Decimal:
         return SettingOption(
-            setting: this, description: '10 Point Decimal (5.5/10)');
+          setting: this,
+          descriptionBuilder: (context) => '10 Point Decimal (5.5/10)',
+        );
       case ScoreFormat.point10:
-        return SettingOption(setting: this, description: '10 Point (5/10)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '10 Point (5/10)',
+        );
       case ScoreFormat.point5:
-        return SettingOption(setting: this, description: '5 Star (3/5)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '5 Star (3/5)',
+        );
       case ScoreFormat.point3:
-        return SettingOption(setting: this, description: '3 Point Smiley :)');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => '3 Point Smiley :)',
+        );
     }
   }
 }
@@ -282,11 +324,20 @@ extension on ThemeSetting {
   SettingOption<ThemeSetting> _createSettingOption() {
     switch (this) {
       case ThemeSetting.dark:
-        return SettingOption(setting: this, description: 'Dark');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.dark,
+        );
       case ThemeSetting.light:
-        return SettingOption(setting: this, description: 'Light');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.light,
+        );
       case ThemeSetting.system:
-        return SettingOption(setting: this, description: 'System default');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.systemDefault,
+        );
     }
   }
 }
@@ -295,9 +346,15 @@ extension on MediaType {
   SettingOption<MediaType> _createSettingOption() {
     switch (this) {
       case MediaType.anime:
-        return SettingOption(setting: this, description: 'Anime');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.animeLabel,
+        );
       case MediaType.manga:
-        return SettingOption(setting: this, description: 'Manga');
+        return SettingOption(
+          setting: this,
+          descriptionBuilder: (context) => context.appLocal.mangaLabel,
+        );
     }
   }
 }

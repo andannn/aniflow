@@ -1,7 +1,9 @@
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
 import 'package:aniflow/core/database/relations/character_and_voice_actor_relation.dart';
+import 'package:aniflow/core/database/tables/category_media_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/character_media_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/character_voice_actor_cross_reference_table.dart';
@@ -19,6 +21,7 @@ part 'character_dao.g.dart';
   CharacterVoiceActorCrossRefTable,
   MediaTable,
   MediaCharacterPagingCrossRefTable,
+  CategoryMediaPagingCrossRefTable,
   StaffTable,
 ])
 class CharacterDao extends DatabaseAccessor<AniflowDatabase>
@@ -94,8 +97,144 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     });
   }
 
+  Future upsertBirthdayCharacters(
+      List<CharacterAndRelatedMediaRelation> entities) {
+    return batch((batch) {
+      for (final entity in entities) {
+        batch.insert(
+          categoryMediaPagingCrossRefTable,
+          CategoryMediaPagingCrossRefTableCompanion(
+            category: const Value(CategoryColumnsValues.birthdayCharacters),
+            mediaId: Value(entity.character.id),
+            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+          ),
+          mode: InsertMode.insertOrReplace,
+        );
+
+        batch.insertAllOnConflictUpdate(
+          characterTable,
+          [entity.character.toCompanion(true)],
+        );
+
+        batch.insertAll(
+          mediaTable,
+          entity.medias,
+          mode: InsertMode.insertOrIgnore,
+        );
+
+        batch.insertAll(
+          characterRelatedMediaCrossRefTable,
+          entity.medias.map(
+            (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
+              characterId: entity.character.id,
+              mediaId: media.id,
+            ),
+          ),
+          mode: InsertMode.replace,
+        );
+      }
+    });
+  }
+
+  Selectable<QueryRow> _birthdayCharactersQuery(limit, offset) {
+    final customQuery = '''
+      SELECT * 
+      FROM (
+        SELECT * FROM ${categoryMediaPagingCrossRefTable.actualTableName}
+        WHERE ${categoryMediaPagingCrossRefTable.category.name} = ?
+        ORDER BY ${categoryMediaPagingCrossRefTable.timeStamp.name} ASC 
+        LIMIT ?
+        OFFSET ?
+      )
+      INNER JOIN ${characterTable.actualTableName}
+      ON ${categoryMediaPagingCrossRefTable.mediaId.name} = ${characterTable.id.name}
+      LEFT OUTER JOIN ${characterRelatedMediaCrossRefTable.actualTableName}
+      ON ${characterRelatedMediaCrossRefTable.characterId.name} = ${characterTable.id.name}
+      LEFT OUTER JOIN ${mediaTable.actualTableName}
+      ON ${characterRelatedMediaCrossRefTable.mediaId.name} = ${mediaTable.id.name}
+      WHERE
+      (CAST(strftime('%m', ${characterTable.dateOfBirth.name}) AS INTEGER)) = ? AND
+      (CAST(strftime('%d', ${characterTable.dateOfBirth.name}) AS INTEGER)) = ?
+    ''';
+
+    return customSelect(
+      customQuery,
+      variables: [
+        const Variable(CategoryColumnsValues.birthdayCharacters),
+        Variable.withInt(limit),
+        Variable.withInt(offset),
+        Variable.withInt(DateTime.now().month),
+        Variable.withInt(DateTime.now().day),
+      ],
+      readsFrom: {
+        categoryMediaPagingCrossRefTable,
+        characterTable,
+        mediaTable,
+        characterRelatedMediaCrossRefTable,
+      },
+    );
+  }
+
+  Stream<List<CharacterAndRelatedMediaRelation>> getBirthdayCharactersStream(
+      int count) {
+    final query = _birthdayCharactersQuery(count, 0);
+    final recordStream = query
+        .map(
+          (row) => (
+            character: characterTable.map(row.data),
+            media: mediaTable.map(row.data),
+          ),
+        )
+        .watch();
+    return recordStream.map(
+      (record) => record
+          .groupListsBy((e) => e.character)
+          .values
+          .map(
+            (e) => CharacterAndRelatedMediaRelation(
+              character: e.first.character,
+              medias: e.map((e) => e.media).toList(),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Future<List<CharacterAndRelatedMediaRelation>> getBirthdayCharacters(
+      int page, int perPage) async {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+    final query = _birthdayCharactersQuery(limit, offset);
+
+    final resultRecord = await query
+        .map(
+          (row) => (
+            character: characterTable.map(row.data),
+            media: mediaTable.map(row.data),
+          ),
+        )
+        .get();
+    return resultRecord
+        .groupListsBy((e) => e.character)
+        .values
+        .map(
+          (e) => CharacterAndRelatedMediaRelation(
+            character: e.first.character,
+            medias: e.map((e) => e.media).toList(),
+          ),
+        )
+        .toList();
+  }
+
   Future<CharacterEntity> getCharacter(String id) {
     return (select(characterTable)..where((t) => t.id.equals(id))).getSingle();
+  }
+
+  Future clearBirthdayCharacters() async {
+    return (delete(categoryMediaPagingCrossRefTable)
+          ..where((tbl) => categoryMediaPagingCrossRefTable.category
+              .equals(CategoryColumnsValues.birthdayCharacters)))
+        .go();
   }
 
   Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
@@ -185,8 +324,8 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
               (e) => CharacterVoiceActorCrossRefTableCompanion(
                 characterId: Value(e.characterEntity.id),
                 staffId: Value(e.voiceActorEntity!.id),
-                role: Value.ofNullable(e.characterRole),
-                language: Value.ofNullable(e.staffLanguage),
+                role: Value.absentIfNull(e.characterRole),
+                language: Value.absentIfNull(e.staffLanguage),
               ),
             ),
         mode: InsertMode.insertOrReplace,

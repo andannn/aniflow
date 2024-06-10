@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ List<Widget> buildTitleBarWithContent({
 
   return [
     SliverToBoxAdapter(
-      child: VerticalScaleSwitcher(
+      child: AnimatedScaleSwitcher(
         visible: items.isNotEmpty,
         builder: () => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -28,7 +29,9 @@ List<Widget> buildTitleBarWithContent({
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const Expanded(child: SizedBox()),
-              TextButton(onPressed: onMoreClick, child: const Text('More'))
+              TextButton(
+                  onPressed: onMoreClick,
+                  child: Text(context.materialLocal.moreButtonTooltip))
             ],
           ),
         ),

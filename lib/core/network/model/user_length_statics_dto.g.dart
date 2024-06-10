@@ -9,14 +9,15 @@ part of 'user_length_statics_dto.dart';
 _$UserLengthStaticsDtoImpl _$$UserLengthStaticsDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$UserLengthStaticsDtoImpl(
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
       meanScore: (json['meanScore'] as num?)?.toDouble(),
-      minutesWatched: json['minutesWatched'] as int?,
-      chaptersRead: json['chaptersRead'] as int?,
-      mediaIds:
-          (json['mediaIds'] as List<dynamic>?)?.map((e) => e as int).toList() ??
-              const [],
-      score: json['score'] as int?,
+      minutesWatched: (json['minutesWatched'] as num?)?.toInt(),
+      chaptersRead: (json['chaptersRead'] as num?)?.toInt(),
+      mediaIds: (json['mediaIds'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          const [],
+      score: (json['score'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$UserLengthStaticsDtoImplToJson(

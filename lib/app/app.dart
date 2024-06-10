@@ -1,19 +1,16 @@
 import 'dart:async';
 
-import 'package:aniflow/app/local/ani_flow_localizations_delegate.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
-import 'package:aniflow/main.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-/// context of app root.
-BuildContext? globalContext;
+import 'package:get_it/get_it.dart';
 
 class AniFlowApp extends StatefulWidget {
   const AniFlowApp({super.key});
@@ -57,7 +54,7 @@ class AniFlowAppState extends State<AniFlowApp> {
 
     rootRouterDelegate = RootRouterDelegate();
 
-    themeSub = getIt
+    themeSub = GetIt.instance
         .get<UserDataRepository>()
         .userDataStream
         .map((event) => event.themeSetting)
@@ -92,19 +89,13 @@ class AniFlowAppState extends State<AniFlowApp> {
             ColorScheme lightColorScheme;
             ColorScheme darkColorScheme;
 
-            if (lightDynamic != null && darkDynamic != null) {
-              lightColorScheme = lightDynamic.harmonized();
-              darkColorScheme = darkDynamic.harmonized();
-            } else {
-              // Otherwise, use fallback schemes.
-              lightColorScheme = ColorScheme.fromSeed(
-                seedColor: brandColor,
-              );
-              darkColorScheme = ColorScheme.fromSeed(
-                seedColor: brandColor,
+            lightColorScheme = ColorScheme.fromSeed(
+              seedColor: lightDynamic?.primary ?? brandColor,
+            );
+            darkColorScheme = ColorScheme.fromSeed(
+                seedColor: darkDynamic?.primary ?? brandColor,
                 brightness: Brightness.dark,
-              );
-            }
+            );
 
             const pageTransitionsTheme = PageTransitionsTheme(
               builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -113,6 +104,7 @@ class AniFlowAppState extends State<AniFlowApp> {
               },
             );
             return MaterialApp.router(
+              restorationScopeId: "root",
               themeMode: themeMode,
               theme: ThemeData(
                 useMaterial3: true,
@@ -124,8 +116,8 @@ class AniFlowAppState extends State<AniFlowApp> {
                 colorScheme: darkColorScheme,
                 pageTransitionsTheme: pageTransitionsTheme,
               ),
-              localizationsDelegates: [
-                AnimeTrackerLocalizationsDelegate(),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,

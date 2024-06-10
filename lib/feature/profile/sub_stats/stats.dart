@@ -132,13 +132,13 @@ class UserStatics extends StatelessWidget {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
-      color: colorScheme.surfaceVariant.withOpacity(0.7),
+      color: colorScheme.surfaceContainerHighest.withOpacity(0.7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            color: colorScheme.surfaceVariant,
+            color: colorScheme.surfaceContainerHighest,
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,9 +226,7 @@ class _MediaListFutureBuilderState extends State<_MediaListFutureBuilder>
                   final model = result.data[index];
                   return SizedBox(
                     height: double.infinity,
-                    child: Card(
-                      elevation: 0,
-                      color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: Card.filled(
                       clipBehavior: Clip.antiAlias,
                       child: InkWell(
                         onTap: () {

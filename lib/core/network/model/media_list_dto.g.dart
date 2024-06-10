@@ -8,15 +8,15 @@ part of 'media_list_dto.dart';
 
 _$MediaListDtoImpl _$$MediaListDtoImplFromJson(Map<String, dynamic> json) =>
     _$MediaListDtoImpl(
-      id: json['id'] as int? ?? -1,
-      userId: json['userId'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
+      userId: (json['userId'] as num?)?.toInt() ?? -1,
       score: (json['score'] as num?)?.toDouble(),
       status: $enumDecodeNullable(_$MediaListStatusEnumMap, json['status']),
-      progress: json['progress'] as int?,
-      progressVolumes: json['progressVolumes'] as int?,
+      progress: (json['progress'] as num?)?.toInt(),
+      progressVolumes: (json['progressVolumes'] as num?)?.toInt(),
       notes: json['notes'] as String?,
-      updatedAt: json['updatedAt'] as int? ?? -1,
-      repeat: json['repeat'] as int?,
+      updatedAt: (json['updatedAt'] as num?)?.toInt() ?? -1,
+      repeat: (json['repeat'] as num?)?.toInt(),
       private: json['private'] as bool? ?? false,
       startedAt: json['startedAt'] == null
           ? null

@@ -1,5 +1,5 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
@@ -41,12 +41,10 @@ class ActivityItem extends StatelessWidget {
     final timeUntilNowDuration = DateTime.now().difference(
         DateTime.fromMillisecondsSinceEpoch(activity.createdAt * 1000));
     final timeUntilNowString =
-        '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
+        '${TimeUtil.getFormattedDuration(context, timeUntilNowDuration)} ago';
     return Container(
       constraints: const BoxConstraints(minHeight: 120),
-      child: Card(
-        elevation: 0,
-        color: colorScheme.surfaceVariant,
+      child: Card.filled(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onActivityClick != null
@@ -151,10 +149,8 @@ class ActivityItem extends StatelessWidget {
     final timeUntilNowDuration = DateTime.now().difference(
         DateTime.fromMillisecondsSinceEpoch(activity.createdAt * 1000));
     final timeUntilNowString =
-        '${TimeUtil.getFormattedDuration(timeUntilNowDuration)} ago';
+        '${TimeUtil.getFormattedDuration(context, timeUntilNowDuration)} ago';
     return Card(
-      elevation: 0,
-      color: colorScheme.surfaceVariant,
       child: InkWell(
         onTap: onActivityClick != null
             ? () {

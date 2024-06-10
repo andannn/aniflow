@@ -9,20 +9,20 @@ part of 'list_activity_dto.dart';
 _$ListActivityDtoImpl _$$ListActivityDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$ListActivityDtoImpl(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       status: json['status'] as String?,
       progress: json['progress'] as String?,
-      userId: json['userId'] as int?,
+      userId: (json['userId'] as num?)?.toInt(),
       type: json['type'] == null
           ? null
           : ActivityType.fromJson(json['type'] as String),
-      replyCount: json['replyCount'] as int?,
+      replyCount: (json['replyCount'] as num?)?.toInt(),
       siteUrl: json['siteUrl'] as String?,
       isLocked: json['isLocked'] as bool?,
       isLiked: json['isLiked'] as bool?,
-      likeCount: json['likeCount'] as int?,
+      likeCount: (json['likeCount'] as num?)?.toInt(),
       isPinned: json['isPinned'] as bool?,
-      createdAt: json['createdAt'] as int?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
       user: json['user'] == null
           ? null
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),

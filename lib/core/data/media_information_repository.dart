@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/definitions/anime_category.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
@@ -350,17 +350,25 @@ class MediaInformationRepository {
       final mediaEntityList =
           characterDto.media?.edges.map((e) => e.media!.toEntity()).toList() ??
               [];
-      await characterDao.upsertCharacterAndRelatedMedia(
-        CharacterAndRelatedMediaRelation(
-          character: characterEntity,
-          medias: mediaEntityList,
-        ),
-      );
+      await characterDao
+          .upsertCharacterAndRelatedMedia(CharacterAndRelatedMediaRelation(
+        character: characterEntity,
+        medias: mediaEntityList,
+      ));
 
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
       return LoadError(exception);
     }
+  }
+
+  Stream<List<MediaModel>> getMediasOfCategory({
+    required MediaCategory category,
+    required int max,
+  }) {
+    return mediaDao.getMediasStream(category.getContentValue(), limit: max).map(
+          (e) => e.map((e) => e.toModel()).toList(),
+        );
   }
 
   Stream<CharacterModel> getDetailCharacterStream(String id) {

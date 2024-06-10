@@ -1,6 +1,6 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:drift_dev/api/migrations.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 // The generated directory from before.
 import 'generated_migrations/schema.dart';

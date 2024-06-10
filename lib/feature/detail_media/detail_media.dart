@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
@@ -16,26 +16,28 @@ import 'package:aniflow/core/data/model/media_relation_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
-import 'package:aniflow/core/data/model/trailter_model.dart';
+import 'package:aniflow/core/data/model/trailer_model.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_relation_widget.dart';
+import 'package:aniflow/core/design_system/widget/shrinkable_floating_action_button.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/design_system/widget/trailer_preview.dart';
 import 'package:aniflow/core/design_system/widget/twitter_hashtag_widget.dart';
-import 'package:aniflow/core/design_system/widget/update_media_list_bottom_sheet.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
-import 'package:aniflow/main.dart';
+import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailAnimePage extends Page {
@@ -58,17 +60,62 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<DetailMediaBloc>(param1: mediaId),
-      child: const Scaffold(body: _DetailAnimePageContent()),
+      create: (context) => GetIt.instance.get<DetailMediaBloc>(param1: mediaId),
+      child: const ScaffoldMessenger(
+        child: _DetailAnimePageContent(),
+      ),
     );
+  }
+
+  @override
+  bool canTransitionTo(TransitionRoute nextRoute) {
+    if (nextRoute is MediaListUpdateRoute) {
+      return false;
+    } else {
+      return super.canTransitionTo(nextRoute);
+    }
   }
 
   @override
   bool get maintainState => true;
 }
 
-class _DetailAnimePageContent extends StatelessWidget {
+class _DetailAnimePageContent extends StatefulWidget {
   const _DetailAnimePageContent();
+
+  @override
+  State<_DetailAnimePageContent> createState() =>
+      _DetailAnimePageContentState();
+}
+
+class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
+    with ShowSnackBarMixin {
+  late ScrollController controller;
+
+  /// Shrink the FAB button when user scroll 300 pixel in this page.
+  bool isScrollOverLimit = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+
+    controller.addListener(() {
+      final needShrinkFabButton = controller.position.pixels > 300;
+      if (isScrollOverLimit != needShrinkFabButton) {
+        setState(() {
+          isScrollOverLimit = needShrinkFabButton;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,22 +125,19 @@ class _DetailAnimePageContent extends StatelessWidget {
         if (model == null) {
           return const LoadingDummyScaffold();
         }
-        final isLoading = state.isLoading;
-        final stateString = state.mediaListItem?.status?.stateString ?? '';
+        final stateString =
+            state.mediaListItem?.status?.translated(context) ?? '';
         final hasDescription = stateString.isNotEmpty;
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite;
+        final isLoading = state.isLoading;
 
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
-          final result = await showUpdateMediaListBottomSheet(
-            context,
-            listItemModel: state.mediaListItem,
-            media: state.detailAnimeModel!,
-            scoreFormat: state.scoreFormat,
-            userTitleLanguage: state.userTitleLanguage,
-          );
-
+          RootRouterDelegate.get()
+              .navigateToMediaListUpdatePage(state.mediaListItem!);
+          MediaListModifyResult? result =
+              await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {
             bloc.add(OnMediaListModified(result: result));
           }
@@ -108,43 +152,69 @@ class _DetailAnimePageContent extends StatelessWidget {
             actions: [
               isLoading
                   ? LoadingIndicator(isLoading: isLoading)
-                  : IconButton(
-                      onPressed: () {
-                        context.read<DetailMediaBloc>().add(
-                              OnToggleFavoriteState(
-                                  isAnime: true, mediaId: model.id),
-                            );
-                      },
-                      icon: isFavorite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
-                    ),
+                  : const SizedBox(),
               const SizedBox(width: 10),
             ],
           ),
-          floatingActionButton: !isLoading
-              ? hasDescription
-                  ? FloatingActionButton.extended(
-                      icon: Icon(statusIcon),
-                      label: Text(stateString),
-                      onPressed: floatingButtonClickAction,
-                    )
-                  : FloatingActionButton(
-                      onPressed: floatingButtonClickAction,
-                      child: Icon(statusIcon),
-                    )
-              : const SizedBox(),
+          floatingActionButton: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AnimatedFadeSwitcher(
+                visible: !isScrollOverLimit,
+                builder: () => FloatingActionButton.small(
+                  onPressed: () {
+                    context.read<DetailMediaBloc>().add(
+                          OnToggleFavoriteState(
+                            isAnime: true,
+                            mediaId: model.id,
+                          ),
+                        );
+                  },
+                  child: isFavorite
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_outline),
+                ),
+              ),
+              const SizedBox(height: 8),
+              ShrinkableFloatingActionButton(
+                heroTag: mediaListUpdatePageHeroTag,
+                isExtended: hasDescription && !isScrollOverLimit,
+                icon: Icon(statusIcon),
+                label: Text(stateString),
+                onPressed: floatingButtonClickAction,
+              ),
+            ],
+          ),
           body: CustomScrollView(
+            controller: controller,
             cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
               SliverToBoxAdapter(
-                child: _buildBannerSectionSection(context, model.bannerImage),
+                child: _buildBannerSectionSection(
+                  context,
+                  model,
+                  onImageClick: () {
+                    final image = model.bannerImage;
+                    if (image != null) {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                          model.bannerImagePreviewSource);
+                    }
+                  },
+                ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
                 child: _buildAnimeBasicInfoBar(
                   context: context,
                   model: model,
+                  onImageClick: () {
+                    final image = model.coverImage?.extraLarge;
+                    if (image != null) {
+                      RootRouterDelegate.get()
+                          .navigateImagePreviewPage(model.coverPreviewSource);
+                    }
+                  },
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
@@ -219,7 +289,9 @@ class _DetailAnimePageContent extends StatelessWidget {
   }
 
   Widget _buildAnimeBasicInfoBar(
-      {required BuildContext context, required MediaModel model}) {
+      {required BuildContext context,
+      required MediaModel model,
+      required Function() onImageClick}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: IntrinsicHeight(
@@ -230,11 +302,20 @@ class _DetailAnimePageContent extends StatelessWidget {
               flex: 1,
               child: SizedBox(
                 height: 1,
-                child: Card(
-                  elevation: 0,
-                  clipBehavior: Clip.hardEdge,
-                  child: AFNetworkImage(
-                    imageUrl: model.coverImage?.large ?? '',
+                child: InkWell(
+                  onTap: onImageClick,
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    )),
+                    child: Hero(
+                      tag: model.coverPreviewSource,
+                      child: AFNetworkImage(
+                        imageUrl: model.coverImage?.large ?? '',
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -307,21 +388,19 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildAnimeDescription(
       {required BuildContext context, required String? description}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: description != null,
-      builder: () =>  Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AFLocalizations.of(context).animeDescription,
+              context.appLocal.animeDescription,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             description != null
-                ? Card(
-                    elevation: 0,
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                ? Card.filled(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AfHtmlWidget(html: description),
@@ -341,7 +420,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final pageHeight = canFillPage
         ? AfConfig.characterColumnCount * itemHeight
         : models.length * itemHeight;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: models.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -351,7 +430,7 @@ class _DetailAnimePageContent extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  AFLocalizations.of(context).characters,
+                  context.appLocal.characters,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Expanded(flex: 1, child: SizedBox()),
@@ -360,7 +439,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                     RootRouterDelegate.get().navigateToCharacterList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
-                  child: const Text('More'),
+                  child: Text(context.materialLocal.moreButtonTooltip),
                 ),
               ],
             ),
@@ -422,7 +501,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     final pageHeight = canFillPage
         ? AfConfig.staffColumnCount * itemHeight
         : staffs.length * itemHeight;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: staffs.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -432,7 +511,7 @@ class _DetailAnimePageContent extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  AFLocalizations.of(context).staff,
+                  context.appLocal.staff,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Expanded(flex: 1, child: SizedBox()),
@@ -441,7 +520,7 @@ class _DetailAnimePageContent extends StatelessWidget {
                     RootRouterDelegate.get().navigateToStaffList(
                         context.read<DetailMediaBloc>().mediaId);
                   },
-                  child: const Text('More'),
+                  child: Text(context.materialLocal.moreButtonTooltip),
                 ),
               ],
             ),
@@ -497,15 +576,25 @@ class _DetailAnimePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildBannerSectionSection(BuildContext context, String? bannerImage) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 0,
-        clipBehavior: Clip.hardEdge,
-        child: AFNetworkImage(
-          height: 128,
-          imageUrl: bannerImage ?? '',
+  Widget _buildBannerSectionSection(BuildContext context, MediaModel model,
+      {required Function() onImageClick}) {
+    return AnimatedScaleSwitcher(
+      visible: model.bannerImage != null && model.bannerImage!.isNotEmpty,
+      builder: () => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: onImageClick,
+          child: Card(
+            elevation: 0,
+            clipBehavior: Clip.hardEdge,
+            child: Hero(
+              tag: model.bannerImagePreviewSource,
+              child: AFNetworkImage(
+                height: 128,
+                imageUrl: model.bannerImage ?? '',
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -513,7 +602,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildExternalLinkSection(
       BuildContext context, List<MediaExternalLinkModel> externalLinks) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: externalLinks.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,7 +610,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'External & Streaming links',
+              context.appLocal.externalLinks,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -541,7 +630,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildTrailerSection(BuildContext context,
       {required VoidCallback onTrailerClick, TrailerModel? trailerModel}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: trailerModel != null,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -550,7 +639,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AFLocalizations.of(context).trailer,
+              context.appLocal.trailer,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
@@ -566,7 +655,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildTwitterHashTags(BuildContext context, MediaModel model) {
     final hashTags = model.hashtags;
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: hashTags.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -582,7 +671,7 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildAnimeInfoSection(BuildContext context, MediaModel model) {
     final infoString = model.getAnimeInfoString(context);
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: infoString.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -602,17 +691,16 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildAiringInfo(BuildContext context, MediaModel model) {
     final nextAiringEpisode = model.nextAiringEpisode;
     final airingTimeString = model.getReleasingTimeString(context);
-    if (airingTimeString.isEmpty) {
-      return const SizedBox();
-    }
-    const stringRes = 'Next airing schedule is EP.%s in %s';
-    return VerticalScaleSwitcher(
-      visible: true,
-      builder: () => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          sprintf(stringRes, [nextAiringEpisode, airingTimeString]),
-          style: Theme.of(context).textTheme.bodyMedium,
+    return AnimatedScaleSwitcher(
+      visible: airingTimeString.isNotEmpty && nextAiringEpisode != null,
+      builder: () => Card.filled(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            context.appLocal
+                .nextAiringInfo(nextAiringEpisode!, airingTimeString),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ),
       ),
     );
@@ -650,15 +738,15 @@ class _DetailAnimePageContent extends StatelessWidget {
   Widget _buildAnimeRelations(
       {required BuildContext context,
       required List<MediaRelationModel> relations}) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: relations.isNotEmpty,
-      builder: () =>  Padding(
+      builder: () => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Relations',
+              context.appLocal.relations,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(
@@ -690,7 +778,7 @@ class _DetailAnimePageContent extends StatelessWidget {
     required List<StudioModel> studios,
     required Function(String id) onStudioClick,
   }) {
-    return VerticalScaleSwitcher(
+    return AnimatedScaleSwitcher(
       visible: studios.isNotEmpty,
       builder: () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -698,7 +786,7 @@ class _DetailAnimePageContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'Studio',
+              context.appLocal.studio,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -720,133 +808,145 @@ class _DetailAnimePageContent extends StatelessWidget {
 
   Widget _buildWatchNextEpisodeArea(
       BuildContext context, DetailMediaUiState state) {
-    final mediaListItem =
-        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
-    final hasNextReleasingEpisode =
-        mediaListItem?.hasNextReleasingEpisode == true;
-
-    if (hasNextReleasingEpisode) {
-      // User tack the animation and have next airing episode.
-      return _buildNextEpisodeInfo(context, state);
-    } else {
-      return _buildAiringInfo(context, state.detailAnimeModel!);
-    }
+    return Column(
+      children: [
+        _buildAiringInfo(context, state.detailAnimeModel!),
+        _buildNextEpisodeInfo(context, state),
+      ],
+    );
   }
 
   Widget _buildNextEpisodeInfo(BuildContext context, DetailMediaUiState state) {
     final episode = state.episode;
-    final nextProgress = (state.mediaListItem!.progress ?? 0) + 1;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Text(
-                'Next to watch: Ep.$nextProgress',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 12),
-              switch (episode) {
-                Loading<Episode>() => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: LoadingAnimationWidget.twistingDots(
-                      size: 20,
-                      leftDotColor: Theme.of(context).colorScheme.tertiary,
-                      rightDotColor: Theme.of(context).colorScheme.primary,
+    final nextProgress = (state.mediaListItem?.progress ?? 0) + 1;
+    final mediaListItem =
+        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
+    final hasNextReleasedEpisode =
+        mediaListItem?.hasNextReleasedEpisode == true;
+    return AnimatedScaleSwitcher(
+      visible: hasNextReleasedEpisode,
+      builder: () => Padding(
+        key: ValueKey(episode.runtimeType),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Text(
+                  context.appLocal.nextEpToWatch(nextProgress),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+                switch (episode) {
+                  Loading<Episode>() => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: LoadingAnimationWidget.twistingDots(
+                              size: 20,
+                              leftDotColor:
+                                  Theme.of(context).colorScheme.tertiary,
+                              rightDotColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                Ready<Episode>() => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          episode.state.title,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.tertiary,
-                              ),
+                  Ready<Episode>() => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            episode.state.title,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () async {
-                              context.read<DetailMediaBloc>().add(
-                                    OnMarkWatchedClick(),
-                                  );
-                            },
-                            child: const Text('Mark watched'),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () async {
+                                context.read<DetailMediaBloc>().add(
+                                      OnMarkWatchedClick(),
+                                    );
+                              },
+                              child: Text(context.appLocal.markWatched),
+                            ),
+                            FilledButton(
+                              onPressed: () async {
+                                final url = Uri.parse(episode.state.url);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                              child: Text(context.appLocal.watchNow),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  None<Episode>() => const SizedBox(),
+                  Error<Episode>() => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            context.appLocal.cantFindThisEpisode,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
                           ),
-                          FilledButton(
-                            onPressed: () async {
-                              final url = Uri.parse(episode.state.url);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              }
-                            },
-                            child: const Text('Watch now'),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                None<Episode>() => const SizedBox(),
-                Error<Episode>() => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          // ignore: lines_longer_than_80_chars
-                          'Can\'t find episode, click the bottom button and find manually.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () async {
-                              context.read<DetailMediaBloc>().add(
-                                    OnMarkWatchedClick(),
-                                  );
-                            },
-                            child: const Text('Mark watched'),
-                          ),
-                          FilledButton(
-                            onPressed: () async {
-                              logger.d(
-                                  'JQN episode.searchUrl ${episode.searchUrl}');
-                              if (episode.searchUrl == null) {
-                                return;
-                              }
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () async {
+                                context.read<DetailMediaBloc>().add(
+                                      OnMarkWatchedClick(),
+                                    );
+                              },
+                              child: Text(context.appLocal.markWatched),
+                            ),
+                            FilledButton(
+                              onPressed: () async {
+                                logger.d(
+                                    'episode.searchUrl ${episode.searchUrl}');
+                                if (episode.searchUrl == null) {
+                                  return;
+                                }
 
-                              final url = Uri.parse(episode.searchUrl!);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              }
-                            },
-                            child: const Text('Search page'),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-              },
-            ],
+                                final url = Uri.parse(episode.searchUrl!);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                              child: Text(context.appLocal.toSearch),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                },
+              ],
+            ),
           ),
         ),
       ),

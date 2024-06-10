@@ -18,9 +18,7 @@ class AiringMediaItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Card(
-      elevation: 0,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+    return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
         model: model.animeModel,

@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/setting/score_format.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -89,10 +90,8 @@ Future<double?> showScoringDialog(
           }
         }
 
-        final localization = Localizations.of<MaterialLocalizations>(
-            context, MaterialLocalizations)!;
         return AlertDialog(
-          title: const Text('Scoring'),
+          title: Text(context.appLocal.scoring),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: buildScoringSelectionWidget(),
@@ -102,7 +101,7 @@ Future<double?> showScoringDialog(
               onPressed: () {
                 Navigator.of(context).pop(currentScore);
               },
-              child: Text(localization.okButtonLabel),
+              child: Text(context.materialLocal.okButtonLabel),
             )
           ],
         );

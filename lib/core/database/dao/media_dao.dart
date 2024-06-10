@@ -56,7 +56,7 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
           (e) => MediaRelationCrossRefTableCompanion(
             ownerId: Value(ownerId),
             relationId: Value(e.media.id),
-            relationType: Value.ofNullable(e.mediaRelation),
+            relationType: Value.absentIfNull(e.mediaRelation),
           ),
         ),
       );
@@ -111,6 +111,19 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
       ..limit(limit, offset: offset);
 
     return (query.map((row) => row.readTable(mediaTable))).get();
+  }
+
+  Stream<List<MediaEntity>> getMediasStream(String category,
+      {required int limit}) {
+    final query = select(mediaTable).join([
+      innerJoin(categoryMediaPagingCrossRefTable,
+          categoryMediaPagingCrossRefTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(categoryMediaPagingCrossRefTable.category.equals(category))
+      ..orderBy([OrderingTerm.asc(categoryMediaPagingCrossRefTable.timeStamp)])
+      ..limit(limit);
+
+    return (query.map((row) => row.readTable(mediaTable))).watch();
   }
 
   Future clearCategoryMediaCrossRef(String category) {

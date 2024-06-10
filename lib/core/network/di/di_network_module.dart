@@ -1,7 +1,7 @@
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
-import 'package:aniflow/main.dart';
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -18,7 +18,7 @@ abstract class DINetworkModule {
     )
     ..interceptors.addAll([
       LogInterceptor(),
-      getIt.get<AniListTokenHeaderInterceptor>(),
+      GetIt.instance.get<AniListTokenHeaderInterceptor>(),
     ]);
 }
 

@@ -9,14 +9,15 @@ part of 'user_release_year_statics_dto.dart';
 _$UserReleaseYearStaticsDtoImpl _$$UserReleaseYearStaticsDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$UserReleaseYearStaticsDtoImpl(
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
       meanScore: (json['meanScore'] as num?)?.toDouble(),
-      minutesWatched: json['minutesWatched'] as int?,
-      chaptersRead: json['chaptersRead'] as int?,
-      mediaIds:
-          (json['mediaIds'] as List<dynamic>?)?.map((e) => e as int).toList() ??
-              const [],
-      releaseYear: json['releaseYear'] as int?,
+      minutesWatched: (json['minutesWatched'] as num?)?.toInt(),
+      chaptersRead: (json['chaptersRead'] as num?)?.toInt(),
+      mediaIds: (json['mediaIds'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          const [],
+      releaseYear: (json['releaseYear'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$UserReleaseYearStaticsDtoImplToJson(

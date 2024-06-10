@@ -27,9 +27,7 @@ class MediaPreviewItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Stack(
         children: [
-          Card(
-            elevation: 0,
-            color: Theme.of(context).colorScheme.surfaceVariant,
+          Card.filled(
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: onClick,

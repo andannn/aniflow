@@ -1,8 +1,7 @@
-import 'package:aniflow/feature/discover/discover.dart';
-import 'package:aniflow/feature/media_track/media_track.dart';
+import 'package:aniflow/feature/aniflow_home/discover/discover.dart';
+import 'package:aniflow/feature/aniflow_home/media_track/media_track.dart';
+import 'package:aniflow/feature/aniflow_home/social/social.dart';
 import 'package:aniflow/feature/profile/profile.dart';
-import 'package:aniflow/feature/social/social.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 enum TopLevelNavigation {
@@ -38,69 +37,15 @@ enum TopLevelNavigation {
 }
 
 extension TopLevelNavigationEx on TopLevelNavigation {
-  TopLevelRoutePath toRoutePath() {
+  Page toPage() {
     switch (this) {
       case TopLevelNavigation.discover:
-        return const DiscoverRoutePath();
-      case TopLevelNavigation.track:
-        return const TrackRoutePath();
-      case TopLevelNavigation.social:
-        return const SocialRoutePath();
-      case TopLevelNavigation.profile:
-        return const ProfileRoutePath();
-    }
-  }
-}
-
-sealed class TopLevelRoutePath extends Equatable {
-  final TopLevelNavigation topLevel;
-
-  const TopLevelRoutePath(this.topLevel);
-
-  @override
-  List<Object?> get props => [topLevel];
-}
-
-class DiscoverRoutePath extends TopLevelRoutePath {
-  const DiscoverRoutePath() : super(TopLevelNavigation.discover);
-
-  @override
-  String toString() => 'discover_page';
-}
-
-class TrackRoutePath extends TopLevelRoutePath {
-  const TrackRoutePath() : super(TopLevelNavigation.track);
-
-  @override
-  String toString() => 'track_page';
-}
-
-class SocialRoutePath extends TopLevelRoutePath {
-  const SocialRoutePath() : super(TopLevelNavigation.social);
-
-  @override
-  String toString() => 'social_page';
-}
-
-class ProfileRoutePath extends TopLevelRoutePath {
-  const ProfileRoutePath() : super(TopLevelNavigation.profile);
-
-  @override
-  String toString() => 'profile_page';
-}
-
-extension TopLevelRoutePathEv on TopLevelRoutePath {
-  Page generatePage() {
-    final path = this;
-
-    switch (path) {
-      case DiscoverRoutePath():
         return DiscoverPage(key: ValueKey(toString()));
-      case TrackRoutePath():
+      case TopLevelNavigation.track:
         return AnimeTrackPage(key: ValueKey(toString()));
-      case SocialRoutePath():
+      case TopLevelNavigation.social:
         return SocialPage(key: ValueKey(toString()));
-      case ProfileRoutePath():
+      case TopLevelNavigation.profile:
         return ProfilePage(key: ValueKey(toString()));
     }
   }

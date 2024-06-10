@@ -34,9 +34,7 @@ class StudioSearchResultPagingContent extends StatelessWidget {
     final surfaceTextColor = colorScheme.onSurfaceVariant;
     final textTheme = Theme.of(context).textTheme;
 
-    return Card(
-      elevation: 0,
-      color: colorScheme.surfaceVariant,
+    return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onClick,
@@ -50,7 +48,8 @@ class StudioSearchResultPagingContent extends StatelessWidget {
                 flex: 1,
                 child: Text(
                   model.name ?? '',
-                  style: textTheme.titleMedium?.copyWith(color: surfaceTextColor),
+                  style:
+                      textTheme.titleMedium?.copyWith(color: surfaceTextColor),
                   maxLines: 2,
                 ),
               ),

@@ -8,7 +8,7 @@ part of 'studio_dto.dart';
 
 _$StudioDtoImpl _$$StudioDtoImplFromJson(Map<String, dynamic> json) =>
     _$StudioDtoImpl(
-      id: json['id'] as int? ?? -1,
+      id: (json['id'] as num?)?.toInt() ?? -1,
       name: json['name'] as String?,
       siteUrl: json['siteUrl'] as String?,
       isAnimationStudio: json['isAnimationStudio'] as bool? ?? false,

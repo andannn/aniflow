@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.1.4+6
+version: 0.1.10+11
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -88,6 +88,8 @@ dependencies:
   string_similarity: ^2.0.0
   bloc_test: ^9.1.7
   mockito: ^5.4.4
+  platform_downloader:
+    path: ./platform_downloader
 
 dev_dependencies:
   drift_dev: ^2.15.0
@@ -108,6 +110,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

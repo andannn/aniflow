@@ -1,7 +1,7 @@
-import 'package:aniflow/app/local/util/string_resource_util.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
@@ -9,9 +9,9 @@ import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/character_page/bloc/character_page_bloc.dart';
 import 'package:aniflow/feature/character_page/bloc/character_paging_bloc.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class CharacterListPage extends Page {
   final String animeId;
@@ -33,7 +33,7 @@ class CharacterListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<CharacterPageBloc>(),
+      create: (context) => GetIt.instance.get<CharacterPageBloc>(),
       child: _CharacterPageContent(animeId: animeId),
     );
   }
@@ -52,7 +52,7 @@ class _CharacterPageContent extends StatelessWidget {
     final staffLanguage = context.watch<CharacterPageBloc>().state.language;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Characters'),
+        title: Text(context.appLocal.characters),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -73,7 +73,7 @@ class _CharacterPageContent extends StatelessWidget {
                 },
                 icon: const Icon(Icons.filter_alt),
                 label: Text(
-                  staffLanguage.label(context),
+                  staffLanguage.translated(context),
                 ),
               );
             },
@@ -81,7 +81,7 @@ class _CharacterPageContent extends StatelessWidget {
               return MenuItemButton(
                 child: Container(
                   constraints: const BoxConstraints(minWidth: 80),
-                  child: Text(item.label(context)),
+                  child: Text(item.translated(context)),
                 ),
                 onPressed: () {
                   context
@@ -114,7 +114,7 @@ class _CharacterPagingBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<CharacterPagingBloc>(
+      create: (BuildContext context) => GetIt.instance.get<CharacterPagingBloc>(
           param1: animeId, param2: staffLanguage),
       child: const _CharacterListPagingContent(),
     );

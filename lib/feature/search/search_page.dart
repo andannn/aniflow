@@ -1,5 +1,5 @@
-import 'package:aniflow/app/local/ani_flow_localizations.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/feature/search/bloc/search_bloc.dart';
 import 'package:aniflow/feature/search/bloc/search_state.dart';
@@ -14,9 +14,9 @@ import 'package:aniflow/feature/search/paging/studio_search_result_paging_bloc.d
 import 'package:aniflow/feature/search/paging/studio_search_result_paging_content.dart';
 import 'package:aniflow/feature/search/paging/user_search_result_paging_bloc.dart';
 import 'package:aniflow/feature/search/paging/user_search_result_paging_content.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class SearchPage extends Page {
   const SearchPage({super.key});
@@ -33,8 +33,10 @@ class SearchPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<SearchBloc>(),
-      child: const _MediaSearchPageContent(),
+      create: (BuildContext context) => GetIt.instance.get<SearchBloc>(),
+      child: const ScaffoldMessenger(
+        child: _MediaSearchPageContent(),
+      ),
     );
   }
 
@@ -42,9 +44,15 @@ class SearchPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _MediaSearchPageContent extends StatelessWidget {
+class _MediaSearchPageContent extends StatefulWidget {
   const _MediaSearchPageContent();
 
+  @override
+  State<_MediaSearchPageContent> createState() =>
+      _MediaSearchPageContentState();
+}
+
+class _MediaSearchPageContentState extends State<_MediaSearchPageContent> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
@@ -54,7 +62,8 @@ class _MediaSearchPageContent extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            backgroundColor:
+                Theme.of(context).colorScheme.surfaceContainerHighest,
             title: _buildSearchArea(context, selectedSearchType),
           ),
           body: Padding(
@@ -91,7 +100,7 @@ class _MediaSearchPageContent extends StatelessWidget {
               context.read<SearchBloc>().add(OnSearchTypeSelected(e));
             }
           },
-          label: AFLocalizations.of(context).getSearchTypeString(e),
+          label: e.translated(context),
         );
 
     return SizedBox(
@@ -121,7 +130,7 @@ class _MediaSearchPageContent extends StatelessWidget {
           }
         },
         decoration: InputDecoration(
-          labelText: AFLocalizations.of(context).getSearchTypeString(type),
+          labelText: type.translated(context),
         ),
       ),
     );
@@ -143,7 +152,7 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
     switch (selectedSearchType) {
       case SearchType.anime:
         return BlocProvider(
-          create: (context) => getIt.get<MediaSearchResultPagingBloc>(
+          create: (context) => GetIt.instance.get<MediaSearchResultPagingBloc>(
             param1: MediaType.anime,
             param2: keyword,
           ),
@@ -151,7 +160,7 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
         );
       case SearchType.manga:
         return BlocProvider(
-          create: (context) => getIt.get<MediaSearchResultPagingBloc>(
+          create: (context) => GetIt.instance.get<MediaSearchResultPagingBloc>(
             param1: MediaType.manga,
             param2: keyword,
           ),
@@ -159,28 +168,29 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
         );
       case SearchType.character:
         return BlocProvider(
-          create: (context) => getIt.get<CharacterSearchResultPagingBloc>(
+          create: (context) =>
+              GetIt.instance.get<CharacterSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const CharacterSearchResultPagingContent(),
         );
       case SearchType.staff:
         return BlocProvider(
-          create: (context) => getIt.get<StaffSearchResultPagingBloc>(
+          create: (context) => GetIt.instance.get<StaffSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const StaffSearchResultPagingContent(),
         );
       case SearchType.studio:
         return BlocProvider(
-          create: (context) => getIt.get<StudioSearchResultPagingBloc>(
+          create: (context) => GetIt.instance.get<StudioSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const StudioSearchResultPagingContent(),
         );
       case SearchType.user:
         return BlocProvider(
-          create: (context) => getIt.get<UserSearchResultPagingBloc>(
+          create: (context) => GetIt.instance.get<UserSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const UserSearchResultPagingContent(),

@@ -1,5 +1,7 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
@@ -8,9 +10,9 @@ import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state_exten
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_category.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class AiringSchedule extends Page {
   const AiringSchedule({super.key});
@@ -27,7 +29,8 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => getIt.get<AiringScheduleBloc>(),
+      create: (BuildContext context) =>
+          GetIt.instance.get<AiringScheduleBloc>(),
       lazy: false,
       child: const Scaffold(
         body: _AiringScheduleContent(),
@@ -47,7 +50,7 @@ class _AiringScheduleContent extends StatefulWidget {
 }
 
 class _AiringScheduleContentState extends State<_AiringScheduleContent>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, ShowSnackBarMixin {
   late final TabController _tabController;
 
   AiringScheduleBloc? _bloc;
@@ -88,7 +91,7 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
         }
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Schedule"),
+            title: Text(context.appLocal.schedule),
             bottom: _buildAiringScheduleTabs(context, scheduleKeys),
           ),
           body: TabBarView(

@@ -10,12 +10,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-final getIt = GetIt.instance;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await initDI(getIt);
+  await initDI(GetIt.instance);
 
   /// init firebase
   await Firebase.initializeApp();

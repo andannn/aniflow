@@ -26,9 +26,7 @@ extension CharacterMapper on CharacterEntity {
       ),
       description: description,
       gender: gender,
-      dateOfBirth: dateOfBirth != null
-          ? DateTime.fromMillisecondsSinceEpoch(dateOfBirth!)
-          : null,
+      dateOfBirth: dateOfBirth,
       age: age,
       bloodType: bloodType,
       siteUrl: siteUrl,

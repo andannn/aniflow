@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -8,11 +9,11 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_bloc.dart';
 import 'package:aniflow/feature/detail_studio/bloc/detail_studio_state.dart';
 import 'package:aniflow/feature/detail_studio/bloc/studio_contents_paging_bloc.dart';
-import 'package:aniflow/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class DetailStudioPage extends Page {
   final String id;
@@ -36,17 +37,21 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => getIt.get<DetailStudioBloc>(
+          create: (BuildContext context) =>
+              GetIt.instance.get<DetailStudioBloc>(
             param1: id,
           ),
         ),
         BlocProvider(
-          create: (BuildContext context) => getIt.get<StudioContentsPagingBloc>(
+          create: (BuildContext context) =>
+              GetIt.instance.get<StudioContentsPagingBloc>(
             param1: id,
           ),
         ),
       ],
-      child: const _DetailStudioContent(),
+      child: const ScaffoldMessenger(
+        child: _DetailStudioContent(),
+      ),
     );
   }
 
@@ -54,37 +59,43 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailStudioContent extends StatelessWidget {
+class _DetailStudioContent extends StatefulWidget {
   const _DetailStudioContent();
 
+  @override
+  State<_DetailStudioContent> createState() => _DetailStudioContentState();
+}
+
+class _DetailStudioContentState extends State<_DetailStudioContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailStudioBloc, DetailStudioState>(
       builder: (BuildContext context, state) {
-        // final colorScheme = Theme.of(context).colorScheme;
         final studio = state.studioModel;
-        final isLoading = state.isLoading;
         if (studio == null) {
           return const LoadingDummyScaffold();
         }
 
         final pagingState = context.watch<StudioContentsPagingBloc>().state;
         final isFavourite = studio.isFavourite;
+        final isLoading = state.isLoading;
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<DetailStudioBloc>().add(OnToggleLike());
+            },
+            child: isFavourite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline),
+          ),
           appBar: AppBar(
             centerTitle: true,
             title: Text(studio.name ?? ''),
             actions: [
               isLoading
                   ? LoadingIndicator(isLoading: isLoading)
-                  : IconButton(
-                      onPressed: () {
-                        context.read<DetailStudioBloc>().add(OnToggleLike());
-                      },
-                      icon: isFavourite
-                          ? const Icon(Icons.favorite, color: Colors.red)
-                          : const Icon(Icons.favorite_outline),
-                    ),
+                  : const SizedBox(),
               const SizedBox(width: 10),
             ],
           ),

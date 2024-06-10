@@ -1,13 +1,14 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/staff_page/bloc/staff_page_bloc.dart';
-import 'package:aniflow/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class StaffListPage extends Page {
   final String animeId;
@@ -29,7 +30,7 @@ class StaffListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<StaffPageBloc>(param1: animeId),
+      create: (context) => GetIt.instance.get<StaffPageBloc>(param1: animeId),
       child: const _StaffListPageContent(),
     );
   }
@@ -48,7 +49,7 @@ class _StaffListPageContent extends StatelessWidget {
       final pagingState = state;
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Staffs'),
+          title: Text(context.appLocal.staff),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -77,9 +78,7 @@ class _StaffListPageContent extends StatelessWidget {
         language: language,
         textStyle: Theme.of(context).textTheme.labelMedium,
         onStaffClick: () {
-          RootRouterDelegate.get().navigateToDetailStaff(
-                model.staff.id,
-              );
+          RootRouterDelegate.get().navigateToDetailStaff(model.staff.id);
         },
       ),
     );

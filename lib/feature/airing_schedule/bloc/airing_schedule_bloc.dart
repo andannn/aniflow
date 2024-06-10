@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/collection_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -30,15 +31,16 @@ class AiringScheduleBloc
   AiringScheduleBloc(
     this._mediaInfoRepository,
     UserDataRepository preferences,
+    this._messageRepository,
   ) : super(AiringScheduleState(
-    userTitleLanguage : preferences.userData.userTitleLanguage,
-  )) {
+          userTitleLanguage: preferences.userData.userTitleLanguage,
+        )) {
     on<_OnScheduleKeyInitialized>(_onScheduleKeyInitialized);
     on<OnRequestScheduleData>(_onRequestScheduleData);
 
     /// create schedule keys of 6 days before and 6 days after.
     List<SchedulePageKey> keys =
-    createScheduleKeys(_currentDateTime, daysAgo: 6, daysAfter: 6);
+        createScheduleKeys(_currentDateTime, daysAgo: 6, daysAfter: 6);
     add(_OnScheduleKeyInitialized(keys));
 
     /// load today schedule.
@@ -46,6 +48,7 @@ class AiringScheduleBloc
   }
 
   final MediaInformationRepository _mediaInfoRepository;
+  final MessageRepository _messageRepository;
 
   final _currentDateTime = DateTime.now();
 
@@ -78,7 +81,7 @@ class AiringScheduleBloc
         await _mediaInfoRepository.refreshAiringSchedule(pageKey.dateTime);
 
     if (result is LoadError) {
-// TODO: error show snack bar
+      _messageRepository.handleException(result.exception);
       return;
     }
 

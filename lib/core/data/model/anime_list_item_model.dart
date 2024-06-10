@@ -25,21 +25,6 @@ class MediaListItemModel with _$MediaListItemModel {
 }
 
 extension MediaListItemModelState on MediaListStatus {
-  String get stateString {
-    switch (this) {
-      case MediaListStatus.current:
-        return 'Tracking';
-      case MediaListStatus.completed:
-        return 'Completed';
-      case MediaListStatus.dropped:
-        return 'Dropped';
-      case MediaListStatus.paused:
-        return 'Paused';
-      case MediaListStatus.planning:
-        return 'Planning';
-    }
-  }
-
   IconData get statusIcon {
     switch (this) {
       case MediaListStatus.current:

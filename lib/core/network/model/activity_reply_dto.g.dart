@@ -9,14 +9,14 @@ part of 'activity_reply_dto.dart';
 _$ActivityReplyDtoImpl _$$ActivityReplyDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$ActivityReplyDtoImpl(
-      id: json['id'] as int?,
-      likeCount: json['likeCount'] as int?,
+      id: (json['id'] as num?)?.toInt(),
+      likeCount: (json['likeCount'] as num?)?.toInt(),
       text: json['text'] as String?,
       user: json['user'] == null
           ? null
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
       isLiked: json['isLiked'] as bool?,
-      createdAt: json['createdAt'] as int?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ActivityReplyDtoImplToJson(
