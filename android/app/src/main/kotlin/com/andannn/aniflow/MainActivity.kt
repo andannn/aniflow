@@ -3,6 +3,7 @@ package com.andannn.aniflow
 import android.content.Intent
 import android.util.Log
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
@@ -10,7 +11,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 
 private const val TAG = "MainActivity"
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterFragmentActivity() {
     private lateinit var authChannel: EventChannel
     private lateinit var methodChannel: MethodChannel
     private var authEventSink: EventChannel.EventSink? = null
