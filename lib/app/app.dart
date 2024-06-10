@@ -93,8 +93,15 @@ class AniFlowAppState extends State<AniFlowApp> {
               seedColor: lightDynamic?.primary ?? brandColor,
             );
             darkColorScheme = ColorScheme.fromSeed(
-              seedColor: darkDynamic?.primary ?? brandColor,
-              brightness: Brightness.dark,
+                seedColor: darkDynamic?.primary ?? brandColor,
+                brightness: Brightness.dark,
+            );
+
+            const pageTransitionsTheme = PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
             );
             return MaterialApp.router(
               restorationScopeId: "root",
@@ -102,10 +109,12 @@ class AniFlowAppState extends State<AniFlowApp> {
               theme: ThemeData(
                 useMaterial3: true,
                 colorScheme: lightColorScheme,
+                pageTransitionsTheme: pageTransitionsTheme,
               ),
               darkTheme: ThemeData(
                 useMaterial3: true,
                 colorScheme: darkColorScheme,
+                pageTransitionsTheme: pageTransitionsTheme,
               ),
               localizationsDelegates: const [
                 AppLocalizations.delegate,
