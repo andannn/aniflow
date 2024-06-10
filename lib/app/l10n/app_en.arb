@@ -148,7 +148,7 @@
 	"dropped": "Dropped",
 	"paused": "Paused",
 	"planning": "Planning",
-	"todayBirthdayCharacter": "今日 {date} 誕生日のキャラクター",
+	"todayBirthdayCharacter": "Characters with a birthday today {date}",
 	"@todayBirthdayCharacter": {
 		"placeholders": {
 			"date": {
