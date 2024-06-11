@@ -2,7 +2,7 @@ import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
+import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_page_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +27,7 @@ void main() {
 
     blocTest(
       'initial state',
-      build: () => AiringScheduleBloc(
+      build: () => AiringSchedulePageBloc(
         mediaInformationRepository,
         userDataRepository,
         MessageRepository(),
@@ -37,7 +37,7 @@ void main() {
 
     blocTest(
       'OnRequestScheduleData event state.',
-      build: () => AiringScheduleBloc(
+      build: () => AiringSchedulePageBloc(
         mediaInformationRepository,
         userDataRepository,
         MessageRepository(),

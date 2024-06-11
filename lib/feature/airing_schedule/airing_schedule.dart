@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
+import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_page_bloc.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state_extension.dart';
 import 'package:aniflow/feature/airing_schedule/bloc/schedule_category.dart';
@@ -30,7 +30,7 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
   Widget buildContent(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          GetIt.instance.get<AiringScheduleBloc>(),
+          GetIt.instance.get<AiringSchedulePageBloc>(),
       lazy: false,
       child: const Scaffold(
         body: _AiringScheduleContent(),
@@ -53,7 +53,7 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
     with TickerProviderStateMixin, ShowSnackBarMixin {
   late final TabController _tabController;
 
-  AiringScheduleBloc? _bloc;
+  AiringSchedulePageBloc? _bloc;
 
   int get _currentPageIndex => _tabController.index;
 
@@ -79,8 +79,8 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
 
   @override
   Widget build(BuildContext context) {
-    _bloc = context.read<AiringScheduleBloc>();
-    return BlocBuilder<AiringScheduleBloc, AiringScheduleState>(
+    _bloc = context.read<AiringSchedulePageBloc>();
+    return BlocBuilder<AiringSchedulePageBloc, AiringScheduleState>(
       builder: (context, state) {
         final scheduleKeys = state.scheduleKeys;
         final schedulePages = state.schedulePages;
@@ -193,7 +193,7 @@ class _TimeLineItemState extends State<_TimeLineItem> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final userTitleLanguage =
-        context.read<AiringScheduleBloc>().state.userTitleLanguage;
+        context.read<AiringSchedulePageBloc>().state.userTitleLanguage;
 
     return Padding(
       padding: const EdgeInsets.only(left: 16),

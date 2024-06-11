@@ -26,9 +26,9 @@ class OnRequestScheduleData extends AiringScheduleEvent {
 }
 
 @injectable
-class AiringScheduleBloc
+class AiringSchedulePageBloc
     extends Bloc<AiringScheduleEvent, AiringScheduleState> {
-  AiringScheduleBloc(
+  AiringSchedulePageBloc(
     this._mediaInfoRepository,
     UserDataRepository preferences,
     this._messageRepository,
