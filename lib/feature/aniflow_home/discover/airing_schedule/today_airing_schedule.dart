@@ -86,7 +86,7 @@ class _TimeLineItem extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, bottom: 48),
+          padding: const EdgeInsets.only(left: 16.0, top: 48),
           child: Row(
             children: category.schedules
                 .map((e) => e.animeModel)
@@ -97,15 +97,22 @@ class _TimeLineItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 0,
+          top: 0,
           left: 0,
           right: 0,
-          child: SizedBox(
+          child: Container(
             height: 48,
+            alignment: Alignment.bottomCenter,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  context.materialLocal
+                      .formatTimeOfDay(category.timeOfDayHeader!),
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                const SizedBox(width: 16),
                 Row(
                   children: [
                     Icon(
@@ -118,12 +125,6 @@ class _TimeLineItem extends StatelessWidget {
                       ),
                     )
                   ],
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  context.materialLocal
-                      .formatTimeOfDay(category.timeOfDayHeader!),
-                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],
             ),
