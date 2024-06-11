@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/feature/aniflow_home/auth/auth_dialog.dart';
+import 'package:aniflow/feature/aniflow_home/discover/airing_schedule/today_airing_schedule.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_character.dart';
 import 'package:aniflow/feature/aniflow_home/discover/discover_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/discover_ui_state.dart';
@@ -115,6 +116,9 @@ class DiscoverScreen extends StatelessWidget {
                 ),
                 const SliverToBoxAdapter(
                   child: BirthdayCharactersBlocProvider(),
+                ),
+                const SliverToBoxAdapter(
+                  child: TodayAiringScheduleBlocProvider(),
                 ),
                 ...MediaCategory.getAllCategoryByType(state.currentMediaType)
                     .map(

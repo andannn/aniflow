@@ -18,12 +18,24 @@ class SchedulePageReady extends SchedulePageState {
 
   final List<AiringScheduleAndAnimeModel> schedules;
 
-  List<ScheduleCategory> get categories => _buildCategories();
+  List<ScheduleCategory> get categories => schedules.toScheduleCategory();
 
   @override
   List<Object?> get props => [schedules];
+}
 
-  List<ScheduleCategory> _buildCategories() {
+class SchedulePageError extends SchedulePageState {
+  final Exception exception;
+
+  SchedulePageError({required this.exception});
+
+  @override
+  List<Object?> get props => [exception];
+}
+
+extension ScheduleCategoryEx on List<AiringScheduleAndAnimeModel> {
+  List<ScheduleCategory> toScheduleCategory() {
+    final schedules = this;
     Map<int, ScheduleCategory> group = schedules.groupFoldBy((schedule) {
       return schedule.airAtTimeOfDay.hour;
     }, (previousCategory, schedule) {
@@ -38,13 +50,4 @@ class SchedulePageReady extends SchedulePageState {
 
     return group.values.toList();
   }
-}
-
-class SchedulePageError extends SchedulePageState {
-  final Exception exception;
-
-  SchedulePageError({required this.exception});
-
-  @override
-  List<Object?> get props => [exception];
 }

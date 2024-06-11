@@ -301,6 +301,24 @@ class MediaInformationRepository {
         .toList();
   }
 
+  Stream<List<AiringScheduleAndAnimeModel>>
+      getAiringScheduleAndAnimeByDateTimeStream(DateTime dateTime) {
+    final (startMs, endMs) = TimeUtil.getTimeRangeOfTheTargetDay(dateTime);
+    final entities = airingScheduleDao
+        .getAiringSchedulesByTimeRangeStream(timeRange: (startMs, endMs));
+
+    return entities.map(
+      (e) => e
+          .map(
+            (e) => AiringScheduleAndAnimeModel(
+              airingSchedule: e.airingSchedule.toModel(),
+              animeModel: e.mediaEntity.toModel(),
+            ),
+          )
+          .toList(),
+    );
+  }
+
   /// Refresh airing schedule data in range of [now - dayAgo, not + dayAfter].
   /// The ani list api restrict the count to 50. so maybe we can only get
   /// one or two days airing schedule when using this method.
