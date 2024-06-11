@@ -124,5 +124,6 @@
 	"dropped": "Afgebroken",
 	"paused": "Gepauzeerd",
 	"planning": "Plannen",
-	"todayBirthdayCharacter": "Vandaag is de verjaardag van het personage {date}"
+	"todayBirthdayCharacter": "Vandaag is de verjaardag van het personage {date}",
+	"animeSchedule": "Schema voor {date}"
 }

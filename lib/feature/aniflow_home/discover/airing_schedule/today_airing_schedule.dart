@@ -1,3 +1,4 @@
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -7,6 +8,7 @@ import 'package:aniflow/feature/airing_schedule/schedule_category.dart';
 import 'package:aniflow/feature/airing_schedule/schedule_page_state.dart';
 import 'package:aniflow/feature/aniflow_home/discover/airing_schedule/today_airing_schedule_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/airing_schedule/today_airing_schedule_state.dart';
+import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_character.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -36,16 +38,28 @@ class TodayAiringSchedule extends StatelessWidget {
           return const SizedBox();
         }
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: IntrinsicHeight(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: categories.map(_buildItem).toList(),
+        return Column(
+          children: [
+            CategoryTitleBar(
+              title: context.appLocal.animeSchedule(
+                context.materialLocal.formatMediumDate(DateTime.now()),
+              ),
+              onMoreClick: () {
+                RootRouterDelegate.get().navigateToAiringSchedule();
+              },
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Row(
+                    children: categories.map(_buildItem).toList(),
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         );
       },
     );

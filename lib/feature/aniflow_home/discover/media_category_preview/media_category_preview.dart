@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../birthday_characters/birthday_character.dart';
+
 class MediaPreviewBlocProvider extends StatelessWidget {
   const MediaPreviewBlocProvider({
     required this.mediaCategory,
@@ -76,17 +78,18 @@ class _MediaCategoryPreviewContentState
 }
 
 class _MediaCategoryPreview extends StatelessWidget {
-  const _MediaCategoryPreview(
-      {required this.category,
-      required this.animeModels,
-      required this.isLoading,
-      this.onMoreClick,
-      this.onAnimeClick});
+  const _MediaCategoryPreview({
+    required this.category,
+    required this.animeModels,
+    required this.isLoading,
+    required this.onMoreClick,
+    this.onAnimeClick,
+  });
 
   final MediaCategory category;
   final bool isLoading;
   final List<MediaModel> animeModels;
-  final VoidCallback? onMoreClick;
+  final VoidCallback onMoreClick;
   final Function(String animeId)? onAnimeClick;
 
   @override
@@ -109,7 +112,10 @@ class _MediaCategoryPreview extends StatelessWidget {
 
     return Column(
       children: [
-        _buildTitleBar(context),
+        CategoryTitleBar(
+          title: category.translated(context),
+          onMoreClick: onMoreClick,
+        ),
         const SizedBox(height: 4),
         Container(
           child: isLoading && animeModels.isEmpty
@@ -133,23 +139,6 @@ class _MediaCategoryPreview extends StatelessWidget {
                 ),
         ),
       ],
-    );
-  }
-
-  Widget _buildTitleBar(BuildContext context) {
-    String title = category.translated(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: Row(children: [
-        Text(title, style: Theme.of(context).textTheme.titleMedium),
-        const Expanded(flex: 1, child: SizedBox()),
-        TextButton(
-          onPressed: onMoreClick,
-          child: Text(
-            context.materialLocal.moreButtonTooltip,
-          ),
-        ),
-      ]),
     );
   }
 
