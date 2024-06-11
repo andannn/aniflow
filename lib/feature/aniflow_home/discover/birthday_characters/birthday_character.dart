@@ -121,7 +121,14 @@ class BirthdayCharactersWidget extends StatelessWidget {
       visible: models.isNotEmpty,
       builder: () => Column(
         children: [
-          _buildTitleBar(context),
+          CategoryTitleBar(
+            title: context.appLocal.todayBirthdayCharacter(
+              context.materialLocal.formatMediumDate(DateTime.now()),
+            ),
+            onMoreClick: () {
+              RootRouterDelegate.get().navigateToBirthdayCharacterPage();
+            },
+          ),
           const SizedBox(height: 4),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -147,22 +154,30 @@ class BirthdayCharactersWidget extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildTitleBar(BuildContext context) {
+class CategoryTitleBar extends StatelessWidget {
+  const CategoryTitleBar({
+    super.key,
+    required this.title,
+    required this.onMoreClick,
+  });
+
+  final String title;
+  final VoidCallback onMoreClick;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(children: [
         AutoSizeText(
-          context.appLocal.todayBirthdayCharacter(
-            context.materialLocal.formatMediumDate(DateTime.now()),
-          ),
+          title,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const Expanded(flex: 1, child: SizedBox()),
         TextButton(
-          onPressed: () {
-            RootRouterDelegate.get().navigateToBirthdayCharacterPage();
-          },
+          onPressed: onMoreClick,
           child: Text(
             context.materialLocal.moreButtonTooltip,
           ),

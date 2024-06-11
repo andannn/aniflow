@@ -1,18 +1,8 @@
-import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/message.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
-import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_bloc.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_state_extension.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/schedule_category.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_key.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day.dart';
+import 'package:aniflow/feature/airing_schedule/schedule_page_key.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class AiringSchedule extends Page {
   const AiringSchedule({super.key});
@@ -28,13 +18,8 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) =>
-          GetIt.instance.get<AiringScheduleBloc>(),
-      lazy: false,
-      child: const Scaffold(
-        body: _AiringScheduleContent(),
-      ),
+    return const Scaffold(
+      body: _AiringScheduleContent(),
     );
   }
 
@@ -53,9 +38,10 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
     with TickerProviderStateMixin, ShowSnackBarMixin {
   late final TabController _tabController;
 
-  AiringScheduleBloc? _bloc;
-
-  int get _currentPageIndex => _tabController.index;
+  List<SchedulePageKey> keys = SchedulePageKey.createScheduleKeys(
+      DateTime.now(),
+      daysAgo: 6,
+      daysAfter: 6);
 
   final int _pageCount = 13;
   final int _initPageIndex = 6;
@@ -65,10 +51,6 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
     super.initState();
     _tabController =
         TabController(initialIndex: _initPageIndex, length: 13, vsync: this);
-
-    _tabController.addListener(() {
-      _bloc?.add(OnRequestScheduleData(_currentPageIndex));
-    });
   }
 
   @override
@@ -79,32 +61,21 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
 
   @override
   Widget build(BuildContext context) {
-    _bloc = context.read<AiringScheduleBloc>();
-    return BlocBuilder<AiringScheduleBloc, AiringScheduleState>(
-      builder: (context, state) {
-        final scheduleKeys = state.scheduleKeys;
-        final schedulePages = state.schedulePages;
-
-        logger.d(schedulePages);
-        if (scheduleKeys.isEmpty) {
-          return const SizedBox();
-        }
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(context.appLocal.schedule),
-            bottom: _buildAiringScheduleTabs(context, scheduleKeys),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.appLocal.schedule),
+        bottom: _buildAiringScheduleTabs(context, keys),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: List.generate(
+          _pageCount,
+          (index) => AiringScheduleOfDayBlocProvider(
+            key: ValueKey("airing_schedule_page_$index"),
+            dateTime: keys[index].dateTime,
           ),
-          body: TabBarView(
-            controller: _tabController,
-            children: List.generate(
-              _pageCount,
-              (index) => _SchedulePageWidget(
-                schedulePage: schedulePages[index],
-              ),
-            ),
-          ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -133,129 +104,6 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
         child: Text(localization.formatMediumDate(key.dateTime)),
       ),
-    );
-  }
-}
-
-class _SchedulePageWidget extends StatelessWidget {
-  const _SchedulePageWidget({required this.schedulePage});
-
-  final SchedulePageState schedulePage;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (schedulePage) {
-      case SchedulePageInit():
-      case SchedulePageLoading():
-        return _buildLoadingWidget();
-      case SchedulePageError():
-        return const Placeholder();
-      case SchedulePageReady(schedules: final _):
-        final categories = (schedulePage as SchedulePageReady).categories;
-        return CustomScrollView(
-          slivers: [
-            SliverList.builder(
-              itemCount: categories.length,
-              itemBuilder: (context, index) => _TimeLineItem(
-                category: categories[index],
-              ),
-            )
-          ],
-        );
-    }
-  }
-
-  Widget _buildLoadingWidget() {
-    return const Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(height: 10),
-        LoadingIndicator(isLoading: true),
-      ],
-    );
-  }
-}
-
-class _TimeLineItem extends StatefulWidget {
-  const _TimeLineItem({required this.category});
-
-  final ScheduleCategory category;
-
-  @override
-  State<_TimeLineItem> createState() => _TimeLineItemState();
-}
-
-class _TimeLineItemState extends State<_TimeLineItem> {
-  @override
-  Widget build(BuildContext context) {
-    final localization = Localizations.of<MaterialLocalizations>(
-        context, MaterialLocalizations)!;
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final userTitleLanguage =
-        context.read<AiringScheduleBloc>().state.userTitleLanguage;
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(size: 16, Icons.circle_outlined, color: colorScheme.primary),
-              const SizedBox(width: 16),
-              Text(
-                localization.formatTimeOfDay(widget.category.timeOfDayHeader!),
-                style: textTheme.labelLarge,
-              ),
-            ],
-          ),
-          Stack(
-            children: [
-              Positioned.fill(
-                child: _buildTimeLineDecoration(
-                  color: colorScheme.tertiary.withAlpha(128),
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.category.schedules.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final schedule = widget.category.schedules[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
-                    child: AiringMediaItem(
-                      model: schedule,
-                      userTitleLanguage: userTitleLanguage,
-                      onClick: () {
-                        RootRouterDelegate.get()
-                            .navigateToDetailMedia(schedule.animeModel.id);
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimeLineDecoration({required Color color}) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const SizedBox(width: 6),
-        Container(
-          width: 4,
-          color: color,
-        ),
-      ],
     );
   }
 }
