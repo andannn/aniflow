@@ -51,7 +51,7 @@ import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i18;
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart'
     as _i81;
-import 'package:aniflow/feature/airing_schedule/bloc/airing_schedule_page_bloc.dart'
+import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day_bloc.dart'
     as _i55;
 import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart' as _i58;
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_bloc.dart'
@@ -383,9 +383,13 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i12.MessageRepository>(),
           activityId,
         ));
-    gh.factory<_i55.AiringSchedulePageBloc>(() => _i55.AiringSchedulePageBloc(
+    gh.factoryParam<_i55.AiringScheduleOfDayBloc, DateTime, dynamic>((
+      _dateTime,
+      _,
+    ) =>
+        _i55.AiringScheduleOfDayBloc(
+          _dateTime,
           gh<_i32.MediaInformationRepository>(),
-          gh<_i19.UserDataRepository>(),
           gh<_i12.MessageRepository>(),
         ));
     gh.factoryParam<_i56.AnimePageBloc, _i57.MediaCategory, dynamic>((

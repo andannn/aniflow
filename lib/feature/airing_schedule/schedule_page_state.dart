@@ -1,6 +1,6 @@
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:aniflow/core/data/model/extension/airing_schedule_and_anime_model_extension.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/schedule_category.dart';
+import 'package:aniflow/feature/airing_schedule/schedule_category.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 

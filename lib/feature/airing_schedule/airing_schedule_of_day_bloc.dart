@@ -1,7 +1,7 @@
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
-import 'package:aniflow/feature/airing_schedule/bloc/schedule_page_state.dart';
+import 'package:aniflow/feature/airing_schedule/schedule_page_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -31,6 +31,14 @@ class AiringScheduleOfDayBloc
   final DateTime _dateTime;
 
   void _init() async {
+    final cachedAiringSchedules = await _mediaInfoRepository
+        .getAiringScheduleAndAnimeByDateTime(_dateTime);
+    if (cachedAiringSchedules.isNotEmpty) {
+      add(_OnStateChangedEvent(
+          SchedulePageReady(schedules: cachedAiringSchedules)));
+      return;
+    }
+
     /// Change to loading state.
     add(_OnStateChangedEvent(SchedulePageLoading()));
 
