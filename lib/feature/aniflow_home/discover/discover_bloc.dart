@@ -126,6 +126,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     }
 
     _refreshBirthdayCharacters();
+    _refreshAiringSchedule();
   }
 
   final AuthRepository _authRepository;
@@ -153,6 +154,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     return Future.wait([
       _refreshAllMediaPreview(),
       _refreshBirthdayCharacters(),
+      _refreshAiringSchedule(),
       if (userId != null) _refreshAllMediaList(userId) else Future.value(),
     ]);
   }
@@ -190,6 +192,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       loadType: const Refresh(12),
     );
     finishLoading('_refreshBirthdayCharacters', result);
+  }
+
+  Future _refreshAiringSchedule() async {
+    startLoading('_refreshAiringSchedule');
+    final result =
+        await _mediaInfoRepository.refreshAiringSchedule(DateTime.now());
+    finishLoading('_refreshAiringSchedule', result);
   }
 
   @override
