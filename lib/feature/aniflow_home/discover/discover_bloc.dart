@@ -74,6 +74,33 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
 
+    _init();
+  }
+
+  final AuthRepository _authRepository;
+  final MediaInformationRepository _mediaInfoRepository;
+  final MediaListRepository _mediaListRepository;
+  final UserDataRepository _userDataRepository;
+  final MessageRepository _messageRepository;
+  final CharacterRepository _characterRepository;
+
+  StreamSubscription? _userDataSub;
+  StreamSubscription? _settingsSub;
+  StreamSubscription? _mediaTypeSub;
+
+  void _init() async {
+    /// calculate the current anime season.
+    final AnimeSeasonParam currentAnimeSeasonParam =
+        AnimeSeasonUtil.getAnimeSeasonByDataTime(DateTime.now());
+
+    /// get the saved anime season.
+    final savedAnimeSeasonParam = _userDataRepository.getAnimeSeasonParam();
+
+    if (currentAnimeSeasonParam != savedAnimeSeasonParam) {
+      // season changed.
+      await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
+    }
+
     _userDataSub ??= _authRepository.getAuthedUserStream().listen(
       (userDataNullable) {
         add(_OnUserDataChanged(userDataNullable));
@@ -95,6 +122,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       },
     );
 
+    stream.map((e) => e.currentMediaType).distinct().listen((type) {
+      _refreshAllMediaPreview();
+    });
+
     stream
         .map((e) => e.userData?.id)
         .distinct()
@@ -107,38 +138,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       unawaited(_authRepository.syncUserCondition());
     });
 
-    stream.map((e) => e.currentMediaType).distinct().listen((type) async {
-      await _refreshAllMediaPreview();
-    });
-
-    /// calculate the current anime season.
-    final AnimeSeasonParam currentAnimeSeasonParam =
-        AnimeSeasonUtil.getAnimeSeasonByDataTime(DateTime.now());
-
-    /// get the saved anime season.
-    final savedAnimeSeasonParam = _userDataRepository.getAnimeSeasonParam();
-
-    if (currentAnimeSeasonParam != savedAnimeSeasonParam) {
-      // season changed.
-      unawaited(
-        _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam),
-      );
-    }
-
-    _refreshBirthdayCharacters();
-    _refreshAiringSchedule();
+    unawaited(_refreshBirthdayCharacters());
+    unawaited(_refreshAiringSchedule());
   }
-
-  final AuthRepository _authRepository;
-  final MediaInformationRepository _mediaInfoRepository;
-  final MediaListRepository _mediaListRepository;
-  final UserDataRepository _userDataRepository;
-  final MessageRepository _messageRepository;
-  final CharacterRepository _characterRepository;
-
-  StreamSubscription? _userDataSub;
-  StreamSubscription? _settingsSub;
-  StreamSubscription? _mediaTypeSub;
 
   @override
   Future<void> close() {
