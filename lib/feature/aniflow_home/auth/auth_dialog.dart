@@ -15,6 +15,15 @@ enum _OptionColumn {
   // editProfile,
 }
 
+List<_OptionColumn> _createList(bool isLogin) => isLogin
+    ? [
+        _OptionColumn.settings,
+        _OptionColumn.notification,
+      ]
+    : [
+        _OptionColumn.settings,
+      ];
+
 Future showAuthDialog(BuildContext context) => showDialog(
       context: context,
       builder: (BuildContext context) => const AuthDialog(),
@@ -49,9 +58,8 @@ class _AuthDialogContent extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildUserInfoWidget(context, userData, isLoggedIn),
-                const Divider(height: 12),
                 const SizedBox(height: 4),
-                for (final option in _OptionColumn.values)
+                for (final option in _createList(isLoggedIn))
                   _buildOptionColumnItem(context, option, userData),
                 Align(
                   alignment: Alignment.centerRight,
@@ -72,15 +80,20 @@ class _AuthDialogContent extends StatelessWidget {
     final userName = userData?.name;
 
     if (isLoggedIn) {
-      return Row(
+      return Column(
         children: [
-          buildAvatarIcon(context, avatarUrl!),
-          const SizedBox(width: 8),
-          Text(
-            userName!,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant),
-          )
+          Row(
+            children: [
+              buildAvatarIcon(context, avatarUrl!),
+              const SizedBox(width: 8),
+              Text(
+                userName!,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+              )
+            ],
+          ),
+          const Divider(height: 12),
         ],
       );
     } else {
