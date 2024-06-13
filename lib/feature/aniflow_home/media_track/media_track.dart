@@ -2,7 +2,7 @@ import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
@@ -128,13 +128,13 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
   }
 
   Widget? _buildMediaListItem(
-      BuildContext context, MediaListItemModel item, bool showNewBadge) {
+      BuildContext context, MediaWithListModel item, bool showNewBadge) {
     final language =
         context.read<TrackBloc>().state.settings?.userTitleLanguage ??
             UserTitleLanguage.native;
 
     return Padding(
-      key: ValueKey('anime_track_list_item_${item.id}'),
+      key: ValueKey('anime_track_list_item_$item'),
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
       child: MediaListItem(
         model: item,
@@ -142,12 +142,12 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
         showNewBadge: showNewBadge,
         onMarkWatchedClick: () {
           context.read<TrackBloc>().add(OnAnimeMarkWatched(
-              animeId: item.animeModel!.id,
-              progress: item.progress! + 1,
-              totalEpisode: item.animeModel!.episodes));
+              animeId: item.mediaModel.id,
+              progress: item.mediaListModel!.progress! + 1,
+              totalEpisode: item.mediaModel.episodes));
         },
         onClick: () {
-          RootRouterDelegate.get().navigateToDetailMedia(item.animeModel!.id);
+          RootRouterDelegate.get().navigateToDetailMedia(item.mediaModel.id);
         },
       ),
     );

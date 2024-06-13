@@ -1,5 +1,4 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
-import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -19,7 +18,6 @@ class MediaListItemModel with _$MediaListItemModel {
     String? notes,
     int? repeat,
     @Default(false) bool private,
-    MediaModel? animeModel,
   }) = _MediaListItemModel;
 
 }

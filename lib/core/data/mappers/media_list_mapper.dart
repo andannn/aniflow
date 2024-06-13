@@ -1,6 +1,7 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/data/mappers/media_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
@@ -28,16 +29,16 @@ extension MediaListMapper on MediaListEntity {
   }
 }
 
-extension MediaListAndMediaRelationMapper on MediaListAndMediaRelation {
-  MediaListItemModel toModel() {
-    return mediaListEntity
-        .toModel()
-        .copyWith(animeModel: mediaEntity.toModel());
+extension MediaListAndMediaRelationMapper1 on MediaListAndMediaRelation {
+  MediaWithListModel toModel1() {
+    return MediaWithListModel(
+        mediaModel: mediaEntity.toModel(),
+        mediaListModel: mediaListEntity?.toModel());
   }
 }
 
-extension MediaListAndMediaRelationMapper1 on MediaListDto {
-  MediaListItemModel toModel() {
-    return toRelation().toModel();
+extension MediaListAndMediaRelationMapper3 on MediaListDto {
+  MediaWithListModel toModel1() {
+    return toRelation().toModel1();
   }
 }

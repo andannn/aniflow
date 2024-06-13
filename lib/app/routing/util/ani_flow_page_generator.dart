@@ -79,10 +79,10 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return ActivityRepliesPage(key: ValueKey(toString()), activityId: id);
       case ImagePreviewRoutePath(source: final source):
         return ImagePreviewPage(key: ValueKey(toString()), source: source);
-      case MediaListUpdateRoutePath(mediaListId: final mediaListId):
+      case MediaListUpdateRoutePath(mediaId: final mediaId):
         return UpdateMediaListPage(
           key: ValueKey(toString()),
-          mediaListId: mediaListId,
+          mediaId: mediaId,
         );
       case BirthdayCharacterPagePath():
         return BirthdayCharactersPage(key: ValueKey(toString()));

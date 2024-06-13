@@ -2,8 +2,8 @@
 
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,7 +18,7 @@ class MediaListItem extends StatelessWidget {
     required this.language,
   });
 
-  final MediaListItemModel model;
+  final MediaWithListModel model;
   final VoidCallback onClick;
   final VoidCallback onMarkWatchedClick;
   final UserTitleLanguage language;
@@ -36,10 +36,11 @@ class MediaListItem extends StatelessWidget {
           onWatchedClick: onMarkWatchedClick,
           canSlide: hasNextReleasingEpisode,
           child: MediaRowItem(
-            model: model.animeModel!,
+            model: model.mediaModel,
             language: language,
             showNewBadge: showNewBadge,
-            watchingInfo: _buildWatchingInfoLabel(context, model),
+            watchingInfo:
+                _buildWatchingInfoLabel(context, model),
             titleMaxLines: null,
             watchInfoTextColor: model.hasNextReleasedEpisode
                 ? colorScheme.primary
@@ -52,16 +53,16 @@ class MediaListItem extends StatelessWidget {
   }
 
   String _buildWatchingInfoLabel(
-      BuildContext context, MediaListItemModel model) {
+      BuildContext context, MediaWithListModel model) {
     final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     String label = '';
     if (hasNextReleasingEpisode) {
-      label = context.appLocal.nextEpToWatch(model.progress! + 1);
+      label = context.appLocal.nextEpToWatch(model.mediaListModel!.progress! + 1);
     } else {
-      if (model.animeModel!.nextAiringEpisode != null) {
+      if (model.mediaModel.nextAiringEpisode != null) {
         label = context.appLocal.nextAiringInfo(
-            model.animeModel!.nextAiringEpisode!,
-            model.animeModel!.getReleasingTimeString(context));
+            model.mediaModel.nextAiringEpisode!,
+            model.mediaModel.getReleasingTimeString(context));
       }
     }
     return label;

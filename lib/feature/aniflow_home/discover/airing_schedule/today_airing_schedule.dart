@@ -140,7 +140,9 @@ class _TimeLineItem extends StatelessWidget {
     return SizedBox(
       width: 160,
       child: MediaPreviewItem(
-        onClick: () {},
+        onClick: () {
+          RootRouterDelegate.get().navigateToDetailMedia(media.id);
+        },
         coverImage: media.coverImage!.extraLarge!,
         titleVerticalPadding: 5,
         title: media.title?.getTitle(userTitleLanguage) ?? '',

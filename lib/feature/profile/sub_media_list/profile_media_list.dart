@@ -2,8 +2,8 @@
 
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/feature/profile/profile_bloc.dart';
@@ -59,11 +59,11 @@ class ProfileMediaListTabPage extends StatefulWidget {
 }
 
 class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
-  PagingState<List<MediaListItemModel>>? watchingAnime;
-  PagingState<List<MediaListItemModel>>? droppedAnime;
-  PagingState<List<MediaListItemModel>>? completeAnime;
-  PagingState<List<MediaListItemModel>>? readingManga;
-  PagingState<List<MediaListItemModel>>? droppedManga;
+  PagingState<List<MediaWithListModel>>? watchingAnime;
+  PagingState<List<MediaWithListModel>>? droppedAnime;
+  PagingState<List<MediaWithListModel>>? completeAnime;
+  PagingState<List<MediaWithListModel>>? readingManga;
+  PagingState<List<MediaWithListModel>>? droppedManga;
 
   bool get isAnime => widget.mediaType == MediaType.anime;
 
@@ -166,14 +166,14 @@ class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
   }
 
   Widget _buildGridItems(
-      BuildContext context, MediaList type, MediaListItemModel model) {
+      BuildContext context, MediaList type, MediaWithListModel model) {
     return MediaPreviewItem(
-      coverImage: model.animeModel!.coverImage?.large ?? '',
-      title: model.animeModel!.title!.getTitle(
+      coverImage: model.mediaModel.coverImage?.large ?? '',
+      title: model.mediaModel.title!.getTitle(
           context.read<ProfileBloc>().userTitleLanguage),
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.get().navigateToDetailMedia(model.animeModel!.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.mediaModel.id);
       },
     );
   }

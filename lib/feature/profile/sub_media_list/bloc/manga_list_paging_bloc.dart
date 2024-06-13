@@ -4,14 +4,14 @@ import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class ReadingMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
+class ReadingMangaListPagingBloc extends PagingBloc<MediaWithListModel> {
   ReadingMangaListPagingBloc(
     @factoryParam this.userId,
     this._mediaListRepository,
@@ -23,7 +23,7 @@ class ReadingMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
   final int perPageCount;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+  Future<LoadResult<List<MediaWithListModel>>> loadPage({
     required int page,
     bool isRefresh = false,
     CancelToken? cancelToken,
@@ -40,7 +40,7 @@ class ReadingMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
 }
 
 @injectable
-class DroppedMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
+class DroppedMangaListPagingBloc extends PagingBloc<MediaWithListModel> {
   DroppedMangaListPagingBloc(
     @factoryParam this.userId,
     this._mediaListRepository,
@@ -52,7 +52,7 @@ class DroppedMangaListPagingBloc extends PagingBloc<MediaListItemModel> {
   final int perPageCount;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+  Future<LoadResult<List<MediaWithListModel>>> loadPage({
     required int page,
     bool isRefresh = false,
     CancelToken? cancelToken,
