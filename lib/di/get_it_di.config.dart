@@ -246,11 +246,11 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i19.UserDataRepository>(),
         ));
     gh.factoryParam<_i34.MediaListUpdateBloc, String, dynamic>((
-      _mediaListId,
+      _mediaId,
       _,
     ) =>
         _i34.MediaListUpdateBloc(
-          _mediaListId,
+          _mediaId,
           gh<_i33.MediaListRepository>(),
         ));
     gh.factoryParam<_i35.NextToWatchBloc, String?, _i36.MediaType>((

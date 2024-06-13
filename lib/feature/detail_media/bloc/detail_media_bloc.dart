@@ -13,6 +13,7 @@ import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
@@ -106,6 +107,18 @@ class Error<T> extends LoadingState<T> {
   final String? searchUrl;
 
   Error(this.exception, this.searchUrl);
+}
+
+extension DetailMediaUiStateEx on DetailMediaUiState {
+  bool get hasNextReleasedEpisode {
+    if (mediaListItem == null) return false;
+    if (detailAnimeModel == null) return false;
+
+    return MediaWithListModel(
+      mediaModel: detailAnimeModel!,
+      mediaListModel: mediaListItem,
+    ).hasNextReleasedEpisode;
+  }
 }
 
 @injectable
@@ -202,7 +215,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
     if (progress != null && title != null) {
       final hasNextReleasingEpisode =
-          change.nextState.mediaListItem?.hasNextReleasedEpisode == true;
+          change.nextState.hasNextReleasedEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
       final animeId = change.nextState.detailAnimeModel!.id;
       if (nextProgress != null) {
@@ -344,22 +357,21 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   ) async {
     logger.d('_onMarkWatchedClick.');
     final listItem = state.mediaListItem;
-    if (listItem == null) {
-      logger.d('_onMarkWatchedClick. listItem is null.');
+    final anime = state.detailAnimeModel;
+    if (listItem == null || anime == null) {
+      logger.d('_onMarkWatchedClick. listItem $listItem, anime $anime.');
       return;
     }
 
     final currentProgress = listItem.progress ?? 0;
     final nextEpisode = currentProgress + 1;
-    final isFinished = nextEpisode == listItem.animeModel?.episodes;
+    final isFinished = nextEpisode == anime.episodes;
     final MediaListStatus status =
         isFinished ? MediaListStatus.completed : MediaListStatus.current;
 
     add(_OnLoadingStateChanged(isLoading: true));
     final result = await _mediaListRepository.updateMediaList(
-        animeId: listItem.animeModel!.id,
-        status: status,
-        progress: nextEpisode);
+        animeId: anime.id, status: status, progress: nextEpisode);
     add(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {

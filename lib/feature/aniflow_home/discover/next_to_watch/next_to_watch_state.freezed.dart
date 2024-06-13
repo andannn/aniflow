@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$NextToWatchState {
-  List<MediaListItemModel> get nextToWatchMediaList =>
+  List<MediaWithListModel> get nextToWatchMediaList =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $NextToWatchStateCopyWith<$Res> {
           NextToWatchState value, $Res Function(NextToWatchState) then) =
       _$NextToWatchStateCopyWithImpl<$Res, NextToWatchState>;
   @useResult
-  $Res call({List<MediaListItemModel> nextToWatchMediaList});
+  $Res call({List<MediaWithListModel> nextToWatchMediaList});
 }
 
 /// @nodoc
@@ -52,7 +52,7 @@ class _$NextToWatchStateCopyWithImpl<$Res, $Val extends NextToWatchState>
       nextToWatchMediaList: null == nextToWatchMediaList
           ? _value.nextToWatchMediaList
           : nextToWatchMediaList // ignore: cast_nullable_to_non_nullable
-              as List<MediaListItemModel>,
+              as List<MediaWithListModel>,
     ) as $Val);
   }
 }
@@ -65,7 +65,7 @@ abstract class _$$NextToWatchStateImplCopyWith<$Res>
       __$$NextToWatchStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<MediaListItemModel> nextToWatchMediaList});
+  $Res call({List<MediaWithListModel> nextToWatchMediaList});
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class __$$NextToWatchStateImplCopyWithImpl<$Res>
       nextToWatchMediaList: null == nextToWatchMediaList
           ? _value._nextToWatchMediaList
           : nextToWatchMediaList // ignore: cast_nullable_to_non_nullable
-              as List<MediaListItemModel>,
+              as List<MediaWithListModel>,
     ));
   }
 }
@@ -94,13 +94,13 @@ class __$$NextToWatchStateImplCopyWithImpl<$Res>
 
 class _$NextToWatchStateImpl implements _NextToWatchState {
   const _$NextToWatchStateImpl(
-      {final List<MediaListItemModel> nextToWatchMediaList = const []})
+      {final List<MediaWithListModel> nextToWatchMediaList = const []})
       : _nextToWatchMediaList = nextToWatchMediaList;
 
-  final List<MediaListItemModel> _nextToWatchMediaList;
+  final List<MediaWithListModel> _nextToWatchMediaList;
   @override
   @JsonKey()
-  List<MediaListItemModel> get nextToWatchMediaList {
+  List<MediaWithListModel> get nextToWatchMediaList {
     if (_nextToWatchMediaList is EqualUnmodifiableListView)
       return _nextToWatchMediaList;
     // ignore: implicit_dynamic_type
@@ -135,11 +135,11 @@ class _$NextToWatchStateImpl implements _NextToWatchState {
 
 abstract class _NextToWatchState implements NextToWatchState {
   const factory _NextToWatchState(
-          {final List<MediaListItemModel> nextToWatchMediaList}) =
+          {final List<MediaWithListModel> nextToWatchMediaList}) =
       _$NextToWatchStateImpl;
 
   @override
-  List<MediaListItemModel> get nextToWatchMediaList;
+  List<MediaWithListModel> get nextToWatchMediaList;
   @override
   @JsonKey(ignore: true)
   _$$NextToWatchStateImplCopyWith<_$NextToWatchStateImpl> get copyWith =>

@@ -1,6 +1,6 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
@@ -48,7 +48,7 @@ class _CompletedAnimePageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompleteAnimeListPagingBloc,
-        PagingState<List<MediaListItemModel>>>(builder: (context, state) {
+        PagingState<List<MediaWithListModel>>>(builder: (context, state) {
       final pagingState = state;
       return Scaffold(
         appBar: AppBar(
@@ -60,7 +60,7 @@ class _CompletedAnimePageContent extends StatelessWidget {
             },
           ),
         ),
-        body: PagingContent<MediaListItemModel, CompleteAnimeListPagingBloc>(
+        body: PagingContent<MediaWithListModel, CompleteAnimeListPagingBloc>(
           pagingState: pagingState,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -72,13 +72,13 @@ class _CompletedAnimePageContent extends StatelessWidget {
     });
   }
 
-  Widget _buildListItems(BuildContext context, MediaListItemModel model) {
+  Widget _buildListItems(BuildContext context, MediaWithListModel model) {
     return MediaPreviewItem(
-      coverImage: model.animeModel!.coverImage?.large ?? '',
-      title: model.animeModel!.title?.native ?? '',
+      coverImage: model.mediaModel.coverImage?.large ?? '',
+      title: model.mediaModel.title?.native ?? '',
       textStyle: Theme.of(context).textTheme.labelMedium,
       onClick: () {
-        RootRouterDelegate.get().navigateToDetailMedia(model.animeModel!.id);
+        RootRouterDelegate.get().navigateToDetailMedia(model.mediaModel.id);
       },
     );
   }

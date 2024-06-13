@@ -26,28 +26,28 @@ class StatusModel {
 }
 
 class UpdateMediaListPage extends Page<MediaListModifyResult> {
-  final String mediaListId;
+  final String mediaId;
 
-  const UpdateMediaListPage({required this.mediaListId, super.key});
+  const UpdateMediaListPage({required this.mediaId, super.key});
 
   @override
   Route<MediaListModifyResult> createRoute(BuildContext context) {
-    return MediaListUpdateRoute(settings: this, mediaListId: mediaListId);
+    return MediaListUpdateRoute(settings: this, mediaId: mediaId);
   }
 }
 
 class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
     with MaterialRouteTransitionMixin<MediaListModifyResult> {
-  final String mediaListId;
+  final String mediaId;
 
-  MediaListUpdateRoute({required this.mediaListId, super.settings})
+  MediaListUpdateRoute({required this.mediaId, super.settings})
       : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          GetIt.instance.get<MediaListUpdateBloc>(param1: mediaListId),
+          GetIt.instance.get<MediaListUpdateBloc>(param1: mediaId),
       child: const MediaListUpdatePageContent(),
     );
   }
@@ -74,9 +74,9 @@ class MediaListUpdatePageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MediaListUpdateBloc, MediaListUpdatePageState>(
         builder: (context, state) {
-      final mediaListItem = state.mediaListItemModel;
-      final mediaModel = mediaListItem?.animeModel;
-      if (mediaListItem == null || mediaModel == null) {
+      final mediaModel = state.mediaWithListModel?.mediaModel;
+      final mediaListItem = state.mediaWithListModel?.mediaListModel;
+      if (mediaModel == null) {
         return const Hero(
           tag: mediaListUpdatePageHeroTag,
           child: SizedBox(),

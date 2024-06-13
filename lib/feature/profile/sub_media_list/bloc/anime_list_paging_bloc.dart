@@ -4,14 +4,14 @@ import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
+class WatchingAnimeListPagingBloc extends PagingBloc<MediaWithListModel> {
   WatchingAnimeListPagingBloc(
     @factoryParam this.userId,
     this._mediaListRepository,
@@ -23,7 +23,7 @@ class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   final int perPageCount;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+  Future<LoadResult<List<MediaWithListModel>>> loadPage({
     required int page,
     bool isRefresh = false,
     CancelToken? cancelToken,
@@ -40,7 +40,7 @@ class WatchingAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
 }
 
 @injectable
-class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
+class DroppedAnimeListPagingBloc extends PagingBloc<MediaWithListModel> {
   DroppedAnimeListPagingBloc(
     @factoryParam this.userId,
     this._mediaListRepository,
@@ -52,7 +52,7 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   final int perPageCount;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+  Future<LoadResult<List<MediaWithListModel>>> loadPage({
     required int page,
     bool isRefresh = false,
     CancelToken? cancelToken,
@@ -69,7 +69,7 @@ class DroppedAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
 }
 
 @injectable
-class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
+class CompleteAnimeListPagingBloc extends PagingBloc<MediaWithListModel> {
   CompleteAnimeListPagingBloc(
     @factoryParam this.userId,
     this._mediaListRepository,
@@ -81,7 +81,7 @@ class CompleteAnimeListPagingBloc extends PagingBloc<MediaListItemModel> {
   final int perPageCount;
 
   @override
-  Future<LoadResult<List<MediaListItemModel>>> loadPage({
+  Future<LoadResult<List<MediaWithListModel>>> loadPage({
     required int page,
     bool isRefresh = false,
     CancelToken? cancelToken,

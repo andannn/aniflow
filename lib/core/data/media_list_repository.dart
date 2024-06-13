@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
@@ -40,7 +41,7 @@ class MediaListRepository {
   final AuthDataSource authDataSource;
   final UserDataRepository preferences;
 
-  Future<LoadResult<List<MediaListItemModel>>> getMediaListByPage({
+  Future<LoadResult<List<MediaWithListModel>>> getMediaListByPage({
     required List<MediaListStatus> status,
     required MediaType type,
     required int page,
@@ -69,7 +70,7 @@ class MediaListRepository {
       },
       page: page,
       perPage: perPage,
-      mapDtoToModel: (dto) => dto.toModel(),
+      mapDtoToModel: (dto) => dto.toModel1(),
       onInsertToDB: (dto) async {
         final entities = dto.map((e) => e.media!.toEntity()).toList();
         await mediaDao.insertOrIgnoreMedia(entities);
@@ -158,8 +159,8 @@ class MediaListRepository {
         )
         .map(
           (sorted) => SortedGroupMediaListModel(
-            sorted.newUpdateList.map((e) => e.toModel()).toList(),
-            sorted.otherList.map((e) => e.toModel()).toList(),
+            sorted.newUpdateList.map((e) => e.toModel1()).toList(),
+            sorted.otherList.map((e) => e.toModel1()).toList(),
           ),
         );
   }
@@ -167,14 +168,14 @@ class MediaListRepository {
   Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
       {required String userId, required String animeId}) {
     return mediaListDao.getMediaListOfUserStream(userId, animeId).map(
-          (entity) => entity?.toModel(),
+          (entity) => entity?.mediaListEntity?.toModel(),
         );
   }
 
-  Future<MediaListItemModel?> getMediaListItemByMediaListId(
-      {required String mediaListId}) {
-    return mediaListDao.getMediaListItemByMediaListId(mediaListId).then(
-          (entity) => entity?.toModel(),
+  Future<MediaWithListModel?> getMediaListItemByMediaId(
+      {required String mediaId}) {
+    return mediaListDao.getMediaListItemByMediaId(mediaId).then(
+          (entity) => entity?.toModel1(),
         );
   }
 

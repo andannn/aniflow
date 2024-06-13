@@ -71,17 +71,17 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .getSingleOrNull();
   }
 
-  Future<MediaListAndMediaRelation?> getMediaListItemByMediaListId(
-      String mediaListId) {
-    final query = select(mediaListTable).join([
-      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+  Future<MediaListAndMediaRelation?> getMediaListItemByMediaId(String mediaId) {
+    final query = select(mediaTable).join([
+      leftOuterJoin(
+          mediaListTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
     ])
-      ..where(mediaListTable.id.equals(mediaListId));
+      ..where(mediaTable.id.equals(mediaId));
 
     return query
         .map(
           (row) => MediaListAndMediaRelation(
-            mediaListEntity: row.readTable(mediaListTable),
+            mediaListEntity: row.readTableOrNull(mediaListTable),
             mediaEntity: row.readTable(mediaTable),
           ),
         )
@@ -143,7 +143,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
           .reversed
           .toList();
       final otherList = (map[false] ?? [])
-          .sortedBy<num>((e) => e.mediaListEntity.updatedAt ?? 0)
+          .sortedBy<num>((e) => e.mediaListEntity?.updatedAt ?? 0)
           .reversed
           .toList();
       return SortedGroupMediaListEntity(newUpdateList, otherList);
@@ -177,7 +177,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     return batch((batch) {
       batch.insertAll(
         mediaListTable,
-        entities.map((e) => e.mediaListEntity),
+        entities.map((e) => e.mediaListEntity).whereNotNull(),
         mode: InsertMode.replace,
       );
 

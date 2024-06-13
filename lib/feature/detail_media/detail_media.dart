@@ -9,7 +9,6 @@ import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
-import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
@@ -135,7 +134,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
           RootRouterDelegate.get()
-              .navigateToMediaListUpdatePage(state.mediaListItem!);
+              .navigateToMediaListUpdatePage(state.detailAnimeModel!.id);
           MediaListModifyResult? result =
               await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {
@@ -819,10 +818,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
   Widget _buildNextEpisodeInfo(BuildContext context, DetailMediaUiState state) {
     final episode = state.episode;
     final nextProgress = (state.mediaListItem?.progress ?? 0) + 1;
-    final mediaListItem =
-        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
-    final hasNextReleasedEpisode =
-        mediaListItem?.hasNextReleasedEpisode == true;
+    final hasNextReleasedEpisode = state.hasNextReleasedEpisode;
     return AnimatedScaleSwitcher(
       visible: hasNextReleasedEpisode,
       builder: () => Padding(

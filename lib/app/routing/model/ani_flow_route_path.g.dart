@@ -334,14 +334,14 @@ Map<String, dynamic> _$$ImagePreviewRoutePathImplToJson(
 _$MediaListUpdateRoutePathImpl _$$MediaListUpdateRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$MediaListUpdateRoutePathImpl(
-      mediaListId: json['mediaListId'] as String,
+      mediaId: json['mediaId'] as String,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$MediaListUpdateRoutePathImplToJson(
         _$MediaListUpdateRoutePathImpl instance) =>
     <String, dynamic>{
-      'mediaListId': instance.mediaListId,
+      'mediaId': instance.mediaId,
       'runtimeType': instance.$type,
     };
 

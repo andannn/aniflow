@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MediaListUpdatePageState {
-  MediaListItemModel? get mediaListItemModel =>
+  MediaWithListModel? get mediaWithListModel =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,9 +30,7 @@ abstract class $MediaListUpdatePageStateCopyWith<$Res> {
           $Res Function(MediaListUpdatePageState) then) =
       _$MediaListUpdatePageStateCopyWithImpl<$Res, MediaListUpdatePageState>;
   @useResult
-  $Res call({MediaListItemModel? mediaListItemModel});
-
-  $MediaListItemModelCopyWith<$Res>? get mediaListItemModel;
+  $Res call({MediaWithListModel? mediaWithListModel});
 }
 
 /// @nodoc
@@ -49,27 +47,14 @@ class _$MediaListUpdatePageStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mediaListItemModel = freezed,
+    Object? mediaWithListModel = freezed,
   }) {
     return _then(_value.copyWith(
-      mediaListItemModel: freezed == mediaListItemModel
-          ? _value.mediaListItemModel
-          : mediaListItemModel // ignore: cast_nullable_to_non_nullable
-              as MediaListItemModel?,
+      mediaWithListModel: freezed == mediaWithListModel
+          ? _value.mediaWithListModel
+          : mediaWithListModel // ignore: cast_nullable_to_non_nullable
+              as MediaWithListModel?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MediaListItemModelCopyWith<$Res>? get mediaListItemModel {
-    if (_value.mediaListItemModel == null) {
-      return null;
-    }
-
-    return $MediaListItemModelCopyWith<$Res>(_value.mediaListItemModel!,
-        (value) {
-      return _then(_value.copyWith(mediaListItemModel: value) as $Val);
-    });
   }
 }
 
@@ -82,10 +67,7 @@ abstract class _$$MediaListUpdatePageStateImplCopyWith<$Res>
       __$$MediaListUpdatePageStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({MediaListItemModel? mediaListItemModel});
-
-  @override
-  $MediaListItemModelCopyWith<$Res>? get mediaListItemModel;
+  $Res call({MediaWithListModel? mediaWithListModel});
 }
 
 /// @nodoc
@@ -101,13 +83,13 @@ class __$$MediaListUpdatePageStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mediaListItemModel = freezed,
+    Object? mediaWithListModel = freezed,
   }) {
     return _then(_$MediaListUpdatePageStateImpl(
-      mediaListItemModel: freezed == mediaListItemModel
-          ? _value.mediaListItemModel
-          : mediaListItemModel // ignore: cast_nullable_to_non_nullable
-              as MediaListItemModel?,
+      mediaWithListModel: freezed == mediaWithListModel
+          ? _value.mediaWithListModel
+          : mediaWithListModel // ignore: cast_nullable_to_non_nullable
+              as MediaWithListModel?,
     ));
   }
 }
@@ -115,14 +97,14 @@ class __$$MediaListUpdatePageStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MediaListUpdatePageStateImpl implements _MediaListUpdatePageState {
-  const _$MediaListUpdatePageStateImpl({this.mediaListItemModel});
+  const _$MediaListUpdatePageStateImpl({this.mediaWithListModel});
 
   @override
-  final MediaListItemModel? mediaListItemModel;
+  final MediaWithListModel? mediaWithListModel;
 
   @override
   String toString() {
-    return 'MediaListUpdatePageState(mediaListItemModel: $mediaListItemModel)';
+    return 'MediaListUpdatePageState(mediaWithListModel: $mediaWithListModel)';
   }
 
   @override
@@ -130,12 +112,12 @@ class _$MediaListUpdatePageStateImpl implements _MediaListUpdatePageState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MediaListUpdatePageStateImpl &&
-            (identical(other.mediaListItemModel, mediaListItemModel) ||
-                other.mediaListItemModel == mediaListItemModel));
+            (identical(other.mediaWithListModel, mediaWithListModel) ||
+                other.mediaWithListModel == mediaWithListModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, mediaListItemModel);
+  int get hashCode => Object.hash(runtimeType, mediaWithListModel);
 
   @JsonKey(ignore: true)
   @override
@@ -147,11 +129,11 @@ class _$MediaListUpdatePageStateImpl implements _MediaListUpdatePageState {
 
 abstract class _MediaListUpdatePageState implements MediaListUpdatePageState {
   const factory _MediaListUpdatePageState(
-          {final MediaListItemModel? mediaListItemModel}) =
+          {final MediaWithListModel? mediaWithListModel}) =
       _$MediaListUpdatePageStateImpl;
 
   @override
-  MediaListItemModel? get mediaListItemModel;
+  MediaWithListModel? get mediaWithListModel;
   @override
   @JsonKey(ignore: true)
   _$$MediaListUpdatePageStateImplCopyWith<_$MediaListUpdatePageStateImpl>

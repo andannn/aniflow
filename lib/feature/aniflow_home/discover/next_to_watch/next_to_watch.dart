@@ -2,8 +2,8 @@ import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
@@ -62,7 +62,7 @@ class NextToWatchAnimeWidget extends StatelessWidget {
     required this.titleLanguage,
   });
 
-  final List<MediaListItemModel> models;
+  final List<MediaWithListModel> models;
   final UserTitleLanguage titleLanguage;
 
   @override
@@ -78,14 +78,14 @@ class NextToWatchAnimeWidget extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 RootRouterDelegate.get()
-                    .navigateToDetailMedia(models.first.animeModel!.id);
+                    .navigateToDetailMedia(models.first.mediaModel.id);
               },
               child: Stack(
                 children: [
                   SizedBox.expand(
                     child: AFNetworkImage(
-                      imageUrl: models.first.animeModel?.bannerImage ??
-                          models.first.animeModel?.coverImage?.large ??
+                      imageUrl: models.first.mediaModel.bannerImage ??
+                          models.first.mediaModel.coverImage?.large ??
                           '',
                     ),
                   ),
@@ -117,15 +117,15 @@ class NextToWatchAnimeWidget extends StatelessWidget {
                         ),
                         const Expanded(child: SizedBox()),
                         Text(
-                          models.first.animeModel?.title
+                          models.first.mediaModel.title
                                   ?.getTitle(titleLanguage) ??
                               '',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          context.appLocal
-                              .nextEpToWatch((models.first.progress ?? 0) + 1),
+                          context.appLocal.nextEpToWatch(
+                              (models.first.mediaListModel?.progress ?? 0) + 1),
                         ),
                       ],
                     ),
