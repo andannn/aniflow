@@ -76,9 +76,14 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
 
   Future insertOrUpdateMedia(List<MediaEntity> entities) {
     return batch((batch) {
+      /// 1. Set media table column to Value.absent() if null.
+      /// 2. Update nextAiringEpisode even if data is null because the
+      ///    nextAiringEpisode will be null when last episode aired.
       batch.insertAllOnConflictUpdate(
         mediaTable,
-        entities.map((e) => e.toCompanion(true)),
+        entities.map((e) => e
+            .toCompanion(true)
+            .copyWith(nextAiringEpisode: Value(e.nextAiringEpisode))),
       );
     });
   }
