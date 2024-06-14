@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -91,11 +92,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
     final userId =
         _userId ?? _userDataRepository.userData.authedUserId;
     final userData = await _userInfoRepository.getUserDataById(userId!);
-    add(_OnUserDataLoaded(userData: userData));
+    safeAdd(_OnUserDataLoaded(userData: userData));
   }
 
   @override
   void onLoadingStateChanged(bool isLoading) {
-    add(_LoadingStateChanged(isLoading: isLoading));
+    safeAdd(_LoadingStateChanged(isLoading: isLoading));
   }
 }

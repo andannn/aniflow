@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
@@ -34,7 +35,7 @@ class VoiceActorContentsPagingBloc
   set mediaSort(MediaSort mediaSort) {
     if (mediaSort != _mediaSort) {
       _mediaSort = mediaSort;
-      add(_OnMediaSortChanged());
+      safeAdd(_OnMediaSortChanged());
     }
   }
 

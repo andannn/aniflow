@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
@@ -138,7 +139,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
           MediaListModifyResult? result =
               await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {
-            bloc.add(OnMediaListModified(result: result));
+            bloc.safeAdd(OnMediaListModified(result: result));
           }
         }
 

@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_page_state.dart';
@@ -36,6 +37,6 @@ class MediaListUpdateBloc
       throw "model is null";
     }
 
-    add(_OnMediaListItemUpdated(model));
+    safeAdd(_OnMediaListItemUpdated(model));
   }
 }

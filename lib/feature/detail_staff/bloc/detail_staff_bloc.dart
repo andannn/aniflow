@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -60,7 +61,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
         .getDetailStaffStream(staffId)
         .distinct()
         .listen((model) {
-      add(_OnDetailStaffInfoChanged(model: model));
+      safeAdd(_OnDetailStaffInfoChanged(model: model));
     });
 
     _init();
@@ -84,7 +85,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
   }
 
   void _init() async {
-    add(_OnLoadingChanged(isLoading: true));
+    safeAdd(_OnLoadingChanged(isLoading: true));
     final result = await _mediaRepository.startFetchDetailStaffInfo(
       id: staffId,
       token: _contentFetchCancelToken,
@@ -93,7 +94,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);
     }
-    add(_OnLoadingChanged(isLoading: false));
+    safeAdd(_OnLoadingChanged(isLoading: false));
   }
 
   FutureOr<void> _onToggleLike(

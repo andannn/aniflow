@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -38,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         .getAuthedUserStream()
         .distinct()
         .listen((userDataNullable) {
-      add(_OnUserDataChanged(userDataNullable));
+      safeAdd(_OnUserDataChanged(userDataNullable));
     });
   }
 

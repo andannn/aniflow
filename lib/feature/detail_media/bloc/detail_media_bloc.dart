@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -186,7 +187,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   void _init() async {
     _detailAnimeSub = _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
       (animeModel) {
-        add(_OnDetailAnimeModelChangedEvent(model: animeModel));
+        safeAdd(_OnDetailAnimeModelChangedEvent(model: animeModel));
       },
     );
 
@@ -197,7 +198,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
               userId: userData.id, animeId: mediaId)
           .listen(
         (item) {
-          add(_OnMediaListItemChanged(mediaListItemModel: item));
+          safeAdd(_OnMediaListItemChanged(mediaListItemModel: item));
         },
       );
     }
@@ -248,7 +249,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _networkActionCancelToken?.cancel();
     _networkActionCancelToken = CancelToken();
 
-    add(_OnLoadingStateChanged(isLoading: true));
+    safeAdd(_OnLoadingStateChanged(isLoading: true));
     final resultList = await Future.wait([
       _mediaRepository.startFetchDetailAnimeInfo(
         id: mediaId,
@@ -260,7 +261,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
         token: _networkActionCancelToken,
       ),
     ]);
-    add(_OnLoadingStateChanged(isLoading: false));
+    safeAdd(_OnLoadingStateChanged(isLoading: false));
 
     final fetchDetailResult = resultList[0];
     final syncListResult = resultList[1];
@@ -276,7 +277,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       OnMediaListModified event, Emitter<DetailMediaUiState> emit) async {
     final state = event.result;
 
-    add(_OnLoadingStateChanged(isLoading: true));
+    safeAdd(_OnLoadingStateChanged(isLoading: true));
     final result = await _mediaListRepository.updateMediaList(
       animeId: mediaId,
       status: state.status,
@@ -289,7 +290,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       startedAt: state.startedAt,
       completedAt: state.completedAt,
     );
-    add(_OnLoadingStateChanged(isLoading: false));
+    safeAdd(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
       final message =
@@ -321,7 +322,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       _hiAnimationSource = source;
       _findPlaySourceCancelToken?.cancel();
       _findPlaySourceCancelToken = CancelToken();
-      add(_OnStartFindSource());
+      safeAdd(_OnStartFindSource());
       final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
         source.animeId,
         source.keywords,
@@ -333,10 +334,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
         case LoadError<Episode>(exception: final exception):
           logger.d('findPlaySource failed ${result.exception}');
           if (exception is NotFoundEpisodeException) {
-            add(_OnFindEpisodeError(
+            safeAdd(_OnFindEpisodeError(
                 exception: result.exception, searchUrl: exception.searchUrl));
           } else {
-            add(_OnFindEpisodeError(exception: result.exception));
+            safeAdd(_OnFindEpisodeError(exception: result.exception));
           }
 
           final message =
@@ -346,7 +347,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
           }
         case LoadSuccess<Episode>():
           logger.d('findPlaySource success ${result.data}');
-          add(_OnEpisodeFound(episode: result.data));
+          safeAdd(_OnEpisodeFound(episode: result.data));
       }
     }
   }
@@ -369,10 +370,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     final MediaListStatus status =
         isFinished ? MediaListStatus.completed : MediaListStatus.current;
 
-    add(_OnLoadingStateChanged(isLoading: true));
+    safeAdd(_OnLoadingStateChanged(isLoading: true));
     final result = await _mediaListRepository.updateMediaList(
         animeId: anime.id, status: status, progress: nextEpisode);
-    add(_OnLoadingStateChanged(isLoading: false));
+    safeAdd(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
       final message =

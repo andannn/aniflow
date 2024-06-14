@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/anime_season_util.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/character_repository.dart';
@@ -114,7 +115,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
 
     _userDataSub ??= _authRepository.getAuthedUserStream().listen(
       (userDataNullable) {
-        add(_OnUserDataChanged(userDataNullable));
+        safeAdd(_OnUserDataChanged(userDataNullable));
       },
     );
 
@@ -123,13 +124,13 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         .distinct()
         .listen(
       (mediaType) {
-        add(_OnMediaTypeChanged(mediaType));
+        safeAdd(_OnMediaTypeChanged(mediaType));
       },
     );
 
     _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
       (settings) {
-        add(_OnAniListSettingsChanged(settings));
+        safeAdd(_OnAniListSettingsChanged(settings));
       },
     );
 
@@ -150,7 +151,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     });
 
     _homeSectorSub = _userDataRepository.homeSectorsStream.listen(
-      (event) => add(
+      (event) => safeAdd(
         _OnHomeSectorChanged(event),
       ),
     );

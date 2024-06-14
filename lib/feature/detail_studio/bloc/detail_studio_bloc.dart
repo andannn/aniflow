@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
@@ -48,7 +49,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
 
     _detailStudioSub =
         _mediaRepository.getStudioStream(studioId).distinct().listen((model) {
-      add(_OnDetailStudioInfoChanged(model: model));
+      safeAdd(_OnDetailStudioInfoChanged(model: model));
     });
 
     _init();
@@ -72,7 +73,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
   }
 
   void _init() async {
-    add(_OnLoadingChanged(isLoading: true));
+    safeAdd(_OnLoadingChanged(isLoading: true));
     final result = await _mediaRepository.startFetchDetailStudioInfo(
       id: studioId,
       token: _contentFetchCancelToken,
@@ -81,7 +82,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);
     }
-    add(_OnLoadingChanged(isLoading: false));
+    safeAdd(_OnLoadingChanged(isLoading: false));
   }
 
   FutureOr<void> _onToggleLike(

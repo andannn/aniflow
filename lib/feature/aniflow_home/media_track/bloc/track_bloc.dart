@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -114,7 +115,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
 
     /// start listen user changed event.
     _userStateSub ??= _authRepository.getAuthedUserStream().listen((userData) {
-      add(_OnUserStateChanged(userData: userData));
+      safeAdd(_OnUserStateChanged(userData: userData));
     });
 
     _mediaTypeSub = _userDataRepository.userDataStream
@@ -122,13 +123,13 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         .distinct()
         .listen(
       (mediaType) {
-        add(_OnMediaTypeChanged(mediaType));
+        safeAdd(_OnMediaTypeChanged(mediaType));
       },
     );
 
     _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
       (settings) {
-        add(_OnAniListSettingsChanged(settings));
+        safeAdd(_OnAniListSettingsChanged(settings));
       },
     );
 
@@ -136,7 +137,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         .getIsReleasedOnlyStream()
         .distinct()
         .listen((showReleasedOnly) {
-      add(_OnShowFollowOnlyStateChanged(showReleasedOnly));
+      safeAdd(_OnShowFollowOnlyStateChanged(showReleasedOnly));
     });
 
     final sortedGroupMediaListStream = stream
@@ -174,7 +175,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
               (e) => e.hasNextReleasedEpisode,
             )
             .toList();
-        add(
+        safeAdd(
           _OnWatchingAnimeListChanged(
             sortedGroupMediaListModel: SortedGroupMediaListModel(
               newList,
@@ -183,7 +184,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
           ),
         );
       } else {
-        add(_OnWatchingAnimeListChanged(
+        safeAdd(_OnWatchingAnimeListChanged(
             sortedGroupMediaListModel: sortedGroupMediaList));
       }
     });
@@ -211,13 +212,13 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
   }
 
   Future syncUserAnimeList({String? userId}) async {
-    add(_OnLoadStateChanged(isLoading: true));
+    safeAdd(_OnLoadStateChanged(isLoading: true));
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
       mediaType: _userDataRepository.userData.mediaType,
     );
-    add(_OnLoadStateChanged(isLoading: false));
+    safeAdd(_OnLoadStateChanged(isLoading: false));
 
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);
@@ -230,10 +231,10 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     final MediaListStatus status =
         isFinished ? MediaListStatus.completed : MediaListStatus.current;
 
-    add(_OnLoadStateChanged(isLoading: true));
+    safeAdd(_OnLoadStateChanged(isLoading: true));
     final result = await _mediaListRepository.updateMediaList(
         animeId: event.animeId, status: status, progress: event.progress);
-    add(_OnLoadStateChanged(isLoading: false));
+    safeAdd(_OnLoadStateChanged(isLoading: false));
 
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);

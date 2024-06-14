@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -32,7 +33,7 @@ class ActivityStatusBloc extends Bloc<ActivityItemEvent, ActivityStatus?> {
         .getActivityStatusStream(activityId)
         .distinct()
         .listen((status) {
-      add(_OnActivityChangeEvent(status));
+      safeAdd(_OnActivityChangeEvent(status));
     });
   }
 

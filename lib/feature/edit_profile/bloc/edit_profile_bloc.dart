@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -24,7 +25,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
     _authRepository.getAuthedUserStream().distinct().listen((modelOrNull) {
       if (modelOrNull != null) {
-        add(OnUserModelLoaded(modelOrNull));
+        safeAdd(OnUserModelLoaded(modelOrNull));
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -71,7 +72,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
           )
           .distinct()
           .listen((ids) {
-        add(_OnTrackingAnimeIdsChanged(ids: ids));
+        safeAdd(_OnTrackingAnimeIdsChanged(ids: ids));
       });
     }
   }

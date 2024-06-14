@@ -10,6 +10,7 @@ import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -89,7 +90,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   void _init() async {
     _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
       (settings) {
-        add(_OnAniListSettingsChanged(settings));
+        safeAdd(_OnAniListSettingsChanged(settings));
       },
     );
 
@@ -97,7 +98,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
         .map((event) => event.themeSetting)
         .listen(
       (settings) {
-        add(_OnThemeSettingChanged(settings));
+        safeAdd(_OnThemeSettingChanged(settings));
       },
     );
 
@@ -105,7 +106,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
         .map((event) => event.mediaType)
         .listen(
       (type) {
-        add(_OnMediaTypeChanged(type));
+        safeAdd(_OnMediaTypeChanged(type));
       },
     );
   }

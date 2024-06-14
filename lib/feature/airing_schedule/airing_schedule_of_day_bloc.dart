@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/feature/airing_schedule/schedule_page_state.dart';
@@ -34,13 +35,13 @@ class AiringScheduleOfDayBloc
     final cachedAiringSchedules = await _mediaInfoRepository
         .getAiringScheduleAndAnimeByDateTime(_dateTime);
     if (cachedAiringSchedules.isNotEmpty) {
-      add(_OnStateChangedEvent(
+      safeAdd(_OnStateChangedEvent(
           SchedulePageReady(schedules: cachedAiringSchedules)));
       return;
     }
 
     /// Change to loading state.
-    add(_OnStateChangedEvent(SchedulePageLoading()));
+    safeAdd(_OnStateChangedEvent(SchedulePageLoading()));
 
     /// refresh airing schedule.
     final result = await _mediaInfoRepository.refreshAiringSchedule(_dateTime);
@@ -53,6 +54,7 @@ class AiringScheduleOfDayBloc
     /// Change to ready state.
     final airingSchedules = await _mediaInfoRepository
         .getAiringScheduleAndAnimeByDateTime(_dateTime);
-    add(_OnStateChangedEvent(SchedulePageReady(schedules: airingSchedules)));
+    safeAdd(
+        _OnStateChangedEvent(SchedulePageReady(schedules: airingSchedules)));
   }
 }

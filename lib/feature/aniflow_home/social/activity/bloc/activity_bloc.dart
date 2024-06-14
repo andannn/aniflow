@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/feature/aniflow_home/social/activity/bloc/activity_state.dart';
 import 'package:bloc/bloc.dart';
@@ -55,7 +56,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
     repository.getActivityTypeStream().listen((type) {
       final (filter, scope) = type;
-      add(_OnActivityTypeChanged(scope, filter));
+      safeAdd(_OnActivityTypeChanged(scope, filter));
     });
   }
 

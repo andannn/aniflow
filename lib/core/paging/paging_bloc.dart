@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -39,7 +40,7 @@ abstract class PagingBloc<T> extends Bloc<PagingEvent<T>, PagingState<List<T>>>
     on<OnRequestLoadPageEvent<T>>(_onRequestLoadPageEvent);
     on<OnRetryLoadPageEvent<T>>(_onRetryLoadPageEvent);
 
-    add(OnInit());
+    safeAdd(OnInit());
   }
 
   CancelToken? _cancelToken;
@@ -76,7 +77,7 @@ abstract class PagingBloc<T> extends Bloc<PagingEvent<T>, PagingState<List<T>>>
     );
     switch (result) {
       case LoadSuccess<List<T>>(data: final data):
-        add(_OnPageLoadedEvent(data, page, isRefresh));
+        safeAdd(_OnPageLoadedEvent(data, page, isRefresh));
       case LoadError<List<T>>(exception: final exception):
         if (exception is DioException &&
             exception.type == DioExceptionType.cancel) {
@@ -84,7 +85,7 @@ abstract class PagingBloc<T> extends Bloc<PagingEvent<T>, PagingState<List<T>>>
           return;
         }
 
-        add(_OnPageErrorEvent(exception));
+        safeAdd(_OnPageErrorEvent(exception));
       default:
     }
   }

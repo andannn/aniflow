@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -60,7 +61,7 @@ class DetailCharacterBloc
         .getDetailCharacterStream(_characterId)
         .distinct()
         .listen((model) {
-      add(_OnDetailCharacterInfoChanged(model: model));
+      safeAdd(_OnDetailCharacterInfoChanged(model: model));
     });
 
     _init();
@@ -85,7 +86,7 @@ class DetailCharacterBloc
   }
 
   void _init() async {
-    add(_OnLoadingChanged(isLoading: true));
+    safeAdd(_OnLoadingChanged(isLoading: true));
     final result = await _mediaRepository.startFetchDetailCharacterInfo(
       id: _characterId,
       token: _contentFetchCancelToken,
@@ -98,6 +99,6 @@ class DetailCharacterBloc
         _messageRepository.showMessage(message);
       }
     }
-    add(_OnLoadingChanged(isLoading: false));
+    safeAdd(_OnLoadingChanged(isLoading: false));
   }
 }
