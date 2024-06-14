@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
@@ -47,6 +48,7 @@ class DiscoverScreen extends StatelessWidget {
             userData != null && userData.unreadNotificationCount != 0;
         final isLoggedIn = state.isLoggedIn;
         final isLoading = state.isLoading;
+        final sectors = state.sectors;
         return Scaffold(
           appBar: AppBar(
             title: Text(context.appLocal.discover),
@@ -107,34 +109,71 @@ class DiscoverScreen extends StatelessWidget {
             },
             child: CustomScrollView(
               cacheExtent: AfConfig.defaultCatchExtend,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: NextToWatchAnimeBlocProvider(
-                    userId: state.userData?.id,
-                    mediaType: state.currentMediaType,
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: BirthdayCharactersBlocProvider(),
-                ),
-                const SliverToBoxAdapter(
-                  child: TodayAiringScheduleBlocProvider(),
-                ),
-                ...MediaCategory.getAllCategoryByType(state.currentMediaType)
-                    .map(
-                  (category) => SliverToBoxAdapter(
-                    child: MediaPreviewBlocProvider(
-                      mediaCategory: category,
-                      userId: state.userData?.id,
-                      mediaType: state.currentMediaType,
-                    ),
-                  ),
-                )
-              ],
+              slivers: _buildSectors(
+                context: context,
+                state: state,
+                sectors: sectors,
+              ),
             ),
           ),
         );
       },
     );
+  }
+
+  List<Widget> _buildSectors(
+      {required BuildContext context,
+      required DiscoverUiState state,
+      required List<HomeSectorCategory> sectors}) {
+    Widget buildWidgetItem(HomeSectorCategory category) => switch (category) {
+          HomeSectorCategory.upNext => NextToWatchAnimeBlocProvider(
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.birthdayCharacters =>
+            const BirthdayCharactersBlocProvider(),
+          HomeSectorCategory.todaySchedule =>
+            const TodayAiringScheduleBlocProvider(),
+          HomeSectorCategory.currentSeasonAnime => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.currentSeasonAnime,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.nextSeasonAnime => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.nextSeasonAnime,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.trendingAnime => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.trendingAnime,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.movieAnime => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.movieAnime,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.trendingManga => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.trendingManga,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.allTimePopularManga => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.allTimePopularManga,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.topManhwa => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.topManhwa,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+        };
+    return sectors
+        .map(
+          (category) => SliverToBoxAdapter(child: buildWidgetItem(category)),
+        )
+        .toList();
   }
 }

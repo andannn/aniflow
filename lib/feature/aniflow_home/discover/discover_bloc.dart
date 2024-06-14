@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
@@ -46,6 +47,12 @@ class _OnMediaTypeChanged extends DiscoverEvent {
   final MediaType mediaType;
 }
 
+class _OnHomeSectorChanged extends DiscoverEvent {
+  final List<HomeSectorCategory> sectors;
+
+  _OnHomeSectorChanged(this.sectors);
+}
+
 extension DiscoverUiStateEx on DiscoverUiState {
   bool get isLoggedIn => userData != null;
 }
@@ -73,6 +80,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     on<_OnLoadStateChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
+    on<_OnHomeSectorChanged>(
+      (event, emit) => emit(state.copyWith(sectors: event.sectors)),
+    );
 
     _init();
   }
@@ -87,6 +97,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   StreamSubscription? _userDataSub;
   StreamSubscription? _settingsSub;
   StreamSubscription? _mediaTypeSub;
+  StreamSubscription? _homeSectorSub;
 
   void _init() async {
     /// calculate the current anime season.
@@ -138,6 +149,12 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       unawaited(_authRepository.syncUserCondition());
     });
 
+    _homeSectorSub = _userDataRepository.homeSectorsStream.listen(
+      (event) => add(
+        _OnHomeSectorChanged(event),
+      ),
+    );
+
     unawaited(_refreshBirthdayCharacters());
     unawaited(_refreshAiringSchedule());
   }
@@ -147,6 +164,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     _userDataSub?.cancel();
     _mediaTypeSub?.cancel();
     _settingsSub?.cancel();
+    _homeSectorSub?.cancel();
 
     return super.close();
   }

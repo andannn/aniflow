@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/firebase/remote_config/remote_config_manager.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -16,6 +17,7 @@ import '../../../core/data/mocks/media_information_repository_mock.dart';
 import '../../../core/data/mocks/mock_favorite_repository.dart';
 import '../../../core/data/mocks/mock_hi_animation_repository.dart';
 import '../../../core/data/mocks/mock_media_list_repository.dart';
+import '../../../core/data/mocks/mock_remote_config_manager.dart';
 
 void main() {
   group('detail_media_bloc_test', () {
@@ -32,7 +34,8 @@ void main() {
 
       final sharedPref = await SharedPreferences.getInstance();
       UserDataPreferences preferences = UserDataPreferences(sharedPref);
-      userDataRepository = UserDataRepository(preferences);
+      RemoteConfigManager remoteConfigManager = MockRemoteConfigManager();
+      userDataRepository = UserDataRepository(preferences, remoteConfigManager);
       mediaRepository = MockMediaInformationRepository();
       authRepository = MockAuthRepository();
       favoriteRepository = MockFavoriteRepository();

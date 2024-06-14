@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
+import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/di/get_it_di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,10 +13,10 @@ import 'package:get_it/get_it.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await initDI(GetIt.instance);
-
   /// init firebase
   await Firebase.initializeApp();
+
+  await initDI(GetIt.instance);
 
   /// run app after core instance initialized.
   runApp(const AniFlowApp());

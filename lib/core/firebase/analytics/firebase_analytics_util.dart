@@ -2,9 +2,9 @@ import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/firebase/data_size_property/data_type.dart';
-import 'package:aniflow/core/firebase/fa_event.dart';
-import 'package:aniflow/core/firebase/fa_user_property.dart';
+import 'package:aniflow/core/firebase/analytics/data_size_property/data_type.dart';
+import 'package:aniflow/core/firebase/analytics/fa_event.dart';
+import 'package:aniflow/core/firebase/analytics/fa_user_property.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get_it/get_it.dart';
 
