@@ -4,21 +4,39 @@ import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
+import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
+import 'package:aniflow/core/data/model/home_sector_model.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
-import 'package:aniflow/core/firebase/firebase_analytics_util.dart';
+import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
+import 'package:aniflow/core/firebase/remote_config/remote_config_manager.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class UserDataRepository {
-  UserDataRepository(this._preferences);
+  UserDataRepository(this._preferences, this._remoteConfigManager);
 
   final UserDataPreferences _preferences;
+  final RemoteConfigManager _remoteConfigManager;
 
   Stream<UserDataModel> get userDataStream => _preferences.userDataStream;
+
+  Stream<List<HomeSectorCategory>> get homeSectorsStream =>
+      CombineLatestStream.combine2(
+        _homeStructModelStream,
+        userDataStream.map((e) => e.mediaType).distinct(),
+        (sector, currentMediaType) => switch (currentMediaType) {
+          MediaType.anime => sector.animeSectors,
+          MediaType.manga => sector.mangaSectors,
+        },
+      );
+
+  Stream<HomeSectorModel> get _homeStructModelStream =>
+      _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
 
   UserDataModel get userData => _preferences.userData;
 
