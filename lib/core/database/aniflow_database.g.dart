@@ -4073,6 +4073,11 @@ class $MediaTableTable extends MediaTable
   late final GeneratedColumn<String> genres = GeneratedColumn<String>(
       'genres', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _formatMeta = const VerificationMeta('format');
+  @override
+  late final GeneratedColumn<String> format = GeneratedColumn<String>(
+      'format', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _trendingMeta =
       const VerificationMeta('trending');
   @override
@@ -4161,6 +4166,7 @@ class $MediaTableTable extends MediaTable
         trailerSite,
         trailerThumbnail,
         genres,
+        format,
         trending,
         favourites,
         popularRanking,
@@ -4297,6 +4303,10 @@ class $MediaTableTable extends MediaTable
       context.handle(_genresMeta,
           genres.isAcceptableOrUnknown(data['genres']!, _genresMeta));
     }
+    if (data.containsKey('format')) {
+      context.handle(_formatMeta,
+          format.isAcceptableOrUnknown(data['format']!, _formatMeta));
+    }
     if (data.containsKey('trending')) {
       context.handle(_trendingMeta,
           trending.isAcceptableOrUnknown(data['trending']!, _trendingMeta));
@@ -4406,6 +4416,8 @@ class $MediaTableTable extends MediaTable
           DriftSqlType.string, data['${effectivePrefix}trailer_thumbnail']),
       genres: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}genres']),
+      format: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}format']),
       trending: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}trending']),
       favourites: attachedDatabase.typeMapping
@@ -4459,6 +4471,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
   final String? trailerSite;
   final String? trailerThumbnail;
   final String? genres;
+  final String? format;
   final int? trending;
   final int? favourites;
   final int? popularRanking;
@@ -4492,6 +4505,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       this.trailerSite,
       this.trailerThumbnail,
       this.genres,
+      this.format,
       this.trending,
       this.favourites,
       this.popularRanking,
@@ -4568,6 +4582,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
     }
     if (!nullToAbsent || genres != null) {
       map['genres'] = Variable<String>(genres);
+    }
+    if (!nullToAbsent || format != null) {
+      map['format'] = Variable<String>(format);
     }
     if (!nullToAbsent || trending != null) {
       map['trending'] = Variable<int>(trending);
@@ -4663,6 +4680,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           : Value(trailerThumbnail),
       genres:
           genres == null && nullToAbsent ? const Value.absent() : Value(genres),
+      format:
+          format == null && nullToAbsent ? const Value.absent() : Value(format),
       trending: trending == null && nullToAbsent
           ? const Value.absent()
           : Value(trending),
@@ -4724,6 +4743,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       trailerSite: serializer.fromJson<String?>(json['trailerSite']),
       trailerThumbnail: serializer.fromJson<String?>(json['trailerThumbnail']),
       genres: serializer.fromJson<String?>(json['genres']),
+      format: serializer.fromJson<String?>(json['format']),
       trending: serializer.fromJson<int?>(json['trending']),
       favourites: serializer.fromJson<int?>(json['favourites']),
       popularRanking: serializer.fromJson<int?>(json['popularRanking']),
@@ -4763,6 +4783,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       'trailerSite': serializer.toJson<String?>(trailerSite),
       'trailerThumbnail': serializer.toJson<String?>(trailerThumbnail),
       'genres': serializer.toJson<String?>(genres),
+      'format': serializer.toJson<String?>(format),
       'trending': serializer.toJson<int?>(trending),
       'favourites': serializer.toJson<int?>(favourites),
       'popularRanking': serializer.toJson<int?>(popularRanking),
@@ -4800,6 +4821,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           Value<String?> trailerSite = const Value.absent(),
           Value<String?> trailerThumbnail = const Value.absent(),
           Value<String?> genres = const Value.absent(),
+          Value<String?> format = const Value.absent(),
           Value<int?> trending = const Value.absent(),
           Value<int?> favourites = const Value.absent(),
           Value<int?> popularRanking = const Value.absent(),
@@ -4846,6 +4868,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
             ? trailerThumbnail.value
             : this.trailerThumbnail,
         genres: genres.present ? genres.value : this.genres,
+        format: format.present ? format.value : this.format,
         trending: trending.present ? trending.value : this.trending,
         favourites: favourites.present ? favourites.value : this.favourites,
         popularRanking:
@@ -4890,6 +4913,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           ..write('trailerSite: $trailerSite, ')
           ..write('trailerThumbnail: $trailerThumbnail, ')
           ..write('genres: $genres, ')
+          ..write('format: $format, ')
           ..write('trending: $trending, ')
           ..write('favourites: $favourites, ')
           ..write('popularRanking: $popularRanking, ')
@@ -4928,6 +4952,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         trailerSite,
         trailerThumbnail,
         genres,
+        format,
         trending,
         favourites,
         popularRanking,
@@ -4965,6 +4990,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           other.trailerSite == this.trailerSite &&
           other.trailerThumbnail == this.trailerThumbnail &&
           other.genres == this.genres &&
+          other.format == this.format &&
           other.trending == this.trending &&
           other.favourites == this.favourites &&
           other.popularRanking == this.popularRanking &&
@@ -5001,6 +5027,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
   final Value<String?> trailerSite;
   final Value<String?> trailerThumbnail;
   final Value<String?> genres;
+  final Value<String?> format;
   final Value<int?> trending;
   final Value<int?> favourites;
   final Value<int?> popularRanking;
@@ -5035,6 +5062,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.trailerSite = const Value.absent(),
     this.trailerThumbnail = const Value.absent(),
     this.genres = const Value.absent(),
+    this.format = const Value.absent(),
     this.trending = const Value.absent(),
     this.favourites = const Value.absent(),
     this.popularRanking = const Value.absent(),
@@ -5070,6 +5098,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.trailerSite = const Value.absent(),
     this.trailerThumbnail = const Value.absent(),
     this.genres = const Value.absent(),
+    this.format = const Value.absent(),
     this.trending = const Value.absent(),
     this.favourites = const Value.absent(),
     this.popularRanking = const Value.absent(),
@@ -5105,6 +5134,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     Expression<String>? trailerSite,
     Expression<String>? trailerThumbnail,
     Expression<String>? genres,
+    Expression<String>? format,
     Expression<int>? trending,
     Expression<int>? favourites,
     Expression<int>? popularRanking,
@@ -5141,6 +5171,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       if (trailerSite != null) 'trailer_site': trailerSite,
       if (trailerThumbnail != null) 'trailer_thumbnail': trailerThumbnail,
       if (genres != null) 'genres': genres,
+      if (format != null) 'format': format,
       if (trending != null) 'trending': trending,
       if (favourites != null) 'favourites': favourites,
       if (popularRanking != null) 'popular_ranking': popularRanking,
@@ -5179,6 +5210,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       Value<String?>? trailerSite,
       Value<String?>? trailerThumbnail,
       Value<String?>? genres,
+      Value<String?>? format,
       Value<int?>? trending,
       Value<int?>? favourites,
       Value<int?>? popularRanking,
@@ -5213,6 +5245,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       trailerSite: trailerSite ?? this.trailerSite,
       trailerThumbnail: trailerThumbnail ?? this.trailerThumbnail,
       genres: genres ?? this.genres,
+      format: format ?? this.format,
       trending: trending ?? this.trending,
       favourites: favourites ?? this.favourites,
       popularRanking: popularRanking ?? this.popularRanking,
@@ -5298,6 +5331,9 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     if (genres.present) {
       map['genres'] = Variable<String>(genres.value);
     }
+    if (format.present) {
+      map['format'] = Variable<String>(format.value);
+    }
     if (trending.present) {
       map['trending'] = Variable<int>(trending.value);
     }
@@ -5360,6 +5396,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
           ..write('trailerSite: $trailerSite, ')
           ..write('trailerThumbnail: $trailerThumbnail, ')
           ..write('genres: $genres, ')
+          ..write('format: $format, ')
           ..write('trending: $trending, ')
           ..write('favourites: $favourites, ')
           ..write('popularRanking: $popularRanking, ')
@@ -10077,6 +10114,7 @@ typedef $$MediaTableTableInsertCompanionBuilder = MediaTableCompanion Function({
   Value<String?> trailerSite,
   Value<String?> trailerThumbnail,
   Value<String?> genres,
+  Value<String?> format,
   Value<int?> trending,
   Value<int?> favourites,
   Value<int?> popularRanking,
@@ -10112,6 +10150,7 @@ typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
   Value<String?> trailerSite,
   Value<String?> trailerThumbnail,
   Value<String?> genres,
+  Value<String?> format,
   Value<int?> trending,
   Value<int?> favourites,
   Value<int?> popularRanking,
@@ -10167,6 +10206,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<String?> trailerSite = const Value.absent(),
             Value<String?> trailerThumbnail = const Value.absent(),
             Value<String?> genres = const Value.absent(),
+            Value<String?> format = const Value.absent(),
             Value<int?> trending = const Value.absent(),
             Value<int?> favourites = const Value.absent(),
             Value<int?> popularRanking = const Value.absent(),
@@ -10202,6 +10242,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             trailerSite: trailerSite,
             trailerThumbnail: trailerThumbnail,
             genres: genres,
+            format: format,
             trending: trending,
             favourites: favourites,
             popularRanking: popularRanking,
@@ -10237,6 +10278,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<String?> trailerSite = const Value.absent(),
             Value<String?> trailerThumbnail = const Value.absent(),
             Value<String?> genres = const Value.absent(),
+            Value<String?> format = const Value.absent(),
             Value<int?> trending = const Value.absent(),
             Value<int?> favourites = const Value.absent(),
             Value<int?> popularRanking = const Value.absent(),
@@ -10272,6 +10314,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             trailerSite: trailerSite,
             trailerThumbnail: trailerThumbnail,
             genres: genres,
+            format: format,
             trending: trending,
             favourites: favourites,
             popularRanking: popularRanking,
@@ -10409,6 +10452,11 @@ class $$MediaTableTableFilterComposer
 
   ColumnFilters<String> get genres => $state.composableBuilder(
       column: $state.table.genres,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get format => $state.composableBuilder(
+      column: $state.table.format,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -10574,6 +10622,11 @@ class $$MediaTableTableOrderingComposer
 
   ColumnOrderings<String> get genres => $state.composableBuilder(
       column: $state.table.genres,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get format => $state.composableBuilder(
+      column: $state.table.format,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 

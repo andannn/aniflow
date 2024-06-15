@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/anime_source.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_relation.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
@@ -181,6 +182,21 @@ extension MediaListStatusEx on MediaListStatus {
         MediaListStatus.dropped => context.appLocal.dropped,
         MediaListStatus.paused => context.appLocal.paused,
         MediaListStatus.planning => context.appLocal.planning,
+      };
+}
+
+extension MediaFormatEx on MediaFormat {
+  String translated(BuildContext context) => switch (this) {
+        MediaFormat.tv => 'TV',
+        MediaFormat.tvShort => 'Short TV',
+        MediaFormat.movie => 'Movie',
+        MediaFormat.special => 'Special',
+        MediaFormat.ova => 'OVA',
+        MediaFormat.ona => 'ONA',
+        MediaFormat.music => 'Music',
+        MediaFormat.manga => 'Manga',
+        MediaFormat.novel => 'Novel',
+        MediaFormat.oneShot => 'One Shot',
       };
 }
 

@@ -54,6 +54,8 @@ class MediaTable extends Table {
 
   TextColumn get genres => text().named('genres').nullable()();
 
+  TextColumn get format => text().named('format').nullable()();
+
   IntColumn get trending => integer().named('trending').nullable()();
 
   IntColumn get favourites => integer().named('favourites').nullable()();

@@ -30,6 +30,7 @@ extension MediaMapper on MediaDto {
     seasonYear: seasonYear,
     isFavourite: isFavourite,
     status: status?.toJson(),
+    format: format?.toJson(),
     timeUntilAiring: nextAiringEpisode?.timeUntilAiring,
     nextAiringEpisode: nextAiringEpisode?.episode,
     genres: genres.isNotEmpty ? jsonEncode(genres) : null,

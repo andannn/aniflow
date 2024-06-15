@@ -31,6 +31,7 @@ _$MediaDtoImpl _$$MediaDtoImplFromJson(Map<String, dynamic> json) =>
       startDate: json['startDate'] == null
           ? null
           : FuzzyDateDto.fromJson(json['startDate'] as Map<String, dynamic>),
+      format: $enumDecodeNullable(_$MediaFormatEnumMap, json['format']),
       endDate: json['endDate'] == null
           ? null
           : FuzzyDateDto.fromJson(json['endDate'] as Map<String, dynamic>),
@@ -87,6 +88,7 @@ Map<String, dynamic> _$$MediaDtoImplToJson(_$MediaDtoImpl instance) =>
       'trending': instance.trending,
       'favourites': instance.favourites,
       'startDate': instance.startDate,
+      'format': instance.format,
       'endDate': instance.endDate,
       'genres': instance.genres,
       'trailer': instance.trailer,
@@ -122,4 +124,17 @@ const _$AnimeSeasonEnumMap = {
   AnimeSeason.spring: 'SPRING',
   AnimeSeason.summer: 'SUMMER',
   AnimeSeason.fall: 'FALL',
+};
+
+const _$MediaFormatEnumMap = {
+  MediaFormat.tv: 'TV',
+  MediaFormat.tvShort: 'TV_SHORT',
+  MediaFormat.movie: 'MOVIE',
+  MediaFormat.special: 'SPECIAL',
+  MediaFormat.ova: 'OVA',
+  MediaFormat.ona: 'ONA',
+  MediaFormat.music: 'MUSIC',
+  MediaFormat.manga: 'MANGA',
+  MediaFormat.novel: 'NOVEL',
+  MediaFormat.oneShot: 'ONE_SHOT',
 };
