@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
@@ -32,6 +33,7 @@ extension MediaMapper on MediaEntity {
       description: description,
       source: AnimeSource.fromJson(source),
       status: MediaStatus.fromJson(status),
+      format: MediaFormat.fromJson(format),
       bannerImage: bannerImage,
       averageScore: averageScore,
       favourites: favourites,

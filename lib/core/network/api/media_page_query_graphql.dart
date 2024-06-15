@@ -16,6 +16,8 @@ class AnimePageQueryParam {
   final List<MediaSort> animeSort;
   final List<AnimeFormat> animeFormat;
   final bool? isAdult;
+  final DateTime? startDateGreater;
+  final DateTime? endDateGreater;
 
   AnimePageQueryParam({
     required this.type,
@@ -26,10 +28,12 @@ class AnimePageQueryParam {
     this.animeSort = const [],
     this.animeFormat = const [],
     this.isAdult,
+    this.startDateGreater,
+    this.endDateGreater,
   });
 }
 
-AnimePageQueryParam createAnimePageQueryParam(
+AnimePageQueryParam createMediaPageQueryParamByCategory(
   MediaCategory category,
   AnimeSeason currentSeason,
   int currentSeasonYear,
@@ -91,14 +95,14 @@ AnimePageQueryParam createAnimePageQueryParam(
     status: status,
     animeSort: sorts,
     animeFormat: format,
-    isAdult: showAdultContents == false ? false: null,
+    isAdult: showAdultContents == false ? false : null,
   );
 }
 
-String get animeListQueryGraphQLString => '''
-query (\$page: Int, \$perPage: Int, \$type: MediaType, \$countryCode: CountryCode, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat], \$isAdult: Boolean) {
+String get mediaListQueryGraphQLString => '''
+query (\$page: Int, \$perPage: Int, \$type: MediaType, \$countryCode: CountryCode, \$seasonYear: Int, \$season: MediaSeason, \$status: MediaStatus, \$sort: [MediaSort], \$format_in: [MediaFormat], \$isAdult: Boolean, \$startDate_greater: FuzzyDateInt, \$endDate_lesser: FuzzyDateInt) {
   Page(page: \$page, perPage: \$perPage) {
-    media: media(type: \$type, countryOfOrigin: \$countryCode, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in, isAdult: \$isAdult) {
+    media: media(type: \$type, countryOfOrigin: \$countryCode, seasonYear: \$seasonYear, season: \$season, status: \$status, sort: \$sort, format_in: \$format_in, isAdult: \$isAdult, startDate_greater: \$startDate_greater, endDate_lesser: \$endDate_lesser) {
       $mediaContentQueryGraphql
     }
   }

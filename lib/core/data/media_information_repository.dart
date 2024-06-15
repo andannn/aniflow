@@ -79,11 +79,11 @@ class MediaInformationRepository {
   }) {
     return LoadPageUtil.loadPage(
       type: loadType,
-      onGetNetworkRes: (page, perPage) => dataSource.getNetworkAnimePage(
+      onGetNetworkRes: (page, perPage) => dataSource.getNetworkMediaPage(
         page: page,
         perPage: perPage,
         token: token,
-        param: createAnimePageQueryParam(
+        param: createMediaPageQueryParamByCategory(
             category,
             preferences.userData.season,
             preferences.userData.seasonYear,

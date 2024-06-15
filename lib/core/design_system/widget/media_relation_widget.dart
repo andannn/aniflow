@@ -56,7 +56,7 @@ class MediaRelationWidget extends StatelessWidget {
                     ),
                   ),
                   const Expanded(child: SizedBox()),
-                  Text(model.media.getAnimeInfoString(context),
+                  Text(model.media.getMediaInfoString(context),
                       style: textStyle),
                 ],
               ),
