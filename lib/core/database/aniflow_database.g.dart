@@ -4117,15 +4117,15 @@ class $MediaTableTable extends MediaTable
   static const VerificationMeta _startDateMeta =
       const VerificationMeta('startDate');
   @override
-  late final GeneratedColumn<int> startDate = GeneratedColumn<int>(
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
       'start_date', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _endDateMeta =
       const VerificationMeta('endDate');
   @override
-  late final GeneratedColumn<int> endDate = GeneratedColumn<int>(
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
       'end_date', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _isFavouriteMeta =
       const VerificationMeta('isFavourite');
   @override
@@ -4431,9 +4431,9 @@ class $MediaTableTable extends MediaTable
       timeUntilAiring: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}time_until_airing']),
       startDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}start_date']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}start_date']),
       endDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}end_date']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}end_date']),
       isFavourite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favourite']),
       nextAiringEpisodeUpdateTime: attachedDatabase.typeMapping.read(
@@ -4478,8 +4478,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
   final int? ratedRanking;
   final int? nextAiringEpisode;
   final int? timeUntilAiring;
-  final int? startDate;
-  final int? endDate;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final bool? isFavourite;
   final DateTime? nextAiringEpisodeUpdateTime;
   const MediaEntity(
@@ -4605,10 +4605,10 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       map['time_until_airing'] = Variable<int>(timeUntilAiring);
     }
     if (!nullToAbsent || startDate != null) {
-      map['start_date'] = Variable<int>(startDate);
+      map['start_date'] = Variable<DateTime>(startDate);
     }
     if (!nullToAbsent || endDate != null) {
-      map['end_date'] = Variable<int>(endDate);
+      map['end_date'] = Variable<DateTime>(endDate);
     }
     if (!nullToAbsent || isFavourite != null) {
       map['is_favourite'] = Variable<bool>(isFavourite);
@@ -4750,8 +4750,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       ratedRanking: serializer.fromJson<int?>(json['ratedRanking']),
       nextAiringEpisode: serializer.fromJson<int?>(json['nextAiringEpisode']),
       timeUntilAiring: serializer.fromJson<int?>(json['timeUntilAiring']),
-      startDate: serializer.fromJson<int?>(json['startDate']),
-      endDate: serializer.fromJson<int?>(json['endDate']),
+      startDate: serializer.fromJson<DateTime?>(json['startDate']),
+      endDate: serializer.fromJson<DateTime?>(json['endDate']),
       isFavourite: serializer.fromJson<bool?>(json['isFavourite']),
       nextAiringEpisodeUpdateTime:
           serializer.fromJson<DateTime?>(json['nextAiringEpisodeUpdateTime']),
@@ -4790,8 +4790,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       'ratedRanking': serializer.toJson<int?>(ratedRanking),
       'nextAiringEpisode': serializer.toJson<int?>(nextAiringEpisode),
       'timeUntilAiring': serializer.toJson<int?>(timeUntilAiring),
-      'startDate': serializer.toJson<int?>(startDate),
-      'endDate': serializer.toJson<int?>(endDate),
+      'startDate': serializer.toJson<DateTime?>(startDate),
+      'endDate': serializer.toJson<DateTime?>(endDate),
       'isFavourite': serializer.toJson<bool?>(isFavourite),
       'nextAiringEpisodeUpdateTime':
           serializer.toJson<DateTime?>(nextAiringEpisodeUpdateTime),
@@ -4828,8 +4828,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           Value<int?> ratedRanking = const Value.absent(),
           Value<int?> nextAiringEpisode = const Value.absent(),
           Value<int?> timeUntilAiring = const Value.absent(),
-          Value<int?> startDate = const Value.absent(),
-          Value<int?> endDate = const Value.absent(),
+          Value<DateTime?> startDate = const Value.absent(),
+          Value<DateTime?> endDate = const Value.absent(),
           Value<bool?> isFavourite = const Value.absent(),
           Value<DateTime?> nextAiringEpisodeUpdateTime =
               const Value.absent()}) =>
@@ -5034,8 +5034,8 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
   final Value<int?> ratedRanking;
   final Value<int?> nextAiringEpisode;
   final Value<int?> timeUntilAiring;
-  final Value<int?> startDate;
-  final Value<int?> endDate;
+  final Value<DateTime?> startDate;
+  final Value<DateTime?> endDate;
   final Value<bool?> isFavourite;
   final Value<DateTime?> nextAiringEpisodeUpdateTime;
   final Value<int> rowid;
@@ -5141,8 +5141,8 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     Expression<int>? ratedRanking,
     Expression<int>? nextAiringEpisode,
     Expression<int>? timeUntilAiring,
-    Expression<int>? startDate,
-    Expression<int>? endDate,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
     Expression<bool>? isFavourite,
     Expression<DateTime>? nextAiringEpisodeUpdateTime,
     Expression<int>? rowid,
@@ -5217,8 +5217,8 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       Value<int?>? ratedRanking,
       Value<int?>? nextAiringEpisode,
       Value<int?>? timeUntilAiring,
-      Value<int?>? startDate,
-      Value<int?>? endDate,
+      Value<DateTime?>? startDate,
+      Value<DateTime?>? endDate,
       Value<bool?>? isFavourite,
       Value<DateTime?>? nextAiringEpisodeUpdateTime,
       Value<int>? rowid}) {
@@ -5353,10 +5353,10 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       map['time_until_airing'] = Variable<int>(timeUntilAiring.value);
     }
     if (startDate.present) {
-      map['start_date'] = Variable<int>(startDate.value);
+      map['start_date'] = Variable<DateTime>(startDate.value);
     }
     if (endDate.present) {
-      map['end_date'] = Variable<int>(endDate.value);
+      map['end_date'] = Variable<DateTime>(endDate.value);
     }
     if (isFavourite.present) {
       map['is_favourite'] = Variable<bool>(isFavourite.value);
@@ -10121,8 +10121,8 @@ typedef $$MediaTableTableInsertCompanionBuilder = MediaTableCompanion Function({
   Value<int?> ratedRanking,
   Value<int?> nextAiringEpisode,
   Value<int?> timeUntilAiring,
-  Value<int?> startDate,
-  Value<int?> endDate,
+  Value<DateTime?> startDate,
+  Value<DateTime?> endDate,
   Value<bool?> isFavourite,
   Value<DateTime?> nextAiringEpisodeUpdateTime,
   Value<int> rowid,
@@ -10157,8 +10157,8 @@ typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
   Value<int?> ratedRanking,
   Value<int?> nextAiringEpisode,
   Value<int?> timeUntilAiring,
-  Value<int?> startDate,
-  Value<int?> endDate,
+  Value<DateTime?> startDate,
+  Value<DateTime?> endDate,
   Value<bool?> isFavourite,
   Value<DateTime?> nextAiringEpisodeUpdateTime,
   Value<int> rowid,
@@ -10213,8 +10213,8 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<int?> ratedRanking = const Value.absent(),
             Value<int?> nextAiringEpisode = const Value.absent(),
             Value<int?> timeUntilAiring = const Value.absent(),
-            Value<int?> startDate = const Value.absent(),
-            Value<int?> endDate = const Value.absent(),
+            Value<DateTime?> startDate = const Value.absent(),
+            Value<DateTime?> endDate = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -10285,8 +10285,8 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<int?> ratedRanking = const Value.absent(),
             Value<int?> nextAiringEpisode = const Value.absent(),
             Value<int?> timeUntilAiring = const Value.absent(),
-            Value<int?> startDate = const Value.absent(),
-            Value<int?> endDate = const Value.absent(),
+            Value<DateTime?> startDate = const Value.absent(),
+            Value<DateTime?> endDate = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -10490,12 +10490,12 @@ class $$MediaTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<int> get startDate => $state.composableBuilder(
+  ColumnFilters<DateTime> get startDate => $state.composableBuilder(
       column: $state.table.startDate,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<int> get endDate => $state.composableBuilder(
+  ColumnFilters<DateTime> get endDate => $state.composableBuilder(
       column: $state.table.endDate,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
@@ -10660,12 +10660,12 @@ class $$MediaTableTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<int> get startDate => $state.composableBuilder(
+  ColumnOrderings<DateTime> get startDate => $state.composableBuilder(
       column: $state.table.startDate,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<int> get endDate => $state.composableBuilder(
+  ColumnOrderings<DateTime> get endDate => $state.composableBuilder(
       column: $state.table.endDate,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));

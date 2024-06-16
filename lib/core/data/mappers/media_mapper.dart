@@ -60,12 +60,8 @@ extension MediaMapper on MediaEntity {
               thumbnail: trailerThumbnail,
             )
           : null,
-      startDate: startDate != null
-          ? DateTime.fromMillisecondsSinceEpoch(startDate!)
-          : null,
-      endDate: endDate != null
-          ? DateTime.fromMillisecondsSinceEpoch(endDate!)
-          : null,
+      startDate: startDate,
+      endDate: endDate,
     );
   }
 }

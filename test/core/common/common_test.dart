@@ -1,6 +1,7 @@
 import 'package:aniflow/core/common/state_stream.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -46,6 +47,11 @@ void main() {
           });
 
       expect(stream.value, equals(0));
+    });
+
+    test('date_time_to_fuzzy_int', () async {
+      expect(DateTime(2024, 1, 1).toFuzzyDateInt(), equals('20240101'));
+      expect(DateTime(2024, 12, 11).toFuzzyDateInt(), equals('20241211'));
     });
   });
 }

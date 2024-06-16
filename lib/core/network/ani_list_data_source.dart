@@ -99,7 +99,7 @@ class AniListDataSource {
     }
     if (param.animeFormat.isNotEmpty) {
       variablesMap['format_in'] =
-          param.animeFormat.expand((list) => list.sqlTypeString).toList();
+          param.animeFormat.map((e) => e.toJson()).toList();
     }
     if (param.countryCode != null) {
       variablesMap['countryCode'] = param.countryCode!.alpha2;

@@ -102,7 +102,7 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
         .watch();
   }
 
-  Future<List<MediaEntity>> getMediaByPage(String category,
+  Future<List<MediaEntity>> getMediaPageByCategory(String category,
       {required int page, int perPage = AfConfig.defaultPerPageCount}) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
@@ -118,7 +118,27 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
     return (query.map((row) => row.readTable(mediaTable))).get();
   }
 
-  Stream<List<MediaEntity>> getMediasStream(String category,
+  Future<List<MediaEntity>> getMediasByTimeRange({
+    required int page,
+    required int perPage,
+    required List<String> mediaFormat,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+
+    final query = select(mediaTable)
+      ..where((t) =>
+          t.startDate.isBiggerOrEqualValue(startDate) &
+          t.startDate.isSmallerOrEqualValue(endDate) &
+          t.format.isIn(mediaFormat))
+      ..limit(limit, offset: offset);
+
+    return query.get();
+  }
+
+  Stream<List<MediaEntity>> getCategoryMediasStream(String category,
       {required int limit}) {
     final query = select(mediaTable).join([
       innerJoin(categoryMediaPagingCrossRefTable,

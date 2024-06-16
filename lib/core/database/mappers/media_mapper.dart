@@ -46,7 +46,7 @@ extension MediaMapper on MediaDto {
       orElse: () => null,
     )
         ?.rank,
-    startDate: startDate.toDateTime()?.millisecondsSinceEpoch,
-    endDate: endDate.toDateTime()?.millisecondsSinceEpoch,
+    startDate: startDate.toDateTime(),
+    endDate: endDate.toDateTime(),
   );
 }

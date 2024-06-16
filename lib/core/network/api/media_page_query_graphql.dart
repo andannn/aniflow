@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/definitions/anime_format.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
@@ -14,7 +14,7 @@ class AnimePageQueryParam {
   final CountryCode? countryCode;
   final MediaType type;
   final List<MediaSort> animeSort;
-  final List<AnimeFormat> animeFormat;
+  final List<MediaFormat> animeFormat;
   final bool? isAdult;
   final DateTime? startDateGreater;
   final DateTime? endDateGreater;
@@ -43,7 +43,7 @@ AnimePageQueryParam createMediaPageQueryParamByCategory(
   AnimeSeasonParam? seasonParam;
   MediaType type = getMediaTypeByCategory(category);
   List<MediaSort> sorts = [];
-  List<AnimeFormat> format = [];
+  List<MediaFormat> format = [];
   CountryCode? code;
 
   AnimeSeasonParam currentSeasonParam = AnimeSeasonParam(
@@ -54,12 +54,23 @@ AnimePageQueryParam createMediaPageQueryParamByCategory(
     case MediaCategory.currentSeasonAnime:
       status = null;
       seasonParam = currentSeasonParam;
-      // sorts = [AnimeSort.latestUpdate];
-      format = [AnimeFormat.tv, AnimeFormat.ova];
+      format = [
+        MediaFormat.tv,
+        MediaFormat.tvShort,
+        MediaFormat.ova,
+        MediaFormat.ona,
+        MediaFormat.oneShot
+      ];
     case MediaCategory.nextSeasonAnime:
       status = null;
       seasonParam = getNextSeasonParam(currentSeasonParam);
-      format = [AnimeFormat.tv, AnimeFormat.ova];
+      format = [
+        MediaFormat.tv,
+        MediaFormat.tvShort,
+        MediaFormat.ova,
+        MediaFormat.ona,
+        MediaFormat.oneShot
+      ];
     case MediaCategory.trendingAnime:
       status = null;
       seasonParam = null;
@@ -67,7 +78,7 @@ AnimePageQueryParam createMediaPageQueryParamByCategory(
     case MediaCategory.movieAnime:
       status = null;
       seasonParam = null;
-      format = [AnimeFormat.movie];
+      format = [MediaFormat.movie];
       sorts = [MediaSort.trending];
     case MediaCategory.trendingManga:
       status = null;
