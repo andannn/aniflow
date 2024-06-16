@@ -4,8 +4,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
-import 'package:aniflow/feature/airing_schedule/schedule_category.dart';
-import 'package:aniflow/feature/airing_schedule/schedule_page_state.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/schedule_page_state.dart';
 import 'package:aniflow/feature/aniflow_home/discover/airing_schedule/today_airing_schedule_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/airing_schedule/today_airing_schedule_state.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_character.dart';
@@ -65,9 +64,9 @@ class TodayAiringSchedule extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(ScheduleCategory category) {
+  Widget _buildItem(DayScheduleCategoryModel category) {
     final isFutureSchedule =
-        TimeOfDay.now().hour <= category.timeOfDayHeader!.hour;
+        TimeOfDay.now().hour <= category.key!.hour;
     return Opacity(
       opacity: isFutureSchedule ? 1 : 0.4,
       child: _TimeLineItem(category: category),
@@ -78,7 +77,7 @@ class TodayAiringSchedule extends StatelessWidget {
 class _TimeLineItem extends StatelessWidget {
   const _TimeLineItem({required this.category});
 
-  final ScheduleCategory category;
+  final DayScheduleCategoryModel category;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +108,7 @@ class _TimeLineItem extends StatelessWidget {
               children: [
                 Text(
                   context.materialLocal
-                      .formatTimeOfDay(category.timeOfDayHeader!),
+                      .formatTimeOfDay(category.key!),
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 const SizedBox(width: 16),

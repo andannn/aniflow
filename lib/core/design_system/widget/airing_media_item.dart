@@ -1,5 +1,5 @@
 import 'package:aniflow/core/common/setting/user_title_language.dart';
-import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +9,11 @@ class AiringMediaItem extends StatelessWidget {
     required this.model,
     required this.onClick,
     required this.userTitleLanguage,
+    required this.description,
   });
 
-  final AiringScheduleAndAnimeModel model;
+  final MediaModel model;
+  final String description;
   final VoidCallback onClick;
   final UserTitleLanguage userTitleLanguage;
 
@@ -21,17 +23,13 @@ class AiringMediaItem extends StatelessWidget {
     return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: MediaRowItem(
-        model: model.animeModel,
+        model: model,
         language: userTitleLanguage,
         watchInfoTextColor: colorScheme.primary,
-        watchingInfo: _buildWatchingInfoLabel(model),
+        watchingInfo: description,
         titleMaxLines: null,
         onClick: onClick,
       ),
     );
-  }
-
-  String _buildWatchingInfoLabel(AiringScheduleAndAnimeModel model) {
-    return 'EP.${model.airingSchedule.episode}';
   }
 }

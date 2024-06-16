@@ -1,18 +1,23 @@
 import 'package:aniflow/core/common/state_stream.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/network/util/date_time_util.dart';
+import 'package:aniflow/feature/airing_schedule/movie_schedule_time_line/month_schedule_category.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('common_test', () {
     test('test_data_time', () async {
-      DateTime(2023, 1).difference(DateTime(2023, 3)).inDays;
+      DateTime(2023, 1)
+          .difference(DateTime(2023, 3))
+          .inDays;
     });
 
     test('test_data_time_2', () async {
-      DateTime.fromMillisecondsSinceEpoch(60 * 60 * 1000)
+      DateTime
+          .fromMillisecondsSinceEpoch(60 * 60 * 1000)
           .difference(DateTime.fromMillisecondsSinceEpoch(0))
           .inMinutes;
     });
@@ -52,6 +57,15 @@ void main() {
     test('date_time_to_fuzzy_int', () async {
       expect(DateTime(2024, 1, 1).toFuzzyDateInt(), equals('20240101'));
       expect(DateTime(2024, 12, 11).toFuzzyDateInt(), equals('20241211'));
+    });
+
+    test('date_time_to_fuzzy_int', () async {
+      final result = [
+        MediaModel(id: '1', startDate: DateTime(2023, 1, 1)),
+        MediaModel(id: '2', startDate: DateTime(2024, 1, 23)),
+        MediaModel(id: '3', startDate: DateTime(2024, 1, 13)),
+      ].toScheduleCategory();
+      expect(result.length, equals(2));
     });
   });
 }

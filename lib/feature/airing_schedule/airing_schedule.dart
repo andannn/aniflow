@@ -1,8 +1,15 @@
 import 'package:aniflow/core/common/message/message.dart';
-import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day.dart';
-import 'package:aniflow/feature/airing_schedule/schedule_page_key.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/airing_schedule_of_day.dart';
+import 'package:aniflow/feature/airing_schedule/movie_schedule_time_line/movie_schedule_time_line.dart';
 import 'package:flutter/material.dart';
+
+enum ScheduleType {
+  bangumi,
+  movie;
+
+  ScheduleType toggle() =>
+      this == ScheduleType.bangumi ? ScheduleType.movie : ScheduleType.bangumi;
+}
 
 class AiringSchedule extends Page {
   const AiringSchedule({super.key});
@@ -35,75 +42,26 @@ class _AiringScheduleContent extends StatefulWidget {
 }
 
 class _AiringScheduleContentState extends State<_AiringScheduleContent>
-    with TickerProviderStateMixin, ShowSnackBarMixin {
-  late final TabController _tabController;
-
-  List<SchedulePageKey> keys = SchedulePageKey.createScheduleKeys(
-      DateTime.now(),
-      daysAgo: 6,
-      daysAfter: 6);
-
-  final int _pageCount = 13;
-  final int _initPageIndex = 6;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController =
-        TabController(initialIndex: _initPageIndex, length: 13, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _tabController.dispose();
-  }
+    with ShowSnackBarMixin {
+  var _selectedBangumi = ScheduleType.bangumi;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.appLocal.schedule),
-        bottom: _buildAiringScheduleTabs(context, keys),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _selectedBangumi = _selectedBangumi.toggle();
+          });
+        },
+        child: const Text('AAA'),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: List.generate(
-          _pageCount,
-          (index) => AiringScheduleOfDayBlocProvider(
-            key: ValueKey("airing_schedule_page_$index"),
-            dateTime: keys[index].dateTime,
-          ),
-        ),
-      ),
+      body: _buildBody(),
     );
   }
 
-  TabBar _buildAiringScheduleTabs(
-      BuildContext context, List<SchedulePageKey> scheduleKeys) {
-    return TabBar(
-      controller: _tabController,
-      isScrollable: true,
-      tabs: scheduleKeys.map((e) => _buildTabBarItems(context, e)).toList(),
-    );
-  }
-
-  Widget _buildTabBarItems(BuildContext context, SchedulePageKey key) {
-    final localization = Localizations.of<MaterialLocalizations>(
-        context, MaterialLocalizations)!;
-    final isToday = key.isToday;
-    final backgroundColor =
-        isToday ? Theme.of(context).colorScheme.tertiaryContainer : null;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2.0),
-      child: Container(
-        decoration: ShapeDecoration(
-          color: backgroundColor,
-          shape: const StadiumBorder(),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-        child: Text(localization.formatMediumDate(key.dateTime)),
-      ),
-    );
-  }
+  Widget _buildBody() => switch (_selectedBangumi) {
+        ScheduleType.bangumi => const AiringScheduleOfDayPage(),
+        ScheduleType.movie => const MovieScheduleTimeLine(),
+      };
 }
