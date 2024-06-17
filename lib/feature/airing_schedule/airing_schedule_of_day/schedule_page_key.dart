@@ -11,7 +11,6 @@ class SchedulePageKey extends Equatable {
   @override
   List<Object?> get props => [dayFromNow];
 
-
   @override
   String toString() {
     return 'SchedulePageKey(dayFromNow: $dayFromNow, dateTime: $dateTime)';

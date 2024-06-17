@@ -80,6 +80,7 @@ const mediaListContent = '''
           native
         }
         type
+        format
         description(asHtml: false)
         episodes
         seasonYear

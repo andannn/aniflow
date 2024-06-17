@@ -6,10 +6,12 @@ import 'package:aniflow/core/common/definitions/anime_source.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_relation.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
@@ -184,19 +186,44 @@ extension MediaListStatusEx on MediaListStatus {
       };
 }
 
+extension MediaFormatEx on MediaFormat {
+  String translated(BuildContext context) => switch (this) {
+        MediaFormat.tv => context.appLocal.animeLabel,
+        MediaFormat.tvShort => 'Short Anime',
+        MediaFormat.movie => 'Movie',
+        MediaFormat.special => 'DVD Special',
+        MediaFormat.ova => 'OVA',
+        MediaFormat.ona => 'ONA',
+        MediaFormat.music => 'Music',
+        MediaFormat.manga => context.appLocal.mangaLabel,
+        MediaFormat.novel => 'Novel',
+        MediaFormat.oneShot => 'One Shot',
+      };
+}
+
 extension AnimeModelEx on MediaModel {
-  String getAnimeInfoString(BuildContext context) {
+  String getMediaInfoString(BuildContext context) {
     final itemList = <String>[];
+    if (format != null) {
+      String extra = '';
+      if (type == MediaType.anime && source != null) {
+        extra = '(${source!.translated(context)})';
+      }
+
+      itemList.add('${format!.translated(context)}$extra');
+    }
+
     if (seasonYear != null && season != null) {
       itemList.add('$seasonYear${season!.translated(context)}');
     }
 
-    if (episodes != null) {
+    if (episodes != null &&
+        episodes != 0 &&
+        (format == MediaFormat.manga ||
+            format == MediaFormat.tv ||
+            format == MediaFormat.ova ||
+            format == MediaFormat.ona)) {
       itemList.add('$episodes${context.appLocal.episodes}');
-    }
-
-    if (source != null) {
-      itemList.add(source!.translated(context));
     }
 
     if (status != null) {

@@ -79,7 +79,7 @@ class MediaRowItem extends StatelessWidget {
                           : const SizedBox(),
                       const SizedBox(height: 16),
                       Text(
-                        model.getAnimeInfoString(context),
+                        model.getMediaInfoString(context),
                         style: textTheme.bodySmall
                             ?.copyWith(color: surfaceTextColor),
                       ),

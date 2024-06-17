@@ -670,7 +670,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
   }
 
   Widget _buildAnimeInfoSection(BuildContext context, MediaModel model) {
-    final infoString = model.getAnimeInfoString(context);
+    final infoString = model.getMediaInfoString(context);
     return AnimatedScaleSwitcher(
       visible: infoString.isNotEmpty,
       builder: () => Padding(
@@ -679,7 +679,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              model.getAnimeInfoString(context),
+              model.getMediaInfoString(context),
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],

@@ -1,5 +1,7 @@
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
@@ -79,17 +81,17 @@ class MediaInformationRepository {
   }) {
     return LoadPageUtil.loadPage(
       type: loadType,
-      onGetNetworkRes: (page, perPage) => dataSource.getNetworkAnimePage(
+      onGetNetworkRes: (page, perPage) => dataSource.getNetworkMediaPage(
         page: page,
         perPage: perPage,
         token: token,
-        param: createAnimePageQueryParam(
+        param: createMediaPageQueryParamByCategory(
             category,
             preferences.userData.season,
             preferences.userData.seasonYear,
             preferences.userData.displayAdultContent),
       ),
-      onGetEntityFromDB: (page, perPage) => mediaDao.getMediaByPage(
+      onGetEntityFromDB: (page, perPage) => mediaDao.getMediaPageByCategory(
           category.getContentValue(),
           page: page,
           perPage: perPage),
@@ -97,6 +99,38 @@ class MediaInformationRepository {
           .upsertMediaByCategory(category.getContentValue(), medias: entities),
       onClearDbCache: () =>
           mediaDao.clearCategoryMediaCrossRef(category.getContentValue()),
+      mapDtoToEntity: (dto) => dto.toEntity(),
+      mapEntityToModel: (entity) => entity.toModel(),
+    );
+  }
+
+  Future<LoadResult<List<MediaModel>>> refreshMoviesPage({
+    required DateTime startDateGreater,
+    required DateTime endDateLesser,
+    CancelToken? token,
+  }) {
+    return LoadPageUtil.loadPage(
+      type: const Refresh(50),
+      onGetNetworkRes: (page, perPage) => dataSource.getNetworkMediaPage(
+        page: page,
+        perPage: perPage,
+        token: token,
+        param: AnimePageQueryParam(
+          type: MediaType.anime,
+          startDateGreater: startDateGreater,
+          endDateGreater: endDateLesser,
+          animeFormat: [MediaFormat.movie],
+        ),
+      ),
+      onGetEntityFromDB: (page, perPage) => mediaDao.getMediasByTimeRange(
+        page: page,
+        perPage: perPage,
+        mediaFormat: [MediaFormat.movie].map((e) => e.toJson()).toList(),
+        startDate: startDateGreater,
+        endDate: endDateLesser,
+      ),
+      onInsertEntityToDB: (entities) => mediaDao.insertOrUpdateMedia(entities),
+      onClearDbCache: () async {},
       mapDtoToEntity: (dto) => dto.toEntity(),
       mapEntityToModel: (entity) => entity.toModel(),
     );
@@ -384,7 +418,9 @@ class MediaInformationRepository {
     required MediaCategory category,
     required int max,
   }) {
-    return mediaDao.getMediasStream(category.getContentValue(), limit: max).map(
+    return mediaDao
+        .getCategoryMediasStream(category.getContentValue(), limit: max)
+        .map(
           (e) => e.map((e) => e.toModel()).toList(),
         );
   }

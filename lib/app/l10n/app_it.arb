@@ -70,7 +70,7 @@
 	"korean": "Coreano",
 	"portuguese": "Portoghese",
 	"spanish": "Spagnolo",
-	"schedule": "Programma",
+	"schedule": "Bangumi programma",
 	"watchNow": "Guarda ora",
 	"markWatched": "Guardato",
 	"track": "Traccia",
@@ -125,5 +125,8 @@
 	"paused": "In pausa",
 	"planning": "Pianificazione",
 	"todayBirthdayCharacter": "Oggi è il compleanno del personaggio {date}",
-	"animeSchedule": "Programma per {date}"
+	"animeSchedule": "Programma per {date}",
+	"releaseDate": "Sarà rilasciato il {date}",
+	"releasedAt": "Uscito il {date}",
+	"movieSchedule": "Movie schedule"
 }

@@ -20,12 +20,14 @@ void main() {
     });
 
     final dummyAnimeData = [
-      const MediaEntity(
+       MediaEntity(
           id: '5784',
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
           nextAiringEpisode: 11,
           nativeTitle: '間の楔',
+          startDate: DateTime(2024, 1, 2),
+          format: 'TEST',
           coverImageExtraLarge:
               'https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx5784-RRtXLc6endVP.jpg',
           coverImageColor: '#6b351a'),
@@ -97,14 +99,14 @@ void main() {
     test('anime_dao_insert_and_get', () async {
       await dao.upsertMediaByCategory('trendingAnime', medias: dummyAnimeData);
 
-      final res = await dao.getMediaByPage('trendingAnime', page: 1);
+      final res = await dao.getMediaPageByCategory('trendingAnime', page: 1);
       expect(res, equals(dummyAnimeData));
     });
 
     test('anime_dao_insert_and_get_stream', () async {
       await dao.upsertMediaByCategory('trendingAnime', medias: dummyAnimeData);
 
-      final steam = dao.getMediasStream('trendingAnime', limit: 5);
+      final steam = dao.getCategoryMediasStream('trendingAnime', limit: 5);
 
       final expectation = expectLater(
         steam,
@@ -118,9 +120,10 @@ void main() {
           medias: dummyAnimeData.sublist(0, 2));
       await dao.upsertMediaByCategory('currentSeasonAnime',
           medias: dummyAnimeData.sublist(1, 3));
-      final res = await dao.getMediaByPage('trendingAnime', page: 1);
+      final res = await dao.getMediaPageByCategory('trendingAnime', page: 1);
       expect(res, equals(dummyAnimeData.sublist(0, 2)));
-      final res1 = await dao.getMediaByPage('currentSeasonAnime', page: 1);
+      final res1 =
+          await dao.getMediaPageByCategory('currentSeasonAnime', page: 1);
       expect(res1, equals(dummyAnimeData.sublist(1, 3)));
     });
 
@@ -156,7 +159,7 @@ void main() {
 
       await dao.clearCategoryMediaCrossRef('trendingAnime');
 
-      final res = await dao.getMediaByPage('trendingAnime', page: 1);
+      final res = await dao.getMediaPageByCategory('trendingAnime', page: 1);
 
       expect(res, equals([]));
     });
@@ -168,6 +171,19 @@ void main() {
           .write(const MediaTableCompanion(nextAiringEpisode: Value(12)));
 
       await (db.select(db.mediaTable)..where((t) => t.id.equals('5784'))).get();
+    });
+
+    test('get medias by time range', () async {
+      await dao.insertOrUpdateMedia(dummyAnimeData);
+
+      final res = await dao.getMediasByTimeRange(
+        page: 1,
+        perPage: 12,
+        mediaFormat: ['TEST'],
+        startDate: DateTime(2024, 1, 2),
+        endDate: DateTime(2024, 1, 3),
+      );
+      expect(res, equals([dummyAnimeData[0]]));
     });
   });
 }

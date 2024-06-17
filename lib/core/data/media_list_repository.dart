@@ -17,7 +17,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/network/api/ani_save_media_list_mution_graphql.dart';
 import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
-import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';

@@ -40,6 +40,7 @@ mixin _$MediaModel {
   bool get isFollowing => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
+  MediaFormat? get format => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
       throw _privateConstructorUsedError;
   List<StaffAndRoleModel> get staffs => throw _privateConstructorUsedError;
@@ -84,6 +85,7 @@ abstract class $MediaModelCopyWith<$Res> {
       bool isFollowing,
       DateTime? startDate,
       DateTime? endDate,
+      MediaFormat? format,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       List<StaffAndRoleModel> staffs,
       List<MediaExternalLinkModel> externalLinks,
@@ -132,6 +134,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? isFollowing = null,
     Object? startDate = freezed,
     Object? endDate = freezed,
+    Object? format = freezed,
     Object? characterAndVoiceActors = null,
     Object? staffs = null,
     Object? externalLinks = null,
@@ -235,6 +238,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as MediaFormat?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value.characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -328,6 +335,7 @@ abstract class _$$MediaModelImplCopyWith<$Res>
       bool isFollowing,
       DateTime? startDate,
       DateTime? endDate,
+      MediaFormat? format,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       List<StaffAndRoleModel> staffs,
       List<MediaExternalLinkModel> externalLinks,
@@ -377,6 +385,7 @@ class __$$MediaModelImplCopyWithImpl<$Res>
     Object? isFollowing = null,
     Object? startDate = freezed,
     Object? endDate = freezed,
+    Object? format = freezed,
     Object? characterAndVoiceActors = null,
     Object? staffs = null,
     Object? externalLinks = null,
@@ -480,6 +489,10 @@ class __$$MediaModelImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as MediaFormat?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value._characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -532,6 +545,7 @@ class _$MediaModelImpl implements _MediaModel {
       this.isFollowing = false,
       this.startDate,
       this.endDate,
+      this.format,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
           const [],
       final List<StaffAndRoleModel> staffs = const [],
@@ -612,6 +626,8 @@ class _$MediaModelImpl implements _MediaModel {
   final DateTime? startDate;
   @override
   final DateTime? endDate;
+  @override
+  final MediaFormat? format;
   final List<CharacterAndVoiceActorModel> _characterAndVoiceActors;
   @override
   @JsonKey()
@@ -660,7 +676,7 @@ class _$MediaModelImpl implements _MediaModel {
 
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFavourite: $isFavourite, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFavourite: $isFavourite, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, format: $format, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
   }
 
   @override
@@ -707,6 +723,7 @@ class _$MediaModelImpl implements _MediaModel {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.format, format) || other.format == format) &&
             const DeepCollectionEquality().equals(
                 other._characterAndVoiceActors, _characterAndVoiceActors) &&
             const DeepCollectionEquality().equals(other._staffs, _staffs) &&
@@ -744,6 +761,7 @@ class _$MediaModelImpl implements _MediaModel {
         isFollowing,
         startDate,
         endDate,
+        format,
         const DeepCollectionEquality().hash(_characterAndVoiceActors),
         const DeepCollectionEquality().hash(_staffs),
         const DeepCollectionEquality().hash(_externalLinks),
@@ -784,6 +802,7 @@ abstract class _MediaModel implements MediaModel {
       final bool isFollowing,
       final DateTime? startDate,
       final DateTime? endDate,
+      final MediaFormat? format,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       final List<StaffAndRoleModel> staffs,
       final List<MediaExternalLinkModel> externalLinks,
@@ -838,6 +857,8 @@ abstract class _MediaModel implements MediaModel {
   DateTime? get startDate;
   @override
   DateTime? get endDate;
+  @override
+  MediaFormat? get format;
   @override
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors;
   @override

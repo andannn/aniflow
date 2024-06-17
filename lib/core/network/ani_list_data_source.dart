@@ -41,6 +41,7 @@ import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -71,47 +72,47 @@ class AniListDataSource {
     return detailAnimeDto;
   }
 
-  Future<List<MediaDto>> getNetworkAnimePage({
+  Future<List<MediaDto>> getNetworkMediaPage({
     required int page,
     required int perPage,
     required AnimePageQueryParam param,
     CancelToken? token,
   }) async {
-    final queryGraphQL = animeListQueryGraphQLString;
-    final hasSeasonYear = param.seasonYear != null;
-    final hasSeason = param.season != null;
-    final hasStatus = param.status != null;
-    final hasAnimeSort = param.animeSort.isNotEmpty;
-    final hasAnimeFormat = param.animeFormat.isNotEmpty;
-    final hasCountryCode = param.countryCode != null;
-    final hasIsAdult = param.isAdult != null;
+    final queryGraphQL = mediaListQueryGraphQLString;
     final variablesMap = <String, dynamic>{
       'page': page,
       'perPage': perPage,
       'type': param.type.toJson(),
     };
 
-    if (hasSeasonYear) {
+    if (param.seasonYear != null) {
       variablesMap['seasonYear'] = param.seasonYear;
     }
-    if (hasSeason) {
+    if (param.season != null) {
       variablesMap['season'] = param.season?.sqlTypeString;
     }
-    if (hasStatus) {
+    if (param.status != null) {
       variablesMap['status'] = param.status?.sqlTypeString;
     }
-    if (hasAnimeSort) {
+    if (param.animeSort.isNotEmpty) {
       variablesMap['sort'] = param.animeSort.map((e) => e.toJson()).toList();
     }
-    if (hasAnimeFormat) {
+    if (param.animeFormat.isNotEmpty) {
       variablesMap['format_in'] =
-          param.animeFormat.expand((list) => list.sqlTypeString).toList();
+          param.animeFormat.map((e) => e.toJson()).toList();
     }
-    if (hasCountryCode) {
+    if (param.countryCode != null) {
       variablesMap['countryCode'] = param.countryCode!.alpha2;
     }
-    if (hasIsAdult) {
+    if (param.isAdult != null) {
       variablesMap['isAdult'] = param.isAdult;
+    }
+    if (param.startDateGreater != null) {
+      variablesMap['startDate_greater'] =
+          param.startDateGreater!.toFuzzyDateInt();
+    }
+    if (param.endDateGreater != null) {
+      variablesMap['endDate_lesser'] = param.endDateGreater!.toFuzzyDateInt();
     }
 
     return dio.post(
