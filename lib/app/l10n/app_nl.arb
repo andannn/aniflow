@@ -70,7 +70,7 @@
 	"korean": "Koreaans",
 	"portuguese": "Portugees",
 	"spanish": "Spaans",
-	"schedule": "Schema",
+	"schedule": "Bangumi schema",
 	"watchNow": "Kijk nu",
 	"markWatched": "Bekeken",
 	"track": "Spoor",
@@ -125,5 +125,8 @@
 	"paused": "Gepauzeerd",
 	"planning": "Plannen",
 	"todayBirthdayCharacter": "Vandaag is de verjaardag van het personage {date}",
-	"animeSchedule": "Schema voor {date}"
+	"animeSchedule": "Schema voor {date}",
+	"releaseDate": "Wordt uitgebracht op {date}",
+	"releasedAt": "Uitgebracht op {date}",
+	"movieSchedule": "Filmrooster"
 }

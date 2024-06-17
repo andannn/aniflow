@@ -70,7 +70,7 @@
 	"korean": "Korean",
 	"portuguese": "Portuguese",
 	"spanish": "Spanish",
-	"schedule": "Schedule",
+	"schedule": "bangumi schedule",
 	"watchNow": "Watch now",
 	"markWatched": "Watched",
 	"track": "Track",
@@ -163,5 +163,24 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"@releaseDate": {
+		"description": "The release date of the movie",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"releaseDate": "Will be released on {date}",
+	"@releasedAt": {
+		"description": "The release date and time of the movie",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"releasedAt": "Released at {date}",
+	"movieSchedule": "Movie schedule"
 }

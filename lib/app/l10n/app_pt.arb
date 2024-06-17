@@ -70,7 +70,7 @@
 	"korean": "Coreano",
 	"portuguese": "Português",
 	"spanish": "Espanhol",
-	"schedule": "Agendar",
+	"schedule": "Bangumi agendar",
 	"watchNow": "Assista agora",
 	"markWatched": "Assistido",
 	"track": "Acompanhar",
@@ -125,5 +125,8 @@
 	"paused": "Pausado",
 	"planning": "Planejamento",
 	"todayBirthdayCharacter": "Hoje é o aniversário do personagem {date}",
-	"animeSchedule": "Agenda para {date}"
+	"animeSchedule": "Agenda para {date}",
+	"releaseDate": "Será lançado em {date}",
+	"releasedAt":"Lançado em {date}",
+	"movieSchedule": "Horário de filmes"
 }

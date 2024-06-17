@@ -1,4 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/airing_media_item.dart';
@@ -28,7 +29,7 @@ class MovieScheduleTimeLineBlocProvider extends StatelessWidget {
           GetIt.instance.get<MovieScheduleTimeLineBloc>(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("AAAA"),
+          title: Text(context.appLocal.movieSchedule),
         ),
         body: const MovieScheduleTimeContent(),
       ),
@@ -76,7 +77,7 @@ class MovieScheduleTimeContent extends StatelessWidget {
                           child: AiringMediaItem(
                             model: media,
                             userTitleLanguage: userTitleLanguage,
-                            description: 'media media media media ',
+                            description: _getDescription(context, media),
                             onClick: () {
                               RootRouterDelegate.get()
                                   .navigateToDetailMedia(media.id);
@@ -92,5 +93,18 @@ class MovieScheduleTimeContent extends StatelessWidget {
         }
       },
     );
+  }
+
+  String _getDescription(BuildContext context, MediaModel media) {
+    final startDate = media.startDate;
+    if (startDate == null) {
+      return '';
+    }
+
+    return startDate.isAfter(DateTime.now())
+        ? context.appLocal
+            .releaseDate(context.materialLocal.formatMediumDate(startDate))
+        : context.appLocal
+            .releasedAt(context.materialLocal.formatMediumDate(startDate));
   }
 }

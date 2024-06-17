@@ -54,7 +54,9 @@ class _AiringScheduleContentState extends State<_AiringScheduleContent>
             _selectedBangumi = _selectedBangumi.toggle();
           });
         },
-        child: const Text('AAA'),
+        child: _selectedBangumi == ScheduleType.bangumi
+            ? const Icon(Icons.palette_rounded)
+            : const Icon(Icons.local_movies),
       ),
       body: _buildBody(),
     );

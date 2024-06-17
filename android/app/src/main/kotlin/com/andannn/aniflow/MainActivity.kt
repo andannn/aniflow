@@ -11,7 +11,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 
 private const val TAG = "MainActivity"
 
-class MainActivity : FlutterFragmentActivity() {
+class MainActivity : FlutterActivity() {
     private lateinit var authChannel: EventChannel
     private lateinit var methodChannel: MethodChannel
     private var authEventSink: EventChannel.EventSink? = null
@@ -23,6 +23,7 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        Log.d(TAG, "configureFlutterEngine: ${this.hashCode()}")
         GeneratedPluginRegistrant.registerWith(flutterEngine)
         authChannel = EventChannel(
             /* messenger = */ flutterEngine.dartExecutor.binaryMessenger,
