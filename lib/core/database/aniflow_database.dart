@@ -134,9 +134,19 @@ class AniflowDatabase extends _$AniflowDatabase {
           );
         },
         from4To5: (Migrator m, Schema5 schema) async {
+          await delete(mediaTable).go();
           await m.addColumn(
             schema.mediaTable,
             schema.mediaTable.format,
+          );
+          await m.alterTable(
+            TableMigration(
+              mediaTable,
+              columnTransformer: {
+                mediaTable.startDate: mediaTable.startDate.cast<DateTime>(),
+                mediaTable.endDate: mediaTable.endDate.cast<DateTime>(),
+              },
+            ),
           );
         },
       ),
