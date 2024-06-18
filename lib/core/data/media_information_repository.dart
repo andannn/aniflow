@@ -534,4 +534,19 @@ class MediaInformationRepository {
       mapDtoToModel: (edge) => edge.media!.toModel(),
     );
   }
+
+  Stream<List<MediaModel>> getMediaStreamByAiringTimeRange(
+      {required DateTime start,
+      required DateTime end,
+      required List<MediaFormat> format}) {
+    return mediaDao
+        .getMediaStreamByAiringTimeRange(
+          start,
+          end,
+          format.map((e) => e.toJson()).toList(),
+        )
+        .map(
+          (entities) => entities.map((entity) => entity.toModel()).toList(),
+        );
+  }
 }
