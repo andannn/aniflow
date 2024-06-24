@@ -17,6 +17,8 @@ mixin AfConfig {
   static const int staffColumnCount = 2;
 
   static const String imageDownloadFolder = 'aniflow';
+  static const int daysBeforeOfMoviesInHome = 15;
+  static const int daysAfterOfMoviesInHome = 30;
 }
 
 /// Only for test

@@ -324,3 +324,18 @@ extension ListActivityModelEx on ListActivityModel {
     ];
   }
 }
+
+extension MediaModelEx on MediaModel {
+  String getStartDateDescription(BuildContext context) {
+    final startDate = this.startDate;
+    if (startDate == null) {
+      return '';
+    }
+
+    return startDate.isAfter(DateTime.now())
+        ? context.appLocal
+            .releaseDate(context.materialLocal.formatMediumDate(startDate))
+        : context.appLocal
+            .releasedAt(context.materialLocal.formatMediumDate(startDate));
+  }
+}

@@ -20,7 +20,7 @@ void main() {
     });
 
     final dummyAnimeData = [
-       MediaEntity(
+      MediaEntity(
           id: '5784',
           englishTitle: '',
           romajiTitle: 'Ai no Kusabi (2012)',
@@ -111,6 +111,22 @@ void main() {
       final expectation = expectLater(
         steam,
         emitsInOrder([dummyAnimeData]),
+      );
+      await expectation;
+    });
+
+    test('anime_dao_insert_and_get_stream', () async {
+      await dao.upsertMediaByCategory('trendingAnime', medias: dummyAnimeData);
+
+      final steam = dao.getMediaStreamByAiringTimeRange(
+        DateTime(2024, 1, 2),
+        DateTime(2024 , 1, 2),
+        ['TEST'],
+      );
+
+      final expectation = expectLater(
+        steam,
+        emitsInOrder([[dummyAnimeData[0]]]),
       );
       await expectation;
     });

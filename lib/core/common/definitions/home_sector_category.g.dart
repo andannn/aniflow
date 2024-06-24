@@ -10,6 +10,7 @@ const _$HomeSectorCategoryEnumMap = {
   HomeSectorCategory.upNext: 'upNext',
   HomeSectorCategory.birthdayCharacters: 'birthdayCharacters',
   HomeSectorCategory.todaySchedule: 'todaySchedule',
+  HomeSectorCategory.recentMovies: 'recentMovies',
   HomeSectorCategory.currentSeasonAnime: 'currentSeasonAnime',
   HomeSectorCategory.nextSeasonAnime: 'nextSeasonAnime',
   HomeSectorCategory.trendingAnime: 'trendingAnime',

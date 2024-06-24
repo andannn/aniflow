@@ -10,6 +10,8 @@ enum HomeSectorCategory {
   birthdayCharacters,
   @JsonValue('todaySchedule')
   todaySchedule,
+  @JsonValue('recentMovies')
+  recentMovies,
   @JsonValue('currentSeasonAnime')
   currentSeasonAnime,
   @JsonValue('nextSeasonAnime')

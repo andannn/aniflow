@@ -77,7 +77,7 @@ class MovieScheduleTimeContent extends StatelessWidget {
                           child: AiringMediaItem(
                             model: media,
                             userTitleLanguage: userTitleLanguage,
-                            description: _getDescription(context, media),
+                            description: media.getStartDateDescription(context),
                             onClick: () {
                               RootRouterDelegate.get()
                                   .navigateToDetailMedia(media.id);
@@ -93,18 +93,5 @@ class MovieScheduleTimeContent extends StatelessWidget {
         }
       },
     );
-  }
-
-  String _getDescription(BuildContext context, MediaModel media) {
-    final startDate = media.startDate;
-    if (startDate == null) {
-      return '';
-    }
-
-    return startDate.isAfter(DateTime.now())
-        ? context.appLocal
-            .releaseDate(context.materialLocal.formatMediumDate(startDate))
-        : context.appLocal
-            .releasedAt(context.materialLocal.formatMediumDate(startDate));
   }
 }

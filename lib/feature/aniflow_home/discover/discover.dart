@@ -12,6 +12,7 @@ import 'package:aniflow/feature/aniflow_home/discover/discover_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/discover_ui_state.dart';
 import 'package:aniflow/feature/aniflow_home/discover/media_category_preview/media_category_preview.dart';
 import 'package:aniflow/feature/aniflow_home/discover/next_to_watch/next_to_watch.dart';
+import 'package:aniflow/feature/aniflow_home/discover/recent_movies/recent_movies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -134,6 +135,7 @@ class DiscoverScreen extends StatelessWidget {
             const BirthdayCharactersBlocProvider(),
           HomeSectorCategory.todaySchedule =>
             const TodayAiringScheduleBlocProvider(),
+          HomeSectorCategory.recentMovies => const RecentMoviesBlocProvider(),
           HomeSectorCategory.currentSeasonAnime => MediaPreviewBlocProvider(
               mediaCategory: MediaCategory.currentSeasonAnime,
               userId: state.userData?.id,

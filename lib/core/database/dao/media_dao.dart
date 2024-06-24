@@ -177,4 +177,17 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
       );
     });
   }
+
+  Stream<List<MediaEntity>> getMediaStreamByAiringTimeRange(
+      DateTime start, DateTime end, List<String> format) {
+    final query = select(mediaTable)
+      ..where(
+        (t) =>
+            t.startDate.isBiggerOrEqualValue(start) &
+            t.startDate.isSmallerOrEqualValue(end) &
+            t.format.isIn(format),
+      )
+      ..orderBy([(t) => OrderingTerm.asc(mediaTable.startDate)]);
+    return query.watch();
+  }
 }

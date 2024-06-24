@@ -128,5 +128,6 @@
 	"animeSchedule": "Расписание на {date}",
 	"releaseDate": "Будет выпущен {date}",
 	"releasedAt": "Выпущен {date}",
-	"movieSchedule": "Расписание фильмов"
+	"movieSchedule": "Расписание фильмов",
+	"recentMovies": "Недавние фильмы"
 }
