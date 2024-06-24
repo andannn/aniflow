@@ -128,5 +128,6 @@
 	"animeSchedule": "Agenda para {date}",
 	"releaseDate": "Será lançado em {date}",
 	"releasedAt":"Lançado em {date}",
-	"movieSchedule": "Horário de filmes"
+	"movieSchedule": "Horário de filmes",
+	"recentMovies": "Filmes recentes"
 }

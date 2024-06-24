@@ -182,5 +182,6 @@
 		}
 	},
 	"releasedAt": "Released at {date}",
-	"movieSchedule": "Movie schedule"
+	"movieSchedule": "Movie schedule",
+	"recentMovies": "Recent movies"
 }

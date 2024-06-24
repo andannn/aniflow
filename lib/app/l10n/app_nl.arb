@@ -128,5 +128,6 @@
 	"animeSchedule": "Schema voor {date}",
 	"releaseDate": "Wordt uitgebracht op {date}",
 	"releasedAt": "Uitgebracht op {date}",
-	"movieSchedule": "Filmrooster"
+	"movieSchedule": "Filmrooster",
+	"recentMovies": "Recente films"
 }

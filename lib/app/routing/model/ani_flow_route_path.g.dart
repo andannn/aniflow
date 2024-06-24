@@ -267,14 +267,21 @@ Map<String, dynamic> _$$DetailStaffPathImplToJson(
 _$AiringScheduleRoutePathImpl _$$AiringScheduleRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$AiringScheduleRoutePathImpl(
+      type: $enumDecode(_$ScheduleTypeEnumMap, json['type']),
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$AiringScheduleRoutePathImplToJson(
         _$AiringScheduleRoutePathImpl instance) =>
     <String, dynamic>{
+      'type': _$ScheduleTypeEnumMap[instance.type]!,
       'runtimeType': instance.$type,
     };
+
+const _$ScheduleTypeEnumMap = {
+  ScheduleType.bangumi: 'bangumi',
+  ScheduleType.movie: 'movie',
+};
 
 _$NotificationRoutePathImpl _$$NotificationRoutePathImplFromJson(
         Map<String, dynamic> json) =>

@@ -12,21 +12,33 @@ enum ScheduleType {
 }
 
 class AiringSchedule extends Page {
-  const AiringSchedule({super.key});
+  const AiringSchedule({
+    super.key,
+    required this.scheduleType,
+  });
+
+  final ScheduleType scheduleType;
 
   @override
   Route createRoute(BuildContext context) {
-    return AiringScheduleRoute(settings: this);
+    return AiringScheduleRoute(
+      settings: this,
+      scheduleType: scheduleType,
+    );
   }
 }
 
 class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AiringScheduleRoute({super.settings}) : super(allowSnapshotting: false);
+  AiringScheduleRoute({
+    super.settings,
+    required this.scheduleType,
+  }) : super(allowSnapshotting: false);
+  final ScheduleType scheduleType;
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Scaffold(
-      body: _AiringScheduleContent(),
+    return Scaffold(
+      body: _AiringScheduleContent(scheduleType),
     );
   }
 
@@ -35,7 +47,9 @@ class AiringScheduleRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _AiringScheduleContent extends StatefulWidget {
-  const _AiringScheduleContent();
+  const _AiringScheduleContent(this.scheduleType);
+
+  final ScheduleType scheduleType;
 
   @override
   State<_AiringScheduleContent> createState() => _AiringScheduleContentState();
@@ -43,7 +57,13 @@ class _AiringScheduleContent extends StatefulWidget {
 
 class _AiringScheduleContentState extends State<_AiringScheduleContent>
     with ShowSnackBarMixin {
-  var _selectedBangumi = ScheduleType.bangumi;
+  late ScheduleType _selectedBangumi;
+
+  @override
+  void initState() {
+    _selectedBangumi = widget.scheduleType;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -128,5 +128,6 @@
 	"animeSchedule": "Programma per {date}",
 	"releaseDate": "Sarà rilasciato il {date}",
 	"releasedAt": "Uscito il {date}",
-	"movieSchedule": "Movie schedule"
+	"movieSchedule": "Movie schedule",
+	"recentMovies": "Film recenti"
 }

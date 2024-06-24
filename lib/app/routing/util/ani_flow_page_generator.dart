@@ -45,8 +45,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
           userId: id,
           showBackKey: true,
         );
-      case AiringScheduleRoutePath():
-        return AiringSchedule(key: ValueKey(toString()));
+      case AiringScheduleRoutePath(type: final type):
+        return AiringSchedule(key: ValueKey(toString()), scheduleType: type);
       case SearchRoutePath():
         return SearchPage(key: ValueKey(toString()));
       case NotificationRoutePath():

@@ -128,5 +128,6 @@
 	"animeSchedule": "{date}的时间表",
 	"releaseDate": "{date} 将发布",
 	"releasedAt": "发布日期：{date}",
-	"movieSchedule": "电影时间表"
+	"movieSchedule": "电影时间表",
+	"recentMovies": "最近的电影"
 }

@@ -9,6 +9,7 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/character_repository.dart';
@@ -158,6 +159,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
 
     unawaited(_refreshBirthdayCharacters());
     unawaited(_refreshAiringSchedule());
+    unawaited(_refreshRecentMovies());
   }
 
   @override
@@ -220,6 +222,17 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     final result =
         await _mediaInfoRepository.refreshAiringSchedule(DateTime.now());
     finishLoading('_refreshAiringSchedule', result);
+  }
+
+  Future _refreshRecentMovies() async {
+    startLoading('_refreshRecentMovies');
+    final result = await _mediaInfoRepository.refreshMoviesPage(
+      startDateGreater: DateTime.now()
+          .subtract(const Duration(days: AfConfig.daysBeforeOfMoviesInHome)),
+      endDateLesser: DateTime.now()
+          .add(const Duration(days: AfConfig.daysAfterOfMoviesInHome)),
+    );
+    finishLoading('_refreshRecentMovies', result);
   }
 
   @override

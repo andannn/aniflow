@@ -95,7 +95,7 @@ mixin _$AniFlowRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -125,7 +125,7 @@ mixin _$AniFlowRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -155,7 +155,7 @@ mixin _$AniFlowRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -343,7 +343,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -376,7 +376,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -409,7 +409,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -609,7 +609,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -642,7 +642,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -675,7 +675,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -903,7 +903,7 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -936,7 +936,7 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -969,7 +969,7 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -1205,7 +1205,7 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -1238,7 +1238,7 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -1271,7 +1271,7 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -1505,7 +1505,7 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -1538,7 +1538,7 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -1571,7 +1571,7 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -1805,7 +1805,7 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -1838,7 +1838,7 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -1871,7 +1871,7 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -2105,7 +2105,7 @@ class _$WatchingAnimeListPathImpl implements WatchingAnimeListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -2138,7 +2138,7 @@ class _$WatchingAnimeListPathImpl implements WatchingAnimeListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -2171,7 +2171,7 @@ class _$WatchingAnimeListPathImpl implements WatchingAnimeListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -2406,7 +2406,7 @@ class _$CompletedAnimeListPathImpl implements CompletedAnimeListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -2439,7 +2439,7 @@ class _$CompletedAnimeListPathImpl implements CompletedAnimeListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -2472,7 +2472,7 @@ class _$CompletedAnimeListPathImpl implements CompletedAnimeListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -2706,7 +2706,7 @@ class _$DroppedAnimeListPathImpl implements DroppedAnimeListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -2739,7 +2739,7 @@ class _$DroppedAnimeListPathImpl implements DroppedAnimeListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -2772,7 +2772,7 @@ class _$DroppedAnimeListPathImpl implements DroppedAnimeListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -3006,7 +3006,7 @@ class _$ReadingMangaListPathImpl implements ReadingMangaListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -3039,7 +3039,7 @@ class _$ReadingMangaListPathImpl implements ReadingMangaListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -3072,7 +3072,7 @@ class _$ReadingMangaListPathImpl implements ReadingMangaListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -3306,7 +3306,7 @@ class _$DroppedMangaListPathImpl implements DroppedMangaListPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -3339,7 +3339,7 @@ class _$DroppedMangaListPathImpl implements DroppedMangaListPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -3372,7 +3372,7 @@ class _$DroppedMangaListPathImpl implements DroppedMangaListPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -3606,7 +3606,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -3639,7 +3639,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -3672,7 +3672,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -3911,7 +3911,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -3944,7 +3944,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -3977,7 +3977,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -4216,7 +4216,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -4249,7 +4249,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -4282,7 +4282,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -4517,7 +4517,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -4550,7 +4550,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -4583,7 +4583,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -4817,7 +4817,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -4850,7 +4850,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -4883,7 +4883,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -5116,7 +5116,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -5149,7 +5149,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -5182,7 +5182,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -5415,7 +5415,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -5448,7 +5448,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -5481,7 +5481,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -5629,6 +5629,8 @@ abstract class _$$AiringScheduleRoutePathImplCopyWith<$Res> {
           _$AiringScheduleRoutePathImpl value,
           $Res Function(_$AiringScheduleRoutePathImpl) then) =
       __$$AiringScheduleRoutePathImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ScheduleType type});
 }
 
 /// @nodoc
@@ -5639,35 +5641,59 @@ class __$$AiringScheduleRoutePathImplCopyWithImpl<$Res>
       _$AiringScheduleRoutePathImpl _value,
       $Res Function(_$AiringScheduleRoutePathImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$AiringScheduleRoutePathImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ScheduleType,
+    ));
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
-  const _$AiringScheduleRoutePathImpl({final String? $type})
+  const _$AiringScheduleRoutePathImpl({required this.type, final String? $type})
       : $type = $type ?? 'airingSchedule';
 
   factory _$AiringScheduleRoutePathImpl.fromJson(Map<String, dynamic> json) =>
       _$$AiringScheduleRoutePathImplFromJson(json);
+
+  @override
+  final ScheduleType type;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AniFlowRoutePath.airingSchedule()';
+    return 'AniFlowRoutePath.airingSchedule(type: $type)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AiringScheduleRoutePathImpl);
+            other is _$AiringScheduleRoutePathImpl &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AiringScheduleRoutePathImplCopyWith<_$AiringScheduleRoutePathImpl>
+      get copyWith => __$$AiringScheduleRoutePathImplCopyWithImpl<
+          _$AiringScheduleRoutePathImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -5690,7 +5716,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -5699,7 +5725,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     required TResult Function(String mediaId) mediaListUpdate,
     required TResult Function() birthdayCharacterPage,
   }) {
-    return airingSchedule();
+    return airingSchedule(type);
   }
 
   @override
@@ -5723,7 +5749,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -5732,7 +5758,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult? Function(String mediaId)? mediaListUpdate,
     TResult? Function()? birthdayCharacterPage,
   }) {
-    return airingSchedule?.call();
+    return airingSchedule?.call(type);
   }
 
   @override
@@ -5756,7 +5782,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -5767,7 +5793,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     required TResult orElse(),
   }) {
     if (airingSchedule != null) {
-      return airingSchedule();
+      return airingSchedule(type);
     }
     return orElse();
   }
@@ -5886,10 +5912,16 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
 }
 
 abstract class AiringScheduleRoutePath implements AniFlowRoutePath {
-  const factory AiringScheduleRoutePath() = _$AiringScheduleRoutePathImpl;
+  const factory AiringScheduleRoutePath({required final ScheduleType type}) =
+      _$AiringScheduleRoutePathImpl;
 
   factory AiringScheduleRoutePath.fromJson(Map<String, dynamic> json) =
       _$AiringScheduleRoutePathImpl.fromJson;
+
+  ScheduleType get type;
+  @JsonKey(ignore: true)
+  _$$AiringScheduleRoutePathImplCopyWith<_$AiringScheduleRoutePathImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -5958,7 +5990,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -5991,7 +6023,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -6024,7 +6056,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -6252,7 +6284,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -6285,7 +6317,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -6318,7 +6350,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -6553,7 +6585,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -6586,7 +6618,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -6619,7 +6651,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -6865,7 +6897,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -6898,7 +6930,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -6931,7 +6963,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -7169,7 +7201,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -7202,7 +7234,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -7235,7 +7267,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,
@@ -7445,7 +7477,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     required TResult Function(String id) detailMedia,
     required TResult Function(String id) detailCharacter,
     required TResult Function(String id) detailStaff,
-    required TResult Function() airingSchedule,
+    required TResult Function(ScheduleType type) airingSchedule,
     required TResult Function() notification,
     required TResult Function(String id) detailStudio,
     required TResult Function(String id) activityReplies,
@@ -7478,7 +7510,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult? Function(String id)? detailMedia,
     TResult? Function(String id)? detailCharacter,
     TResult? Function(String id)? detailStaff,
-    TResult? Function()? airingSchedule,
+    TResult? Function(ScheduleType type)? airingSchedule,
     TResult? Function()? notification,
     TResult? Function(String id)? detailStudio,
     TResult? Function(String id)? activityReplies,
@@ -7511,7 +7543,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult Function(String id)? detailMedia,
     TResult Function(String id)? detailCharacter,
     TResult Function(String id)? detailStaff,
-    TResult Function()? airingSchedule,
+    TResult Function(ScheduleType type)? airingSchedule,
     TResult Function()? notification,
     TResult Function(String id)? detailStudio,
     TResult Function(String id)? activityReplies,

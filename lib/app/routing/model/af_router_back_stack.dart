@@ -5,6 +5,7 @@ import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/image_preview/preview_source.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/widgets.dart';
 
 mixin AfRouterBackStackMixin
     on ChangeNotifier, RouterDelegate<AniFlowRoutePath> {
-
   GlobalKey<RootNavigatorWidgetState> get backStackKey;
 
   RestorableAfStack get stack => backStackKey.currentState!.restorableAfStack;
@@ -36,8 +36,8 @@ mixin AfRouterBackStackMixin
     _pushAsSingleton(DetailMediaRoutePath(id: animeId));
   }
 
-  void navigateToAiringSchedule() {
-    _pushAsSingleton(const AiringScheduleRoutePath());
+  void navigateToAiringSchedule({ScheduleType type = ScheduleType.bangumi}) {
+    _pushAsSingleton(AiringScheduleRoutePath(type: type));
   }
 
   void navigateToSearch() {

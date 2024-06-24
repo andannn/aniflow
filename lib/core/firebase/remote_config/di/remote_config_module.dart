@@ -20,6 +20,7 @@ abstract class DIFirebaseRemoteConfigModule {
           "anime": [
             "birthdayCharacters",
             "todaySchedule",
+            "recentMovies",
             "currentSeasonAnime",
             "nextSeasonAnime",
             "trendingAnime",
