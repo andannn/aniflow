@@ -37,6 +37,7 @@ class NotificationRepository {
     required int page,
     required int perPage,
     required NotificationCategory category,
+    required bool resetNotificationCount,
     CancelToken? token,
   }) {
     final types = switch (category) {
@@ -67,6 +68,7 @@ class NotificationRepository {
         param: NotificationQueryParam(
           page: page,
           perPage: perPage,
+          resetNotificationCount: resetNotificationCount,
           type: types,
         ),
         token: token,

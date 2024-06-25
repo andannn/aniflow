@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/background_task/excutor.dart';
+import 'package:aniflow/core/background_task/executor/executor.dart';
 import 'package:aniflow/core/background_task/task.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/di/get_it_di.dart';
@@ -70,9 +70,18 @@ Future registerBackgroundTasks() async {
   await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
   final register = getAllTasks().map((task) {
     switch (task) {
-      case PeriodicTask(name: final name, frequency: final freq):
-        // return Workmanager().registerPeriodicTask(name, name, frequency: freq);
-        return Workmanager().registerOneOffTask(name, name);
+      case PeriodicTask(
+          name: final name,
+          frequency: final freq,
+          existingWorkPolicy: final existingWorkPolicy,
+          constraints: final constraints,
+        ):
+        return Workmanager().registerOneOffTask(
+          name,
+          name,
+          existingWorkPolicy: existingWorkPolicy,
+          constraints: constraints,
+        );
     }
   });
   await Future.wait(register);

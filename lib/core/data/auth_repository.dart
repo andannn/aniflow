@@ -14,6 +14,7 @@ import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
+import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/platform/auth_event_channel.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
@@ -106,6 +107,13 @@ class AuthRepository {
     });
   }
 
+  Future<UserModel?> getAuthedUser() async {
+    final userId = preferences.userData.authedUserId;
+    if (userId == null) return null;
+    final userEntity = await userDataDao.getUser(userId);
+    return userEntity?.toModel();
+  }
+
   Stream<AniListSettings> getAniListSettingsStream() {
     return preferences.userDataStream.map((event) => event.aniListSettings);
   }
@@ -156,7 +164,7 @@ class AuthRepository {
   Future<LoadResult> syncUserCondition() async {
     final userId = preferences.userData.authedUserId;
     if (userId == null) {
-      return LoadError(Exception('No user'));
+      return LoadError(const UnauthorizedException());
     }
 
     try {

@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:dio/dio.dart';
 
@@ -75,6 +76,7 @@ mixin LoadPageUtil {
       return LoadSuccess(
           data: networkRes.map((e) => mapDtoToModel(e)).toList());
     } on DioException catch (e) {
+      logger.d('loadPageWithoutOrderingCache failed $e');
       return LoadError(e);
     }
   }
