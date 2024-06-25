@@ -91,6 +91,7 @@ dependencies:
   platform_downloader:
     path: ./platform_downloader
   firebase_remote_config: ^4.4.7
+  workmanager: ^0.5.2
 
 dev_dependencies:
   drift_dev: ^2.15.0
