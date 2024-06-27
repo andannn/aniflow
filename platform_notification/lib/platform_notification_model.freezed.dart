@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'notification_model.dart';
+part of 'platform_notification_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) {
+PlatformNotificationModel _$PlatformNotificationModelFromJson(
+    Map<String, dynamic> json) {
   return _NotificationModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$NotificationModel {
+mixin _$PlatformNotificationModel {
   @JsonKey(name: "id")
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "title")
@@ -27,35 +28,36 @@ mixin _$NotificationModel {
   @JsonKey(name: "body")
   String? get body => throw _privateConstructorUsedError;
   @JsonKey(name: "notification_channel")
-  NotificationChannelModel? get notificationChannel =>
+  PlatformNotificationChannelModel? get notificationChannel =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $NotificationModelCopyWith<NotificationModel> get copyWith =>
+  $PlatformNotificationModelCopyWith<PlatformNotificationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NotificationModelCopyWith<$Res> {
-  factory $NotificationModelCopyWith(
-          NotificationModel value, $Res Function(NotificationModel) then) =
-      _$NotificationModelCopyWithImpl<$Res, NotificationModel>;
+abstract class $PlatformNotificationModelCopyWith<$Res> {
+  factory $PlatformNotificationModelCopyWith(PlatformNotificationModel value,
+          $Res Function(PlatformNotificationModel) then) =
+      _$PlatformNotificationModelCopyWithImpl<$Res, PlatformNotificationModel>;
   @useResult
   $Res call(
       {@JsonKey(name: "id") int? id,
       @JsonKey(name: "title") String? title,
       @JsonKey(name: "body") String? body,
       @JsonKey(name: "notification_channel")
-      NotificationChannelModel? notificationChannel});
+      PlatformNotificationChannelModel? notificationChannel});
 
-  $NotificationChannelModelCopyWith<$Res>? get notificationChannel;
+  $PlatformNotificationChannelModelCopyWith<$Res>? get notificationChannel;
 }
 
 /// @nodoc
-class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
-    implements $NotificationModelCopyWith<$Res> {
-  _$NotificationModelCopyWithImpl(this._value, this._then);
+class _$PlatformNotificationModelCopyWithImpl<$Res,
+        $Val extends PlatformNotificationModel>
+    implements $PlatformNotificationModelCopyWith<$Res> {
+  _$PlatformNotificationModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -86,19 +88,19 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
       notificationChannel: freezed == notificationChannel
           ? _value.notificationChannel
           : notificationChannel // ignore: cast_nullable_to_non_nullable
-              as NotificationChannelModel?,
+              as PlatformNotificationChannelModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $NotificationChannelModelCopyWith<$Res>? get notificationChannel {
+  $PlatformNotificationChannelModelCopyWith<$Res>? get notificationChannel {
     if (_value.notificationChannel == null) {
       return null;
     }
 
-    return $NotificationChannelModelCopyWith<$Res>(_value.notificationChannel!,
-        (value) {
+    return $PlatformNotificationChannelModelCopyWith<$Res>(
+        _value.notificationChannel!, (value) {
       return _then(_value.copyWith(notificationChannel: value) as $Val);
     });
   }
@@ -106,7 +108,7 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
 
 /// @nodoc
 abstract class _$$NotificationModelImplCopyWith<$Res>
-    implements $NotificationModelCopyWith<$Res> {
+    implements $PlatformNotificationModelCopyWith<$Res> {
   factory _$$NotificationModelImplCopyWith(_$NotificationModelImpl value,
           $Res Function(_$NotificationModelImpl) then) =
       __$$NotificationModelImplCopyWithImpl<$Res>;
@@ -117,15 +119,16 @@ abstract class _$$NotificationModelImplCopyWith<$Res>
       @JsonKey(name: "title") String? title,
       @JsonKey(name: "body") String? body,
       @JsonKey(name: "notification_channel")
-      NotificationChannelModel? notificationChannel});
+      PlatformNotificationChannelModel? notificationChannel});
 
   @override
-  $NotificationChannelModelCopyWith<$Res>? get notificationChannel;
+  $PlatformNotificationChannelModelCopyWith<$Res>? get notificationChannel;
 }
 
 /// @nodoc
 class __$$NotificationModelImplCopyWithImpl<$Res>
-    extends _$NotificationModelCopyWithImpl<$Res, _$NotificationModelImpl>
+    extends _$PlatformNotificationModelCopyWithImpl<$Res,
+        _$NotificationModelImpl>
     implements _$$NotificationModelImplCopyWith<$Res> {
   __$$NotificationModelImplCopyWithImpl(_$NotificationModelImpl _value,
       $Res Function(_$NotificationModelImpl) _then)
@@ -155,7 +158,7 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
       notificationChannel: freezed == notificationChannel
           ? _value.notificationChannel
           : notificationChannel // ignore: cast_nullable_to_non_nullable
-              as NotificationChannelModel?,
+              as PlatformNotificationChannelModel?,
     ));
   }
 }
@@ -183,11 +186,11 @@ class _$NotificationModelImpl implements _NotificationModel {
   final String? body;
   @override
   @JsonKey(name: "notification_channel")
-  final NotificationChannelModel? notificationChannel;
+  final PlatformNotificationChannelModel? notificationChannel;
 
   @override
   String toString() {
-    return 'NotificationModel(id: $id, title: $title, body: $body, notificationChannel: $notificationChannel)';
+    return 'PlatformNotificationModel(id: $id, title: $title, body: $body, notificationChannel: $notificationChannel)';
   }
 
   @override
@@ -222,13 +225,13 @@ class _$NotificationModelImpl implements _NotificationModel {
   }
 }
 
-abstract class _NotificationModel implements NotificationModel {
+abstract class _NotificationModel implements PlatformNotificationModel {
   const factory _NotificationModel(
           {@JsonKey(name: "id") final int? id,
           @JsonKey(name: "title") final String? title,
           @JsonKey(name: "body") final String? body,
           @JsonKey(name: "notification_channel")
-          final NotificationChannelModel? notificationChannel}) =
+          final PlatformNotificationChannelModel? notificationChannel}) =
       _$NotificationModelImpl;
 
   factory _NotificationModel.fromJson(Map<String, dynamic> json) =
@@ -245,7 +248,7 @@ abstract class _NotificationModel implements NotificationModel {
   String? get body;
   @override
   @JsonKey(name: "notification_channel")
-  NotificationChannelModel? get notificationChannel;
+  PlatformNotificationChannelModel? get notificationChannel;
   @override
   @JsonKey(ignore: true)
   _$$NotificationModelImplCopyWith<_$NotificationModelImpl> get copyWith =>

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:platform_notification/notification_model.dart';
+import 'package:platform_notification/platform_notification_model.dart';
 import 'package:platform_notification/platform_notification.dart';
 import 'package:platform_notification/platform_notification_platform_interface.dart';
 import 'package:platform_notification/platform_notification_method_channel.dart';
@@ -19,7 +19,7 @@ class MockPlatformNotificationPlatform
   }
 
   @override
-  Future<bool> sendNotification(NotificationModel model) {
+  Future<bool> sendNotification(PlatformNotificationModel model) {
     // TODO: implement sendNotification
     throw UnimplementedError();
   }

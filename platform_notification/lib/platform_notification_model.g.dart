@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'notification_model.dart';
+part of 'platform_notification_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -14,7 +14,7 @@ _$NotificationModelImpl _$$NotificationModelImplFromJson(
       body: json['body'] as String?,
       notificationChannel: json['notification_channel'] == null
           ? null
-          : NotificationChannelModel.fromJson(
+          : PlatformNotificationChannelModel.fromJson(
               json['notification_channel'] as Map<String, dynamic>),
     );
 

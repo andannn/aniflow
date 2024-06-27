@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'notification_channel_model.dart';
+part of 'platform_notification_channel_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -9,10 +9,12 @@ import 'package:aniflow/di/get_it_di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:workmanager/workmanager.dart';
 
+/// entry point to receive callback of work-manager(android)
 @pragma('vm:entry-point')
 void callbackDispatcher() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,7 +69,7 @@ void main() async {
 }
 
 Future registerBackgroundTasks() async {
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
   final register = getAllTasks().map((task) {
     switch (task) {
       case PeriodicTask(
@@ -76,9 +78,10 @@ Future registerBackgroundTasks() async {
           existingWorkPolicy: final existingWorkPolicy,
           constraints: final constraints,
         ):
-        return Workmanager().registerOneOffTask(
+        return Workmanager().registerPeriodicTask(
           name,
           name,
+          frequency: freq,
           existingWorkPolicy: existingWorkPolicy,
           constraints: constraints,
         );

@@ -1,19 +1,26 @@
 import 'package:aniflow/core/background_task/executor/executor.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
+import 'package:aniflow/core/notification/notification_channel.dart';
 import 'package:collection/collection.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:platform_notification/platform_notification.dart';
+import 'package:platform_notification/platform_notification_model.dart';
 
 const String _tag = "SendNotificationTaskExecutor";
 
 @injectable
 class SendNotificationTaskExecutor implements Executor {
-  const SendNotificationTaskExecutor(
-      this._notificationRepository, this._authRepository);
+  const SendNotificationTaskExecutor(this._notificationRepository,
+      this._authRepository);
 
   final NotificationRepository _notificationRepository;
   final AuthRepository _authRepository;
@@ -50,7 +57,7 @@ class SendNotificationTaskExecutor implements Executor {
     }
 
     final notificationsResult =
-        await _notificationRepository.loadNotificationsByPage(
+    await _notificationRepository.loadNotificationsByPage(
       page: 1,
       perPage: unreadNotificationCount,
       category: NotificationCategory.all,
@@ -83,7 +90,36 @@ class SendNotificationTaskExecutor implements Executor {
       return true;
     }
 
-    logger.d('$_tag notification founded $matchedNotification');
+    final notification = matchedNotification.mapToPlatformModel();
+    if (notification == null) {
+      logger.d('$_tag notification mapped null.');
+      return true;
+    }
+    await PlatformNotification().sendNotification(notification);
     return true;
   }
+}
+
+extension on NotificationModel {
+  UserTitleLanguage get userTitleLanguage =>
+      GetIt.instance
+          .get<UserDataRepository>()
+          .userData
+          .userTitleLanguage;
+
+  PlatformNotificationModel? mapToPlatformModel() =>
+      switch (this) {
+        AiringNotification() =>
+            PlatformNotificationModel(
+              id: hashCode,
+              title: 'New media aired',
+              body: (this as AiringNotification).createText(userTitleLanguage),
+              notificationChannel: MediaAiredNotificationChannel()
+                  .createPlatformNotificationChannel(),
+            ),
+        FollowNotification() => null,
+        ActivityNotification() => null,
+        MediaNotification() => null,
+        MediaDeletionNotification() => null,
+      };
 }

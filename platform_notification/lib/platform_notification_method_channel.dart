@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:platform_notification/notification_model.dart';
+import 'package:platform_notification/platform_notification_model.dart';
 
 import 'platform_notification_platform_interface.dart';
 
@@ -27,7 +27,7 @@ class MethodChannelPlatformNotification extends PlatformNotificationPlatform {
   }
 
   @override
-  Future<bool> sendNotification(NotificationModel model) async {
+  Future<bool> sendNotification(PlatformNotificationModel model) async {
     final result = await methodChannel.invokeMethod<bool>(
         'sendNotification', {'param': jsonEncode(model.toJson())});
     return result ?? false;

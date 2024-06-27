@@ -262,6 +262,12 @@ extension AiringNotificationEx on AiringNotification {
       TextSpan(text: contextList[2]),
     ];
   }
+
+  String createText(UserTitleLanguage language) {
+    final List contextList = jsonDecode(context);
+    return '${contextList[0]} $episode ${contextList[1]} '
+        '${media.title?.getTitle(language)} ${contextList[2]}';
+  }
 }
 
 extension FollowNotificationEx on FollowNotification {

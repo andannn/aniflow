@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'notification_channel_model.dart';
+part of 'platform_notification_channel_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-NotificationChannelModel _$NotificationChannelModelFromJson(
+PlatformNotificationChannelModel _$PlatformNotificationChannelModelFromJson(
     Map<String, dynamic> json) {
   return _NotificationChannelModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$NotificationChannelModel {
+mixin _$PlatformNotificationChannelModel {
   @JsonKey(name: "id")
   String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "name")
@@ -32,15 +32,17 @@ mixin _$NotificationChannelModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $NotificationChannelModelCopyWith<NotificationChannelModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PlatformNotificationChannelModelCopyWith<PlatformNotificationChannelModel>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NotificationChannelModelCopyWith<$Res> {
-  factory $NotificationChannelModelCopyWith(NotificationChannelModel value,
-          $Res Function(NotificationChannelModel) then) =
-      _$NotificationChannelModelCopyWithImpl<$Res, NotificationChannelModel>;
+abstract class $PlatformNotificationChannelModelCopyWith<$Res> {
+  factory $PlatformNotificationChannelModelCopyWith(
+          PlatformNotificationChannelModel value,
+          $Res Function(PlatformNotificationChannelModel) then) =
+      _$PlatformNotificationChannelModelCopyWithImpl<$Res,
+          PlatformNotificationChannelModel>;
   @useResult
   $Res call(
       {@JsonKey(name: "id") String? id,
@@ -50,10 +52,10 @@ abstract class $NotificationChannelModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NotificationChannelModelCopyWithImpl<$Res,
-        $Val extends NotificationChannelModel>
-    implements $NotificationChannelModelCopyWith<$Res> {
-  _$NotificationChannelModelCopyWithImpl(this._value, this._then);
+class _$PlatformNotificationChannelModelCopyWithImpl<$Res,
+        $Val extends PlatformNotificationChannelModel>
+    implements $PlatformNotificationChannelModelCopyWith<$Res> {
+  _$PlatformNotificationChannelModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -91,7 +93,7 @@ class _$NotificationChannelModelCopyWithImpl<$Res,
 
 /// @nodoc
 abstract class _$$NotificationChannelModelImplCopyWith<$Res>
-    implements $NotificationChannelModelCopyWith<$Res> {
+    implements $PlatformNotificationChannelModelCopyWith<$Res> {
   factory _$$NotificationChannelModelImplCopyWith(
           _$NotificationChannelModelImpl value,
           $Res Function(_$NotificationChannelModelImpl) then) =
@@ -107,7 +109,7 @@ abstract class _$$NotificationChannelModelImplCopyWith<$Res>
 
 /// @nodoc
 class __$$NotificationChannelModelImplCopyWithImpl<$Res>
-    extends _$NotificationChannelModelCopyWithImpl<$Res,
+    extends _$PlatformNotificationChannelModelCopyWithImpl<$Res,
         _$NotificationChannelModelImpl>
     implements _$$NotificationChannelModelImplCopyWith<$Res> {
   __$$NotificationChannelModelImplCopyWithImpl(
@@ -171,7 +173,7 @@ class _$NotificationChannelModelImpl implements _NotificationChannelModel {
 
   @override
   String toString() {
-    return 'NotificationChannelModel(id: $id, name: $name, description: $description, importance: $importance)';
+    return 'PlatformNotificationChannelModel(id: $id, name: $name, description: $description, importance: $importance)';
   }
 
   @override
@@ -207,7 +209,8 @@ class _$NotificationChannelModelImpl implements _NotificationChannelModel {
   }
 }
 
-abstract class _NotificationChannelModel implements NotificationChannelModel {
+abstract class _NotificationChannelModel
+    implements PlatformNotificationChannelModel {
   const factory _NotificationChannelModel(
           {@JsonKey(name: "id") final String? id,
           @JsonKey(name: "name") final String? name,

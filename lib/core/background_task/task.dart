@@ -1,7 +1,7 @@
 import 'package:workmanager/workmanager.dart';
 
 mixin TaskName {
-  static const sendNotificationTaskName = 'send_notification_task';
+  static const sendNotificationTaskName = 'post_platform_notifications_task_1';
 }
 
 sealed class Task {
@@ -27,7 +27,7 @@ abstract class PeriodicTask extends Task {
   final Duration frequency;
 
   @override
-  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.update;
+  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.keep;
 }
 
 class SendNotificationTask extends PeriodicTask {
@@ -44,7 +44,7 @@ class SendNotificationTask extends PeriodicTask {
 
 extension TaskConverter on (String taskName, Map<String, dynamic>? inputData) {
   Task? toTask() {
-    final (taskName, inputData) = this;
+    final (taskName, _) = this;
     if (taskName == TaskName.sendNotificationTaskName) {
       return const SendNotificationTask();
     }

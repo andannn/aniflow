@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:platform_notification/notification_channel_model.dart';
-import 'package:platform_notification/notification_model.dart';
+import 'package:platform_notification/platform_notification_channel_model.dart';
+import 'package:platform_notification/platform_notification_model.dart';
 import 'package:platform_notification/platform_notification.dart';
 
 void main() {
@@ -29,10 +28,8 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> initPlatformState() async {
     bool? areNotificationsEnabled;
-    try {
-      areNotificationsEnabled =
-          await _platformNotificationPlugin.areNotificationsEnabled();
-    } on PlatformException {}
+    areNotificationsEnabled =
+    await _platformNotificationPlugin.areNotificationsEnabled();
 
     setState(() {
       _areNotificationsEnabled = areNotificationsEnabled;
@@ -53,11 +50,11 @@ class _MyAppState extends State<MyApp> {
               TextButton(
                 onPressed: () {
                   _platformNotificationPlugin.sendNotification(
-                    const NotificationModel(
+                    const PlatformNotificationModel(
                       id: 1,
                       title: "AAA",
                       body: "BBBB",
-                      notificationChannel: NotificationChannelModel(
+                      notificationChannel: PlatformNotificationChannelModel(
                         id: "1",
                         name: 'channel 1',
                         description: "Channel 1",
