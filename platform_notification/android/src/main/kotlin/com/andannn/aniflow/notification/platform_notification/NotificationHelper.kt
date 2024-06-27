@@ -4,20 +4,23 @@ import android.content.Context
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class NotificationChannel(
-    val id: String,
-    val name: String,
-    val description: String,
-    val importance: Int
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("description") val description: String,
+    @SerialName("importance") val importance: Int
 )
 
+@Serializable
 data class Notification(
-    val id: Int,
-    val title: String,
-    val body: String,
-    val notificationChannel: NotificationChannel,
+    @SerialName("id") val id: Int,
+    @SerialName("title") val title: String,
+    @SerialName("body") val body: String,
+    @SerialName("notification_channel") val notificationChannel: NotificationChannel,
 )
 
 class NotificationHelper(
@@ -47,6 +50,8 @@ class NotificationHelper(
         )
             .setContentTitle(notificationModel.title)
             .setContentText(notificationModel.body)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
         notificationManager.notify(notificationModel.id, notification)
     }

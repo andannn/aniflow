@@ -1,3 +1,5 @@
+import 'package:platform_notification/notification_channel_model.dart';
+import 'package:platform_notification/notification_model.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'platform_notification_method_channel.dart';
@@ -24,6 +26,18 @@ abstract class PlatformNotificationPlatform extends PlatformInterface {
   }
 
   Future<String?> getPlatformVersion() {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  /// android only.
+  /// Returns whether notifications from the calling package are not blocked.
+  Future<bool> areNotificationsEnabled() {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  /// android only.
+  /// Returns whether notifications from the calling package are not blocked.
+  Future<bool> sendNotification(NotificationModel model) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 }

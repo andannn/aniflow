@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:platform_notification/notification_model.dart';
 import 'package:platform_notification/platform_notification.dart';
 import 'package:platform_notification/platform_notification_platform_interface.dart';
 import 'package:platform_notification/platform_notification_method_channel.dart';
@@ -10,6 +11,18 @@ class MockPlatformNotificationPlatform
 
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<bool> areNotificationsEnabled() {
+    // TODO: implement areNotificationsEnabled
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> sendNotification(NotificationModel model) {
+    // TODO: implement sendNotification
+    throw UnimplementedError();
+  }
 }
 
 void main() {

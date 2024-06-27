@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:platform_notification/notification_channel_model.dart';
+import 'package:platform_notification/notification_model.dart';
 import 'package:platform_notification/platform_notification.dart';
 
 void main() {
@@ -16,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  bool? _areNotificationsEnabled;
   final _platformNotificationPlugin = PlatformNotification();
 
   @override
@@ -25,25 +27,15 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+    bool? areNotificationsEnabled;
     try {
-      platformVersion =
-          await _platformNotificationPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
+      areNotificationsEnabled =
+          await _platformNotificationPlugin.areNotificationsEnabled();
+    } on PlatformException {}
 
     setState(() {
-      _platformVersion = platformVersion;
+      _areNotificationsEnabled = areNotificationsEnabled;
     });
   }
 
@@ -55,7 +47,29 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: [
+              Text('Running on: $_areNotificationsEnabled\n'),
+              TextButton(
+                onPressed: () {
+                  _platformNotificationPlugin.sendNotification(
+                    const NotificationModel(
+                      id: 1,
+                      title: "AAA",
+                      body: "BBBB",
+                      notificationChannel: NotificationChannelModel(
+                        id: "1",
+                        name: 'channel 1',
+                        description: "Channel 1",
+                        importance: 1
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('send notification'),
+              )
+            ],
+          ),
         ),
       ),
     );
