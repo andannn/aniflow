@@ -12,6 +12,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:workmanager/workmanager.dart';
 
 /// entry point to receive callback of work-manager(android)
@@ -66,6 +67,12 @@ void main() async {
   unawaited(FirebaseAnalytics.instance.logAppDataSizeEvent());
 
   unawaited(registerBackgroundTasks());
+
+  unawaited(requestNotificationPermissionIfNeeded());
+}
+
+Future requestNotificationPermissionIfNeeded() async {
+  await Permission.notification.request();
 }
 
 Future registerBackgroundTasks() async {
