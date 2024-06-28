@@ -89,10 +89,10 @@ Future registerBackgroundTasks() async {
           existingWorkPolicy: final existingWorkPolicy,
           constraints: final constraints,
         ):
-        return Workmanager().registerOneOffTask(
+        return Workmanager().registerPeriodicTask(
           name,
           name,
-          // frequency: freq,
+          frequency: freq,
           existingWorkPolicy: existingWorkPolicy,
           constraints: constraints,
         );

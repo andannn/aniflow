@@ -15,18 +15,22 @@ class StaffDao extends DatabaseAccessor<AniflowDatabase> with _$StaffDaoMixin {
   StaffDao(super.db);
 
   Future upsertStaffEntities(List<StaffEntity> entities) async {
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(staffTable, entities);
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(staffTable, entities);
+      });
     });
   }
 
   Future insertOrIgnoreStaffEntities(List<StaffEntity> entities) async {
-    await batch((batch) {
-      batch.insertAll(
-        staffTable,
-        entities,
-        mode: InsertMode.insertOrIgnore,
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAll(
+          staffTable,
+          entities,
+          mode: InsertMode.insertOrIgnore,
+        );
+      });
     });
   }
 
@@ -42,24 +46,26 @@ class StaffDao extends DatabaseAccessor<AniflowDatabase> with _$StaffDaoMixin {
 
   Future insertStaffRelationEntitiesOfMedia(
       String mediaId, List<StaffAndRoleRelationEntity> entities) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        mediaStaffPagingCrossRefTable,
-        entities.map(
-          (e) => MediaStaffPagingCrossRefTableCompanion(
-            mediaId: Value(mediaId),
-            staffId: Value(e.staff.id),
-            staffRole: Value(e.role),
-            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          mediaStaffPagingCrossRefTable,
+          entities.map(
+            (e) => MediaStaffPagingCrossRefTableCompanion(
+              mediaId: Value(mediaId),
+              staffId: Value(e.staff.id),
+              staffRole: Value(e.role),
+              timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+            ),
           ),
-        ),
-      );
+        );
 
-      batch.insertAll(
-        staffTable,
-        entities.map((e) => e.staff),
-        mode: InsertMode.insertOrIgnore,
-      );
+        batch.insertAll(
+          staffTable,
+          entities.map((e) => e.staff),
+          mode: InsertMode.insertOrIgnore,
+        );
+      });
     });
   }
 

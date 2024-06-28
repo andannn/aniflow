@@ -18,12 +18,16 @@ class UserDao extends DatabaseAccessor<AniflowDatabase> with _$UserDaoMixin {
   }
 
   Future upsertUser(UserEntity user) {
-    return into(userTable).insertOnConflictUpdate(user);
+    return attachedDatabase.transaction(() async {
+      return into(userTable).insertOnConflictUpdate(user);
+    });
   }
 
   Future insertOrIgnoreUsers(List<UserEntity> users) {
-    return batch((batch) {
-      batch.insertAll(userTable, users, mode: InsertMode.insertOrIgnore);
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAll(userTable, users, mode: InsertMode.insertOrIgnore);
+      });
     });
   }
 }

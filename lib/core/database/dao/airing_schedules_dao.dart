@@ -16,21 +16,25 @@ class AiringSchedulesDao extends DatabaseAccessor<AniflowDatabase>
 
   Future upsertAiringSchedules(
       List<AiringScheduleAndMediaRelation> schedules) async {
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        airingScheduleTable,
-        schedules.map((e) => e.airingSchedule),
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          airingScheduleTable,
+          schedules.map((e) => e.airingSchedule),
+        );
 
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        schedules.map((e) => e.mediaEntity.toCompanion(true)),
-      );
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          schedules.map((e) => e.mediaEntity.toCompanion(true)),
+        );
+      });
     });
   }
 
   Future clearAiringSchedule() {
-    return delete(airingScheduleTable).go();
+    return attachedDatabase.transaction(() async {
+      return delete(airingScheduleTable).go();
+    });
   }
 
   Selectable<AiringScheduleAndMediaRelation> _getScheduleQuery(

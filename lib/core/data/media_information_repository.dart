@@ -48,7 +48,6 @@ import 'package:aniflow/core/network/model/media_edge.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
-import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -385,7 +384,7 @@ class MediaInformationRepository {
       );
 
       return LoadSuccess(data: null);
-    } on NetworkException catch (exception) {
+    } on Exception catch (exception) {
       return LoadError(exception);
     }
   }

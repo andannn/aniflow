@@ -1,7 +1,7 @@
 import 'package:workmanager/workmanager.dart';
 
 mixin TaskName {
-  static const sendNotificationTaskName = 'post_platform_notifications_task_1';
+  static const sendNotificationTaskName = 'post_platform_notifications_task_2';
 }
 
 sealed class Task {
@@ -34,7 +34,7 @@ class SendNotificationTask extends PeriodicTask {
   const SendNotificationTask()
       : super(
           name: TaskName.sendNotificationTaskName,
-          frequency: const Duration(minutes: 15),
+          frequency: const Duration(hours: 1),
         );
 
   @override

@@ -19,8 +19,8 @@ const String _tag = "SendNotificationTaskExecutor";
 
 @injectable
 class SendNotificationTaskExecutor implements Executor {
-  const SendNotificationTaskExecutor(this._notificationRepository,
-      this._authRepository);
+  const SendNotificationTaskExecutor(
+      this._notificationRepository, this._authRepository);
 
   final NotificationRepository _notificationRepository;
   final AuthRepository _authRepository;
@@ -57,7 +57,7 @@ class SendNotificationTaskExecutor implements Executor {
     }
 
     final notificationsResult =
-    await _notificationRepository.loadNotificationsByPage(
+        await _notificationRepository.loadNotificationsByPage(
       page: 1,
       perPage: unreadNotificationCount,
       category: NotificationCategory.all,
@@ -102,21 +102,16 @@ class SendNotificationTaskExecutor implements Executor {
 
 extension on NotificationModel {
   UserTitleLanguage get userTitleLanguage =>
-      GetIt.instance
-          .get<UserDataRepository>()
-          .userData
-          .userTitleLanguage;
+      GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
 
-  PlatformNotificationModel? mapToPlatformModel() =>
-      switch (this) {
-        AiringNotification() =>
-            PlatformNotificationModel(
-              id: hashCode,
-              title: 'New media aired',
-              body: (this as AiringNotification).createText(userTitleLanguage),
-              notificationChannel: MediaAiredNotificationChannel()
-                  .createPlatformNotificationChannel(),
-            ),
+  PlatformNotificationModel? mapToPlatformModel() => switch (this) {
+        AiringNotification() => PlatformNotificationModel(
+            id: hashCode,
+            title: 'New media aired',
+            body: (this as AiringNotification).createText(userTitleLanguage),
+            notificationChannel: MediaAiredNotificationChannel()
+                .createPlatformNotificationChannel(),
+          ),
         FollowNotification() => null,
         ActivityNotification() => null,
         MediaNotification() => null,
