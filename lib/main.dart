@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/background_task/executor/executor.dart';
 import 'package:aniflow/core/background_task/task.dart';
+import 'package:aniflow/core/background_task/task_factory.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/di/get_it_di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -77,7 +78,10 @@ Future requestNotificationPermissionIfNeeded() async {
 
 Future registerBackgroundTasks() async {
   await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
-  final register = getAllTasks().map((task) {
+  final factory = GetIt.instance.get<BackgroundTaskFactory>();
+  final tasks = await factory.createTasks();
+  logger.d('tasks is registered $tasks');
+  final register = tasks.map((task) {
     switch (task) {
       case PeriodicTask(
           name: final name,
@@ -85,10 +89,10 @@ Future registerBackgroundTasks() async {
           existingWorkPolicy: final existingWorkPolicy,
           constraints: final constraints,
         ):
-        return Workmanager().registerPeriodicTask(
+        return Workmanager().registerOneOffTask(
           name,
           name,
-          frequency: freq,
+          // frequency: freq,
           existingWorkPolicy: existingWorkPolicy,
           constraints: constraints,
         );

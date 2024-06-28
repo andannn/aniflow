@@ -27,7 +27,7 @@ abstract class PeriodicTask extends Task {
   final Duration frequency;
 
   @override
-  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.keep;
+  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.update;
 }
 
 class SendNotificationTask extends PeriodicTask {
@@ -53,6 +53,3 @@ extension TaskConverter on (String taskName, Map<String, dynamic>? inputData) {
   }
 }
 
-List<Task> getAllTasks() => [
-      const SendNotificationTask(),
-    ];
