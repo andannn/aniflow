@@ -283,6 +283,10 @@ extension FollowNotificationEx on FollowNotification {
       TextSpan(text: context),
     ];
   }
+
+  String createText() {
+    return '${user.name} $context';
+  }
 }
 
 extension ActivityNotificationEx on ActivityNotification {
@@ -298,6 +302,10 @@ extension ActivityNotificationEx on ActivityNotification {
       TextSpan(text: context),
     ];
   }
+
+  String createText() {
+    return '${user.name} $context';
+  }
 }
 
 extension MediaNotificationEx on MediaNotification {
@@ -312,6 +320,10 @@ extension MediaNotificationEx on MediaNotification {
       ),
       TextSpan(text: context),
     ];
+  }
+
+  String createText(UserTitleLanguage language) {
+    return '${media.title?.getTitle(language)} $context';
   }
 }
 

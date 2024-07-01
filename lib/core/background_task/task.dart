@@ -27,7 +27,7 @@ abstract class PeriodicTask extends Task {
   final Duration frequency;
 
   @override
-  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.update;
+  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.keep;
 }
 
 class SendNotificationTask extends PeriodicTask {
@@ -40,6 +40,9 @@ class SendNotificationTask extends PeriodicTask {
   @override
   Constraints? get constraints =>
       Constraints(networkType: NetworkType.connected);
+
+  @override
+  Duration get initialDelay => const Duration(seconds: 10);
 }
 
 extension TaskConverter on (String taskName, Map<String, dynamic>? inputData) {

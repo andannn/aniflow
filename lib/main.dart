@@ -87,11 +87,13 @@ Future registerBackgroundTasks() async {
           name: final name,
           frequency: final freq,
           existingWorkPolicy: final existingWorkPolicy,
+          initialDelay: final initialDelay,
           constraints: final constraints,
         ):
         return Workmanager().registerPeriodicTask(
           name,
           name,
+          initialDelay: initialDelay,
           frequency: freq,
           existingWorkPolicy: existingWorkPolicy,
           constraints: constraints,

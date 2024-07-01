@@ -19,6 +19,8 @@ mixin AfConfig {
   static const String imageDownloadFolder = 'aniflow';
   static const int daysBeforeOfMoviesInHome = 15;
   static const int daysAfterOfMoviesInHome = 30;
+
+  static const int maxSendNotificationCount = 3;
 }
 
 /// Only for test

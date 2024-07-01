@@ -1,5 +1,6 @@
 import 'package:aniflow/core/background_task/executor/executor.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -19,11 +20,12 @@ const String _tag = "SendNotificationTaskExecutor";
 
 @injectable
 class SendNotificationTaskExecutor implements Executor {
-  const SendNotificationTaskExecutor(
-      this._notificationRepository, this._authRepository);
+  const SendNotificationTaskExecutor(this._notificationRepository,
+      this._authRepository, this._userDataRepository);
 
   final NotificationRepository _notificationRepository;
   final AuthRepository _authRepository;
+  final UserDataRepository _userDataRepository;
 
   @override
   Future<bool> execute() async {
@@ -83,19 +85,36 @@ class SendNotificationTaskExecutor implements Executor {
       return true;
     }
 
-    final matchedNotification = notifications.firstWhereOrNull((e) => true);
+    final sendUserNotificationIds =
+        _userDataRepository.userData.sentNotificationIds;
+    final matchedNotification = notifications
+        .where(
+          (e) => !sendUserNotificationIds.contains(e.id),
+        )
+        .toList();
 
-    if (matchedNotification == null) {
+    if (matchedNotification.isEmpty) {
       logger.d('$_tag No matched notification, just finish task.');
       return true;
     }
 
-    final notification = matchedNotification.mapToPlatformModel();
-    if (notification == null) {
+    final platFormNotifications = matchedNotification
+        .map((e) => e.mapToPlatformModel())
+        .whereNotNull()
+        .toList();
+    if (notifications.isEmpty) {
       logger.d('$_tag notification mapped null.');
       return true;
     }
-    await PlatformNotification().sendNotification(notification);
+
+    final tasks = platFormNotifications
+        .take(AfConfig.maxSendNotificationCount)
+        .map((notification) async {
+      await PlatformNotification().sendNotification(notification);
+      await _userDataRepository.addNotificationId(notification.id.toString());
+    });
+
+    await Future.wait(tasks);
     return true;
   }
 }
@@ -106,15 +125,40 @@ extension on NotificationModel {
 
   PlatformNotificationModel? mapToPlatformModel() => switch (this) {
         AiringNotification() => PlatformNotificationModel(
-            id: hashCode,
+            id: int.parse(id),
             title: 'New media aired',
             body: (this as AiringNotification).createText(userTitleLanguage),
             notificationChannel: MediaAiredNotificationChannel()
                 .createPlatformNotificationChannel(),
           ),
-        FollowNotification() => null,
-        ActivityNotification() => null,
-        MediaNotification() => null,
-        MediaDeletionNotification() => null,
+        FollowNotification() => PlatformNotificationModel(
+            id: int.parse(id),
+            title: 'New follower',
+            body: (this as FollowNotification).createText(),
+            notificationChannel: NewFollowerNotificationChannel()
+                .createPlatformNotificationChannel(),
+          ),
+        ActivityNotification() => PlatformNotificationModel(
+            id: int.parse(id),
+            title: 'New activity',
+            body: (this as ActivityNotification).createText(),
+            notificationChannel: ActivityNotificationChannel()
+                .createPlatformNotificationChannel(),
+          ),
+        MediaNotification() => PlatformNotificationModel(
+          id: int.parse(id),
+          title: 'Media',
+          body: (this as MediaNotification).createText(userTitleLanguage),
+          notificationChannel: MediaNotificationChannel()
+              .createPlatformNotificationChannel(),
+        ),
+        MediaDeletionNotification() => PlatformNotificationModel(
+          id: int.parse(id),
+          title: 'Media deleted',
+// TODO:
+          body: 'Media deleted',
+          notificationChannel: MediaNotificationChannel()
+              .createPlatformNotificationChannel(),
+        ),
       };
 }

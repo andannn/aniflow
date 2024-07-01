@@ -330,6 +330,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i47.SendNotificationTaskExecutor(
               gh<_i41.NotificationRepository>(),
               gh<_i28.AuthRepository>(),
+              gh<_i21.UserDataRepository>(),
             ));
     gh.factory<_i48.SettingsBloc>(() => _i48.SettingsBloc(
           gh<_i21.UserDataRepository>(),

@@ -62,3 +62,45 @@ class MediaAiredNotificationChannel extends NotificationChannel {
   @override
   int get importance => NotificationImportance.importanceDefault;
 }
+
+class NewFollowerNotificationChannel extends NotificationChannel {
+  @override
+  String get id => 'NewFollowerNotificationChannel';
+
+  @override
+  String get name => 'Followers';
+
+  @override
+  String get description => "New follower";
+
+  @override
+  int get importance => NotificationImportance.importanceDefault;
+}
+
+class ActivityNotificationChannel extends NotificationChannel {
+  @override
+  String get id => 'ActivityNotificationChannel';
+
+  @override
+  String get name => 'Activity';
+
+  @override
+  String get description => "Activity related";
+
+  @override
+  int get importance => NotificationImportance.importanceDefault;
+}
+
+class MediaNotificationChannel extends NotificationChannel {
+  @override
+  String get id => 'MediaNotificationChannel';
+
+  @override
+  String get name => 'Media';
+
+  @override
+  String get description => "Media related";
+
+  @override
+  int get importance => NotificationImportance.importanceDefault;
+}

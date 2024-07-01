@@ -213,7 +213,7 @@ class UserDataPreferences {
   }
 
   Future addNotificationId(String id) async {
-    final newIds = jsonEncode([..._sentNotificationIds, id]);
+    final newIds = jsonEncode({..._sentNotificationIds, id}.toList());
     await _preferences.setString(
         _UserDataKey.alreadySentNotificationIdsKey, newIds);
 
