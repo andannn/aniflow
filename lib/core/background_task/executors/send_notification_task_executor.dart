@@ -1,4 +1,4 @@
-import 'package:aniflow/core/background_task/executor/executor.dart';
+import 'package:aniflow/core/background_task/executor.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';

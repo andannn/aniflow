@@ -8,9 +8,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:aniflow/core/background_task/executor/send_notification_task_executor.dart'
+import 'package:aniflow/core/background_task/executors/send_notification_task_executor.dart'
     as _i47;
-import 'package:aniflow/core/background_task/task_factory.dart' as _i29;
+import 'package:aniflow/core/background_task/task_manager.dart' as _i29;
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart'
     as _i87;
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart'

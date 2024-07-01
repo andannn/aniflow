@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/background_task/executor/executor.dart';
-import 'package:aniflow/core/background_task/task.dart';
-import 'package:aniflow/core/background_task/task_factory.dart';
+import 'package:aniflow/core/background_task/executor.dart';
+import 'package:aniflow/core/background_task/tasks/task.dart';
+import 'package:aniflow/core/background_task/task_manager.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/di/get_it_di.dart';
@@ -35,7 +35,7 @@ void callbackDispatcher() async {
   };
 
   Workmanager().executeTask((taskName, inputData) async {
-    final executor = Executor.convertToExecutor((taskName, inputData).toTask());
+    final executor = Executor.fromTask((taskName, inputData).toTask());
     if (executor == null) {
       throw 'no support task of name $taskName, inputData $inputData.';
     }
@@ -83,7 +83,7 @@ Future registerBackgroundTasks() async {
   logger.d('tasks is registered $tasks');
   final register = tasks.map((task) {
     switch (task) {
-      case PeriodicTask(
+      case PeriodicBackgroundTask(
           name: final name,
           frequency: final freq,
           existingWorkPolicy: final existingWorkPolicy,
