@@ -1,6 +1,7 @@
 package com.andannn.aniflow.notification.platform_notification
 
 import android.content.Context
+import android.os.Build
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -54,5 +55,17 @@ class NotificationHelper(
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
         notificationManager.notify(notificationModel.id, notification)
+    }
+
+    fun isNotificationChannelEnabled(channelId: String): Boolean {
+        val notificationManager = NotificationManagerCompat.from(context)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = notificationManager.getNotificationChannel(channelId)
+            return channel!!.importance != NotificationManagerCompat.IMPORTANCE_NONE
+        }
+
+        // notification channel does not exist under android sdk 26.
+        return true
     }
 }

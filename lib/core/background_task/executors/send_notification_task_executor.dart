@@ -123,42 +123,49 @@ extension on NotificationModel {
   UserTitleLanguage get userTitleLanguage =>
       GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
 
-  PlatformNotificationModel? mapToPlatformModel() => switch (this) {
-        AiringNotification() => PlatformNotificationModel(
-            id: int.parse(id),
-            title: 'New media aired',
-            body: (this as AiringNotification).createText(userTitleLanguage),
-            notificationChannel: MediaAiredNotificationChannel()
-                .createPlatformNotificationChannel(),
-          ),
-        FollowNotification() => PlatformNotificationModel(
-            id: int.parse(id),
-            title: 'New follower',
-            body: (this as FollowNotification).createText(),
-            notificationChannel: NewFollowerNotificationChannel()
-                .createPlatformNotificationChannel(),
-          ),
-        ActivityNotification() => PlatformNotificationModel(
-            id: int.parse(id),
-            title: 'New activity',
-            body: (this as ActivityNotification).createText(),
-            notificationChannel: ActivityNotificationChannel()
-                .createPlatformNotificationChannel(),
-          ),
-        MediaNotification() => PlatformNotificationModel(
+  PlatformNotificationModel? mapToPlatformModel() {
+    switch (this) {
+      case AiringNotification():
+        return PlatformNotificationModel(
+          id: int.parse(id),
+          title: 'New media aired',
+          body: (this as AiringNotification).createText(userTitleLanguage),
+          notificationChannel: MediaAiredNotificationChannel()
+              .createPlatformNotificationChannel(),
+        );
+      case FollowNotification():
+        return PlatformNotificationModel(
+          id: int.parse(id),
+          title: 'New follower',
+          body: (this as FollowNotification).createText(),
+          notificationChannel: NewFollowerNotificationChannel()
+              .createPlatformNotificationChannel(),
+        );
+      case ActivityLikeNotification():
+      case ActivityReplyNotification():
+      case ActivityReplyLikeNotification():
+      case ActivityReplySubscribedNotification():
+      case ActivityMessageNotification():
+        return PlatformNotificationModel(
+          id: int.parse(id),
+          title: 'New activity',
+          body: (this as ActivityNotification).createText(),
+          notificationChannel:
+              ActivityNotificationChannel().createPlatformNotificationChannel(),
+        );
+      case MediaDataChangeNotification():
+      case RelatedMediaAdditionNotification():
+      case MediaMergeNotification():
+      return PlatformNotificationModel(
           id: int.parse(id),
           title: 'Media',
           body: (this as MediaNotification).createText(userTitleLanguage),
-          notificationChannel: MediaNotificationChannel()
-              .createPlatformNotificationChannel(),
-        ),
-        MediaDeletionNotification() => PlatformNotificationModel(
-          id: int.parse(id),
-          title: 'Media deleted',
-// TODO:
-          body: 'Media deleted',
-          notificationChannel: MediaNotificationChannel()
-              .createPlatformNotificationChannel(),
-        ),
-      };
+          notificationChannel:
+              MediaNotificationChannel().createPlatformNotificationChannel(),
+        );
+      case MediaDeletionNotification():
+      default:
+        return null;
+    }
+  }
 }
