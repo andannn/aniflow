@@ -87,4 +87,12 @@ class UserDataRepository {
     await _preferences.setAnimeSeason(param.season);
     await _preferences.setSeasonYear(param.seasonYear);
   }
+
+  Future addNotificationId(String id) async {
+    await _preferences.addNotificationId(id);
+  }
+
+  Future clearNotificationId() async {
+    await _preferences.clearNotificationId();
+  }
 }

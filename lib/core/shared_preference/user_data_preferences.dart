@@ -36,6 +36,9 @@ mixin _UserDataKey {
   static const showReleasedOnlyKey = 'show_released_only_key';
 
   static const themeSettingKey = 'theme_setting_key';
+
+  static const alreadySentNotificationIdsKey =
+      'already_sent_notification_ids_key';
 }
 
 @injectable
@@ -63,6 +66,7 @@ class UserDataPreferences {
       userTitleLanguage: settings.userTitleLanguage,
       userStaffNameLanguage: settings.userStaffNameLanguage,
       scoreFormat: settings.scoreFormat,
+      sentNotificationIds: _sentNotificationIds,
     );
   }
 
@@ -197,6 +201,28 @@ class UserDataPreferences {
     } else {
       await _preferences.remove(_UserDataKey.authExpiredTime);
     }
+    _changeNotifier.notifyChanged();
+  }
+
+  List<String> get _sentNotificationIds {
+    final sentNotificationIdsString =
+        _preferences.getString(_UserDataKey.alreadySentNotificationIdsKey) ??
+            "[]";
+    final jsonList = jsonDecode(sentNotificationIdsString) as List<dynamic>;
+    return jsonList.map((e) => e.toString()).toList();
+  }
+
+  Future addNotificationId(String id) async {
+    final newIds = jsonEncode([..._sentNotificationIds, id]);
+    await _preferences.setString(
+        _UserDataKey.alreadySentNotificationIdsKey, newIds);
+
+    _changeNotifier.notifyChanged();
+  }
+
+  Future clearNotificationId() async {
+    await _preferences.remove(_UserDataKey.alreadySentNotificationIdsKey);
+
     _changeNotifier.notifyChanged();
   }
 }

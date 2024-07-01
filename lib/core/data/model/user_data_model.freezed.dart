@@ -36,6 +36,7 @@ mixin _$UserDataModel {
   UserStaffNameLanguage get userStaffNameLanguage =>
       throw _privateConstructorUsedError;
   ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
+  List<String> get sentNotificationIds => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserDataModelCopyWith<UserDataModel> get copyWith =>
@@ -62,7 +63,8 @@ abstract class $UserDataModelCopyWith<$Res> {
       bool displayAdultContent,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
-      ScoreFormat scoreFormat});
+      ScoreFormat scoreFormat,
+      List<String> sentNotificationIds});
 }
 
 /// @nodoc
@@ -92,6 +94,7 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
     Object? scoreFormat = null,
+    Object? sentNotificationIds = null,
   }) {
     return _then(_value.copyWith(
       mediaType: null == mediaType
@@ -150,6 +153,10 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
           ? _value.scoreFormat
           : scoreFormat // ignore: cast_nullable_to_non_nullable
               as ScoreFormat,
+      sentNotificationIds: null == sentNotificationIds
+          ? _value.sentNotificationIds
+          : sentNotificationIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -176,7 +183,8 @@ abstract class _$$UserDataModelImplCopyWith<$Res>
       bool displayAdultContent,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
-      ScoreFormat scoreFormat});
+      ScoreFormat scoreFormat,
+      List<String> sentNotificationIds});
 }
 
 /// @nodoc
@@ -204,6 +212,7 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
     Object? scoreFormat = null,
+    Object? sentNotificationIds = null,
   }) {
     return _then(_$UserDataModelImpl(
       mediaType: null == mediaType
@@ -262,6 +271,10 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
           ? _value.scoreFormat
           : scoreFormat // ignore: cast_nullable_to_non_nullable
               as ScoreFormat,
+      sentNotificationIds: null == sentNotificationIds
+          ? _value._sentNotificationIds
+          : sentNotificationIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -283,7 +296,9 @@ class _$UserDataModelImpl implements _UserDataModel {
       this.displayAdultContent = false,
       this.userTitleLanguage = UserTitleLanguage.native,
       this.userStaffNameLanguage = UserStaffNameLanguage.native,
-      this.scoreFormat = ScoreFormat.point100});
+      this.scoreFormat = ScoreFormat.point100,
+      final List<String> sentNotificationIds = const []})
+      : _sentNotificationIds = sentNotificationIds;
 
   /// local data.
   @override
@@ -327,10 +342,19 @@ class _$UserDataModelImpl implements _UserDataModel {
   @override
   @JsonKey()
   final ScoreFormat scoreFormat;
+  final List<String> _sentNotificationIds;
+  @override
+  @JsonKey()
+  List<String> get sentNotificationIds {
+    if (_sentNotificationIds is EqualUnmodifiableListView)
+      return _sentNotificationIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sentNotificationIds);
+  }
 
   @override
   String toString() {
-    return 'UserDataModel(mediaType: $mediaType, season: $season, seasonYear: $seasonYear, themeSetting: $themeSetting, isShowReleaseOnly: $isShowReleaseOnly, activityScopeCategory: $activityScopeCategory, activityFilterType: $activityFilterType, authedUserId: $authedUserId, authToken: $authToken, authExpiredTime: $authExpiredTime, displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat)';
+    return 'UserDataModel(mediaType: $mediaType, season: $season, seasonYear: $seasonYear, themeSetting: $themeSetting, isShowReleaseOnly: $isShowReleaseOnly, activityScopeCategory: $activityScopeCategory, activityFilterType: $activityFilterType, authedUserId: $authedUserId, authToken: $authToken, authExpiredTime: $authExpiredTime, displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, sentNotificationIds: $sentNotificationIds)';
   }
 
   @override
@@ -364,7 +388,9 @@ class _$UserDataModelImpl implements _UserDataModel {
             (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
                 other.userStaffNameLanguage == userStaffNameLanguage) &&
             (identical(other.scoreFormat, scoreFormat) ||
-                other.scoreFormat == scoreFormat));
+                other.scoreFormat == scoreFormat) &&
+            const DeepCollectionEquality()
+                .equals(other._sentNotificationIds, _sentNotificationIds));
   }
 
   @override
@@ -383,7 +409,8 @@ class _$UserDataModelImpl implements _UserDataModel {
       displayAdultContent,
       userTitleLanguage,
       userStaffNameLanguage,
-      scoreFormat);
+      scoreFormat,
+      const DeepCollectionEquality().hash(_sentNotificationIds));
 
   @JsonKey(ignore: true)
   @override
@@ -407,7 +434,8 @@ abstract class _UserDataModel implements UserDataModel {
       final bool displayAdultContent,
       final UserTitleLanguage userTitleLanguage,
       final UserStaffNameLanguage userStaffNameLanguage,
-      final ScoreFormat scoreFormat}) = _$UserDataModelImpl;
+      final ScoreFormat scoreFormat,
+      final List<String> sentNotificationIds}) = _$UserDataModelImpl;
 
   @override
 
@@ -441,6 +469,8 @@ abstract class _UserDataModel implements UserDataModel {
   UserStaffNameLanguage get userStaffNameLanguage;
   @override
   ScoreFormat get scoreFormat;
+  @override
+  List<String> get sentNotificationIds;
   @override
   @JsonKey(ignore: true)
   _$$UserDataModelImplCopyWith<_$UserDataModelImpl> get copyWith =>
