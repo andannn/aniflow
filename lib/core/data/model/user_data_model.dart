@@ -33,6 +33,7 @@ class UserDataModel with _$UserDataModel {
     @Default(UserStaffNameLanguage.native)
     UserStaffNameLanguage userStaffNameLanguage,
     @Default(ScoreFormat.point100) ScoreFormat scoreFormat,
+    @Default([]) List<String> sentNotificationIds,
   }) = _UserDataModel;
 }
 

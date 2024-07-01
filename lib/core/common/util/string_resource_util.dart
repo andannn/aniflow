@@ -262,6 +262,12 @@ extension AiringNotificationEx on AiringNotification {
       TextSpan(text: contextList[2]),
     ];
   }
+
+  String createText(UserTitleLanguage language) {
+    final List contextList = jsonDecode(context);
+    return '${contextList[0]} $episode ${contextList[1]} '
+        '${media.title?.getTitle(language)} ${contextList[2]}';
+  }
 }
 
 extension FollowNotificationEx on FollowNotification {
@@ -276,6 +282,10 @@ extension FollowNotificationEx on FollowNotification {
       ),
       TextSpan(text: context),
     ];
+  }
+
+  String createText() {
+    return '${user.name} $context';
   }
 }
 
@@ -292,6 +302,10 @@ extension ActivityNotificationEx on ActivityNotification {
       TextSpan(text: context),
     ];
   }
+
+  String createText() {
+    return '${user.name} $context';
+  }
 }
 
 extension MediaNotificationEx on MediaNotification {
@@ -306,6 +320,10 @@ extension MediaNotificationEx on MediaNotification {
       ),
       TextSpan(text: context),
     ];
+  }
+
+  String createText(UserTitleLanguage language) {
+    return '${media.title?.getTitle(language)} $context';
   }
 }
 

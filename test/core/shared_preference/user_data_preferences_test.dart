@@ -177,5 +177,22 @@ void main() {
           AniListSettings(scoreFormat: ScoreFormat.point100));
       await expectLater(stream, emits(ScoreFormat.point100));
     });
+
+    test('setAniListSettings add and clear NotificationId test', () async {
+      await preferences.addNotificationId('1');
+      expect(preferences.userData.sentNotificationIds, ['1']);
+      await preferences.addNotificationId('2');
+      expect(preferences.userData.sentNotificationIds, ['1', '2']);
+      await preferences.clearNotificationId();
+      expect(preferences.userData.sentNotificationIds, []);
+    });
+
+    test('setAniListSettings add and clear NotificationId stream test',
+        () async {
+      final stream =
+          preferences.userDataStream.map((event) => event.sentNotificationIds);
+      await preferences.addNotificationId('1');
+      await expectLater(stream, emits(['1']));
+    });
   });
 }

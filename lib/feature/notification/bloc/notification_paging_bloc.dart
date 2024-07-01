@@ -27,6 +27,7 @@ class NotificationPagingBloc extends PagingBloc<NotificationModel> {
       page: page,
       perPage: AfConfig.notificationPageDefaultPerPageCount,
       category: _category,
+      resetNotificationCount: true,
       token: cancelToken,
     );
   }

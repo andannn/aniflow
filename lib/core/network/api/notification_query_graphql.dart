@@ -1,24 +1,37 @@
 import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/network/api/activity_page_query_graphql.dart';
-import 'package:aniflow/core/network/api/media_content_graphql.dart';
 import 'package:aniflow/core/network/api/user_content_graphql.dart';
 
 class NotificationQueryParam {
   final int page;
   final int? perPage;
   final List<NotificationType> type;
-
+  final bool resetNotificationCount;
   NotificationQueryParam(
       {required this.page,
         this.perPage,
+        required this.resetNotificationCount,
         this.type = const []});
 }
 
+String get _shortMediaContentQueryGraphql =>'''
+      id
+      coverImage {
+        extraLarge
+        large
+        medium
+      }
+      title {
+        romaji
+        english
+        native
+      }
+''';
 
-String get notificationQueryGraphql => '''
-query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
+    String get notificationQueryGraphql => '''
+query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType], \$resetNotificationCount: Boolean) {
   Page(page: \$page, perPage: \$perPage) {
-    notifications(type_in: \$type_in, resetNotificationCount: true) {
+    notifications(type_in: \$type_in, resetNotificationCount: \$resetNotificationCount) {
       __typename
       ... on AiringNotification {
         id
@@ -28,7 +41,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         contexts
         createdAt
         media {
-          $mediaContentQueryGraphql
+          $_shortMediaContentQueryGraphql
         }
       }
       ... on ActivityLikeNotification {
@@ -134,7 +147,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         reason
         createdAt
         media {
-          $mediaContentQueryGraphql
+          $_shortMediaContentQueryGraphql
         }
       }
       ... on MediaDataChangeNotification {
@@ -145,7 +158,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         reason
         createdAt
         media {
-          $mediaContentQueryGraphql
+          $_shortMediaContentQueryGraphql
         }
       }
       ... on MediaDeletionNotification {
@@ -163,7 +176,7 @@ query (\$page: Int, \$perPage: Int, \$type_in: [NotificationType]) {
         context
         createdAt
         media {
-          $mediaContentQueryGraphql
+          $_shortMediaContentQueryGraphql
         }
       }
     }

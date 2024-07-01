@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'media_format.g.dart';

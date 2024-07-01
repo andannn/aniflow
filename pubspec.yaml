@@ -90,7 +90,11 @@ dependencies:
   mockito: ^5.4.4
   platform_downloader:
     path: ./platform_downloader
+  platform_notification:
+    path: ./platform_notification
   firebase_remote_config: ^4.4.7
+  workmanager: ^0.5.2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   drift_dev: ^2.15.0

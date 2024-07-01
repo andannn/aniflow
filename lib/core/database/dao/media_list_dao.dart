@@ -17,7 +17,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   MediaListDao(super.db);
 
   Future removeMediaListOfUser(String userId) {
-    return (delete(mediaListTable)..where((t) => t.userId.equals(userId))).go();
+    return attachedDatabase.transaction(() async {
+      return (delete(mediaListTable)..where((t) => t.userId.equals(userId)))
+          .go();
+    });
   }
 
   Future<List<MediaListAndMediaRelation>> getMediaListByPage(
@@ -107,18 +110,22 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future upsertMediaListEntities(List<MediaListEntity> entities) async {
-    await batch((batch) {
-      batch.insertAll(
-        mediaListTable,
-        entities,
-        mode: InsertMode.insertOrReplace,
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAll(
+          mediaListTable,
+          entities,
+          mode: InsertMode.insertOrReplace,
+        );
+      });
     });
   }
 
   Future deleteMediaListOfUser(String userId) {
-    return (delete(mediaListTable)..where((tbl) => tbl.userId.equals(userId)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      return (delete(mediaListTable)..where((tbl) => tbl.userId.equals(userId)))
+          .go();
+    });
   }
 
   Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
@@ -174,18 +181,20 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   /// upsert mediaList and ignore media when conflict.
   Future upsertMediaListAndMediaRelations(
       List<MediaListAndMediaRelation> entities) {
-    return batch((batch) {
-      batch.insertAll(
-        mediaListTable,
-        entities.map((e) => e.mediaListEntity).whereNotNull(),
-        mode: InsertMode.replace,
-      );
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAll(
+          mediaListTable,
+          entities.map((e) => e.mediaListEntity).whereNotNull(),
+          mode: InsertMode.replace,
+        );
 
-      // insert the table or update columns except Value.absent().
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        entities.map((e) => e.mediaEntity.toCompanion(true)),
-      );
+        // insert the table or update columns except Value.absent().
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          entities.map((e) => e.mediaEntity.toCompanion(true)),
+        );
+      });
     });
   }
 }
