@@ -39,4 +39,10 @@ abstract class PlatformNotificationPlatform extends PlatformInterface {
   Future<bool> sendNotification(PlatformNotificationModel model) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  /// android only.
+  /// Returns true if notification channel is enabled.
+  Future<bool> isNotificationChannelEnabled(String channelId) {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
 }

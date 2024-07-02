@@ -14,15 +14,15 @@ class MethodChannelPlatformNotification extends PlatformNotificationPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>(
-        'getPlatformVersion');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 
   @override
   Future<bool> areNotificationsEnabled() async {
-    final result = await methodChannel.invokeMethod<bool>(
-        'areNotificationsEnabled');
+    final result =
+        await methodChannel.invokeMethod<bool>('areNotificationsEnabled');
     return result ?? false;
   }
 
@@ -30,6 +30,15 @@ class MethodChannelPlatformNotification extends PlatformNotificationPlatform {
   Future<bool> sendNotification(PlatformNotificationModel model) async {
     final result = await methodChannel.invokeMethod<bool>(
         'sendNotification', {'param': jsonEncode(model.toJson())});
+    return result ?? false;
+  }
+
+  @override
+  Future<bool> isNotificationChannelEnabled(String channelId) async {
+    final result = await methodChannel.invokeMethod<bool>(
+      'isNotificationChannelEnabled',
+      {'channelId': channelId},
+    );
     return result ?? false;
   }
 }

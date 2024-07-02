@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     bool? areNotificationsEnabled;
     areNotificationsEnabled =
-    await _platformNotificationPlugin.areNotificationsEnabled();
+        await _platformNotificationPlugin.areNotificationsEnabled();
 
     setState(() {
       _areNotificationsEnabled = areNotificationsEnabled;
@@ -55,15 +55,22 @@ class _MyAppState extends State<MyApp> {
                       title: "AAA",
                       body: "BBBB",
                       notificationChannel: PlatformNotificationChannelModel(
-                        id: "1",
-                        name: 'channel 1',
-                        description: "Channel 1",
-                        importance: 1
-                      ),
+                          id: "1",
+                          name: 'channel 1',
+                          description: "Channel 1",
+                          importance: 1),
                     ),
                   );
                 },
                 child: const Text('send notification'),
+              ),
+              TextButton(
+                child: const Text('check notification channel enabled'),
+                onPressed: () async {
+                  final isEnabled = await _platformNotificationPlugin
+                      .isNotificationChannelEnabled('1');
+                  print(isEnabled);
+                },
               )
             ],
           ),
