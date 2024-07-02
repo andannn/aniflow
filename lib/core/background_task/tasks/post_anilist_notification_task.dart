@@ -1,11 +1,10 @@
 import 'package:aniflow/core/background_task/task_manager.dart';
-import 'package:aniflow/core/background_task/tasks/task.dart';
+import 'package:aniflow/core/background_task/task.dart';
 import 'package:workmanager/workmanager.dart';
 
-class SendNotificationTask extends PeriodicBackgroundTask {
-  const SendNotificationTask()
+class PostAnilistNotificationTask extends PeriodicBackgroundTask {
+  const PostAnilistNotificationTask()
       : super(
-          name: BackgroundTaskName.sendNotificationTaskName,
           frequency: const Duration(hours: 1),
         );
 
@@ -15,4 +14,7 @@ class SendNotificationTask extends PeriodicBackgroundTask {
 
   @override
   Duration get initialDelay => const Duration(seconds: 10);
+
+  @override
+  String get name => BackgroundTaskName.sendNotificationTaskName;
 }

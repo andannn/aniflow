@@ -62,7 +62,12 @@ class NotificationHelper(
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = notificationManager.getNotificationChannel(channelId)
-            return channel!!.importance != NotificationManagerCompat.IMPORTANCE_NONE
+            if (channel == null) {
+                // channel is not been created yet.
+                return true
+            }
+
+            return channel.importance != NotificationManagerCompat.IMPORTANCE_NONE
         }
 
         // notification channel does not exist under android sdk 26.

@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/background_task/executor.dart';
-import 'package:aniflow/core/background_task/tasks/task.dart';
 import 'package:aniflow/core/background_task/task_manager.dart';
-import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/background_task/task.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/di/get_it_di.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -25,22 +24,20 @@ void callbackDispatcher() async {
 
   await initDI(GetIt.instance);
 
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
-  };
-
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
-
   Workmanager().executeTask((taskName, inputData) async {
-    final executor = Executor.fromTask((taskName, inputData).toTask());
-    if (executor == null) {
-      throw 'no support task of name $taskName, inputData $inputData.';
-    }
+    try {
+      final task = TaskConverter().fromInputData(taskName, inputData);
+      final executor = Executor.fromTask(task);
+      if (executor == null) {
+        throw 'no support task of name $taskName, inputData $inputData.';
+      }
 
-    return executor.execute();
+      return executor.execute();
+    } on Exception catch (e) {
+      await FirebaseCrashlytics.instance
+          .recordFlutterError(FlutterErrorDetails(exception: e));
+      return false;
+    }
   });
 }
 
@@ -67,38 +64,11 @@ void main() async {
   unawaited(FirebaseAnalytics.instance.setInitialUserProperty());
   unawaited(FirebaseAnalytics.instance.logAppDataSizeEvent());
 
-  unawaited(registerBackgroundTasks());
-
   unawaited(requestNotificationPermissionIfNeeded());
+
+  GetIt.instance.get<BackgroundTaskManager>();
 }
 
 Future requestNotificationPermissionIfNeeded() async {
   await Permission.notification.request();
-}
-
-Future registerBackgroundTasks() async {
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
-  final factory = GetIt.instance.get<BackgroundTaskFactory>();
-  final tasks = await factory.createTasks();
-  logger.d('tasks is registered $tasks');
-  final register = tasks.map((task) {
-    switch (task) {
-      case PeriodicBackgroundTask(
-          name: final name,
-          frequency: final freq,
-          existingWorkPolicy: final existingWorkPolicy,
-          initialDelay: final initialDelay,
-          constraints: final constraints,
-        ):
-        return Workmanager().registerPeriodicTask(
-          name,
-          name,
-          initialDelay: initialDelay,
-          frequency: freq,
-          existingWorkPolicy: existingWorkPolicy,
-          constraints: constraints,
-        );
-    }
-  });
-  await Future.wait(register);
 }
