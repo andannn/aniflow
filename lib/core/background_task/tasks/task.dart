@@ -1,9 +1,9 @@
 import 'package:aniflow/core/background_task/task_manager.dart';
-import 'package:aniflow/core/background_task/tasks/send_notification_task.dart';
+import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:workmanager/workmanager.dart';
 
 sealed class BackgroundTask {
-  final String name;
+  String get name;
 
   Duration get initialDelay => Duration.zero;
 
@@ -13,12 +13,11 @@ sealed class BackgroundTask {
 
   Constraints? get constraints => null;
 
-  const BackgroundTask({required this.name});
+  const BackgroundTask();
 }
 
 abstract class PeriodicBackgroundTask extends BackgroundTask {
   const PeriodicBackgroundTask({
-    required super.name,
     required this.frequency,
   });
 
@@ -28,11 +27,13 @@ abstract class PeriodicBackgroundTask extends BackgroundTask {
   ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.keep;
 }
 
-extension TaskConverter on (String taskName, Map<String, dynamic>? inputData) {
-  BackgroundTask? toTask() {
-    final (taskName, _) = this;
+class TaskConverter {
+  TaskConverter();
+
+  BackgroundTask? fromInputData(String taskName,
+      Map<String, dynamic>? inputData) {
     if (taskName == BackgroundTaskName.sendNotificationTaskName) {
-      return const SendNotificationTask();
+      return const PostAnilistNotificationTask();
     }
 
     return null;
