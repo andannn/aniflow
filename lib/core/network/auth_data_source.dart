@@ -117,6 +117,7 @@ class AuthDataSource {
     final variablesMap = <String, dynamic>{
       'page': param.page,
       'perPage': param.perPage,
+      'resetNotificationCount': param.resetNotificationCount,
       'type_in': param.type.map((e) => e.typeName).toList(),
     };
 

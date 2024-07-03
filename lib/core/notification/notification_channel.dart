@@ -41,15 +41,15 @@ sealed class NotificationChannel {
 
   PlatformNotificationChannelModel createPlatformNotificationChannel() {
     return PlatformNotificationChannelModel(
-      id: MediaAiredNotificationChannel().id,
-      name: MediaAiredNotificationChannel().name,
-      description: MediaAiredNotificationChannel().description,
+      id: AiredNotificationChannel().id,
+      name: AiredNotificationChannel().name,
+      description: AiredNotificationChannel().description,
       importance: importance,
     );
   }
 }
 
-class MediaAiredNotificationChannel extends NotificationChannel {
+class AiredNotificationChannel extends NotificationChannel {
   @override
   String get id => 'MediaUpdateNotificationChannel';
 
@@ -104,3 +104,4 @@ class MediaNotificationChannel extends NotificationChannel {
   @override
   int get importance => NotificationImportance.importanceDefault;
 }
+

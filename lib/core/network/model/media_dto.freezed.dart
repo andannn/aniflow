@@ -42,6 +42,8 @@ mixin _$MediaDto {
   AnimeSeason? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'hashtag')
   String? get hashtag => throw _privateConstructorUsedError;
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
   String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'averageScore')
@@ -102,6 +104,7 @@ abstract class $MediaDtoCopyWith<$Res> {
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String? hashtag,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
@@ -157,6 +160,7 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     Object? seasonYear = freezed,
     Object? season = freezed,
     Object? hashtag = freezed,
+    Object? siteUrl = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
@@ -219,6 +223,10 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
       hashtag: freezed == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
@@ -432,6 +440,7 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String? hashtag,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
@@ -495,6 +504,7 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
     Object? seasonYear = freezed,
     Object? season = freezed,
     Object? hashtag = freezed,
+    Object? siteUrl = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
@@ -557,6 +567,10 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
       hashtag: freezed == hashtag
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
@@ -645,6 +659,7 @@ class _$MediaDtoImpl implements _MediaDto {
       @JsonKey(name: 'seasonYear') this.seasonYear,
       @JsonKey(name: 'season') this.season,
       @JsonKey(name: 'hashtag') this.hashtag,
+      @JsonKey(name: 'siteUrl') this.siteUrl,
       @JsonKey(name: 'bannerImage') this.bannerImage,
       @JsonKey(name: 'averageScore') this.averageScore,
       @JsonKey(name: 'trending') this.trending,
@@ -703,6 +718,9 @@ class _$MediaDtoImpl implements _MediaDto {
   @override
   @JsonKey(name: 'hashtag')
   final String? hashtag;
+  @override
+  @JsonKey(name: 'siteUrl')
+  final String? siteUrl;
   @override
   @JsonKey(name: 'bannerImage')
   final String? bannerImage;
@@ -774,7 +792,7 @@ class _$MediaDtoImpl implements _MediaDto {
 
   @override
   String toString() {
-    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, format: $format, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, studios: $studios, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
+    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, siteUrl: $siteUrl, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, format: $format, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, studios: $studios, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
   }
 
   @override
@@ -797,6 +815,7 @@ class _$MediaDtoImpl implements _MediaDto {
                 other.seasonYear == seasonYear) &&
             (identical(other.season, season) || other.season == season) &&
             (identical(other.hashtag, hashtag) || other.hashtag == hashtag) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
             (identical(other.averageScore, averageScore) ||
@@ -841,6 +860,7 @@ class _$MediaDtoImpl implements _MediaDto {
         seasonYear,
         season,
         hashtag,
+        siteUrl,
         bannerImage,
         averageScore,
         trending,
@@ -887,6 +907,7 @@ abstract class _MediaDto implements MediaDto {
       @JsonKey(name: 'seasonYear') final int? seasonYear,
       @JsonKey(name: 'season') final AnimeSeason? season,
       @JsonKey(name: 'hashtag') final String? hashtag,
+      @JsonKey(name: 'siteUrl') final String? siteUrl,
       @JsonKey(name: 'bannerImage') final String? bannerImage,
       @JsonKey(name: 'averageScore') final int? averageScore,
       @JsonKey(name: 'trending') final int? trending,
@@ -943,6 +964,9 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'hashtag')
   String? get hashtag;
+  @override
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl;
   @override
   @JsonKey(name: 'bannerImage')
   String? get bannerImage;

@@ -9,10 +9,6 @@ import kotlinx.serialization.json.Json
 
 /** PlatformNotificationPlugin */
 class PlatformNotificationPlugin : FlutterPlugin, MethodCallHandler {
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
     private lateinit var notificationHelper: NotificationHelper
     private lateinit var json: Json
@@ -28,19 +24,34 @@ class PlatformNotificationPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        if (call.method == "areNotificationsEnabled") {
-            result.success(notificationHelper.areNotificationsEnabled())
-        } else if (call.method == "sendNotification") {
-            val param = call.argument<String>("param") ?: return result.error(
-                /* errorCode = */ "ERROR",
-                /* errorMessage = */ "param is null",
-                /* errorDetails = */ null,
-            )
-            val notification = json.decodeFromString<Notification>(param)
-            notificationHelper.sendNotification(notification)
-            result.success(true)
-        } else {
-            result.notImplemented()
+        when (call.method) {
+            "areNotificationsEnabled" -> {
+                result.success(notificationHelper.areNotificationsEnabled())
+            }
+
+            "sendNotification" -> {
+                val param = call.argument<String>("param") ?: return result.error(
+                    /* errorCode = */ "ERROR",
+                    /* errorMessage = */ "param is null",
+                    /* errorDetails = */ null,
+                )
+                val notification = json.decodeFromString<Notification>(param)
+                notificationHelper.sendNotification(notification)
+                result.success(true)
+            }
+
+            "isNotificationChannelEnabled" -> {
+                val channelId = call.argument<String>("channelId") ?: return result.error(
+                    /* errorCode = */ "ERROR",
+                    /* errorMessage = */ "channelId is null",
+                    /* errorDetails = */ null,
+                )
+                result.success(notificationHelper.isNotificationChannelEnabled(channelId))
+            }
+
+            else -> {
+                result.notImplemented()
+            }
         }
     }
 

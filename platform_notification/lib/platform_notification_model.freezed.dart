@@ -30,6 +30,10 @@ mixin _$PlatformNotificationModel {
   @JsonKey(name: "notification_channel")
   PlatformNotificationChannelModel? get notificationChannel =>
       throw _privateConstructorUsedError;
+  @JsonKey(name: "pending_intent_uri")
+  String? get pendingIntentUri => throw _privateConstructorUsedError;
+  @JsonKey(name: "pending_intent_class")
+  String? get pendingIntentClass => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +52,9 @@ abstract class $PlatformNotificationModelCopyWith<$Res> {
       @JsonKey(name: "title") String? title,
       @JsonKey(name: "body") String? body,
       @JsonKey(name: "notification_channel")
-      PlatformNotificationChannelModel? notificationChannel});
+      PlatformNotificationChannelModel? notificationChannel,
+      @JsonKey(name: "pending_intent_uri") String? pendingIntentUri,
+      @JsonKey(name: "pending_intent_class") String? pendingIntentClass});
 
   $PlatformNotificationChannelModelCopyWith<$Res>? get notificationChannel;
 }
@@ -71,6 +77,8 @@ class _$PlatformNotificationModelCopyWithImpl<$Res,
     Object? title = freezed,
     Object? body = freezed,
     Object? notificationChannel = freezed,
+    Object? pendingIntentUri = freezed,
+    Object? pendingIntentClass = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -89,6 +97,14 @@ class _$PlatformNotificationModelCopyWithImpl<$Res,
           ? _value.notificationChannel
           : notificationChannel // ignore: cast_nullable_to_non_nullable
               as PlatformNotificationChannelModel?,
+      pendingIntentUri: freezed == pendingIntentUri
+          ? _value.pendingIntentUri
+          : pendingIntentUri // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pendingIntentClass: freezed == pendingIntentClass
+          ? _value.pendingIntentClass
+          : pendingIntentClass // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -119,7 +135,9 @@ abstract class _$$NotificationModelImplCopyWith<$Res>
       @JsonKey(name: "title") String? title,
       @JsonKey(name: "body") String? body,
       @JsonKey(name: "notification_channel")
-      PlatformNotificationChannelModel? notificationChannel});
+      PlatformNotificationChannelModel? notificationChannel,
+      @JsonKey(name: "pending_intent_uri") String? pendingIntentUri,
+      @JsonKey(name: "pending_intent_class") String? pendingIntentClass});
 
   @override
   $PlatformNotificationChannelModelCopyWith<$Res>? get notificationChannel;
@@ -141,6 +159,8 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? body = freezed,
     Object? notificationChannel = freezed,
+    Object? pendingIntentUri = freezed,
+    Object? pendingIntentClass = freezed,
   }) {
     return _then(_$NotificationModelImpl(
       id: freezed == id
@@ -159,6 +179,14 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
           ? _value.notificationChannel
           : notificationChannel // ignore: cast_nullable_to_non_nullable
               as PlatformNotificationChannelModel?,
+      pendingIntentUri: freezed == pendingIntentUri
+          ? _value.pendingIntentUri
+          : pendingIntentUri // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pendingIntentClass: freezed == pendingIntentClass
+          ? _value.pendingIntentClass
+          : pendingIntentClass // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -170,7 +198,9 @@ class _$NotificationModelImpl implements _NotificationModel {
       {@JsonKey(name: "id") this.id,
       @JsonKey(name: "title") this.title,
       @JsonKey(name: "body") this.body,
-      @JsonKey(name: "notification_channel") this.notificationChannel});
+      @JsonKey(name: "notification_channel") this.notificationChannel,
+      @JsonKey(name: "pending_intent_uri") this.pendingIntentUri,
+      @JsonKey(name: "pending_intent_class") this.pendingIntentClass});
 
   factory _$NotificationModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$NotificationModelImplFromJson(json);
@@ -187,10 +217,16 @@ class _$NotificationModelImpl implements _NotificationModel {
   @override
   @JsonKey(name: "notification_channel")
   final PlatformNotificationChannelModel? notificationChannel;
+  @override
+  @JsonKey(name: "pending_intent_uri")
+  final String? pendingIntentUri;
+  @override
+  @JsonKey(name: "pending_intent_class")
+  final String? pendingIntentClass;
 
   @override
   String toString() {
-    return 'PlatformNotificationModel(id: $id, title: $title, body: $body, notificationChannel: $notificationChannel)';
+    return 'PlatformNotificationModel(id: $id, title: $title, body: $body, notificationChannel: $notificationChannel, pendingIntentUri: $pendingIntentUri, pendingIntentClass: $pendingIntentClass)';
   }
 
   @override
@@ -202,13 +238,17 @@ class _$NotificationModelImpl implements _NotificationModel {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.body, body) || other.body == body) &&
             (identical(other.notificationChannel, notificationChannel) ||
-                other.notificationChannel == notificationChannel));
+                other.notificationChannel == notificationChannel) &&
+            (identical(other.pendingIntentUri, pendingIntentUri) ||
+                other.pendingIntentUri == pendingIntentUri) &&
+            (identical(other.pendingIntentClass, pendingIntentClass) ||
+                other.pendingIntentClass == pendingIntentClass));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, body, notificationChannel);
+  int get hashCode => Object.hash(runtimeType, id, title, body,
+      notificationChannel, pendingIntentUri, pendingIntentClass);
 
   @JsonKey(ignore: true)
   @override
@@ -227,12 +267,14 @@ class _$NotificationModelImpl implements _NotificationModel {
 
 abstract class _NotificationModel implements PlatformNotificationModel {
   const factory _NotificationModel(
-          {@JsonKey(name: "id") final int? id,
-          @JsonKey(name: "title") final String? title,
-          @JsonKey(name: "body") final String? body,
-          @JsonKey(name: "notification_channel")
-          final PlatformNotificationChannelModel? notificationChannel}) =
-      _$NotificationModelImpl;
+      {@JsonKey(name: "id") final int? id,
+      @JsonKey(name: "title") final String? title,
+      @JsonKey(name: "body") final String? body,
+      @JsonKey(name: "notification_channel")
+      final PlatformNotificationChannelModel? notificationChannel,
+      @JsonKey(name: "pending_intent_uri") final String? pendingIntentUri,
+      @JsonKey(name: "pending_intent_class")
+      final String? pendingIntentClass}) = _$NotificationModelImpl;
 
   factory _NotificationModel.fromJson(Map<String, dynamic> json) =
       _$NotificationModelImpl.fromJson;
@@ -249,6 +291,12 @@ abstract class _NotificationModel implements PlatformNotificationModel {
   @override
   @JsonKey(name: "notification_channel")
   PlatformNotificationChannelModel? get notificationChannel;
+  @override
+  @JsonKey(name: "pending_intent_uri")
+  String? get pendingIntentUri;
+  @override
+  @JsonKey(name: "pending_intent_class")
+  String? get pendingIntentClass;
   @override
   @JsonKey(ignore: true)
   _$$NotificationModelImplCopyWith<_$NotificationModelImpl> get copyWith =>

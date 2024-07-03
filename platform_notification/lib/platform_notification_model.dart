@@ -15,6 +15,8 @@ class PlatformNotificationModel with _$PlatformNotificationModel {
     @JsonKey(name: "body") String? body,
     @JsonKey(name: "notification_channel")
     PlatformNotificationChannelModel? notificationChannel,
+    @JsonKey(name: "pending_intent_uri") String? pendingIntentUri,
+    @JsonKey(name: "pending_intent_class") String? pendingIntentClass,
   }) = _NotificationModel;
 
   factory PlatformNotificationModel.fromJson(Map<String, dynamic> json) =>

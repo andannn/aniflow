@@ -79,4 +79,6 @@ class MediaTable extends Table {
 
   DateTimeColumn get nextAiringEpisodeUpdateTime =>
       dateTime().named('next_airing_episode_update_time').nullable()();
+
+  TextColumn get siteUrl => text().named('user_data_site_url').nullable()();
 }

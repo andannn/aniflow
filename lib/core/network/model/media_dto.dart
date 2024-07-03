@@ -33,6 +33,7 @@ class MediaDto with _$MediaDto {
     @JsonKey(name: 'seasonYear') int? seasonYear,
     @JsonKey(name: 'season') AnimeSeason? season,
     @JsonKey(name: 'hashtag') String? hashtag,
+    @JsonKey(name: 'siteUrl') String? siteUrl,
     @JsonKey(name: 'bannerImage') String? bannerImage,
     @JsonKey(name: 'averageScore') int? averageScore,
     @JsonKey(name: 'trending') int? trending,

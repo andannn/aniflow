@@ -1,5 +1,6 @@
-import 'package:aniflow/core/background_task/executor/send_notification_task_executor.dart';
+import 'package:aniflow/core/background_task/executors/post_anilist_notification_task_executor.dart';
 import 'package:aniflow/core/background_task/task.dart';
+import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:get_it/get_it.dart';
 
 abstract class Executor {
@@ -8,13 +9,13 @@ abstract class Executor {
   /// Note that the task will automatically retry in android.
   Future<bool> execute();
 
-  static Executor? convertToExecutor(Task? task) {
+  static Executor? fromTask(BackgroundTask? task) {
     switch (task) {
-      case SendNotificationTask():
-        return GetIt.instance.get<SendNotificationTaskExecutor>();
+      case PostAnilistNotificationTask():
+        return GetIt.instance
+            .get<PostAnilistNotificationExecutor>();
       default:
         return null;
     }
   }
 }
-

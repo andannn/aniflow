@@ -1,6 +1,7 @@
 String get userContentQueryGraphql => '''
           id
           name
+          siteUrl
           avatar {
             large
           }
