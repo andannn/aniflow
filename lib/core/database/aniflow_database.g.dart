@@ -37,6 +37,12 @@ class $UserTableTable extends UserTable
   late final GeneratedColumn<String> profileColor = GeneratedColumn<String>(
       'user_data_profile_color', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _siteUrlMeta =
+      const VerificationMeta('siteUrl');
+  @override
+  late final GeneratedColumn<String> siteUrl = GeneratedColumn<String>(
+      'user_data_site_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _unreadNotificationCountMeta =
       const VerificationMeta('unreadNotificationCount');
   @override
@@ -51,6 +57,7 @@ class $UserTableTable extends UserTable
         avatarImage,
         bannerImage,
         profileColor,
+        siteUrl,
         unreadNotificationCount
       ];
   @override
@@ -93,6 +100,12 @@ class $UserTableTable extends UserTable
           profileColor.isAcceptableOrUnknown(
               data['user_data_profile_color']!, _profileColorMeta));
     }
+    if (data.containsKey('user_data_site_url')) {
+      context.handle(
+          _siteUrlMeta,
+          siteUrl.isAcceptableOrUnknown(
+              data['user_data_site_url']!, _siteUrlMeta));
+    }
     if (data.containsKey('user_data_unread_notification_count')) {
       context.handle(
           _unreadNotificationCountMeta,
@@ -119,6 +132,8 @@ class $UserTableTable extends UserTable
           data['${effectivePrefix}user_data_banner_image']),
       profileColor: attachedDatabase.typeMapping.read(DriftSqlType.string,
           data['${effectivePrefix}user_data_profile_color']),
+      siteUrl: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}user_data_site_url']),
       unreadNotificationCount: attachedDatabase.typeMapping.read(
           DriftSqlType.int,
           data['${effectivePrefix}user_data_unread_notification_count']),
@@ -137,6 +152,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final String? avatarImage;
   final String? bannerImage;
   final String? profileColor;
+  final String? siteUrl;
   final int? unreadNotificationCount;
   const UserEntity(
       {required this.id,
@@ -144,6 +160,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       this.avatarImage,
       this.bannerImage,
       this.profileColor,
+      this.siteUrl,
       this.unreadNotificationCount});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -158,6 +175,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     }
     if (!nullToAbsent || profileColor != null) {
       map['user_data_profile_color'] = Variable<String>(profileColor);
+    }
+    if (!nullToAbsent || siteUrl != null) {
+      map['user_data_site_url'] = Variable<String>(siteUrl);
     }
     if (!nullToAbsent || unreadNotificationCount != null) {
       map['user_data_unread_notification_count'] =
@@ -179,6 +199,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       profileColor: profileColor == null && nullToAbsent
           ? const Value.absent()
           : Value(profileColor),
+      siteUrl: siteUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteUrl),
       unreadNotificationCount: unreadNotificationCount == null && nullToAbsent
           ? const Value.absent()
           : Value(unreadNotificationCount),
@@ -194,6 +217,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       avatarImage: serializer.fromJson<String?>(json['avatarImage']),
       bannerImage: serializer.fromJson<String?>(json['bannerImage']),
       profileColor: serializer.fromJson<String?>(json['profileColor']),
+      siteUrl: serializer.fromJson<String?>(json['siteUrl']),
       unreadNotificationCount:
           serializer.fromJson<int?>(json['unreadNotificationCount']),
     );
@@ -207,6 +231,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'avatarImage': serializer.toJson<String?>(avatarImage),
       'bannerImage': serializer.toJson<String?>(bannerImage),
       'profileColor': serializer.toJson<String?>(profileColor),
+      'siteUrl': serializer.toJson<String?>(siteUrl),
       'unreadNotificationCount':
           serializer.toJson<int?>(unreadNotificationCount),
     };
@@ -218,6 +243,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           Value<String?> avatarImage = const Value.absent(),
           Value<String?> bannerImage = const Value.absent(),
           Value<String?> profileColor = const Value.absent(),
+          Value<String?> siteUrl = const Value.absent(),
           Value<int?> unreadNotificationCount = const Value.absent()}) =>
       UserEntity(
         id: id ?? this.id,
@@ -226,6 +252,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         bannerImage: bannerImage.present ? bannerImage.value : this.bannerImage,
         profileColor:
             profileColor.present ? profileColor.value : this.profileColor,
+        siteUrl: siteUrl.present ? siteUrl.value : this.siteUrl,
         unreadNotificationCount: unreadNotificationCount.present
             ? unreadNotificationCount.value
             : this.unreadNotificationCount,
@@ -238,6 +265,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('avatarImage: $avatarImage, ')
           ..write('bannerImage: $bannerImage, ')
           ..write('profileColor: $profileColor, ')
+          ..write('siteUrl: $siteUrl, ')
           ..write('unreadNotificationCount: $unreadNotificationCount')
           ..write(')'))
         .toString();
@@ -245,7 +273,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
 
   @override
   int get hashCode => Object.hash(id, name, avatarImage, bannerImage,
-      profileColor, unreadNotificationCount);
+      profileColor, siteUrl, unreadNotificationCount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -255,6 +283,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.avatarImage == this.avatarImage &&
           other.bannerImage == this.bannerImage &&
           other.profileColor == this.profileColor &&
+          other.siteUrl == this.siteUrl &&
           other.unreadNotificationCount == this.unreadNotificationCount);
 }
 
@@ -264,6 +293,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
   final Value<String?> avatarImage;
   final Value<String?> bannerImage;
   final Value<String?> profileColor;
+  final Value<String?> siteUrl;
   final Value<int?> unreadNotificationCount;
   final Value<int> rowid;
   const UserTableCompanion({
@@ -272,6 +302,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     this.avatarImage = const Value.absent(),
     this.bannerImage = const Value.absent(),
     this.profileColor = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.unreadNotificationCount = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -281,6 +312,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     this.avatarImage = const Value.absent(),
     this.bannerImage = const Value.absent(),
     this.profileColor = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.unreadNotificationCount = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
@@ -291,6 +323,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     Expression<String>? avatarImage,
     Expression<String>? bannerImage,
     Expression<String>? profileColor,
+    Expression<String>? siteUrl,
     Expression<int>? unreadNotificationCount,
     Expression<int>? rowid,
   }) {
@@ -300,6 +333,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
       if (avatarImage != null) 'user_data_avatar_image': avatarImage,
       if (bannerImage != null) 'user_data_banner_image': bannerImage,
       if (profileColor != null) 'user_data_profile_color': profileColor,
+      if (siteUrl != null) 'user_data_site_url': siteUrl,
       if (unreadNotificationCount != null)
         'user_data_unread_notification_count': unreadNotificationCount,
       if (rowid != null) 'rowid': rowid,
@@ -312,6 +346,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
       Value<String?>? avatarImage,
       Value<String?>? bannerImage,
       Value<String?>? profileColor,
+      Value<String?>? siteUrl,
       Value<int?>? unreadNotificationCount,
       Value<int>? rowid}) {
     return UserTableCompanion(
@@ -320,6 +355,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
       avatarImage: avatarImage ?? this.avatarImage,
       bannerImage: bannerImage ?? this.bannerImage,
       profileColor: profileColor ?? this.profileColor,
+      siteUrl: siteUrl ?? this.siteUrl,
       unreadNotificationCount:
           unreadNotificationCount ?? this.unreadNotificationCount,
       rowid: rowid ?? this.rowid,
@@ -344,6 +380,9 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     if (profileColor.present) {
       map['user_data_profile_color'] = Variable<String>(profileColor.value);
     }
+    if (siteUrl.present) {
+      map['user_data_site_url'] = Variable<String>(siteUrl.value);
+    }
     if (unreadNotificationCount.present) {
       map['user_data_unread_notification_count'] =
           Variable<int>(unreadNotificationCount.value);
@@ -362,6 +401,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
           ..write('avatarImage: $avatarImage, ')
           ..write('bannerImage: $bannerImage, ')
           ..write('profileColor: $profileColor, ')
+          ..write('siteUrl: $siteUrl, ')
           ..write('unreadNotificationCount: $unreadNotificationCount, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -4142,6 +4182,12 @@ class $MediaTableTable extends MediaTable
       GeneratedColumn<DateTime>(
           'next_airing_episode_update_time', aliasedName, true,
           type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _siteUrlMeta =
+      const VerificationMeta('siteUrl');
+  @override
+  late final GeneratedColumn<String> siteUrl = GeneratedColumn<String>(
+      'user_data_site_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -4176,7 +4222,8 @@ class $MediaTableTable extends MediaTable
         startDate,
         endDate,
         isFavourite,
-        nextAiringEpisodeUpdateTime
+        nextAiringEpisodeUpdateTime,
+        siteUrl
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4362,6 +4409,12 @@ class $MediaTableTable extends MediaTable
               data['next_airing_episode_update_time']!,
               _nextAiringEpisodeUpdateTimeMeta));
     }
+    if (data.containsKey('user_data_site_url')) {
+      context.handle(
+          _siteUrlMeta,
+          siteUrl.isAcceptableOrUnknown(
+              data['user_data_site_url']!, _siteUrlMeta));
+    }
     return context;
   }
 
@@ -4439,6 +4492,8 @@ class $MediaTableTable extends MediaTable
       nextAiringEpisodeUpdateTime: attachedDatabase.typeMapping.read(
           DriftSqlType.dateTime,
           data['${effectivePrefix}next_airing_episode_update_time']),
+      siteUrl: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}user_data_site_url']),
     );
   }
 
@@ -4482,6 +4537,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
   final DateTime? endDate;
   final bool? isFavourite;
   final DateTime? nextAiringEpisodeUpdateTime;
+  final String? siteUrl;
   const MediaEntity(
       {required this.id,
       this.type,
@@ -4515,7 +4571,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       this.startDate,
       this.endDate,
       this.isFavourite,
-      this.nextAiringEpisodeUpdateTime});
+      this.nextAiringEpisodeUpdateTime,
+      this.siteUrl});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -4617,6 +4674,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       map['next_airing_episode_update_time'] =
           Variable<DateTime>(nextAiringEpisodeUpdateTime);
     }
+    if (!nullToAbsent || siteUrl != null) {
+      map['user_data_site_url'] = Variable<String>(siteUrl);
+    }
     return map;
   }
 
@@ -4713,6 +4773,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           nextAiringEpisodeUpdateTime == null && nullToAbsent
               ? const Value.absent()
               : Value(nextAiringEpisodeUpdateTime),
+      siteUrl: siteUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteUrl),
     );
   }
 
@@ -4755,6 +4818,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       isFavourite: serializer.fromJson<bool?>(json['isFavourite']),
       nextAiringEpisodeUpdateTime:
           serializer.fromJson<DateTime?>(json['nextAiringEpisodeUpdateTime']),
+      siteUrl: serializer.fromJson<String?>(json['siteUrl']),
     );
   }
   @override
@@ -4795,6 +4859,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       'isFavourite': serializer.toJson<bool?>(isFavourite),
       'nextAiringEpisodeUpdateTime':
           serializer.toJson<DateTime?>(nextAiringEpisodeUpdateTime),
+      'siteUrl': serializer.toJson<String?>(siteUrl),
     };
   }
 
@@ -4831,8 +4896,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           Value<DateTime?> startDate = const Value.absent(),
           Value<DateTime?> endDate = const Value.absent(),
           Value<bool?> isFavourite = const Value.absent(),
-          Value<DateTime?> nextAiringEpisodeUpdateTime =
-              const Value.absent()}) =>
+          Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
+          Value<String?> siteUrl = const Value.absent()}) =>
       MediaEntity(
         id: id ?? this.id,
         type: type.present ? type.value : this.type,
@@ -4887,6 +4952,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime.present
             ? nextAiringEpisodeUpdateTime.value
             : this.nextAiringEpisodeUpdateTime,
+        siteUrl: siteUrl.present ? siteUrl.value : this.siteUrl,
       );
   @override
   String toString() {
@@ -4923,7 +4989,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('isFavourite: $isFavourite, ')
-          ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime')
+          ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime, ')
+          ..write('siteUrl: $siteUrl')
           ..write(')'))
         .toString();
   }
@@ -4962,7 +5029,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         startDate,
         endDate,
         isFavourite,
-        nextAiringEpisodeUpdateTime
+        nextAiringEpisodeUpdateTime,
+        siteUrl
       ]);
   @override
   bool operator ==(Object other) =>
@@ -5001,7 +5069,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           other.endDate == this.endDate &&
           other.isFavourite == this.isFavourite &&
           other.nextAiringEpisodeUpdateTime ==
-              this.nextAiringEpisodeUpdateTime);
+              this.nextAiringEpisodeUpdateTime &&
+          other.siteUrl == this.siteUrl);
 }
 
 class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
@@ -5038,6 +5107,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
   final Value<DateTime?> endDate;
   final Value<bool?> isFavourite;
   final Value<DateTime?> nextAiringEpisodeUpdateTime;
+  final Value<String?> siteUrl;
   final Value<int> rowid;
   const MediaTableCompanion({
     this.id = const Value.absent(),
@@ -5073,6 +5143,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.endDate = const Value.absent(),
     this.isFavourite = const Value.absent(),
     this.nextAiringEpisodeUpdateTime = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   MediaTableCompanion.insert({
@@ -5109,6 +5180,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.endDate = const Value.absent(),
     this.isFavourite = const Value.absent(),
     this.nextAiringEpisodeUpdateTime = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id);
   static Insertable<MediaEntity> custom({
@@ -5145,6 +5217,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     Expression<DateTime>? endDate,
     Expression<bool>? isFavourite,
     Expression<DateTime>? nextAiringEpisodeUpdateTime,
+    Expression<String>? siteUrl,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5183,6 +5256,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       if (isFavourite != null) 'is_favourite': isFavourite,
       if (nextAiringEpisodeUpdateTime != null)
         'next_airing_episode_update_time': nextAiringEpisodeUpdateTime,
+      if (siteUrl != null) 'user_data_site_url': siteUrl,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5221,6 +5295,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       Value<DateTime?>? endDate,
       Value<bool?>? isFavourite,
       Value<DateTime?>? nextAiringEpisodeUpdateTime,
+      Value<String?>? siteUrl,
       Value<int>? rowid}) {
     return MediaTableCompanion(
       id: id ?? this.id,
@@ -5257,6 +5332,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       isFavourite: isFavourite ?? this.isFavourite,
       nextAiringEpisodeUpdateTime:
           nextAiringEpisodeUpdateTime ?? this.nextAiringEpisodeUpdateTime,
+      siteUrl: siteUrl ?? this.siteUrl,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5365,6 +5441,9 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       map['next_airing_episode_update_time'] =
           Variable<DateTime>(nextAiringEpisodeUpdateTime.value);
     }
+    if (siteUrl.present) {
+      map['user_data_site_url'] = Variable<String>(siteUrl.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5407,6 +5486,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
           ..write('endDate: $endDate, ')
           ..write('isFavourite: $isFavourite, ')
           ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime, ')
+          ..write('siteUrl: $siteUrl, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -8423,6 +8503,7 @@ typedef $$UserTableTableInsertCompanionBuilder = UserTableCompanion Function({
   Value<String?> avatarImage,
   Value<String?> bannerImage,
   Value<String?> profileColor,
+  Value<String?> siteUrl,
   Value<int?> unreadNotificationCount,
   Value<int> rowid,
 });
@@ -8432,6 +8513,7 @@ typedef $$UserTableTableUpdateCompanionBuilder = UserTableCompanion Function({
   Value<String?> avatarImage,
   Value<String?> bannerImage,
   Value<String?> profileColor,
+  Value<String?> siteUrl,
   Value<int?> unreadNotificationCount,
   Value<int> rowid,
 });
@@ -8461,6 +8543,7 @@ class $$UserTableTableTableManager extends RootTableManager<
             Value<String?> avatarImage = const Value.absent(),
             Value<String?> bannerImage = const Value.absent(),
             Value<String?> profileColor = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int?> unreadNotificationCount = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
@@ -8470,6 +8553,7 @@ class $$UserTableTableTableManager extends RootTableManager<
             avatarImage: avatarImage,
             bannerImage: bannerImage,
             profileColor: profileColor,
+            siteUrl: siteUrl,
             unreadNotificationCount: unreadNotificationCount,
             rowid: rowid,
           ),
@@ -8479,6 +8563,7 @@ class $$UserTableTableTableManager extends RootTableManager<
             Value<String?> avatarImage = const Value.absent(),
             Value<String?> bannerImage = const Value.absent(),
             Value<String?> profileColor = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int?> unreadNotificationCount = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
@@ -8488,6 +8573,7 @@ class $$UserTableTableTableManager extends RootTableManager<
             avatarImage: avatarImage,
             bannerImage: bannerImage,
             profileColor: profileColor,
+            siteUrl: siteUrl,
             unreadNotificationCount: unreadNotificationCount,
             rowid: rowid,
           ),
@@ -8534,6 +8620,11 @@ class $$UserTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
+  ColumnFilters<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
   ColumnFilters<int> get unreadNotificationCount => $state.composableBuilder(
       column: $state.table.unreadNotificationCount,
       builder: (column, joinBuilders) =>
@@ -8565,6 +8656,11 @@ class $$UserTableTableOrderingComposer
 
   ColumnOrderings<String> get profileColor => $state.composableBuilder(
       column: $state.table.profileColor,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
@@ -10125,6 +10221,7 @@ typedef $$MediaTableTableInsertCompanionBuilder = MediaTableCompanion Function({
   Value<DateTime?> endDate,
   Value<bool?> isFavourite,
   Value<DateTime?> nextAiringEpisodeUpdateTime,
+  Value<String?> siteUrl,
   Value<int> rowid,
 });
 typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
@@ -10161,6 +10258,7 @@ typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
   Value<DateTime?> endDate,
   Value<bool?> isFavourite,
   Value<DateTime?> nextAiringEpisodeUpdateTime,
+  Value<String?> siteUrl,
   Value<int> rowid,
 });
 
@@ -10217,6 +10315,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<DateTime?> endDate = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               MediaTableCompanion(
@@ -10253,6 +10352,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             endDate: endDate,
             isFavourite: isFavourite,
             nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime,
+            siteUrl: siteUrl,
             rowid: rowid,
           ),
           getInsertCompanionBuilder: ({
@@ -10289,6 +10389,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<DateTime?> endDate = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               MediaTableCompanion.insert(
@@ -10325,6 +10426,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             endDate: endDate,
             isFavourite: isFavourite,
             nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime,
+            siteUrl: siteUrl,
             rowid: rowid,
           ),
         ));
@@ -10510,6 +10612,11 @@ class $$MediaTableTableFilterComposer
           column: $state.table.nextAiringEpisodeUpdateTime,
           builder: (column, joinBuilders) =>
               ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $$MediaTableTableOrderingComposer
@@ -10680,6 +10787,11 @@ class $$MediaTableTableOrderingComposer
           column: $state.table.nextAiringEpisodeUpdateTime,
           builder: (column, joinBuilders) =>
               ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
 typedef $$StudioMediaCrossRefTableTableInsertCompanionBuilder

@@ -2,6 +2,7 @@ import 'package:aniflow/core/background_task/executor.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/scheme_util.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -109,7 +110,7 @@ class PostAnilistNotificationExecutor implements Executor {
     final matchedNotification = notifications
         .where(
           (e) =>
-              // !sendUserNotificationIds.contains(e.id) &&
+              !sendUserNotificationIds.contains(e.id) &&
               isAvailableNotification(e.runtimeType, availableChannel),
         )
         .toList();
@@ -189,13 +190,16 @@ extension on NotificationModel {
       GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
 
   PlatformNotificationModel? mapToPlatformModel() {
-    switch (this) {
+    final notification = this;
+    switch (notification) {
       case AiringNotification():
         return PlatformNotificationModel(
           id: int.parse(id),
           title: 'New media aired',
-          body: (this as AiringNotification).createText(userTitleLanguage),
+          body: notification.createText(userTitleLanguage),
           pendingIntentClass: AfConfig.activityClassString,
+          pendingIntentUri:
+              SchemeUtil.createDeepLinkFromSiteUrl(notification.media.siteUrl!),
           notificationChannel:
               AiredNotificationChannel().createPlatformNotificationChannel(),
         );
@@ -203,8 +207,10 @@ extension on NotificationModel {
         return PlatformNotificationModel(
           id: int.parse(id),
           title: 'New follower',
-          body: (this as FollowNotification).createText(),
+          body: notification.createText(),
           pendingIntentClass: AfConfig.activityClassString,
+          pendingIntentUri:
+              SchemeUtil.createDeepLinkFromSiteUrl(notification.user.siteUrl!),
           notificationChannel: NewFollowerNotificationChannel()
               .createPlatformNotificationChannel(),
         );
@@ -217,6 +223,8 @@ extension on NotificationModel {
           id: int.parse(id),
           title: 'New activity',
           body: (this as ActivityNotification).createText(),
+// TODO: implement later.
+          pendingIntentUri: '',
           pendingIntentClass: AfConfig.activityClassString,
           notificationChannel:
               ActivityNotificationChannel().createPlatformNotificationChannel(),
@@ -229,6 +237,8 @@ extension on NotificationModel {
           title: 'Media',
           body: (this as MediaNotification).createText(userTitleLanguage),
           pendingIntentClass: AfConfig.activityClassString,
+          pendingIntentUri: SchemeUtil.createDeepLinkFromSiteUrl(
+              (this as MediaNotification).media.siteUrl!),
           notificationChannel:
               MediaNotificationChannel().createPlatformNotificationChannel(),
         );

@@ -48,5 +48,6 @@ extension MediaMapper on MediaDto {
         ?.rank,
     startDate: startDate.toDateTime(),
     endDate: endDate.toDateTime(),
+    siteUrl: siteUrl
   );
 }

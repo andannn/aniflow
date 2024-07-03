@@ -62,6 +62,7 @@ extension MediaMapper on MediaEntity {
           : null,
       startDate: startDate,
       endDate: endDate,
+      siteUrl: siteUrl,
     );
   }
 }

@@ -18,6 +18,9 @@ class UserTable extends Table {
   TextColumn get profileColor =>
       text().named('user_data_profile_color').nullable()();
 
+  TextColumn get siteUrl =>
+      text().named('user_data_site_url').nullable()();
+
   IntColumn get unreadNotificationCount =>
       integer().named('user_data_unread_notification_count').nullable()();
 }

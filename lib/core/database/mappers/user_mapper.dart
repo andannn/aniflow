@@ -9,5 +9,6 @@ extension UserMapper on UserDto {
     bannerImage: bannerImage,
     profileColor: options?.profileColor,
     unreadNotificationCount: unreadNotificationCount,
+    siteUrl: siteUrl
   );
 }

@@ -33,6 +33,7 @@ class MediaModel with _$MediaModel {
     AnimeSeason? season,
     MediaStatus? status,
     int? ratedRank,
+    String? siteUrl,
     int? popularRank,
     @Default([]) List<String> hashtags,
     @Default([]) List<String> genres,

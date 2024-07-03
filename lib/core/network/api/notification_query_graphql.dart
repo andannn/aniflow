@@ -16,6 +16,7 @@ class NotificationQueryParam {
 
 String get _shortMediaContentQueryGraphql =>'''
       id
+      siteUrl
       coverImage {
         extraLarge
         large

@@ -10,6 +10,7 @@ class UserModel with _$UserModel {
     @Default('') String name,
     @Default('') String avatar,
     String? bannerImage,
+    String? siteUrl,
     Color? profileColor,
     @Default(0) int unreadNotificationCount,
   }) = _UserModel;

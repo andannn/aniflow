@@ -30,6 +30,7 @@ mixin _$MediaModel {
   AnimeSeason? get season => throw _privateConstructorUsedError;
   MediaStatus? get status => throw _privateConstructorUsedError;
   int? get ratedRank => throw _privateConstructorUsedError;
+  String? get siteUrl => throw _privateConstructorUsedError;
   int? get popularRank => throw _privateConstructorUsedError;
   List<String> get hashtags => throw _privateConstructorUsedError;
   List<String> get genres => throw _privateConstructorUsedError;
@@ -75,6 +76,7 @@ abstract class $MediaModelCopyWith<$Res> {
       AnimeSeason? season,
       MediaStatus? status,
       int? ratedRank,
+      String? siteUrl,
       int? popularRank,
       List<String> hashtags,
       List<String> genres,
@@ -124,6 +126,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? season = freezed,
     Object? status = freezed,
     Object? ratedRank = freezed,
+    Object? siteUrl = freezed,
     Object? popularRank = freezed,
     Object? hashtags = null,
     Object? genres = null,
@@ -198,6 +201,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.ratedRank
           : ratedRank // ignore: cast_nullable_to_non_nullable
               as int?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       popularRank: freezed == popularRank
           ? _value.popularRank
           : popularRank // ignore: cast_nullable_to_non_nullable
@@ -325,6 +332,7 @@ abstract class _$$MediaModelImplCopyWith<$Res>
       AnimeSeason? season,
       MediaStatus? status,
       int? ratedRank,
+      String? siteUrl,
       int? popularRank,
       List<String> hashtags,
       List<String> genres,
@@ -375,6 +383,7 @@ class __$$MediaModelImplCopyWithImpl<$Res>
     Object? season = freezed,
     Object? status = freezed,
     Object? ratedRank = freezed,
+    Object? siteUrl = freezed,
     Object? popularRank = freezed,
     Object? hashtags = null,
     Object? genres = null,
@@ -449,6 +458,10 @@ class __$$MediaModelImplCopyWithImpl<$Res>
           ? _value.ratedRank
           : ratedRank // ignore: cast_nullable_to_non_nullable
               as int?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       popularRank: freezed == popularRank
           ? _value.popularRank
           : popularRank // ignore: cast_nullable_to_non_nullable
@@ -535,6 +548,7 @@ class _$MediaModelImpl implements _MediaModel {
       this.season,
       this.status,
       this.ratedRank,
+      this.siteUrl,
       this.popularRank,
       final List<String> hashtags = const [],
       final List<String> genres = const [],
@@ -590,6 +604,8 @@ class _$MediaModelImpl implements _MediaModel {
   final MediaStatus? status;
   @override
   final int? ratedRank;
+  @override
+  final String? siteUrl;
   @override
   final int? popularRank;
   final List<String> _hashtags;
@@ -676,7 +692,7 @@ class _$MediaModelImpl implements _MediaModel {
 
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFavourite: $isFavourite, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, format: $format, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, siteUrl: $siteUrl, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFavourite: $isFavourite, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, format: $format, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
   }
 
   @override
@@ -706,6 +722,7 @@ class _$MediaModelImpl implements _MediaModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.ratedRank, ratedRank) ||
                 other.ratedRank == ratedRank) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
             (identical(other.popularRank, popularRank) ||
                 other.popularRank == popularRank) &&
             const DeepCollectionEquality().equals(other._hashtags, _hashtags) &&
@@ -751,6 +768,7 @@ class _$MediaModelImpl implements _MediaModel {
         season,
         status,
         ratedRank,
+        siteUrl,
         popularRank,
         const DeepCollectionEquality().hash(_hashtags),
         const DeepCollectionEquality().hash(_genres),
@@ -792,6 +810,7 @@ abstract class _MediaModel implements MediaModel {
       final AnimeSeason? season,
       final MediaStatus? status,
       final int? ratedRank,
+      final String? siteUrl,
       final int? popularRank,
       final List<String> hashtags,
       final List<String> genres,
@@ -837,6 +856,8 @@ abstract class _MediaModel implements MediaModel {
   MediaStatus? get status;
   @override
   int? get ratedRank;
+  @override
+  String? get siteUrl;
   @override
   int? get popularRank;
   @override

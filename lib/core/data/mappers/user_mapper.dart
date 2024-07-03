@@ -12,6 +12,7 @@ extension UserMapper on UserEntity {
       bannerImage: bannerImage,
       profileColor: ProfileColorDict.fromDict(profileColor),
       unreadNotificationCount: unreadNotificationCount ?? 0,
+      siteUrl: siteUrl,
     );
   }
 }
@@ -21,4 +22,3 @@ extension UserMapper2 on UserDto {
     return toEntity().toModel();
   }
 }
-
