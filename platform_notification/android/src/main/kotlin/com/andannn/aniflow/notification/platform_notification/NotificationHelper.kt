@@ -1,6 +1,9 @@
 package com.andannn.aniflow.notification.platform_notification
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
@@ -22,6 +25,8 @@ data class Notification(
     @SerialName("title") val title: String,
     @SerialName("body") val body: String,
     @SerialName("notification_channel") val notificationChannel: NotificationChannel,
+    @SerialName("pending_intent_uri") val pendingIntentUri: String,
+    @SerialName("pending_intent_class") val pendingIntentClass: String,
 )
 
 class NotificationHelper(
@@ -44,6 +49,20 @@ class NotificationHelper(
             .build()
         notificationManager.createNotificationChannel(channel)
 
+        val intent = Intent(
+            /* action = */ Intent.ACTION_VIEW,
+            /* uri = */ Uri.parse(notificationModel.pendingIntentUri),
+            /* packageContext = */ context,
+            /* cls = */ Class.forName(notificationModel.pendingIntentClass)
+        )
+        val pendingIntent =
+            PendingIntent.getActivity(
+                /* context = */ context,
+                /* requestCode = */ 0,
+                /* intent = */ intent,
+                /* flags = */ PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
         // send notification.
         val notification = NotificationCompat.Builder(
             context,
@@ -53,6 +72,7 @@ class NotificationHelper(
             .setContentText(notificationModel.body)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
             .build()
         notificationManager.notify(notificationModel.id, notification)
     }

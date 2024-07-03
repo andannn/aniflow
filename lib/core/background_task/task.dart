@@ -24,7 +24,7 @@ abstract class PeriodicBackgroundTask extends BackgroundTask {
   final Duration frequency;
 
   @override
-  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.keep;
+  ExistingWorkPolicy? get existingWorkPolicy => ExistingWorkPolicy.replace;
 }
 
 class TaskConverter {

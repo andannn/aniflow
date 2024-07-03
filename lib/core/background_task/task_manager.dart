@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:aniflow/core/background_task/task.dart';
+import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:injectable/injectable.dart';

@@ -1,5 +1,5 @@
-import 'package:aniflow/core/background_task/task_manager.dart';
 import 'package:aniflow/core/background_task/task.dart';
+import 'package:aniflow/core/background_task/task_manager.dart';
 import 'package:workmanager/workmanager.dart';
 
 class PostAnilistNotificationTask extends PeriodicBackgroundTask {

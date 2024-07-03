@@ -1,6 +1,6 @@
 import 'package:aniflow/core/background_task/executors/post_anilist_notification_task_executor.dart';
-import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:aniflow/core/background_task/task.dart';
+import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:get_it/get_it.dart';
 
 abstract class Executor {

@@ -18,7 +18,7 @@ import 'package:injectable/injectable.dart';
 import 'package:platform_notification/platform_notification.dart';
 import 'package:platform_notification/platform_notification_model.dart';
 
-const String _tag = "SendNotificationTaskExecutor";
+const String _tag = "PostAnilistNotificationExecutor";
 
 @injectable
 class PostAnilistNotificationExecutor implements Executor {
@@ -109,7 +109,7 @@ class PostAnilistNotificationExecutor implements Executor {
     final matchedNotification = notifications
         .where(
           (e) =>
-              !sendUserNotificationIds.contains(e.id) &&
+              // !sendUserNotificationIds.contains(e.id) &&
               isAvailableNotification(e.runtimeType, availableChannel),
         )
         .toList();
@@ -195,6 +195,7 @@ extension on NotificationModel {
           id: int.parse(id),
           title: 'New media aired',
           body: (this as AiringNotification).createText(userTitleLanguage),
+          pendingIntentClass: AfConfig.activityClassString,
           notificationChannel:
               AiredNotificationChannel().createPlatformNotificationChannel(),
         );
@@ -203,6 +204,7 @@ extension on NotificationModel {
           id: int.parse(id),
           title: 'New follower',
           body: (this as FollowNotification).createText(),
+          pendingIntentClass: AfConfig.activityClassString,
           notificationChannel: NewFollowerNotificationChannel()
               .createPlatformNotificationChannel(),
         );
@@ -215,6 +217,7 @@ extension on NotificationModel {
           id: int.parse(id),
           title: 'New activity',
           body: (this as ActivityNotification).createText(),
+          pendingIntentClass: AfConfig.activityClassString,
           notificationChannel:
               ActivityNotificationChannel().createPlatformNotificationChannel(),
         );
@@ -225,6 +228,7 @@ extension on NotificationModel {
           id: int.parse(id),
           title: 'Media',
           body: (this as MediaNotification).createText(userTitleLanguage),
+          pendingIntentClass: AfConfig.activityClassString,
           notificationChannel:
               MediaNotificationChannel().createPlatformNotificationChannel(),
         );
