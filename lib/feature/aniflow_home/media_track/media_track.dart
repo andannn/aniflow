@@ -1,5 +1,6 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
@@ -12,6 +13,7 @@ import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
 
 class AnimeTrackPage extends Page {
   const AnimeTrackPage({super.key});
@@ -92,7 +94,7 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
         ];
       }
 
-      final showReleasedOnly = state.showReleasedOnly;
+      final trackListFilter = state.trackListFilter;
 
       final isAnime = state.currentMediaType == MediaType.anime;
       final newUpdateList = sortedList.newUpdateList;
@@ -101,7 +103,13 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
         SliverVisibility(
           visible: isAnime,
           sliver: SliverToBoxAdapter(
-            child: _buildFilterBarSection(context, showReleasedOnly),
+            child: _buildScopeCategorySelection(
+              context,
+              filter: trackListFilter,
+              onSelectionChanged: (filter) {
+                context.read<TrackBloc>().add(OnSelectTrackListFilter(filter));
+              },
+            ),
           ),
         ),
         SliverList(
@@ -153,16 +161,31 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
     );
   }
 
-  Widget _buildFilterBarSection(BuildContext context, bool showReleasedOnly) {
+  Widget _buildScopeCategorySelection(BuildContext context,
+      {required TrackListFilter filter,
+      required void Function(TrackListFilter) onSelectionChanged}) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(width: 12),
-        AniFlowToggleButton(
-          label: 'Released only',
-          selected: showReleasedOnly,
-          onClick: () {
-            context.read<TrackBloc>().add(OnToggleShowFollowOnly());
+        SegmentedButton<TrackListFilter>(
+          segments: [
+            ButtonSegment(
+              value: TrackListFilter.all,
+              label: Text(context.appLocal.all),
+            ),
+            ButtonSegment(
+              value: TrackListFilter.hasNext,
+              label: Text(context.appLocal.newest),
+            ),
+            ButtonSegment(
+              value: TrackListFilter.newAired,
+              label: Text(context.appLocal.newest),
+            ),
+          ],
+          selected: {filter},
+          style: const ButtonStyle(visualDensity: VisualDensity(vertical: -2)),
+          onSelectionChanged: (newSelection) {
+            onSelectionChanged(newSelection.first);
           },
         ),
       ],

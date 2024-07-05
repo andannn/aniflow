@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/data/model/home_sector_model.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
@@ -61,8 +62,8 @@ class UserDataRepository {
   Future setAuthedUserId(String? userId) =>
       _preferences.setAuthedUserId(userId);
 
-  Future setIsShowReleaseOnly(bool showReleasedOnly) =>
-      _preferences.setIsShowReleaseOnly(showReleasedOnly);
+  Future setTrackListFilter(TrackListFilter trackListFilter) =>
+      _preferences.setTrackListFilter(trackListFilter);
 
   Future setMediaType(MediaType mediaType) async {
     await _preferences.setMediaType(mediaType);
