@@ -129,5 +129,7 @@
 	"releaseDate": "Wird am {date} veröffentlicht",
 	"releasedAt": "Veröffentlicht am {date}",
 	"movieSchedule": "Filmplan",
-	"recentMovies": "Neueste Filme"
+	"recentMovies": "Neueste Filme",
+	"progress": "Fortschritt"
+
 }

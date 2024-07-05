@@ -48,7 +48,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
       List<ActivityAndUserRelation> entities, String category) {
     return attachedDatabase.transaction(() async {
       await batch((batch) {
-        batch.insertAllOnConflictUpdate(
+        batch.insertAll(
           activityFilterTypePagingCrossRefTable,
           entities.map(
             (e) => ActivityFilterTypePagingCrossRefTableCompanion.insert(
@@ -56,6 +56,7 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
               category: category,
             ),
           ),
+          mode: InsertMode.replace,
         );
 
         batch.insertAllOnConflictUpdate(

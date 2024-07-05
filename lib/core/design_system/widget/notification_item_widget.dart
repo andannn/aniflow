@@ -30,7 +30,7 @@ class NotificationItem extends StatelessWidget {
     final timeUntilNowDuration = DateTime.now().difference(
         DateTime.fromMillisecondsSinceEpoch(notification.createdAt * 1000));
     final timeUntilNowString =
-        '${TimeUtil.getFormattedDuration(context, timeUntilNowDuration)} ago';
+        TimeUtil.getFormattedDuration(context, timeUntilNowDuration) ?? '';
 
     Widget buildContentRow() => switch (notification) {
           AiringNotification() =>

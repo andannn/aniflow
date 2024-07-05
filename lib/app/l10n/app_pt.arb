@@ -129,5 +129,6 @@
 	"releaseDate": "Será lançado em {date}",
 	"releasedAt":"Lançado em {date}",
 	"movieSchedule": "Horário de filmes",
-	"recentMovies": "Filmes recentes"
+	"recentMovies": "Filmes recentes",
+	"progress": "Progresso"
 }

@@ -2,7 +2,7 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/database/relations/character_and_related_media_relation.dart';
 import 'package:aniflow/core/network/model/character_dto.dart';
-import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 import 'package:collection/collection.dart';
 
 extension CharacterMapper on CharacterDto {

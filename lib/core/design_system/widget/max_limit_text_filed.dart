@@ -36,17 +36,28 @@ class _MaxLimitTextFiledState extends State<MaxLimitTextFiled> {
       inputFormatters: [
         TextInputFormatter.withFunction(
           (TextEditingValue oldValue, TextEditingValue newValue) {
-            if (!RegExp(r'\d*').hasMatch(newValue.text)) {
+            if (newValue.text.isEmpty) {
+              return const TextEditingValue(
+                text: '0',
+                selection: TextSelection.collapsed(offset: 1),
+              );
+            }
+
+            if (!RegExp(r'^\d+$').hasMatch(newValue.text)) {
               return oldValue;
             }
 
             final maxValue = widget.maxValue;
             if (maxValue != null && newValue.text.isNotEmpty) {
-              final newValueNum =
-                  int.tryParse(newValue.text)?.clamp(0, maxValue);
-
-              return newValue.copyWith(text: newValueNum.toString());
+              final newValueNumString =
+                  int.tryParse(newValue.text)!.clamp(0, maxValue).toString();
+              return newValue.copyWith(
+                text: newValueNumString,
+                selection:
+                    TextSelection.collapsed(offset: newValueNumString.length),
+              );
             } else {
+              print('JQN 3');
               return newValue;
             }
           },

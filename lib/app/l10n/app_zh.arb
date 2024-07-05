@@ -129,5 +129,6 @@
 	"releaseDate": "{date} 将发布",
 	"releasedAt": "发布日期：{date}",
 	"movieSchedule": "电影时间表",
-	"recentMovies": "最近的电影"
+	"recentMovies": "最近的电影",
+	"progress": "进展"
 }

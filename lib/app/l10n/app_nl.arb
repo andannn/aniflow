@@ -129,5 +129,6 @@
 	"releaseDate": "Wordt uitgebracht op {date}",
 	"releasedAt": "Uitgebracht op {date}",
 	"movieSchedule": "Filmrooster",
-	"recentMovies": "Recente films"
+	"recentMovies": "Recente films",
+	"progress": "Voortgang"
 }

@@ -70,7 +70,7 @@ class MediaListRepository {
       },
       page: page,
       perPage: perPage,
-      mapDtoToModel: (dto) => dto.toModel1(),
+      mapDtoToModel: (dto) => dto.toModel(),
       onInsertToDB: (dto) async {
         final entities = dto.map((e) => e.media!.toEntity()).toList();
         await mediaDao.insertOrIgnoreMedia(entities);
@@ -159,8 +159,8 @@ class MediaListRepository {
         )
         .map(
           (sorted) => SortedGroupMediaListModel(
-            sorted.newUpdateList.map((e) => e.toModel1()).toList(),
-            sorted.otherList.map((e) => e.toModel1()).toList(),
+            sorted.newUpdateList.map((e) => e.toModel()).toList(),
+            sorted.otherList.map((e) => e.toModel()).toList(),
           ),
         );
   }
@@ -175,7 +175,7 @@ class MediaListRepository {
   Future<MediaWithListModel?> getMediaListItemByMediaId(
       {required String mediaId}) {
     return mediaListDao.getMediaListItemByMediaId(mediaId).then(
-          (entity) => entity?.toModel1(),
+          (entity) => entity?.toModel(),
         );
   }
 

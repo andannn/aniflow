@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/staff_dto.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 
 extension StaffMapper on StaffDto {
   StaffEntity toEntity() {

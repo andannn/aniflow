@@ -129,5 +129,6 @@
 	"releaseDate": "{date} に公開されます。",
 	"releasedAt": "{date} に公開されました。",
 	"movieSchedule": "映画の上映スケジュール",
-	"recentMovies": "最近の映画"
+	"recentMovies": "最近の映画",
+	"progress": "進捗"
 }
