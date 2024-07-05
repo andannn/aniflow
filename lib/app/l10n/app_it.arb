@@ -129,5 +129,6 @@
 	"releaseDate": "Sarà rilasciato il {date}",
 	"releasedAt": "Uscito il {date}",
 	"movieSchedule": "Movie schedule",
-	"recentMovies": "Film recenti"
+	"recentMovies": "Film recenti",
+	"progress": "Progresso"
 }

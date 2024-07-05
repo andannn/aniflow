@@ -183,5 +183,6 @@
 	},
 	"releasedAt": "Released at {date}",
 	"movieSchedule": "Movie schedule",
-	"recentMovies": "Recent movies"
+	"recentMovies": "Recent movies",
+	"progress": "Progress"
 }

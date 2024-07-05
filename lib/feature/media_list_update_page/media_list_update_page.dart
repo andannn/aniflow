@@ -279,7 +279,7 @@ class _UpdateMediaListBottomWidgetState
           children: [
             Expanded(
               child: buildLabelWithChild(
-                label: 'Progress',
+                label: context.appLocal.progress,
                 child: Builder(
                   builder: (context) {
                     final maxValue = widget.mediaModel.episodes;
