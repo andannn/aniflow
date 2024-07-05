@@ -41,7 +41,7 @@ class ActivityItem extends StatelessWidget {
     final timeUntilNowDuration = DateTime.now().difference(
         DateTime.fromMillisecondsSinceEpoch(activity.createdAt * 1000));
     final timeUntilNowString =
-        '${TimeUtil.getFormattedDuration(context, timeUntilNowDuration)} ago';
+        TimeUtil.getFormattedDuration(context, timeUntilNowDuration) ?? '';
     return Container(
       constraints: const BoxConstraints(minHeight: 120),
       child: Card.filled(
