@@ -1,4 +1,5 @@
 
+import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/fuzzy_date_input_dto.dart';
 
 extension DateTimeEx on DateTime? {
@@ -23,5 +24,21 @@ extension DateTimeEx2 on DateTime {
         : day.toString();
 
     return '$yearString$monthString$dayString';
+  }
+}
+
+extension FuzzyDateDtoNullableEx on FuzzyDateDto? {
+  DateTime? toDateTime() {
+    final date = this;
+    if (date == null) {
+      return null;
+    }
+
+    if (date.year == null && date.month == null && date.day == null) {
+      return null;
+    }
+
+    return DateTime.utc(
+        date.year ?? -1, date.month ?? 1, date.day ?? 1);
   }
 }

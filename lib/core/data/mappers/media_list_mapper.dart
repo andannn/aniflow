@@ -30,7 +30,7 @@ extension MediaListMapper on MediaListEntity {
 }
 
 extension MediaListAndMediaRelationMapper1 on MediaListAndMediaRelation {
-  MediaWithListModel toModel1() {
+  MediaWithListModel toModel() {
     return MediaWithListModel(
         mediaModel: mediaEntity.toModel(),
         mediaListModel: mediaListEntity?.toModel());
@@ -38,7 +38,7 @@ extension MediaListAndMediaRelationMapper1 on MediaListAndMediaRelation {
 }
 
 extension MediaListAndMediaRelationMapper3 on MediaListDto {
-  MediaWithListModel toModel1() {
-    return toRelation().toModel1();
+  MediaWithListModel toModel() {
+    return toRelation().toModel();
   }
 }
