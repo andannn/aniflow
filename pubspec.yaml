@@ -71,11 +71,11 @@ dependencies:
   connectivity_plus: ^5.0.1
   flutter_rating_bar: ^4.0.1
   flutter_emoji: ^2.5.1
-  firebase_core: ^2.22.0
-  firebase_crashlytics: ^3.5.7
-  firebase_analytics: ^10.10.7
+  firebase_core: ^3.1.1
+  firebase_crashlytics: ^4.0.2
+  firebase_analytics: ^11.1.0
   path_provider: ^2.1.1
-  firebase_performance: ^0.9.3+7
+  firebase_performance: ^0.10.0+2
   flutter_cache_manager: ^3.3.1
   fwfh_cached_network_image: ^0.14.3
   drift: ^2.15.0
@@ -92,7 +92,7 @@ dependencies:
     path: ./platform_downloader
   platform_notification:
     path: ./platform_notification
-  firebase_remote_config: ^4.4.7
+  firebase_remote_config: ^5.0.2
   workmanager: ^0.5.2
   permission_handler: ^11.3.1
 
