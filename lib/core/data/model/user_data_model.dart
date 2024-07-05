@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -19,7 +20,7 @@ class UserDataModel with _$UserDataModel {
     @Default(AnimeSeason.summer) AnimeSeason season,
     @Default(-1) int seasonYear,
     @Default(ThemeSetting.system) ThemeSetting themeSetting,
-    @Default(false) bool isShowReleaseOnly,
+    @Default(TrackListFilter.all) TrackListFilter trackListFilter,
     @Default(ActivityScopeCategory.global)
     ActivityScopeCategory activityScopeCategory,
     @Default(ActivityFilterType.all) ActivityFilterType activityFilterType,

@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
@@ -33,7 +34,7 @@ mixin _UserDataKey {
   /// ani-list settings. [AniListSettings]
   static const aniListSettingsKey = 'ani_list_settings_key';
 
-  static const showReleasedOnlyKey = 'show_released_only_key';
+  static const trackListFilterKey = 'track_list_filter_key';
 
   static const themeSettingKey = 'theme_setting_key';
 
@@ -56,7 +57,7 @@ class UserDataPreferences {
       season: _season,
       seasonYear: _seasonYear,
       themeSetting: _themeSetting,
-      isShowReleaseOnly: _isShowReleaseOnly,
+      trackListFilter: _trackListFilter,
       activityScopeCategory: _activityScopeCategory,
       activityFilterType: _activityFilterType,
       authedUserId: _authedUserId,
@@ -118,12 +119,14 @@ class UserDataPreferences {
     _changeNotifier.notifyChanged();
   }
 
-  bool get _isShowReleaseOnly =>
-      _preferences.getBool(_UserDataKey.showReleasedOnlyKey) ?? false;
+  TrackListFilter get _trackListFilter =>
+      TrackListFilter.fromJson(
+          _preferences.getString(_UserDataKey.trackListFilterKey)) ??
+      TrackListFilter.all;
 
-  Future setIsShowReleaseOnly(bool showReleasedOnly) async {
-    await _preferences.setBool(
-        _UserDataKey.showReleasedOnlyKey, showReleasedOnly);
+  Future setTrackListFilter(TrackListFilter trackListFilter) async {
+    await _preferences.setString(
+        _UserDataKey.trackListFilterKey, trackListFilter.toJson());
     _changeNotifier.notifyChanged();
   }
 

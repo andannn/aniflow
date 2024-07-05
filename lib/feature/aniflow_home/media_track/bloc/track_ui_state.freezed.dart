@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TrackUiState {
   bool get isLoading => throw _privateConstructorUsedError;
-  bool get showReleasedOnly => throw _privateConstructorUsedError;
+  TrackListFilter get trackListFilter => throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
   SortedGroupMediaListModel? get sortedGroupMediaListModel =>
       throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $TrackUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
-      bool showReleasedOnly,
+      TrackListFilter trackListFilter,
       MediaType currentMediaType,
       SortedGroupMediaListModel? sortedGroupMediaListModel,
       AniListSettings? settings,
@@ -61,7 +61,7 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? showReleasedOnly = null,
+    Object? trackListFilter = null,
     Object? currentMediaType = null,
     Object? sortedGroupMediaListModel = freezed,
     Object? settings = freezed,
@@ -72,10 +72,10 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      showReleasedOnly: null == showReleasedOnly
-          ? _value.showReleasedOnly
-          : showReleasedOnly // ignore: cast_nullable_to_non_nullable
-              as bool,
+      trackListFilter: null == trackListFilter
+          ? _value.trackListFilter
+          : trackListFilter // ignore: cast_nullable_to_non_nullable
+              as TrackListFilter,
       currentMediaType: null == currentMediaType
           ? _value.currentMediaType
           : currentMediaType // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ abstract class _$$TrackUiStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
-      bool showReleasedOnly,
+      TrackListFilter trackListFilter,
       MediaType currentMediaType,
       SortedGroupMediaListModel? sortedGroupMediaListModel,
       AniListSettings? settings,
@@ -154,7 +154,7 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? showReleasedOnly = null,
+    Object? trackListFilter = null,
     Object? currentMediaType = null,
     Object? sortedGroupMediaListModel = freezed,
     Object? settings = freezed,
@@ -165,10 +165,10 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      showReleasedOnly: null == showReleasedOnly
-          ? _value.showReleasedOnly
-          : showReleasedOnly // ignore: cast_nullable_to_non_nullable
-              as bool,
+      trackListFilter: null == trackListFilter
+          ? _value.trackListFilter
+          : trackListFilter // ignore: cast_nullable_to_non_nullable
+              as TrackListFilter,
       currentMediaType: null == currentMediaType
           ? _value.currentMediaType
           : currentMediaType // ignore: cast_nullable_to_non_nullable
@@ -194,7 +194,7 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
 class _$TrackUiStateImpl implements _TrackUiState {
   _$TrackUiStateImpl(
       {this.isLoading = false,
-      this.showReleasedOnly = false,
+      this.trackListFilter = TrackListFilter.all,
       this.currentMediaType = MediaType.anime,
       this.sortedGroupMediaListModel,
       this.settings,
@@ -205,7 +205,7 @@ class _$TrackUiStateImpl implements _TrackUiState {
   final bool isLoading;
   @override
   @JsonKey()
-  final bool showReleasedOnly;
+  final TrackListFilter trackListFilter;
   @override
   @JsonKey()
   final MediaType currentMediaType;
@@ -218,7 +218,7 @@ class _$TrackUiStateImpl implements _TrackUiState {
 
   @override
   String toString() {
-    return 'TrackUiState(isLoading: $isLoading, showReleasedOnly: $showReleasedOnly, currentMediaType: $currentMediaType, sortedGroupMediaListModel: $sortedGroupMediaListModel, settings: $settings, userData: $userData)';
+    return 'TrackUiState(isLoading: $isLoading, trackListFilter: $trackListFilter, currentMediaType: $currentMediaType, sortedGroupMediaListModel: $sortedGroupMediaListModel, settings: $settings, userData: $userData)';
   }
 
   @override
@@ -228,8 +228,8 @@ class _$TrackUiStateImpl implements _TrackUiState {
             other is _$TrackUiStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.showReleasedOnly, showReleasedOnly) ||
-                other.showReleasedOnly == showReleasedOnly) &&
+            (identical(other.trackListFilter, trackListFilter) ||
+                other.trackListFilter == trackListFilter) &&
             (identical(other.currentMediaType, currentMediaType) ||
                 other.currentMediaType == currentMediaType) &&
             (identical(other.sortedGroupMediaListModel,
@@ -242,7 +242,7 @@ class _$TrackUiStateImpl implements _TrackUiState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, showReleasedOnly,
+  int get hashCode => Object.hash(runtimeType, isLoading, trackListFilter,
       currentMediaType, sortedGroupMediaListModel, settings, userData);
 
   @JsonKey(ignore: true)
@@ -255,7 +255,7 @@ class _$TrackUiStateImpl implements _TrackUiState {
 abstract class _TrackUiState implements TrackUiState {
   factory _TrackUiState(
       {final bool isLoading,
-      final bool showReleasedOnly,
+      final TrackListFilter trackListFilter,
       final MediaType currentMediaType,
       final SortedGroupMediaListModel? sortedGroupMediaListModel,
       final AniListSettings? settings,
@@ -264,7 +264,7 @@ abstract class _TrackUiState implements TrackUiState {
   @override
   bool get isLoading;
   @override
-  bool get showReleasedOnly;
+  TrackListFilter get trackListFilter;
   @override
   MediaType get currentMediaType;
   @override

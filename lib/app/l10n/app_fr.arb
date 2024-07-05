@@ -130,6 +130,7 @@
 	"releasedAt":"Sorti le {date}",
 	"movieSchedule": "Horaire des films",
 	"recentMovies": "Films récents",
-	"progress": "Progrès"
-
+	"progress": "Progrès",
+	"newAired": "Nouvellement diffusé",
+	"hasNextEpisode": "A le prochain épisode"
 }

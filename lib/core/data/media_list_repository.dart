@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -263,9 +264,9 @@ class MediaListRepository {
     }
   }
 
-  Stream<bool> getIsReleasedOnlyStream() =>
-      preferences.userDataStream.map((e) => e.isShowReleaseOnly);
+  Stream<TrackListFilter> getTrackListFilterStream() =>
+      preferences.userDataStream.map((e) => e.trackListFilter);
 
-  void setIsReleasedOnly(bool isShowReleasedOnly) =>
-      preferences.setIsShowReleaseOnly(isShowReleasedOnly);
+  void setTrackListFilter(TrackListFilter trackListFilter) =>
+      preferences.setTrackListFilter(trackListFilter);
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -44,7 +45,11 @@ class _OnAniListSettingsChanged extends TrackEvent {
   final AniListSettings settings;
 }
 
-class OnToggleShowFollowOnly extends TrackEvent {}
+class OnSelectTrackListFilter extends TrackEvent {
+  OnSelectTrackListFilter(this.filter);
+
+  final TrackListFilter filter;
+}
 
 class OnAnimeMarkWatched extends TrackEvent {
   final String animeId;
@@ -63,10 +68,10 @@ class _OnMediaTypeChanged extends TrackEvent {
   final MediaType mediaType;
 }
 
-class _OnShowFollowOnlyStateChanged extends TrackEvent {
-  _OnShowFollowOnlyStateChanged(this.isShowFollowOnly);
+class _OnTrackListFilterChanged extends TrackEvent {
+  _OnTrackListFilterChanged(this.trackListFilter);
 
-  final bool isShowFollowOnly;
+  final TrackListFilter trackListFilter;
 }
 
 class OnMediaListModified extends TrackEvent {
@@ -100,15 +105,14 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<_OnAniListSettingsChanged>(
       (event, emit) => emit(state.copyWith(settings: event.settings)),
     );
-    on<_OnShowFollowOnlyStateChanged>(
+    on<_OnTrackListFilterChanged>(
       (event, emit) => emit(
-        state.copyWith(showReleasedOnly: event.isShowFollowOnly),
+        state.copyWith(trackListFilter: event.trackListFilter),
       ),
     );
 
-    on<OnToggleShowFollowOnly>(
-      (_, __) =>
-          _mediaListRepository.setIsReleasedOnly(!state.showReleasedOnly),
+    on<OnSelectTrackListFilter>(
+      (event, emit) => _mediaListRepository.setTrackListFilter(event.filter),
     );
     on<OnAnimeMarkWatched>(_onMediaMarkWatched);
     on<OnMediaListModified>(_onMediaListModified);
@@ -134,10 +138,10 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     );
 
     _showReleasedOnlySub ??= _mediaListRepository
-        .getIsReleasedOnlyStream()
+        .getTrackListFilterStream()
         .distinct()
         .listen((showReleasedOnly) {
-      safeAdd(_OnShowFollowOnlyStateChanged(showReleasedOnly));
+      safeAdd(_OnTrackListFilterChanged(showReleasedOnly));
     });
 
     final sortedGroupMediaListStream = stream
@@ -156,36 +160,46 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
         return Stream.value(const SortedGroupMediaListModel([], []));
       }
     });
-    final showReleasedOnlyStream =
-        stream.map((e) => (e.showReleasedOnly)).distinct();
+    final trackListFilterStream =
+        stream.map((e) => (e.trackListFilter)).distinct();
     CombineLatestStream.combine2(
       sortedGroupMediaListStream,
-      showReleasedOnlyStream,
+      trackListFilterStream,
       (a, b) => (a, b),
     ).distinct().listen((record) {
-      final (sortedGroupMediaList, isShowReleasedOnly) = record;
-      if (isShowReleasedOnly) {
-        final newList = sortedGroupMediaList.newUpdateList
-            .where(
-              (e) => e.hasNextReleasedEpisode,
-            )
-            .toList();
-        final otherList = sortedGroupMediaList.otherList
-            .where(
-              (e) => e.hasNextReleasedEpisode,
-            )
-            .toList();
-        safeAdd(
-          _OnWatchingAnimeListChanged(
-            sortedGroupMediaListModel: SortedGroupMediaListModel(
-              newList,
-              otherList,
+      final (sortedGroupMediaList, trackListFilter) = record;
+      switch (trackListFilter) {
+        case TrackListFilter.all:
+          safeAdd(_OnWatchingAnimeListChanged(
+              sortedGroupMediaListModel: sortedGroupMediaList));
+        case TrackListFilter.newAired:
+          safeAdd(
+            _OnWatchingAnimeListChanged(
+              sortedGroupMediaListModel: SortedGroupMediaListModel(
+                sortedGroupMediaList.newUpdateList,
+                [],
+              ),
             ),
-          ),
-        );
-      } else {
-        safeAdd(_OnWatchingAnimeListChanged(
-            sortedGroupMediaListModel: sortedGroupMediaList));
+          );
+        case TrackListFilter.hasNext:
+          final newList = sortedGroupMediaList.newUpdateList
+              .where(
+                (e) => e.hasNextReleasedEpisode,
+              )
+              .toList();
+          final otherList = sortedGroupMediaList.otherList
+              .where(
+                (e) => e.hasNextReleasedEpisode,
+              )
+              .toList();
+          safeAdd(
+            _OnWatchingAnimeListChanged(
+              sortedGroupMediaListModel: SortedGroupMediaListModel(
+                newList,
+                otherList,
+              ),
+            ),
+          );
       }
     });
   }

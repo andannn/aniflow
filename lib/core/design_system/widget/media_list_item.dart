@@ -28,25 +28,22 @@ class MediaListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     final colorScheme = Theme.of(context).colorScheme;
-    return Opacity(
-      opacity: hasNextReleasingEpisode ? 1.0 : 0.7,
-      child: Card.filled(
-        clipBehavior: Clip.antiAlias,
-        child: MarkWatchSlideWidget(
-          onWatchedClick: onMarkWatchedClick,
-          canSlide: hasNextReleasingEpisode,
-          child: MediaRowItem(
-            model: model.mediaModel,
-            language: language,
-            showNewBadge: showNewBadge,
-            watchingInfo:
-                _buildWatchingInfoLabel(context, model),
-            titleMaxLines: null,
-            watchInfoTextColor: model.hasNextReleasedEpisode
-                ? colorScheme.primary
-                : colorScheme.secondary,
-            onClick: onClick,
-          ),
+    return Card.filled(
+      clipBehavior: Clip.antiAlias,
+      child: MarkWatchSlideWidget(
+        onWatchedClick: onMarkWatchedClick,
+        canSlide: hasNextReleasingEpisode,
+        child: MediaRowItem(
+          model: model.mediaModel,
+          language: language,
+          showNewBadge: showNewBadge,
+          watchingInfo:
+              _buildWatchingInfoLabel(context, model),
+          titleMaxLines: null,
+          watchInfoTextColor: model.hasNextReleasedEpisode
+              ? colorScheme.primary
+              : colorScheme.secondary,
+          onClick: onClick,
         ),
       ),
     );

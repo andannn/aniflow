@@ -130,5 +130,7 @@
 	"releasedAt": "发布日期：{date}",
 	"movieSchedule": "电影时间表",
 	"recentMovies": "最近的电影",
-	"progress": "进展"
+	"progress": "进展",
+	"newAired": "新放送",
+	"hasNextEpisode": "有下一集"
 }

@@ -1,10 +1,10 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
-import 'package:aniflow/core/design_system/widget/af_toggle_button.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
 import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
@@ -48,15 +48,29 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
   Widget build(BuildContext context) {
     return BlocBuilder<TrackBloc, TrackUiState>(builder: (context, state) {
       return Scaffold(
-        appBar: _buildAppBar(context, state),
-        body: RefreshIndicator(
-          onRefresh: () async {
-            return context.read<TrackBloc>().syncUserAnimeList();
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              _buildAppBar(
+                context,
+                state: state,
+                onSelectionChanged: (filter) {
+                  context
+                      .read<TrackBloc>()
+                      .add(OnSelectTrackListFilter(filter));
+                },
+              ),
+            ];
           },
-          child: CustomScrollView(
-            slivers: [
-              ..._buildTrackSectionContents(context, state),
-            ],
+          body: RefreshIndicator(
+            onRefresh: () async {
+              return context.read<TrackBloc>().syncUserAnimeList();
+            },
+            child: CustomScrollView(
+              slivers: [
+                ..._buildTrackSectionContents(context, state),
+              ],
+            ),
           ),
         ),
       );
@@ -92,18 +106,9 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
         ];
       }
 
-      final showReleasedOnly = state.showReleasedOnly;
-
-      final isAnime = state.currentMediaType == MediaType.anime;
       final newUpdateList = sortedList.newUpdateList;
       final otherList = sortedList.otherList;
       return [
-        SliverVisibility(
-          visible: isAnime,
-          sliver: SliverToBoxAdapter(
-            child: _buildFilterBarSection(context, showReleasedOnly),
-          ),
-        ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) =>
@@ -153,26 +158,15 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
     );
   }
 
-  Widget _buildFilterBarSection(BuildContext context, bool showReleasedOnly) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const SizedBox(width: 12),
-        AniFlowToggleButton(
-          label: 'Released only',
-          selected: showReleasedOnly,
-          onClick: () {
-            context.read<TrackBloc>().add(OnToggleShowFollowOnly());
-          },
-        ),
-      ],
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context, TrackUiState state) {
+  SliverAppBar _buildAppBar(BuildContext context,
+      {required TrackUiState state,
+      required void Function(TrackListFilter) onSelectionChanged}) {
     final isAnime = state.currentMediaType == MediaType.anime;
     final isLoading = state.isLoading;
-    return AppBar(
+    return SliverAppBar(
+      pinned: true,
+      snap: true,
+      floating: true,
       title: Text(context.appLocal.track),
       actions: [
         LoadingIndicator(isLoading: isLoading),
@@ -190,6 +184,54 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
             : const SizedBox(),
       ],
       automaticallyImplyLeading: false,
+      bottom: isAnime
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: _buildFilterSelection(
+                context,
+                filter: state.trackListFilter,
+                onSelectionChanged: onSelectionChanged,
+              ),
+            )
+          : const PreferredSize(
+              preferredSize: Size.fromHeight(0),
+              child: SizedBox(),
+            ),
+    );
+  }
+
+  Widget _buildFilterSelection(BuildContext context,
+      {required TrackListFilter filter,
+      required void Function(TrackListFilter) onSelectionChanged}) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SegmentedButton<TrackListFilter>(
+            segments: [
+              ButtonSegment(
+                value: TrackListFilter.all,
+                label: Text(context.appLocal.all),
+              ),
+              ButtonSegment(
+                value: TrackListFilter.hasNext,
+                label: Text(context.appLocal.hasNextEpisode),
+              ),
+              ButtonSegment(
+                value: TrackListFilter.newAired,
+                label: Text(context.appLocal.newAired),
+              ),
+            ],
+            selected: {filter},
+            showSelectedIcon: false,
+            style:
+                const ButtonStyle(visualDensity: VisualDensity(vertical: -1)),
+            onSelectionChanged: (newSelection) {
+              onSelectionChanged(newSelection.first);
+            },
+          ),
+        ),
+      ],
     );
   }
 

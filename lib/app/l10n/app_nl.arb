@@ -130,5 +130,7 @@
 	"releasedAt": "Uitgebracht op {date}",
 	"movieSchedule": "Filmrooster",
 	"recentMovies": "Recente films",
-	"progress": "Voortgang"
+	"progress": "Voortgang",
+	"newAired": "Nieuw uitgezonden",
+	"hasNextEpisode": "Heeft volgende aflevering"
 }
