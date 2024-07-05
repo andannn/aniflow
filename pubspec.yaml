@@ -98,7 +98,7 @@ dependencies:
 
 dev_dependencies:
   drift_dev: ^2.15.0
-  injectable_generator: 2.4.1
+  injectable_generator: 2.6.1
   flutter_test:
     sdk: flutter
 
