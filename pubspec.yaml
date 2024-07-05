@@ -83,7 +83,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.0
   get_it: ^7.6.7
   injectable: ^2.3.5
-  image_picker: ^1.0.7
+  image_picker: ^1.1.2
   html: ^0.15.4
   string_similarity: ^2.0.0
   bloc_test: ^9.1.7
