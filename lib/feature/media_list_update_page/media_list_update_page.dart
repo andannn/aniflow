@@ -102,12 +102,16 @@ class MediaListUpdatePageContent extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Hero(
                     tag: mediaListUpdatePageHeroTag,
-                    child: Card(
-                      child: UpdateMediaListBottomWidget(
-                        mediaModel: mediaModel,
-                        mediaListItem: mediaListItem,
-                        scoreFormat: scoreFormat,
-                        userTitleLanguage: userTitleLanguage,
+                    child: GestureDetector(
+                      // intercept click event of the children
+                      onTap: () {},
+                      child: Card(
+                        child: UpdateMediaListBottomWidget(
+                          mediaModel: mediaModel,
+                          mediaListItem: mediaListItem,
+                          scoreFormat: scoreFormat,
+                          userTitleLanguage: userTitleLanguage,
+                        ),
                       ),
                     ),
                   ),
