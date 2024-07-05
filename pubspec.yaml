@@ -57,7 +57,7 @@ dependencies:
   path: ^1.8.3
   flutter_svg: ^2.0.7
   flutter_native_splash: ^2.3.2
-  extended_image: ^8.0.2
+  extended_image: ^8.2.1
   sprintf: ^7.0.0
   flutter_slidable: ^3.0.0
   loading_animation_widget: ^1.2.0+4
