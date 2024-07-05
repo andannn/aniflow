@@ -72,8 +72,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_emoji: ^2.5.1
   firebase_core: ^2.22.0
+  firebase_crashlytics: ^3.5.7
   firebase_analytics: ^10.10.7
-  firebase_crashlytics: ^3.4.6
   path_provider: ^2.1.1
   firebase_performance: ^0.9.3+7
   flutter_cache_manager: ^3.3.1
