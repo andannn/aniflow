@@ -1,7 +1,7 @@
+import 'package:aniflow/app/di/get_it_di.dart';
 import 'package:aniflow/core/background_task/executor.dart';
 import 'package:aniflow/core/background_task/task.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/di/get_it_di.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
