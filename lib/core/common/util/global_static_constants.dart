@@ -8,7 +8,7 @@ mixin AfConfig {
   static const int defaultPerPageCount = 18;
 
   static const int profilePageDefaultPerPageCount = 9;
-  static const int activityPageDefaultPerPageCount = 50;
+  static const int activityPageDefaultPerPageCount = 30;
   static const int notificationPageDefaultPerPageCount = 25;
 
   /// Detail page consts.
