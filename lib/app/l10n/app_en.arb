@@ -184,5 +184,7 @@
 	"releasedAt": "Released at {date}",
 	"movieSchedule": "Movie schedule",
 	"recentMovies": "Recent movies",
-	"progress": "Progress"
+	"progress": "Progress",
+	"newAired": "New aired",
+	"hasNextEpisode": "Has next episode"
 }

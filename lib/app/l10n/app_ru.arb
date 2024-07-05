@@ -130,5 +130,7 @@
 	"releasedAt": "Выпущен {date}",
 	"movieSchedule": "Расписание фильмов",
 	"recentMovies": "Недавние фильмы",
-	"progress": "Прогресс"
+	"progress": "Прогресс",
+	"newAired": "Недавно вышедший в эфир",
+	"hasNextEpisode": "Есть следующая серия"
 }

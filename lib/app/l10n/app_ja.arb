@@ -130,5 +130,7 @@
 	"releasedAt": "{date} に公開されました。",
 	"movieSchedule": "映画の上映スケジュール",
 	"recentMovies": "最近の映画",
-	"progress": "進捗"
+	"progress": "進捗",
+	"newAired": "新規放送",
+	"hasNextEpisode": "次回あり"
 }
