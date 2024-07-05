@@ -3,12 +3,12 @@
 An unofficial client for [AniList](https://anilist.co/home).
 
 <p float="left">
-  <img src="screen_shots/discover.png" width="25%" />
-  <img src="screen_shots/track.png" width="25%" />
-  <img src="screen_shots/activity.png" width="25%" />
-  <img src="screen_shots/profile.png" width="25%" />
-  <img src="screen_shots/detail.png" width="25%" />
-  <img src="screen_shots/schedule.png" width="25%" />
+  <img src="screen_shots/home_page.jpeg" width="25%" />
+  <img src="screen_shots/track_list.jpeg" width="25%" />
+  <img src="screen_shots/voice_actor.jpeg" width="25%" />
+  <img src="screen_shots/profile.jpeg" width="25%" />
+  <img src="screen_shots/character.jpeg" width="25%" />
+  <img src="screen_shots/anime.jpeg" width="25%" />
 </p>
 
 ## Feature
