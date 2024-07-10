@@ -41,7 +41,7 @@ jobs:
       - run: flutter test
 
       - name: build
-        run: flutter build
+        run: flutter build apk && flutter build appbundle
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
@@ -50,6 +50,8 @@ jobs:
       - name: Upload to github
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          files: "build/app/outputs/apk/release/*"
+          files: |
+            build/app/outputs/flutter-apk/*
+            build/app/outputs/bundle/release/*
           repo_token: "${{ secrets.TOKEN }}"
           prerelease: true
