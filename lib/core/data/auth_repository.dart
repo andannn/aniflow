@@ -51,36 +51,36 @@ class AuthRepository {
     if (!canLaunch) {
       /// auth fail because invalid uri.
       return false;
-    } else {
-      /// jump to web view and try to get access token.
-      await launchUrl(authUri);
-      try {
-        final authResult = await authEventChannel
-            .awaitAuthResult()
-            .timeout(const Duration(minutes: 10));
+    }
 
-        /// save token.
-        await preferences.setAuthToken(authResult.token);
-        await preferences.setAuthExpiredTime(
-          DateTime.fromMillisecondsSinceEpoch(
-            DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
-          ),
-        );
+    /// jump to web view and try to get access token.
+    await launchUrl(authUri);
+    try {
+      final authResult = await authEventChannel
+          .awaitAuthResult()
+          .timeout(const Duration(minutes: 10));
 
-        /// retrieve user data from ani list api;
-        final userDto = await authDataSource.getAuthedUserDataDto();
-        final userEntity = userDto.toEntity();
-        await userDataDao.upsertUser(userEntity);
-        await preferences.setAuthedUserId(userEntity.id);
-        await preferences.setAniListSettings(
-          AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
-        );
+      /// save token.
+      await preferences.setAuthToken(authResult.token);
+      await preferences.setAuthExpiredTime(
+        DateTime.fromMillisecondsSinceEpoch(
+          DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
+        ),
+      );
 
-        /// login success.
-        return true;
-      } catch (e) {
-        return false;
-      }
+      /// retrieve user data from ani list api;
+      final userDto = await authDataSource.getAuthedUserDataDto();
+      final userEntity = userDto.toEntity();
+      await userDataDao.upsertUser(userEntity);
+      await preferences.setAuthedUserId(userEntity.id);
+      await preferences.setAniListSettings(
+        AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
+      );
+
+      /// login success.
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 

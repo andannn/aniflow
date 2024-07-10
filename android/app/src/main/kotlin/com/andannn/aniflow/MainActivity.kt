@@ -36,6 +36,7 @@ class MainActivity : FlutterActivity() {
         authChannel.setStreamHandler(
             /* handler = */ object : EventChannel.StreamHandler {
                 override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
+                    Log.d(TAG, "onListen: ")
                     authEventSink = events
                 }
 
