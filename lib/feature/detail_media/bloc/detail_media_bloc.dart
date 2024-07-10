@@ -37,6 +37,12 @@ class _OnMediaListItemChanged extends DetailAnimeEvent {
   final MediaListItemModel? mediaListItemModel;
 }
 
+class _OnHiAnimationEnabledChanged extends DetailAnimeEvent {
+  _OnHiAnimationEnabledChanged({required this.enabled});
+
+  final bool enabled;
+}
+
 class OnMediaListModified extends DetailAnimeEvent {
   OnMediaListModified({required this.result});
 
@@ -146,6 +152,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       (event, emit) =>
           emit(state.copyWith(mediaListItem: event.mediaListItemModel)),
     );
+    on<_OnHiAnimationEnabledChanged>(
+      (event, emit) =>
+          emit(state.copyWith(isHiAnimationFeatureEnabled: event.enabled)),
+    );
     on<OnMediaListModified>(_onMediaListModified);
     on<OnToggleFavoriteState>(_onToggleFavoriteState);
     on<_OnLoadingStateChanged>(
@@ -179,6 +189,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   StreamSubscription? _detailAnimeSub;
   StreamSubscription? _isTrackingSub;
+  StreamSubscription? _isHiAnimationEnabledSub;
 
   CancelToken? _toggleFavoriteCancelToken;
   CancelToken? _networkActionCancelToken;
@@ -203,6 +214,11 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       );
     }
 
+    _isHiAnimationEnabledSub =
+        _userDataRepository.isHiAnimationFeatureEnabledStream.listen((enabled) {
+      safeAdd(_OnHiAnimationEnabledChanged(enabled: enabled));
+    });
+
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
     _startFetchDetailAnimeInfo();
@@ -214,7 +230,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     final progress = change.nextState.mediaListItem?.progress;
     final title = change.nextState.detailAnimeModel?.title;
 
-    if (progress != null && title != null) {
+    if (change.nextState.isHiAnimationFeatureEnabled &&
+        progress != null &&
+        title != null) {
       final hasNextReleasingEpisode =
           change.nextState.hasNextReleasedEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
@@ -241,6 +259,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _toggleFavoriteCancelToken?.cancel();
     _networkActionCancelToken?.cancel();
     _findPlaySourceCancelToken?.cancel();
+    _isHiAnimationEnabledSub?.cancel();
 
     return super.close();
   }

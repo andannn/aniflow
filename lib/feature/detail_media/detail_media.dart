@@ -808,6 +808,10 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
 
   Widget _buildWatchNextEpisodeArea(
       BuildContext context, DetailMediaUiState state) {
+    if (!state.isHiAnimationFeatureEnabled) {
+      return const SizedBox();
+    }
+
     return Column(
       children: [
         _buildAiringInfo(context, state.detailAnimeModel!),

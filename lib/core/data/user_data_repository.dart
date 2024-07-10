@@ -41,6 +41,9 @@ class UserDataRepository {
 
   UserDataModel get userData => _preferences.userData;
 
+  Stream<bool> get isHiAnimationFeatureEnabledStream =>
+      _remoteConfigManager.isHiAnimationFeatureEnabledStream();
+
   Future setActivityFilterType(ActivityFilterType category) =>
       _preferences.setActivityFilterType(category);
 
