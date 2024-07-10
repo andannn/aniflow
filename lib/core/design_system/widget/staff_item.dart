@@ -31,8 +31,11 @@ class StaffItem extends StatelessWidget {
             onTap: onStaffClick,
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
-              child: AFNetworkImage(
-                imageUrl: model.staff.mediumImage,
+              child: Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: AFNetworkImage(
+                  imageUrl: model.staff.mediumImage,
+                ),
               ),
             ),
           ),

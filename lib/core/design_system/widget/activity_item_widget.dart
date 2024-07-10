@@ -66,12 +66,15 @@ class ActivityItem extends StatelessWidget {
                     onTap: () {
                       onMediaClick?.call(activity.media!.id);
                     },
-                    child: AFNetworkImage(
-                      imageUrl: activity.media!.coverImage?.large ?? '',
+                    child: Card.filled(
+                      clipBehavior: Clip.antiAlias,
+                      child: AFNetworkImage(
+                        imageUrl: activity.media!.coverImage?.large ?? '',
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +153,8 @@ class ActivityItem extends StatelessWidget {
         DateTime.fromMillisecondsSinceEpoch(activity.createdAt * 1000));
     final timeUntilNowString =
         '${TimeUtil.getFormattedDuration(context, timeUntilNowDuration)} ago';
-    return Card(
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: onActivityClick != null
             ? () {

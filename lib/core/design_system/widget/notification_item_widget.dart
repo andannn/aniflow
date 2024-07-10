@@ -15,13 +15,10 @@ class NotificationItem extends StatelessWidget {
   final VoidCallback onCoverImageClick;
   final VoidCallback onNotificationClick;
 
-  ColorScheme _colorScheme(BuildContext context) =>
-      Theme.of(context).colorScheme;
 
   TextStyle? _contentTextStyle(BuildContext context) => Theme.of(context)
       .textTheme
-      .labelLarge!
-      .copyWith(color: _colorScheme(context).onSurfaceVariant);
+      .labelLarge!;
 
   @override
   Widget build(BuildContext context) {
@@ -53,62 +50,62 @@ class NotificationItem extends StatelessWidget {
           MediaDeletionNotification() => ''
         };
 
-    return Card.filled(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onNotificationClick,
-        child: IntrinsicHeight(
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Opacity(
-                    opacity: 0.7,
-                    child: Text(
-                      timeUntilNowString,
-                      style: textTheme.labelSmall!,
-                    ),
+    return InkWell(
+      onTap: onNotificationClick,
+      child: IntrinsicHeight(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Opacity(
+                  opacity: 0.7,
+                  child: Text(
+                    timeUntilNowString,
+                    style: textTheme.labelSmall!,
                   ),
                 ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    // compile error if no set this height.
-                    // ignore: lines_longer_than_80_chars
-                    // this height value will no take effect because we have set the IntrinsicHeight
-                    height: 1,
-                    width: 85,
-                    child: InkWell(
-                      onTap: onCoverImageClick,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  // compile error if no set this height.
+                  // ignore: lines_longer_than_80_chars
+                  // this height value will no take effect because we have set the IntrinsicHeight
+                  height: 1,
+                  width: 85,
+                  child: InkWell(
+                    onTap: onCoverImageClick,
+                    child: Card.filled(
+                      clipBehavior: Clip.antiAlias,
                       child: AFNetworkImage(
                         imageUrl: getCoverImageUrl(),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      constraints: const BoxConstraints(minHeight: 85),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24.0),
-                          child: buildContentRow(),
-                        ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    constraints: const BoxConstraints(minHeight: 85),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: buildContentRow(),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                ],
-              ),
-            ],
-          ),
+                ),
+                const SizedBox(width: 12),
+              ],
+            ),
+          ],
         ),
       ),
     );

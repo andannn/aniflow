@@ -143,38 +143,40 @@ class _NotificationPagingContent extends StatelessWidget {
 
   Widget _buildNotificationItem(BuildContext context, NotificationModel model) {
     final navigator = RootRouterDelegate.get();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-      child: NotificationItem(
-        model: model,
-        onCoverImageClick: () {
-          switch (model) {
-            case AiringNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case FollowNotification():
-              navigator.navigateToUserProfile(model.user.id);
-            case ActivityNotification():
-              navigator.navigateToUserProfile(model.user.id);
-            case MediaNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case MediaDeletionNotification():
-            // Do nothing.
-          }
-        },
-        onNotificationClick: () {
-          switch (model) {
-            case AiringNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case MediaNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case ActivityNotification(activity: var activity):
-              navigator.navigateToActivityRepliesPage(activity.id);
-            case MediaDeletionNotification():
-            case FollowNotification():
-            // Do nothing.
-          }
-        },
-      ),
+    return Column(
+      children: [
+        NotificationItem(
+          model: model,
+          onCoverImageClick: () {
+            switch (model) {
+              case AiringNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case FollowNotification():
+                navigator.navigateToUserProfile(model.user.id);
+              case ActivityNotification():
+                navigator.navigateToUserProfile(model.user.id);
+              case MediaNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case MediaDeletionNotification():
+              // Do nothing.
+            }
+          },
+          onNotificationClick: () {
+            switch (model) {
+              case AiringNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case MediaNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case ActivityNotification(activity: var activity):
+                navigator.navigateToActivityRepliesPage(activity.id);
+              case MediaDeletionNotification():
+              case FollowNotification():
+              // Do nothing.
+            }
+          },
+        ),
+        const Divider(),
+      ],
     );
   }
 }

@@ -96,16 +96,22 @@ class BirthdayCharactersWidget extends StatelessWidget {
                       model.name!.getNameByUserSetting(staffNameLanguage),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       softWrap: true,
                     ),
-                    Opacity(
-                      opacity: 0.7,
-                      child: Text(
-                        model.relatedMedias.firstOrNull?.title
-                                ?.getTitle(titleLanguage) ??
-                            '',
-                        softWrap: true,
+                    Expanded(
+                      child: Opacity(
+                        opacity: 0.7,
+                        child: AutoSizeText(
+                          model.relatedMedias.firstOrNull?.title
+                              ?.getTitle(titleLanguage) ??
+                              '',
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
                       ),
                     ),
                   ],
@@ -122,24 +128,27 @@ class BirthdayCharactersWidget extends StatelessWidget {
       builder: () => Column(
         children: [
           CategoryTitleBar(
-            title: context.appLocal.todayBirthdayCharacter(
-              context.materialLocal.formatMediumDate(DateTime.now()),
-            ),
+            title: context.appLocal.todayBirthdayCharacter(''),
             onMoreClick: () {
               RootRouterDelegate.get().navigateToBirthdayCharacterPage();
             },
           ),
           const SizedBox(height: 4),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: models.map((item) => itemBuilder(item)).toList(),
+          SizedBox(
+            height: 320,
+            child: CustomScrollView(
+              scrollDirection: Axis.horizontal,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  sliver: SliverList.builder(
+                    itemCount: models.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return itemBuilder(models[index]);
+                    },
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
           Padding(
@@ -171,11 +180,14 @@ class CategoryTitleBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(children: [
-        AutoSizeText(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
+        Expanded(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
         ),
-        const Expanded(flex: 1, child: SizedBox()),
         TextButton(
           onPressed: onMoreClick,
           child: Text(

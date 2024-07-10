@@ -203,35 +203,42 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
   Widget _buildFilterSelection(BuildContext context,
       {required TrackListFilter filter,
       required void Function(TrackListFilter) onSelectionChanged}) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: SegmentedButton<TrackListFilter>(
-            segments: [
-              ButtonSegment(
-                value: TrackListFilter.all,
-                label: Text(context.appLocal.all),
-              ),
-              ButtonSegment(
-                value: TrackListFilter.hasNext,
-                label: Text(context.appLocal.hasNextEpisode),
-              ),
-              ButtonSegment(
-                value: TrackListFilter.newAired,
-                label: Text(context.appLocal.newAired),
-              ),
-            ],
-            selected: {filter},
-            showSelectedIcon: false,
-            style:
-                const ButtonStyle(visualDensity: VisualDensity(vertical: -1)),
-            onSelectionChanged: (newSelection) {
-              onSelectionChanged(newSelection.first);
-            },
-          ),
+    ButtonSegment<TrackListFilter> buildSegment(
+        {required TrackListFilter value, required String label}) {
+      return ButtonSegment(
+        value: value,
+        label: Text(
+          label,
+          maxLines: 1,
+          textAlign: TextAlign.center,
         ),
-      ],
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: SegmentedButton<TrackListFilter>(
+        segments: [
+          buildSegment(
+            value: TrackListFilter.all,
+            label: context.appLocal.all,
+          ),
+          buildSegment(
+            value: TrackListFilter.hasNext,
+            label: context.appLocal.hasNextEpisode,
+          ),
+          buildSegment(
+            value: TrackListFilter.newAired,
+            label: context.appLocal.newAired,
+          ),
+        ],
+        selected: {filter},
+        showSelectedIcon: false,
+        style: const ButtonStyle(visualDensity: VisualDensity(vertical: -1)),
+        onSelectionChanged: (newSelection) {
+          onSelectionChanged(newSelection.first);
+        },
+      ),
     );
   }
 

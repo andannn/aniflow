@@ -47,11 +47,14 @@ class MediaRowItem extends StatelessWidget {
               // this height value will no take effect because we have set the IntrinsicHeight
               height: 1,
               width: 85,
-              child: AFNetworkImage(
-                imageUrl: model.coverImage?.large ?? '',
+              child: Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: AFNetworkImage(
+                  imageUrl: model.coverImage?.large ?? '',
+                ),
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 8),
             Expanded(
               flex: 1,
               child: Stack(
@@ -61,11 +64,14 @@ class MediaRowItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 4),
-                      Text(
-                        model.title!.getTitle(language),
-                        style: textTheme.titleMedium
-                            ?.copyWith(color: surfaceTextColor),
-                        maxLines: titleMaxLines,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Text(
+                          model.title!.getTitle(language),
+                          style: textTheme.titleMedium
+                              ?.copyWith(color: surfaceTextColor),
+                          maxLines: titleMaxLines,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       watchingInfo != null

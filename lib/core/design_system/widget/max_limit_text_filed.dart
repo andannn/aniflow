@@ -57,7 +57,6 @@ class _MaxLimitTextFiledState extends State<MaxLimitTextFiled> {
                     TextSelection.collapsed(offset: newValueNumString.length),
               );
             } else {
-              print('JQN 3');
               return newValue;
             }
           },
