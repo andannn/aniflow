@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -15,25 +17,9 @@ abstract class DIFirebaseRemoteConfigModule {
         minimumFetchInterval: const Duration(hours: 1),
       ),
     );
-    await remoteConfig.setDefaults(const {
-      "home_struct_list": """{
-          "anime": [
-            "birthdayCharacters",
-            "todaySchedule",
-            "recentMovies",
-            "currentSeasonAnime",
-            "nextSeasonAnime",
-            "trendingAnime",
-            "movieAnime"
-          ],
-          "manga": [
-            "birthdayCharacters",
-            "trendingManga",
-            "allTimePopularManga",
-            "topManhwa"
-          ]
-        }""",
-    });
+    final defaultValue =
+        await rootBundle.loadString('assets/json/remote_config_defaults.json');
+    await remoteConfig.setDefaults(jsonDecode(defaultValue));
     await remoteConfig.activate();
     unawaited(remoteConfig.fetch());
     return remoteConfig;
