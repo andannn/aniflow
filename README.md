@@ -32,4 +32,3 @@ flutter run
    - $ dart run drift_dev schema generate lib/core/database/drift_schemas/ test/core/database/generated_migrations/
  - State Management: [Bloc](https://pub.dev/packages/bloc)
  - Dynamic theme: [dynamic_color](https://pub.dev/packages/dynamic_color)
- - Architecture: MVVM
