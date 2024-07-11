@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 mixin FirebaseRemoteConfigKeys {
   static String homeStruct = 'home_struct_list';
   static String isHiAnimationFeatureEnabled = 'enable_hi_animation_feature';
+  static String isSocialFeatureEnabled = 'enable_social_tab';
 }
 
 @lazySingleton
@@ -37,13 +38,23 @@ class RemoteConfigManager {
     );
   }
 
-  Stream<bool> isHiAnimationFeatureEnabledStream() =>
-      StreamUtil.createStream(
+  Stream<bool> isHiAnimationFeatureEnabledStream() => StreamUtil.createStream(
         _changeNotifier,
-            () => Future.value(_isHiAnimationFeatureEnabled()),
+        () => Future.value(_isHiAnimationFeatureEnabled()),
       ).distinct();
 
   bool _isHiAnimationFeatureEnabled() {
     return config.getBool(FirebaseRemoteConfigKeys.isHiAnimationFeatureEnabled);
+  }
+
+  Stream<bool> isSocialFeatureEnabledStream() => StreamUtil.createStream(
+        _changeNotifier,
+        () => Future.value(
+          _isSocialFeatureEnabled(),
+        ),
+      ).distinct();
+
+  bool _isSocialFeatureEnabled() {
+    return config.getBool(FirebaseRemoteConfigKeys.isSocialFeatureEnabled);
   }
 }
