@@ -14,7 +14,7 @@ abstract class DIFirebaseRemoteConfigModule {
     await remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(hours: 1),
+        minimumFetchInterval: const Duration(hours: 12),
       ),
     );
     final defaultValue =

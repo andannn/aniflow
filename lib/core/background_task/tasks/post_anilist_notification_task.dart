@@ -13,7 +13,7 @@ class PostAnilistNotificationTask extends PeriodicBackgroundTask {
       Constraints(networkType: NetworkType.connected);
 
   @override
-  Duration get initialDelay => const Duration(seconds: 10);
+  Duration get initialDelay => const Duration(hours: 2);
 
   @override
   String get name => BackgroundTaskName.sendNotificationTaskName;
