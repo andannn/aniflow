@@ -238,7 +238,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
           .toList(),
       onDestinationSelected: (index) {
         if (currentIndex != index) {
-          onNavigateToDestination(TopLevelNavigation.values[index]);
+          onNavigateToDestination(_topLevelNavigationList[index]);
         }
       },
       selectedIndex: currentIndex,
