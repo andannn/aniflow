@@ -64,23 +64,37 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
 
   MediaType _mediaType = MediaType.anime;
 
+  bool _isSocialFeatureEnabled = false;
+
   UserModel? userModel;
 
   bool get isLogIn => userModel != null;
 
   bool get isAnime => _mediaType == MediaType.anime;
 
-  List<TopLevelNavigation> get _topLevelNavigationList => isLogIn
-      ? [
+  List<TopLevelNavigation> get _topLevelNavigationList {
+    if (isLogIn) {
+      if (_isSocialFeatureEnabled) {
+        return [
           TopLevelNavigation.discover,
           TopLevelNavigation.track,
           TopLevelNavigation.social,
           TopLevelNavigation.profile,
-        ]
-      : [
+        ];
+      } else {
+        return [
           TopLevelNavigation.discover,
           TopLevelNavigation.track,
+          TopLevelNavigation.profile,
         ];
+      }
+    } else {
+      return [
+        TopLevelNavigation.discover,
+        TopLevelNavigation.track,
+      ];
+    }
+  }
 
   @override
   void initState() {
@@ -104,6 +118,18 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
         });
       },
     );
+
+    _mediaTypeSub = GetIt.instance
+        .get<UserDataRepository>()
+        .isSocialFeatureEnabledStream
+        .listen(
+      (enabled) {
+        setState(() {
+          _isSocialFeatureEnabled = enabled;
+        });
+      },
+    );
+
     _authSub = GetIt.instance
         .get<AuthRepository>()
         .getAuthedUserStream()

@@ -1,4 +1,5 @@
 {
-  "enable_hi_animation_feature": "false",
-  "home_struct_list": "{   \"anime\": [      \"upNext\",   \"birthdayCharacters\",      \"todaySchedule\", \"recentMovies\"   , \"currentSeasonAnime\",     \"nextSeasonAnime\",     \"trendingAnime\",     \"movieAnime\"   ],     \"manga\": [       \"birthdayCharacters\",       \"trendingManga\",       \"allTimePopularManga\",       \"topManhwa\"   ] }"
+  "enable_social_tab": "false",
+  "home_struct_list": "{   \"anime\": [      \"upNext\",   \"birthdayCharacters\",      \"todaySchedule\", \"recentMovies\"   , \"currentSeasonAnime\",     \"nextSeasonAnime\",     \"trendingAnime\",     \"movieAnime\"   ],     \"manga\": [       \"birthdayCharacters\",       \"trendingManga\",       \"allTimePopularManga\",       \"topManhwa\"   ] }",
+  "enable_hi_animation_feature": "false"
 }
