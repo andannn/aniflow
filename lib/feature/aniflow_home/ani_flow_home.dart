@@ -226,7 +226,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
       {required List<TopLevelNavigation> navigationList,
       required TopLevelNavigation selected,
       required Function(TopLevelNavigation) onNavigateToDestination}) {
-    final currentIndex = TopLevelNavigation.values.indexOf(selected);
+    final currentIndex = navigationList.indexOf(selected);
     return NavigationBar(
       destinations: navigationList
           .map(
@@ -238,7 +238,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
           .toList(),
       onDestinationSelected: (index) {
         if (currentIndex != index) {
-          onNavigateToDestination(_topLevelNavigationList[index]);
+          onNavigateToDestination(navigationList[index]);
         }
       },
       selectedIndex: currentIndex,
