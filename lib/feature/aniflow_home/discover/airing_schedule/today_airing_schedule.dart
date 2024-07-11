@@ -47,15 +47,21 @@ class TodayAiringSchedule extends StatelessWidget {
                 RootRouterDelegate.get().navigateToAiringSchedule();
               },
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicHeight(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Row(
-                    children: categories.map(_buildItem).toList(),
+            SizedBox(
+              height: 320,
+              child: CustomScrollView(
+                scrollDirection: Axis.horizontal,
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    sliver: SliverList.builder(
+                      itemCount: categories.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _buildItem(categories[index]);
+                      },
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ],
@@ -65,12 +71,8 @@ class TodayAiringSchedule extends StatelessWidget {
   }
 
   Widget _buildItem(DayScheduleCategoryModel category) {
-    final isFutureSchedule =
-        TimeOfDay.now().hour <= category.key!.hour;
-    return Opacity(
-      opacity: isFutureSchedule ? 1 : 0.4,
-      child: _TimeLineItem(category: category),
-    );
+    // final isFutureSchedule = TimeOfDay.now().hour <= category.key!.hour;
+    return _TimeLineItem(category: category);
   }
 }
 
@@ -107,8 +109,7 @@ class _TimeLineItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.materialLocal
-                      .formatTimeOfDay(category.key!),
+                  context.materialLocal.formatTimeOfDay(category.key!),
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 const SizedBox(width: 16),
@@ -138,6 +139,7 @@ class _TimeLineItem extends StatelessWidget {
         GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
     return SizedBox(
       width: 160,
+      height: 270,
       child: MediaPreviewItem(
         onClick: () {
           RootRouterDelegate.get().navigateToDetailMedia(media.id);

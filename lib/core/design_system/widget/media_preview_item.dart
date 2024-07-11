@@ -1,4 +1,5 @@
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MediaPreviewItem extends StatelessWidget {
@@ -27,44 +28,43 @@ class MediaPreviewItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Stack(
         children: [
-          Card.filled(
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: onClick,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AspectRatio(
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: onClick,
+                  child: AspectRatio(
                     aspectRatio: 3.0 / 4,
                     child: AFNetworkImage(
                       imageUrl: coverImage,
                     ),
                   ),
-                  showTitle
-                      ? Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 4.0,
-                              vertical: titleVerticalPadding,
-                            ),
-                            child: Center(
-                              child: Text(
-                                title,
-                                textAlign: TextAlign.center,
-                                style: textStyle?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
-                                maxLines: 2,
-                                softWrap: true,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+                ),
               ),
-            ),
+              showTitle
+                  ? Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.0,
+                          vertical: titleVerticalPadding,
+                        ),
+                        child: Opacity(
+                          opacity: 0.7,
+                          child: AutoSizeText(
+                            title,
+                            textAlign: TextAlign.center,
+                            style: textStyle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
           ),
           isFollowing
               ? Align(

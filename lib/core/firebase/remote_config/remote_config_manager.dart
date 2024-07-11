@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 
 mixin FirebaseRemoteConfigKeys {
   static String homeStruct = 'home_struct_list';
+  static String isHiAnimationFeatureEnabled = 'enable_hi_animation_feature';
 }
 
 @lazySingleton
@@ -34,5 +35,15 @@ class RemoteConfigManager {
     return HomeStructRemoteModel.fromJson(
       jsonDecode(config.getString(FirebaseRemoteConfigKeys.homeStruct)),
     );
+  }
+
+  Stream<bool> isHiAnimationFeatureEnabledStream() =>
+      StreamUtil.createStream(
+        _changeNotifier,
+            () => Future.value(_isHiAnimationFeatureEnabled()),
+      ).distinct();
+
+  bool _isHiAnimationFeatureEnabled() {
+    return config.getBool(FirebaseRemoteConfigKeys.isHiAnimationFeatureEnabled);
   }
 }

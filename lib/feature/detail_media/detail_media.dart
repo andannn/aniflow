@@ -228,13 +228,13 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
                 child: _buildWatchNextEpisodeArea(context, state),
               ),
               SliverToBoxAdapter(
-                child: _buildAnimeRelations(
+                child: _buildMediaRelations(
                   context: context,
                   relations: model.relations,
                 ),
               ),
               SliverToBoxAdapter(
-                child: _buildAnimeDescription(
+                child: _buildMediaDescription(
                   context: context,
                   description: model.description,
                 ),
@@ -313,7 +313,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
                     child: Hero(
                       tag: model.coverPreviewSource,
                       child: AFNetworkImage(
-                        imageUrl: model.coverImage?.large ?? '',
+                        imageUrl: model.coverImage?.extraLarge ?? '',
                       ),
                     ),
                   ),
@@ -386,7 +386,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
     return widgets;
   }
 
-  Widget _buildAnimeDescription(
+  Widget _buildMediaDescription(
       {required BuildContext context, required String? description}) {
     return AnimatedScaleSwitcher(
       visible: description != null,
@@ -693,13 +693,16 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
     final airingTimeString = model.getReleasingTimeString(context);
     return AnimatedScaleSwitcher(
       visible: airingTimeString.isNotEmpty && nextAiringEpisode != null,
-      builder: () => Card.filled(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            context.appLocal
-                .nextAiringInfo(nextAiringEpisode!, airingTimeString),
-            style: Theme.of(context).textTheme.bodyMedium,
+      builder: () => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Card.filled(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              context.appLocal
+                  .nextAiringInfo(nextAiringEpisode!, airingTimeString),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ),
       ),
@@ -735,7 +738,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
     return widgets;
   }
 
-  Widget _buildAnimeRelations(
+  Widget _buildMediaRelations(
       {required BuildContext context,
       required List<MediaRelationModel> relations}) {
     return AnimatedScaleSwitcher(
@@ -808,6 +811,10 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
 
   Widget _buildWatchNextEpisodeArea(
       BuildContext context, DetailMediaUiState state) {
+    if (!state.isHiAnimationFeatureEnabled) {
+      return const SizedBox();
+    }
+
     return Column(
       children: [
         _buildAiringInfo(context, state.detailAnimeModel!),
@@ -825,7 +832,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
       builder: () => Padding(
         key: ValueKey(episode.runtimeType),
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Card(
+        child: Card.filled(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(

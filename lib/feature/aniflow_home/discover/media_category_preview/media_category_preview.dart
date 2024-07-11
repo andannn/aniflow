@@ -117,24 +117,22 @@ class _MediaCategoryPreview extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Container(
+          constraints: const BoxConstraints(maxHeight: 270),
           child: isLoading && animeModels.isEmpty
-              ? Container(
-                  constraints: const BoxConstraints(maxHeight: 260),
-                  child: _buildLoadingDummyWidget(),
-                )
-              : SingleChildScrollView(
+              ? _buildLoadingDummyWidget()
+              : CustomScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: animeModels
-                            .map((item) => itemBuilder(item))
-                            .toList(),
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      sliver: SliverList.builder(
+                        itemCount: animeModels.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return itemBuilder(animeModels[index]);
+                        },
                       ),
                     ),
-                  ),
+                  ],
                 ),
         ),
       ],
