@@ -20,7 +20,7 @@ class CharacterWithMediaItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const borderColor = Colors.white;
-    return Card(
+    return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => onCharacterClick.call(character.id),
