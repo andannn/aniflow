@@ -215,7 +215,7 @@ extension GetItInjectableX on _i1.GetIt {
             ));
     gh.lazySingleton<_i25.HiAnimationDataSource>(
         () => _i25.HiAnimationDataSource(dio: gh<_i6.Dio>()));
-    gh.factory<_i26.UserDataPreferences>(
+    gh.lazySingleton<_i26.UserDataPreferences>(
         () => _i26.UserDataPreferences(gh<_i3.SharedPreferences>()));
     gh.lazySingleton<_i27.NotificationRepository>(
         () => _i27.NotificationRepository(

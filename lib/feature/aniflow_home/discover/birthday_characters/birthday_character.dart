@@ -39,12 +39,10 @@ class BirthdayCharactersContent extends StatelessWidget {
       builder: (context, state) {
         return BirthdayCharactersWidget(
           models: state.data,
-          staffNameLanguage: GetIt.instance
-              .get<UserDataRepository>()
-              .userStaffNameLanguage,
-          titleLanguage: GetIt.instance
-              .get<UserDataRepository>()
-              .userTitleLanguage,
+          staffNameLanguage:
+              GetIt.instance.get<UserDataRepository>().userStaffNameLanguage,
+          titleLanguage:
+              GetIt.instance.get<UserDataRepository>().userTitleLanguage,
         );
       },
     );
@@ -103,7 +101,7 @@ class BirthdayCharactersWidget extends StatelessWidget {
                         opacity: 0.7,
                         child: AutoSizeText(
                           model.relatedMedias.firstOrNull?.title
-                              ?.getTitle(titleLanguage) ??
+                                  ?.getTitle(titleLanguage) ??
                               '',
                           textAlign: TextAlign.center,
                           maxLines: 3,
@@ -121,9 +119,9 @@ class BirthdayCharactersWidget extends StatelessWidget {
       );
     }
 
-    return AnimatedScaleSwitcher(
+    return Visibility(
       visible: models.isNotEmpty,
-      builder: () => Column(
+      child: Column(
         children: [
           CategoryTitleBar(
             title: context.appLocal.todayBirthdayCharacter(''),

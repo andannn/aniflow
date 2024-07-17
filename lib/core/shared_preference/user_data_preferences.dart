@@ -42,7 +42,7 @@ mixin _UserDataKey {
       'already_sent_notification_ids_key';
 }
 
-@injectable
+@lazySingleton
 class UserDataPreferences {
   UserDataPreferences(this._preferences);
 

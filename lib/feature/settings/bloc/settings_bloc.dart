@@ -131,14 +131,8 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
     );
 
     autoCancel(
-      () => _userDataRepository.displayAdultContentStream.listen(
-        (enabled) => safeAdd(_OnDisplayAdultContentChanged(enabled)),
-      ),
-    );
-
-    autoCancel(
       () => _userDataRepository.titleLanguageStream.listen(
-        (language) => safeAdd(_OnTitleLanguageChanged(language)),
+        (language) => safeAdd(_OnTitleLanguageChanged(language))
       ),
     );
 
@@ -155,6 +149,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
     LoadResult? result;
     switch (setting) {
       case UserTitleLanguage():
+        print('JQN _onListOptionChanged 11 ');
         result = await _authRepository.updateUserSettings(
           userTitleLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
