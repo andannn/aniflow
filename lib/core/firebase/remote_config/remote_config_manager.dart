@@ -11,6 +11,7 @@ mixin FirebaseRemoteConfigKeys {
   static String homeStruct = 'home_struct_list';
   static String isHiAnimationFeatureEnabled = 'enable_hi_animation_feature';
   static String isSocialFeatureEnabled = 'enable_social_tab';
+  static String showSensitiveContents = 'show_sensitive_contents';
 }
 
 @lazySingleton
@@ -56,5 +57,9 @@ class RemoteConfigManager {
 
   bool _isSocialFeatureEnabled() {
     return config.getBool(FirebaseRemoteConfigKeys.isSocialFeatureEnabled);
+  }
+
+  bool isShowSensitiveContents() {
+    return config.getBool(FirebaseRemoteConfigKeys.showSensitiveContents);
   }
 }

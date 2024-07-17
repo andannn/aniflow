@@ -36,6 +36,9 @@ class UserDataRepository {
         },
       );
 
+  bool get isShowSensitiveContents =>
+      _remoteConfigManager.isShowSensitiveContents();
+
   Stream<HomeSectorModel> get _homeStructModelStream =>
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
 
