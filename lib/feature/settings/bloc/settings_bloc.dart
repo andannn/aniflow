@@ -18,6 +18,7 @@ import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -132,7 +133,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
 
     autoCancel(
       () => _userDataRepository.titleLanguageStream.listen(
-        (language) => safeAdd(_OnTitleLanguageChanged(language))
+        (language) => safeAdd(_OnTitleLanguageChanged(language)),
       ),
     );
 
@@ -149,7 +150,6 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
     LoadResult? result;
     switch (setting) {
       case UserTitleLanguage():
-        print('JQN _onListOptionChanged 11 ');
         result = await _authRepository.updateUserSettings(
           userTitleLanguage: setting,
           token: _cancelRequestAndReturnNewToken(setting.runtimeType),
@@ -195,24 +195,24 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
   }
 }
 
-extension SettingsStateEx on SettingsState {
-  List<SettingCategory> get categories => _buildSettingCategoryList();
-
-  List<SettingCategory> _buildSettingCategoryList() {
+extension SettingsBlocEx on SettingsBloc {
+  List<SettingCategory> buildSettingCategoryList() {
+    final enableAdultFeature =
+        _userDataRepository.isAdultContentsFeatureEnabled;
     return [
       SettingCategory(
         titleBuilder: (context) => context.appLocal.app,
         settingItems: [
           ListSettingItem(
             titleBuilder: (context) => context.appLocal.theme,
-            selectedOption: theme._createSettingOption(),
+            selectedOption: state.theme._createSettingOption(),
             options: ThemeSetting.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           ListSettingItem(
             titleBuilder: (context) => context.appLocal.contents,
-            selectedOption: type._createSettingOption(),
+            selectedOption: state.type._createSettingOption(),
             options:
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
           ),
@@ -224,7 +224,7 @@ extension SettingsStateEx on SettingsState {
         settingItems: [
           ListSettingItem(
             titleBuilder: (context) => context.appLocal.titleLanguage,
-            selectedOption: selectedTitleLanguage._createSettingOption(),
+            selectedOption: state.selectedTitleLanguage._createSettingOption(),
             options: UserTitleLanguage.values
                 .map((e) => e._createSettingOption())
                 .toList(),
@@ -232,23 +232,27 @@ extension SettingsStateEx on SettingsState {
           ListSettingItem(
             titleBuilder: (context) =>
                 context.appLocal.staffCharacterNameLanguage,
-            selectedOption: selectedStaffNameLanguage._createSettingOption(),
+            selectedOption:
+                state.selectedStaffNameLanguage._createSettingOption(),
             options: UserStaffNameLanguage.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
-          SwitchSettingItem(
-            titleBuilder: (context) => '18+ ${context.appLocal.contents}',
-            current: DisplayAdultContent.getSetting(displayAdultContent),
-          ),
-        ],
+          enableAdultFeature
+              ? SwitchSettingItem(
+                  titleBuilder: (context) => '18+ ${context.appLocal.contents}',
+                  current:
+                      DisplayAdultContent.getSetting(state.displayAdultContent),
+                )
+              : null
+        ].whereNotNull().toList(),
       ),
       SettingCategory(
         titleBuilder: (context) => context.appLocal.list,
         settingItems: [
           ListSettingItem(
             titleBuilder: (context) => context.appLocal.scoringSystem,
-            selectedOption: selectedScoreFormat._createSettingOption(),
+            selectedOption: state.selectedScoreFormat._createSettingOption(),
             options: ScoreFormat.values
                 .map((e) => e._createSettingOption())
                 .toList(),

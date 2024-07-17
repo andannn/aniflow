@@ -58,7 +58,8 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        final categories = state.categories;
+        final categories =
+            context.read<SettingsBloc>().buildSettingCategoryList();
 
         return Scaffold(
           appBar: AppBar(
