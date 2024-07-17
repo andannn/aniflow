@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
@@ -68,16 +67,25 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
           body: ListView.builder(
             itemCount: categories.length,
             itemBuilder: (BuildContext context, int index) {
-              return _createSettingCategory(context, categories[index]);
+              return SettingCategoryWidget(category: categories[index]);
             },
           ),
         );
       },
     );
   }
+}
 
-  Widget _createSettingCategory(
-      BuildContext context, SettingCategory category) {
+class SettingCategoryWidget extends StatelessWidget {
+  const SettingCategoryWidget({
+    super.key,
+    required this.category,
+  });
+
+  final SettingCategory category;
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final settingItems = category.settingItems;
@@ -99,9 +107,8 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return _createSettingItem(
-                context,
-                settingItems[index],
+              return SettingItemWidget(
+                settingItem: settingItems[index],
                 onSettingChanged: (setting) async {
                   context
                       .read<SettingsBloc>()
@@ -114,7 +121,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
                     final isAccepted = await showRestartAppDialog(context);
                     if (isAccepted == true) {
                       // ignore: use_build_context_synchronously
-                      AniFlowApp.restartApp(context);
+                      // AniFlowApp.restartApp(context);
                     }
                   }
                 },
@@ -131,13 +138,22 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
       ),
     );
   }
+}
 
-  Widget _createSettingItem<T extends Setting>(
-    BuildContext context,
-    final SettingItem<T> settingItem, {
-    required Function(Setting) onSettingChanged,
-    required Function(Type) onSettingTap,
-  }) {
+class SettingItemWidget<T extends Setting> extends StatelessWidget {
+  const SettingItemWidget({
+    super.key,
+    required this.settingItem,
+    required this.onSettingChanged,
+    required this.onSettingTap,
+  });
+
+  final SettingItem<T> settingItem;
+  final Function(Setting) onSettingChanged;
+  final Function(Type) onSettingTap;
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     switch (settingItem) {
       case SwitchSettingItem(current: var setting):
