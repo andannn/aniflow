@@ -84,6 +84,7 @@ class PostAnilistNotificationExecutor implements Executor {
       perPage: unreadNotificationCount,
       category: NotificationCategory.all,
       resetNotificationCount: false,
+      accessDb: false,
     );
 
     if (notificationsResult is LoadError<List<NotificationModel>>) {
@@ -105,8 +106,7 @@ class PostAnilistNotificationExecutor implements Executor {
       return true;
     }
 
-    final sendUserNotificationIds =
-        _userDataRepository.sentNotificationIds;
+    final sendUserNotificationIds = _userDataRepository.sentNotificationIds;
     final matchedNotification = notifications
         .where(
           (e) =>

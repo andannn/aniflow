@@ -7,7 +7,6 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/character_with_media_item_widget.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_state.dart';
 import 'package:auto_size_text/auto_size_text.dart';
