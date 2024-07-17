@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
@@ -24,12 +23,6 @@ import 'package:injectable/injectable.dart';
 
 sealed class SettingEvent {}
 
-class _OnAniListSettingsChanged extends SettingEvent {
-  _OnAniListSettingsChanged(this.settings);
-
-  final AniListSettings settings;
-}
-
 class _OnThemeSettingChanged extends SettingEvent {
   _OnThemeSettingChanged(this.setting);
 
@@ -48,21 +41,58 @@ class _OnMediaTypeChanged extends SettingEvent {
   final MediaType type;
 }
 
+class _OnTitleLanguageChanged extends SettingEvent {
+  _OnTitleLanguageChanged(this.titleLanguage);
+
+  final UserTitleLanguage titleLanguage;
+}
+
+class _OnStaffLanguageChanged extends SettingEvent {
+  _OnStaffLanguageChanged(this.staffNameLanguage);
+
+  final UserStaffNameLanguage staffNameLanguage;
+}
+
+class _OnScoreFormatChanged extends SettingEvent {
+  _OnScoreFormatChanged(this.scoreFormat);
+
+  final ScoreFormat scoreFormat;
+}
+
+class _OnDisplayAdultContentChanged extends SettingEvent {
+  _OnDisplayAdultContentChanged(this.enabled);
+
+  final bool enabled;
+}
+
 @injectable
-class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
+class SettingsBloc extends Bloc<SettingEvent, SettingsState>
+    with AutoCancelMixin {
   SettingsBloc(
     this._userDataRepository,
     this._authRepository,
     this._messageRepository,
   ) : super(SettingsState()) {
-    on<_OnAniListSettingsChanged>(
-      (event, emit) => emit(state.copyWith(settings: event.settings)),
-    );
     on<_OnThemeSettingChanged>(
       (event, emit) => emit(state.copyWith(theme: event.setting)),
     );
     on<_OnMediaTypeChanged>(
       (event, emit) => emit(state.copyWith(type: event.type)),
+    );
+    on<_OnTitleLanguageChanged>(
+      (event, emit) =>
+          emit(state.copyWith(selectedTitleLanguage: event.titleLanguage)),
+    );
+    on<_OnScoreFormatChanged>(
+      (event, emit) =>
+          emit(state.copyWith(selectedScoreFormat: event.scoreFormat)),
+    );
+    on<_OnStaffLanguageChanged>(
+      (event, emit) => emit(
+          state.copyWith(selectedStaffNameLanguage: event.staffNameLanguage)),
+    );
+    on<_OnDisplayAdultContentChanged>(
+      (event, emit) => emit(state.copyWith(displayAdultContent: event.enabled)),
     );
     on<OnListOptionChanged>(_onListOptionChanged);
 
@@ -73,41 +103,49 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState> {
   final AuthRepository _authRepository;
   final MessageRepository _messageRepository;
 
-  StreamSubscription? _settingsSub;
-  StreamSubscription? _themeSub;
-  StreamSubscription? _mediaTypeSub;
-
   final Map<String, CancelToken> _cancelTokenMap = {};
 
-  @override
-  Future<void> close() {
-    _settingsSub?.cancel();
-    _themeSub?.cancel();
-    _mediaTypeSub?.cancel();
-    return super.close();
-  }
-
   void _init() async {
-    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
-      (settings) {
-        safeAdd(_OnAniListSettingsChanged(settings));
-      },
+    autoCancel(
+      () => _userDataRepository.themeSettingStream.listen(
+        (settings) => safeAdd(_OnThemeSettingChanged(settings)),
+      ),
     );
 
-    _themeSub ??= _userDataRepository.userDataStream
-        .map((event) => event.themeSetting)
-        .listen(
-      (settings) {
-        safeAdd(_OnThemeSettingChanged(settings));
-      },
+    autoCancel(
+      () => _userDataRepository.mediaTypeStream.listen(
+        (type) => safeAdd(_OnMediaTypeChanged(type)),
+      ),
     );
 
-    _mediaTypeSub ??= _userDataRepository.userDataStream
-        .map((event) => event.mediaType)
-        .listen(
-      (type) {
-        safeAdd(_OnMediaTypeChanged(type));
-      },
+    autoCancel(
+      () => _userDataRepository.scoreFormatStream.listen(
+        (format) => safeAdd(_OnScoreFormatChanged(format)),
+      ),
+    );
+
+    autoCancel(
+      () => _userDataRepository.displayAdultContentStream.listen(
+        (enabled) => safeAdd(_OnDisplayAdultContentChanged(enabled)),
+      ),
+    );
+
+    autoCancel(
+      () => _userDataRepository.displayAdultContentStream.listen(
+        (enabled) => safeAdd(_OnDisplayAdultContentChanged(enabled)),
+      ),
+    );
+
+    autoCancel(
+      () => _userDataRepository.titleLanguageStream.listen(
+        (language) => safeAdd(_OnTitleLanguageChanged(language)),
+      ),
+    );
+
+    autoCancel(
+      () => _userDataRepository.staffLanguageStream.listen(
+        (language) => safeAdd(_OnStaffLanguageChanged(language)),
+      ),
     );
   }
 
@@ -166,29 +204,20 @@ extension SettingsStateEx on SettingsState {
   List<SettingCategory> get categories => _buildSettingCategoryList();
 
   List<SettingCategory> _buildSettingCategoryList() {
-    final selectedTitleLanguage =
-        settings?.userTitleLanguage ?? UserTitleLanguage.native;
-    final selectedUserStaffNameLanguage =
-        settings?.userStaffNameLanguage ?? UserStaffNameLanguage.native;
-    final isDisplayAdultContent = settings?.displayAdultContent ?? false;
-    final selectedScoreFormat = settings?.scoreFormat ?? ScoreFormat.point100;
-    final selectedTheme = theme;
-    final selectedMediaType = type;
-
     return [
       SettingCategory(
         titleBuilder: (context) => context.appLocal.app,
         settingItems: [
           ListSettingItem(
             titleBuilder: (context) => context.appLocal.theme,
-            selectedOption: selectedTheme._createSettingOption(),
+            selectedOption: theme._createSettingOption(),
             options: ThemeSetting.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           ListSettingItem(
             titleBuilder: (context) => context.appLocal.contents,
-            selectedOption: selectedMediaType._createSettingOption(),
+            selectedOption: type._createSettingOption(),
             options:
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
           ),
@@ -208,15 +237,14 @@ extension SettingsStateEx on SettingsState {
           ListSettingItem(
             titleBuilder: (context) =>
                 context.appLocal.staffCharacterNameLanguage,
-            selectedOption:
-                selectedUserStaffNameLanguage._createSettingOption(),
+            selectedOption: selectedStaffNameLanguage._createSettingOption(),
             options: UserStaffNameLanguage.values
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
           SwitchSettingItem(
             titleBuilder: (context) => '18+ ${context.appLocal.contents}',
-            current: DisplayAdultContent.getSetting(isDisplayAdultContent),
+            current: DisplayAdultContent.getSetting(displayAdultContent),
           ),
         ],
       ),

@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/feature/aniflow_home/discover/next_to_watch/next_to_watch_state.dart';
@@ -17,7 +16,8 @@ class _OnNextToWatchMediaChanged extends NextToWatchEvent {
 }
 
 @injectable
-class NextToWatchBloc extends Bloc<NextToWatchEvent, NextToWatchState> {
+class NextToWatchBloc extends Bloc<NextToWatchEvent, NextToWatchState>
+    with AutoCancelMixin {
   NextToWatchBloc(
     @factoryParam this._userId,
     @factoryParam this._mediaType,
@@ -29,26 +29,20 @@ class NextToWatchBloc extends Bloc<NextToWatchEvent, NextToWatchState> {
       ),
     );
     if (_mediaType == MediaType.anime && _userId != null) {
-      mediaListSub = _mediaListRepository.getMediaListStream(
-        status: [MediaListStatus.current, MediaListStatus.planning],
-        userId: _userId!,
-        type: _mediaType,
-      ).listen((sorted) {
-        final nextToWatchMedia = sorted.newUpdateList;
-        add(_OnNextToWatchMediaChanged(nextToWatchMedia));
-      });
+      autoCancel(
+        () => _mediaListRepository.getMediaListStream(
+          status: [MediaListStatus.current, MediaListStatus.planning],
+          userId: _userId!,
+          type: _mediaType,
+        ).listen((sorted) {
+          final nextToWatchMedia = sorted.newUpdateList;
+          add(_OnNextToWatchMediaChanged(nextToWatchMedia));
+        }),
+      );
     }
   }
 
   final MediaListRepository _mediaListRepository;
   final String? _userId;
   final MediaType _mediaType;
-
-  StreamSubscription? mediaListSub;
-
-  @override
-  Future<void> close() {
-    mediaListSub?.cancel();
-    return super.close();
-  }
 }

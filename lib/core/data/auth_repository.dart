@@ -114,10 +114,6 @@ class AuthRepository {
     return userEntity?.toModel();
   }
 
-  Stream<AniListSettings> getAniListSettingsStream() {
-    return preferences.userDataStream.map((event) => event.aniListSettings);
-  }
-
   Future<LoadResult> updateUserSettings({
     UserTitleLanguage? userTitleLanguage,
     UserStaffNameLanguage? userStaffNameLanguage,

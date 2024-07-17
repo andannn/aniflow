@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
@@ -37,12 +36,6 @@ class _OnWatchingAnimeListChanged extends TrackEvent {
   final SortedGroupMediaListModel sortedGroupMediaListModel;
 
   _OnWatchingAnimeListChanged({required this.sortedGroupMediaListModel});
-}
-
-class _OnAniListSettingsChanged extends TrackEvent {
-  _OnAniListSettingsChanged(this.settings);
-
-  final AniListSettings settings;
 }
 
 class OnSelectTrackListFilter extends TrackEvent {
@@ -82,7 +75,7 @@ class OnMediaListModified extends TrackEvent {
 }
 
 @injectable
-class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
+class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
   TrackBloc(
     this._mediaListRepository,
     this._authRepository,
@@ -102,9 +95,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<_OnMediaTypeChanged>(
       (event, emit) => emit(state.copyWith(currentMediaType: event.mediaType)),
     );
-    on<_OnAniListSettingsChanged>(
-      (event, emit) => emit(state.copyWith(settings: event.settings)),
-    );
     on<_OnTrackListFilterChanged>(
       (event, emit) => emit(
         state.copyWith(trackListFilter: event.trackListFilter),
@@ -118,31 +108,31 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     on<OnMediaListModified>(_onMediaListModified);
 
     /// start listen user changed event.
-    _userStateSub ??= _authRepository.getAuthedUserStream().listen((userData) {
-      safeAdd(_OnUserStateChanged(userData: userData));
-    });
-
-    _mediaTypeSub = _userDataRepository.userDataStream
-        .map((event) => event.mediaType)
-        .distinct()
-        .listen(
-      (mediaType) {
-        safeAdd(_OnMediaTypeChanged(mediaType));
-      },
+    autoCancel(
+      () => _authRepository.getAuthedUserStream().listen((userData) {
+        safeAdd(_OnUserStateChanged(userData: userData));
+      }),
     );
 
-    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
-      (settings) {
-        safeAdd(_OnAniListSettingsChanged(settings));
-      },
+    autoCancel(
+      () => _userDataRepository.userDataStream
+          .map((event) => event.mediaType)
+          .distinct()
+          .listen(
+        (mediaType) {
+          safeAdd(_OnMediaTypeChanged(mediaType));
+        },
+      ),
     );
 
-    _showReleasedOnlySub ??= _mediaListRepository
-        .getTrackListFilterStream()
-        .distinct()
-        .listen((showReleasedOnly) {
-      safeAdd(_OnTrackListFilterChanged(showReleasedOnly));
-    });
+    autoCancel(
+      () => _mediaListRepository
+          .getTrackListFilterStream()
+          .distinct()
+          .listen((showReleasedOnly) {
+        safeAdd(_OnTrackListFilterChanged(showReleasedOnly));
+      }),
+    );
 
     final sortedGroupMediaListStream = stream
         .map((e) => (e.userData?.id, e.currentMediaType))
@@ -204,33 +194,17 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> {
     });
   }
 
-  StreamSubscription? _userContentSub;
-  StreamSubscription? _userStateSub;
-  StreamSubscription? _mediaTypeSub;
-  StreamSubscription? _settingsSub;
-  StreamSubscription? _showReleasedOnlySub;
-
   final MediaListRepository _mediaListRepository;
   final AuthRepository _authRepository;
   final UserDataRepository _userDataRepository;
   final MessageRepository _messageRepository;
-
-  @override
-  Future<void> close() {
-    _userContentSub?.cancel();
-    _userStateSub?.cancel();
-    _mediaTypeSub?.cancel();
-    _settingsSub?.cancel();
-    _showReleasedOnlySub?.cancel();
-    return super.close();
-  }
 
   Future syncUserAnimeList({String? userId}) async {
     safeAdd(_OnLoadStateChanged(isLoading: true));
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: _userDataRepository.userData.mediaType,
+      mediaType: _userDataRepository.mediaType,
     );
     safeAdd(_OnLoadStateChanged(isLoading: false));
 

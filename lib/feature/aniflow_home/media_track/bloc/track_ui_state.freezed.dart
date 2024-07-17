@@ -21,7 +21,6 @@ mixin _$TrackUiState {
   MediaType get currentMediaType => throw _privateConstructorUsedError;
   SortedGroupMediaListModel? get sortedGroupMediaListModel =>
       throw _privateConstructorUsedError;
-  AniListSettings? get settings => throw _privateConstructorUsedError;
   UserModel? get userData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -40,10 +39,8 @@ abstract class $TrackUiStateCopyWith<$Res> {
       TrackListFilter trackListFilter,
       MediaType currentMediaType,
       SortedGroupMediaListModel? sortedGroupMediaListModel,
-      AniListSettings? settings,
       UserModel? userData});
 
-  $AniListSettingsCopyWith<$Res>? get settings;
   $UserModelCopyWith<$Res>? get userData;
 }
 
@@ -64,7 +61,6 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
     Object? trackListFilter = null,
     Object? currentMediaType = null,
     Object? sortedGroupMediaListModel = freezed,
-    Object? settings = freezed,
     Object? userData = freezed,
   }) {
     return _then(_value.copyWith(
@@ -84,27 +80,11 @@ class _$TrackUiStateCopyWithImpl<$Res, $Val extends TrackUiState>
           ? _value.sortedGroupMediaListModel
           : sortedGroupMediaListModel // ignore: cast_nullable_to_non_nullable
               as SortedGroupMediaListModel?,
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AniListSettings?,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AniListSettingsCopyWith<$Res>? get settings {
-    if (_value.settings == null) {
-      return null;
-    }
-
-    return $AniListSettingsCopyWith<$Res>(_value.settings!, (value) {
-      return _then(_value.copyWith(settings: value) as $Val);
-    });
   }
 
   @override
@@ -133,11 +113,8 @@ abstract class _$$TrackUiStateImplCopyWith<$Res>
       TrackListFilter trackListFilter,
       MediaType currentMediaType,
       SortedGroupMediaListModel? sortedGroupMediaListModel,
-      AniListSettings? settings,
       UserModel? userData});
 
-  @override
-  $AniListSettingsCopyWith<$Res>? get settings;
   @override
   $UserModelCopyWith<$Res>? get userData;
 }
@@ -157,7 +134,6 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
     Object? trackListFilter = null,
     Object? currentMediaType = null,
     Object? sortedGroupMediaListModel = freezed,
-    Object? settings = freezed,
     Object? userData = freezed,
   }) {
     return _then(_$TrackUiStateImpl(
@@ -177,10 +153,6 @@ class __$$TrackUiStateImplCopyWithImpl<$Res>
           ? _value.sortedGroupMediaListModel
           : sortedGroupMediaListModel // ignore: cast_nullable_to_non_nullable
               as SortedGroupMediaListModel?,
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AniListSettings?,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -197,7 +169,6 @@ class _$TrackUiStateImpl implements _TrackUiState {
       this.trackListFilter = TrackListFilter.all,
       this.currentMediaType = MediaType.anime,
       this.sortedGroupMediaListModel,
-      this.settings,
       this.userData});
 
   @override
@@ -212,13 +183,11 @@ class _$TrackUiStateImpl implements _TrackUiState {
   @override
   final SortedGroupMediaListModel? sortedGroupMediaListModel;
   @override
-  final AniListSettings? settings;
-  @override
   final UserModel? userData;
 
   @override
   String toString() {
-    return 'TrackUiState(isLoading: $isLoading, trackListFilter: $trackListFilter, currentMediaType: $currentMediaType, sortedGroupMediaListModel: $sortedGroupMediaListModel, settings: $settings, userData: $userData)';
+    return 'TrackUiState(isLoading: $isLoading, trackListFilter: $trackListFilter, currentMediaType: $currentMediaType, sortedGroupMediaListModel: $sortedGroupMediaListModel, userData: $userData)';
   }
 
   @override
@@ -235,15 +204,13 @@ class _$TrackUiStateImpl implements _TrackUiState {
             (identical(other.sortedGroupMediaListModel,
                     sortedGroupMediaListModel) ||
                 other.sortedGroupMediaListModel == sortedGroupMediaListModel) &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
             (identical(other.userData, userData) ||
                 other.userData == userData));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, trackListFilter,
-      currentMediaType, sortedGroupMediaListModel, settings, userData);
+      currentMediaType, sortedGroupMediaListModel, userData);
 
   @JsonKey(ignore: true)
   @override
@@ -258,7 +225,6 @@ abstract class _TrackUiState implements TrackUiState {
       final TrackListFilter trackListFilter,
       final MediaType currentMediaType,
       final SortedGroupMediaListModel? sortedGroupMediaListModel,
-      final AniListSettings? settings,
       final UserModel? userData}) = _$TrackUiStateImpl;
 
   @override
@@ -269,8 +235,6 @@ abstract class _TrackUiState implements TrackUiState {
   MediaType get currentMediaType;
   @override
   SortedGroupMediaListModel? get sortedGroupMediaListModel;
-  @override
-  AniListSettings? get settings;
   @override
   UserModel? get userData;
   @override

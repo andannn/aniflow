@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
 import 'package:aniflow/feature/aniflow_home/discover/airing_schedule/today_airing_schedule_state.dart';
@@ -17,7 +16,8 @@ class _OnTodayAiringScheduleChanged extends TodayAiringScheduleEvent {
 
 @injectable
 class TodayAiringScheduleBloc
-    extends Bloc<TodayAiringScheduleEvent, TodayAiringScheduleState> {
+    extends Bloc<TodayAiringScheduleEvent, TodayAiringScheduleState>
+    with AutoCancelMixin {
   TodayAiringScheduleBloc(this._mediaRepository)
       : super(const TodayAiringScheduleState()) {
     on<_OnTodayAiringScheduleChanged>(
@@ -26,20 +26,14 @@ class TodayAiringScheduleBloc
     final stream = _mediaRepository
         .getAiringScheduleAndAnimeByDateTimeStream(DateTime.now());
 
-    _sub = stream
-        .distinct(
-          (pre, next) => const DeepCollectionEquality().equals(pre, next),
-        )
-        .listen((data) => add(_OnTodayAiringScheduleChanged(data)));
+    autoCancel(
+      () => stream
+          .distinct(
+            (pre, next) => const DeepCollectionEquality().equals(pre, next),
+          )
+          .listen((data) => add(_OnTodayAiringScheduleChanged(data))),
+    );
   }
 
   final MediaInformationRepository _mediaRepository;
-  StreamSubscription? _sub;
-
-  @override
-  Future<void> close() {
-    _sub?.cancel();
-
-    return super.close();
-  }
 }

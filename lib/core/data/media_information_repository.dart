@@ -21,7 +21,6 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
@@ -48,6 +47,7 @@ import 'package:aniflow/core/network/model/media_edge.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -71,10 +71,11 @@ class MediaInformationRepository {
   final StaffDao staffDao;
   final StudioDao studioDao;
   final AiringSchedulesDao airingScheduleDao;
-  final UserDataRepository preferences;
+  final UserDataPreferences preferences;
 
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,
+    required bool displayAdultContent,
     required LoadType loadType,
     CancelToken? token,
   }) {
@@ -85,10 +86,11 @@ class MediaInformationRepository {
         perPage: perPage,
         token: token,
         param: createMediaPageQueryParamByCategory(
-            category,
-            preferences.userData.season,
-            preferences.userData.seasonYear,
-            preferences.userData.displayAdultContent),
+          category,
+          preferences.userData.season,
+          preferences.userData.seasonYear,
+          displayAdultContent,
+        ),
       ),
       onGetEntityFromDB: (page, perPage) => mediaDao.getMediaPageByCategory(
           category.getContentValue(),
@@ -106,6 +108,7 @@ class MediaInformationRepository {
   Future<LoadResult<List<MediaModel>>> refreshMoviesPage({
     required DateTime startDateGreater,
     required DateTime endDateLesser,
+    required bool isAdult,
     CancelToken? token,
   }) {
     return LoadPageUtil.loadPage(
@@ -119,6 +122,7 @@ class MediaInformationRepository {
           startDateGreater: startDateGreater,
           endDateGreater: endDateLesser,
           animeFormat: [MediaFormat.movie],
+          isAdult: isAdult,
         ),
       ),
       onGetEntityFromDB: (page, perPage) => mediaDao.getMediasByTimeRange(

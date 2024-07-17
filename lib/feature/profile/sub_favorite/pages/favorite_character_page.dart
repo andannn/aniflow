@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
@@ -53,7 +54,8 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
     return BlocBuilder<FavoriteCharacterPagingBloc,
         PagingState<List<CharacterModel>>>(builder: (context, state) {
       final pagingState = state;
-      final userData = context.read<FavoriteCharacterPagingBloc>().userData;
+      final language =
+          GetIt.instance.get<UserDataRepository>().userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           title: const Text('Favorite character'),
@@ -71,7 +73,7 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
             childAspectRatio: 3.0 / 5.2,
           ),
           onBuildItem: (context, model) =>
-              _buildListItems(context, model, userData.userStaffNameLanguage),
+              _buildListItems(context, model, language),
         ),
       );
     });

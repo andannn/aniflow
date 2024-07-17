@@ -64,9 +64,9 @@ class _BirthdayCharactersPageContent extends StatelessWidget {
 
   Widget _buildGridItems(BuildContext context, CharacterModel model) {
     final staffNameLanguage =
-        GetIt.instance.get<UserDataRepository>().userData.userStaffNameLanguage;
+        GetIt.instance.get<UserDataRepository>().userStaffNameLanguage;
     final titleLanguage =
-        GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
+        GetIt.instance.get<UserDataRepository>().userTitleLanguage;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

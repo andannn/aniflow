@@ -1,5 +1,5 @@
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -24,7 +24,7 @@ abstract class DINetworkModule {
 
 @injectable
 class AniListTokenHeaderInterceptor extends Interceptor {
-  final UserDataRepository _preferences;
+  final UserDataPreferences _preferences;
 
   AniListTokenHeaderInterceptor(this._preferences);
 

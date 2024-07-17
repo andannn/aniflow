@@ -84,13 +84,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
   final UserDataRepository _userDataRepository;
 
   UserTitleLanguage get userTitleLanguage =>
-      _userDataRepository.userData.userTitleLanguage;
+      _userDataRepository.userTitleLanguage;
   UserStaffNameLanguage get userStaffNameLanguage =>
-      _userDataRepository.userData.userStaffNameLanguage;
+      _userDataRepository.userStaffNameLanguage;
 
   void _init() async {
     final userId =
-        _userId ?? _userDataRepository.userData.authedUserId;
+        _userId ?? _userDataRepository.authedUserId;
     final userData = await _userInfoRepository.getUserDataById(userId!);
     safeAdd(_OnUserDataLoaded(userData: userData));
   }

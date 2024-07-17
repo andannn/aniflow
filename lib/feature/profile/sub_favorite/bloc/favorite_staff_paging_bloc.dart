@@ -25,7 +25,7 @@ class FavoriteStaffPagingBloc extends RefreshPagingBloc<StaffModel> {
   final int perPageCount;
 
   UserStaffNameLanguage get userTitleLanguage =>
-      _userDataRepository.userData.userStaffNameLanguage;
+      _userDataRepository.userStaffNameLanguage;
 
   @override
   Future<LoadResult<List<StaffModel>>> loadPage({

@@ -1,4 +1,3 @@
-import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -12,7 +11,6 @@ class DiscoverUiState with _$DiscoverUiState {
     @Default(false) bool isLoading,
     @Default(MediaType.anime) MediaType currentMediaType,
     UserModel? userData,
-    AniListSettings? settings,
     @Default([]) List<HomeSectorCategory> sectors,
   }) = _DiscoverUiState;
 }

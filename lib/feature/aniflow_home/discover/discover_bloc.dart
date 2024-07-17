@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
@@ -31,12 +30,6 @@ class _OnUserDataChanged extends DiscoverEvent {
   final UserModel? userData;
 }
 
-class _OnAniListSettingsChanged extends DiscoverEvent {
-  _OnAniListSettingsChanged(this.settings);
-
-  final AniListSettings settings;
-}
-
 class _OnLoadStateChanged extends DiscoverEvent {
   _OnLoadStateChanged(this.isLoading);
 
@@ -61,7 +54,7 @@ extension DiscoverUiStateEx on DiscoverUiState {
 
 @injectable
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
-    with LoadingControllerMixin {
+    with LoadingControllerMixin, AutoCancelMixin {
   DiscoverBloc(
     this._authRepository,
     this._mediaInfoRepository,
@@ -72,9 +65,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   ) : super(DiscoverUiState()) {
     on<_OnUserDataChanged>(
       (event, emit) => emit(state.copyWith(userData: event.userData)),
-    );
-    on<_OnAniListSettingsChanged>(
-      (event, emit) => emit(state.copyWith(settings: event.settings)),
     );
     on<_OnMediaTypeChanged>(
       (event, emit) => emit(state.copyWith(currentMediaType: event.mediaType)),
@@ -96,11 +86,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   final MessageRepository _messageRepository;
   final CharacterRepository _characterRepository;
 
-  StreamSubscription? _userDataSub;
-  StreamSubscription? _settingsSub;
-  StreamSubscription? _mediaTypeSub;
-  StreamSubscription? _homeSectorSub;
-
   void _init() async {
     /// calculate the current anime season.
     final AnimeSeasonParam currentAnimeSeasonParam =
@@ -114,62 +99,54 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       await _userDataRepository.setAnimeSeasonParam(currentAnimeSeasonParam);
     }
 
-    _userDataSub ??= _authRepository.getAuthedUserStream().listen(
-      (userDataNullable) {
-        safeAdd(_OnUserDataChanged(userDataNullable));
-      },
+    autoCancel(
+      () => _authRepository.getAuthedUserStream().listen(
+        (userDataNullable) {
+          safeAdd(_OnUserDataChanged(userDataNullable));
+        },
+      ),
     );
 
-    _mediaTypeSub = _userDataRepository.userDataStream
-        .map((event) => event.mediaType)
-        .distinct()
-        .listen(
-      (mediaType) {
-        safeAdd(_OnMediaTypeChanged(mediaType));
-      },
-    );
-
-    _settingsSub ??= _authRepository.getAniListSettingsStream().listen(
-      (settings) {
-        safeAdd(_OnAniListSettingsChanged(settings));
-      },
+    autoCancel(
+      () => _userDataRepository.userDataStream
+          .map((event) => event.mediaType)
+          .distinct()
+          .listen(
+        (mediaType) {
+          safeAdd(_OnMediaTypeChanged(mediaType));
+        },
+      ),
     );
 
     stream.map((e) => e.currentMediaType).distinct().listen((type) {
       _refreshAllMediaPreview();
     });
 
-    stream
-        .map((e) => e.userData?.id)
-        .distinct()
-        .whereNotNull()
-        .listen((userId) {
-      /// post event to sync user media list.
-      unawaited(_refreshAllMediaList(userId));
+    autoCancel(
+      () => stream
+          .map((e) => e.userData?.id)
+          .distinct()
+          .whereNotNull()
+          .listen((userId) {
+        /// post event to sync user media list.
+        unawaited(_refreshAllMediaList(userId));
 
-      /// post event to update user condition.
-      unawaited(_authRepository.syncUserCondition());
-    });
+        /// post event to update user condition.
+        unawaited(_authRepository.syncUserCondition());
+      }),
+    );
 
-    _homeSectorSub = _userDataRepository.homeSectorsStream.listen(
-      (event) => safeAdd(
-        _OnHomeSectorChanged(event),
+    autoCancel(
+      () => _userDataRepository.homeSectorsStream.listen(
+        (event) => safeAdd(
+          _OnHomeSectorChanged(event),
+        ),
       ),
     );
 
     unawaited(_refreshBirthdayCharacters());
     unawaited(_refreshAiringSchedule());
     unawaited(_refreshRecentMovies());
-  }
-
-  @override
-  Future<void> close() {
-    _userDataSub?.cancel();
-    _mediaTypeSub?.cancel();
-    _settingsSub?.cancel();
-    _homeSectorSub?.cancel();
-
-    return super.close();
   }
 
   Future onPullToRefreshTriggered() {
@@ -195,6 +172,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     final result = await _mediaInfoRepository.loadMediaPageByCategory(
       category: category,
       loadType: const Refresh(6),
+      displayAdultContent: _userDataRepository.displayAdultContent,
     );
     finishLoading(category.toString(), result);
   }
@@ -204,7 +182,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     final result = await _mediaListRepository.syncMediaList(
       userId: userId,
       status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: _userDataRepository.userData.mediaType,
+      mediaType: _userDataRepository.mediaType,
     );
     finishLoading('_refreshAllMediaList', result);
   }
@@ -231,6 +209,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
           .subtract(const Duration(days: AfConfig.daysBeforeOfMoviesInHome)),
       endDateLesser: DateTime.now()
           .add(const Duration(days: AfConfig.daysAfterOfMoviesInHome)),
+      isAdult: _userDataRepository.displayAdultContent,
     );
     finishLoading('_refreshRecentMovies', result);
   }

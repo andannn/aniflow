@@ -36,7 +36,8 @@ class _OnLoadingChanged extends DetailStaffEvent {
 class OnToggleLike extends DetailStaffEvent {}
 
 @injectable
-class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
+class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState>
+    with AutoCancelMixin {
   DetailStaffBloc(
     @factoryParam this.staffId,
     this._mediaRepository,
@@ -44,7 +45,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     this._favoriteRepository,
     UserDataRepository preferences,
   ) : super(DetailStaffState(
-          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
+          userStaffNameLanguage: preferences.userStaffNameLanguage,
         )) {
     on<_OnDetailStaffInfoChanged>(
       (event, emit) => emit(state.copyWith(staffModel: event.model)),
@@ -57,12 +58,14 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
       (event, emit) => emit(state.copyWith(mediaSort: event.mediaSort)),
     );
 
-    _detailStaffSub = _mediaRepository
-        .getDetailStaffStream(staffId)
-        .distinct()
-        .listen((model) {
-      safeAdd(_OnDetailStaffInfoChanged(model: model));
-    });
+    autoCancel(
+      () => _mediaRepository
+          .getDetailStaffStream(staffId)
+          .distinct()
+          .listen((model) {
+        safeAdd(_OnDetailStaffInfoChanged(model: model));
+      }),
+    );
 
     _init();
   }
@@ -71,13 +74,11 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
   final FavoriteRepository _favoriteRepository;
   final MessageRepository _messageRepository;
   final String staffId;
-  StreamSubscription? _detailStaffSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
 
   @override
   Future<void> close() {
-    _detailStaffSub?.cancel();
     _contentFetchCancelToken.cancel();
     _toggleLikeCancelToken?.cancel();
 

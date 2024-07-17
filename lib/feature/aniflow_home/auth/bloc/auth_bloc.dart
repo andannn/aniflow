@@ -26,7 +26,7 @@ extension AuthStateEx on AuthState {
 }
 
 @injectable
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> with AutoCancelMixin {
   AuthBloc(
     this._authRepository,
     this._messageRepository,
@@ -35,25 +35,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnLogoutButtonTapped>(_onLogoutButtonTapped);
     on<_OnUserDataChanged>(_onUserDataChanged);
 
-    _userDataSub = _authRepository
-        .getAuthedUserStream()
-        .distinct()
-        .listen((userDataNullable) {
-      safeAdd(_OnUserDataChanged(userDataNullable));
-    });
+    autoCancel(
+      () => _authRepository
+          .getAuthedUserStream()
+          .distinct()
+          .listen((userDataNullable) {
+        safeAdd(_OnUserDataChanged(userDataNullable));
+      }),
+    );
   }
 
   final AuthRepository _authRepository;
   final MessageRepository _messageRepository;
-
-  StreamSubscription? _userDataSub;
-
-  @override
-  Future<void> close() {
-    _userDataSub?.cancel();
-
-    return super.close();
-  }
 
   Future<void> _onLoginButtonTapped(
       OnLoginButtonTapped event, Emitter<AuthState> emit) async {

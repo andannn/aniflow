@@ -41,11 +41,9 @@ class BirthdayCharactersContent extends StatelessWidget {
           models: state.data,
           staffNameLanguage: GetIt.instance
               .get<UserDataRepository>()
-              .userData
               .userStaffNameLanguage,
           titleLanguage: GetIt.instance
               .get<UserDataRepository>()
-              .userData
               .userTitleLanguage,
         );
       },

@@ -106,7 +106,7 @@ class PostAnilistNotificationExecutor implements Executor {
     }
 
     final sendUserNotificationIds =
-        _userDataRepository.userData.sentNotificationIds;
+        _userDataRepository.sentNotificationIds;
     final matchedNotification = notifications
         .where(
           (e) =>
@@ -187,7 +187,7 @@ class PostAnilistNotificationExecutor implements Executor {
 
 extension on NotificationModel {
   UserTitleLanguage get userTitleLanguage =>
-      GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
+      GetIt.instance.get<UserDataRepository>().userTitleLanguage;
 
   PlatformNotificationModel? mapToPlatformModel() {
     final notification = this;

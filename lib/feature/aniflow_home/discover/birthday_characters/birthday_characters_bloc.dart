@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/character_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_state.dart';
@@ -16,7 +15,8 @@ class _OnBirthdayCharacterChanged extends BirthdayCharactersEvent {
 
 @injectable
 class BirthdayCharactersBloc
-    extends Bloc<BirthdayCharactersEvent, BirthdayCharactersState> {
+    extends Bloc<BirthdayCharactersEvent, BirthdayCharactersState>
+    with AutoCancelMixin {
   BirthdayCharactersBloc(
     this._characterRepository,
   ) : super(const BirthdayCharactersState()) {
@@ -25,19 +25,14 @@ class BirthdayCharactersBloc
         state.copyWith(data: event.models),
       ),
     );
-    _sub =
-        _characterRepository.getBirthdayCharactersStream(12).listen((models) {
-      add(_OnBirthdayCharacterChanged(models));
-    });
+
+    autoCancel(
+      () =>
+          _characterRepository.getBirthdayCharactersStream(12).listen((models) {
+        add(_OnBirthdayCharacterChanged(models));
+      }),
+    );
   }
 
   final CharacterRepository _characterRepository;
-
-  StreamSubscription? _sub;
-
-  @override
-  Future<void> close() {
-    _sub?.cancel();
-    return super.close();
-  }
 }

@@ -16,9 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsState {
-  AniListSettings? get settings => throw _privateConstructorUsedError;
   ThemeSetting get theme => throw _privateConstructorUsedError;
   MediaType get type => throw _privateConstructorUsedError;
+  ScoreFormat get selectedScoreFormat => throw _privateConstructorUsedError;
+  UserTitleLanguage get selectedTitleLanguage =>
+      throw _privateConstructorUsedError;
+  UserStaffNameLanguage get selectedStaffNameLanguage =>
+      throw _privateConstructorUsedError;
+  bool get displayAdultContent => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
@@ -31,9 +36,13 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({AniListSettings? settings, ThemeSetting theme, MediaType type});
-
-  $AniListSettingsCopyWith<$Res>? get settings;
+  $Res call(
+      {ThemeSetting theme,
+      MediaType type,
+      ScoreFormat selectedScoreFormat,
+      UserTitleLanguage selectedTitleLanguage,
+      UserStaffNameLanguage selectedStaffNameLanguage,
+      bool displayAdultContent});
 }
 
 /// @nodoc
@@ -49,15 +58,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? settings = freezed,
     Object? theme = null,
     Object? type = null,
+    Object? selectedScoreFormat = null,
+    Object? selectedTitleLanguage = null,
+    Object? selectedStaffNameLanguage = null,
+    Object? displayAdultContent = null,
   }) {
     return _then(_value.copyWith(
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AniListSettings?,
       theme: null == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
@@ -66,19 +74,23 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MediaType,
+      selectedScoreFormat: null == selectedScoreFormat
+          ? _value.selectedScoreFormat
+          : selectedScoreFormat // ignore: cast_nullable_to_non_nullable
+              as ScoreFormat,
+      selectedTitleLanguage: null == selectedTitleLanguage
+          ? _value.selectedTitleLanguage
+          : selectedTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
+      selectedStaffNameLanguage: null == selectedStaffNameLanguage
+          ? _value.selectedStaffNameLanguage
+          : selectedStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      displayAdultContent: null == displayAdultContent
+          ? _value.displayAdultContent
+          : displayAdultContent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AniListSettingsCopyWith<$Res>? get settings {
-    if (_value.settings == null) {
-      return null;
-    }
-
-    return $AniListSettingsCopyWith<$Res>(_value.settings!, (value) {
-      return _then(_value.copyWith(settings: value) as $Val);
-    });
   }
 }
 
@@ -90,10 +102,13 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AniListSettings? settings, ThemeSetting theme, MediaType type});
-
-  @override
-  $AniListSettingsCopyWith<$Res>? get settings;
+  $Res call(
+      {ThemeSetting theme,
+      MediaType type,
+      ScoreFormat selectedScoreFormat,
+      UserTitleLanguage selectedTitleLanguage,
+      UserStaffNameLanguage selectedStaffNameLanguage,
+      bool displayAdultContent});
 }
 
 /// @nodoc
@@ -107,15 +122,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? settings = freezed,
     Object? theme = null,
     Object? type = null,
+    Object? selectedScoreFormat = null,
+    Object? selectedTitleLanguage = null,
+    Object? selectedStaffNameLanguage = null,
+    Object? displayAdultContent = null,
   }) {
     return _then(_$SettingsStateImpl(
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AniListSettings?,
       theme: null == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
@@ -124,6 +138,22 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MediaType,
+      selectedScoreFormat: null == selectedScoreFormat
+          ? _value.selectedScoreFormat
+          : selectedScoreFormat // ignore: cast_nullable_to_non_nullable
+              as ScoreFormat,
+      selectedTitleLanguage: null == selectedTitleLanguage
+          ? _value.selectedTitleLanguage
+          : selectedTitleLanguage // ignore: cast_nullable_to_non_nullable
+              as UserTitleLanguage,
+      selectedStaffNameLanguage: null == selectedStaffNameLanguage
+          ? _value.selectedStaffNameLanguage
+          : selectedStaffNameLanguage // ignore: cast_nullable_to_non_nullable
+              as UserStaffNameLanguage,
+      displayAdultContent: null == displayAdultContent
+          ? _value.displayAdultContent
+          : displayAdultContent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -132,22 +162,35 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 
 class _$SettingsStateImpl implements _SettingsState {
   _$SettingsStateImpl(
-      {this.settings,
-      this.theme = ThemeSetting.system,
-      this.type = MediaType.anime});
+      {this.theme = ThemeSetting.system,
+      this.type = MediaType.anime,
+      this.selectedScoreFormat = ScoreFormat.point100,
+      this.selectedTitleLanguage = UserTitleLanguage.native,
+      this.selectedStaffNameLanguage = UserStaffNameLanguage.native,
+      this.displayAdultContent = false});
 
-  @override
-  final AniListSettings? settings;
   @override
   @JsonKey()
   final ThemeSetting theme;
   @override
   @JsonKey()
   final MediaType type;
+  @override
+  @JsonKey()
+  final ScoreFormat selectedScoreFormat;
+  @override
+  @JsonKey()
+  final UserTitleLanguage selectedTitleLanguage;
+  @override
+  @JsonKey()
+  final UserStaffNameLanguage selectedStaffNameLanguage;
+  @override
+  @JsonKey()
+  final bool displayAdultContent;
 
   @override
   String toString() {
-    return 'SettingsState(settings: $settings, theme: $theme, type: $type)';
+    return 'SettingsState(theme: $theme, type: $type, selectedScoreFormat: $selectedScoreFormat, selectedTitleLanguage: $selectedTitleLanguage, selectedStaffNameLanguage: $selectedStaffNameLanguage, displayAdultContent: $displayAdultContent)';
   }
 
   @override
@@ -155,14 +198,22 @@ class _$SettingsStateImpl implements _SettingsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SettingsStateImpl &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
             (identical(other.theme, theme) || other.theme == theme) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.selectedScoreFormat, selectedScoreFormat) ||
+                other.selectedScoreFormat == selectedScoreFormat) &&
+            (identical(other.selectedTitleLanguage, selectedTitleLanguage) ||
+                other.selectedTitleLanguage == selectedTitleLanguage) &&
+            (identical(other.selectedStaffNameLanguage,
+                    selectedStaffNameLanguage) ||
+                other.selectedStaffNameLanguage == selectedStaffNameLanguage) &&
+            (identical(other.displayAdultContent, displayAdultContent) ||
+                other.displayAdultContent == displayAdultContent));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, settings, theme, type);
+  int get hashCode => Object.hash(runtimeType, theme, type, selectedScoreFormat,
+      selectedTitleLanguage, selectedStaffNameLanguage, displayAdultContent);
 
   @JsonKey(ignore: true)
   @override
@@ -173,16 +224,25 @@ class _$SettingsStateImpl implements _SettingsState {
 
 abstract class _SettingsState implements SettingsState {
   factory _SettingsState(
-      {final AniListSettings? settings,
-      final ThemeSetting theme,
-      final MediaType type}) = _$SettingsStateImpl;
+      {final ThemeSetting theme,
+      final MediaType type,
+      final ScoreFormat selectedScoreFormat,
+      final UserTitleLanguage selectedTitleLanguage,
+      final UserStaffNameLanguage selectedStaffNameLanguage,
+      final bool displayAdultContent}) = _$SettingsStateImpl;
 
-  @override
-  AniListSettings? get settings;
   @override
   ThemeSetting get theme;
   @override
   MediaType get type;
+  @override
+  ScoreFormat get selectedScoreFormat;
+  @override
+  UserTitleLanguage get selectedTitleLanguage;
+  @override
+  UserStaffNameLanguage get selectedStaffNameLanguage;
+  @override
+  bool get displayAdultContent;
   @override
   @JsonKey(ignore: true)
   _$$SettingsStateImplCopyWith<_$SettingsStateImpl> get copyWith =>

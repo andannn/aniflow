@@ -69,7 +69,6 @@ class MovieScheduleTimeContent extends StatelessWidget {
                       onBuildItem: (media) {
                         final userTitleLanguage = GetIt.instance
                             .get<UserDataRepository>()
-                            .userData
                             .userTitleLanguage;
                         return Padding(
                           padding: const EdgeInsets.only(

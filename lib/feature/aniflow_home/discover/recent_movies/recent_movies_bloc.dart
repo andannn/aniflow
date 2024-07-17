@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:aniflow/core/common/definitions/media_format.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -17,7 +16,8 @@ class _OnRecentMoviesChanged extends RecentMoviesEvent {
 }
 
 @injectable
-class RecentMoviesBloc extends Bloc<RecentMoviesEvent, RecentMoviesState> {
+class RecentMoviesBloc extends Bloc<RecentMoviesEvent, RecentMoviesState>
+    with AutoCancelMixin {
   RecentMoviesBloc(
     this._repository,
   ) : super(const RecentMoviesState()) {
@@ -25,24 +25,18 @@ class RecentMoviesBloc extends Bloc<RecentMoviesEvent, RecentMoviesState> {
       (event, emit) => emit(state.copyWith(movies: event.models)),
     );
 
-    _repository.getMediaStreamByAiringTimeRange(
-      start: DateTime.now()
-          .subtract(const Duration(days: AfConfig.daysBeforeOfMoviesInHome)),
-      end: DateTime.now()
-          .add(const Duration(days: AfConfig.daysAfterOfMoviesInHome)),
-      format: [MediaFormat.movie],
-    ).listen((data) {
-      add(_OnRecentMoviesChanged(data));
-    });
+    autoCancel(
+      () => _repository.getMediaStreamByAiringTimeRange(
+        start: DateTime.now()
+            .subtract(const Duration(days: AfConfig.daysBeforeOfMoviesInHome)),
+        end: DateTime.now()
+            .add(const Duration(days: AfConfig.daysAfterOfMoviesInHome)),
+        format: [MediaFormat.movie],
+      ).listen((data) {
+        add(_OnRecentMoviesChanged(data));
+      }),
+    );
   }
 
   final MediaInformationRepository _repository;
-  StreamSubscription? _subscription;
-
-  @override
-  Future<void> close() {
-    _subscription?.cancel();
-
-    return super.close();
-  }
 }
