@@ -24,7 +24,7 @@ class UserActivityPagingBloc extends PagingBloc<ActivityModel> {
   final int perPageCount;
 
   UserTitleLanguage get userTitleLanguage =>
-      _userDataRepository.userData.userTitleLanguage;
+      _userDataRepository.userTitleLanguage;
 
   @override
   Future<LoadResult<List<ActivityModel>>> loadPage({

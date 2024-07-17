@@ -30,7 +30,6 @@ class CharacterSearchResultPagingContent extends StatelessWidget {
     final userStaffNameLanguage = context
         .read<SearchBloc>()
         .userDataRepository
-        .userData
         .userStaffNameLanguage;
     return SearchCharacterItem(
       userStaffNameLanguage: userStaffNameLanguage,

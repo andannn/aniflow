@@ -74,7 +74,7 @@ extension FirebaseAnalyticsExtension on FirebaseAnalytics {
     return Future.wait(
       [
         setUserMediaContentProperty(
-            GetIt.instance.get<UserDataRepository>().userData.mediaType),
+            GetIt.instance.get<UserDataRepository>().mediaType),
       ],
     );
   }

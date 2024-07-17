@@ -135,7 +135,6 @@ class _SchedulePageWidget extends StatelessWidget {
                   onBuildItem: (schedule) {
                     final userTitleLanguage = GetIt.instance
                         .get<UserDataRepository>()
-                        .userData
                         .userTitleLanguage;
                     return Padding(
                       padding: const EdgeInsets.only(

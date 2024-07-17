@@ -26,7 +26,7 @@ class ActivityPagingBloc extends RefreshPagingBloc<ActivityModel> {
   final ActivityFilterType filterType;
 
   UserTitleLanguage get userTitleLanguage =>
-      userDataRepository.userData.userTitleLanguage;
+      userDataRepository.userTitleLanguage;
 
   @override
   Future<LoadResult<List<ActivityModel>>> loadPage({

@@ -7,7 +7,6 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/character_with_media_item_widget.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_characters_state.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -39,14 +38,10 @@ class BirthdayCharactersContent extends StatelessWidget {
       builder: (context, state) {
         return BirthdayCharactersWidget(
           models: state.data,
-          staffNameLanguage: GetIt.instance
-              .get<UserDataRepository>()
-              .userData
-              .userStaffNameLanguage,
-          titleLanguage: GetIt.instance
-              .get<UserDataRepository>()
-              .userData
-              .userTitleLanguage,
+          staffNameLanguage:
+              GetIt.instance.get<UserDataRepository>().userStaffNameLanguage,
+          titleLanguage:
+              GetIt.instance.get<UserDataRepository>().userTitleLanguage,
         );
       },
     );
@@ -105,7 +100,7 @@ class BirthdayCharactersWidget extends StatelessWidget {
                         opacity: 0.7,
                         child: AutoSizeText(
                           model.relatedMedias.firstOrNull?.title
-                              ?.getTitle(titleLanguage) ??
+                                  ?.getTitle(titleLanguage) ??
                               '',
                           textAlign: TextAlign.center,
                           maxLines: 3,
@@ -123,9 +118,9 @@ class BirthdayCharactersWidget extends StatelessWidget {
       );
     }
 
-    return AnimatedScaleSwitcher(
+    return Visibility(
       visible: models.isNotEmpty,
-      builder: () => Column(
+      child: Column(
         children: [
           CategoryTitleBar(
             title: context.appLocal.todayBirthdayCharacter(''),

@@ -64,13 +64,16 @@ mixin LoadPageUtil {
     required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,
     required Future<void> Function(List<Dto> dto) onInsertToDB,
     required Model Function(Dto dto) mapDtoToModel,
+    bool accessDb = true,
   }) async {
     try {
       /// get data from network datasource.
       final networkRes = await onGetNetworkRes(page, perPage);
 
-      /// insert network resource to DB.
-      await onInsertToDB(networkRes);
+      if (accessDb) {
+        /// insert network resource to DB.
+        await onInsertToDB(networkRes);
+      }
 
       /// load success, return result.
       return LoadSuccess(

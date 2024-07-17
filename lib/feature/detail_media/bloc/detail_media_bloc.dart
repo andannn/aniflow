@@ -129,7 +129,8 @@ extension DetailMediaUiStateEx on DetailMediaUiState {
 }
 
 @injectable
-class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
+class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
+    with AutoCancelMixin {
   DetailMediaBloc(
     @factoryParam this.mediaId,
     this._authRepository,
@@ -140,10 +141,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     this._hiAnimationRepository,
     this._messageRepository,
   ) : super(DetailMediaUiState(
-          userTitleLanguage: _userDataRepository.userData.userTitleLanguage,
-          userStaffNameLanguage:
-              _userDataRepository.userData.userStaffNameLanguage,
-          scoreFormat: _userDataRepository.userData.scoreFormat,
+          userTitleLanguage: _userDataRepository.userTitleLanguage,
+          userStaffNameLanguage: _userDataRepository.userStaffNameLanguage,
+          scoreFormat: _userDataRepository.scoreFormat,
         )) {
     on<_OnDetailAnimeModelChangedEvent>(
       (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
@@ -187,8 +187,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   HiAnimationSource? _hiAnimationSource;
 
-  StreamSubscription? _detailAnimeSub;
-  StreamSubscription? _isTrackingSub;
   StreamSubscription? _isHiAnimationEnabledSub;
 
   CancelToken? _toggleFavoriteCancelToken;
@@ -196,21 +194,25 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   CancelToken? _findPlaySourceCancelToken;
 
   void _init() async {
-    _detailAnimeSub = _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
-      (animeModel) {
-        safeAdd(_OnDetailAnimeModelChangedEvent(model: animeModel));
-      },
+    autoCancel(
+      () => _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
+        (animeModel) {
+          safeAdd(_OnDetailAnimeModelChangedEvent(model: animeModel));
+        },
+      ),
     );
 
     final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
-      _isTrackingSub = _mediaListRepository
-          .getMediaListItemByUserAndIdStream(
-              userId: userData.id, animeId: mediaId)
-          .listen(
-        (item) {
-          safeAdd(_OnMediaListItemChanged(mediaListItemModel: item));
-        },
+      autoCancel(
+        () => _mediaListRepository
+            .getMediaListItemByUserAndIdStream(
+                userId: userData.id, animeId: mediaId)
+            .listen(
+          (item) {
+            safeAdd(_OnMediaListItemChanged(mediaListItemModel: item));
+          },
+        ),
       );
     }
 
@@ -253,9 +255,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   @override
   Future<void> close() {
-    _detailAnimeSub?.cancel();
-    _isTrackingSub?.cancel();
-
     _toggleFavoriteCancelToken?.cancel();
     _networkActionCancelToken?.cancel();
     _findPlaySourceCancelToken?.cancel();
@@ -276,7 +275,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: _userDataRepository.userData.scoreFormat,
+        format: _userDataRepository.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);

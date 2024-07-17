@@ -47,7 +47,6 @@ class NextToWatchAnimeContent extends StatelessWidget {
           models: state.nextToWatchMediaList,
           titleLanguage: GetIt.instance
               .get<UserDataRepository>()
-              .userData
               .userTitleLanguage,
         );
       },

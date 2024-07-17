@@ -28,7 +28,6 @@ class MediaSearchResultPagingContent extends StatelessWidget {
     final userTitleLanguage = context
         .read<SearchBloc>()
         .userDataRepository
-        .userData
         .userTitleLanguage;
     return SearchMediaItem(
       userTitleLanguage: userTitleLanguage,

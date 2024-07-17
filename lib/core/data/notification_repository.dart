@@ -36,6 +36,7 @@ class NotificationRepository {
   Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
     required int page,
     required int perPage,
+    bool accessDb = true,
     required NotificationCategory category,
     required bool resetNotificationCount,
     CancelToken? token,
@@ -64,6 +65,7 @@ class NotificationRepository {
     return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
+      accessDb: accessDb,
       onGetNetworkRes: (int page, int perPage) => dataSource.getNotifications(
         param: NotificationQueryParam(
           page: page,

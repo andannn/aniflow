@@ -31,7 +31,8 @@ class OnToggleLike extends DetailCharacterEvent {}
 
 @injectable
 class DetailCharacterBloc
-    extends Bloc<DetailCharacterEvent, DetailCharacterState> {
+    extends Bloc<DetailCharacterEvent, DetailCharacterState>
+    with AutoCancelMixin {
   DetailCharacterBloc(
     @factoryParam this._characterId,
     this._mediaRepository,
@@ -39,8 +40,8 @@ class DetailCharacterBloc
     this._favoriteRepository,
     UserDataRepository preferences,
   ) : super(DetailCharacterState(
-          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
-          userTitleLanguage: preferences.userData.userTitleLanguage,
+          userStaffNameLanguage: preferences.userStaffNameLanguage,
+          userTitleLanguage: preferences.userTitleLanguage,
         )) {
     on<_OnDetailCharacterInfoChanged>(
       (event, emit) => emit(state.copyWith(characterModel: event.model)),
@@ -57,12 +58,14 @@ class DetailCharacterBloc
       );
     });
 
-    _detailCharacterSub = _mediaRepository
-        .getDetailCharacterStream(_characterId)
-        .distinct()
-        .listen((model) {
-      safeAdd(_OnDetailCharacterInfoChanged(model: model));
-    });
+    autoCancel(
+      () => _mediaRepository
+          .getDetailCharacterStream(_characterId)
+          .distinct()
+          .listen((model) {
+        safeAdd(_OnDetailCharacterInfoChanged(model: model));
+      }),
+    );
 
     _init();
   }
@@ -72,13 +75,11 @@ class DetailCharacterBloc
   final MessageRepository _messageRepository;
   final String _characterId;
 
-  StreamSubscription? _detailCharacterSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
 
   @override
   Future<void> close() {
-    _detailCharacterSub?.cancel();
     _contentFetchCancelToken.cancel();
     _toggleLikeCancelToken?.cancel();
 

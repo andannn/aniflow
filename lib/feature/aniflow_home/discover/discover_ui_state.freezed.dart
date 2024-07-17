@@ -19,7 +19,6 @@ mixin _$DiscoverUiState {
   bool get isLoading => throw _privateConstructorUsedError;
   MediaType get currentMediaType => throw _privateConstructorUsedError;
   UserModel? get userData => throw _privateConstructorUsedError;
-  AniListSettings? get settings => throw _privateConstructorUsedError;
   List<HomeSectorCategory> get sectors => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,11 +36,9 @@ abstract class $DiscoverUiStateCopyWith<$Res> {
       {bool isLoading,
       MediaType currentMediaType,
       UserModel? userData,
-      AniListSettings? settings,
       List<HomeSectorCategory> sectors});
 
   $UserModelCopyWith<$Res>? get userData;
-  $AniListSettingsCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -60,7 +57,6 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
     Object? isLoading = null,
     Object? currentMediaType = null,
     Object? userData = freezed,
-    Object? settings = freezed,
     Object? sectors = null,
   }) {
     return _then(_value.copyWith(
@@ -76,10 +72,6 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AniListSettings?,
       sectors: null == sectors
           ? _value.sectors
           : sectors // ignore: cast_nullable_to_non_nullable
@@ -98,18 +90,6 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
       return _then(_value.copyWith(userData: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AniListSettingsCopyWith<$Res>? get settings {
-    if (_value.settings == null) {
-      return null;
-    }
-
-    return $AniListSettingsCopyWith<$Res>(_value.settings!, (value) {
-      return _then(_value.copyWith(settings: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -124,13 +104,10 @@ abstract class _$$DiscoverUiStateImplCopyWith<$Res>
       {bool isLoading,
       MediaType currentMediaType,
       UserModel? userData,
-      AniListSettings? settings,
       List<HomeSectorCategory> sectors});
 
   @override
   $UserModelCopyWith<$Res>? get userData;
-  @override
-  $AniListSettingsCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -147,7 +124,6 @@ class __$$DiscoverUiStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? currentMediaType = null,
     Object? userData = freezed,
-    Object? settings = freezed,
     Object? sectors = null,
   }) {
     return _then(_$DiscoverUiStateImpl(
@@ -163,10 +139,6 @@ class __$$DiscoverUiStateImplCopyWithImpl<$Res>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
-      settings: freezed == settings
-          ? _value.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as AniListSettings?,
       sectors: null == sectors
           ? _value._sectors
           : sectors // ignore: cast_nullable_to_non_nullable
@@ -182,7 +154,6 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
       {this.isLoading = false,
       this.currentMediaType = MediaType.anime,
       this.userData,
-      this.settings,
       final List<HomeSectorCategory> sectors = const []})
       : _sectors = sectors;
 
@@ -194,8 +165,6 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
   final MediaType currentMediaType;
   @override
   final UserModel? userData;
-  @override
-  final AniListSettings? settings;
   final List<HomeSectorCategory> _sectors;
   @override
   @JsonKey()
@@ -207,7 +176,7 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
 
   @override
   String toString() {
-    return 'DiscoverUiState(isLoading: $isLoading, currentMediaType: $currentMediaType, userData: $userData, settings: $settings, sectors: $sectors)';
+    return 'DiscoverUiState(isLoading: $isLoading, currentMediaType: $currentMediaType, userData: $userData, sectors: $sectors)';
   }
 
   @override
@@ -221,14 +190,12 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
                 other.currentMediaType == currentMediaType) &&
             (identical(other.userData, userData) ||
                 other.userData == userData) &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
             const DeepCollectionEquality().equals(other._sectors, _sectors));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, currentMediaType,
-      userData, settings, const DeepCollectionEquality().hash(_sectors));
+      userData, const DeepCollectionEquality().hash(_sectors));
 
   @JsonKey(ignore: true)
   @override
@@ -243,7 +210,6 @@ abstract class _DiscoverUiState implements DiscoverUiState {
       {final bool isLoading,
       final MediaType currentMediaType,
       final UserModel? userData,
-      final AniListSettings? settings,
       final List<HomeSectorCategory> sectors}) = _$DiscoverUiStateImpl;
 
   @override
@@ -252,8 +218,6 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   MediaType get currentMediaType;
   @override
   UserModel? get userData;
-  @override
-  AniListSettings? get settings;
   @override
   List<HomeSectorCategory> get sectors;
   @override

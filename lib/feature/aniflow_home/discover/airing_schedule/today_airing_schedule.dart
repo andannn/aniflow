@@ -136,7 +136,7 @@ class _TimeLineItem extends StatelessWidget {
 
   Widget mediaItemBuilder(BuildContext context, MediaModel media) {
     final userTitleLanguage =
-        GetIt.instance.get<UserDataRepository>().userData.userTitleLanguage;
+        GetIt.instance.get<UserDataRepository>().userTitleLanguage;
     return SizedBox(
       width: 160,
       height: 270,

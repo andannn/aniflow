@@ -29,7 +29,8 @@ class _OnLoadingChanged extends DetailStudioEvent {
 class OnToggleLike extends DetailStudioEvent {}
 
 @injectable
-class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
+class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState>
+    with AutoCancelMixin {
   DetailStudioBloc(
     @factoryParam this.studioId,
     this._mediaRepository,
@@ -37,7 +38,7 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     UserDataRepository preferences,
     this._messageRepository,
   ) : super(DetailStudioState(
-          userTitleLanguage: preferences.userData.userTitleLanguage,
+          userTitleLanguage: preferences.userTitleLanguage,
         )) {
     on<_OnDetailStudioInfoChanged>(
       (event, emit) => emit(state.copyWith(studioModel: event.model)),
@@ -47,10 +48,12 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
     );
     on<OnToggleLike>(_onToggleLike);
 
-    _detailStudioSub =
-        _mediaRepository.getStudioStream(studioId).distinct().listen((model) {
-      safeAdd(_OnDetailStudioInfoChanged(model: model));
-    });
+    autoCancel(
+      () =>
+          _mediaRepository.getStudioStream(studioId).distinct().listen((model) {
+        safeAdd(_OnDetailStudioInfoChanged(model: model));
+      }),
+    );
 
     _init();
   }
@@ -59,13 +62,11 @@ class DetailStudioBloc extends Bloc<DetailStudioEvent, DetailStudioState> {
   final FavoriteRepository _favoriteRepository;
   final MessageRepository _messageRepository;
   final String studioId;
-  StreamSubscription? _detailStudioSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
 
   @override
   Future<void> close() {
-    _detailStudioSub?.cancel();
     _contentFetchCancelToken.cancel();
     _toggleLikeCancelToken?.cancel();
 

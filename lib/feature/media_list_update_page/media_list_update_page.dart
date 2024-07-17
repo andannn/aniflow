@@ -84,8 +84,8 @@ class MediaListUpdatePageContent extends StatelessWidget {
       }
 
       final userDataRepo = GetIt.instance.get<UserDataRepository>();
-      final scoreFormat = userDataRepo.userData.scoreFormat;
-      final userTitleLanguage = userDataRepo.userData.userTitleLanguage;
+      final scoreFormat = userDataRepo.scoreFormat;
+      final userTitleLanguage = userDataRepo.userTitleLanguage;
 
       return GestureDetector(
         onTap: () {

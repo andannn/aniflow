@@ -41,7 +41,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
     this._mediaInfoRepository,
     this._animeTrackListRepository,
     this._authRepository,
-    this._preferences,
+    this._userDataRepository,
   ) : super(const PageInit(data: [])) {
     on<_OnTrackingAnimeIdsChanged<MediaModel>>(_onTrackingAnimeIdsChanged);
 
@@ -52,13 +52,13 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _animeTrackListRepository;
   final AuthRepository _authRepository;
-  final UserDataRepository _preferences;
+  final UserDataRepository _userDataRepository;
 
   StreamSubscription? _trackingIdsStream;
   Set<String> _ids = {};
 
   UserTitleLanguage get userTitleLanguage =>
-      _preferences.userData.userTitleLanguage;
+      _userDataRepository.userTitleLanguage;
 
   void _init() async {
     final userData = await _authRepository.getAuthedUserStream().first;
@@ -92,6 +92,7 @@ class AnimePageBloc extends PagingBloc<MediaModel> {
   }) {
     return _mediaInfoRepository.loadMediaPageByCategory(
       category: category,
+      displayAdultContent: _userDataRepository.displayAdultContent,
       loadType: isRefresh
           ? const Refresh()
           : Append(page: page, perPage: AfConfig.defaultPerPageCount),

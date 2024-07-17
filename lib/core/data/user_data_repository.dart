@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
-import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
+import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
+import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/home_sector_model.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
@@ -36,10 +38,59 @@ class UserDataRepository {
         },
       );
 
+  UserTitleLanguage get userTitleLanguage =>
+      _preferences.userData.userTitleLanguage;
+
+  String? get authedUserId => _preferences.userData.authedUserId;
+
+  List<String> get sentNotificationIds =>
+      _preferences.userData.sentNotificationIds;
+
+  UserStaffNameLanguage get userStaffNameLanguage =>
+      _preferences.userData.userStaffNameLanguage;
+
+  AnimeSeason get season => _preferences.userData.season;
+
+  MediaType get mediaType => _preferences.userData.mediaType;
+
+  ScoreFormat get scoreFormat => _preferences.userData.scoreFormat;
+
+  Stream<ScoreFormat> get scoreFormatStream =>
+      _preferences.userDataStream.map((data) => data.scoreFormat).distinct();
+
+  Stream<MediaType> get mediaTypeStream =>
+      _preferences.userDataStream.map((data) => data.mediaType).distinct();
+
+  Stream<ThemeSetting> get themeSettingStream =>
+      _preferences.userDataStream.map((data) => data.themeSetting).distinct();
+
+  Stream<UserTitleLanguage> get titleLanguageStream =>
+      _preferences.userDataStream
+          .map((data) => data.userTitleLanguage)
+          .distinct();
+
+  Stream<UserStaffNameLanguage> get staffLanguageStream =>
+      _preferences.userDataStream
+          .map((data) => data.userStaffNameLanguage)
+          .distinct();
+
+  int get seasonYear => _preferences.userData.seasonYear;
+
+  bool get isAdultContentsFeatureEnabled =>
+      _remoteConfigManager.isAdultContentsFeatureEnabled();
+
+  bool get displayAdultContent =>
+      isAdultContentsFeatureEnabled &&
+      _preferences.userData.displayAdultContent;
+
+  Stream<bool> get displayAdultContentStream => isAdultContentsFeatureEnabled
+      ? _preferences.userDataStream
+          .map((data) => data.aniListSettings.displayAdultContent)
+          .distinct()
+      : Stream.value(false);
+
   Stream<HomeSectorModel> get _homeStructModelStream =>
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
-
-  UserDataModel get userData => _preferences.userData;
 
   Stream<bool> get isHiAnimationFeatureEnabledStream =>
       _remoteConfigManager.isHiAnimationFeatureEnabledStream();
@@ -52,9 +103,6 @@ class UserDataRepository {
 
   Future setActivityScopeCategory(ActivityScopeCategory scopeCategory) =>
       _preferences.setActivityScopeCategory(scopeCategory);
-
-  Future setAniListSettings(AniListSettings setting) =>
-      _preferences.setAniListSettings(setting);
 
   Future setAnimeSeason(AnimeSeason season) =>
       _preferences.setAnimeSeason(season);

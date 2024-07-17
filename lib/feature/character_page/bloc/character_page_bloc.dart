@@ -21,7 +21,7 @@ class CharacterPageBloc extends Bloc<CharacterPageEvent, CharacterPageState> {
   ) : super(
           CharacterPageState(
               userStaffNameLanguage:
-                  userDataRepository.userData.userStaffNameLanguage),
+                  userDataRepository.userStaffNameLanguage),
         ) {
     on<OnStaffLanguageChanged>(_onStaffLanguageChanged);
   }

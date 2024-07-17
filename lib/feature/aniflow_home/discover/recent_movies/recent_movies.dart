@@ -39,7 +39,6 @@ class RecentMoviesContent extends StatelessWidget {
           models: state.movies,
           titleLanguage: GetIt.instance
               .get<UserDataRepository>()
-              .userData
               .userTitleLanguage,
         );
       },

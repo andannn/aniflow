@@ -36,7 +36,8 @@ class _OnMediasChanged extends MediaCategoryPreviewEvent {
 
 @Injectable()
 class MediaCategoryPreviewBloc
-    extends Bloc<MediaCategoryPreviewEvent, MediaCategoryPreviewState> {
+    extends Bloc<MediaCategoryPreviewEvent, MediaCategoryPreviewState>
+    with AutoCancelMixin {
   MediaCategoryPreviewBloc(
     @factoryParam this._params,
     this._mediaInfoRepository,
@@ -63,28 +64,20 @@ class MediaCategoryPreviewBloc
       followingIdListStream = Stream.value({});
     }
 
-    CombineLatestStream.combine2(
-      mediaModelListStream,
-      followingIdListStream,
-      _combine,
-    ).listen((mediaList) {
-      safeAdd(_OnMediasChanged(mediaList));
-    });
+    autoCancel(
+      () => CombineLatestStream.combine2(
+        mediaModelListStream,
+        followingIdListStream,
+        _combine,
+      ).listen((mediaList) {
+        safeAdd(_OnMediasChanged(mediaList));
+      }),
+    );
   }
 
   final MediaCategoryPreviewParams _params;
   final MediaInformationRepository _mediaInfoRepository;
   final MediaListRepository _mediaListRepository;
-
-  StreamSubscription? _mediasSub;
-  StreamSubscription? _listIdSub;
-
-  @override
-  Future<void> close() {
-    _mediasSub?.cancel();
-    _listIdSub?.cancel();
-    return super.close();
-  }
 
   List<MediaModel> _combine(
       List<MediaModel> mediaList, Set<String> followingIds) {

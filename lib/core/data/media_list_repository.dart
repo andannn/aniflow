@@ -8,7 +8,6 @@ import 'package:aniflow/core/data/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
@@ -20,6 +19,7 @@ import 'package:aniflow/core/network/api/media_list_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/util/date_time_util.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
@@ -40,7 +40,7 @@ class MediaListRepository {
   final MediaDao mediaDao;
   final AniListDataSource aniListDataSource;
   final AuthDataSource authDataSource;
-  final UserDataRepository preferences;
+  final UserDataPreferences preferences;
 
   Future<LoadResult<List<MediaWithListModel>>> getMediaListByPage({
     required List<MediaListStatus> status,

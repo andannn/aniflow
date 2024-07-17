@@ -4,9 +4,9 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/feature/aniflow_home/discover/birthday_characters/birthday_character.dart';
-import 'package:aniflow/feature/aniflow_home/discover/discover_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/media_category_preview/media_category_preview_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/discover/media_category_preview/media_category_preview_state.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +95,7 @@ class _MediaCategoryPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget itemBuilder(MediaModel model) {
       final language =
-          context.read<DiscoverBloc>().state.settings?.userTitleLanguage;
+          GetIt.instance.get<UserDataRepository>().userTitleLanguage;
       return SizedBox(
         width: 160,
         child: MediaPreviewItem(

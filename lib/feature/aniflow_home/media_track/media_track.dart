@@ -1,10 +1,10 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
-import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
 import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
@@ -12,6 +12,7 @@ import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/media_track/bloc/track_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class AnimeTrackPage extends Page {
   const AnimeTrackPage({super.key});
@@ -134,9 +135,7 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
 
   Widget? _buildMediaListItem(
       BuildContext context, MediaWithListModel item, bool showNewBadge) {
-    final language =
-        context.read<TrackBloc>().state.settings?.userTitleLanguage ??
-            UserTitleLanguage.native;
+    final language = GetIt.instance.get<UserDataRepository>().userTitleLanguage;
 
     return Padding(
       key: ValueKey('anime_track_list_item_$item'),

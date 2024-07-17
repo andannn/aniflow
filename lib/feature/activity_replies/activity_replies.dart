@@ -82,7 +82,6 @@ class _ActivityRepliesPageContent extends StatelessWidget {
                     model: activityModel,
                     userTitleLanguage: GetIt.instance
                         .get<UserDataRepository>()
-                        .userData
                         .userTitleLanguage,
                     onBuildActivityStatusWidget: (activityId) =>
                         ActivityStatusBlocProvider(

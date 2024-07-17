@@ -59,10 +59,10 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
   CancelToken? _cancelToken;
 
   UserTitleLanguage get userTitleLanguage =>
-      userDataRepository.userData.userTitleLanguage;
+      userDataRepository.userTitleLanguage;
 
   UserStaffNameLanguage get userStaffNameLanguage =>
-      userDataRepository.userData.userStaffNameLanguage;
+      userDataRepository.userStaffNameLanguage;
 
   @override
   void onChange(Change<StatsState> change) {
