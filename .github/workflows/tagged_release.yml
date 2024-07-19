@@ -36,7 +36,7 @@ jobs:
       - run: flutter pub get
 
       - name: build
-        run: flutter build appbundle -v --flavor LimitedFeature && flutter build apk --split-per-abi --flavor FullFeature 
+        run: flutter build appbundle
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
