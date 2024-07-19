@@ -6,12 +6,9 @@
 name: 'tagged-release'
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [ "master" ]
+
 
 jobs:
   tagged-release:
