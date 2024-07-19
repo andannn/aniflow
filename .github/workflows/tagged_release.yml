@@ -33,15 +33,15 @@ jobs:
           fileName: 'keystore/aniflow-keystore.jks'
           encodedString: ${{ secrets.KEYSTORE }}
 
-      - name: build bundle
-        run: flutter clean && flutter pub get && flutter build appbundle --flavor LimitedFeature
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      - run: flutter pub get
 
-      - name: build apk
-        run: flutter clean && flutter pub get && flutter build apk --split-per-abi --flavor FullFeature 
+      - name: Analyze project source
+        run: dart analyze
+
+      - run: flutter test
+
+      - name: build
+        run: flutter build apk --split-per-abi --flavor FullFeature && flutter build appbundle --flavor LimitedFeature 
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
