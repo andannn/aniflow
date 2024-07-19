@@ -32,5 +32,3 @@ jobs:
 
       - run: flutter test
 
-#      - run: flutter build apk
-     
