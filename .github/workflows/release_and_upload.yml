@@ -49,17 +49,11 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
-  upload:
-    name: 'upload to github'
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
       - name: Upload to github
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           files: |
             build/app/outputs/flutter-apk/*
-            build/app/outputs/bundle/*
+            build/app/outputs/bundle/limitedRelease/*
           repo_token: "${{ secrets.TOKEN }}"
           prerelease: true
