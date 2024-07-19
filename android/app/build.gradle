@@ -64,6 +64,20 @@ android {
         }
     }
 
+    flavorDimensions += "default"
+
+    productFlavors {
+        // play store release build.
+        LimitedFeature {
+            dimension = "default"
+        }
+
+        // github release build.
+        FullFeature {
+            dimension = "default"
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -83,6 +97,9 @@ android {
         }
     }
 }
+
+
+android.buildFeatures.buildConfig true
 
 task moveKeyStoreRelease {
     if (project.gradle.startParameter.taskNames.any { it.contains("Release") }) {
