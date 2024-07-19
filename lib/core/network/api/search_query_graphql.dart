@@ -5,9 +5,9 @@ import 'package:aniflow/core/network/api/user_content_graphql.dart';
 
 String get searchMediaQueryGraphql =>
 '''
-query (\$page: Int, \$perPage: Int, \$search: String, \$type: MediaType) {
+query (\$page: Int, \$perPage: Int, \$search: String, \$type: MediaType, \$isAdult: Boolean) {
   page: Page(page: \$page, perPage: \$perPage) {
-    media(type: \$type, search: \$search) {
+    media(type: \$type, search: \$search, isAdult: \$isAdult) {
       $mediaContentQueryGraphql
     }
   }

@@ -12,6 +12,7 @@ class MockSearchRepository extends Fake implements SearchRepository {
     required int perPage,
     required String search,
     required MediaType type,
+    required bool isAdult,
     CancelToken? token,
   }) async {
     return LoadSuccess(data: const []);

@@ -305,6 +305,7 @@ class AniListDataSource {
     required int perPage,
     required MediaType type,
     required String search,
+    required bool isAdult,
     CancelToken? token,
   }) async {
     final queryGraphQL = searchMediaQueryGraphql;
@@ -313,6 +314,7 @@ class AniListDataSource {
       'page': page,
       'perPage': perPage,
       'type': type.toJson(),
+      'isAdult': isAdult,
     };
     final response = await dio.post(
       aniListUrl,
