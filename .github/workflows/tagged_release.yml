@@ -36,7 +36,7 @@ jobs:
       - run: flutter pub get
 
       - name: build
-        run: cd android/ && ./gradlew bundleLimitedFeatureRelease
+        run: ./android/gradlew bundleLimitedFeatureRelease
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
