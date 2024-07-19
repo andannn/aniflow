@@ -11,8 +11,8 @@ on:
       - "v*"
 
 jobs:
-  tagged-release:
-    name: 'Tagged Release'
+  build:
+    name: 'build'
     runs-on: ubuntu-latest
 
     steps:
@@ -35,13 +35,26 @@ jobs:
 
       - run: flutter pub get
 
-      - name: build
-        run: ./android/gradlew bundleLimitedFeatureRelease
+      - name: build bundle
+        run: flutter build appbundle --flavor limited
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
+      - name: build apk
+        run: flutter build apk --split-per-abi --flavor full
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+  upload:
+    name: 'upload to github'
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
       - name: Upload to github
         uses: "marvinpinto/action-automatic-releases@latest"
         with:

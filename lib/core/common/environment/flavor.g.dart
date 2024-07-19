@@ -7,6 +7,6 @@ part of 'flavor.dart';
 // **************************************************************************
 
 const _$FlavorEnumMap = {
-  Flavor.limitedFeature: 'LimitedFeature',
-  Flavor.fullFeature: 'FullFeature',
+  Flavor.limitedFeature: 'limited',
+  Flavor.fullFeature: 'full',
 };
