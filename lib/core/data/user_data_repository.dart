@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
+import 'package:aniflow/core/common/environment/build_environment.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -77,6 +78,7 @@ class UserDataRepository {
   int get seasonYear => _preferences.userData.seasonYear;
 
   bool get isAdultContentsFeatureEnabled =>
+      !BuildEnvironment.isFeatureLimited &&
       _remoteConfigManager.isAdultContentsFeatureEnabled();
 
   bool get displayAdultContent =>
@@ -93,7 +95,9 @@ class UserDataRepository {
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
 
   Stream<bool> get isHiAnimationFeatureEnabledStream =>
-      _remoteConfigManager.isHiAnimationFeatureEnabledStream();
+      BuildEnvironment.isFeatureLimited
+          ? Stream.value(false)
+          : _remoteConfigManager.isHiAnimationFeatureEnabledStream();
 
   Stream<bool> get isSocialFeatureEnabledStream =>
       _remoteConfigManager.isSocialFeatureEnabledStream();

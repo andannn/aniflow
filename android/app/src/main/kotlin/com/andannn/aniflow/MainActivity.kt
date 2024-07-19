@@ -18,7 +18,6 @@ class MainActivity : FlutterActivity() {
 
     override fun getInitialRoute(): String? {
         Log.d(TAG, "getInitialRoute uri: ${intent?.data?.toString()}")
-
         return intent?.data?.toString() ?: super.getInitialRoute()
     }
 

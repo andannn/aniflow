@@ -55,6 +55,7 @@ class SearchRepository {
     required int perPage,
     required String search,
     required MediaType type,
+    required bool isAdult,
     CancelToken? token,
   }) {
     return LoadPageUtil.loadPageWithoutOrderingCache(
@@ -66,6 +67,7 @@ class SearchRepository {
         type: type,
         search: search,
         token: token,
+        isAdult: isAdult,
       ),
       mapDtoToModel: (MediaDto dto) => dto.toModel(),
       onInsertToDB: (List<MediaDto> dto) async {
@@ -84,8 +86,7 @@ class SearchRepository {
     return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
-      onGetNetworkRes: (int page, int perPage) =>
-          dataSource.searchCharacterPage(
+      onGetNetworkRes: (int page, int perPage) => dataSource.searchCharacterPage(
         page: page,
         perPage: perPage,
         search: search,
