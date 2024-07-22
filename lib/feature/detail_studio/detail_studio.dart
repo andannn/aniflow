@@ -1,5 +1,5 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';

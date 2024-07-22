@@ -25,8 +25,11 @@ void main() {
     });
     
     test('test map to version', () async {
-      final version = await AppVersionUtil.mapToVersion('1.a.3');
+      final version = AppVersionUtil.mapToVersion('1.a.3');
       expect(version, equals(null));
+
+      final version1 = AppVersionUtil.mapToVersion('1.1.3-debug');
+      expect(version1, equals(AppVersion(1, 1, 3)));
     });
   });
 }

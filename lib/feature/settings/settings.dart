@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';

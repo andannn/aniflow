@@ -31,6 +31,24 @@ class AppVersion implements Comparable<AppVersion> {
     }
     return patch.compareTo(other.patch);
   }
+
+  @override
+  String toString() {
+    return '$major.$minor.$patch';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AppVersion &&
+        other.major == major &&
+        other.minor == minor &&
+        other.patch == patch;
+  }
+
+  @override
+  int get hashCode => Object.hash(major, minor, patch);
 }
 
 mixin AppVersionUtil {
@@ -39,8 +57,12 @@ mixin AppVersionUtil {
       .then((version) => mapToVersion(version));
 
   static AppVersion? mapToVersion(String version) {
+    String trimmedString = version;
+    if (version.contains('-')) {
+      trimmedString = version.split('-').first;
+    }
     try {
-      return AppVersion.parse(version);
+      return AppVersion.parse(trimmedString);
     } catch (e) {
       return null;
     }

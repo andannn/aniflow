@@ -1,5 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:aniflow/core/common/util/app_version_util.dart';
+
 mixin AfConfig {
   static const defaultAnimationDuration = Duration(milliseconds: 300);
   static const defaultCatchExtend = 300.0;
@@ -23,4 +25,7 @@ mixin AfConfig {
   static const int maxSendNotificationCount = 3;
 
   static const String activityClassString = 'com.andannn.aniflow.MainActivity';
+
+  static String Function(AppVersion) get appDownloadLink => (version) =>
+      'https://github.com/andannn/aniflow/releases/download/v${version.toString()}/app-arm64-v8a-full-release.apk';
 }

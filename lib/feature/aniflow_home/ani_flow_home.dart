@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/show_dialog_bar_mixin.dart';
+import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -48,7 +49,7 @@ class AniFlowAppScaffold extends StatefulWidget {
 }
 
 class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
-    with RouteAware, ShowSnackBarMixin {
+    with RouteAware, ShowSnackBarMixin, ShowDialogBarMixin {
   AfRouterDelegate afRouterDelegate = AfRouterDelegate();
   RouteObserver rootObserver = RootRouterDelegate.get().routeObserver;
 
