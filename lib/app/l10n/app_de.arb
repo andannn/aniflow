@@ -132,5 +132,10 @@
 	"recentMovies": "Neueste Filme",
 	"progress": "Fortschritt",
 	"newAired": "Neu ausgestrahlt",
-	"hasNextEpisode": "Hat nächste Folge"
+	"hasNextEpisode": "Hat nächste Folge",
+	"appUpgrade": "App-Upgrade",
+	"upgrade": "UPGRADE",
+	"upgradeDialogDenyActionLabel": "NEIN, DANKE",
+	"upgradeDialogMessage": "Eine neue Version {newVersion} der App ist verfügbar. Möchten Sie jetzt aktualisieren?",
+	"checkForUpdate": "Auf Aktualisierung prüfen"
 }

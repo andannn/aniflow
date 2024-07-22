@@ -186,5 +186,17 @@
 	"recentMovies": "Recent movies",
 	"progress": "Progress",
 	"newAired": "New aired",
-	"hasNextEpisode": "Has next episode"
+	"hasNextEpisode": "Has next episode",
+	"appUpgrade": "App upgrade",
+	"upgrade": "UPGRADE",
+	"upgradeDialogDenyActionLabel": "NO, THANKS",
+	"upgradeDialogMessage": "Version {newVersion} is available.\nWould you like to upgrade now?",
+	"@upgradeDialogMessage": {
+		"placeholders": {
+			"newVersion": {
+				"type": "String"
+			}
+		}
+	},
+	"checkForUpdate": "Check for update"
 }

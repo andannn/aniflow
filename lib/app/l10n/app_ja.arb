@@ -132,5 +132,10 @@
 	"recentMovies": "最近の映画",
 	"progress": "進捗",
 	"newAired": "新規放送",
-	"hasNextEpisode": "次回あり"
+	"hasNextEpisode": "次回あり",
+	"appUpgrade": "アプリのアップグレード",
+	"upgrade": "アップグレード",
+	"upgradeDialogDenyActionLabel": "いいえ",
+	"upgradeDialogMessage": "アプリの新しいバージョン {newVersion} が利用可能です。アップグレードしますか？",
+	"checkForUpdate": "アップグレード チェック"
 }
