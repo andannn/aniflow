@@ -56,6 +56,13 @@ class ListSettingItem<T extends Setting> extends SettingItem {
   });
 }
 
+class CheckForUpdateSettingItem extends SettingItem {
+  CheckForUpdateSettingItem({
+    required super.titleBuilder,
+    super.subTitle,
+  });
+}
+
 class SettingOption<T> {
   SettingOption({
     required this.setting,

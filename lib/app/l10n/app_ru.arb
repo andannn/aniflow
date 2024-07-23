@@ -132,5 +132,13 @@
 	"recentMovies": "Недавние фильмы",
 	"progress": "Прогресс",
 	"newAired": "Недавно вышедший в эфир",
-	"hasNextEpisode": "Есть следующая серия"
+	"hasNextEpisode": "Есть следующая серия",
+	"appUpgrade": "Обновление приложения",
+	"upgrade": "ОБНОВЛЕНИЕ",
+	"upgradeDialogDenyActionLabel": "НЕТ, СПАСИБО",
+	"upgradeDialogMessage": "Доступна новая версия {newVersion} приложения. Хотите обновить?",
+	"checkForUpdate": "ОБНОВЛЕНИЕ",
+	"appUpToDate": "Приложение обновлено",
+	"currentVersion": "Текущая версия",
+	"clickToUpdate": "Последняя версия {latestVersion}, нажмите, чтобы обновить!"
 }

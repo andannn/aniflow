@@ -132,5 +132,13 @@
 	"recentMovies": "最近的电影",
 	"progress": "进展",
 	"newAired": "新放送",
-	"hasNextEpisode": "有下一集"
+	"hasNextEpisode": "有下一集",
+	"appUpgrade": "应用升级",
+	"upgrade": "升级",
+	"upgradeDialogDenyActionLabel": "不，谢谢",
+	"upgradeDialogMessage": "应用程序的新版本 {newVersion} 已经可用。你想升级吗？",
+	"checkForUpdate": "检查升级",
+	"appUpToDate": "应用程序已是最新",
+	"currentVersion": "当前版本",
+	"clickToUpdate": "最新版本是{latestVersion}，点击更新！"
 }

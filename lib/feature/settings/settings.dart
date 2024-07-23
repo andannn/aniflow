@@ -1,14 +1,16 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
+import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
+import 'package:aniflow/feature/settings/check_for_update/check_for_update.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,10 +21,12 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => GetIt.instance.get<SettingsBloc>(),
-      child: const ScaffoldMessenger(
-        child: _MediaSettingsPageContent(),
+    return DialogEventHandler(
+      child: BlocProvider(
+        create: (BuildContext context) => GetIt.instance.get<SettingsBloc>(),
+        child: const ScaffoldMessenger(
+          child: _MediaSettingsPageContent(),
+        ),
       ),
     );
   }
@@ -227,6 +231,8 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
             ),
           ),
         );
+      case CheckForUpdateSettingItem():
+        return const CheckForUpdate();
       default:
         throw Exception('Invalid Type');
     }

@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/core/common/util/string_resource_util.dart';
+import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/subjects.dart';
+import 'package:rxdart/rxdart.dart';
 
 const String _tag = 'Message';
+
+sealed class Message extends Equatable {
+  const Message();
+}
 
 enum SnackBarDuration {
   short(Duration(milliseconds: 1000)),
@@ -21,11 +24,11 @@ enum SnackBarDuration {
   const SnackBarDuration(this.showDuration);
 }
 
-sealed class Message extends Equatable {
+abstract class SnackBarMessage extends Message {
   final SnackBarDuration duration;
   final List varargs;
 
-  const Message({
+  const SnackBarMessage({
     required this.duration,
     this.varargs = const [],
   });
@@ -36,65 +39,27 @@ sealed class Message extends Equatable {
   List<Object?> get props => [...varargs, duration];
 }
 
-class MediaMarkWatchedMessage extends Message {
-  const MediaMarkWatchedMessage() : super(duration: SnackBarDuration.medium);
+abstract class DialogMessage extends Message {
+  final String id;
+  final StringBuilder? title;
+  final StringBuilder? message;
+  final StringBuilder? positiveLabel;
+  final StringBuilder? negativeLabel;
+  final void Function()? onClickPositive;
+  final void Function()? onClickNegative;
+
+  const DialogMessage({
+    required this.id,
+    this.title,
+    this.message,
+    this.positiveLabel,
+    this.negativeLabel,
+    this.onClickPositive,
+    this.onClickNegative,
+  });
 
   @override
-  String translated(BuildContext context) => context.appLocal.animeMarkWatched;
-}
-
-class MediaCompletedMessage extends Message {
-  const MediaCompletedMessage() : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) => context.appLocal.animeCompleted;
-}
-
-class DataRefreshFailedMessage extends Message {
-  const DataRefreshFailedMessage() : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) => context.appLocal.dataRefreshFailed;
-}
-
-class LoginFailedMessage extends Message {
-  const LoginFailedMessage() : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) =>
-      context.appLocal.loginFailedMessage;
-}
-
-class LoginSuccessMessage extends Message {
-  const LoginSuccessMessage() : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) =>
-      context.appLocal.loginSuccessMessage;
-}
-
-class ConnectionTimeOutMessage extends Message {
-  const ConnectionTimeOutMessage() : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) =>
-      context.appLocal.connectionTimeOutMessage;
-}
-
-class NetworkErrorMessage extends Message {
-  const NetworkErrorMessage({super.varargs})
-      : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) =>
-      context.appLocal.networkErrorMessage(varargs[0]);
-}
-
-class NoNetworkMessage extends Message {
-  const NoNetworkMessage() : super(duration: SnackBarDuration.medium);
-
-  @override
-  String translated(BuildContext context) => context.appLocal.noNetworkMessage;
+  List<Object?> get props => [id];
 }
 
 @lazySingleton
@@ -104,21 +69,19 @@ class MessageRepository {
       onListen: _onListen,
       onCancel: _onCancel,
     );
-    _closeSnackBarSubject = PublishSubject();
   }
 
   late PublishSubject<Message> _messageSubject;
-  late PublishSubject _closeSnackBarSubject;
 
   var _listenerCount = 0;
 
-  Stream<Message> getMessageStream() => _messageSubject.distinct();
+  Stream<SnackBarMessage> getSnackBarMessageStream() =>
+      _messageSubject.whereType<SnackBarMessage>().distinct();
 
-  Stream getCloseEventStream() => _closeSnackBarSubject;
+  Stream<DialogMessage> getDialogMessageStream() =>
+      _messageSubject.whereType<DialogMessage>();
 
   void showMessage(Message message) => _messageSubject.add(message);
-
-  void closeSnackBar() => _closeSnackBarSubject.add(null);
 
   void _onListen() {
     logger.d('$_tag MessageController is listened, count ${++_listenerCount}');
@@ -135,75 +98,5 @@ extension MessageRepositoryEx on MessageRepository {
     if (message != null) {
       showMessage(message);
     }
-  }
-}
-
-mixin ShowSnackBarMixin<T extends StatefulWidget> on State<T> {
-  late StreamSubscription _messageSub;
-  late StreamSubscription _closeEventSub;
-  ScaffoldFeatureController? _currentSnackBarController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final repo = GetIt.instance.get<MessageRepository>();
-    _messageSub = repo.getMessageStream().listen(
-      (message) {
-        if (ModalRoute.of(context)?.isCurrent == false) {
-          // current page is not top.
-          return;
-        }
-
-        _showSnackBar(message);
-      },
-    );
-    _closeEventSub = repo.getCloseEventStream().listen((_) {
-      _currentSnackBarController?.close();
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _messageSub.cancel();
-    _closeEventSub.cancel();
-  }
-
-  void _showSnackBar(Message message) async {
-    _currentSnackBarController = _showSnackBarMessage(
-      context: context,
-      label: message.translated(context),
-      duration: message.duration,
-    );
-
-    await _currentSnackBarController?.closed.then((reason) {
-      logger.d('$_tag snack bar of message $message closed. reason: $reason.');
-    });
-  }
-
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>?
-      _showSnackBarMessage(
-          {required BuildContext context,
-          String label = '',
-          String action = '',
-          SnackBarDuration duration = SnackBarDuration.long}) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      _createSnackBar(context, label, action, duration),
-    );
-  }
-
-  SnackBar _createSnackBar(BuildContext context, String label, String action,
-      SnackBarDuration duration) {
-    return SnackBar(
-      content: Text(label),
-      duration: duration.showDuration,
-      behavior: SnackBarBehavior.floating,
-      dismissDirection: DismissDirection.vertical,
-      action: action.isNotEmpty
-          ? SnackBarAction(label: action, onPressed: () {})
-          : null,
-    );
   }
 }

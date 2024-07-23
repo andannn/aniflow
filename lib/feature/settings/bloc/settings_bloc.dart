@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/about.dart';
+import 'package:aniflow/core/common/setting/check_app_update.dart';
 import 'package:aniflow/core/common/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
@@ -18,7 +19,6 @@ import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/settings/bloc/settings_category.dart';
 import 'package:aniflow/feature/settings/bloc/settings_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -173,6 +173,8 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
         await _userDataRepository.setThemeSetting(setting);
       case MediaType():
         await _userDataRepository.setMediaType(setting);
+      case CheckAppUpdate():
+        // _onClickCheckAppUpdate();
 
       default:
         throw 'Invalid type';
@@ -199,6 +201,8 @@ extension SettingsBlocEx on SettingsBloc {
   List<SettingCategory> buildSettingCategoryList() {
     final enableAdultFeature =
         _userDataRepository.isAdultContentsFeatureEnabled;
+    final appUpdateDialogFeatureEnabled =
+        _userDataRepository.isAppUpdateDialogFeatureEnabled;
     return [
       SettingCategory(
         titleBuilder: (context) => context.appLocal.app,
@@ -216,6 +220,10 @@ extension SettingsBlocEx on SettingsBloc {
             options:
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
           ),
+          if (appUpdateDialogFeatureEnabled)
+            CheckForUpdateSettingItem(
+              titleBuilder: (context) => context.appLocal.checkForUpdate,
+            ),
         ],
       ),
       SettingCategory(
@@ -238,14 +246,13 @@ extension SettingsBlocEx on SettingsBloc {
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
-          enableAdultFeature
-              ? SwitchSettingItem(
-                  titleBuilder: (context) => '18+ ${context.appLocal.contents}',
-                  current:
-                      DisplayAdultContent.getSetting(state.displayAdultContent),
-                )
-              : null
-        ].whereNotNull().toList(),
+          if (enableAdultFeature)
+            SwitchSettingItem(
+              titleBuilder: (context) => '18+ ${context.appLocal.contents}',
+              current:
+                  DisplayAdultContent.getSetting(state.displayAdultContent),
+            ),
+        ],
       ),
       SettingCategory(
         titleBuilder: (context) => context.appLocal.list,

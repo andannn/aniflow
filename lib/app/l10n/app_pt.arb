@@ -132,5 +132,13 @@
 	"recentMovies": "Filmes recentes",
 	"progress": "Progresso",
 	"newAired": "Recém-exibido",
-	"hasNextEpisode": "Tem próximo episódio"
+	"hasNextEpisode": "Tem próximo episódio",
+	"appUpgrade": "Atualização do aplicativo",
+	"upgrade": "ATUALIZAÇÃO",
+	"upgradeDialogDenyActionLabel": "NÃO, OBRIGADO",
+	"upgradeDialogMessage": "Uma nova versão {newVersion} do aplicativo está disponível!",
+	"checkForUpdate": "ATUALIZAÇÃO",
+	"appUpToDate": "O aplicativo está atualizado",
+	"currentVersion": "Versão atual",
+	"clickToUpdate": "A versão mais recente é {latestVersion}, clique para atualizar!"
 }

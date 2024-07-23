@@ -15,7 +15,8 @@ class _OnThemeSettingChanged extends AppEvent {
 
 @injectable
 class AppBloc extends Bloc<AppEvent, AppState> with AutoCancelMixin {
-  AppBloc(this._userDataRepository) : super(const AppState()) {
+  AppBloc(this._userDataRepository)
+      : super(const AppState()) {
     on<_OnThemeSettingChanged>(
       (event, emit) => emit(state.copyWith(theme: event.themeMode)),
     );

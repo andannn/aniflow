@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/firebase/remote_config/model/home_struct_remote_model.dart';
@@ -12,6 +13,7 @@ mixin FirebaseRemoteConfigKeys {
   static String isHiAnimationFeatureEnabled = 'enable_hi_animation_feature';
   static String isSocialFeatureEnabled = 'enable_social_tab';
   static String isAdultContentsFeatureEnabled = 'show_sensitive_contents';
+  static String latestAppVersion = 'latest_app_version';
 }
 
 @lazySingleton
@@ -62,5 +64,21 @@ class RemoteConfigManager {
   bool isAdultContentsFeatureEnabled() {
     return config
         .getBool(FirebaseRemoteConfigKeys.isAdultContentsFeatureEnabled);
+  }
+
+  Stream<AppVersion?> latestAppVersionStream() => StreamUtil.createStream(
+        _changeNotifier,
+        () => Future.value(_latestAppVersion()),
+      ).distinct();
+
+  AppVersion? _latestAppVersion() {
+    return AppVersionUtil.mapToVersion(
+      config.getString(FirebaseRemoteConfigKeys.latestAppVersion),
+    );
+  }
+
+  Future<AppVersion?> refreshAndGetLatestAppVersion() async {
+    await config.fetchAndActivate();
+    return _latestAppVersion();
   }
 }

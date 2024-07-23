@@ -11,6 +11,7 @@ import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/data/model/home_sector_model.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
@@ -102,6 +103,12 @@ class UserDataRepository {
   Stream<bool> get isSocialFeatureEnabledStream =>
       _remoteConfigManager.isSocialFeatureEnabledStream();
 
+  bool get isAppUpdateDialogFeatureEnabled =>
+      !BuildEnvironment.isFeatureLimited;
+
+  Stream<AppVersion?> get latestAppVersion =>
+      _remoteConfigManager.latestAppVersionStream();
+
   Future setActivityFilterType(ActivityFilterType category) =>
       _preferences.setActivityFilterType(category);
 
@@ -153,5 +160,9 @@ class UserDataRepository {
 
   Future clearNotificationId() async {
     await _preferences.clearNotificationId();
+  }
+
+  Future<AppVersion?> updateAndGetLatestAppVersion() {
+    return _remoteConfigManager.refreshAndGetLatestAppVersion();
   }
 }
