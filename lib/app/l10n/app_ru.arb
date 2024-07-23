@@ -137,5 +137,8 @@
 	"upgrade": "ОБНОВЛЕНИЕ",
 	"upgradeDialogDenyActionLabel": "НЕТ, СПАСИБО",
 	"upgradeDialogMessage": "Доступна новая версия {newVersion} приложения. Хотите обновить?",
-	"upgradeDialogUpgradeActionLabel": "ОБНОВЛЕНИЕ"
+	"checkForUpdate": "ОБНОВЛЕНИЕ",
+	"appUpToDate": "Приложение обновлено",
+	"currentVersion": "Текущая версия",
+	"clickToUpdate": "Последняя версия {latestVersion}, нажмите, чтобы обновить!"
 }

@@ -137,5 +137,8 @@
 	"upgrade": "AGGIORNAMENTO",
 	"upgradeDialogDenyActionLabel": "NO, GRAZIE",
 	"upgradeDialogMessage": "È disponibile {newVersion} un aggiornamento per l'applicazione. Vuoi aggiornare ora?",
-	"checkForUpdate": "AGGIORNAMENTO"
+	"checkForUpdate": "AGGIORNAMENTO",
+	"appUpToDate": "L'applicazione è aggiornata",
+	"currentVersion": "Versione corrente",
+	"clickToUpdate": "L'ultima versione è {latestVersion}, clicca per aggiornare!"
 }

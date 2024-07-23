@@ -14,8 +14,8 @@ class AppUpdateDialogMessage extends DialogMessage {
   StringBuilder? get title => (context) => context.appLocal.appUpgrade;
 
   @override
-  StringBuilder get message => (context) =>
-      context.appLocal.upgradeDialogMessage(newVersion.toString());
+  StringBuilder get message =>
+      (context) => context.appLocal.upgradeDialogMessage(newVersion.toString());
 
   @override
   StringBuilder? get positiveLabel => (context) => context.appLocal.upgrade;
@@ -26,4 +26,18 @@ class AppUpdateDialogMessage extends DialogMessage {
 
   @override
   List<Object?> get props => [id, newVersion];
+}
+
+class AppUpToDateDialogMessage extends DialogMessage {
+  const AppUpToDateDialogMessage() : super(id: 'up_to_date');
+
+  @override
+  StringBuilder? get message => (context) => context.appLocal.appUpToDate;
+
+  @override
+  StringBuilder? get positiveLabel =>
+      (context) => context.materialLocal.okButtonLabel;
+
+  @override
+  List<Object?> get props => [id];
 }

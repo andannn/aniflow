@@ -198,5 +198,15 @@
 			}
 		}
 	},
-	"checkForUpdate": "Check for update"
+	"checkForUpdate": "Check for update",
+	"appUpToDate": "App is up to date",
+	"currentVersion": "Current version",
+	"clickToUpdate": "Latest version is {latestVersion}, click to update!",
+	"@clickToUpdate": {
+		"placeholders": {
+			"latestVersion": {
+				"type": "String"
+			}
+		}
+	}
 }

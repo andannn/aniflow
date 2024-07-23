@@ -52,7 +52,7 @@ class DialogEventHandler extends StatefulWidget {
 }
 
 class _DialogEventHandlerState extends State<DialogEventHandler>
-    with ShowDialogBarMixin {
+    with ShowDialogMixin {
   @override
   Widget build(BuildContext context) {
     return widget.child;

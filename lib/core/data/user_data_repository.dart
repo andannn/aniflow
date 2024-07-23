@@ -161,4 +161,8 @@ class UserDataRepository {
   Future clearNotificationId() async {
     await _preferences.clearNotificationId();
   }
+
+  Future<AppVersion?> updateAndGetLatestAppVersion() {
+    return _remoteConfigManager.refreshAndGetLatestAppVersion();
+  }
 }

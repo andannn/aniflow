@@ -137,5 +137,8 @@
 	"upgrade": "アップグレード",
 	"upgradeDialogDenyActionLabel": "いいえ",
 	"upgradeDialogMessage": "アプリの新しいバージョン {newVersion} が利用可能です。アップグレードしますか？",
-	"checkForUpdate": "アップグレード チェック"
+	"checkForUpdate": "アップグレード チェック",
+	"appUpToDate": "アプリは最新です",
+	"currentVersion": "現在のバージョン",
+	"clickToUpdate": "最新バージョンは{latestVersion}です。更新するにはクリックしてください！"
 }

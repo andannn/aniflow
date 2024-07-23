@@ -221,7 +221,7 @@ extension SettingsBlocEx on SettingsBloc {
                 MediaType.values.map((e) => e._createSettingOption()).toList(),
           ),
           if (appUpdateDialogFeatureEnabled)
-            SingleLineWithTapActionSettingItem<CheckAppUpdate>(
+            CheckForUpdateSettingItem(
               titleBuilder: (context) => context.appLocal.checkForUpdate,
             ),
         ],

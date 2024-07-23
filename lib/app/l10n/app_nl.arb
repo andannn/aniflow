@@ -137,5 +137,8 @@
 	"upgrade": "UPGRADE",
 	"upgradeDialogDenyActionLabel": "NEE, DANK JE",
 	"upgradeDialogMessage": "Er is een nieuwe versie {newVersion} van de app beschikbaar. Wil je upgraden?",
-	"upgradeDialogUpgradeActionLabel": "UPGRADE CHECK"
+	"checkForUpdate": "UPGRADE CHECK",
+	"appUpToDate": "App is up-to-date",
+	"currentVersion": "Huidige versie",
+	"clickToUpdate": "De nieuwste versie is {latestVersion}, klik om te updaten!"
 }

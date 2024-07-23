@@ -76,4 +76,9 @@ class RemoteConfigManager {
       config.getString(FirebaseRemoteConfigKeys.latestAppVersion),
     );
   }
+
+  Future<AppVersion?> refreshAndGetLatestAppVersion() async {
+    await config.fetchAndActivate();
+    return _latestAppVersion();
+  }
 }

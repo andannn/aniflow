@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/message/message.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-mixin ShowDialogBarMixin<T extends StatefulWidget> on State<T> {
+mixin ShowDialogMixin<T extends StatefulWidget> on State<T> {
   late StreamSubscription _messageSub;
 
   @override
