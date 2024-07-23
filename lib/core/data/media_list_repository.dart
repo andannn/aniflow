@@ -144,6 +144,10 @@ class MediaListRepository {
       await mediaListDao.upsertMediaListAndMediaRelations([entity]);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
+// TODO: Convert to app defined Exception.
+      if (e.response?.data?['data']?['MediaList'] == null) {
+        return LoadSuccess(data: null);
+      }
       return LoadError(e);
     }
   }
