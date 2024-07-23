@@ -75,6 +75,8 @@ android {
         // github release build.
         full {
             dimension = "feature"
+            applicationIdSuffix ".github"
+            versionNameSuffix "-github"
         }
     }
 
