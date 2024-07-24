@@ -16,7 +16,7 @@ class SettingCategory {
 }
 
 sealed class SettingItem<T extends Setting> {
-  final StringBuilder titleBuilder;
+  final StringBuilder? titleBuilder;
   final String? subTitle;
   final Type type = T;
 
@@ -59,6 +59,13 @@ class ListSettingItem<T extends Setting> extends SettingItem {
 class CheckForUpdateSettingItem extends SettingItem {
   CheckForUpdateSettingItem({
     required super.titleBuilder,
+    super.subTitle,
+  });
+}
+
+class GithubLinkSettingItem extends SettingItem {
+  GithubLinkSettingItem({
+    super.titleBuilder,
     super.subTitle,
   });
 }

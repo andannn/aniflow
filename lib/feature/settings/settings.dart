@@ -9,11 +9,12 @@ import 'package:aniflow/core/design_system/animation/page_transaction_animation.
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
 import 'package:aniflow/core/design_system/icons/icons.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
-import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
-import 'package:aniflow/feature/settings/bloc/settings_category.dart';
-import 'package:aniflow/feature/settings/bloc/settings_state.dart';
+import 'package:aniflow/feature/settings/github_link/github_link.dart';
+import 'package:aniflow/feature/settings/settings_bloc.dart';
 import 'package:aniflow/feature/settings/check_for_update/check_for_update.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
+import 'package:aniflow/feature/settings/settings_category.dart';
+import 'package:aniflow/feature/settings/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -178,7 +179,7 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                settingItem.titleBuilder(context),
+                settingItem.titleBuilder!(context),
                 style: textTheme.headlineSmall,
               ),
               const Expanded(child: SizedBox()),
@@ -200,7 +201,7 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
           onTap: () async {
             final result = await showSettingsDialog<T>(
               context: context,
-              title: titleBuilder(context),
+              title: titleBuilder!(context),
               selectedOption: selectedOption.setting,
               options: options,
             );
@@ -214,7 +215,7 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  settingItem.titleBuilder(context),
+                  settingItem.titleBuilder!(context),
                   style: textTheme.titleLarge,
                 ),
                 const SizedBox(height: 2),
@@ -236,13 +237,15 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  settingItem.titleBuilder(context),
+                  settingItem.titleBuilder!(context),
                   style: textTheme.headlineSmall,
                 ),
               ],
             ),
           ),
         );
+      case GithubLinkSettingItem():
+        return const GithubLink();
       case CheckForUpdateSettingItem():
         return const CheckForUpdate();
       default:

@@ -16,8 +16,8 @@ import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/feature/settings/bloc/settings_category.dart';
-import 'package:aniflow/feature/settings/bloc/settings_state.dart';
+import 'package:aniflow/feature/settings/settings_category.dart';
+import 'package:aniflow/feature/settings/settings_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -174,7 +174,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
       case MediaType():
         await _userDataRepository.setMediaType(setting);
       case CheckAppUpdate():
-        // _onClickCheckAppUpdate();
+      // _onClickCheckAppUpdate();
 
       default:
         throw 'Invalid type';
@@ -267,11 +267,17 @@ extension SettingsBlocEx on SettingsBloc {
         ],
       ),
       SettingCategory(
+        titleBuilder: (context) => 'GitHub',
+        settingItems: [
+          GithubLinkSettingItem(),
+        ],
+      ),
+      SettingCategory(
         titleBuilder: (context) => context.appLocal.about,
         settingItems: [
           SingleLineWithTapActionSettingItem<About>(
             titleBuilder: (context) => context.materialLocal.moreButtonTooltip,
-          )
+          ),
         ],
       ),
     ];
