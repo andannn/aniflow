@@ -40,6 +40,8 @@ mixin _UserDataKey {
 
   static const alreadySentNotificationIdsKey =
       'already_sent_notification_ids_key';
+
+  static const mineGithubUserInfoKey = 'mine_github_user_info_key';
 }
 
 @lazySingleton
@@ -227,5 +229,20 @@ class UserDataPreferences {
     await _preferences.remove(_UserDataKey.alreadySentNotificationIdsKey);
 
     _changeNotifier.notifyChanged();
+  }
+
+  Future setMineGithubUserInfo(String userInfo) async {
+    await _preferences.setString(_UserDataKey.mineGithubUserInfoKey, userInfo);
+    _changeNotifier.notifyChanged();
+  }
+
+  Stream<String?> getMineGithubUserInfoStream() {
+    return StreamUtil.createStream(
+      _changeNotifier,
+      () {
+        return Future.value(
+            _preferences.getString(_UserDataKey.mineGithubUserInfoKey));
+      },
+    ).distinct();
   }
 }

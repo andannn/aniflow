@@ -1,7 +1,7 @@
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/feature/settings/bloc/settings_category.dart';
+import 'package:aniflow/feature/settings/settings_category.dart';
 
 class AppUpdateDialogMessage extends DialogMessage {
   const AppUpdateDialogMessage(

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/feature/settings/bloc/settings_category.dart';
+import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
