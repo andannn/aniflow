@@ -79,7 +79,6 @@ class UserDataRepository {
   int get seasonYear => _preferences.userData.seasonYear;
 
   bool get isAdultContentsFeatureEnabled =>
-      !BuildEnvironment.isFeatureLimited &&
       _remoteConfigManager.isAdultContentsFeatureEnabled();
 
   bool get displayAdultContent =>
@@ -96,9 +95,7 @@ class UserDataRepository {
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
 
   Stream<bool> get isHiAnimationFeatureEnabledStream =>
-      BuildEnvironment.isFeatureLimited
-          ? Stream.value(false)
-          : _remoteConfigManager.isHiAnimationFeatureEnabledStream();
+          _remoteConfigManager.isHiAnimationFeatureEnabledStream();
 
   Stream<bool> get isSocialFeatureEnabledStream =>
       _remoteConfigManager.isSocialFeatureEnabledStream();
