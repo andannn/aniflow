@@ -31,7 +31,7 @@ class GithubLinkContent extends StatelessWidget {
           final user = (state as ReadyGithubLinkState).user;
           return InkWell(
             onTap: () {
-              launchUrl(Uri.parse('https://github.com/andannn/'));
+              launchUrl(Uri.parse('https://github.com/andannn/aniflow'));
             },
             child: Padding(
               padding:
