@@ -68,8 +68,8 @@ class _OnTrackListFilterChanged extends TrackEvent {
   final TrackListFilter trackListFilter;
 }
 
-class OnMediaListModified extends TrackEvent {
-  OnMediaListModified({required this.mediaId, required this.result});
+class OnItemMediaListModified extends TrackEvent {
+  OnItemMediaListModified({required this.mediaId, required this.result});
 
   final String mediaId;
   final MediaListModifyResult result;
@@ -106,7 +106,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
       (event, emit) => _mediaListRepository.setTrackListFilter(event.filter),
     );
     on<OnAnimeMarkWatched>(_onMediaMarkWatched);
-    on<OnMediaListModified>(_onMediaListModified);
+    on<OnItemMediaListModified>(_onMediaListModified);
 
     /// start listen user changed event.
     autoCancel(
@@ -237,7 +237,9 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
   }
 
   FutureOr<void> _onMediaListModified(
-      OnMediaListModified event, Emitter<TrackUiState> emit) async {
+      OnItemMediaListModified event, Emitter<TrackUiState> emit) async {
+
+    safeAdd(_OnLoadStateChanged(isLoading: true));
     final state = event.result;
     final result = await _mediaListRepository.updateMediaList(
       animeId: event.mediaId,
@@ -251,6 +253,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
       startedAt: state.startedAt,
       completedAt: state.completedAt,
     );
+    safeAdd(_OnLoadStateChanged(isLoading: false));
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);
     }

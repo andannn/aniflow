@@ -27,20 +27,24 @@ class StatusModel {
 
 class UpdateMediaListPage extends Page<MediaListModifyResult> {
   final String mediaId;
+  final String from;
 
-  const UpdateMediaListPage({required this.mediaId, super.key});
+  const UpdateMediaListPage(
+      {required this.mediaId, required this.from, super.key});
 
   @override
   Route<MediaListModifyResult> createRoute(BuildContext context) {
-    return MediaListUpdateRoute(settings: this, mediaId: mediaId);
+    return MediaListUpdateRoute(settings: this, mediaId: mediaId, from: from);
   }
 }
 
 class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
     with MaterialRouteTransitionMixin<MediaListModifyResult> {
   final String mediaId;
+  final String from;
 
-  MediaListUpdateRoute({required this.mediaId, super.settings})
+  MediaListUpdateRoute(
+      {required this.mediaId, required this.from, super.settings})
       : super(allowSnapshotting: false);
 
   @override
@@ -48,7 +52,10 @@ class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
     return BlocProvider(
       create: (context) =>
           GetIt.instance.get<MediaListUpdateBloc>(param1: mediaId),
-      child: const MediaListUpdatePageContent(),
+      child: MediaListUpdatePageContent(
+        mediaId: mediaId,
+        from: from,
+      ),
     );
   }
 
@@ -65,10 +72,15 @@ class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
   }
 }
 
-const mediaListUpdatePageHeroTag = 'media_list_update_page_hero_tag';
+String Function(String, String) mediaListUpdatePageHeroTagBuilder =
+    (mediaId, from) => 'media_list_update_page_hero_tag_${mediaId}_$from';
 
 class MediaListUpdatePageContent extends StatelessWidget {
-  const MediaListUpdatePageContent({super.key});
+  const MediaListUpdatePageContent(
+      {super.key, required this.mediaId, required this.from});
+
+  final String mediaId;
+  final String from;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +106,7 @@ class MediaListUpdatePageContent extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Hero(
-                    tag: mediaListUpdatePageHeroTag,
+                    tag: mediaListUpdatePageHeroTagBuilder(mediaId, from),
                     child: GestureDetector(
                       // intercept click event of the children
                       onTap: () {},
@@ -361,6 +373,7 @@ class _UpdateMediaListBottomWidgetState
           ? MediaRowItem(
               model: widget.mediaModel!,
               language: userTitleLanguage,
+              titleMaxLines: 1,
             )
           : MediaRowItem(
               model: MediaModel(),

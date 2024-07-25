@@ -1,6 +1,7 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
@@ -8,6 +9,8 @@ import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_list_item.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
+import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +22,12 @@ class AnimeTrackPage extends Page {
 
   @override
   Route createRoute(BuildContext context) {
-    return AnimeTrackRoute(settings: this);
+    return MediaTrackRoute(settings: this);
   }
 }
 
-class AnimeTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
-  AnimeTrackRoute({super.settings}) : super(allowSnapshotting: false);
+class MediaTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
+  MediaTrackRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -136,23 +139,40 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
   Widget? _buildMediaListItem(
       BuildContext context, MediaWithListModel item, bool showNewBadge) {
     final language = GetIt.instance.get<UserDataRepository>().userTitleLanguage;
-
+    const identifier = 'track_tab';
     return Padding(
       key: ValueKey('anime_track_list_item_$item'),
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-      child: MediaListItem(
-        model: item,
-        language: language,
-        showNewBadge: showNewBadge,
-        onMarkWatchedClick: () {
-          context.read<TrackBloc>().add(OnAnimeMarkWatched(
-              animeId: item.mediaModel.id,
-              progress: item.mediaListModel!.progress! + 1,
-              totalEpisode: item.mediaModel.episodes));
-        },
-        onClick: () {
-          RootRouterDelegate.get().navigateToDetailMedia(item.mediaModel.id);
-        },
+      child: Hero(
+        tag: mediaListUpdatePageHeroTagBuilder(item.mediaModel.id, identifier),
+        child: MediaListItem(
+          model: item,
+          language: language,
+          showNewBadge: showNewBadge,
+          onMarkWatchedClick: () {
+            context.read<TrackBloc>().add(
+                  OnAnimeMarkWatched(
+                    animeId: item.mediaModel.id,
+                    progress: item.mediaListModel!.progress! + 1,
+                    totalEpisode: item.mediaModel.episodes,
+                  ),
+                );
+          },
+          onClick: () {
+            RootRouterDelegate.get().navigateToDetailMedia(item.mediaModel.id);
+          },
+          onLongPress: () async {
+            final bloc = context.read<TrackBloc>();
+            RootRouterDelegate.get()
+                .navigateToMediaListUpdatePage(item.mediaModel.id, identifier);
+            MediaListModifyResult? result =
+                await RootRouterDelegate.get().awaitPageResult();
+            if (result != null) {
+              bloc.safeAdd(OnItemMediaListModified(
+                  result: result, mediaId: item.mediaModel.id));
+            }
+          },
+        ),
       ),
     );
   }

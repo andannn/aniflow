@@ -342,6 +342,7 @@ _$MediaListUpdateRoutePathImpl _$$MediaListUpdateRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$MediaListUpdateRoutePathImpl(
       mediaId: json['mediaId'] as String,
+      from: json['from'] as String,
       $type: json['runtimeType'] as String?,
     );
 
@@ -349,6 +350,7 @@ Map<String, dynamic> _$$MediaListUpdateRoutePathImplToJson(
         _$MediaListUpdateRoutePathImpl instance) =>
     <String, dynamic>{
       'mediaId': instance.mediaId,
+      'from': instance.from,
       'runtimeType': instance.$type,
     };
 

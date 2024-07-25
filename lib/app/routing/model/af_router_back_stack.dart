@@ -100,8 +100,8 @@ mixin AfRouterBackStackMixin
     _pushAsSingleton(ImagePreviewRoutePath(source: source));
   }
 
-  void navigateToMediaListUpdatePage(String mediaId) {
-    _pushAsSingleton(MediaListUpdateRoutePath(mediaId: mediaId));
+  void navigateToMediaListUpdatePage(String mediaId, String from) {
+    _pushAsSingleton(MediaListUpdateRoutePath(mediaId: mediaId, from: from));
   }
 
   void navigateToBirthdayCharacterPage() {

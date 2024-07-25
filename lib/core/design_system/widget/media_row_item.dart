@@ -71,6 +71,7 @@ class MediaRowItem extends StatelessWidget {
                           style: textTheme.titleMedium
                               ?.copyWith(color: surfaceTextColor),
                           maxLines: titleMaxLines,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(height: 16),

@@ -15,11 +15,13 @@ class MediaListItem extends StatelessWidget {
     this.showNewBadge = false,
     required this.onMarkWatchedClick,
     required this.onClick,
+    this.onLongPress,
     required this.language,
   });
 
   final MediaWithListModel model;
   final VoidCallback onClick;
+  final VoidCallback? onLongPress;
   final VoidCallback onMarkWatchedClick;
   final UserTitleLanguage language;
   final bool showNewBadge;
@@ -37,13 +39,13 @@ class MediaListItem extends StatelessWidget {
           model: model.mediaModel,
           language: language,
           showNewBadge: showNewBadge,
-          watchingInfo:
-              _buildWatchingInfoLabel(context, model),
-          titleMaxLines: null,
+          watchingInfo: _buildWatchingInfoLabel(context, model),
+          titleMaxLines: 3,
           watchInfoTextColor: model.hasNextReleasedEpisode
               ? colorScheme.primary
               : colorScheme.secondary,
           onClick: onClick,
+          onLongPress: onLongPress,
         ),
       ),
     );
@@ -54,7 +56,8 @@ class MediaListItem extends StatelessWidget {
     final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     String label = '';
     if (hasNextReleasingEpisode) {
-      label = context.appLocal.nextEpToWatch(model.mediaListModel!.progress! + 1);
+      label =
+          context.appLocal.nextEpToWatch(model.mediaListModel!.progress! + 1);
     } else {
       if (model.mediaModel.nextAiringEpisode != null) {
         label = context.appLocal.nextAiringInfo(

@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:platform_downloader/platform_downloader.dart';
 
-const heroImagePreviewTag = 'hero_image_preview';
-
 class ImagePreviewPage extends Page {
   final PreviewSource source;
 
