@@ -1,7 +1,7 @@
-import 'package:aniflow/feature/aniflow_home/discover/discover.dart';
-import 'package:aniflow/feature/aniflow_home/media_track/media_track.dart';
-import 'package:aniflow/feature/aniflow_home/social/social.dart';
+import 'package:aniflow/feature/discover/discover.dart';
+import 'package:aniflow/feature/media_track/media_track.dart';
 import 'package:aniflow/feature/profile/profile.dart';
+import 'package:aniflow/feature/social/social.dart';
 import 'package:flutter/material.dart';
 
 enum TopLevelNavigation {
