@@ -40,6 +40,8 @@ import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+const _identifier = 'detail_media';
+
 class DetailAnimePage extends Page {
   final String animeId;
 
@@ -134,8 +136,8 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
 
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
-          RootRouterDelegate.get()
-              .navigateToMediaListUpdatePage(state.detailAnimeModel!.id);
+          RootRouterDelegate.get().navigateToMediaListUpdatePage(
+              state.detailAnimeModel!.id, _identifier);
           MediaListModifyResult? result =
               await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {
@@ -178,7 +180,8 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
               ),
               const SizedBox(height: 8),
               ShrinkableFloatingActionButton(
-                heroTag: mediaListUpdatePageHeroTag,
+                heroTag:
+                    mediaListUpdatePageHeroTagBuilder(model.id, _identifier),
                 isExtended: hasDescription && !isScrollOverLimit,
                 icon: Icon(statusIcon),
                 label: Text(stateString),

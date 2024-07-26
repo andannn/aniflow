@@ -67,10 +67,11 @@ class MediaRowItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 4.0),
                         child: Text(
-                          model.title!.getTitle(language),
+                          model.title?.getTitle(language) ?? '',
                           style: textTheme.titleMedium
                               ?.copyWith(color: surfaceTextColor),
                           maxLines: titleMaxLines,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(height: 16),

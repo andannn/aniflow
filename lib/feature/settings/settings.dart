@@ -9,10 +9,10 @@ import 'package:aniflow/core/design_system/animation/page_transaction_animation.
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
 import 'package:aniflow/core/design_system/icons/icons.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
-import 'package:aniflow/feature/settings/github_link/github_link.dart';
-import 'package:aniflow/feature/settings/settings_bloc.dart';
 import 'package:aniflow/feature/settings/check_for_update/check_for_update.dart';
+import 'package:aniflow/feature/settings/github_link/github_link.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
+import 'package:aniflow/feature/settings/settings_bloc.dart';
 import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:aniflow/feature/settings/settings_state.dart';
 import 'package:flutter/material.dart';

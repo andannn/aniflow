@@ -8,7 +8,7 @@ import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart';
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_state.dart';
-import 'package:aniflow/feature/aniflow_home/social/activity/activity.dart';
+import 'package:aniflow/feature/social/activity/activity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
