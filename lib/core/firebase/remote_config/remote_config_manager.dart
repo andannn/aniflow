@@ -14,6 +14,7 @@ mixin FirebaseRemoteConfigKeys {
   static String isSocialFeatureEnabled = 'enable_social_tab';
   static String isAdultContentsFeatureEnabled = 'show_sensitive_contents';
   static String latestAppVersion = 'latest_app_version';
+  static String enableGithubLinkFeature = 'enable_github_link_feature';
 }
 
 @lazySingleton
@@ -64,6 +65,11 @@ class RemoteConfigManager {
   bool isAdultContentsFeatureEnabled() {
     return config
         .getBool(FirebaseRemoteConfigKeys.isAdultContentsFeatureEnabled);
+  }
+
+  bool isGithubLinkFeatureEnabled() {
+    return config
+        .getBool(FirebaseRemoteConfigKeys.enableGithubLinkFeature);
   }
 
   Stream<AppVersion?> latestAppVersionStream() => StreamUtil.createStream(

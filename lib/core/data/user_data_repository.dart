@@ -81,6 +81,9 @@ class UserDataRepository {
   bool get isAdultContentsFeatureEnabled =>
       _remoteConfigManager.isAdultContentsFeatureEnabled();
 
+  bool get isGithubLinkFeatureEnabled =>
+      _remoteConfigManager.isGithubLinkFeatureEnabled();
+
   bool get displayAdultContent =>
       isAdultContentsFeatureEnabled &&
       _preferences.userData.displayAdultContent;

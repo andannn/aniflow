@@ -267,14 +267,10 @@ extension SettingsBlocEx on SettingsBloc {
         ],
       ),
       SettingCategory(
-        titleBuilder: (context) => 'GitHub',
-        settingItems: [
-          GithubLinkSettingItem(),
-        ],
-      ),
-      SettingCategory(
         titleBuilder: (context) => context.appLocal.about,
         settingItems: [
+          if (_userDataRepository.isGithubLinkFeatureEnabled)
+            GithubLinkSettingItem(),
           SingleLineWithTapActionSettingItem<About>(
             titleBuilder: (context) => context.materialLocal.moreButtonTooltip,
           ),
