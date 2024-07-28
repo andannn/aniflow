@@ -19,6 +19,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+class SettingsPage extends Page {
+  const SettingsPage({super.key});
+
+  @override
+  Route createRoute(BuildContext context) {
+    return SettingsPageRoute(settings: this);
+  }
+}
+
 class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   SettingsPageRoute({super.settings}) : super(allowSnapshotting: false);
 

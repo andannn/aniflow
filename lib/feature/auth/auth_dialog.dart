@@ -4,7 +4,6 @@ import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
-import 'package:aniflow/feature/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -163,7 +162,7 @@ class _AuthDialogContent extends StatelessWidget {
     switch (option) {
       case _OptionColumn.settings:
         Navigator.pop(context);
-        Navigator.of(context, rootNavigator: true).push(SettingsPageRoute());
+        RootRouterDelegate.get().navigateToSettingsPage();
       case _OptionColumn.notification:
         Navigator.pop(context);
         RootRouterDelegate.get().navigateToNotification();

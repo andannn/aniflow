@@ -354,6 +354,18 @@ Map<String, dynamic> _$$MediaListUpdateRoutePathImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$SettingsRoutePathImpl _$$SettingsRoutePathImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SettingsRoutePathImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$SettingsRoutePathImplToJson(
+        _$SettingsRoutePathImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$BirthdayCharacterPagePathImpl _$$BirthdayCharacterPagePathImplFromJson(
         Map<String, dynamic> json) =>
     _$BirthdayCharacterPagePathImpl(

@@ -23,6 +23,7 @@ import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_
 import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
 import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
 import 'package:aniflow/feature/search/search_page.dart';
+import 'package:aniflow/feature/settings/settings.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,7 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return ProfilePage(
           key: ValueKey(toString()),
           userId: id,
-          showBackKey: true,
+          isFullScreenPageRoute: true,
         );
       case AiringScheduleRoutePath(type: final type):
         return AiringSchedule(key: ValueKey(toString()), scheduleType: type);
@@ -87,6 +88,8 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         );
       case BirthdayCharacterPagePath():
         return BirthdayCharactersPage(key: ValueKey(toString()));
+      case SettingsRoutePath():
+        return SettingsPage(key: ValueKey(toString()));
       default:
         return const MaterialPage(child: SizedBox());
     }
