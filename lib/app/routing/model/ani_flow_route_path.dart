@@ -100,6 +100,8 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
     required String from,
   }) = MediaListUpdateRoutePath;
 
+  const factory AniFlowRoutePath.settings() = SettingsRoutePath;
+
   const factory AniFlowRoutePath.birthdayCharacterPage() =
       BirthdayCharacterPagePath;
 

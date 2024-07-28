@@ -108,6 +108,10 @@ mixin AfRouterBackStackMixin
     _pushAsSingleton(const BirthdayCharacterPagePath());
   }
 
+  void navigateToSettingsPage() {
+    _pushAsSingleton(const SettingsRoutePath());
+  }
+
   void popBackStack() {
     stack.value = [...stack.value]..removeLast();
     notifyListeners();

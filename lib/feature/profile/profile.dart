@@ -1,3 +1,4 @@
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
@@ -26,26 +27,30 @@ class ProfilePage extends Page {
   const ProfilePage({
     this.userId,
     super.key,
-    this.showBackKey = false,
+    this.isFullScreenPageRoute = false,
   });
 
   final String? userId;
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Route createRoute(BuildContext context) {
     return ProfileRoute(
-        settings: this, userId: userId, showBackKey: showBackKey);
+        settings: this,
+        userId: userId,
+        isFullScreenPageRoute: isFullScreenPageRoute);
   }
 }
 
 class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   ProfileRoute(
-      {required this.userId, required this.showBackKey, super.settings})
+      {required this.userId,
+      required this.isFullScreenPageRoute,
+      super.settings})
       : super(allowSnapshotting: false);
 
   final String? userId;
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Widget buildContent(BuildContext context) {
@@ -53,7 +58,8 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
         create: (BuildContext context) => GetIt.instance.get<ProfileBloc>(
               param1: userId,
             ),
-        child: _ProfilePageContent(showBackKey: showBackKey));
+        child:
+            _ProfilePageContent(isFullScreenPageRoute: isFullScreenPageRoute));
   }
 
   @override
@@ -61,9 +67,9 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _ProfilePageContent extends StatelessWidget {
-  const _ProfilePageContent({required this.showBackKey});
+  const _ProfilePageContent({required this.isFullScreenPageRoute});
 
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +160,7 @@ class _ProfilePageContent extends StatelessWidget {
             ],
             child: _UserProfile(
               userState: userState,
-              showBackKey: showBackKey,
+              isFullScreenPageRoute: isFullScreenPageRoute,
             ),
           );
         }
@@ -164,10 +170,11 @@ class _ProfilePageContent extends StatelessWidget {
 }
 
 class _UserProfile extends StatefulWidget {
-  const _UserProfile({required this.userState, required this.showBackKey});
+  const _UserProfile(
+      {required this.userState, required this.isFullScreenPageRoute});
 
   final UserModel userState;
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   State<_UserProfile> createState() => _UserProfileState();
@@ -202,7 +209,7 @@ class _UserProfileState extends State<_UserProfile>
               sliver: SliverPersistentHeader(
                 delegate: _CustomSliverAppBarDelegate(
                   state: widget.userState,
-                  showBackKey: widget.showBackKey,
+                  isFullScreenPageRoute: widget.isFullScreenPageRoute,
                   tabController: _tabController,
                   tabs: ProfileTabType.values
                       .map((e) => Text(e.translated(context)))
@@ -245,7 +252,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.state,
     required this.tabController,
     required this.tabs,
-    required this.showBackKey,
+    required this.isFullScreenPageRoute,
   });
 
   final TabController tabController;
@@ -255,7 +262,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final _maxExtent = 360.0;
   final _minExtent = 160.0;
 
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Widget build(
@@ -323,20 +330,22 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   Widget _buildBackButton(BuildContext context, double shrinkOffset) => Opacity(
         opacity: 1 - shrinkOffset / (_maxExtent - _minExtent),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface.withAlpha(223),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-              onPressed: () {},
-            ),
-          ),
+        child: _HalfTransparentIconButton(
+          icon: Icons.arrow_back,
+          onPressed: () {
+            RootRouterDelegate.get().popBackStack();
+          },
+        ),
+      );
+
+  Widget _buildSettingButton(BuildContext context, double shrinkOffset) =>
+      Opacity(
+        opacity: 1 - shrinkOffset / (_maxExtent - _minExtent),
+        child: _HalfTransparentIconButton(
+          icon: Icons.settings,
+          onPressed: () {
+            RootRouterDelegate.get().navigateToSettingsPage();
+          },
         ),
       );
 
@@ -350,13 +359,19 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             fit: StackFit.expand,
             children: [
               _buildBackground(context, shrinkOffset),
-              if (showBackKey)
+              _buildAppbar(shrinkOffset),
+              if (isFullScreenPageRoute)
                 Positioned(
                   left: 0,
                   top: 50,
                   child: _buildBackButton(context, shrinkOffset),
                 ),
-              _buildAppbar(shrinkOffset),
+              if (!isFullScreenPageRoute)
+                Positioned(
+                  top: 50,
+                  right: 0,
+                  child: _buildSettingButton(context, shrinkOffset),
+                ),
             ],
           ),
         ),
@@ -389,7 +404,38 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         opacity: shrinkOffset / (_maxExtent - _minExtent),
         child: AppBar(
           title: Text(state.name),
-          automaticallyImplyLeading: showBackKey,
+          automaticallyImplyLeading: isFullScreenPageRoute,
+          actions: [
+            if (!isFullScreenPageRoute)
+              IconButton(
+                onPressed: () {
+                  RootRouterDelegate.get().navigateToSettingsPage();
+                },
+                icon: const Icon(Icons.settings),
+              )
+          ],
         ),
       );
+}
+
+class _HalfTransparentIconButton extends StatelessWidget {
+  const _HalfTransparentIconButton({this.icon, this.onPressed});
+
+  final IconData? icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface.withAlpha(223),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Icon(icon, color: Theme.of(context).colorScheme.onSurface),
+      ),
+      onPressed: onPressed,
+    );
+  }
 }
