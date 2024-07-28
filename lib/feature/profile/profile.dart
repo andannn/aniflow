@@ -321,6 +321,25 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
       );
 
+  Widget _buildBackButton(BuildContext context, double shrinkOffset) => Opacity(
+        opacity: 1 - shrinkOffset / (_maxExtent - _minExtent),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface.withAlpha(223),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ),
+      );
+
   Widget _buildCustomHeader(
       BuildContext context, shrinkOffset, bool isLoading) {
     return Column(
@@ -331,6 +350,12 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             fit: StackFit.expand,
             children: [
               _buildBackground(context, shrinkOffset),
+              if (showBackKey)
+                Positioned(
+                  left: 0,
+                  top: 50,
+                  child: _buildBackButton(context, shrinkOffset),
+                ),
               _buildAppbar(shrinkOffset),
             ],
           ),
