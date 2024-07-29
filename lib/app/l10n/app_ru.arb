@@ -124,7 +124,7 @@
 	"dropped": "Прервано",
 	"paused": "Приостановлено",
 	"planning": "Планируется",
-	"todayBirthdayCharacter": "Сегодня день рождения персонажа {date}",
+	"todayBirthdayCharacter": "Сегодня день рождения персонажа",
 	"animeSchedule": "Расписание на {date}",
 	"releaseDate": "Будет выпущен {date}",
 	"releasedAt": "Выпущен {date}",

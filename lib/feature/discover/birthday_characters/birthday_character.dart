@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/character_with_media_item_widget.dart';
 import 'package:aniflow/feature/discover/birthday_characters/birthday_characters_bloc.dart';
 import 'package:aniflow/feature/discover/birthday_characters/birthday_characters_state.dart';
+import 'package:aniflow/feature/discover/birthday_characters/dummy_birthday_character_data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,7 +89,7 @@ class BirthdayCharactersWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      model.name!.getNameByUserSetting(staffNameLanguage),
+                      model.name?.getNameByUserSetting(staffNameLanguage) ?? '',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleSmall,
                       overflow: TextOverflow.ellipsis,
@@ -118,37 +119,35 @@ class BirthdayCharactersWidget extends StatelessWidget {
       );
     }
 
-    return Visibility(
-      visible: models.isNotEmpty,
-      child: Column(
-        children: [
-          CategoryTitleBar(
-            title: context.appLocal.todayBirthdayCharacter(''),
-            onMoreClick: () {
-              RootRouterDelegate.get().navigateToBirthdayCharacterPage();
-            },
-          ),
-          const SizedBox(height: 4),
-          SizedBox(
-            height: 320,
-            child: CustomScrollView(
-              scrollDirection: Axis.horizontal,
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  sliver: SliverList.builder(
-                    itemCount: models.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return itemBuilder(models[index]);
-                    },
-                  ),
+    final characterModels =
+        models.isNotEmpty ? models : dummyBirthdayCharacterData;
+    return Column(
+      children: [
+        CategoryTitleBar(
+          title: context.appLocal.todayBirthdayCharacter,
+          onMoreClick: () {
+            RootRouterDelegate.get().navigateToBirthdayCharacterPage();
+          },
+        ),
+        const SizedBox(height: 4),
+        SizedBox(
+          height: 320,
+          child: CustomScrollView(
+            scrollDirection: Axis.horizontal,
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                sliver: SliverList.builder(
+                  itemCount: characterModels.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return itemBuilder(characterModels[index]);
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

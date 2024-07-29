@@ -47,8 +47,7 @@ class _BirthdayCharactersPageContent extends StatelessWidget {
       final pagingState = state;
       return Scaffold(
         appBar: AppBar(
-          title: Text(context.appLocal.todayBirthdayCharacter(
-              context.materialLocal.formatMediumDate(DateTime.now()))),
+          title: Text(context.appLocal.todayBirthdayCharacter),
         ),
         body: PagingContent<CharacterModel, BirthdayCharacterPageBloc>(
           pagingState: pagingState,

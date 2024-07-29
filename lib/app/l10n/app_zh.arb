@@ -124,7 +124,7 @@
 	"dropped": "已放弃",
 	"paused": "已暂停",
 	"planning": "计划中",
-	"todayBirthdayCharacter": "今天 {date} 生日的角色",
+	"todayBirthdayCharacter": "生日的角色",
 	"animeSchedule": "{date}的时间表",
 	"releaseDate": "{date} 将发布",
 	"releasedAt": "发布日期：{date}",

@@ -23,7 +23,7 @@ class MediaCategoryPreviewParams extends Equatable {
       {required this.category, required this.userId, required this.mediaType});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [category, userId, mediaType];
 }
 
 sealed class MediaCategoryPreviewEvent {}
@@ -43,6 +43,7 @@ class MediaCategoryPreviewBloc
     this._mediaInfoRepository,
     this._mediaListRepository,
   ) : super(const MediaCategoryPreviewState()) {
+    print('JQN init $_params');
     on<_OnMediasChanged>(
       (event, emit) => emit(state.copyWith(data: event.medias)),
     );
