@@ -148,14 +148,7 @@
 	"dropped": "Dropped",
 	"paused": "Paused",
 	"planning": "Planning",
-	"todayBirthdayCharacter": "Characters with a birthday today {date}",
-	"@todayBirthdayCharacter": {
-		"placeholders": {
-			"date": {
-				"type": "String"
-			}
-		}
-	},
+	"todayBirthdayCharacter": "Characters with a birthday today",
 	"animeSchedule": "{date}'s schedule",
 	"@animeSchedule": {
 		"placeholders": {

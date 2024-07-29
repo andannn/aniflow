@@ -124,7 +124,7 @@
 	"dropped": "Abandonné",
 	"paused": "En pause",
 	"planning": "Planification",
-	"todayBirthdayCharacter": "Aujourd'hui, c'est l'anniversaire du personnage {date}",
+	"todayBirthdayCharacter": "Aujourd'hui, c'est l'anniversaire du personnage",
 	"animeSchedule": "Emploi du temps pour {date}",
 	"releaseDate": "Sortie prévue le {date}",
 	"releasedAt":"Sorti le {date}",

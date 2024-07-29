@@ -124,7 +124,7 @@
 	"dropped": "中止",
 	"paused": "一時停止",
 	"planning": "計画中",
-	"todayBirthdayCharacter": "今日 {date} 誕生日のキャラクター",
+	"todayBirthdayCharacter": "誕生日のキャラクター",
 	"animeSchedule": "{date}のスケジュール",
 	"releaseDate": "{date} に公開されます。",
 	"releasedAt": "{date} に公開されました。",

@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/schedule_page_state.dart';
+import 'package:aniflow/feature/discover/airing_schedule/dummy_schedule_category_data.dart';
 import 'package:aniflow/feature/discover/airing_schedule/today_airing_schedule_bloc.dart';
 import 'package:aniflow/feature/discover/airing_schedule/today_airing_schedule_state.dart';
 import 'package:aniflow/feature/discover/birthday_characters/birthday_character.dart';
@@ -33,9 +34,8 @@ class TodayAiringSchedule extends StatelessWidget {
     return BlocBuilder<TodayAiringScheduleBloc, TodayAiringScheduleState>(
       builder: (context, state) {
         final categories = state.schedules.toScheduleCategory();
-        if (categories.isEmpty) {
-          return const SizedBox();
-        }
+        final airingSchedules =
+            categories.isNotEmpty ? categories : dummyScheduleCategoryData;
 
         return Column(
           children: [
@@ -55,9 +55,9 @@ class TodayAiringSchedule extends StatelessWidget {
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     sliver: SliverList.builder(
-                      itemCount: categories.length,
+                      itemCount: airingSchedules.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return _buildItem(categories[index]);
+                        return _buildItem(airingSchedules[index]);
                       },
                     ),
                   ),
@@ -144,7 +144,7 @@ class _TimeLineItem extends StatelessWidget {
         onClick: () {
           RootRouterDelegate.get().navigateToDetailMedia(media.id);
         },
-        coverImage: media.coverImage!.extraLarge!,
+        coverImage: media.coverImage?.extraLarge ?? '',
         titleVerticalPadding: 5,
         title: media.title?.getTitle(userTitleLanguage) ?? '',
       ),
