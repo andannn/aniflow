@@ -68,7 +68,7 @@ dependencies:
   synchronized: ^3.1.0
   auto_size_text: ^3.0.0
   flutter_widget_from_html: ^0.15.1
-  connectivity_plus: ^6.0.3
+  connectivity_plus: ^6.0.4
   flutter_rating_bar: ^4.0.1
   flutter_emoji: ^2.5.1
   firebase_core: ^3.1.1
