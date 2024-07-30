@@ -95,7 +95,7 @@ dependencies:
   firebase_remote_config: ^5.0.3
   workmanager: ^0.5.2
   permission_handler: ^11.3.1
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.0.1
 
 dev_dependencies:
   drift_dev: ^2.19.1
