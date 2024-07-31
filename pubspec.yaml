@@ -41,7 +41,7 @@ dependencies:
   build_runner: ^2.4.11
   json_annotation: ^4.8.1
   sqflite_common_ffi: ^2.3.0+2
-  shared_preferences: ^2.2.1
+  shared_preferences: ^2.3.0
   flutter_localizations:
     sdk: flutter
   intl: any
