@@ -3,6 +3,7 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
@@ -194,6 +195,26 @@ void main() {
           preferences.userDataStream.map((event) => event.sentNotificationIds);
       await preferences.addNotificationId('1');
       await expectLater(stream, emits(['1']));
+    });
+
+    test('get last refresh time test', () async {
+      final time = DateTime.now();
+      await preferences.setLastSuccessRefreshTime(
+          const MediaList(userId: ''), time);
+
+      final getTime =
+          preferences.getLastSuccessRefreshTime(const MediaList(userId: ''));
+      expect(getTime, time);
+    });
+
+    test('get last refresh time with wrong key test', () async {
+      final time = DateTime.now();
+      await preferences.setLastSuccessRefreshTime(
+          const BirthdayCharacters(), time);
+
+      final getTime =
+          preferences.getLastSuccessRefreshTime(const MediaList(userId: ''));
+      expect(getTime, null);
     });
   });
 }
