@@ -41,7 +41,7 @@ dependencies:
   build_runner: ^2.4.11
   json_annotation: ^4.8.1
   sqflite_common_ffi: ^2.3.0+2
-  shared_preferences: ^2.2.1
+  shared_preferences: ^2.3.0
   flutter_localizations:
     sdk: flutter
   intl: any
@@ -72,9 +72,9 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_emoji: ^2.5.1
   firebase_core: ^3.1.1
-  firebase_crashlytics: ^4.0.3
-  firebase_analytics: ^11.2.0
-  path_provider: ^2.1.1
+  firebase_crashlytics: ^4.0.4
+  firebase_analytics: ^11.2.1
+  path_provider: ^2.1.4
   firebase_performance: ^0.10.0+2
   flutter_cache_manager: ^3.3.3
   fwfh_cached_network_image: ^0.14.3
