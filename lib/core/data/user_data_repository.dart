@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/environment/build_environment.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
@@ -98,7 +99,7 @@ class UserDataRepository {
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
 
   Stream<bool> get isHiAnimationFeatureEnabledStream =>
-          _remoteConfigManager.isHiAnimationFeatureEnabledStream();
+      _remoteConfigManager.isHiAnimationFeatureEnabledStream();
 
   Stream<bool> get isSocialFeatureEnabledStream =>
       _remoteConfigManager.isSocialFeatureEnabledStream();
@@ -165,4 +166,26 @@ class UserDataRepository {
   Future<AppVersion?> updateAndGetLatestAppVersion() {
     return _remoteConfigManager.refreshAndGetLatestAppVersion();
   }
+
+  bool canRefresh(RefreshTimeKey key) {
+    final lastRefreshTime = _preferences.getLastSuccessRefreshTime(key);
+    if (lastRefreshTime == null) {
+      // If there is no last refresh time, it is possible to refresh.
+      return true;
+    }
+
+    final now = DateTime.now();
+    if (now.day != lastRefreshTime.day) {
+      // If the last refresh time is not today, it is possible to refresh.
+      return true;
+    }
+
+    final diff = now.difference(lastRefreshTime);
+    // If the last refresh time is larger than the refresh interval,
+    // it is possible to refresh.
+    return diff.inMinutes >= key.refreshIntervalInMinutes;
+  }
+
+  Future setLastSuccessRefreshTime(RefreshTimeKey key, DateTime time) =>
+      _preferences.setLastSuccessRefreshTime(key, time);
 }

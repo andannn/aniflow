@@ -5,11 +5,13 @@ import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/loading_state_mixin.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/character_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -119,7 +121,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
     );
 
     stream.map((e) => e.currentMediaType).distinct().listen((type) {
-      _refreshAllMediaPreview();
+      _refreshAllMediaPreview(type);
     });
 
     autoCancel(
@@ -152,67 +154,71 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   Future onPullToRefreshTriggered() {
     final userId = state.userData?.id;
     return Future.wait([
-      _refreshAllMediaPreview(),
-      _refreshBirthdayCharacters(),
-      _refreshAiringSchedule(),
-      if (userId != null) _refreshAllMediaList(userId) else Future.value(),
+      _refreshAllMediaPreview(state.currentMediaType, true),
+      _refreshBirthdayCharacters(true),
+      _refreshAiringSchedule(true),
+      if (userId != null)
+        _refreshAllMediaList(userId, true)
+      else
+        Future.value(),
     ]);
   }
 
-  Future _refreshAllMediaPreview() async {
-    final categories =
-        MediaCategory.getAllCategoryByType(state.currentMediaType);
+  Future _refreshAllMediaPreview(MediaType type, [bool isForce = false]) async {
+    final categories = MediaCategory.getAllCategoryByType(type);
     for (final category in categories) {
-      unawaited(_refreshMediaPreviewOfCategory(category));
+      unawaited(_refreshMediaPreviewOfCategory(category, isForce));
     }
   }
 
-  Future _refreshMediaPreviewOfCategory(MediaCategory category) async {
-    startLoading(category.toString());
-    final result = await _mediaInfoRepository.loadMediaPageByCategory(
-      category: category,
-      loadType: const Refresh(6),
-      displayAdultContent: _userDataRepository.displayAdultContent,
-    );
-    finishLoading(category.toString(), result);
-  }
+  Future _refreshMediaPreviewOfCategory(MediaCategory category,
+          [bool isForce = false]) =>
+      doRefresh(
+        RefreshTimeKey.mediaCategory(category: category),
+        () => _mediaInfoRepository.loadMediaPageByCategory(
+          category: category,
+          loadType: const Refresh(6),
+          displayAdultContent: _userDataRepository.displayAdultContent,
+        ),
+        isForce,
+      );
 
-  Future _refreshAllMediaList(String userId) async {
-    startLoading('_refreshAllMediaList');
-    final result = await _mediaListRepository.syncMediaList(
-      userId: userId,
-      status: [MediaListStatus.current, MediaListStatus.planning],
-      mediaType: _userDataRepository.mediaType,
-    );
-    finishLoading('_refreshAllMediaList', result);
-  }
+  Future _refreshAllMediaList(String userId, [bool isForce = false]) =>
+      doRefresh(
+        RefreshTimeKey.mediaList(userId: userId),
+        () => _mediaListRepository.syncMediaList(
+          userId: userId,
+          status: [MediaListStatus.current, MediaListStatus.planning],
+          mediaType: _userDataRepository.mediaType,
+        ),
+        isForce,
+      );
 
-  Future _refreshBirthdayCharacters() async {
-    startLoading('_refreshBirthdayCharacters');
-    final result = await _characterRepository.loadBirthdayCharacterPage(
-      loadType: const Refresh(12),
-    );
-    finishLoading('_refreshBirthdayCharacters', result);
-  }
+  Future _refreshBirthdayCharacters([bool isForce = false]) => doRefresh(
+        const RefreshTimeKey.birthdayCharacters(),
+        () => _characterRepository.loadBirthdayCharacterPage(
+          loadType: const Refresh(12),
+        ),
+        isForce,
+      );
 
-  Future _refreshAiringSchedule() async {
-    startLoading('_refreshAiringSchedule');
-    final result =
-        await _mediaInfoRepository.refreshAiringSchedule(DateTime.now());
-    finishLoading('_refreshAiringSchedule', result);
-  }
+  Future _refreshAiringSchedule([bool isForce = false]) => doRefresh(
+        const RefreshTimeKey.airingSchedule(),
+        () => _mediaInfoRepository.refreshAiringSchedule(DateTime.now()),
+        isForce,
+      );
 
-  Future _refreshRecentMovies() async {
-    startLoading('_refreshRecentMovies');
-    final result = await _mediaInfoRepository.refreshMoviesPage(
-      startDateGreater: DateTime.now()
-          .subtract(const Duration(days: AfConfig.daysBeforeOfMoviesInHome)),
-      endDateLesser: DateTime.now()
-          .add(const Duration(days: AfConfig.daysAfterOfMoviesInHome)),
-      isAdult: _userDataRepository.displayAdultContent,
-    );
-    finishLoading('_refreshRecentMovies', result);
-  }
+  Future _refreshRecentMovies([bool isForce = false]) => doRefresh(
+        const RefreshTimeKey.recentMovies(),
+        () => _mediaInfoRepository.refreshMoviesPage(
+          startDateGreater: DateTime.now().subtract(
+              const Duration(days: AfConfig.daysBeforeOfMoviesInHome)),
+          endDateLesser: DateTime.now()
+              .add(const Duration(days: AfConfig.daysAfterOfMoviesInHome)),
+          isAdult: _userDataRepository.displayAdultContent,
+        ),
+        isForce,
+      );
 
   @override
   void onLoadingFinished(List<LoadError> errors) {
@@ -222,5 +228,21 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   @override
   void onLoadingStateChanged(bool isLoading) {
     add(_OnLoadStateChanged(isLoading));
+  }
+
+  Future doRefresh(RefreshTimeKey key, Future<LoadResult> Function() doRefresh,
+      [bool isForce = false]) async {
+    if (!_userDataRepository.canRefresh(key) && !isForce) {
+      logger.d("can't refresh $key");
+      return;
+    }
+
+    startLoading(key.toString());
+    final result = await doRefresh();
+    finishLoading(key.toString(), result);
+
+    if (result is LoadSuccess) {
+      await _userDataRepository.setLastSuccessRefreshTime(key, DateTime.now());
+    }
   }
 }

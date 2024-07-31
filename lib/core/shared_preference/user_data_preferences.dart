@@ -6,6 +6,7 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
@@ -244,5 +245,19 @@ class UserDataPreferences {
             _preferences.getString(_UserDataKey.mineGithubUserInfoKey));
       },
     ).distinct();
+  }
+
+  Future setLastSuccessRefreshTime(RefreshTimeKey key, DateTime time) async {
+    await _preferences.setString(
+        jsonEncode(key.toJson()), time.toIso8601String());
+  }
+
+  DateTime? getLastSuccessRefreshTime(RefreshTimeKey key) {
+    final timeStringOrNull = _preferences.getString(jsonEncode(key.toJson()));
+    if (timeStringOrNull == null) {
+      return null;
+    }
+
+    return DateTime.tryParse(timeStringOrNull);
   }
 }
