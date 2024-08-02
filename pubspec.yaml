@@ -85,7 +85,7 @@ dependencies:
   injectable: ^2.4.4
   image_picker: ^1.1.2
   html: ^0.15.4
-  string_similarity: ^2.0.0
+  string_similarity: ^2.1.1
   bloc_test: ^9.1.7
   mockito: ^5.4.4
   platform_downloader:
