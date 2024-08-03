@@ -140,5 +140,9 @@
 	"checkForUpdate": "ОБНОВЛЕНИЕ",
 	"appUpToDate": "Приложение обновлено",
 	"currentVersion": "Текущая версия",
-	"clickToUpdate": "Последняя версия {latestVersion}, нажмите, чтобы обновить!"
+	"clickToUpdate": "Последняя версия {latestVersion}, нажмите, чтобы обновить!",
+	"tutorialTitle": "Обучение",
+	"longPressManageList": "Долгое нажатие для управления списком",
+	"slideLeftMarkWatched": "Проведите влево, чтобы отметить как просмотренное",
+	"gesture": "Жест"
 }

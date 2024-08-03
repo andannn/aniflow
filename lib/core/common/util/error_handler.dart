@@ -1,6 +1,6 @@
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/connectivity_util.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:dio/dio.dart';
 
 mixin ErrorHandler {

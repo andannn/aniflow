@@ -1,7 +1,7 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
-import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';

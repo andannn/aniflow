@@ -140,5 +140,9 @@
 	"checkForUpdate": "检查升级",
 	"appUpToDate": "应用程序已是最新",
 	"currentVersion": "当前版本",
-	"clickToUpdate": "最新版本是{latestVersion}，点击更新！"
+	"clickToUpdate": "最新版本是{latestVersion}，点击更新！",
+	"tutorialTitle": "教程",
+	"longPressManageList": "长按以管理您的列表",
+	"slideLeftMarkWatched": "向左滑动以标记为已观看",
+	"gesture": "手势"
 }

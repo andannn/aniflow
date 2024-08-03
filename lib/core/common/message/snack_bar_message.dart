@@ -1,5 +1,5 @@
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:flutter/material.dart';
 
 class MediaMarkWatchedMessage extends SnackBarMessage {

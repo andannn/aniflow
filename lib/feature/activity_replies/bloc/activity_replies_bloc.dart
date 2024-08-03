@@ -1,8 +1,8 @@
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_state.dart';

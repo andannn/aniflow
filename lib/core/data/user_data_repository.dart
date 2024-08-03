@@ -7,6 +7,7 @@ import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/environment/build_environment.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
@@ -188,4 +189,17 @@ class UserDataRepository {
 
   Future setLastSuccessRefreshTime(RefreshTimeKey key, DateTime time) =>
       _preferences.setLastSuccessRefreshTime(key, time);
+
+  Future setDialogClosedTime(DialogType key, DateTime time) =>
+      _preferences.setDialogClosedTime(key, time);
+
+  bool canShowDialog(DialogType key) {
+    final lastShowTime = _preferences.getDialogClosedTime(key);
+    if (lastShowTime == null) {
+      // If there is no last show time, it is possible to show dialog.
+      return true;
+    }
+
+    return false;
+  }
 }

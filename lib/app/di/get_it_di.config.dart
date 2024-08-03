@@ -22,7 +22,6 @@ import 'package:aniflow/core/common/definitions/media_category.dart' as _i505;
 import 'package:aniflow/core/common/definitions/media_sort.dart' as _i797;
 import 'package:aniflow/core/common/definitions/media_type.dart' as _i55;
 import 'package:aniflow/core/common/definitions/staff_language.dart' as _i115;
-import 'package:aniflow/core/common/message/message.dart' as _i248;
 import 'package:aniflow/core/data/activity_repository.dart' as _i951;
 import 'package:aniflow/core/data/auth_repository.dart' as _i768;
 import 'package:aniflow/core/data/character_repository.dart' as _i14;
@@ -31,6 +30,7 @@ import 'package:aniflow/core/data/github_repository.dart' as _i309;
 import 'package:aniflow/core/data/hi_animation_repository.dart' as _i827;
 import 'package:aniflow/core/data/media_information_repository.dart' as _i970;
 import 'package:aniflow/core/data/media_list_repository.dart' as _i319;
+import 'package:aniflow/core/data/message_repository.dart' as _i67;
 import 'package:aniflow/core/data/notification_repository.dart' as _i221;
 import 'package:aniflow/core/data/search_repository.dart' as _i365;
 import 'package:aniflow/core/data/user_data_repository.dart' as _i810;
@@ -182,11 +182,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => dIWorkmanagerModule.workManager,
       preResolve: true,
     );
-    gh.lazySingleton<_i248.MessageRepository>(() => _i248.MessageRepository());
     await gh.lazySingletonAsync<_i627.FirebaseRemoteConfig>(
       () => dIFirebaseRemoteConfigModule.remoteConfig,
       preResolve: true,
     );
+    gh.lazySingleton<_i67.MessageRepository>(() => _i67.MessageRepository());
     gh.factory<_i874.UserDao>(
         () => dIDataBaseModule.getUserDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i159.StudioDao>(
@@ -224,43 +224,26 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.lazySingleton<_i638.HiAnimationDataSource>(
         () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
-    gh.lazySingleton<_i918.UserDataPreferences>(
-        () => _i918.UserDataPreferences(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i221.NotificationRepository>(
         () => _i221.NotificationRepository(
               gh<_i1026.AuthDataSource>(),
               gh<_i874.UserDao>(),
               gh<_i509.MediaDao>(),
             ));
-    gh.factory<_i106.AniListTokenHeaderInterceptor>(() =>
-        _i106.AniListTokenHeaderInterceptor(gh<_i918.UserDataPreferences>()));
-    gh.lazySingleton<_i810.UserDataRepository>(() => _i810.UserDataRepository(
-          gh<_i918.UserDataPreferences>(),
-          gh<_i630.RemoteConfigManager>(),
-        ));
-    gh.factoryParam<_i688.ProfileBloc, String?, dynamic>((
-      _userId,
-      _,
-    ) =>
-        _i688.ProfileBloc(
-          _userId,
-          gh<_i1066.UserInfoRepository>(),
-          gh<_i810.UserDataRepository>(),
-        ));
+    gh.lazySingleton<_i918.UserDataPreferences>(
+        () => _i918.UserDataPreferences(gh<_i460.SharedPreferences>()));
     gh.factory<_i827.HiAnimationRepository>(() => _i827.HiAnimationRepository(
           gh<_i638.HiAnimationDataSource>(),
           gh<_i393.EpisodeDao>(),
         ));
-    gh.factory<_i343.AppBloc>(
-        () => _i343.AppBloc(gh<_i810.UserDataRepository>()));
     gh.factory<_i14.CharacterRepository>(() => _i14.CharacterRepository(
           gh<_i595.CharacterDao>(),
           gh<_i1001.AniListDataSource>(),
         ));
-    gh.factory<_i951.BirthdayCharacterPageBloc>(
-        () => _i951.BirthdayCharacterPageBloc(gh<_i14.CharacterRepository>()));
     gh.factory<_i854.BirthdayCharactersBloc>(
         () => _i854.BirthdayCharactersBloc(gh<_i14.CharacterRepository>()));
+    gh.factory<_i951.BirthdayCharacterPageBloc>(
+        () => _i951.BirthdayCharacterPageBloc(gh<_i14.CharacterRepository>()));
     gh.lazySingleton<_i319.MediaListRepository>(() => _i319.MediaListRepository(
           gh<_i1026.AuthDataSource>(),
           gh<_i1001.AniListDataSource>(),
@@ -280,20 +263,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i309.GithubRepository>(() => _i309.GithubRepository(
           gh<_i70.GithubDataSource>(),
           gh<_i918.UserDataPreferences>(),
-        ));
-    gh.factory<_i308.CheckForUpdateBloc>(() => _i308.CheckForUpdateBloc(
-          gh<_i810.UserDataRepository>(),
-          gh<_i248.MessageRepository>(),
-        ));
-    gh.factoryParam<_i231.StatsBloc, String, dynamic>((
-      userId,
-      _,
-    ) =>
-        _i231.StatsBloc(
-          gh<_i227.UserStatisticsRepository>(),
-          gh<_i248.MessageRepository>(),
-          gh<_i810.UserDataRepository>(),
-          userId,
         ));
     gh.factoryParam<_i742.NextToWatchBloc, String?, _i55.MediaType>((
       _userId,
@@ -384,24 +353,13 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i609.FavoriteDao>(),
           gh<_i918.UserDataPreferences>(),
         ));
-    gh.factoryParam<_i748.AnimePageBloc, _i505.MediaCategory, dynamic>((
-      category,
-      _,
-    ) =>
-        _i748.AnimePageBloc(
-          category,
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i319.MediaListRepository>(),
-          gh<_i768.AuthRepository>(),
-          gh<_i810.UserDataRepository>(),
-        ));
     gh.factoryParam<_i553.ActivityRepliesBloc, String, dynamic>((
       activityId,
       _,
     ) =>
         _i553.ActivityRepliesBloc(
           gh<_i951.ActivityRepository>(),
-          gh<_i248.MessageRepository>(),
+          gh<_i67.MessageRepository>(),
           activityId,
         ));
     gh.factoryParam<_i593.ActivityStatusBloc, String, dynamic>((
@@ -410,33 +368,24 @@ extension GetItInjectableX on _i174.GetIt {
     ) =>
         _i593.ActivityStatusBloc(
           gh<_i951.ActivityRepository>(),
-          gh<_i248.MessageRepository>(),
+          gh<_i67.MessageRepository>(),
           activityId,
         ));
-    gh.factoryParam<_i425.MediaSearchResultPagingBloc, _i55.MediaType, String>((
-      _mediaType,
-      _searchString,
+    gh.factoryParam<_i376.AiringScheduleOfDayBloc, DateTime, dynamic>((
+      _dateTime,
+      _,
     ) =>
-        _i425.MediaSearchResultPagingBloc(
-          _mediaType,
-          _searchString,
-          gh<_i365.SearchRepository>(),
-          gh<_i810.UserDataRepository>(),
+        _i376.AiringScheduleOfDayBloc(
+          _dateTime,
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
-    gh.factoryParam<_i764.FavoriteStaffPagingBloc, String, int>((
-      userId,
-      perPageCount,
-    ) =>
-        _i764.FavoriteStaffPagingBloc(
-          userId,
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-          perPageCount,
+    gh.factory<_i106.AniListTokenHeaderInterceptor>(() =>
+        _i106.AniListTokenHeaderInterceptor(gh<_i918.UserDataPreferences>()));
+    gh.factory<_i554.AuthBloc>(() => _i554.AuthBloc(
+          gh<_i768.AuthRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
-    gh.factory<_i993.SearchBloc>(
-        () => _i993.SearchBloc(gh<_i810.UserDataRepository>()));
-    gh.factory<_i234.CharacterPageBloc>(
-        () => _i234.CharacterPageBloc(gh<_i810.UserDataRepository>()));
     gh.factory<_i847.EditProfileBloc>(
         () => _i847.EditProfileBloc(gh<_i768.AuthRepository>()));
     gh.factoryParam<_i971.FavoriteAnimePagingBloc, String, int>((
@@ -448,15 +397,30 @@ extension GetItInjectableX on _i174.GetIt {
           perPageCount,
           gh<_i462.FavoriteRepository>(),
         ));
-    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
-          gh<_i810.UserDataRepository>(),
-          gh<_i768.AuthRepository>(),
-          gh<_i248.MessageRepository>(),
+    gh.lazySingleton<_i810.UserDataRepository>(() => _i810.UserDataRepository(
+          gh<_i918.UserDataPreferences>(),
+          gh<_i630.RemoteConfigManager>(),
         ));
-    gh.factory<_i565.SettingsBloc>(() => _i565.SettingsBloc(
+    gh.factoryParam<_i688.ProfileBloc, String?, dynamic>((
+      _userId,
+      _,
+    ) =>
+        _i688.ProfileBloc(
+          _userId,
+          gh<_i1066.UserInfoRepository>(),
           gh<_i810.UserDataRepository>(),
+        ));
+    gh.factory<_i111.DiscoverBloc>(() => _i111.DiscoverBloc(
           gh<_i768.AuthRepository>(),
-          gh<_i248.MessageRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i319.MediaListRepository>(),
+          gh<_i810.UserDataRepository>(),
+          gh<_i67.MessageRepository>(),
+          gh<_i14.CharacterRepository>(),
+        ));
+    gh.factory<_i308.CheckForUpdateBloc>(() => _i308.CheckForUpdateBloc(
+          gh<_i810.UserDataRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
     gh.factoryParam<_i782.StaffPageBloc, String, dynamic>((
       animeId,
@@ -476,6 +440,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i951.ActivityRepository>(),
           gh<_i810.UserDataRepository>(),
           perPageCount,
+        ));
+    gh.factoryParam<_i787.DetailCharacterBloc, String, dynamic>((
+      _characterId,
+      _,
+    ) =>
+        _i787.DetailCharacterBloc(
+          _characterId,
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i67.MessageRepository>(),
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
         ));
     gh.factoryParam<_i317.CharacterPagingBloc, String, _i115.StaffLanguage>((
       animeId,
@@ -531,6 +506,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i319.MediaListRepository>(),
           perPageCount,
         ));
+    gh.factory<_i336.MovieScheduleTimeLineBloc>(
+        () => _i336.MovieScheduleTimeLineBloc(
+              gh<_i970.MediaInformationRepository>(),
+              gh<_i67.MessageRepository>(),
+              gh<_i810.UserDataRepository>(),
+            ));
     gh.factory<_i462.PostAnilistNotificationExecutor>(
         () => _i462.PostAnilistNotificationExecutor(
               gh<_i221.NotificationRepository>(),
@@ -539,6 +520,8 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i779.TodayAiringScheduleBloc>(() =>
         _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));
+    gh.factory<_i343.AppBloc>(
+        () => _i343.AppBloc(gh<_i810.UserDataRepository>()));
     gh.factoryParam<_i801.VoiceActorContentsPagingBloc, String,
         _i797.MediaSort>((
       staffId,
@@ -549,15 +532,16 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           mediaSort,
         ));
-    gh.factory<_i336.MovieScheduleTimeLineBloc>(
-        () => _i336.MovieScheduleTimeLineBloc(
-              gh<_i970.MediaInformationRepository>(),
-              gh<_i248.MessageRepository>(),
-              gh<_i810.UserDataRepository>(),
-            ));
-    gh.factory<_i554.AuthBloc>(() => _i554.AuthBloc(
-          gh<_i768.AuthRepository>(),
-          gh<_i248.MessageRepository>(),
+    gh.factoryParam<_i947.DetailStudioBloc, String, dynamic>((
+      studioId,
+      _,
+    ) =>
+        _i947.DetailStudioBloc(
+          studioId,
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
     gh.lazySingleton<_i490.BackgroundTaskManager>(
         () => _i490.BackgroundTaskManager(
@@ -576,14 +560,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i1008.GithubLinkBloc>(
         () => _i1008.GithubLinkBloc(gh<_i309.GithubRepository>()));
-    gh.factory<_i111.DiscoverBloc>(() => _i111.DiscoverBloc(
-          gh<_i768.AuthRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i319.MediaListRepository>(),
-          gh<_i810.UserDataRepository>(),
-          gh<_i248.MessageRepository>(),
-          gh<_i14.CharacterRepository>(),
-        ));
     gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
       mediaId,
       _,
@@ -596,43 +572,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i319.MediaListRepository>(),
           gh<_i827.HiAnimationRepository>(),
-          gh<_i248.MessageRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
-    gh.factoryParam<_i376.AiringScheduleOfDayBloc, DateTime, dynamic>((
-      _dateTime,
-      _,
-    ) =>
-        _i376.AiringScheduleOfDayBloc(
-          _dateTime,
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i248.MessageRepository>(),
-        ));
-    gh.factoryParam<_i947.DetailStudioBloc, String, dynamic>((
-      studioId,
-      _,
-    ) =>
-        _i947.DetailStudioBloc(
-          studioId,
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-          gh<_i248.MessageRepository>(),
-        ));
-    gh.factoryParam<_i787.DetailCharacterBloc, String, dynamic>((
-      _characterId,
-      _,
-    ) =>
-        _i787.DetailCharacterBloc(
-          _characterId,
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i248.MessageRepository>(),
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-        ));
-    gh.factory<_i619.ActivityBloc>(
-        () => _i619.ActivityBloc(gh<_i951.ActivityRepository>()));
-    gh.factory<_i1013.RecentMoviesBloc>(
-        () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));
     gh.factoryParam<_i436.DetailStaffBloc, String, dynamic>((
       staffId,
       _,
@@ -640,10 +581,14 @@ extension GetItInjectableX on _i174.GetIt {
         _i436.DetailStaffBloc(
           staffId,
           gh<_i970.MediaInformationRepository>(),
-          gh<_i248.MessageRepository>(),
+          gh<_i67.MessageRepository>(),
           gh<_i462.FavoriteRepository>(),
           gh<_i810.UserDataRepository>(),
         ));
+    gh.factory<_i619.ActivityBloc>(
+        () => _i619.ActivityBloc(gh<_i951.ActivityRepository>()));
+    gh.factory<_i1013.RecentMoviesBloc>(
+        () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));
     gh.factoryParam<_i474.FavoriteCharacterPagingBloc, String, int>((
       userId,
       perPageCount,
@@ -681,11 +626,66 @@ extension GetItInjectableX on _i174.GetIt {
           userType,
           filterType,
         ));
+    gh.factory<_i565.SettingsBloc>(() => _i565.SettingsBloc(
+          gh<_i810.UserDataRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i67.MessageRepository>(),
+        ));
+    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
+          gh<_i810.UserDataRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i67.MessageRepository>(),
+        ));
+    gh.factoryParam<_i748.AnimePageBloc, _i505.MediaCategory, dynamic>((
+      category,
+      _,
+    ) =>
+        _i748.AnimePageBloc(
+          category,
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i319.MediaListRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i810.UserDataRepository>(),
+        ));
     gh.factory<_i552.TrackBloc>(() => _i552.TrackBloc(
           gh<_i319.MediaListRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i810.UserDataRepository>(),
-          gh<_i248.MessageRepository>(),
+          gh<_i67.MessageRepository>(),
+        ));
+    gh.factoryParam<_i425.MediaSearchResultPagingBloc, _i55.MediaType, String>((
+      _mediaType,
+      _searchString,
+    ) =>
+        _i425.MediaSearchResultPagingBloc(
+          _mediaType,
+          _searchString,
+          gh<_i365.SearchRepository>(),
+          gh<_i810.UserDataRepository>(),
+        ));
+    gh.factoryParam<_i764.FavoriteStaffPagingBloc, String, int>((
+      userId,
+      perPageCount,
+    ) =>
+        _i764.FavoriteStaffPagingBloc(
+          userId,
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
+          perPageCount,
+        ));
+    gh.factory<_i993.SearchBloc>(
+        () => _i993.SearchBloc(gh<_i810.UserDataRepository>()));
+    gh.factory<_i234.CharacterPageBloc>(
+        () => _i234.CharacterPageBloc(gh<_i810.UserDataRepository>()));
+    gh.factoryParam<_i231.StatsBloc, String, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i231.StatsBloc(
+          gh<_i227.UserStatisticsRepository>(),
+          gh<_i67.MessageRepository>(),
+          gh<_i810.UserDataRepository>(),
+          userId,
         ));
     return this;
   }

@@ -1,20 +1,22 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/setting/about.dart';
-import 'package:aniflow/core/common/setting/check_app_update.dart';
 import 'package:aniflow/core/common/setting/display_adult_content.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
+import 'package:aniflow/core/common/setting/tutorial_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:aniflow/feature/settings/settings_state.dart';
@@ -66,6 +68,12 @@ class _OnDisplayAdultContentChanged extends SettingEvent {
   final bool enabled;
 }
 
+class OnSingleLineSettingsClick extends SettingEvent {
+  OnSingleLineSettingsClick(this.setting);
+
+  final Type setting;
+}
+
 @injectable
 class SettingsBloc extends Bloc<SettingEvent, SettingsState>
     with AutoCancelMixin {
@@ -96,6 +104,7 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
       (event, emit) => emit(state.copyWith(displayAdultContent: event.enabled)),
     );
     on<OnListOptionChanged>(_onListOptionChanged);
+    on<OnSingleLineSettingsClick>(_onSingleLineSettingsClick);
 
     _init();
   }
@@ -173,8 +182,6 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
         await _userDataRepository.setThemeSetting(setting);
       case MediaType():
         await _userDataRepository.setMediaType(setting);
-      case CheckAppUpdate():
-      // _onClickCheckAppUpdate();
 
       default:
         throw 'Invalid type';
@@ -194,6 +201,27 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
     final newCancelToken = CancelToken();
     _cancelTokenMap[settingType.toString()] = newCancelToken;
     return newCancelToken;
+  }
+
+  Future _onClickGestureTutorial() async {
+    const longPressGestureTutorial = DialogType.longPressGestureTutorial();
+    await _messageRepository.showDialog(longPressGestureTutorial);
+
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    const slideGestureTutorial = DialogType.slideGestureTutorial();
+    await _messageRepository.showDialog(slideGestureTutorial);
+  }
+
+  FutureOr<void> _onSingleLineSettingsClick(
+      OnSingleLineSettingsClick event, Emitter<SettingsState> emit) async {
+    if (event.setting == Gesture) {
+      await _onClickGestureTutorial();
+    } else if (event.setting == About) {
+      final version = await AppVersionUtil.currentVersion;
+      await _messageRepository
+          .showDialog(DialogType.about(appVersion: version.toString()));
+    }
   }
 }
 
@@ -263,6 +291,14 @@ extension SettingsBlocEx on SettingsBloc {
             options: ScoreFormat.values
                 .map((e) => e._createSettingOption())
                 .toList(),
+          ),
+        ],
+      ),
+      SettingCategory(
+        titleBuilder: (context) => context.appLocal.tutorialTitle,
+        settingItems: [
+          SingleLineWithTapActionSettingItem<Gesture>(
+            titleBuilder: (context) => context.appLocal.gesture,
           ),
         ],
       ),

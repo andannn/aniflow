@@ -140,5 +140,9 @@
 	"checkForUpdate": "UPGRADE CHECK",
 	"appUpToDate": "App is up-to-date",
 	"currentVersion": "Huidige versie",
-	"clickToUpdate": "De nieuwste versie is {latestVersion}, klik om te updaten!"
+	"clickToUpdate": "De nieuwste versie is {latestVersion}, klik om te updaten!",
+	"tutorialTitle": "Tutorial",
+	"longPressManageList": "Lang indrukken om je lijst te beheren",
+	"slideLeftMarkWatched": "Veeg naar links om als bekeken te markeren",
+	"gesture": "Gebaar"
 }

@@ -43,7 +43,6 @@ class MediaCategoryPreviewBloc
     this._mediaInfoRepository,
     this._mediaListRepository,
   ) : super(const MediaCategoryPreviewState()) {
-    print('JQN init $_params');
     on<_OnMediasChanged>(
       (event, emit) => emit(state.copyWith(data: event.medias)),
     );

@@ -1,9 +1,9 @@
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/firebase/remote_config/remote_config_manager.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';

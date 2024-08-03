@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -193,6 +194,8 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
           );
       }
     });
+
+    _showTutorialDialogIfNeeded();
   }
 
   final MediaListRepository _mediaListRepository;
@@ -238,7 +241,6 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
 
   FutureOr<void> _onMediaListModified(
       OnItemMediaListModified event, Emitter<TrackUiState> emit) async {
-
     safeAdd(_OnLoadStateChanged(isLoading: true));
     final state = event.result;
     final result = await _mediaListRepository.updateMediaList(
@@ -256,6 +258,22 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
     safeAdd(_OnLoadStateChanged(isLoading: false));
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);
+    }
+  }
+
+  void _showTutorialDialogIfNeeded() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    const longPressGestureTutorial = DialogType.longPressGestureTutorial();
+    if (_userDataRepository.canShowDialog(longPressGestureTutorial)) {
+      await _messageRepository.showDialog(longPressGestureTutorial);
+    }
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    const slideGestureTutorial = DialogType.slideGestureTutorial();
+    if (_userDataRepository.canShowDialog(slideGestureTutorial)) {
+      await _messageRepository.showDialog(slideGestureTutorial);
     }
   }
 }

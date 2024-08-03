@@ -140,5 +140,9 @@
 	"checkForUpdate": "アップグレード チェック",
 	"appUpToDate": "アプリは最新です",
 	"currentVersion": "現在のバージョン",
-	"clickToUpdate": "最新バージョンは{latestVersion}です。更新するにはクリックしてください！"
+	"clickToUpdate": "最新バージョンは{latestVersion}です。更新するにはクリックしてください！",
+	"tutorialTitle": "チュートリアル",
+	"longPressManageList": "リストを管理するには長押ししてください",
+	"slideLeftMarkWatched": "左にスライドして視聴済みにマークする",
+	"gesture": "ジェスチャー"
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

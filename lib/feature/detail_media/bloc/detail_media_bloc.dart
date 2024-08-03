@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
@@ -12,6 +11,7 @@ import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
