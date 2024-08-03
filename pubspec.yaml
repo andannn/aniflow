@@ -76,7 +76,7 @@ dependencies:
   firebase_analytics: ^11.2.1
   path_provider: ^2.1.4
   firebase_performance: ^0.10.0+2
-  flutter_cache_manager: ^3.3.3
+  flutter_cache_manager: ^3.4.0
   fwfh_cached_network_image: ^0.14.3
   drift: ^2.19.1
   sqlite3: ^2.4.5
