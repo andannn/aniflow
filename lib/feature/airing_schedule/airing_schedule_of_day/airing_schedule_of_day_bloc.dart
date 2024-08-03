@@ -1,7 +1,7 @@
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/schedule_page_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';

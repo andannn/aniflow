@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';

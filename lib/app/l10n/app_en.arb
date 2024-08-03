@@ -201,5 +201,9 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"tutorialTitle": "Tutorial",
+	"longPressManageList": "Long press to manage your list",
+	"slideLeftMarkWatched": "Slide left to mark as watched",
+	"gesture": "Gesture"
 }

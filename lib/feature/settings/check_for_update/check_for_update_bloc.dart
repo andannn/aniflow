@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/dialog_message.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
+import 'package:aniflow/core/common/dialog/message_dialog.dart';
 import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/settings/check_for_update/check_for_update_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,18 +65,16 @@ class CheckForUpdateBloc
 
     if (latestVersion.compareTo(currentVersion) > 0) {
       logger.d('show app update dialog latestAppVersion $latestVersion');
-      _messageRepository.showMessage(
-        AppUpdateDialogMessage(
-          newVersion: latestVersion,
-          onClickPositive: () {
-            final uri = Uri.parse(AfConfig.appDownloadLink(latestVersion));
-            launchUrl(uri);
-          },
-        ),
+      final result = await _messageRepository.showDialog<MessageDialogResult>(
+        DialogType.appUpdate(appVersion: latestVersion.toString()),
       );
+      if (result == MessageDialogResult.clickPositive) {
+        final uri = Uri.parse(AfConfig.appDownloadLink(latestVersion));
+        await launchUrl(uri);
+      }
     } else if (latestVersion.compareTo(currentVersion) == 0) {
-      _messageRepository.showMessage(
-        const AppUpToDateDialogMessage(),
+      await _messageRepository.showDialog<MessageDialogResult>(
+        const DialogType.appUpToDate(),
       );
     }
   }

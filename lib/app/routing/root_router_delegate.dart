@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:aniflow/app/routing/model/af_router_back_stack.dart';
 import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/app/routing/util/ani_flow_page_generator.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -48,6 +49,7 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
 
   /// Judgment of whether need to pop current page.
   bool _onPopPage(Route<dynamic> route, result) {
+    logger.d('onPopPage: $route, $result');
     if (!route.didPop(result)) {
       return false;
     }
@@ -64,8 +66,8 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     _pageResultStreamController.close();
   }
 
-  Future<T> awaitPageResult<T>() {
-    return _pageResultStreamController.stream.whereType<T>().first;
+  Future<R> awaitPageResult<R>() {
+    return _pageResultStreamController.stream.whereType<R>().first;
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
-import 'package:aniflow/core/design_system/icons/icons.dart';
+import 'package:aniflow/core/design_system/assets/icons.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +100,7 @@ class MediaRowItem extends StatelessWidget {
                       child: SizedBox.square(
                         dimension: 36,
                         child: Image.asset(
-                          ATIcons.icNewBadge,
+                          AfIcons.icNewBadge,
                           color: Colors.red,
                         ),
                       ),

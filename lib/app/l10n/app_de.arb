@@ -140,5 +140,9 @@
 	"checkForUpdate": "Auf Aktualisierung prüfen",
 	"appUpToDate": "App ist auf dem neuesten Stand",
 	"currentVersion": "Aktuelle Version",
-	"clickToUpdate": "Die neueste Version ist {latestVersion}, klicken Sie zum Aktualisieren!"
+	"clickToUpdate": "Die neueste Version ist {latestVersion}, klicken Sie zum Aktualisieren!",
+	"tutorialTitle": "Tutorial",
+	"longPressManageList": "Langes Drücken, um Ihre Liste zu verwalten",
+	"slideLeftMarkWatched": "Nach links wischen, um als gesehen zu markieren",
+	"gesture": "Geste"
 }

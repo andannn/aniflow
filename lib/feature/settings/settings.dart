@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
-import 'package:aniflow/core/common/setting/about.dart';
+import 'package:aniflow/core/common/dialog/dialog_handler.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
-import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
-import 'package:aniflow/core/design_system/icons/icons.dart';
-import 'package:aniflow/feature/aniflow_home/ani_flow_home.dart';
 import 'package:aniflow/feature/settings/check_for_update/check_for_update.dart';
 import 'package:aniflow/feature/settings/github_link/github_link.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
@@ -141,21 +138,10 @@ class SettingCategoryWidget extends StatelessWidget {
                     }
                   }
                 },
-                onSettingTap: (type) async {
-                  final version = await AppVersionUtil.currentVersion;
-                  if (type == About) {
-                    showAboutDialog(
-                      context: context,
-                      applicationName: 'AniFlow',
-                      applicationVersion: version.toString(),
-                      applicationLegalese:
-                          '© 2024 Andannn. All rights reserved.',
-                      applicationIcon: SizedBox.square(
-                        dimension: 48,
-                        child: Image.asset(ATIcons.icApp),
-                      ),
-                    );
-                  }
+                onSingleTapSettingClick: (type) async {
+                  context
+                      .read<SettingsBloc>()
+                      .add(OnSingleLineSettingsClick(type));
                 },
               );
             },
@@ -171,12 +157,12 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
     super.key,
     required this.settingItem,
     required this.onSettingChanged,
-    required this.onSettingTap,
+    required this.onSingleTapSettingClick,
   });
 
   final SettingItem<T> settingItem;
   final Function(Setting) onSettingChanged;
-  final Function(Type) onSettingTap;
+  final Function(Type) onSingleTapSettingClick;
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +225,7 @@ class SettingItemWidget<T extends Setting> extends StatelessWidget {
       case SingleLineWithTapActionSettingItem():
         return InkWell(
           onTap: () {
-            onSettingTap.call(settingItem.type);
+            onSingleTapSettingClick.call(settingItem.type);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),

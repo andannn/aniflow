@@ -1,6 +1,6 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/message/show_dialog_bar_mixin.dart';
-import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
+import 'package:aniflow/core/common/dialog/dialog_handler.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_bloc.dart';
@@ -50,23 +50,6 @@ class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   bool get maintainState => true;
-}
-
-class DialogEventHandler extends StatefulWidget {
-  const DialogEventHandler({super.key, required this.child});
-
-  final Widget child;
-
-  @override
-  State<DialogEventHandler> createState() => _DialogEventHandlerState();
-}
-
-class _DialogEventHandlerState extends State<DialogEventHandler>
-    with ShowDialogMixin {
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
-  }
 }
 
 class AniFlowAppScaffold extends StatefulWidget {

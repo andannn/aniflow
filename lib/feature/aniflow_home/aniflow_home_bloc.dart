@@ -1,10 +1,9 @@
-import 'package:aniflow/core/common/message/dialog_message.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
-import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_state.dart';
@@ -12,7 +11,6 @@ import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/transformers.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 sealed class AniflowHomeEvent {}
 
@@ -89,16 +87,12 @@ class AniflowHomeBloc extends Bloc<AniflowHomeEvent, AniflowHomeState>
         logger.d('update dialog latestAppVersion $latestAppVersion');
         if (latestAppVersion.compareTo(currentVersion) > 0) {
           logger.d('show app update dialog latestAppVersion $latestAppVersion');
-          _messageRepository.showMessage(
-            AppUpdateDialogMessage(
-              newVersion: latestAppVersion,
-              onClickPositive: () {
-                final uri =
-                    Uri.parse(AfConfig.appDownloadLink(latestAppVersion));
-                launchUrl(uri);
-              },
-            ),
+          _messageRepository.showDialog(
+            DialogType.appUpdate(appVersion: latestAppVersion.toString()),
           );
+          // final uri =
+          // Uri.parse(AfConfig.appDownloadLink(latestAppVersion));
+          // launchUrl(uri);
         }
       }),
     );

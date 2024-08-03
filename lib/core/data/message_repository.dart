@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
-import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -39,29 +39,6 @@ abstract class SnackBarMessage extends Message {
   List<Object?> get props => [...varargs, duration];
 }
 
-abstract class DialogMessage extends Message {
-  final String id;
-  final StringBuilder? title;
-  final StringBuilder? message;
-  final StringBuilder? positiveLabel;
-  final StringBuilder? negativeLabel;
-  final void Function()? onClickPositive;
-  final void Function()? onClickNegative;
-
-  const DialogMessage({
-    required this.id,
-    this.title,
-    this.message,
-    this.positiveLabel,
-    this.negativeLabel,
-    this.onClickPositive,
-    this.onClickNegative,
-  });
-
-  @override
-  List<Object?> get props => [id];
-}
-
 @lazySingleton
 class MessageRepository {
   MessageRepository() {
@@ -69,19 +46,37 @@ class MessageRepository {
       onListen: _onListen,
       onCancel: _onCancel,
     );
+
+    _dialogSubject = PublishSubject(
+      onListen: _onListen,
+      onCancel: _onCancel,
+    );
   }
 
   late PublishSubject<Message> _messageSubject;
+
+  late PublishSubject<DialogType> _dialogSubject;
+
+  final PublishSubject<dynamic> _dialogResultSubject = PublishSubject();
 
   var _listenerCount = 0;
 
   Stream<SnackBarMessage> getSnackBarMessageStream() =>
       _messageSubject.whereType<SnackBarMessage>().distinct();
 
-  Stream<DialogMessage> getDialogMessageStream() =>
-      _messageSubject.whereType<DialogMessage>();
+  Stream<DialogType> getDialogMessageStream() => _dialogSubject;
 
   void showMessage(Message message) => _messageSubject.add(message);
+
+  Future<T?> showDialog<T>(DialogType type) {
+    _dialogSubject.add(type);
+    return _dialogResultSubject.whereType<T?>().first;
+  }
+
+  void onDialogResult(dynamic result) {
+    logger.d('$_tag onDialogResult $result');
+    _dialogResultSubject.add(result);
+  }
 
   void _onListen() {
     logger.d('$_tag MessageController is listened, count ${++_listenerCount}');

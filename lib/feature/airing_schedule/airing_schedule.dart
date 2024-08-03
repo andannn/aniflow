@@ -1,4 +1,4 @@
-import 'package:aniflow/core/common/message/show_snack_bar_mixin.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/airing_schedule_of_day.dart';
 import 'package:aniflow/feature/airing_schedule/movie_schedule_time_line/movie_schedule_time_line.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
 import 'package:bloc/bloc.dart';

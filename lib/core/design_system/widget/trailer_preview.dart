@@ -1,5 +1,5 @@
 import 'package:aniflow/core/data/model/trailer_model.dart';
-import 'package:aniflow/core/design_system/icons/icons.dart';
+import 'package:aniflow/core/design_system/assets/icons.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class TrailerPreview extends StatelessWidget {
                 imageUrl: model?.thumbnail ?? '',
               ),
               Center(
-                child: SvgPicture.asset(ATIcons.icYoutube),
+                child: SvgPicture.asset(AfIcons.icYoutube),
               )
             ],
           ),

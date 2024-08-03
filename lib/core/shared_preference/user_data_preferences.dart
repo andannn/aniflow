@@ -8,6 +8,7 @@ import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
@@ -254,6 +255,21 @@ class UserDataPreferences {
 
   DateTime? getLastSuccessRefreshTime(RefreshTimeKey key) {
     final timeStringOrNull = _preferences.getString(jsonEncode(key.toJson()));
+    if (timeStringOrNull == null) {
+      return null;
+    }
+
+    return DateTime.tryParse(timeStringOrNull);
+  }
+
+  Future setDialogClosedTime(DialogType dialog, DateTime time) async {
+    await _preferences.setString(
+        jsonEncode(dialog.toJson()), time.toIso8601String());
+  }
+
+
+  DateTime? getDialogClosedTime(DialogType dialog) {
+    final timeStringOrNull = _preferences.getString(jsonEncode(dialog.toJson()));
     if (timeStringOrNull == null) {
       return null;
     }
