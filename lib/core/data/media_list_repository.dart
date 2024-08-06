@@ -152,12 +152,12 @@ class MediaListRepository {
     }
   }
 
-  Stream<SortedGroupMediaListModel> getMediaListStream(
+  Stream<SortedGroupMediaListModel> getSortedMediaListStream(
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
     return mediaListDao
-        .getAllMediaListOfUserStream(
+        .getAllSortedMediaListOfUserStream(
           userId,
           status.map((e) => e.toJson()).toList(),
           type.toJson(),
@@ -167,6 +167,21 @@ class MediaListRepository {
             sorted.newUpdateList.map((e) => e.toModel()).toList(),
             sorted.otherList.map((e) => e.toModel()).toList(),
           ),
+        );
+  }
+
+  Stream<List<MediaWithListModel>> getMediaListStream(
+      {required List<MediaListStatus> status,
+      required String userId,
+      required MediaType type}) {
+    return mediaListDao
+        .getMediaListStream(
+          userId,
+          status.map((e) => e.toJson()).toList(),
+          type.toJson(),
+        )
+        .map(
+          (list) => list.map((entity) => entity.toModel()).toList(),
         );
   }
 

@@ -123,6 +123,10 @@ import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bl
     as _i956;
 import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart'
     as _i843;
+import 'package:aniflow/feature/profile/sub_media_list/media_list_sector_bloc.dart'
+    as _i399;
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart'
+    as _i653;
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart'
     as _i231;
 import 'package:aniflow/feature/search/bloc/search_bloc.dart' as _i993;
@@ -410,6 +414,15 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i1066.UserInfoRepository>(),
           gh<_i810.UserDataRepository>(),
         ));
+    gh.factoryParam<_i399.MediaListSectorBloc, _i399.MediaListSectorParam,
+        dynamic>((
+      param,
+      _,
+    ) =>
+        _i399.MediaListSectorBloc(
+          param,
+          gh<_i319.MediaListRepository>(),
+        ));
     gh.factory<_i111.DiscoverBloc>(() => _i111.DiscoverBloc(
           gh<_i768.AuthRepository>(),
           gh<_i970.MediaInformationRepository>(),
@@ -522,6 +535,15 @@ extension GetItInjectableX on _i174.GetIt {
         _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));
     gh.factory<_i343.AppBloc>(
         () => _i343.AppBloc(gh<_i810.UserDataRepository>()));
+    gh.factoryParam<_i653.ProfileMediaListBloc, _i653.ProfileMediaListParam,
+        dynamic>((
+      param,
+      _,
+    ) =>
+        _i653.ProfileMediaListBloc(
+          param,
+          gh<_i319.MediaListRepository>(),
+        ));
     gh.factoryParam<_i801.VoiceActorContentsPagingBloc, String,
         _i797.MediaSort>((
       staffId,

@@ -152,7 +152,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     });
   }
 
-  Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
+  Stream<SortedGroupMediaListEntity> getAllSortedMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
     SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
       bool isNewUpdateMedia(MediaListAndMediaRelation relation) {

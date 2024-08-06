@@ -91,7 +91,7 @@ void main() {
 
     test('upsert and get mediaList stream', () async {
       final stream =
-          dao.getAllMediaListOfUserStream('22', ['current'], 'anime');
+          dao.getAllSortedMediaListOfUserStream('22', ['current'], 'anime');
       final data = [
         MediaListAndMediaRelation(
           mediaEntity: MediaEntity(
