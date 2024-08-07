@@ -224,23 +224,23 @@ class _UserProfileState extends State<_UserProfile>
         body: TabBarView(
           controller: _tabController,
           children: ProfileTabType.values
-              .map((e) => _buildPageByProfileCategory(e))
+              .map((e) => _buildPageByProfileCategory(e, widget.userState.id))
               .toList(),
         ),
       ),
     );
   }
 
-  Widget _buildPageByProfileCategory(ProfileTabType category) {
+  Widget _buildPageByProfileCategory(ProfileTabType category, String userId) {
     switch (category) {
       case ProfileTabType.activity:
         return const ProfileActivityPage();
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:
-        return const ProfileMediaListTabPage(mediaType: MediaType.anime);
+        return ProfileMediaList(mediaType: MediaType.anime, userId: userId);
       case ProfileTabType.mangaList:
-        return const ProfileMediaListTabPage(mediaType: MediaType.manga);
+        return ProfileMediaList(mediaType: MediaType.manga, userId: userId);
       case ProfileTabType.stats:
         return const ProfileStatsTabPage();
     }

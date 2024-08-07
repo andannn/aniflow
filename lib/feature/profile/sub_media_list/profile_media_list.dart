@@ -1,180 +1,170 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
-import 'package:aniflow/core/data/model/media_title_model.dart';
-import 'package:aniflow/core/data/model/media_with_list_model.dart';
-import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
-import 'package:aniflow/core/paging/page_loading_state.dart';
-import 'package:aniflow/feature/profile/profile_bloc.dart';
-import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
-import 'package:aniflow/feature/profile/title_with_items_builder.dart';
+import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/design_system/widget/media_row_item.dart';
+import 'package:aniflow/feature/profile/sub_media_list/media_list_sector_bloc.dart';
+import 'package:aniflow/feature/profile/sub_media_list/media_list_sector_state.dart';
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
-sealed class MediaList {
-  const MediaList();
-}
-
-class WatchingAnimeList extends MediaList {
-  const WatchingAnimeList();
-}
-
-class CompletedAnimeList extends MediaList {
-  const CompletedAnimeList();
-}
-
-class DroppedAnimeList extends MediaList {
-  const DroppedAnimeList();
-}
-
-class ReadingMangaList extends MediaList {
-  const ReadingMangaList();
-}
-
-class DroppedMangaList extends MediaList {
-  const DroppedMangaList();
-}
-
-List<MediaList> _getAllAnimeListType() => [
-      const WatchingAnimeList(),
-      const CompletedAnimeList(),
-      const DroppedAnimeList(),
-    ];
-
-List<MediaList> _getAllMangaListType() => [
-      const ReadingMangaList(),
-      const DroppedMangaList(),
-    ];
-
-class ProfileMediaListTabPage extends StatefulWidget {
-  const ProfileMediaListTabPage({required this.mediaType, super.key});
+class ProfileMediaList extends StatelessWidget {
+  const ProfileMediaList(
+      {super.key, required this.mediaType, required this.userId});
 
   final MediaType mediaType;
-
-  @override
-  State<ProfileMediaListTabPage> createState() =>
-      _ProfileMediaListTabPageState();
-}
-
-class _ProfileMediaListTabPageState extends State<ProfileMediaListTabPage> {
-  PagingState<List<MediaWithListModel>>? watchingAnime;
-  PagingState<List<MediaWithListModel>>? droppedAnime;
-  PagingState<List<MediaWithListModel>>? completeAnime;
-  PagingState<List<MediaWithListModel>>? readingManga;
-  PagingState<List<MediaWithListModel>>? droppedManga;
-
-  bool get isAnime => widget.mediaType == MediaType.anime;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
-    if (isAnime) {
-      watchingAnime = context.watch<WatchingAnimeListPagingBloc>().state;
-      droppedAnime = context.watch<DroppedAnimeListPagingBloc>().state;
-      completeAnime = context.watch<CompleteAnimeListPagingBloc>().state;
-    } else {
-      readingManga = context.watch<ReadingMangaListPagingBloc>().state;
-      droppedManga = context.watch<DroppedMangaListPagingBloc>().state;
-    }
-
-    PagingState? getPagingStateByType(type) {
-      PagingState? state;
-      switch (type) {
-        case ReadingMangaList():
-          state = readingManga;
-        case DroppedMangaList():
-          state = droppedManga;
-        case WatchingAnimeList():
-          state = watchingAnime;
-        case CompletedAnimeList():
-          state = completeAnime;
-        case DroppedAnimeList():
-          state = droppedAnime;
-      }
-
-      return state;
-    }
-
-    final bool isNoData;
-    if (isAnime) {
-      isNoData = watchingAnime!.data.isEmpty &&
-          droppedAnime!.data.isEmpty &&
-          completeAnime!.data.isEmpty;
-    } else {
-      isNoData = readingManga!.data.isEmpty && droppedManga!.data.isEmpty;
-    }
-
-    if (isNoData) {
-      return Center(
-        child: Text(
-          'Empty',
-          style: Theme.of(context).textTheme.headlineSmall,
-          softWrap: true,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6.0),
-      child: CustomScrollView(
-        key: PageStorageKey<String>('profile_${widget.mediaType}'),
-        slivers: [
-          SliverOverlapInjector(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          ),
-          for (var type
-              in isAnime ? _getAllAnimeListType() : _getAllMangaListType())
-            ...buildTitleBarWithContent(
-              context: context,
-              state: getPagingStateByType(type),
-              title: _buildTitle(context, type),
-              onBuildItem: (context, item) =>
-                  _buildGridItems(context, type, item),
-              onMoreClick: () {
-                final userId = context.read<ProfileBloc>().state.userData?.id;
-                if (userId == null) {
-                  return;
-                }
-
-                RootRouterDelegate.get().navigateToMediaListPage(type, userId);
-              },
+    return Builder(
+      key: ValueKey('ProfileMediaList $mediaType-$userId'),
+      builder: (context) {
+        return BlocProvider(
+          create: (BuildContext context) =>
+              GetIt.instance.get<ProfileMediaListBloc>(
+            param1: ProfileMediaListParam(
+              userId: userId,
+              mediaType: mediaType,
             ),
-          const SliverPadding(padding: EdgeInsets.only(top: 20)),
-        ],
-      ),
-    );
-  }
-
-  String _buildTitle(BuildContext context, MediaList type) {
-    final String title;
-    switch (type) {
-      case ReadingMangaList():
-        title = 'Reading';
-      case DroppedMangaList():
-        title = 'Dropped';
-      case WatchingAnimeList():
-        title = 'Watching';
-      case CompletedAnimeList():
-        title = 'Completed';
-      case DroppedAnimeList():
-        title = 'Dropped';
-    }
-
-    return title;
-  }
-
-  Widget _buildGridItems(
-      BuildContext context, MediaList type, MediaWithListModel model) {
-    return MediaPreviewItem(
-      coverImage: model.mediaModel.coverImage?.large ?? '',
-      title: model.mediaModel.title!.getTitle(
-          context.read<ProfileBloc>().userTitleLanguage),
-      textStyle: Theme.of(context).textTheme.labelMedium,
-      onClick: () {
-        RootRouterDelegate.get().navigateToDetailMedia(model.mediaModel.id);
+          ),
+          child: const ProfileMediaListContent(),
+        );
       },
     );
   }
 }
+
+class ProfileMediaListContent extends StatelessWidget {
+  const ProfileMediaListContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileMediaListBloc, ProfileMediaListState>(
+        builder: (context, state) {
+      final param = context.read<ProfileMediaListBloc>().param;
+      final sectors = _buildSectors(param.mediaType, param.userId);
+      return CustomScrollView(
+        key: PageStorageKey<String>('profile_$param'),
+        slivers: [
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          for (var sector in sectors)
+            SliverToBoxAdapter(
+              child: Builder(
+                  key: ValueKey(
+                      'ProfileMediaListContent ${sector.name(context)}'),
+                  builder: (context) {
+                    return BlocProvider(
+                      create: (context) =>
+                          GetIt.instance.get<MediaListSectorBloc>(
+                        param1: sector,
+                      ),
+                      child: const _MediaListSectorContent(),
+                    );
+                  }),
+            ),
+        ],
+      );
+    });
+  }
+}
+
+class _MediaListSectorContent extends StatelessWidget {
+  const _MediaListSectorContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MediaListSectorBloc, MediaListSectorState>(
+        builder: (context, state) {
+      final param = context.read<MediaListSectorBloc>().param;
+      if (state.mediaList.isEmpty) {
+        return const SizedBox();
+      }
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            child: Row(
+              children: [
+                Text(
+                  param.name(context),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
+          ),
+          ListView.builder(
+            itemCount: state.mediaList.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final media = state.mediaList[index];
+              return MediaRowItem(
+                model: media.mediaModel,
+                language: UserTitleLanguage.native,
+              );
+            },
+          )
+        ],
+      );
+    });
+  }
+}
+
+List<MediaListSectorParam> _buildSectors(
+  MediaType type,
+  String userId,
+) =>
+    switch (type) {
+      MediaType.anime => [
+          MediaListSectorParam(
+            name: (context) => 'Planning',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.planning],
+          ),
+          MediaListSectorParam(
+            name: (context) => 'Watching',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.current],
+          ),
+          MediaListSectorParam(
+            name: (context) => 'Completed',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.completed],
+          ),
+          MediaListSectorParam(
+            name: (context) => 'Dropped',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.dropped, MediaListStatus.paused],
+          ),
+        ],
+      MediaType.manga => [
+          MediaListSectorParam(
+            name: (context) => 'Planning',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.planning],
+          ),
+          MediaListSectorParam(
+            name: (context) => 'Reading',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.current],
+          ),
+          MediaListSectorParam(
+            name: (context) => 'Dropped',
+            userId: userId,
+            type: type,
+            status: [MediaListStatus.dropped, MediaListStatus.paused],
+          ),
+        ],
+    };

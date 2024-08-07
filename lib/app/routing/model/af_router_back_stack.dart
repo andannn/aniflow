@@ -7,7 +7,6 @@ import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/image_preview/preview_source.dart';
-import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
 
@@ -62,21 +61,6 @@ mixin AfRouterBackStackMixin
         _pushAsSingleton(FavoriteCharacterListPath(id: userId));
       case FavoriteType.staff:
         _pushAsSingleton(FavoriteStaffListPath(id: userId));
-    }
-  }
-
-  void navigateToMediaListPage(MediaList type, String userId) {
-    switch (type) {
-      case WatchingAnimeList():
-        _pushAsSingleton(WatchingAnimeListPath(id: userId));
-      case CompletedAnimeList():
-        _pushAsSingleton(CompletedAnimeListPath(id: userId));
-      case DroppedAnimeList():
-        _pushAsSingleton(DroppedAnimeListPath(id: userId));
-      case ReadingMangaList():
-        _pushAsSingleton(ReadingMangaListPath(id: userId));
-      case DroppedMangaList():
-        _pushAsSingleton(DroppedMangaListPath(id: userId));
     }
   }
 
