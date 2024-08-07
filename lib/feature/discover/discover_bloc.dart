@@ -177,7 +177,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         RefreshTimeKey.mediaCategory(category: category),
         () => _mediaInfoRepository.loadMediaPageByCategory(
           category: category,
-          loadType: const Refresh(6),
+          loadType: const Refresh(AfConfig.mediaCategoryPreviewItemCount),
           displayAdultContent: _userDataRepository.displayAdultContent,
         ),
         isForce,

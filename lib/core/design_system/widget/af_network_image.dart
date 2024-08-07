@@ -4,11 +4,16 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class AFNetworkImage extends StatelessWidget {
   const AFNetworkImage(
-      {required this.imageUrl, super.key, this.width, this.height});
+      {required this.imageUrl,
+      super.key,
+      this.width,
+      this.height,
+      this.fit = BoxFit.cover});
 
   final String imageUrl;
   final double? width;
   final double? height;
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class AFNetworkImage extends StatelessWidget {
           width: width,
           height: height,
 //        memCacheWidth: cacheWidthInPixel,
-          fit: BoxFit.cover,
+          fit: fit,
           errorWidget: _buildErrorWidget,
           placeholder: _buildPlaceHolderWidget,
           cacheManager: CustomCacheManager(),
