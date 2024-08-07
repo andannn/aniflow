@@ -96,16 +96,11 @@ class _MediaCategoryPreview extends StatelessWidget {
     Widget itemBuilder(MediaModel model) {
       final language =
           GetIt.instance.get<UserDataRepository>().userTitleLanguage;
-      return SizedBox(
-        width: 160,
-        child: MediaPreviewItem(
-          textStyle: Theme.of(context).textTheme.titleSmall,
-          coverImage: model.coverImage?.large ?? '',
-          title: model.title!.getTitle(language),
-          isFollowing: model.isFollowing,
-          titleVerticalPadding: 5,
-          onClick: () => onAnimeClick?.call(model.id),
-        ),
+      return MediaPreviewItemV2(
+        coverImage: model.coverImage?.extraLarge ?? '',
+        title: model.title!.getTitle(language),
+        isFollowing: model.isFollowing,
+        // onAnimeClick?.call(model.id);
       );
     }
 
@@ -120,19 +115,14 @@ class _MediaCategoryPreview extends StatelessWidget {
           constraints: const BoxConstraints(maxHeight: 270),
           child: isLoading && animeModels.isEmpty
               ? _buildLoadingDummyWidget()
-              : CustomScrollView(
-                  scrollDirection: Axis.horizontal,
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      sliver: SliverList.builder(
-                        itemCount: animeModels.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return itemBuilder(animeModels[index]);
-                        },
-                      ),
-                    ),
-                  ],
+              : CarouselView(
+                  itemExtent: 185,
+                  shrinkExtent: 100,
+                  children:
+                      animeModels.map((model) => itemBuilder(model)).toList(),
+                  onTap: (index) {
+                    onAnimeClick?.call(animeModels[index].id);
+                  },
                 ),
         ),
       ],

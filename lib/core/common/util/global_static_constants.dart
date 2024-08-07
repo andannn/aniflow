@@ -26,6 +26,8 @@ mixin AfConfig {
 
   static const String activityClassString = 'com.andannn.aniflow.MainActivity';
 
+  static const int mediaCategoryPreviewItemCount = 12;
+
   static String Function(AppVersion) get appDownloadLink => (version) =>
       'https://github.com/andannn/aniflow/releases/download/v${version.toString()}/app-arm64-v8a-full-release.apk';
 }
