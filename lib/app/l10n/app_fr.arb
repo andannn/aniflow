@@ -120,10 +120,7 @@
 	"finishDate": "Date de fin",
 	"notes": "Notes",
 	"current": "Actuel",
-	"completed": "Terminé",
-	"dropped": "Abandonné",
 	"paused": "En pause",
-	"planning": "Planification",
 	"todayBirthdayCharacter": "Aujourd'hui, c'est l'anniversaire du personnage",
 	"animeSchedule": "Emploi du temps pour {date}",
 	"releaseDate": "Sortie prévue le {date}",
@@ -144,5 +141,10 @@
 	"tutorialTitle": "Tutoriel",
 	"longPressManageList": "Appui long pour gérer votre liste",
 	"slideLeftMarkWatched": "Faites glisser vers la gauche pour marquer comme regardé",
-	"gesture": "Geste"
+	"gesture": "Geste",
+	"watching": "Regardant",
+	"planning": "Planifiant",
+	"completed": "Terminé",
+	"dropped": "Abandonné",
+	"reading": "Lecture"
 }

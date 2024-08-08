@@ -30,7 +30,7 @@ class NextToWatchBloc extends Bloc<NextToWatchEvent, NextToWatchState>
     );
     if (_mediaType == MediaType.anime && _userId != null) {
       autoCancel(
-        () => _mediaListRepository.getMediaListStream(
+        () => _mediaListRepository.getSortedMediaListStream(
           status: [MediaListStatus.current, MediaListStatus.planning],
           userId: _userId!,
           type: _mediaType,

@@ -14,9 +14,8 @@ import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_pag
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
-import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/stats.dart';
 import 'package:flutter/material.dart';
@@ -111,41 +110,6 @@ class _ProfilePageContent extends StatelessWidget {
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<WatchingAnimeListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<DroppedAnimeListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<CompleteAnimeListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<ReadingMangaListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<DroppedMangaListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
                 create: (BuildContext context) => GetIt.instance.get<StatsBloc>(
                   param1: userState.id,
                 )..loadingStateRepository = loadingStateRepository,
@@ -156,6 +120,24 @@ class _ProfilePageContent extends StatelessWidget {
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
+              ),
+              BlocProvider(
+                create: (BuildContext context) =>
+                    GetIt.instance.get<ProfileAnimeListBloc>(
+                  param1: ProfileMediaListParam(
+                    userId: userState.id,
+                    mediaType: MediaType.anime,
+                  ),
+                ),
+              ),
+              BlocProvider(
+                create: (BuildContext context) =>
+                    GetIt.instance.get<ProfileMangaListBloc>(
+                  param1: ProfileMediaListParam(
+                    userId: userState.id,
+                    mediaType: MediaType.manga,
+                  ),
+                ),
               ),
             ],
             child: _UserProfile(
@@ -224,23 +206,23 @@ class _UserProfileState extends State<_UserProfile>
         body: TabBarView(
           controller: _tabController,
           children: ProfileTabType.values
-              .map((e) => _buildPageByProfileCategory(e))
+              .map((e) => _buildPageByProfileCategory(e, widget.userState.id))
               .toList(),
         ),
       ),
     );
   }
 
-  Widget _buildPageByProfileCategory(ProfileTabType category) {
+  Widget _buildPageByProfileCategory(ProfileTabType category, String userId) {
     switch (category) {
       case ProfileTabType.activity:
         return const ProfileActivityPage();
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:
-        return const ProfileMediaListTabPage(mediaType: MediaType.anime);
+        return ProfileMediaList(mediaType: MediaType.anime, userId: userId);
       case ProfileTabType.mangaList:
-        return const ProfileMediaListTabPage(mediaType: MediaType.manga);
+        return ProfileMediaList(mediaType: MediaType.manga, userId: userId);
       case ProfileTabType.stats:
         return const ProfileStatsTabPage();
     }

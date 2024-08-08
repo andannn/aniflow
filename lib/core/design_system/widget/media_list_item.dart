@@ -39,11 +39,14 @@ class MediaListItem extends StatelessWidget {
           model: model.mediaModel,
           language: language,
           showNewBadge: showNewBadge,
-          watchingInfo: _buildWatchingInfoLabel(context, model),
+          centerWidget: Text(
+            _buildWatchingInfoLabel(context, model),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: model.hasNextReleasedEpisode
+                    ? colorScheme.primary
+                    : colorScheme.secondary),
+          ),
           titleMaxLines: 3,
-          watchInfoTextColor: model.hasNextReleasedEpisode
-              ? colorScheme.primary
-              : colorScheme.secondary,
           onClick: onClick,
           onLongPress: onLongPress,
         ),

@@ -120,10 +120,7 @@
 	"finishDate": "Voltooiingsdatum",
 	"notes": "Notities",
 	"current": "Huidig",
-	"completed": "Voltooid",
-	"dropped": "Afgebroken",
 	"paused": "Gepauzeerd",
-	"planning": "Plannen",
 	"todayBirthdayCharacter": "Vandaag is de verjaardag van het personage",
 	"animeSchedule": "Schema voor {date}",
 	"releaseDate": "Wordt uitgebracht op {date}",
@@ -144,5 +141,10 @@
 	"tutorialTitle": "Tutorial",
 	"longPressManageList": "Lang indrukken om je lijst te beheren",
 	"slideLeftMarkWatched": "Veeg naar links om als bekeken te markeren",
-	"gesture": "Gebaar"
+	"gesture": "Gebaar",
+	"watching": "Aan het kijken",
+	"planning": "Aan het plannen",
+	"completed": "Voltooid",
+	"dropped": "Gestopt",
+	"reading": "Aan het lezen"
 }

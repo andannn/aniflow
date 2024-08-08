@@ -17,11 +17,6 @@ import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_anime_page.d
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_character_page.dart';
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_manga_page.dart';
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_staff_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/completed_anime_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_anime_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
 import 'package:aniflow/feature/search/search_page.dart';
 import 'package:aniflow/feature/settings/settings.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
@@ -60,16 +55,6 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return FavoriteAnimeListPage(key: ValueKey(toString()), userId: id);
       case FavoriteMangaListPath(id: final id):
         return FavoriteMangaListPage(key: ValueKey(toString()), userId: id);
-      case WatchingAnimeListPath(id: final id):
-        return WatchingAnimePage(key: ValueKey(toString()), userId: id);
-      case CompletedAnimeListPath(id: final id):
-        return CompletedAnimePage(key: ValueKey(toString()), userId: id);
-      case DroppedAnimeListPath(id: final id):
-        return DroppedAnimePage(key: ValueKey(toString()), userId: id);
-      case DroppedMangaListPath(id: final id):
-        return DroppedMangaPage(key: ValueKey(toString()), userId: id);
-      case ReadingMangaListPath(id: final id):
-        return ReadingMangaPage(key: ValueKey(toString()), userId: id);
       case DetailCharacterPath(id: final id):
         return DetailCharacterPage(key: ValueKey(toString()), id: id);
       case DetailStaffPath(id: final id):

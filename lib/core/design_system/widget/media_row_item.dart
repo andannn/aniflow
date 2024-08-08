@@ -13,8 +13,7 @@ class MediaRowItem extends StatelessWidget {
     required this.model,
     required this.language,
     this.onClick,
-    this.watchInfoTextColor,
-    this.watchingInfo,
+    this.centerWidget,
     super.key,
     this.titleMaxLines = 2,
     this.showNewBadge = false,
@@ -23,10 +22,9 @@ class MediaRowItem extends StatelessWidget {
 
   final MediaModel model;
   final bool showNewBadge;
-  final String? watchingInfo;
+  final Widget? centerWidget;
   final VoidCallback? onClick;
   final VoidCallback? onLongPress;
-  final Color? watchInfoTextColor;
   final int? titleMaxLines;
   final UserTitleLanguage language;
 
@@ -75,15 +73,14 @@ class MediaRowItem extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      watchingInfo != null
-                          ? Text(
-                              watchingInfo!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(color: watchInfoTextColor),
-                            )
-                          : const SizedBox(),
+                      centerWidget ?? const SizedBox(),
+                          // ? Text(
+                          //     centerWidget!,
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .labelLarge
+                          //         ?.copyWith(color: watchInfoTextColor),
+                          //   )
                       const SizedBox(height: 16),
                       Text(
                         model.getMediaInfoString(context),

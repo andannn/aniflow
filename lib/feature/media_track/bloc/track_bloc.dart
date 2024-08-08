@@ -143,7 +143,7 @@ class TrackBloc extends Bloc<TrackEvent, TrackUiState> with AutoCancelMixin {
       final (userNullable, type) = record;
 
       if (userNullable != null) {
-        return _mediaListRepository.getMediaListStream(
+        return _mediaListRepository.getSortedMediaListStream(
           status: [MediaListStatus.planning, MediaListStatus.current],
           type: type,
           userId: userNullable,

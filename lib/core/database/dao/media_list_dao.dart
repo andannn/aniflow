@@ -68,6 +68,30 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .map((value) => value.whereNotNull().toList());
   }
 
+  Stream<List<MediaListAndMediaRelation>> getMediaListStream(
+      String userId, List<String> status, String mediaType) {
+    final query = select(mediaListTable).join([
+      innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(
+        mediaListTable.status.isIn(status) &
+            mediaListTable.userId.equals(userId) &
+            mediaTable.type.equals(mediaType),
+      )
+      ..orderBy([
+        OrderingTerm.desc(mediaListTable.updatedAt),
+      ]);
+
+    return query
+        .map(
+          (row) => MediaListAndMediaRelation(
+            mediaListEntity: row.readTable(mediaListTable),
+            mediaEntity: row.readTable(mediaTable),
+          ),
+        )
+        .watch();
+  }
+
   Future<MediaListEntity?> getMediaListItem(String mediaId) {
     return (select(mediaListTable)
           ..where((tbl) => mediaListTable.mediaId.equals(mediaId)))
@@ -128,7 +152,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     });
   }
 
-  Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
+  Stream<SortedGroupMediaListEntity> getAllSortedMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
     SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
       bool isNewUpdateMedia(MediaListAndMediaRelation relation) {

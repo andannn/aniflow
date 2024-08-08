@@ -82,6 +82,7 @@ class MediaListRepository {
   Future<LoadResult<void>> syncMediaList({
     String? userId,
     List<MediaListStatus> status = const [],
+    int page = -1,
     MediaType? mediaType,
     CancelToken? token,
   }) async {
@@ -94,12 +95,20 @@ class MediaListRepository {
 
       /// get all anime list items from network.
       final networkAnimeList = await aniListDataSource.getUserMediaListPage(
-        param: UserAnimeListPageQueryParam.all(
-          mediaType: mediaType,
-          status: status,
-          userId: int.parse(targetUserId.toString()),
-          format: preferences.userData.scoreFormat,
-        ),
+        param: page == -1
+            ? UserAnimeListPageQueryParam.all(
+                mediaType: mediaType,
+                status: status,
+                userId: int.parse(targetUserId.toString()),
+                format: preferences.userData.scoreFormat,
+              )
+            : UserAnimeListPageQueryParam(
+                page: page,
+                mediaType: mediaType,
+                status: status,
+                userId: int.parse(targetUserId.toString()),
+                format: preferences.userData.scoreFormat,
+              ),
         token: token,
       );
 
@@ -152,12 +161,12 @@ class MediaListRepository {
     }
   }
 
-  Stream<SortedGroupMediaListModel> getMediaListStream(
+  Stream<SortedGroupMediaListModel> getSortedMediaListStream(
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
     return mediaListDao
-        .getAllMediaListOfUserStream(
+        .getAllSortedMediaListOfUserStream(
           userId,
           status.map((e) => e.toJson()).toList(),
           type.toJson(),
@@ -167,6 +176,21 @@ class MediaListRepository {
             sorted.newUpdateList.map((e) => e.toModel()).toList(),
             sorted.otherList.map((e) => e.toModel()).toList(),
           ),
+        );
+  }
+
+  Stream<List<MediaWithListModel>> getMediaListStream(
+      {required List<MediaListStatus> status,
+      required String userId,
+      required MediaType type}) {
+    return mediaListDao
+        .getMediaListStream(
+          userId,
+          status.map((e) => e.toJson()).toList(),
+          type.toJson(),
+        )
+        .map(
+          (list) => list.map((entity) => entity.toModel()).toList(),
         );
   }
 

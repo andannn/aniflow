@@ -120,10 +120,7 @@
 	"finishDate": "終了日",
 	"notes": "ノート",
 	"current": "現在",
-	"completed": "完了",
-	"dropped": "中止",
 	"paused": "一時停止",
-	"planning": "計画中",
 	"todayBirthdayCharacter": "誕生日のキャラクター",
 	"animeSchedule": "{date}のスケジュール",
 	"releaseDate": "{date} に公開されます。",
@@ -144,5 +141,10 @@
 	"tutorialTitle": "チュートリアル",
 	"longPressManageList": "リストを管理するには長押ししてください",
 	"slideLeftMarkWatched": "左にスライドして視聴済みにマークする",
-	"gesture": "ジェスチャー"
+	"gesture": "ジェスチャー",
+	"watching": "見ている",
+	"planning": "計画している",
+	"completed": "完了",
+	"dropped": "中止",
+	"reading": "読んでいる"
 }

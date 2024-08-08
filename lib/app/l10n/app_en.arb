@@ -144,10 +144,7 @@
 	"finishDate": "Finish Date",
 	"notes": "Notes",
 	"current": "Current",
-	"completed": "Completed",
-	"dropped": "Dropped",
 	"paused": "Paused",
-	"planning": "Planning",
 	"todayBirthdayCharacter": "Characters with a birthday today",
 	"animeSchedule": "{date}'s schedule",
 	"@animeSchedule": {
@@ -205,5 +202,10 @@
 	"tutorialTitle": "Tutorial",
 	"longPressManageList": "Long press to manage your list",
 	"slideLeftMarkWatched": "Slide left to mark as watched",
-	"gesture": "Gesture"
+	"gesture": "Gesture",
+	"watching": "Watching",
+	"planning": "Planning",
+	"completed": "Completed",
+	"dropped": "Dropped",
+	"reading": "Reading"
 }

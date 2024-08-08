@@ -29,26 +29,6 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
     required String id,
   }) = FavoriteMangaListPath;
 
-  const factory AniFlowRoutePath.watchingAnimeList({
-    required String id,
-  }) = WatchingAnimeListPath;
-
-  const factory AniFlowRoutePath.completedCompletedList({
-    required String id,
-  }) = CompletedAnimeListPath;
-
-  const factory AniFlowRoutePath.droppedCompletedList({
-    required String id,
-  }) = DroppedAnimeListPath;
-
-  const factory AniFlowRoutePath.readingMangaList({
-    required String id,
-  }) = ReadingMangaListPath;
-
-  const factory AniFlowRoutePath.droppedMangaList({
-    required String id,
-  }) = DroppedMangaListPath;
-
   const factory AniFlowRoutePath.userProfile({
     required String id,
   }) = UserProfileRoutePath;
