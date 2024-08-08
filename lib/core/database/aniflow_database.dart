@@ -77,7 +77,8 @@ part 'aniflow_database.g.dart';
   ],
 )
 class AniflowDatabase extends _$AniflowDatabase {
-  AniflowDatabase() : super(_openConnection());
+  AniflowDatabase([QueryExecutor? executor])
+      : super(executor ?? _openConnection());
 
   AniflowDatabase.test(super.executor);
 

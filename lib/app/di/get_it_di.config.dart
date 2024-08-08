@@ -164,17 +164,20 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final registerModule = _$RegisterModule();
     final dIDataBaseModule = _$DIDataBaseModule();
+    final registerModule = _$RegisterModule();
     final dINetworkModule = _$DINetworkModule();
     final dIWorkmanagerModule = _$DIWorkmanagerModule();
     final dIFirebaseRemoteConfigModule = _$DIFirebaseRemoteConfigModule();
+    await gh.factoryAsync<_i545.AniflowDatabase>(
+      () => dIDataBaseModule.database,
+      preResolve: true,
+    );
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => registerModule.prefs,
       preResolve: true,
     );
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
-    gh.lazySingleton<_i545.AniflowDatabase>(() => dIDataBaseModule.database);
     gh.lazySingleton<_i361.Dio>(() => dINetworkModule.dio);
     await gh.lazySingletonAsync<_i500.Workmanager>(
       () => dIWorkmanagerModule.workManager,
@@ -662,9 +665,9 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$RegisterModule extends _i365.RegisterModule {}
-
 class _$DIDataBaseModule extends _i669.DIDataBaseModule {}
+
+class _$RegisterModule extends _i365.RegisterModule {}
 
 class _$DINetworkModule extends _i106.DINetworkModule {}
 
