@@ -25,8 +25,13 @@ class AiringMediaItem extends StatelessWidget {
       child: MediaRowItem(
         model: model,
         language: userTitleLanguage,
-        watchInfoTextColor: colorScheme.primary,
-        watchingInfo: description,
+        centerWidget: Text(
+          description,
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge
+              ?.copyWith(color: colorScheme.primary),
+        ),
         titleMaxLines: null,
         onClick: onClick,
       ),

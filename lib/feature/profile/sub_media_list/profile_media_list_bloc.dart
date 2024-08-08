@@ -1,36 +1,74 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_state.dart';
 import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
-class ProfileMediaListParam {
+class ProfileMediaListParam extends Equatable {
   final String userId;
   final MediaType mediaType;
 
-  ProfileMediaListParam({required this.userId, required this.mediaType});
+  const ProfileMediaListParam({required this.userId, required this.mediaType});
+
+  @override
+  List<Object?> get props => [userId, mediaType];
 }
 
 sealed class ProfileMediaListEvent {
   const ProfileMediaListEvent();
 }
 
-class ProfileMediaListState {
-  const ProfileMediaListState();
+class _OnMediaListChanged extends ProfileMediaListEvent {
+  final MediaListSectorParam param;
+  final List<MediaWithListModel> models;
+
+  const _OnMediaListChanged(
+    this.param,
+    this.models,
+  );
 }
 
 @injectable
-class ProfileMediaListBloc
+class ProfileAnimeListBloc extends ProfileMediaListBloc {
+  ProfileAnimeListBloc(
+    @factoryParam super.param,
+    super.mediaListRepository,
+  );
+}
+
+@injectable
+class ProfileMangaListBloc extends ProfileMediaListBloc {
+  ProfileMangaListBloc(
+    @factoryParam super.param,
+    super.mediaListRepository,
+  );
+}
+
+abstract class ProfileMediaListBloc
     extends Bloc<ProfileMediaListEvent, ProfileMediaListState>
     with AutoCancelMixin {
   ProfileMediaListBloc(
-    @factoryParam this.param,
+    this.param,
     this._mediaListRepository,
   ) : super(const ProfileMediaListState()) {
+    on<_OnMediaListChanged>(
+      (event, emit) => emit(
+        state.copyWith(
+          sectorMap: {
+            ...state.sectorMap,
+            event.param: event.models,
+          },
+        ),
+      ),
+    );
+
     MediaListSectorParam.buildSectors(param.mediaType, param.userId).forEach(
       (sector) {
         autoCancel(
@@ -41,8 +79,7 @@ class ProfileMediaListBloc
                 type: sector.type,
               )
               .listen(
-                (event) => null,
-              // add(_OnMediaListChanged(event)),
+                (event) => add(_OnMediaListChanged(sector, event)),
               ),
         );
       },
@@ -60,18 +97,36 @@ class ProfileMediaListBloc
   }
 
   Future _syncMediaList() async {
-    await _mediaListRepository.syncMediaList(
-      userId: param.userId,
-      mediaType: param.mediaType,
-      token: _token,
-      status: const [
-        MediaListStatus.current,
-        MediaListStatus.completed,
-        MediaListStatus.dropped,
-        MediaListStatus.paused,
-        MediaListStatus.planning,
-      ],
-    );
+    await Future.wait([
+      _mediaListRepository.syncMediaList(
+        page: 1,
+        userId: param.userId,
+        mediaType: param.mediaType,
+        token: _token,
+        status: const [
+          MediaListStatus.current,
+          MediaListStatus.planning,
+        ],
+      ),
+      _mediaListRepository.syncMediaList(
+        page: 1,
+        userId: param.userId,
+        mediaType: param.mediaType,
+        token: _token,
+        status: const [
+          MediaListStatus.completed,
+        ],
+      ),
+      _mediaListRepository.syncMediaList(
+        page: 1,
+        userId: param.userId,
+        mediaType: param.mediaType,
+        token: _token,
+        status: const [
+          MediaListStatus.dropped,
+        ],
+      ),
+    ]);
   }
 
   @override
@@ -101,25 +156,25 @@ class MediaListSectorParam extends Equatable {
       switch (type) {
         MediaType.anime => [
             MediaListSectorParam(
-              name: (context) => 'Planning',
-              userId: userId,
-              type: type,
-              status: const [MediaListStatus.planning],
-            ),
-            MediaListSectorParam(
-              name: (context) => 'Watching',
+              name: (context) => context.appLocal.watching,
               userId: userId,
               type: type,
               status: const [MediaListStatus.current],
             ),
             MediaListSectorParam(
-              name: (context) => 'Completed',
+              name: (context) => context.appLocal.planning,
+              userId: userId,
+              type: type,
+              status: const [MediaListStatus.planning],
+            ),
+            MediaListSectorParam(
+              name: (context) => context.appLocal.completed,
               userId: userId,
               type: type,
               status: const [MediaListStatus.completed],
             ),
             MediaListSectorParam(
-              name: (context) => 'Dropped',
+              name: (context) => context.appLocal.dropped,
               userId: userId,
               type: type,
               status: const [MediaListStatus.dropped, MediaListStatus.paused],
@@ -127,19 +182,19 @@ class MediaListSectorParam extends Equatable {
           ],
         MediaType.manga => [
             MediaListSectorParam(
-              name: (context) => 'Planning',
+              name: (context) => context.appLocal.planning,
               userId: userId,
               type: type,
               status: const [MediaListStatus.planning],
             ),
             MediaListSectorParam(
-              name: (context) => 'Reading',
+              name: (context) => context.appLocal.reading,
               userId: userId,
               type: type,
               status: const [MediaListStatus.current],
             ),
             MediaListSectorParam(
-              name: (context) => 'Dropped',
+              name: (context) => context.appLocal.dropped,
               userId: userId,
               type: type,
               status: const [MediaListStatus.dropped, MediaListStatus.paused],

@@ -120,10 +120,7 @@
 	"finishDate": "结束日期",
 	"notes": "笔记",
 	"current": "当前",
-	"completed": "已完成",
-	"dropped": "已放弃",
 	"paused": "已暂停",
-	"planning": "计划中",
 	"todayBirthdayCharacter": "生日的角色",
 	"animeSchedule": "{date}的时间表",
 	"releaseDate": "{date} 将发布",
@@ -144,5 +141,10 @@
 	"tutorialTitle": "教程",
 	"longPressManageList": "长按以管理您的列表",
 	"slideLeftMarkWatched": "向左滑动以标记为已观看",
-	"gesture": "手势"
+	"gesture": "手势",
+	"watching": "正在看",
+	"planning": "正在计划",
+	"completed": "已完成",
+	"dropped": "已放弃",
+	"reading": "正在读"
 }

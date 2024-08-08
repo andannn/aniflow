@@ -120,10 +120,7 @@
 	"finishDate": "Дата завершения",
 	"notes": "Заметки",
 	"current": "Текущее",
-	"completed": "Завершено",
-	"dropped": "Прервано",
 	"paused": "Приостановлено",
-	"planning": "Планируется",
 	"todayBirthdayCharacter": "Сегодня день рождения персонажа",
 	"animeSchedule": "Расписание на {date}",
 	"releaseDate": "Будет выпущен {date}",
@@ -144,5 +141,10 @@
 	"tutorialTitle": "Обучение",
 	"longPressManageList": "Долгое нажатие для управления списком",
 	"slideLeftMarkWatched": "Проведите влево, чтобы отметить как просмотренное",
-	"gesture": "Жест"
+	"gesture": "Жест",
+	"watching": "Смотрю",
+	"planning": "Планирую",
+	"completed": "Завершено",
+	"dropped": "Брошено",
+	"reading": "Читаю"
 }

@@ -7,6 +7,6 @@ part 'profile_media_list_state.freezed.dart';
 @freezed
 class ProfileMediaListState with _$ProfileMediaListState {
   const factory ProfileMediaListState({
-    @Default({}) Map<MediaListSectorParam, List<MediaWithListModel>> sector/Map,
+    @Default({}) Map<MediaListSectorParam, List<MediaWithListModel>> sectorMap,
 }) = _ProfileMediaListState;
 }

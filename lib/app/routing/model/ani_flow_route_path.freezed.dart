@@ -28,16 +28,6 @@ AniFlowRoutePath _$AniFlowRoutePathFromJson(Map<String, dynamic> json) {
       return FavoriteAnimeListPath.fromJson(json);
     case 'favoriteMangaList':
       return FavoriteMangaListPath.fromJson(json);
-    case 'watchingAnimeList':
-      return WatchingAnimeListPath.fromJson(json);
-    case 'completedCompletedList':
-      return CompletedAnimeListPath.fromJson(json);
-    case 'droppedCompletedList':
-      return DroppedAnimeListPath.fromJson(json);
-    case 'readingMangaList':
-      return ReadingMangaListPath.fromJson(json);
-    case 'droppedMangaList':
-      return DroppedMangaListPath.fromJson(json);
     case 'userProfile':
       return UserProfileRoutePath.fromJson(json);
     case 'categoryAnimeList':
@@ -85,11 +75,6 @@ mixin _$AniFlowRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -116,11 +101,6 @@ mixin _$AniFlowRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -147,11 +127,6 @@ mixin _$AniFlowRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -180,12 +155,6 @@ mixin _$AniFlowRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -214,11 +183,6 @@ mixin _$AniFlowRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -244,11 +208,6 @@ mixin _$AniFlowRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -347,11 +306,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -381,11 +335,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -415,11 +364,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -454,12 +398,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -491,11 +429,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -524,11 +457,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -622,11 +550,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -656,11 +579,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -690,11 +608,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -729,12 +642,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -766,11 +673,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -799,11 +701,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -926,11 +823,6 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -960,11 +852,6 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -994,11 +881,6 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -1033,12 +915,6 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -1070,11 +946,6 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -1103,11 +974,6 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -1241,11 +1107,6 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -1275,11 +1136,6 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -1309,11 +1165,6 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -1348,12 +1199,6 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -1385,11 +1230,6 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -1418,11 +1258,6 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -1554,11 +1389,6 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -1588,11 +1418,6 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -1622,11 +1447,6 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -1661,12 +1481,6 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -1698,11 +1512,6 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -1731,11 +1540,6 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -1867,11 +1671,6 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -1901,11 +1700,6 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -1935,11 +1729,6 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -1974,12 +1763,6 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -2011,11 +1794,6 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2044,11 +1822,6 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2093,1572 +1866,6 @@ abstract class FavoriteMangaListPath implements AniFlowRoutePath {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavoriteMangaListPathImplCopyWith<_$FavoriteMangaListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$WatchingAnimeListPathImplCopyWith<$Res> {
-  factory _$$WatchingAnimeListPathImplCopyWith(
-          _$WatchingAnimeListPathImpl value,
-          $Res Function(_$WatchingAnimeListPathImpl) then) =
-      __$$WatchingAnimeListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$WatchingAnimeListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$WatchingAnimeListPathImpl>
-    implements _$$WatchingAnimeListPathImplCopyWith<$Res> {
-  __$$WatchingAnimeListPathImplCopyWithImpl(_$WatchingAnimeListPathImpl _value,
-      $Res Function(_$WatchingAnimeListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$WatchingAnimeListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$WatchingAnimeListPathImpl implements WatchingAnimeListPath {
-  const _$WatchingAnimeListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'watchingAnimeList';
-
-  factory _$WatchingAnimeListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WatchingAnimeListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.watchingAnimeList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$WatchingAnimeListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$WatchingAnimeListPathImplCopyWith<_$WatchingAnimeListPathImpl>
-      get copyWith => __$$WatchingAnimeListPathImplCopyWithImpl<
-          _$WatchingAnimeListPathImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return watchingAnimeList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return watchingAnimeList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (watchingAnimeList != null) {
-      return watchingAnimeList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return watchingAnimeList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return watchingAnimeList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (watchingAnimeList != null) {
-      return watchingAnimeList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WatchingAnimeListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class WatchingAnimeListPath implements AniFlowRoutePath {
-  const factory WatchingAnimeListPath({required final String id}) =
-      _$WatchingAnimeListPathImpl;
-
-  factory WatchingAnimeListPath.fromJson(Map<String, dynamic> json) =
-      _$WatchingAnimeListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WatchingAnimeListPathImplCopyWith<_$WatchingAnimeListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$CompletedAnimeListPathImplCopyWith<$Res> {
-  factory _$$CompletedAnimeListPathImplCopyWith(
-          _$CompletedAnimeListPathImpl value,
-          $Res Function(_$CompletedAnimeListPathImpl) then) =
-      __$$CompletedAnimeListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$CompletedAnimeListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$CompletedAnimeListPathImpl>
-    implements _$$CompletedAnimeListPathImplCopyWith<$Res> {
-  __$$CompletedAnimeListPathImplCopyWithImpl(
-      _$CompletedAnimeListPathImpl _value,
-      $Res Function(_$CompletedAnimeListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$CompletedAnimeListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CompletedAnimeListPathImpl implements CompletedAnimeListPath {
-  const _$CompletedAnimeListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'completedCompletedList';
-
-  factory _$CompletedAnimeListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CompletedAnimeListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.completedCompletedList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CompletedAnimeListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CompletedAnimeListPathImplCopyWith<_$CompletedAnimeListPathImpl>
-      get copyWith => __$$CompletedAnimeListPathImplCopyWithImpl<
-          _$CompletedAnimeListPathImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return completedCompletedList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return completedCompletedList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (completedCompletedList != null) {
-      return completedCompletedList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return completedCompletedList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return completedCompletedList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (completedCompletedList != null) {
-      return completedCompletedList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CompletedAnimeListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class CompletedAnimeListPath implements AniFlowRoutePath {
-  const factory CompletedAnimeListPath({required final String id}) =
-      _$CompletedAnimeListPathImpl;
-
-  factory CompletedAnimeListPath.fromJson(Map<String, dynamic> json) =
-      _$CompletedAnimeListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CompletedAnimeListPathImplCopyWith<_$CompletedAnimeListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$DroppedAnimeListPathImplCopyWith<$Res> {
-  factory _$$DroppedAnimeListPathImplCopyWith(_$DroppedAnimeListPathImpl value,
-          $Res Function(_$DroppedAnimeListPathImpl) then) =
-      __$$DroppedAnimeListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$DroppedAnimeListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$DroppedAnimeListPathImpl>
-    implements _$$DroppedAnimeListPathImplCopyWith<$Res> {
-  __$$DroppedAnimeListPathImplCopyWithImpl(_$DroppedAnimeListPathImpl _value,
-      $Res Function(_$DroppedAnimeListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$DroppedAnimeListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$DroppedAnimeListPathImpl implements DroppedAnimeListPath {
-  const _$DroppedAnimeListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'droppedCompletedList';
-
-  factory _$DroppedAnimeListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DroppedAnimeListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.droppedCompletedList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DroppedAnimeListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DroppedAnimeListPathImplCopyWith<_$DroppedAnimeListPathImpl>
-      get copyWith =>
-          __$$DroppedAnimeListPathImplCopyWithImpl<_$DroppedAnimeListPathImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return droppedCompletedList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return droppedCompletedList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (droppedCompletedList != null) {
-      return droppedCompletedList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return droppedCompletedList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return droppedCompletedList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (droppedCompletedList != null) {
-      return droppedCompletedList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DroppedAnimeListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class DroppedAnimeListPath implements AniFlowRoutePath {
-  const factory DroppedAnimeListPath({required final String id}) =
-      _$DroppedAnimeListPathImpl;
-
-  factory DroppedAnimeListPath.fromJson(Map<String, dynamic> json) =
-      _$DroppedAnimeListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DroppedAnimeListPathImplCopyWith<_$DroppedAnimeListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ReadingMangaListPathImplCopyWith<$Res> {
-  factory _$$ReadingMangaListPathImplCopyWith(_$ReadingMangaListPathImpl value,
-          $Res Function(_$ReadingMangaListPathImpl) then) =
-      __$$ReadingMangaListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$ReadingMangaListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$ReadingMangaListPathImpl>
-    implements _$$ReadingMangaListPathImplCopyWith<$Res> {
-  __$$ReadingMangaListPathImplCopyWithImpl(_$ReadingMangaListPathImpl _value,
-      $Res Function(_$ReadingMangaListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$ReadingMangaListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ReadingMangaListPathImpl implements ReadingMangaListPath {
-  const _$ReadingMangaListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'readingMangaList';
-
-  factory _$ReadingMangaListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ReadingMangaListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.readingMangaList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ReadingMangaListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ReadingMangaListPathImplCopyWith<_$ReadingMangaListPathImpl>
-      get copyWith =>
-          __$$ReadingMangaListPathImplCopyWithImpl<_$ReadingMangaListPathImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return readingMangaList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return readingMangaList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (readingMangaList != null) {
-      return readingMangaList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return readingMangaList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return readingMangaList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (readingMangaList != null) {
-      return readingMangaList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ReadingMangaListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class ReadingMangaListPath implements AniFlowRoutePath {
-  const factory ReadingMangaListPath({required final String id}) =
-      _$ReadingMangaListPathImpl;
-
-  factory ReadingMangaListPath.fromJson(Map<String, dynamic> json) =
-      _$ReadingMangaListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ReadingMangaListPathImplCopyWith<_$ReadingMangaListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$DroppedMangaListPathImplCopyWith<$Res> {
-  factory _$$DroppedMangaListPathImplCopyWith(_$DroppedMangaListPathImpl value,
-          $Res Function(_$DroppedMangaListPathImpl) then) =
-      __$$DroppedMangaListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$DroppedMangaListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$DroppedMangaListPathImpl>
-    implements _$$DroppedMangaListPathImplCopyWith<$Res> {
-  __$$DroppedMangaListPathImplCopyWithImpl(_$DroppedMangaListPathImpl _value,
-      $Res Function(_$DroppedMangaListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$DroppedMangaListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$DroppedMangaListPathImpl implements DroppedMangaListPath {
-  const _$DroppedMangaListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'droppedMangaList';
-
-  factory _$DroppedMangaListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DroppedMangaListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.droppedMangaList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DroppedMangaListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DroppedMangaListPathImplCopyWith<_$DroppedMangaListPathImpl>
-      get copyWith =>
-          __$$DroppedMangaListPathImplCopyWithImpl<_$DroppedMangaListPathImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return droppedMangaList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return droppedMangaList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (droppedMangaList != null) {
-      return droppedMangaList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return droppedMangaList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return droppedMangaList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (droppedMangaList != null) {
-      return droppedMangaList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DroppedMangaListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class DroppedMangaListPath implements AniFlowRoutePath {
-  const factory DroppedMangaListPath({required final String id}) =
-      _$DroppedMangaListPathImpl;
-
-  factory DroppedMangaListPath.fromJson(Map<String, dynamic> json) =
-      _$DroppedMangaListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DroppedMangaListPathImplCopyWith<_$DroppedMangaListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -3746,11 +1953,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -3780,11 +1982,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -3814,11 +2011,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -3853,12 +2045,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -3890,11 +2076,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3923,11 +2104,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4064,11 +2240,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -4098,11 +2269,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -4132,11 +2298,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4171,12 +2332,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4208,11 +2363,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4241,11 +2391,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4382,11 +2527,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -4416,11 +2556,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -4450,11 +2585,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4489,12 +2619,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4526,11 +2650,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4559,11 +2678,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4696,11 +2810,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -4730,11 +2839,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -4764,11 +2868,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4803,12 +2902,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4840,11 +2933,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4873,11 +2961,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5009,11 +3092,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5043,11 +3121,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5077,11 +3150,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5116,12 +3184,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5153,11 +3215,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5186,11 +3243,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5321,11 +3373,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5355,11 +3402,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5389,11 +3431,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5428,12 +3465,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5465,11 +3496,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5498,11 +3524,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5633,11 +3654,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5667,11 +3683,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5701,11 +3712,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5740,12 +3746,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5777,11 +3777,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5810,11 +3805,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5947,11 +3937,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5981,11 +3966,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -6015,11 +3995,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -6054,12 +4029,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -6091,11 +4060,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -6124,11 +4088,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -6233,11 +4192,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -6267,11 +4221,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -6301,11 +4250,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -6340,12 +4284,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -6377,11 +4315,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -6410,11 +4343,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -6537,11 +4465,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -6571,11 +4494,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -6605,11 +4523,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -6644,12 +4557,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -6681,11 +4588,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -6714,11 +4616,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -6851,11 +4748,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -6885,11 +4777,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -6919,11 +4806,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -6958,12 +4840,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -6995,11 +4871,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7028,11 +4899,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7178,11 +5044,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -7212,11 +5073,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -7246,11 +5102,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -7285,12 +5136,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -7322,11 +5167,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7355,11 +5195,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7503,11 +5338,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -7537,11 +5367,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -7571,11 +5396,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -7610,12 +5430,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -7647,11 +5461,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7680,11 +5489,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7789,11 +5593,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -7823,11 +5622,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -7857,11 +5651,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -7896,12 +5685,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -7933,11 +5716,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -7966,11 +5744,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -8068,11 +5841,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     required TResult Function(String id) favoriteCharacterList,
     required TResult Function(String id) favoriteAnimeList,
     required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) watchingAnimeList,
-    required TResult Function(String id) completedCompletedList,
-    required TResult Function(String id) droppedCompletedList,
-    required TResult Function(String id) readingMangaList,
-    required TResult Function(String id) droppedMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -8102,11 +5870,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult? Function(String id)? favoriteCharacterList,
     TResult? Function(String id)? favoriteAnimeList,
     TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? watchingAnimeList,
-    TResult? Function(String id)? completedCompletedList,
-    TResult? Function(String id)? droppedCompletedList,
-    TResult? Function(String id)? readingMangaList,
-    TResult? Function(String id)? droppedMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -8136,11 +5899,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult Function(String id)? favoriteCharacterList,
     TResult Function(String id)? favoriteAnimeList,
     TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? watchingAnimeList,
-    TResult Function(String id)? completedCompletedList,
-    TResult Function(String id)? droppedCompletedList,
-    TResult Function(String id)? readingMangaList,
-    TResult Function(String id)? droppedMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -8175,12 +5933,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
         favoriteCharacterList,
     required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
     required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(WatchingAnimeListPath value) watchingAnimeList,
-    required TResult Function(CompletedAnimeListPath value)
-        completedCompletedList,
-    required TResult Function(DroppedAnimeListPath value) droppedCompletedList,
-    required TResult Function(ReadingMangaListPath value) readingMangaList,
-    required TResult Function(DroppedMangaListPath value) droppedMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -8212,11 +5964,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult? Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult? Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult? Function(ReadingMangaListPath value)? readingMangaList,
-    TResult? Function(DroppedMangaListPath value)? droppedMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -8245,11 +5992,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
     TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
     TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(WatchingAnimeListPath value)? watchingAnimeList,
-    TResult Function(CompletedAnimeListPath value)? completedCompletedList,
-    TResult Function(DroppedAnimeListPath value)? droppedCompletedList,
-    TResult Function(ReadingMangaListPath value)? readingMangaList,
-    TResult Function(DroppedMangaListPath value)? droppedMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,

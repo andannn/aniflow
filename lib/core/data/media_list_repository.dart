@@ -82,6 +82,7 @@ class MediaListRepository {
   Future<LoadResult<void>> syncMediaList({
     String? userId,
     List<MediaListStatus> status = const [],
+    int page = -1,
     MediaType? mediaType,
     CancelToken? token,
   }) async {
@@ -94,12 +95,20 @@ class MediaListRepository {
 
       /// get all anime list items from network.
       final networkAnimeList = await aniListDataSource.getUserMediaListPage(
-        param: UserAnimeListPageQueryParam.all(
-          mediaType: mediaType,
-          status: status,
-          userId: int.parse(targetUserId.toString()),
-          format: preferences.userData.scoreFormat,
-        ),
+        param: page == -1
+            ? UserAnimeListPageQueryParam.all(
+                mediaType: mediaType,
+                status: status,
+                userId: int.parse(targetUserId.toString()),
+                format: preferences.userData.scoreFormat,
+              )
+            : UserAnimeListPageQueryParam(
+                page: page,
+                mediaType: mediaType,
+                status: status,
+                userId: int.parse(targetUserId.toString()),
+                format: preferences.userData.scoreFormat,
+              ),
         token: token,
       );
 
