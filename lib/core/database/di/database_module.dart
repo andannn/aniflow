@@ -1,3 +1,9 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
+
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
@@ -9,12 +15,26 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
+import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
+import 'package:drift/drift.dart';
+import 'package:drift/isolate.dart';
+import 'package:drift/native.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqlite3/sqlite3.dart';
+import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
+
+String _driftServerName = 'drift_server';
+String _tag = 'DIDataBaseModule';
 
 @module
 abstract class DIDataBaseModule {
-  @lazySingleton
-  AniflowDatabase get database => AniflowDatabase();
+  @preResolve
+  Future<AniflowDatabase> get database async {
+    return AniflowDatabase(await createIsolate());
+  }
 
   UserDao getUserDao(AniflowDatabase db) => db.userDao;
 
@@ -36,4 +56,48 @@ abstract class DIDataBaseModule {
   FavoriteDao geFavoriteDao(AniflowDatabase db) => db.favoriteDao;
 
   EpisodeDao geEpisodeDao(AniflowDatabase db) => db.episodeDao;
+}
+
+FutureOr<DatabaseConnection> createIsolate() async {
+  return DatabaseConnection.delayed(
+    Future(
+      () async {
+        DriftIsolate isolate;
+        final token = RootIsolateToken.instance!;
+        SendPort? sendPort =
+            IsolateNameServer.lookupPortByName(_driftServerName);
+
+        if (sendPort != null) {
+          logger.d('$_tag Connecting to existing isolate');
+          isolate = DriftIsolate.fromConnectPort(sendPort);
+        } else {
+          logger.d('$_tag Creating new isolate');
+          isolate = await DriftIsolate.spawn(() {
+            BackgroundIsolateBinaryMessenger.ensureInitialized(token);
+
+            return LazyDatabase(() async {
+              final dbFolder = await getApplicationDocumentsDirectory();
+
+              final cachebase = (await getTemporaryDirectory()).path;
+
+              sqlite3.tempDirectory = cachebase;
+
+              if (Platform.isAndroid) {
+                await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
+              }
+
+              return NativeDatabase(File(join(dbFolder.path, 'db1.sqlite')))
+                  .interceptWith(LogInterceptor());
+            });
+          });
+          IsolateNameServer.registerPortWithName(
+            isolate.connectPort,
+            _driftServerName,
+          );
+        }
+
+        return isolate.connect();
+      },
+    ),
+  );
 }

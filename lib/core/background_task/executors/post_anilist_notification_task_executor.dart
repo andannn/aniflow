@@ -84,7 +84,6 @@ class PostAnilistNotificationExecutor implements Executor {
       perPage: unreadNotificationCount,
       category: NotificationCategory.all,
       resetNotificationCount: false,
-      accessDb: false,
     );
 
     if (notificationsResult is LoadError<List<NotificationModel>>) {
