@@ -30,7 +30,9 @@ mixin _$CharacterModel {
   bool get isFavourite => throw _privateConstructorUsedError;
   List<MediaModel> get relatedMedias => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterModelCopyWith<CharacterModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,6 +71,8 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,6 +146,8 @@ class _$CharacterModelCopyWithImpl<$Res, $Val extends CharacterModel>
     ) as $Val);
   }
 
+  /// Create a copy of CharacterModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffCharacterNameCopyWith<$Res>? get name {
@@ -190,6 +196,8 @@ class __$$CharacterModelImplCopyWithImpl<$Res>
       _$CharacterModelImpl _value, $Res Function(_$CharacterModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -370,7 +378,9 @@ class _$CharacterModelImpl implements _CharacterModel {
       isFavourite,
       const DeepCollectionEquality().hash(_relatedMedias));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
@@ -420,8 +430,11 @@ abstract class _CharacterModel implements CharacterModel {
   bool get isFavourite;
   @override
   List<MediaModel> get relatedMedias;
+
+  /// Create a copy of CharacterModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterModelImplCopyWith<_$CharacterModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

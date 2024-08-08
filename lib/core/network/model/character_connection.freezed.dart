@@ -25,8 +25,12 @@ mixin _$CharacterConnection {
   @JsonKey(name: 'edges')
   List<CharacterEdge> get edges => throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterConnection to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterConnectionCopyWith<CharacterConnection> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$CharacterConnectionCopyWithImpl<$Res, $Val extends CharacterConnection>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$CharacterConnectionCopyWithImpl<$Res, $Val extends CharacterConnection>
     ) as $Val);
   }
 
+  /// Create a copy of CharacterConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PageInfoCopyWith<$Res>? get pageInfo {
@@ -109,6 +117,8 @@ class __$$CharacterConnectionImplCopyWithImpl<$Res>
       $Res Function(_$CharacterConnectionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,12 +176,14 @@ class _$CharacterConnectionImpl implements _CharacterConnection {
             const DeepCollectionEquality().equals(other._edges, _edges));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, pageInfo, const DeepCollectionEquality().hash(_edges));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterConnectionImplCopyWith<_$CharacterConnectionImpl> get copyWith =>
@@ -201,8 +213,11 @@ abstract class _CharacterConnection implements CharacterConnection {
   @override
   @JsonKey(name: 'edges')
   List<CharacterEdge> get edges;
+
+  /// Create a copy of CharacterConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterConnectionImplCopyWith<_$CharacterConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

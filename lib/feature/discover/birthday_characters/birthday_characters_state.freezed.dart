@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BirthdayCharactersState {
   List<CharacterModel> get data => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BirthdayCharactersState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BirthdayCharactersStateCopyWith<BirthdayCharactersState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$BirthdayCharactersStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BirthdayCharactersState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +83,8 @@ class __$$BirthdayCharactersStateImplCopyWithImpl<$Res>
       $Res Function(_$BirthdayCharactersStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BirthdayCharactersState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,7 +132,9 @@ class _$BirthdayCharactersStateImpl implements _BirthdayCharactersState {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BirthdayCharactersState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BirthdayCharactersStateImplCopyWith<_$BirthdayCharactersStateImpl>
@@ -140,8 +148,11 @@ abstract class _BirthdayCharactersState implements BirthdayCharactersState {
 
   @override
   List<CharacterModel> get data;
+
+  /// Create a copy of BirthdayCharactersState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BirthdayCharactersStateImplCopyWith<_$BirthdayCharactersStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

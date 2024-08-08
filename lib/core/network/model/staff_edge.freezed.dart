@@ -25,8 +25,12 @@ mixin _$StaffEdge {
   @JsonKey(name: 'node')
   StaffDto? get staffNode => throw _privateConstructorUsedError;
 
+  /// Serializes this StaffEdge to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StaffEdge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StaffEdgeCopyWith<StaffEdge> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,6 +57,8 @@ class _$StaffEdgeCopyWithImpl<$Res, $Val extends StaffEdge>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StaffEdge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -71,6 +77,8 @@ class _$StaffEdgeCopyWithImpl<$Res, $Val extends StaffEdge>
     ) as $Val);
   }
 
+  /// Create a copy of StaffEdge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffDtoCopyWith<$Res>? get staffNode {
@@ -108,6 +116,8 @@ class __$$StaffEdgeImplCopyWithImpl<$Res>
       _$StaffEdgeImpl _value, $Res Function(_$StaffEdgeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StaffEdge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,11 +169,13 @@ class _$StaffEdgeImpl implements _StaffEdge {
                 other.staffNode == staffNode));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, staffNode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaffEdge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaffEdgeImplCopyWith<_$StaffEdgeImpl> get copyWith =>
@@ -191,8 +203,11 @@ abstract class _StaffEdge implements StaffEdge {
   @override
   @JsonKey(name: 'node')
   StaffDto? get staffNode;
+
+  /// Create a copy of StaffEdge
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaffEdgeImplCopyWith<_$StaffEdgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

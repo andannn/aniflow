@@ -31,8 +31,12 @@ mixin _$GithubUserDto {
   @JsonKey(name: 'bio')
   String? get bio => throw _privateConstructorUsedError;
 
+  /// Serializes this GithubUserDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GithubUserDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GithubUserDtoCopyWith<GithubUserDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$GithubUserDtoCopyWithImpl<$Res, $Val extends GithubUserDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GithubUserDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$GithubUserDtoImplCopyWithImpl<$Res>
       _$GithubUserDtoImpl _value, $Res Function(_$GithubUserDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GithubUserDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -200,11 +208,13 @@ class _$GithubUserDtoImpl implements _GithubUserDto {
             (identical(other.bio, bio) || other.bio == bio));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, login, id, avatarUrl, url, bio);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GithubUserDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GithubUserDtoImplCopyWith<_$GithubUserDtoImpl> get copyWith =>
@@ -244,8 +254,11 @@ abstract class _GithubUserDto implements GithubUserDto {
   @override
   @JsonKey(name: 'bio')
   String? get bio;
+
+  /// Create a copy of GithubUserDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GithubUserDtoImplCopyWith<_$GithubUserDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

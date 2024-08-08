@@ -25,8 +25,12 @@ mixin _$StaffConnection {
   @JsonKey(name: 'edges')
   List<StaffEdge> get edges => throw _privateConstructorUsedError;
 
+  /// Serializes this StaffConnection to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StaffConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StaffConnectionCopyWith<StaffConnection> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$StaffConnectionCopyWithImpl<$Res, $Val extends StaffConnection>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StaffConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$StaffConnectionCopyWithImpl<$Res, $Val extends StaffConnection>
     ) as $Val);
   }
 
+  /// Create a copy of StaffConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PageInfoCopyWith<$Res>? get pageInfo {
@@ -109,6 +117,8 @@ class __$$StaffConnectionImplCopyWithImpl<$Res>
       _$StaffConnectionImpl _value, $Res Function(_$StaffConnectionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StaffConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,12 +176,14 @@ class _$StaffConnectionImpl implements _StaffConnection {
             const DeepCollectionEquality().equals(other._edges, _edges));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, pageInfo, const DeepCollectionEquality().hash(_edges));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaffConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaffConnectionImplCopyWith<_$StaffConnectionImpl> get copyWith =>
@@ -201,8 +213,11 @@ abstract class _StaffConnection implements StaffConnection {
   @override
   @JsonKey(name: 'edges')
   List<StaffEdge> get edges;
+
+  /// Create a copy of StaffConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaffConnectionImplCopyWith<_$StaffConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -22,7 +22,9 @@ mixin _$DetailCharacterState {
       throw _privateConstructorUsedError;
   UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailCharacterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DetailCharacterStateCopyWith<DetailCharacterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,6 +55,8 @@ class _$DetailCharacterStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DetailCharacterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class _$DetailCharacterStateCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of DetailCharacterState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CharacterModelCopyWith<$Res>? get characterModel {
@@ -120,6 +126,8 @@ class __$$DetailCharacterStateImplCopyWithImpl<$Res>
       $Res Function(_$DetailCharacterStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailCharacterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,7 +202,9 @@ class _$DetailCharacterStateImpl implements _DetailCharacterState {
   int get hashCode => Object.hash(runtimeType, isLoading, characterModel,
       userStaffNameLanguage, userTitleLanguage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailCharacterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailCharacterStateImplCopyWith<_$DetailCharacterStateImpl>
@@ -218,8 +228,11 @@ abstract class _DetailCharacterState implements DetailCharacterState {
   UserStaffNameLanguage get userStaffNameLanguage;
   @override
   UserTitleLanguage get userTitleLanguage;
+
+  /// Create a copy of DetailCharacterState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailCharacterStateImplCopyWith<_$DetailCharacterStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

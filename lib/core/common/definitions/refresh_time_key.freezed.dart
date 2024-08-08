@@ -91,6 +91,8 @@ mixin _$RefreshTimeKey {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this RefreshTimeKey to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -110,6 +112,9 @@ class _$RefreshTimeKeyCopyWithImpl<$Res, $Val extends RefreshTimeKey>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -126,6 +131,9 @@ class __$$BirthdayCharactersImplCopyWithImpl<$Res>
   __$$BirthdayCharactersImplCopyWithImpl(_$BirthdayCharactersImpl _value,
       $Res Function(_$BirthdayCharactersImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -151,7 +159,7 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
         (other.runtimeType == runtimeType && other is _$BirthdayCharactersImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -264,6 +272,9 @@ class __$$AiringScheduleImplCopyWithImpl<$Res>
   __$$AiringScheduleImplCopyWithImpl(
       _$AiringScheduleImpl _value, $Res Function(_$AiringScheduleImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -289,7 +300,7 @@ class _$AiringScheduleImpl implements AiringSchedule {
         (other.runtimeType == runtimeType && other is _$AiringScheduleImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -402,6 +413,9 @@ class __$$RecentMoviesImplCopyWithImpl<$Res>
   __$$RecentMoviesImplCopyWithImpl(
       _$RecentMoviesImpl _value, $Res Function(_$RecentMoviesImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -427,7 +441,7 @@ class _$RecentMoviesImpl implements RecentMovies {
         (other.runtimeType == runtimeType && other is _$RecentMoviesImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -543,6 +557,8 @@ class __$$MediaCategoryKeyImplCopyWithImpl<$Res>
       $Res Function(_$MediaCategoryKeyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -586,11 +602,13 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
                 other.category == category));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, category);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaCategoryKeyImplCopyWith<_$MediaCategoryKeyImpl> get copyWith =>
@@ -693,7 +711,10 @@ abstract class MediaCategoryKey implements RefreshTimeKey {
       _$MediaCategoryKeyImpl.fromJson;
 
   MediaCategory get category;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaCategoryKeyImplCopyWith<_$MediaCategoryKeyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -715,6 +736,8 @@ class __$$MediaListImplCopyWithImpl<$Res>
       _$MediaListImpl _value, $Res Function(_$MediaListImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -757,11 +780,13 @@ class _$MediaListImpl implements MediaList {
             (identical(other.userId, userId) || other.userId == userId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, userId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaListImplCopyWith<_$MediaListImpl> get copyWith =>
@@ -862,7 +887,10 @@ abstract class MediaList implements RefreshTimeKey {
       _$MediaListImpl.fromJson;
 
   String get userId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaListImplCopyWith<_$MediaListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

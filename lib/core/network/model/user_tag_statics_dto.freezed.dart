@@ -33,8 +33,12 @@ mixin _$UserTagStaticsDto {
   @JsonKey(name: 'tag')
   MediaTagDto? get tag => throw _privateConstructorUsedError;
 
+  /// Serializes this UserTagStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserTagStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserTagStaticsDtoCopyWith<UserTagStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$UserTagStaticsDtoCopyWithImpl<$Res, $Val extends UserTagStaticsDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserTagStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class _$UserTagStaticsDtoCopyWithImpl<$Res, $Val extends UserTagStaticsDto>
     ) as $Val);
   }
 
+  /// Create a copy of UserTagStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaTagDtoCopyWith<$Res>? get tag {
@@ -145,6 +153,8 @@ class __$$UserTagStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserTagStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserTagStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -245,12 +255,14 @@ class _$UserTagStaticsDtoImpl implements _UserTagStaticsDto {
             (identical(other.tag, tag) || other.tag == tag));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, count, meanScore, minutesWatched,
       chaptersRead, const DeepCollectionEquality().hash(_mediaIds), tag);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserTagStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserTagStaticsDtoImplCopyWith<_$UserTagStaticsDtoImpl> get copyWith =>
@@ -295,8 +307,11 @@ abstract class _UserTagStaticsDto implements UserTagStaticsDto {
   @override
   @JsonKey(name: 'tag')
   MediaTagDto? get tag;
+
+  /// Create a copy of UserTagStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserTagStaticsDtoImplCopyWith<_$UserTagStaticsDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

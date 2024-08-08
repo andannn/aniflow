@@ -35,8 +35,12 @@ mixin _$MediaExternalLinkDto {
   @JsonKey(name: 'icon')
   String? get icon => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaExternalLinkDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaExternalLinkDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaExternalLinkDtoCopyWith<MediaExternalLinkDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,6 +72,8 @@ class _$MediaExternalLinkDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaExternalLinkDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -138,6 +144,8 @@ class __$$MediaExternalLinkDtoImplCopyWithImpl<$Res>
       $Res Function(_$MediaExternalLinkDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaExternalLinkDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -238,12 +246,14 @@ class _$MediaExternalLinkDtoImpl implements _MediaExternalLinkDto {
             (identical(other.icon, icon) || other.icon == icon));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, url, site, type, siteId, color, icon);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaExternalLinkDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaExternalLinkDtoImplCopyWith<_$MediaExternalLinkDtoImpl>
@@ -293,8 +303,11 @@ abstract class _MediaExternalLinkDto implements MediaExternalLinkDto {
   @override
   @JsonKey(name: 'icon')
   String? get icon;
+
+  /// Create a copy of MediaExternalLinkDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaExternalLinkDtoImplCopyWith<_$MediaExternalLinkDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

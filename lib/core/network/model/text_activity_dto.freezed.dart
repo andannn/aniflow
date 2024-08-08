@@ -47,8 +47,12 @@ mixin _$TextActivityDto {
   @JsonKey(name: 'replies')
   List<ActivityReplyDto> get replies => throw _privateConstructorUsedError;
 
+  /// Serializes this TextActivityDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TextActivityDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TextActivityDtoCopyWith<TextActivityDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -87,6 +91,8 @@ class _$TextActivityDtoCopyWithImpl<$Res, $Val extends TextActivityDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TextActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -160,6 +166,8 @@ class _$TextActivityDtoCopyWithImpl<$Res, $Val extends TextActivityDto>
     ) as $Val);
   }
 
+  /// Create a copy of TextActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserDtoCopyWith<$Res>? get user {
@@ -208,6 +216,8 @@ class __$$TextActivityDtoImplCopyWithImpl<$Res>
       _$TextActivityDtoImpl _value, $Res Function(_$TextActivityDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TextActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -380,7 +390,7 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
             const DeepCollectionEquality().equals(other._replies, _replies));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -398,7 +408,9 @@ class _$TextActivityDtoImpl implements _TextActivityDto {
       user,
       const DeepCollectionEquality().hash(_replies));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TextActivityDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TextActivityDtoImplCopyWith<_$TextActivityDtoImpl> get copyWith =>
@@ -472,8 +484,11 @@ abstract class _TextActivityDto implements TextActivityDto {
   @override
   @JsonKey(name: 'replies')
   List<ActivityReplyDto> get replies;
+
+  /// Create a copy of TextActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TextActivityDtoImplCopyWith<_$TextActivityDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

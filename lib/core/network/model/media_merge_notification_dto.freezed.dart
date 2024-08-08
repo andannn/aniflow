@@ -38,8 +38,12 @@ mixin _$MediaMergeNotificationDto {
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaMergeNotificationDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaMergeNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaMergeNotificationDtoCopyWith<MediaMergeNotificationDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,6 +78,8 @@ class _$MediaMergeNotificationDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaMergeNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,6 +128,8 @@ class _$MediaMergeNotificationDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of MediaMergeNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaDtoCopyWith<$Res>? get media {
@@ -168,6 +176,8 @@ class __$$MediaMergeNotificationDtoImplCopyWithImpl<$Res>
       $Res Function(_$MediaMergeNotificationDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaMergeNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -290,7 +300,7 @@ class _$MediaMergeNotificationDtoImpl implements _MediaMergeNotificationDto {
             (identical(other.media, media) || other.media == media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -303,7 +313,9 @@ class _$MediaMergeNotificationDtoImpl implements _MediaMergeNotificationDto {
       context,
       media);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaMergeNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaMergeNotificationDtoImplCopyWith<_$MediaMergeNotificationDtoImpl>
@@ -357,8 +369,11 @@ abstract class _MediaMergeNotificationDto implements MediaMergeNotificationDto {
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;
+
+  /// Create a copy of MediaMergeNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaMergeNotificationDtoImplCopyWith<_$MediaMergeNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

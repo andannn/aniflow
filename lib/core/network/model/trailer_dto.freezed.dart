@@ -27,8 +27,12 @@ mixin _$TrailerDto {
   @JsonKey(name: 'thumbnail')
   String get thumbnail => throw _privateConstructorUsedError;
 
+  /// Serializes this TrailerDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TrailerDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TrailerDtoCopyWith<TrailerDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$TrailerDtoCopyWithImpl<$Res, $Val extends TrailerDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TrailerDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$TrailerDtoImplCopyWithImpl<$Res>
       _$TrailerDtoImpl _value, $Res Function(_$TrailerDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrailerDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,11 +170,13 @@ class _$TrailerDtoImpl implements _TrailerDto {
                 other.thumbnail == thumbnail));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, site, thumbnail);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrailerDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TrailerDtoImplCopyWith<_$TrailerDtoImpl> get copyWith =>
@@ -198,8 +208,11 @@ abstract class _TrailerDto implements TrailerDto {
   @override
   @JsonKey(name: 'thumbnail')
   String get thumbnail;
+
+  /// Create a copy of TrailerDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TrailerDtoImplCopyWith<_$TrailerDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

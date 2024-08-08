@@ -31,8 +31,12 @@ mixin _$PageInfo {
   @JsonKey(name: 'hasNextPage')
   bool get hasNextPage => throw _privateConstructorUsedError;
 
+  /// Serializes this PageInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PageInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PageInfoCopyWith<PageInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$PageInfoCopyWithImpl<$Res, $Val extends PageInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PageInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,6 +124,8 @@ class __$$PageInfoImplCopyWithImpl<$Res>
       _$PageInfoImpl _value, $Res Function(_$PageInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PageInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -201,12 +209,14 @@ class _$PageInfoImpl implements _PageInfo {
                 other.hasNextPage == hasNextPage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, total, perPage, currentPage, lastPage, hasNextPage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PageInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PageInfoImplCopyWith<_$PageInfoImpl> get copyWith =>
@@ -246,8 +256,11 @@ abstract class _PageInfo implements PageInfo {
   @override
   @JsonKey(name: 'hasNextPage')
   bool get hasNextPage;
+
+  /// Create a copy of PageInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PageInfoImplCopyWith<_$PageInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

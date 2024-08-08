@@ -25,8 +25,12 @@ mixin _$CharacterImageDto {
   @JsonKey(name: 'medium')
   String? get medium => throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterImageDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterImageDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterImageDtoCopyWith<CharacterImageDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$CharacterImageDtoCopyWithImpl<$Res, $Val extends CharacterImageDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterImageDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$CharacterImageDtoImplCopyWithImpl<$Res>
       $Res Function(_$CharacterImageDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterImageDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,11 +150,13 @@ class _$CharacterImageDtoImpl implements _CharacterImageDto {
             (identical(other.medium, medium) || other.medium == medium));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, large, medium);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterImageDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterImageDtoImplCopyWith<_$CharacterImageDtoImpl> get copyWith =>
@@ -175,8 +185,11 @@ abstract class _CharacterImageDto implements CharacterImageDto {
   @override
   @JsonKey(name: 'medium')
   String? get medium;
+
+  /// Create a copy of CharacterImageDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterImageDtoImplCopyWith<_$CharacterImageDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -50,7 +50,9 @@ mixin _$MediaModel {
   List<MediaRelationModel> get relations => throw _privateConstructorUsedError;
   List<StudioModel> get studios => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaModelCopyWith<MediaModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -109,6 +111,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -272,6 +276,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     ) as $Val);
   }
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaTitleCopyWith<$Res>? get title {
@@ -284,6 +290,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     });
   }
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaCoverImageModelCopyWith<$Res>? get coverImage {
@@ -296,6 +304,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     });
   }
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TrailerModelCopyWith<$Res>? get trailerModel {
@@ -366,6 +376,8 @@ class __$$MediaModelImplCopyWithImpl<$Res>
       _$MediaModelImpl _value, $Res Function(_$MediaModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -787,7 +799,9 @@ class _$MediaModelImpl implements _MediaModel {
         const DeepCollectionEquality().hash(_studios)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaModelImplCopyWith<_$MediaModelImpl> get copyWith =>
@@ -890,8 +904,11 @@ abstract class _MediaModel implements MediaModel {
   List<MediaRelationModel> get relations;
   @override
   List<StudioModel> get studios;
+
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaModelImplCopyWith<_$MediaModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -34,8 +34,12 @@ mixin _$UserReleaseYearStaticsDto {
   @JsonKey(name: 'releaseYear')
   int? get releaseYear => throw _privateConstructorUsedError;
 
+  /// Serializes this UserReleaseYearStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserReleaseYearStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserReleaseYearStaticsDtoCopyWith<UserReleaseYearStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$UserReleaseYearStaticsDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserReleaseYearStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,6 +139,8 @@ class __$$UserReleaseYearStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserReleaseYearStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserReleaseYearStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -234,7 +242,7 @@ class _$UserReleaseYearStaticsDtoImpl implements _UserReleaseYearStaticsDto {
                 other.releaseYear == releaseYear));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -245,7 +253,9 @@ class _$UserReleaseYearStaticsDtoImpl implements _UserReleaseYearStaticsDto {
       const DeepCollectionEquality().hash(_mediaIds),
       releaseYear);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserReleaseYearStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserReleaseYearStaticsDtoImplCopyWith<_$UserReleaseYearStaticsDtoImpl>
@@ -291,8 +301,11 @@ abstract class _UserReleaseYearStaticsDto implements UserReleaseYearStaticsDto {
   @override
   @JsonKey(name: 'releaseYear')
   int? get releaseYear;
+
+  /// Create a copy of UserReleaseYearStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserReleaseYearStaticsDtoImplCopyWith<_$UserReleaseYearStaticsDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

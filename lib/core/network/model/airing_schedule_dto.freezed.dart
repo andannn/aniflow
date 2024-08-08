@@ -33,8 +33,12 @@ mixin _$AiringScheduleDto {
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this AiringScheduleDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AiringScheduleDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AiringScheduleDtoCopyWith<AiringScheduleDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$AiringScheduleDtoCopyWithImpl<$Res, $Val extends AiringScheduleDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AiringScheduleDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class _$AiringScheduleDtoCopyWithImpl<$Res, $Val extends AiringScheduleDto>
     ) as $Val);
   }
 
+  /// Create a copy of AiringScheduleDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaDtoCopyWith<$Res>? get media {
@@ -145,6 +153,8 @@ class __$$AiringScheduleDtoImplCopyWithImpl<$Res>
       $Res Function(_$AiringScheduleDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AiringScheduleDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -237,12 +247,14 @@ class _$AiringScheduleDtoImpl implements _AiringScheduleDto {
             (identical(other.media, media) || other.media == media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, mediaId, airingAt, timeUntilAiring, episode, media);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AiringScheduleDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AiringScheduleDtoImplCopyWith<_$AiringScheduleDtoImpl> get copyWith =>
@@ -287,8 +299,11 @@ abstract class _AiringScheduleDto implements AiringScheduleDto {
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;
+
+  /// Create a copy of AiringScheduleDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AiringScheduleDtoImplCopyWith<_$AiringScheduleDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
