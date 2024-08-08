@@ -25,8 +25,12 @@ mixin _$StaffImageDto {
   @JsonKey(name: 'medium')
   String? get medium => throw _privateConstructorUsedError;
 
+  /// Serializes this StaffImageDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StaffImageDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StaffImageDtoCopyWith<StaffImageDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$StaffImageDtoCopyWithImpl<$Res, $Val extends StaffImageDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StaffImageDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$StaffImageDtoImplCopyWithImpl<$Res>
       _$StaffImageDtoImpl _value, $Res Function(_$StaffImageDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StaffImageDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,11 +150,13 @@ class _$StaffImageDtoImpl implements _StaffImageDto {
             (identical(other.medium, medium) || other.medium == medium));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, large, medium);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaffImageDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaffImageDtoImplCopyWith<_$StaffImageDtoImpl> get copyWith =>
@@ -174,8 +184,11 @@ abstract class _StaffImageDto implements StaffImageDto {
   @override
   @JsonKey(name: 'medium')
   String? get medium;
+
+  /// Create a copy of StaffImageDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaffImageDtoImplCopyWith<_$StaffImageDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

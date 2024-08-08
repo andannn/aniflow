@@ -21,7 +21,9 @@ mixin _$MediaCoverImageModel {
   String? get medium => throw _privateConstructorUsedError;
   Color? get color => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaCoverImageModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaCoverImageModelCopyWith<MediaCoverImageModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$MediaCoverImageModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaCoverImageModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,6 +98,8 @@ class __$$MediaCoverImageModelImplCopyWithImpl<$Res>
       $Res Function(_$MediaCoverImageModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaCoverImageModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,7 +165,9 @@ class _$MediaCoverImageModelImpl implements _MediaCoverImageModel {
   int get hashCode =>
       Object.hash(runtimeType, extraLarge, large, medium, color);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaCoverImageModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaCoverImageModelImplCopyWith<_$MediaCoverImageModelImpl>
@@ -183,8 +191,11 @@ abstract class _MediaCoverImageModel implements MediaCoverImageModel {
   String? get medium;
   @override
   Color? get color;
+
+  /// Create a copy of MediaCoverImageModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaCoverImageModelImplCopyWith<_$MediaCoverImageModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

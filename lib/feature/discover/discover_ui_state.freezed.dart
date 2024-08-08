@@ -21,7 +21,9 @@ mixin _$DiscoverUiState {
   UserModel? get userData => throw _privateConstructorUsedError;
   List<HomeSectorCategory> get sectors => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DiscoverUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DiscoverUiStateCopyWith<DiscoverUiState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DiscoverUiState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +83,8 @@ class _$DiscoverUiStateCopyWithImpl<$Res, $Val extends DiscoverUiState>
     ) as $Val);
   }
 
+  /// Create a copy of DiscoverUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserModelCopyWith<$Res>? get userData {
@@ -118,6 +124,8 @@ class __$$DiscoverUiStateImplCopyWithImpl<$Res>
       _$DiscoverUiStateImpl _value, $Res Function(_$DiscoverUiStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DiscoverUiState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -197,7 +205,9 @@ class _$DiscoverUiStateImpl implements _DiscoverUiState {
   int get hashCode => Object.hash(runtimeType, isLoading, currentMediaType,
       userData, const DeepCollectionEquality().hash(_sectors));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DiscoverUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DiscoverUiStateImplCopyWith<_$DiscoverUiStateImpl> get copyWith =>
@@ -220,8 +230,11 @@ abstract class _DiscoverUiState implements DiscoverUiState {
   UserModel? get userData;
   @override
   List<HomeSectorCategory> get sectors;
+
+  /// Create a copy of DiscoverUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DiscoverUiStateImplCopyWith<_$DiscoverUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

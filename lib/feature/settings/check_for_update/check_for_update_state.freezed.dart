@@ -20,7 +20,9 @@ mixin _$CheckForUpdateState {
   AppVersion? get currentVersion => throw _privateConstructorUsedError;
   AppVersion? get latestVersion => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CheckForUpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CheckForUpdateStateCopyWith<CheckForUpdateState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$CheckForUpdateStateCopyWithImpl<$Res, $Val extends CheckForUpdateState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CheckForUpdateState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +93,8 @@ class __$$CheckForUpdateStateImplCopyWithImpl<$Res>
       $Res Function(_$CheckForUpdateStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CheckForUpdateState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -149,7 +155,9 @@ class _$CheckForUpdateStateImpl implements _CheckForUpdateState {
   int get hashCode =>
       Object.hash(runtimeType, isLoading, currentVersion, latestVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CheckForUpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CheckForUpdateStateImplCopyWith<_$CheckForUpdateStateImpl> get copyWith =>
@@ -169,8 +177,11 @@ abstract class _CheckForUpdateState implements CheckForUpdateState {
   AppVersion? get currentVersion;
   @override
   AppVersion? get latestVersion;
+
+  /// Create a copy of CheckForUpdateState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CheckForUpdateStateImplCopyWith<_$CheckForUpdateStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

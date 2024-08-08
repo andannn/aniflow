@@ -33,8 +33,12 @@ mixin _$UserStudioStaticsDto {
   @JsonKey(name: 'studio')
   StudioDto? get studio => throw _privateConstructorUsedError;
 
+  /// Serializes this UserStudioStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserStudioStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserStudioStaticsDtoCopyWith<UserStudioStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -67,6 +71,8 @@ class _$UserStudioStaticsDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserStudioStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -105,6 +111,8 @@ class _$UserStudioStaticsDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of UserStudioStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StudioDtoCopyWith<$Res>? get studio {
@@ -146,6 +154,8 @@ class __$$UserStudioStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserStudioStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserStudioStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -246,12 +256,14 @@ class _$UserStudioStaticsDtoImpl implements _UserStudioStaticsDto {
             (identical(other.studio, studio) || other.studio == studio));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, count, meanScore, minutesWatched,
       chaptersRead, const DeepCollectionEquality().hash(_mediaIds), studio);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserStudioStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserStudioStaticsDtoImplCopyWith<_$UserStudioStaticsDtoImpl>
@@ -298,8 +310,11 @@ abstract class _UserStudioStaticsDto implements UserStudioStaticsDto {
   @override
   @JsonKey(name: 'studio')
   StudioDto? get studio;
+
+  /// Create a copy of UserStudioStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserStudioStaticsDtoImplCopyWith<_$UserStudioStaticsDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

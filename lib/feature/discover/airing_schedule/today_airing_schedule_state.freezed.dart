@@ -19,7 +19,9 @@ mixin _$TodayAiringScheduleState {
   List<AiringScheduleAndAnimeModel> get schedules =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TodayAiringScheduleState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TodayAiringScheduleStateCopyWith<TodayAiringScheduleState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$TodayAiringScheduleStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TodayAiringScheduleState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +84,8 @@ class __$$TodayAiringScheduleStateImplCopyWithImpl<$Res>
       $Res Function(_$TodayAiringScheduleStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TodayAiringScheduleState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -128,7 +134,9 @@ class _$TodayAiringScheduleStateImpl implements _TodayAiringScheduleState {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_schedules));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TodayAiringScheduleState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TodayAiringScheduleStateImplCopyWith<_$TodayAiringScheduleStateImpl>
@@ -143,8 +151,11 @@ abstract class _TodayAiringScheduleState implements TodayAiringScheduleState {
 
   @override
   List<AiringScheduleAndAnimeModel> get schedules;
+
+  /// Create a copy of TodayAiringScheduleState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TodayAiringScheduleStateImplCopyWith<_$TodayAiringScheduleStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

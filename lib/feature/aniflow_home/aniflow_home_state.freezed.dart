@@ -19,7 +19,9 @@ mixin _$AniflowHomeState {
   bool get isSocialFeatureEnabled => throw _privateConstructorUsedError;
   UserModel? get userModel => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniflowHomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AniflowHomeStateCopyWith<AniflowHomeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$AniflowHomeStateCopyWithImpl<$Res, $Val extends AniflowHomeState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AniflowHomeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,6 +67,8 @@ class _$AniflowHomeStateCopyWithImpl<$Res, $Val extends AniflowHomeState>
     ) as $Val);
   }
 
+  /// Create a copy of AniflowHomeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserModelCopyWith<$Res>? get userModel {
@@ -98,6 +104,8 @@ class __$$AniflowHomeStateImplCopyWithImpl<$Res>
       $Res Function(_$AniflowHomeStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniflowHomeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -149,7 +157,9 @@ class _$AniflowHomeStateImpl implements _AniflowHomeState {
   int get hashCode =>
       Object.hash(runtimeType, isSocialFeatureEnabled, userModel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniflowHomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AniflowHomeStateImplCopyWith<_$AniflowHomeStateImpl> get copyWith =>
@@ -166,8 +176,11 @@ abstract class _AniflowHomeState implements AniflowHomeState {
   bool get isSocialFeatureEnabled;
   @override
   UserModel? get userModel;
+
+  /// Create a copy of AniflowHomeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AniflowHomeStateImplCopyWith<_$AniflowHomeStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

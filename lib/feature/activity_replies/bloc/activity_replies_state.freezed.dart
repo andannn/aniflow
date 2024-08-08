@@ -20,7 +20,9 @@ mixin _$ActivityRepliesState {
   List<ActivityReplyModel> get replies => throw _privateConstructorUsedError;
   ActivityModel? get activityModel => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityRepliesState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ActivityRepliesStateCopyWith<ActivityRepliesState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +50,8 @@ class _$ActivityRepliesStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ActivityRepliesState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,6 +98,8 @@ class __$$ActivityRepliesStateImplCopyWithImpl<$Res>
       $Res Function(_$ActivityRepliesStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ActivityRepliesState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -163,7 +169,9 @@ class _$ActivityRepliesStateImpl implements _ActivityRepliesState {
   int get hashCode => Object.hash(runtimeType, isLoading,
       const DeepCollectionEquality().hash(_replies), activityModel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityRepliesState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityRepliesStateImplCopyWith<_$ActivityRepliesStateImpl>
@@ -184,8 +192,11 @@ abstract class _ActivityRepliesState implements ActivityRepliesState {
   List<ActivityReplyModel> get replies;
   @override
   ActivityModel? get activityModel;
+
+  /// Create a copy of ActivityRepliesState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityRepliesStateImplCopyWith<_$ActivityRepliesStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -34,8 +34,12 @@ mixin _$MediaDeletionNotificationDto {
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaDeletionNotificationDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaDeletionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaDeletionNotificationDtoCopyWith<MediaDeletionNotificationDto>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -68,6 +72,8 @@ class _$MediaDeletionNotificationDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaDeletionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -135,6 +141,8 @@ class __$$MediaDeletionNotificationDtoImplCopyWithImpl<$Res>
       $Res Function(_$MediaDeletionNotificationDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaDeletionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -229,12 +237,14 @@ class _$MediaDeletionNotificationDtoImpl
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, type, deletedMediaTitle, reason, context, createdAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaDeletionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaDeletionNotificationDtoImplCopyWith<
@@ -282,8 +292,11 @@ abstract class _MediaDeletionNotificationDto
   @override
   @JsonKey(name: 'createdAt')
   int? get createdAt;
+
+  /// Create a copy of MediaDeletionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaDeletionNotificationDtoImplCopyWith<
           _$MediaDeletionNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;

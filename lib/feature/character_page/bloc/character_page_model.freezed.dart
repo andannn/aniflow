@@ -20,7 +20,9 @@ mixin _$CharacterPageState {
   UserStaffNameLanguage get userStaffNameLanguage =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterPageStateCopyWith<CharacterPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$CharacterPageStateCopyWithImpl<$Res, $Val extends CharacterPageState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -84,6 +88,8 @@ class __$$CharacterPageStateImplCopyWithImpl<$Res>
       $Res Function(_$CharacterPageStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,7 +142,9 @@ class _$CharacterPageStateImpl implements _CharacterPageState {
   @override
   int get hashCode => Object.hash(runtimeType, language, userStaffNameLanguage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterPageStateImplCopyWith<_$CharacterPageStateImpl> get copyWith =>
@@ -154,8 +162,11 @@ abstract class _CharacterPageState implements CharacterPageState {
   StaffLanguage get language;
   @override
   UserStaffNameLanguage get userStaffNameLanguage;
+
+  /// Create a copy of CharacterPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterPageStateImplCopyWith<_$CharacterPageStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

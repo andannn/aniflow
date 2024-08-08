@@ -20,7 +20,9 @@ mixin _$TrailerModel {
   String? get site => throw _privateConstructorUsedError;
   String? get thumbnail => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrailerModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TrailerModelCopyWith<TrailerModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$TrailerModelCopyWithImpl<$Res, $Val extends TrailerModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TrailerModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$TrailerModelImplCopyWithImpl<$Res>
       _$TrailerModelImpl _value, $Res Function(_$TrailerModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrailerModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,7 +151,9 @@ class _$TrailerModelImpl implements _TrailerModel {
   @override
   int get hashCode => Object.hash(runtimeType, id, site, thumbnail);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrailerModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TrailerModelImplCopyWith<_$TrailerModelImpl> get copyWith =>
@@ -164,8 +172,11 @@ abstract class _TrailerModel implements TrailerModel {
   String? get site;
   @override
   String? get thumbnail;
+
+  /// Create a copy of TrailerModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TrailerModelImplCopyWith<_$TrailerModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

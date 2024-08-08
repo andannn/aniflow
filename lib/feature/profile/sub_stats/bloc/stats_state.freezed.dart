@@ -19,7 +19,9 @@ mixin _$StatsState {
   UserStatisticType get type => throw _privateConstructorUsedError;
   StatsLoadState get loadState => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StatsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StatsStateCopyWith<StatsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$StatsStateCopyWithImpl<$Res, $Val extends StatsState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StatsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$StatsStateImplCopyWithImpl<$Res>
       _$StatsStateImpl _value, $Res Function(_$StatsStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StatsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,7 +138,9 @@ class _$StatsStateImpl implements _StatsState {
   @override
   int get hashCode => Object.hash(runtimeType, type, loadState);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StatsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StatsStateImplCopyWith<_$StatsStateImpl> get copyWith =>
@@ -148,8 +156,11 @@ abstract class _StatsState implements StatsState {
   UserStatisticType get type;
   @override
   StatsLoadState get loadState;
+
+  /// Create a copy of StatsState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StatsStateImplCopyWith<_$StatsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

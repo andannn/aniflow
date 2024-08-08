@@ -19,7 +19,9 @@ mixin _$MediaListUpdatePageState {
   MediaWithListModel? get mediaWithListModel =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaListUpdatePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaListUpdatePageStateCopyWith<MediaListUpdatePageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$MediaListUpdatePageStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaListUpdatePageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +84,8 @@ class __$$MediaListUpdatePageStateImplCopyWithImpl<$Res>
       $Res Function(_$MediaListUpdatePageStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaListUpdatePageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,7 +125,9 @@ class _$MediaListUpdatePageStateImpl implements _MediaListUpdatePageState {
   @override
   int get hashCode => Object.hash(runtimeType, mediaWithListModel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaListUpdatePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaListUpdatePageStateImplCopyWith<_$MediaListUpdatePageStateImpl>
@@ -134,8 +142,11 @@ abstract class _MediaListUpdatePageState implements MediaListUpdatePageState {
 
   @override
   MediaWithListModel? get mediaWithListModel;
+
+  /// Create a copy of MediaListUpdatePageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaListUpdatePageStateImplCopyWith<_$MediaListUpdatePageStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

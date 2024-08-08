@@ -31,7 +31,9 @@ mixin _$StaffModel {
   String? get homeTown => throw _privateConstructorUsedError;
   String? get bloodType => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaffModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StaffModelCopyWith<StaffModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +73,8 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StaffModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -149,6 +153,8 @@ class _$StaffModelCopyWithImpl<$Res, $Val extends StaffModel>
     ) as $Val);
   }
 
+  /// Create a copy of StaffModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffCharacterNameCopyWith<$Res>? get name {
@@ -198,6 +204,8 @@ class __$$StaffModelImplCopyWithImpl<$Res>
       _$StaffModelImpl _value, $Res Function(_$StaffModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StaffModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -390,7 +398,9 @@ class _$StaffModelImpl implements _StaffModel {
       homeTown,
       bloodType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaffModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>
@@ -442,8 +452,11 @@ abstract class _StaffModel implements StaffModel {
   String? get homeTown;
   @override
   String? get bloodType;
+
+  /// Create a copy of StaffModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaffModelImplCopyWith<_$StaffModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

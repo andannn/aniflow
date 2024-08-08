@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MediaCategoryPreviewState {
   List<MediaModel> get data => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaCategoryPreviewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaCategoryPreviewStateCopyWith<MediaCategoryPreviewState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$MediaCategoryPreviewStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaCategoryPreviewState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +83,8 @@ class __$$MediaCategoryPreviewStateImplCopyWithImpl<$Res>
       $Res Function(_$MediaCategoryPreviewStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaCategoryPreviewState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,7 +132,9 @@ class _$MediaCategoryPreviewStateImpl implements _MediaCategoryPreviewState {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaCategoryPreviewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaCategoryPreviewStateImplCopyWith<_$MediaCategoryPreviewStateImpl>
@@ -140,8 +148,11 @@ abstract class _MediaCategoryPreviewState implements MediaCategoryPreviewState {
 
   @override
   List<MediaModel> get data;
+
+  /// Create a copy of MediaCategoryPreviewState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaCategoryPreviewStateImplCopyWith<_$MediaCategoryPreviewStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

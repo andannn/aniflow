@@ -267,6 +267,8 @@ mixin _$AniFlowRoutePath {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this AniFlowRoutePath to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -286,6 +288,9 @@ class _$AniFlowRoutePathCopyWithImpl<$Res, $Val extends AniFlowRoutePath>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -302,6 +307,9 @@ class __$$AniFlowHomePathImplCopyWithImpl<$Res>
   __$$AniFlowHomePathImplCopyWithImpl(
       _$AniFlowHomePathImpl _value, $Res Function(_$AniFlowHomePathImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -326,7 +334,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
         (other.runtimeType == runtimeType && other is _$AniFlowHomePathImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -573,6 +581,9 @@ class __$$SearchRoutePathImplCopyWithImpl<$Res>
   __$$SearchRoutePathImplCopyWithImpl(
       _$SearchRoutePathImpl _value, $Res Function(_$SearchRoutePathImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -598,7 +609,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
         (other.runtimeType == runtimeType && other is _$SearchRoutePathImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -849,6 +860,8 @@ class __$$FavoriteStaffListPathImplCopyWithImpl<$Res>
       $Res Function(_$FavoriteStaffListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -891,11 +904,13 @@ class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FavoriteStaffListPathImplCopyWith<_$FavoriteStaffListPathImpl>
@@ -1132,7 +1147,10 @@ abstract class FavoriteStaffListPath implements AniFlowRoutePath {
       _$FavoriteStaffListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavoriteStaffListPathImplCopyWith<_$FavoriteStaffListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1157,6 +1175,8 @@ class __$$FavoriteCharacterListPathImplCopyWithImpl<$Res>
       $Res Function(_$FavoriteCharacterListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1199,11 +1219,13 @@ class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FavoriteCharacterListPathImplCopyWith<_$FavoriteCharacterListPathImpl>
@@ -1440,7 +1462,10 @@ abstract class FavoriteCharacterListPath implements AniFlowRoutePath {
       _$FavoriteCharacterListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavoriteCharacterListPathImplCopyWith<_$FavoriteCharacterListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1463,6 +1488,8 @@ class __$$FavoriteAnimeListPathImplCopyWithImpl<$Res>
       $Res Function(_$FavoriteAnimeListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1505,11 +1532,13 @@ class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FavoriteAnimeListPathImplCopyWith<_$FavoriteAnimeListPathImpl>
@@ -1746,7 +1775,10 @@ abstract class FavoriteAnimeListPath implements AniFlowRoutePath {
       _$FavoriteAnimeListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavoriteAnimeListPathImplCopyWith<_$FavoriteAnimeListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1769,6 +1801,8 @@ class __$$FavoriteMangaListPathImplCopyWithImpl<$Res>
       $Res Function(_$FavoriteMangaListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1811,11 +1845,13 @@ class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FavoriteMangaListPathImplCopyWith<_$FavoriteMangaListPathImpl>
@@ -2052,7 +2088,10 @@ abstract class FavoriteMangaListPath implements AniFlowRoutePath {
       _$FavoriteMangaListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavoriteMangaListPathImplCopyWith<_$FavoriteMangaListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2075,6 +2114,8 @@ class __$$WatchingAnimeListPathImplCopyWithImpl<$Res>
       $Res Function(_$WatchingAnimeListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2117,11 +2158,13 @@ class _$WatchingAnimeListPathImpl implements WatchingAnimeListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WatchingAnimeListPathImplCopyWith<_$WatchingAnimeListPathImpl>
@@ -2358,7 +2401,10 @@ abstract class WatchingAnimeListPath implements AniFlowRoutePath {
       _$WatchingAnimeListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WatchingAnimeListPathImplCopyWith<_$WatchingAnimeListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2382,6 +2428,8 @@ class __$$CompletedAnimeListPathImplCopyWithImpl<$Res>
       $Res Function(_$CompletedAnimeListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2424,11 +2472,13 @@ class _$CompletedAnimeListPathImpl implements CompletedAnimeListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CompletedAnimeListPathImplCopyWith<_$CompletedAnimeListPathImpl>
@@ -2665,7 +2715,10 @@ abstract class CompletedAnimeListPath implements AniFlowRoutePath {
       _$CompletedAnimeListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CompletedAnimeListPathImplCopyWith<_$CompletedAnimeListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2687,6 +2740,8 @@ class __$$DroppedAnimeListPathImplCopyWithImpl<$Res>
       $Res Function(_$DroppedAnimeListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2729,11 +2784,13 @@ class _$DroppedAnimeListPathImpl implements DroppedAnimeListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DroppedAnimeListPathImplCopyWith<_$DroppedAnimeListPathImpl>
@@ -2971,7 +3028,10 @@ abstract class DroppedAnimeListPath implements AniFlowRoutePath {
       _$DroppedAnimeListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DroppedAnimeListPathImplCopyWith<_$DroppedAnimeListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2993,6 +3053,8 @@ class __$$ReadingMangaListPathImplCopyWithImpl<$Res>
       $Res Function(_$ReadingMangaListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3035,11 +3097,13 @@ class _$ReadingMangaListPathImpl implements ReadingMangaListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ReadingMangaListPathImplCopyWith<_$ReadingMangaListPathImpl>
@@ -3277,7 +3341,10 @@ abstract class ReadingMangaListPath implements AniFlowRoutePath {
       _$ReadingMangaListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReadingMangaListPathImplCopyWith<_$ReadingMangaListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3299,6 +3366,8 @@ class __$$DroppedMangaListPathImplCopyWithImpl<$Res>
       $Res Function(_$DroppedMangaListPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3341,11 +3410,13 @@ class _$DroppedMangaListPathImpl implements DroppedMangaListPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DroppedMangaListPathImplCopyWith<_$DroppedMangaListPathImpl>
@@ -3583,7 +3654,10 @@ abstract class DroppedMangaListPath implements AniFlowRoutePath {
       _$DroppedMangaListPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DroppedMangaListPathImplCopyWith<_$DroppedMangaListPathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3605,6 +3679,8 @@ class __$$UserProfileRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$UserProfileRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3647,11 +3723,13 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserProfileRoutePathImplCopyWith<_$UserProfileRoutePathImpl>
@@ -3889,7 +3967,10 @@ abstract class UserProfileRoutePath implements AniFlowRoutePath {
       _$UserProfileRoutePathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserProfileRoutePathImplCopyWith<_$UserProfileRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3914,6 +3995,8 @@ class __$$CategoryAnimeListRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$CategoryAnimeListRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3959,11 +4042,13 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
                 other.category == category));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, category);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CategoryAnimeListRoutePathImplCopyWith<_$CategoryAnimeListRoutePathImpl>
@@ -4201,7 +4286,10 @@ abstract class CategoryAnimeListRoutePath implements AniFlowRoutePath {
       _$CategoryAnimeListRoutePathImpl.fromJson;
 
   MediaCategory get category;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CategoryAnimeListRoutePathImplCopyWith<_$CategoryAnimeListRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4226,6 +4314,8 @@ class __$$MediaCharacterListRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$MediaCharacterListRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4270,11 +4360,13 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaCharacterListRoutePathImplCopyWith<_$MediaCharacterListRoutePathImpl>
@@ -4511,7 +4603,10 @@ abstract class MediaCharacterListRoutePath implements AniFlowRoutePath {
       _$MediaCharacterListRoutePathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaCharacterListRoutePathImplCopyWith<_$MediaCharacterListRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4535,6 +4630,8 @@ class __$$MediaStaffListRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$MediaStaffListRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4577,11 +4674,13 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaStaffListRoutePathImplCopyWith<_$MediaStaffListRoutePathImpl>
@@ -4818,7 +4917,10 @@ abstract class MediaStaffListRoutePath implements AniFlowRoutePath {
       _$MediaStaffListRoutePathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaStaffListRoutePathImplCopyWith<_$MediaStaffListRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -4840,6 +4942,8 @@ class __$$DetailMediaRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$DetailMediaRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4882,11 +4986,13 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailMediaRoutePathImplCopyWith<_$DetailMediaRoutePathImpl>
@@ -5124,7 +5230,10 @@ abstract class DetailMediaRoutePath implements AniFlowRoutePath {
       _$DetailMediaRoutePathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailMediaRoutePathImplCopyWith<_$DetailMediaRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5146,6 +5255,8 @@ class __$$DetailCharacterPathImplCopyWithImpl<$Res>
       $Res Function(_$DetailCharacterPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5188,11 +5299,13 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailCharacterPathImplCopyWith<_$DetailCharacterPathImpl> get copyWith =>
@@ -5429,7 +5542,10 @@ abstract class DetailCharacterPath implements AniFlowRoutePath {
       _$DetailCharacterPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailCharacterPathImplCopyWith<_$DetailCharacterPathImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5451,6 +5567,8 @@ class __$$DetailStaffPathImplCopyWithImpl<$Res>
       _$DetailStaffPathImpl _value, $Res Function(_$DetailStaffPathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5493,11 +5611,13 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailStaffPathImplCopyWith<_$DetailStaffPathImpl> get copyWith =>
@@ -5734,7 +5854,10 @@ abstract class DetailStaffPath implements AniFlowRoutePath {
       _$DetailStaffPathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailStaffPathImplCopyWith<_$DetailStaffPathImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -5758,6 +5881,8 @@ class __$$AiringScheduleRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$AiringScheduleRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5800,11 +5925,13 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AiringScheduleRoutePathImplCopyWith<_$AiringScheduleRoutePathImpl>
@@ -6041,7 +6168,10 @@ abstract class AiringScheduleRoutePath implements AniFlowRoutePath {
       _$AiringScheduleRoutePathImpl.fromJson;
 
   ScheduleType get type;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AiringScheduleRoutePathImplCopyWith<_$AiringScheduleRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -6061,6 +6191,9 @@ class __$$NotificationRoutePathImplCopyWithImpl<$Res>
   __$$NotificationRoutePathImplCopyWithImpl(_$NotificationRoutePathImpl _value,
       $Res Function(_$NotificationRoutePathImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -6087,7 +6220,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
             other is _$NotificationRoutePathImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -6338,6 +6471,8 @@ class __$$DetailStudioRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$DetailStudioRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6380,11 +6515,13 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailStudioRoutePathImplCopyWith<_$DetailStudioRoutePathImpl>
@@ -6621,7 +6758,10 @@ abstract class DetailStudioRoutePath implements AniFlowRoutePath {
       _$DetailStudioRoutePathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailStudioRoutePathImplCopyWith<_$DetailStudioRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -6645,6 +6785,8 @@ class __$$ActivityRepliesRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$ActivityRepliesRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6687,11 +6829,13 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityRepliesRoutePathImplCopyWith<_$ActivityRepliesRoutePathImpl>
@@ -6928,7 +7072,10 @@ abstract class ActivityRepliesRoutePath implements AniFlowRoutePath {
       _$ActivityRepliesRoutePathImpl.fromJson;
 
   String get id;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityRepliesRoutePathImplCopyWith<_$ActivityRepliesRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -6953,6 +7100,8 @@ class __$$ImagePreviewRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$ImagePreviewRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -6966,6 +7115,8 @@ class __$$ImagePreviewRoutePathImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PreviewSourceCopyWith<$Res> get source {
@@ -7005,11 +7156,13 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
             (identical(other.source, source) || other.source == source));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, source);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ImagePreviewRoutePathImplCopyWith<_$ImagePreviewRoutePathImpl>
@@ -7248,7 +7401,10 @@ abstract class ImagePreviewRoutePath implements AniFlowRoutePath {
 
   @PreviewSourceConverter()
   PreviewSource get source;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ImagePreviewRoutePathImplCopyWith<_$ImagePreviewRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7272,6 +7428,8 @@ class __$$MediaListUpdateRoutePathImplCopyWithImpl<$Res>
       $Res Function(_$MediaListUpdateRoutePathImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -7323,11 +7481,13 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
             (identical(other.from, from) || other.from == from));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, mediaId, from);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaListUpdateRoutePathImplCopyWith<_$MediaListUpdateRoutePathImpl>
@@ -7566,7 +7726,10 @@ abstract class MediaListUpdateRoutePath implements AniFlowRoutePath {
 
   String get mediaId;
   String get from;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaListUpdateRoutePathImplCopyWith<_$MediaListUpdateRoutePathImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -7585,6 +7748,9 @@ class __$$SettingsRoutePathImplCopyWithImpl<$Res>
   __$$SettingsRoutePathImplCopyWithImpl(_$SettingsRoutePathImpl _value,
       $Res Function(_$SettingsRoutePathImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -7610,7 +7776,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
         (other.runtimeType == runtimeType && other is _$SettingsRoutePathImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -7860,6 +8026,9 @@ class __$$BirthdayCharacterPagePathImplCopyWithImpl<$Res>
       _$BirthdayCharacterPagePathImpl _value,
       $Res Function(_$BirthdayCharacterPagePathImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -7886,7 +8055,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
             other is _$BirthdayCharacterPagePathImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 

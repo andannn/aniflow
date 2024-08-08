@@ -27,8 +27,12 @@ mixin _$AnimeRank {
   @JsonKey(name: 'allTime')
   bool? get allTime => throw _privateConstructorUsedError;
 
+  /// Serializes this AnimeRank to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AnimeRank
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AnimeRankCopyWith<AnimeRank> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$AnimeRankCopyWithImpl<$Res, $Val extends AnimeRank>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AnimeRank
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -100,6 +106,8 @@ class __$$AnimeRankImplCopyWithImpl<$Res>
       _$AnimeRankImpl _value, $Res Function(_$AnimeRankImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AnimeRank
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -160,11 +168,13 @@ class _$AnimeRankImpl implements _AnimeRank {
             (identical(other.allTime, allTime) || other.allTime == allTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, rank, type, allTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AnimeRank
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AnimeRankImplCopyWith<_$AnimeRankImpl> get copyWith =>
@@ -196,8 +206,11 @@ abstract class _AnimeRank implements AnimeRank {
   @override
   @JsonKey(name: 'allTime')
   bool? get allTime;
+
+  /// Create a copy of AnimeRank
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AnimeRankImplCopyWith<_$AnimeRankImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

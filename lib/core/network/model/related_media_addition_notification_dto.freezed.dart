@@ -34,8 +34,12 @@ mixin _$RelatedMediaAdditionNotificationDto {
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this RelatedMediaAdditionNotificationDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RelatedMediaAdditionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RelatedMediaAdditionNotificationDtoCopyWith<
           RelatedMediaAdditionNotificationDto>
       get copyWith => throw _privateConstructorUsedError;
@@ -71,6 +75,8 @@ class _$RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RelatedMediaAdditionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +115,8 @@ class _$RelatedMediaAdditionNotificationDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of RelatedMediaAdditionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaDtoCopyWith<$Res>? get media {
@@ -153,6 +161,8 @@ class __$$RelatedMediaAdditionNotificationDtoImplCopyWithImpl<$Res>
       $Res Function(_$RelatedMediaAdditionNotificationDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RelatedMediaAdditionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -246,12 +256,14 @@ class _$RelatedMediaAdditionNotificationDtoImpl
             (identical(other.media, media) || other.media == media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, type, mediaId, context, createdAt, media);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RelatedMediaAdditionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RelatedMediaAdditionNotificationDtoImplCopyWith<
@@ -300,8 +312,11 @@ abstract class _RelatedMediaAdditionNotificationDto
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;
+
+  /// Create a copy of RelatedMediaAdditionNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RelatedMediaAdditionNotificationDtoImplCopyWith<
           _$RelatedMediaAdditionNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;

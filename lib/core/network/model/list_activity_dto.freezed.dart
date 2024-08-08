@@ -51,8 +51,12 @@ mixin _$ListActivityDto {
   @JsonKey(name: 'replies')
   List<ActivityReplyDto> get replies => throw _privateConstructorUsedError;
 
+  /// Serializes this ListActivityDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListActivityDtoCopyWith<ListActivityDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -94,6 +98,8 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,6 +183,8 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
     ) as $Val);
   }
 
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserDtoCopyWith<$Res>? get user {
@@ -189,6 +197,8 @@ class _$ListActivityDtoCopyWithImpl<$Res, $Val extends ListActivityDto>
     });
   }
 
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaDtoCopyWith<$Res>? get media {
@@ -241,6 +251,8 @@ class __$$ListActivityDtoImplCopyWithImpl<$Res>
       _$ListActivityDtoImpl _value, $Res Function(_$ListActivityDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -434,7 +446,7 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
             const DeepCollectionEquality().equals(other._replies, _replies));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -454,7 +466,9 @@ class _$ListActivityDtoImpl implements _ListActivityDto {
       media,
       const DeepCollectionEquality().hash(_replies));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListActivityDtoImplCopyWith<_$ListActivityDtoImpl> get copyWith =>
@@ -536,8 +550,11 @@ abstract class _ListActivityDto implements ListActivityDto {
   @override
   @JsonKey(name: 'replies')
   List<ActivityReplyDto> get replies;
+
+  /// Create a copy of ListActivityDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListActivityDtoImplCopyWith<_$ListActivityDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

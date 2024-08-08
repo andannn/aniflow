@@ -45,8 +45,12 @@ mixin _$CharacterDto {
   @JsonKey(name: 'media')
   MediaConnection? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterDtoCopyWith<CharacterDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -87,6 +91,8 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -155,6 +161,8 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
     ) as $Val);
   }
 
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CharacterImageDtoCopyWith<$Res>? get image {
@@ -167,6 +175,8 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
     });
   }
 
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffCharacterNameCopyWith<$Res>? get name {
@@ -179,6 +189,8 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
     });
   }
 
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get dateOfBirth {
@@ -191,6 +203,8 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
     });
   }
 
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaConnectionCopyWith<$Res>? get media {
@@ -244,6 +258,8 @@ class __$$CharacterDtoImplCopyWithImpl<$Res>
       _$CharacterDtoImpl _value, $Res Function(_$CharacterDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -399,7 +415,7 @@ class _$CharacterDtoImpl implements _CharacterDto {
             (identical(other.media, media) || other.media == media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -416,7 +432,9 @@ class _$CharacterDtoImpl implements _CharacterDto {
       isFavourite,
       media);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterDtoImplCopyWith<_$CharacterDtoImpl> get copyWith =>
@@ -485,8 +503,11 @@ abstract class _CharacterDto implements CharacterDto {
   @override
   @JsonKey(name: 'media')
   MediaConnection? get media;
+
+  /// Create a copy of CharacterDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterDtoImplCopyWith<_$CharacterDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

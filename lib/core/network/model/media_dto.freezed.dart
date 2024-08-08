@@ -81,8 +81,12 @@ mixin _$MediaDto {
   List<MediaExternalLinkDto> get externalLinks =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MediaDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaDtoCopyWith<MediaDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -146,6 +150,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -299,6 +305,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     ) as $Val);
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaTitleCopyWith<$Res>? get title {
@@ -311,6 +319,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaCoverImageDtoCopyWith<$Res>? get coverImage {
@@ -323,6 +333,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get startDate {
@@ -335,6 +347,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get endDate {
@@ -347,6 +361,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TrailerDtoCopyWith<$Res>? get trailer {
@@ -359,6 +375,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode {
@@ -371,6 +389,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CharacterConnectionCopyWith<$Res>? get characters {
@@ -383,6 +403,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffConnectionCopyWith<$Res>? get staff {
@@ -395,6 +417,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StudioConnectionCopyWith<$Res>? get studios {
@@ -407,6 +431,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaConnectionCopyWith<$Res>? get relations {
@@ -490,6 +516,8 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
       _$MediaDtoImpl _value, $Res Function(_$MediaDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -845,7 +873,7 @@ class _$MediaDtoImpl implements _MediaDto {
                 .equals(other._externalLinks, _externalLinks));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -880,7 +908,9 @@ class _$MediaDtoImpl implements _MediaDto {
         const DeepCollectionEquality().hash(_externalLinks)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaDtoImplCopyWith<_$MediaDtoImpl> get copyWith =>
@@ -1018,8 +1048,11 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'externalLinks')
   List<MediaExternalLinkDto> get externalLinks;
+
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaDtoImplCopyWith<_$MediaDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
