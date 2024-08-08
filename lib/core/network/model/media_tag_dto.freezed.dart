@@ -31,8 +31,12 @@ mixin _$MediaTagDto {
   @JsonKey(name: 'rank')
   String? get rank => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaTagDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaTagDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaTagDtoCopyWith<MediaTagDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$MediaTagDtoCopyWithImpl<$Res, $Val extends MediaTagDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaTagDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$MediaTagDtoImplCopyWithImpl<$Res>
       _$MediaTagDtoImpl _value, $Res Function(_$MediaTagDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaTagDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -201,12 +209,14 @@ class _$MediaTagDtoImpl implements _MediaTagDto {
             (identical(other.rank, rank) || other.rank == rank));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, name, description, category, rank);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaTagDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaTagDtoImplCopyWith<_$MediaTagDtoImpl> get copyWith =>
@@ -246,8 +256,11 @@ abstract class _MediaTagDto implements MediaTagDto {
   @override
   @JsonKey(name: 'rank')
   String? get rank;
+
+  /// Create a copy of MediaTagDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaTagDtoImplCopyWith<_$MediaTagDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

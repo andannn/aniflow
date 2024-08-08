@@ -36,8 +36,12 @@ mixin _$UserVoiceActorStaticsDto {
   @JsonKey(name: 'voiceActor')
   StaffDto? get voiceActor => throw _privateConstructorUsedError;
 
+  /// Serializes this UserVoiceActorStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserVoiceActorStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserVoiceActorStaticsDtoCopyWith<UserVoiceActorStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +75,8 @@ class _$UserVoiceActorStaticsDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserVoiceActorStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +120,8 @@ class _$UserVoiceActorStaticsDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of UserVoiceActorStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffDtoCopyWith<$Res>? get voiceActor {
@@ -159,6 +167,8 @@ class __$$UserVoiceActorStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserVoiceActorStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserVoiceActorStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -278,7 +288,7 @@ class _$UserVoiceActorStaticsDtoImpl implements _UserVoiceActorStaticsDto {
                 other.voiceActor == voiceActor));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -290,7 +300,9 @@ class _$UserVoiceActorStaticsDtoImpl implements _UserVoiceActorStaticsDto {
       const DeepCollectionEquality().hash(_characterIds),
       voiceActor);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserVoiceActorStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserVoiceActorStaticsDtoImplCopyWith<_$UserVoiceActorStaticsDtoImpl>
@@ -340,8 +352,11 @@ abstract class _UserVoiceActorStaticsDto implements UserVoiceActorStaticsDto {
   @override
   @JsonKey(name: 'voiceActor')
   StaffDto? get voiceActor;
+
+  /// Create a copy of UserVoiceActorStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserVoiceActorStaticsDtoImplCopyWith<_$UserVoiceActorStaticsDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

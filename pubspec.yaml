@@ -97,6 +97,7 @@ dependencies:
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.1
   video_player: ^2.9.1
+  analyzer: ^6.7.0
 
 dev_dependencies:
   drift_dev: ^2.19.1

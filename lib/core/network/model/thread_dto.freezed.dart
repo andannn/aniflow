@@ -47,8 +47,12 @@ mixin _$ThreadDto {
   @JsonKey(name: 'isLocked')
   bool? get isLocked => throw _privateConstructorUsedError;
 
+  /// Serializes this ThreadDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ThreadDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ThreadDtoCopyWith<ThreadDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -86,6 +90,8 @@ class _$ThreadDtoCopyWithImpl<$Res, $Val extends ThreadDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ThreadDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,6 +165,8 @@ class _$ThreadDtoCopyWithImpl<$Res, $Val extends ThreadDto>
     ) as $Val);
   }
 
+  /// Create a copy of ThreadDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserDtoCopyWith<$Res>? get user {
@@ -207,6 +215,8 @@ class __$$ThreadDtoImplCopyWithImpl<$Res>
       _$ThreadDtoImpl _value, $Res Function(_$ThreadDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ThreadDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -375,7 +385,7 @@ class _$ThreadDtoImpl implements _ThreadDto {
                 other.isLocked == isLocked));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -393,7 +403,9 @@ class _$ThreadDtoImpl implements _ThreadDto {
       siteUrl,
       isLocked);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThreadDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThreadDtoImplCopyWith<_$ThreadDtoImpl> get copyWith =>
@@ -465,8 +477,11 @@ abstract class _ThreadDto implements ThreadDto {
   @override
   @JsonKey(name: 'isLocked')
   bool? get isLocked;
+
+  /// Create a copy of ThreadDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThreadDtoImplCopyWith<_$ThreadDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

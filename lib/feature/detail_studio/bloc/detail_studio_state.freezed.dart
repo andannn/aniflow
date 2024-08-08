@@ -20,7 +20,9 @@ mixin _$DetailStudioState {
   StudioModel? get studioModel => throw _privateConstructorUsedError;
   UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailStudioState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DetailStudioStateCopyWith<DetailStudioState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +51,8 @@ class _$DetailStudioStateCopyWithImpl<$Res, $Val extends DetailStudioState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DetailStudioState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +76,8 @@ class _$DetailStudioStateCopyWithImpl<$Res, $Val extends DetailStudioState>
     ) as $Val);
   }
 
+  /// Create a copy of DetailStudioState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StudioModelCopyWith<$Res>? get studioModel {
@@ -110,6 +116,8 @@ class __$$DetailStudioStateImplCopyWithImpl<$Res>
       $Res Function(_$DetailStudioStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailStudioState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -173,7 +181,9 @@ class _$DetailStudioStateImpl implements _DetailStudioState {
   int get hashCode =>
       Object.hash(runtimeType, isLoading, studioModel, userTitleLanguage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailStudioState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailStudioStateImplCopyWith<_$DetailStudioStateImpl> get copyWith =>
@@ -193,8 +203,11 @@ abstract class _DetailStudioState implements DetailStudioState {
   StudioModel? get studioModel;
   @override
   UserTitleLanguage get userTitleLanguage;
+
+  /// Create a copy of DetailStudioState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailStudioStateImplCopyWith<_$DetailStudioStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

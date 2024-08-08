@@ -26,7 +26,9 @@ mixin _$DetailMediaUiState {
   ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
   LoadingState<Episode> get episode => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DetailMediaUiStateCopyWith<DetailMediaUiState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +63,8 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     ) as $Val);
   }
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaModelCopyWith<$Res>? get detailAnimeModel {
@@ -121,6 +127,8 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     });
   }
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaListItemModelCopyWith<$Res>? get mediaListItem {
@@ -166,6 +174,8 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
       $Res Function(_$DetailMediaUiStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -292,7 +302,9 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
       scoreFormat,
       episode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
@@ -327,8 +339,11 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   ScoreFormat get scoreFormat;
   @override
   LoadingState<Episode> get episode;
+
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

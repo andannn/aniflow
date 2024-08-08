@@ -27,8 +27,12 @@ mixin _$CharacterEdge {
   @JsonKey(name: 'voiceActors')
   List<StaffDto> get voiceActors => throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterEdge to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterEdge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterEdgeCopyWith<CharacterEdge> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$CharacterEdgeCopyWithImpl<$Res, $Val extends CharacterEdge>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterEdge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class _$CharacterEdgeCopyWithImpl<$Res, $Val extends CharacterEdge>
     ) as $Val);
   }
 
+  /// Create a copy of CharacterEdge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CharacterDtoCopyWith<$Res>? get characterNode {
@@ -118,6 +126,8 @@ class __$$CharacterEdgeImplCopyWithImpl<$Res>
       _$CharacterEdgeImpl _value, $Res Function(_$CharacterEdgeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterEdge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -187,12 +197,14 @@ class _$CharacterEdgeImpl implements _CharacterEdge {
                 .equals(other._voiceActors, _voiceActors));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, role, characterNode,
       const DeepCollectionEquality().hash(_voiceActors));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterEdge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterEdgeImplCopyWith<_$CharacterEdgeImpl> get copyWith =>
@@ -225,8 +237,11 @@ abstract class _CharacterEdge implements CharacterEdge {
   @override
   @JsonKey(name: 'voiceActors')
   List<StaffDto> get voiceActors;
+
+  /// Create a copy of CharacterEdge
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterEdgeImplCopyWith<_$CharacterEdgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

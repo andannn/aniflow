@@ -27,8 +27,12 @@ mixin _$MediaTitle {
   @JsonKey(name: 'native')
   String get native => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaTitle to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaTitle
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaTitleCopyWith<MediaTitle> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$MediaTitleCopyWithImpl<$Res, $Val extends MediaTitle>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaTitle
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$MediaTitleImplCopyWithImpl<$Res>
       _$MediaTitleImpl _value, $Res Function(_$MediaTitleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaTitle
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -161,11 +169,13 @@ class _$MediaTitleImpl implements _MediaTitle {
             (identical(other.native, native) || other.native == native));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, romaji, english, native);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaTitle
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaTitleImplCopyWith<_$MediaTitleImpl> get copyWith =>
@@ -197,8 +207,11 @@ abstract class _MediaTitle implements MediaTitle {
   @override
   @JsonKey(name: 'native')
   String get native;
+
+  /// Create a copy of MediaTitle
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaTitleImplCopyWith<_$MediaTitleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

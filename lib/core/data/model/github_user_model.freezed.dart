@@ -29,8 +29,12 @@ mixin _$GithubUserModel {
   @JsonKey(name: 'bio')
   String? get bio => throw _privateConstructorUsedError;
 
+  /// Serializes this GithubUserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GithubUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GithubUserModelCopyWith<GithubUserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$GithubUserModelCopyWithImpl<$Res, $Val extends GithubUserModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GithubUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +116,8 @@ class __$$GithubUserModelImplCopyWithImpl<$Res>
       _$GithubUserModelImpl _value, $Res Function(_$GithubUserModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GithubUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,11 +189,13 @@ class _$GithubUserModelImpl implements _GithubUserModel {
             (identical(other.bio, bio) || other.bio == bio));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, login, avatarUrl, bio);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GithubUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GithubUserModelImplCopyWith<_$GithubUserModelImpl> get copyWith =>
@@ -222,8 +232,11 @@ abstract class _GithubUserModel implements GithubUserModel {
   @override
   @JsonKey(name: 'bio')
   String? get bio;
+
+  /// Create a copy of GithubUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GithubUserModelImplCopyWith<_$GithubUserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

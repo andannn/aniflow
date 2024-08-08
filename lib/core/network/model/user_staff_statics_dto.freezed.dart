@@ -33,8 +33,12 @@ mixin _$UserStaffStaticsDto {
   @JsonKey(name: 'staff')
   StaffDto? get staff => throw _privateConstructorUsedError;
 
+  /// Serializes this UserStaffStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserStaffStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserStaffStaticsDtoCopyWith<UserStaffStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$UserStaffStaticsDtoCopyWithImpl<$Res, $Val extends UserStaffStaticsDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserStaffStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class _$UserStaffStaticsDtoCopyWithImpl<$Res, $Val extends UserStaffStaticsDto>
     ) as $Val);
   }
 
+  /// Create a copy of UserStaffStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffDtoCopyWith<$Res>? get staff {
@@ -145,6 +153,8 @@ class __$$UserStaffStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserStaffStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserStaffStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -245,12 +255,14 @@ class _$UserStaffStaticsDtoImpl implements _UserStaffStaticsDto {
             (identical(other.staff, staff) || other.staff == staff));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, count, meanScore, minutesWatched,
       chaptersRead, const DeepCollectionEquality().hash(_mediaIds), staff);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserStaffStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserStaffStaticsDtoImplCopyWith<_$UserStaffStaticsDtoImpl> get copyWith =>
@@ -296,8 +308,11 @@ abstract class _UserStaffStaticsDto implements UserStaffStaticsDto {
   @override
   @JsonKey(name: 'staff')
   StaffDto? get staff;
+
+  /// Create a copy of UserStaffStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserStaffStaticsDtoImplCopyWith<_$UserStaffStaticsDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

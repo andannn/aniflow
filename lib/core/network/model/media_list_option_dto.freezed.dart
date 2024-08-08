@@ -23,8 +23,12 @@ mixin _$MediaListOptionDto {
   @JsonKey(name: 'scoreFormat')
   ScoreFormat? get scoreFormat => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaListOptionDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaListOptionDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaListOptionDtoCopyWith<MediaListOptionDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$MediaListOptionDtoCopyWithImpl<$Res, $Val extends MediaListOptionDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaListOptionDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +87,8 @@ class __$$MediaListOptionDtoImplCopyWithImpl<$Res>
       $Res Function(_$MediaListOptionDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaListOptionDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -121,11 +129,13 @@ class _$MediaListOptionDtoImpl implements _MediaListOptionDto {
                 other.scoreFormat == scoreFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, scoreFormat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaListOptionDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaListOptionDtoImplCopyWith<_$MediaListOptionDtoImpl> get copyWith =>
@@ -151,8 +161,11 @@ abstract class _MediaListOptionDto implements MediaListOptionDto {
   @override
   @JsonKey(name: 'scoreFormat')
   ScoreFormat? get scoreFormat;
+
+  /// Create a copy of MediaListOptionDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaListOptionDtoImplCopyWith<_$MediaListOptionDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

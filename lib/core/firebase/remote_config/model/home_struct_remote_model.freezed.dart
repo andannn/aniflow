@@ -26,8 +26,12 @@ mixin _$HomeStructRemoteModel {
   @JsonKey(name: 'manga')
   List<HomeSectorCategory> get manga => throw _privateConstructorUsedError;
 
+  /// Serializes this HomeStructRemoteModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HomeStructRemoteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomeStructRemoteModelCopyWith<HomeStructRemoteModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$HomeStructRemoteModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomeStructRemoteModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -96,6 +102,8 @@ class __$$HomeStructRemoteModelImplCopyWithImpl<$Res>
       $Res Function(_$HomeStructRemoteModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeStructRemoteModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,14 +167,16 @@ class _$HomeStructRemoteModelImpl implements _HomeStructRemoteModel {
             const DeepCollectionEquality().equals(other._manga, _manga));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_anime),
       const DeepCollectionEquality().hash(_manga));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeStructRemoteModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeStructRemoteModelImplCopyWith<_$HomeStructRemoteModelImpl>
@@ -196,8 +206,11 @@ abstract class _HomeStructRemoteModel implements HomeStructRemoteModel {
   @override
   @JsonKey(name: 'manga')
   List<HomeSectorCategory> get manga;
+
+  /// Create a copy of HomeStructRemoteModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomeStructRemoteModelImplCopyWith<_$HomeStructRemoteModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

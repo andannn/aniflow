@@ -31,8 +31,12 @@ mixin _$StaffCharacterName {
   @JsonKey(name: 'native')
   String? get native => throw _privateConstructorUsedError;
 
+  /// Serializes this StaffCharacterName to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StaffCharacterName
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StaffCharacterNameCopyWith<StaffCharacterName> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$StaffCharacterNameCopyWithImpl<$Res, $Val extends StaffCharacterName>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StaffCharacterName
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$StaffCharacterNameImplCopyWithImpl<$Res>
       $Res Function(_$StaffCharacterNameImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StaffCharacterName
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -199,12 +207,14 @@ class _$StaffCharacterNameImpl implements _StaffCharacterName {
             (identical(other.native, native) || other.native == native));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, first, middle, last, full, native);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StaffCharacterName
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StaffCharacterNameImplCopyWith<_$StaffCharacterNameImpl> get copyWith =>
@@ -246,8 +256,11 @@ abstract class _StaffCharacterName implements StaffCharacterName {
   @override
   @JsonKey(name: 'native')
   String? get native;
+
+  /// Create a copy of StaffCharacterName
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StaffCharacterNameImplCopyWith<_$StaffCharacterNameImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

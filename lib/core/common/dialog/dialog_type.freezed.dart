@@ -96,6 +96,8 @@ mixin _$DialogType {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this DialogType to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -115,6 +117,9 @@ class _$DialogTypeCopyWithImpl<$Res, $Val extends DialogType>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -134,6 +139,8 @@ class __$$AppUpdateDialogImplCopyWithImpl<$Res>
       _$AppUpdateDialogImpl _value, $Res Function(_$AppUpdateDialogImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -180,11 +187,13 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
                 other.appVersion == appVersion));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, appVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AppUpdateDialogImplCopyWith<_$AppUpdateDialogImpl> get copyWith =>
@@ -294,7 +303,10 @@ abstract class AppUpdateDialog implements DialogType, MessageDialog {
 
   @DialogTypeJsonConverter()
   String get appVersion;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppUpdateDialogImplCopyWith<_$AppUpdateDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -313,6 +325,9 @@ class __$$AppUpToDateDialogImplCopyWithImpl<$Res>
   __$$AppUpToDateDialogImplCopyWithImpl(_$AppUpToDateDialogImpl _value,
       $Res Function(_$AppUpToDateDialogImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -338,7 +353,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
         (other.runtimeType == runtimeType && other is _$AppUpToDateDialogImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -458,6 +473,9 @@ class __$$LongPressGestureTutorialDialogImplCopyWithImpl<$Res>
       _$LongPressGestureTutorialDialogImpl _value,
       $Res Function(_$LongPressGestureTutorialDialogImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -486,7 +504,7 @@ class _$LongPressGestureTutorialDialogImpl
             other is _$LongPressGestureTutorialDialogImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -608,6 +626,9 @@ class __$$SlideGestureTutorialDialogImplCopyWithImpl<$Res>
       _$SlideGestureTutorialDialogImpl _value,
       $Res Function(_$SlideGestureTutorialDialogImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -635,7 +656,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
             other is _$SlideGestureTutorialDialogImpl);
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -757,6 +778,8 @@ class __$$AniFlowAboutDialogImplCopyWithImpl<$Res>
       $Res Function(_$AniFlowAboutDialogImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -801,11 +824,13 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
                 other.appVersion == appVersion));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, appVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AniFlowAboutDialogImplCopyWith<_$AniFlowAboutDialogImpl> get copyWith =>
@@ -913,7 +938,10 @@ abstract class AniFlowAboutDialog implements DialogType {
       _$AniFlowAboutDialogImpl.fromJson;
 
   String get appVersion;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AniFlowAboutDialogImplCopyWith<_$AniFlowAboutDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

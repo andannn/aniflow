@@ -34,8 +34,12 @@ mixin _$UserOptions {
   @JsonKey(name: 'activityMergeTime')
   int? get activityMergeTime => throw _privateConstructorUsedError;
 
+  /// Serializes this UserOptions to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserOptionsCopyWith<UserOptions> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$UserOptionsCopyWithImpl<$Res, $Val extends UserOptions>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserOptions
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -131,6 +137,8 @@ class __$$UserOptionsImplCopyWithImpl<$Res>
       _$UserOptionsImpl _value, $Res Function(_$UserOptionsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserOptions
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -227,7 +235,7 @@ class _$UserOptionsImpl implements _UserOptions {
                 other.activityMergeTime == activityMergeTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -238,7 +246,9 @@ class _$UserOptionsImpl implements _UserOptions {
       profileColor,
       activityMergeTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserOptions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserOptionsImplCopyWith<_$UserOptionsImpl> get copyWith =>
@@ -284,8 +294,11 @@ abstract class _UserOptions implements UserOptions {
   @override
   @JsonKey(name: 'activityMergeTime')
   int? get activityMergeTime;
+
+  /// Create a copy of UserOptions
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserOptionsImplCopyWith<_$UserOptionsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

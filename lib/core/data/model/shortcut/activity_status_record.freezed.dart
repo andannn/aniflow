@@ -20,7 +20,9 @@ mixin _$ActivityStatusRecord {
   int get replyCount => throw _privateConstructorUsedError;
   bool get isLiked => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityStatusRecord
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ActivityStatusRecordCopyWith<ActivityStatusRecord> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$ActivityStatusRecordCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ActivityStatusRecord
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +92,8 @@ class __$$ActivityStatusRecordImplCopyWithImpl<$Res>
       $Res Function(_$ActivityStatusRecordImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ActivityStatusRecord
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -148,7 +154,9 @@ class _$ActivityStatusRecordImpl implements _ActivityStatusRecord {
   @override
   int get hashCode => Object.hash(runtimeType, likeCount, replyCount, isLiked);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityStatusRecord
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityStatusRecordImplCopyWith<_$ActivityStatusRecordImpl>
@@ -169,8 +177,11 @@ abstract class _ActivityStatusRecord implements ActivityStatusRecord {
   int get replyCount;
   @override
   bool get isLiked;
+
+  /// Create a copy of ActivityStatusRecord
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityStatusRecordImplCopyWith<_$ActivityStatusRecordImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
