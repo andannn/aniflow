@@ -2,6 +2,7 @@ import 'package:aniflow/app/di/get_it_di.dart';
 import 'package:aniflow/core/background_task/executor.dart';
 import 'package:aniflow/core/background_task/task.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,9 @@ void callbackDispatcher() async {
       await FirebaseCrashlytics.instance
           .recordFlutterError(FlutterErrorDetails(exception: e));
       return false;
+    } finally {
+      logger.d('$_tag executeTask $taskName finished.');
+      await GetIt.instance.get<AniflowDatabase>().close();
     }
   });
 }

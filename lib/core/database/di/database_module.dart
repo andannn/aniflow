@@ -15,6 +15,7 @@ import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
+import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/isolate.dart';
 import 'package:drift/native.dart';
@@ -22,6 +23,8 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqlite3/sqlite3.dart';
+import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 String _driftServerName = 'drift_server';
 String _tag = 'DIDataBaseModule';
@@ -75,7 +78,16 @@ FutureOr<DatabaseConnection> createIsolate() async {
             return LazyDatabase(() async {
               final dbFolder = await getApplicationDocumentsDirectory();
 
-              return NativeDatabase(File(join(dbFolder.path, 'db1.sqlite')));
+              final cachebase = (await getTemporaryDirectory()).path;
+
+              sqlite3.tempDirectory = cachebase;
+
+              if (Platform.isAndroid) {
+                await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
+              }
+
+              return NativeDatabase(File(join(dbFolder.path, 'db1.sqlite')))
+                  .interceptWith(LogInterceptor());
             });
           });
           IsolateNameServer.registerPortWithName(
