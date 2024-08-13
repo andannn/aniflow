@@ -2,7 +2,6 @@ import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/dialog/dialog_handler.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_state.dart';
@@ -59,15 +58,9 @@ class AniFlowAppScaffold extends StatefulWidget {
   State<AniFlowAppScaffold> createState() => _AniFlowAppScaffoldState();
 }
 
-class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
-    with RouteAware, ShowSnackBarMixin {
+class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> with ShowSnackBarMixin {
   AfRouterDelegate afRouterDelegate = AfRouterDelegate();
   RouteObserver rootObserver = RootRouterDelegate.get().routeObserver;
-
-  final rootBackButtonDispatcher =
-      RootRouterDelegate.get().backButtonDispatcher;
-  final childBackButtonDispatcher =
-      ChildBackButtonDispatcher(RootRouterDelegate.get().backButtonDispatcher);
 
   var currentTopLevel = TopLevelNavigation.discover;
 
@@ -83,51 +76,10 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    rootObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
   void dispose() {
     super.dispose();
 
-    rootObserver.unsubscribe(this);
-
     afRouterDelegate.dispose();
-  }
-
-  @override
-  void didPop() {
-    super.didPop();
-    logger.d('$runtimeType didPop');
-
-    rootBackButtonDispatcher.takePriority();
-  }
-
-  @override
-  void didPush() {
-    super.didPush();
-    logger.d('$runtimeType didPush');
-
-    childBackButtonDispatcher.takePriority();
-  }
-
-  @override
-  void didPopNext() {
-    super.didPopNext();
-    logger.d('$runtimeType didPopNext');
-
-    childBackButtonDispatcher.takePriority();
-  }
-
-  @override
-  void didPushNext() {
-    super.didPushNext();
-    logger.d('$runtimeType didPushNext');
-
-    rootBackButtonDispatcher.takePriority();
   }
 
   @override
@@ -147,10 +99,15 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
           ),
         ],
         child: Scaffold(
-          body: Router(
-            restorationScopeId: "aniflow_home",
-            routerDelegate: afRouterDelegate,
-            backButtonDispatcher: childBackButtonDispatcher,
+          body: PopScope(
+            canPop: afRouterDelegate.canPop,
+            onPopInvokedWithResult: (didPop, result) {
+              afRouterDelegate.onPopPage(didPop, result);
+            },
+            child: Router(
+              restorationScopeId: "aniflow_home",
+              routerDelegate: afRouterDelegate,
+            ),
           ),
           bottomNavigationBar: _animeTrackerNavigationBar(
             navigationList: state.topLevelNavigationList,

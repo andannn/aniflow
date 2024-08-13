@@ -12,17 +12,19 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
   /// get current top level.
-  RestorableEnum<TopLevelNavigation> get _topLevelState =>
-      _topLevelStateKey.currentState!.topLevel;
+  RestorableEnum<TopLevelNavigation>? get _topLevelState =>
+      _topLevelStateKey.currentState?.topLevel;
 
-  TopLevelNavigation get currentTopLevelNavigation => _topLevelState.value;
+  TopLevelNavigation get currentTopLevelNavigation =>
+      _topLevelState?.value ?? TopLevelNavigation.discover;
+
+  bool get canPop => currentTopLevelNavigation == TopLevelNavigation.discover;
 
   @override
   Widget build(BuildContext context) {
     return TopLevelNavigator(
       key: _topLevelStateKey,
       navigatorKey: _navigatorKey,
-      onPopPage: _onPopPage,
       onRouteChanged: _onRouteChanged,
     );
   }
@@ -33,22 +35,10 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
   }
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
-    _topLevelState.value = navigation;
+    _topLevelState?.value = navigation;
 
-// TODO:
-//     FirebaseAnalytics.instance
-//         .logAniFlowPathChangeEvent(navigation.toRoutePath());
-  }
-
-  /// Judgment of whether need to pop current page.
-  bool _onPopPage(Route<dynamic> route, result) {
-    if (!route.didPop(result)) {
-      return false;
-    }
-
-    _topLevelState.value = TopLevelNavigation.discover;
-
-    return true;
+    // FirebaseAnalytics.instance
+    //     .logAniFlowPathChangeEvent(navigation.toRoutePath());
   }
 
   void _onRouteChanged() {
@@ -56,18 +46,20 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
       notifyListeners();
     });
   }
+
+  void onPopPage(bool didPop, Object? result) {
+    _topLevelState?.value = TopLevelNavigation.discover;
+  }
 }
 
 class TopLevelNavigator extends StatefulWidget {
   const TopLevelNavigator({
     super.key,
     required this.navigatorKey,
-    this.onPopPage,
     required this.onRouteChanged,
   });
 
   final GlobalKey<NavigatorState> navigatorKey;
-  final PopPageCallback? onPopPage;
   final VoidCallback onRouteChanged;
 
   @override
@@ -105,7 +97,6 @@ class _TopLevelNavigatorState extends State<TopLevelNavigator>
     return Navigator(
       key: widget.navigatorKey,
       pages: _backStack.map((path) => path.toPage()).toList(),
-      onPopPage: widget.onPopPage,
     );
   }
 

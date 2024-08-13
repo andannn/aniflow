@@ -42,7 +42,6 @@ void main() async {
 
   unawaited(requestNotificationPermissionIfNeeded());
 
-// TODO:
   // GetItScope.of(context).get<BackgroundTaskManager>();
 }
 

@@ -56,7 +56,7 @@ class _AniFlowAppState extends State<AniFlowApp> {
 }
 
 class _AppContent extends StatelessWidget {
-  const _AppContent({super.key});
+  const _AppContent();
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ void main() {
     late CharacterDao dao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       dao = db.characterDao;
     });
 

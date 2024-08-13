@@ -119,7 +119,7 @@ class PostAnilistNotificationExecutor implements Executor {
     }
 
     final platFormNotifications = matchedNotification
-        .map((e) => e.mapToPlatformModel())
+        .map((e) => e.mapToPlatformModel(_userDataRepository.userTitleLanguage))
         .whereNotNull()
         .toList();
     if (notifications.isEmpty) {
@@ -185,10 +185,9 @@ class PostAnilistNotificationExecutor implements Executor {
 
 extension on NotificationModel {
   UserTitleLanguage get userTitleLanguage => UserTitleLanguage.native;
-// TODO:
-// GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
 
-  PlatformNotificationModel? mapToPlatformModel() {
+  PlatformNotificationModel? mapToPlatformModel(
+      UserTitleLanguage titleLanguage) {
     final notification = this;
     switch (notification) {
       case AiringNotification():

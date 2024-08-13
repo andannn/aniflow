@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class DINetworkModule {
   @lazySingleton
-  Dio get dio => Dio()
+  Dio getDio(UserDataPreferences preferences) => Dio()
     ..options = BaseOptions(
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
@@ -17,12 +17,10 @@ abstract class DINetworkModule {
     )
     ..interceptors.addAll([
       LogInterceptor(),
-// TODO:
-      // GetItScope.of(context).get<AniListTokenHeaderInterceptor>(),
+      AniListTokenHeaderInterceptor(preferences),
     ]);
 }
 
-@injectable
 class AniListTokenHeaderInterceptor extends Interceptor {
   final UserDataPreferences _preferences;
 
