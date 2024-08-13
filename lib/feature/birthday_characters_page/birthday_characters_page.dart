@@ -28,7 +28,8 @@ class MediaListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetItScope.of(context).get<BirthdayCharacterPageBloc>(),
+      create: (context) =>
+          GetItScope.of(context).get<BirthdayCharacterPageBloc>(),
       child: const _BirthdayCharactersPageContent(),
     );
   }

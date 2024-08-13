@@ -138,7 +138,8 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
 
   Widget? _buildMediaListItem(
       BuildContext context, MediaWithListModel item, bool showNewBadge) {
-    final language = GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
+    final language =
+        GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
     const identifier = 'track_tab';
     return Padding(
       key: ValueKey('anime_track_list_item_$item'),

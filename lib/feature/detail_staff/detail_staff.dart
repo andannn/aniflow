@@ -48,11 +48,13 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GetItScope.of(context).get<DetailStaffBloc>(param1: id),
+          create: (context) =>
+              GetItScope.of(context).get<DetailStaffBloc>(param1: id),
         ),
         BlocProvider(
-          create: (context) => GetItScope.of(context).get<VoiceActorContentsPagingBloc>(
-              param1: id, param2: MediaSort.newest),
+          create: (context) => GetItScope.of(context)
+              .get<VoiceActorContentsPagingBloc>(
+                  param1: id, param2: MediaSort.newest),
         ),
       ],
       child: const ScaffoldMessenger(

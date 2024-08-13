@@ -36,7 +36,8 @@ class EditProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<EditProfileBloc>(),
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<EditProfileBloc>(),
       child: const _EditProfileContent(),
     );
   }
@@ -76,8 +77,7 @@ class _EditProfileContent extends StatelessWidget {
                     break;
                 }
 
-                if (file != null) {
-                }
+                if (file != null) {}
               }
             })
           ],

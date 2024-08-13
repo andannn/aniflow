@@ -34,7 +34,8 @@ class FavoriteCharacterListRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
+      create: (context) =>
+          GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
         param1: userId,
         param2: AfConfig.defaultPerPageCount,
       ),
@@ -54,8 +55,9 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
     return BlocBuilder<FavoriteCharacterPagingBloc,
         PagingState<List<CharacterModel>>>(builder: (context, state) {
       final pagingState = state;
-      final language =
-          GetItScope.of(context).get<UserDataRepository>().userStaffNameLanguage;
+      final language = GetItScope.of(context)
+          .get<UserDataRepository>()
+          .userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           title: const Text('Favorite character'),

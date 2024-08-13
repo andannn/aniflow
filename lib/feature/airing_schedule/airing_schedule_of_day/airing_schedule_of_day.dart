@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
@@ -11,8 +12,6 @@ import 'package:aniflow/feature/airing_schedule/schedule_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../../app/di/get_it_scope.dart';
 
 class AiringScheduleOfDayPage extends StatefulWidget {
   const AiringScheduleOfDayPage({super.key});

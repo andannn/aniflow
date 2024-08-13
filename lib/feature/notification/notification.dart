@@ -30,7 +30,8 @@ class NotificationPageRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<NotificationBloc>(),
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<NotificationBloc>(),
       child: const ScaffoldMessenger(
         child: _NotificationPageContent(),
       ),
@@ -119,8 +120,8 @@ class _NotificationPagingBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) =>
-            GetItScope.of(context).get<NotificationPagingBloc>(param1: category),
+        create: (BuildContext context) => GetItScope.of(context)
+            .get<NotificationPagingBloc>(param1: category),
         child: const _NotificationPagingContent());
   }
 }

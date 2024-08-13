@@ -39,10 +39,12 @@ class BirthdayCharactersContent extends StatelessWidget {
       builder: (context, state) {
         return BirthdayCharactersWidget(
           models: state.data,
-          staffNameLanguage:
-              GetItScope.of(context).get<UserDataRepository>().userStaffNameLanguage,
-          titleLanguage:
-              GetItScope.of(context).get<UserDataRepository>().userTitleLanguage,
+          staffNameLanguage: GetItScope.of(context)
+              .get<UserDataRepository>()
+              .userStaffNameLanguage,
+          titleLanguage: GetItScope.of(context)
+              .get<UserDataRepository>()
+              .userTitleLanguage,
         );
       },
     );

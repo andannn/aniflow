@@ -58,7 +58,8 @@ class AniFlowAppScaffold extends StatefulWidget {
   State<AniFlowAppScaffold> createState() => _AniFlowAppScaffoldState();
 }
 
-class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold> with ShowSnackBarMixin {
+class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
+    with ShowSnackBarMixin {
   AfRouterDelegate afRouterDelegate = AfRouterDelegate();
   RouteObserver rootObserver = RootRouterDelegate.get().routeObserver;
 

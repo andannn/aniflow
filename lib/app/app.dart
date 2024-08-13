@@ -37,6 +37,7 @@ class _AniFlowAppState extends State<AniFlowApp> {
   @override
   void dispose() {
     super.dispose();
+    print('JQN dispose');
     _getItInstance?.dispose();
     _getItInstance = null;
   }

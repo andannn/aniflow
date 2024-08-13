@@ -54,7 +54,8 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => GetItScope.of(context).get<ProfileBloc>(
+        create: (BuildContext context) =>
+            GetItScope.of(context).get<ProfileBloc>(
               param1: userId,
             ),
         child:
@@ -110,7 +111,8 @@ class _ProfilePageContent extends StatelessWidget {
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => GetItScope.of(context).get<StatsBloc>(
+                create: (BuildContext context) =>
+                    GetItScope.of(context).get<StatsBloc>(
                   param1: userState.id,
                 )..loadingStateRepository = loadingStateRepository,
               ),

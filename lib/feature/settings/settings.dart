@@ -32,7 +32,8 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   Widget buildContent(BuildContext context) {
     return DialogEventHandler(
       child: BlocProvider(
-        create: (BuildContext context) => GetItScope.of(context).get<SettingsBloc>(),
+        create: (BuildContext context) =>
+            GetItScope.of(context).get<SettingsBloc>(),
         child: const ScaffoldMessenger(
           child: _MediaSettingsPageContent(),
         ),

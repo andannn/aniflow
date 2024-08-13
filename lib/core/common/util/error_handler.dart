@@ -4,7 +4,8 @@ import 'package:aniflow/core/data/message_repository.dart';
 import 'package:dio/dio.dart';
 
 mixin ErrorHandler {
-  static Future<SnackBarMessage?> convertExceptionToMessage(Exception exception) async {
+  static Future<SnackBarMessage?> convertExceptionToMessage(
+      Exception exception) async {
     switch (exception) {
       case DioException():
         return await _toMessageType(exception);

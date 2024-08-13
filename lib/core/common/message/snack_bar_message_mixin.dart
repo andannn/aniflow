@@ -18,6 +18,7 @@ mixin ShowSnackBarMixin<T extends StatefulWidget> on State<T> {
     final repo = GetItScope.of(context).get<MessageRepository>();
     _messageSub = repo.getSnackBarMessageStream().listen(
       (message) {
+        // ignore: use_build_context_synchronously
         if (ModalRoute.of(context)?.isCurrent == false) {
           // current page is not top.
           return;

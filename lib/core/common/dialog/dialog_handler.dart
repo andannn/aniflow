@@ -30,7 +30,8 @@ class _DialogEventHandlerState extends State<DialogEventHandler>
 mixin _ShowDialogMixin<T extends StatefulWidget> on State<T> {
   late StreamSubscription _messageSub;
 
-  MessageRepository get messageRepo => GetItScope.of(context).get<MessageRepository>();
+  MessageRepository get messageRepo =>
+      GetItScope.of(context).get<MessageRepository>();
 
   UserDataRepository get userDataRepo =>
       GetItScope.of(context).get<UserDataRepository>();
@@ -43,6 +44,7 @@ mixin _ShowDialogMixin<T extends StatefulWidget> on State<T> {
 
     _messageSub = messageRepo.getDialogMessageStream().listen(
       (message) {
+        // ignore: use_build_context_synchronously
         if (ModalRoute.of(context)?.isCurrent == false) {
           // current page is not top.
           return;

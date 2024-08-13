@@ -37,8 +37,9 @@ class RecentMoviesContent extends StatelessWidget {
       builder: (context, state) {
         return RecentMoviesWidget(
           models: state.movies,
-          titleLanguage:
-              GetItScope.of(context).get<UserDataRepository>().userTitleLanguage,
+          titleLanguage: GetItScope.of(context)
+              .get<UserDataRepository>()
+              .userTitleLanguage,
         );
       },
     );

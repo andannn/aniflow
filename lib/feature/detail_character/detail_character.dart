@@ -38,7 +38,8 @@ class DetailCharacterRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetItScope.of(context).get<DetailCharacterBloc>(param1: id),
+      create: (context) =>
+          GetItScope.of(context).get<DetailCharacterBloc>(param1: id),
       child: const ScaffoldMessenger(
         child: _DetailCharacterContent(),
       ),

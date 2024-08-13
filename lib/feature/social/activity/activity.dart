@@ -24,7 +24,8 @@ class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<ActivityBloc>(),
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<ActivityBloc>(),
       child: const _ActivityPageContent(),
     );
   }
@@ -129,7 +130,7 @@ class _ActivityPageContent extends StatelessWidget {
       children: [
         const SizedBox(width: 12),
         SegmentedButton<ActivityScopeCategory>(
-          segments:  [
+          segments: [
             ButtonSegment(
               value: ActivityScopeCategory.global,
               label: Text(context.appLocal.global),
@@ -164,7 +165,8 @@ class ActivityPageBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<ActivityPagingBloc>(
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<ActivityPagingBloc>(
         param1: userType,
         param2: filterType,
       ),

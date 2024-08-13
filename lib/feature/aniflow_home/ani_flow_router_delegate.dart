@@ -2,16 +2,12 @@ import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:flutter/material.dart';
 
 class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin {
+    with ChangeNotifier {
   AfRouterDelegate();
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final GlobalKey<_TopLevelNavigatorState> _topLevelStateKey = GlobalKey();
 
-  @override
-  GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
-
-  /// get current top level.
   RestorableEnum<TopLevelNavigation>? get _topLevelState =>
       _topLevelStateKey.currentState?.topLevel;
 
@@ -49,6 +45,11 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
 
   void onPopPage(bool didPop, Object? result) {
     _topLevelState?.value = TopLevelNavigation.discover;
+  }
+
+  @override
+  Future<bool> popRoute() {
+    throw StateError('popRoute is not supported');
   }
 }
 

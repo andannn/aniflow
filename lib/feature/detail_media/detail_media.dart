@@ -62,7 +62,8 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetItScope.of(context).get<DetailMediaBloc>(param1: mediaId),
+      create: (context) =>
+          GetItScope.of(context).get<DetailMediaBloc>(param1: mediaId),
       child: const ScaffoldMessenger(
         child: _DetailAnimePageContent(),
       ),

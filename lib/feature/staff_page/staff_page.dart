@@ -30,7 +30,8 @@ class StaffListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetItScope.of(context).get<StaffPageBloc>(param1: animeId),
+      create: (context) =>
+          GetItScope.of(context).get<StaffPageBloc>(param1: animeId),
       child: const _StaffListPageContent(),
     );
   }

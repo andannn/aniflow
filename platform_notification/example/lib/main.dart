@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   final isEnabled = await _platformNotificationPlugin
                       .isNotificationChannelEnabled('1');
-                  print(isEnabled);
+                  debugPrint(isEnabled.toString());
                 },
               )
             ],

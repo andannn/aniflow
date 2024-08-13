@@ -33,7 +33,8 @@ class SearchPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<SearchBloc>(),
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<SearchBloc>(),
       child: const ScaffoldMessenger(
         child: _MediaSearchPageContent(),
       ),
@@ -152,7 +153,8 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
     switch (selectedSearchType) {
       case SearchType.anime:
         return BlocProvider(
-          create: (context) => GetItScope.of(context).get<MediaSearchResultPagingBloc>(
+          create: (context) =>
+              GetItScope.of(context).get<MediaSearchResultPagingBloc>(
             param1: MediaType.anime,
             param2: keyword,
           ),
@@ -160,7 +162,8 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
         );
       case SearchType.manga:
         return BlocProvider(
-          create: (context) => GetItScope.of(context).get<MediaSearchResultPagingBloc>(
+          create: (context) =>
+              GetItScope.of(context).get<MediaSearchResultPagingBloc>(
             param1: MediaType.manga,
             param2: keyword,
           ),
@@ -176,21 +179,24 @@ class _SearchResultPagingBlocProvider extends StatelessWidget {
         );
       case SearchType.staff:
         return BlocProvider(
-          create: (context) => GetItScope.of(context).get<StaffSearchResultPagingBloc>(
+          create: (context) =>
+              GetItScope.of(context).get<StaffSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const StaffSearchResultPagingContent(),
         );
       case SearchType.studio:
         return BlocProvider(
-          create: (context) => GetItScope.of(context).get<StudioSearchResultPagingBloc>(
+          create: (context) =>
+              GetItScope.of(context).get<StudioSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const StudioSearchResultPagingContent(),
         );
       case SearchType.user:
         return BlocProvider(
-          create: (context) => GetItScope.of(context).get<UserSearchResultPagingBloc>(
+          create: (context) =>
+              GetItScope.of(context).get<UserSearchResultPagingBloc>(
             param1: keyword,
           ),
           child: const UserSearchResultPagingContent(),

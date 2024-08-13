@@ -114,8 +114,8 @@ class _CharacterPagingBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<CharacterPagingBloc>(
-          param1: animeId, param2: staffLanguage),
+      create: (BuildContext context) => GetItScope.of(context)
+          .get<CharacterPagingBloc>(param1: animeId, param2: staffLanguage),
       child: const _CharacterListPagingContent(),
     );
   }

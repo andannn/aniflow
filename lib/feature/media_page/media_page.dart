@@ -31,7 +31,8 @@ class MediaListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetItScope.of(context).get<AnimePageBloc>(param1: category),
+      create: (context) =>
+          GetItScope.of(context).get<AnimePageBloc>(param1: category),
       child: const _MediaListPageContent(),
     );
   }
