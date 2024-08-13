@@ -267,9 +267,9 @@ class UserDataPreferences {
         jsonEncode(dialog.toJson()), time.toIso8601String());
   }
 
-
   DateTime? getDialogClosedTime(DialogType dialog) {
-    final timeStringOrNull = _preferences.getString(jsonEncode(dialog.toJson()));
+    final timeStringOrNull =
+        _preferences.getString(jsonEncode(dialog.toJson()));
     if (timeStringOrNull == null) {
       return null;
     }

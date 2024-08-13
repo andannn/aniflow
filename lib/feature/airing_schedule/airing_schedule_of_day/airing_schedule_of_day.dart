@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/airing_schedule_and_anime_model.dart';
@@ -103,7 +104,7 @@ class AiringScheduleOfDayBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          GetIt.instance.get<AiringScheduleOfDayBloc>(param1: dateTime),
+          GetItScope.of(context).get<AiringScheduleOfDayBloc>(param1: dateTime),
       child: const _SchedulePageWidget(),
     );
   }

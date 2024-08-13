@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
@@ -13,7 +14,6 @@ import 'package:aniflow/feature/discover/birthday_characters/dummy_birthday_char
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class BirthdayCharactersBlocProvider extends StatelessWidget {
   const BirthdayCharactersBlocProvider({
@@ -24,7 +24,7 @@ class BirthdayCharactersBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       key: const ValueKey('birthday_character'),
-      create: (context) => GetIt.instance.get<BirthdayCharactersBloc>(),
+      create: (context) => GetItScope.of(context).get<BirthdayCharactersBloc>(),
       child: const BirthdayCharactersContent(),
     );
   }
@@ -39,10 +39,12 @@ class BirthdayCharactersContent extends StatelessWidget {
       builder: (context, state) {
         return BirthdayCharactersWidget(
           models: state.data,
-          staffNameLanguage:
-              GetIt.instance.get<UserDataRepository>().userStaffNameLanguage,
-          titleLanguage:
-              GetIt.instance.get<UserDataRepository>().userTitleLanguage,
+          staffNameLanguage: GetItScope.of(context)
+              .get<UserDataRepository>()
+              .userStaffNameLanguage,
+          titleLanguage: GetItScope.of(context)
+              .get<UserDataRepository>()
+              .userTitleLanguage,
         );
       },
     );

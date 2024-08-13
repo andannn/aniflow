@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
@@ -11,7 +12,6 @@ import 'package:aniflow/feature/discover/media_category_preview/media_category_p
 import 'package:aniflow/feature/discover/media_category_preview/media_category_preview_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class MediaPreviewBlocProvider extends StatelessWidget {
   const MediaPreviewBlocProvider({
@@ -30,7 +30,7 @@ class MediaPreviewBlocProvider extends StatelessWidget {
     return BlocProvider(
       key: ValueKey('$mediaCategory+$userId+$mediaType'),
       create: (BuildContext context) =>
-          GetIt.instance.get<MediaCategoryPreviewBloc>(
+          GetItScope.of(context).get<MediaCategoryPreviewBloc>(
         param1: MediaCategoryPreviewParams(
           category: mediaCategory,
           userId: userId,
@@ -95,7 +95,7 @@ class _MediaCategoryPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget itemBuilder(MediaModel model) {
       final language =
-          GetIt.instance.get<UserDataRepository>().userTitleLanguage;
+          GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
       return MediaPreviewItemV2(
         coverImage: model.coverImage?.extraLarge ?? '',
         title: model.title!.getTitle(language),

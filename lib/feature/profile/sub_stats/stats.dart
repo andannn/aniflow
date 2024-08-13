@@ -161,6 +161,7 @@ class UserStatics extends StatelessWidget {
                     const Expanded(child: SizedBox()),
                     _InfoItem(
                       content:
+                          // ignore: lines_longer_than_80_chars
                           '${Duration(minutes: model.minutesWatched).inHours}${context.appLocal.hours}',
                       title: 'Time Watched',
                     ),

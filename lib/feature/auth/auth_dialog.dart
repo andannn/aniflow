@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -6,7 +7,6 @@ import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 enum _OptionColumn {
   settings,
@@ -34,7 +34,7 @@ class AuthDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<AuthBloc>(),
+      create: (context) => GetItScope.of(context).get<AuthBloc>(),
       child: const AlertDialog(
         content: _AuthDialogContent(),
       ),

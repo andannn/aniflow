@@ -86,7 +86,8 @@ class SearchRepository {
     return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
-      onGetNetworkRes: (int page, int perPage) => dataSource.searchCharacterPage(
+      onGetNetworkRes: (int page, int perPage) =>
+          dataSource.searchCharacterPage(
         page: page,
         perPage: perPage,
         search: search,

@@ -14,7 +14,6 @@ import 'package:aniflow/core/notification/notification_channel.dart';
 import 'package:aniflow/core/notification/notification_util.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:platform_notification/platform_notification.dart';
 import 'package:platform_notification/platform_notification_model.dart';
@@ -120,7 +119,7 @@ class PostAnilistNotificationExecutor implements Executor {
     }
 
     final platFormNotifications = matchedNotification
-        .map((e) => e.mapToPlatformModel())
+        .map((e) => e.mapToPlatformModel(_userDataRepository.userTitleLanguage))
         .whereNotNull()
         .toList();
     if (notifications.isEmpty) {
@@ -185,10 +184,10 @@ class PostAnilistNotificationExecutor implements Executor {
 }
 
 extension on NotificationModel {
-  UserTitleLanguage get userTitleLanguage =>
-      GetIt.instance.get<UserDataRepository>().userTitleLanguage;
+  UserTitleLanguage get userTitleLanguage => UserTitleLanguage.native;
 
-  PlatformNotificationModel? mapToPlatformModel() {
+  PlatformNotificationModel? mapToPlatformModel(
+      UserTitleLanguage titleLanguage) {
     final notification = this;
     switch (notification) {
       case AiringNotification():

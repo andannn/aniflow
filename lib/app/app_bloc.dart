@@ -1,4 +1,5 @@
 import 'package:aniflow/app/app_state.dart';
+import 'package:aniflow/core/background_task/task_manager.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -15,7 +16,7 @@ class _OnThemeSettingChanged extends AppEvent {
 
 @injectable
 class AppBloc extends Bloc<AppEvent, AppState> with AutoCancelMixin {
-  AppBloc(this._userDataRepository)
+  AppBloc(this._userDataRepository, this._backgroundTaskManager)
       : super(const AppState()) {
     on<_OnThemeSettingChanged>(
       (event, emit) => emit(state.copyWith(theme: event.themeMode)),
@@ -28,7 +29,11 @@ class AppBloc extends Bloc<AppEvent, AppState> with AutoCancelMixin {
         ),
       ),
     );
+
+    // TODO: .
+    _backgroundTaskManager;
   }
 
   final UserDataRepository _userDataRepository;
+  final BackgroundTaskManager _backgroundTaskManager;
 }

@@ -90,7 +90,8 @@ class AniflowHomeBloc extends Bloc<AniflowHomeEvent, AniflowHomeState>
         logger.d('update dialog latestAppVersion $latestAppVersion');
         if (latestAppVersion.compareTo(currentVersion) > 0) {
           logger.d('show app update dialog latestAppVersion $latestAppVersion');
-          final result = await _messageRepository.showDialog<MessageDialogResult>(
+          final result =
+              await _messageRepository.showDialog<MessageDialogResult>(
             DialogType.appUpdate(appVersion: latestAppVersion.toString()),
           );
           if (result == MessageDialogResult.clickPositive) {

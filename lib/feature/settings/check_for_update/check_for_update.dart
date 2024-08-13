@@ -1,9 +1,9 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/feature/settings/check_for_update/check_for_update_bloc.dart';
 import 'package:aniflow/feature/settings/check_for_update/check_for_update_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class CheckForUpdate extends StatelessWidget {
   const CheckForUpdate({super.key});
@@ -11,7 +11,7 @@ class CheckForUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<CheckForUpdateBloc>(),
+      create: (context) => GetItScope.of(context).get<CheckForUpdateBloc>(),
       child: const CheckForUpdateContent(),
     );
   }

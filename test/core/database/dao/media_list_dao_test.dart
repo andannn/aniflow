@@ -12,7 +12,7 @@ void main() {
     late MediaListDao dao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       dao = db.mediaListDao;
     });
 

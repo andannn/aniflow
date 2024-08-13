@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/dialog/about_dialog.dart';
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/dialog/message_dialog.dart';
@@ -8,7 +9,6 @@ import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 class DialogEventHandler extends StatefulWidget {
   const DialogEventHandler({super.key, required this.child});
@@ -30,10 +30,11 @@ class _DialogEventHandlerState extends State<DialogEventHandler>
 mixin _ShowDialogMixin<T extends StatefulWidget> on State<T> {
   late StreamSubscription _messageSub;
 
-  MessageRepository get messageRepo => GetIt.instance.get<MessageRepository>();
+  MessageRepository get messageRepo =>
+      GetItScope.of(context).get<MessageRepository>();
 
   UserDataRepository get userDataRepo =>
-      GetIt.instance.get<UserDataRepository>();
+      GetItScope.of(context).get<UserDataRepository>();
 
   static bool isShowingDialog = false;
 
@@ -43,6 +44,7 @@ mixin _ShowDialogMixin<T extends StatefulWidget> on State<T> {
 
     _messageSub = messageRepo.getDialogMessageStream().listen(
       (message) {
+        // ignore: use_build_context_synchronously
         if (ModalRoute.of(context)?.isCurrent == false) {
           // current page is not top.
           return;

@@ -8,7 +8,6 @@ abstract class MessageDialog {}
 
 abstract class TutorialDialog {}
 
-
 @freezed
 sealed class DialogType with _$DialogType {
   @Implements<MessageDialog>()
@@ -26,7 +25,8 @@ sealed class DialogType with _$DialogType {
   @Implements<TutorialDialog>()
   const factory DialogType.slideGestureTutorial() = SlideGestureTutorialDialog;
 
-  const factory DialogType.about({required String appVersion}) = AniFlowAboutDialog;
+  const factory DialogType.about({required String appVersion}) =
+      AniFlowAboutDialog;
 
   factory DialogType.fromJson(Map<String, dynamic> json) =>
       _$DialogTypeFromJson(json);

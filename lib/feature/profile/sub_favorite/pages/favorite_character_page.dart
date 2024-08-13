@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
@@ -10,7 +11,6 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class FavoriteCharacterListPage extends Page {
   const FavoriteCharacterListPage({super.key, required this.userId});
@@ -34,7 +34,8 @@ class FavoriteCharacterListRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<FavoriteCharacterPagingBloc>(
+      create: (context) =>
+          GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
         param1: userId,
         param2: AfConfig.defaultPerPageCount,
       ),
@@ -54,8 +55,9 @@ class _FavoriteCharacterListPageContent extends StatelessWidget {
     return BlocBuilder<FavoriteCharacterPagingBloc,
         PagingState<List<CharacterModel>>>(builder: (context, state) {
       final pagingState = state;
-      final language =
-          GetIt.instance.get<UserDataRepository>().userStaffNameLanguage;
+      final language = GetItScope.of(context)
+          .get<UserDataRepository>()
+          .userStaffNameLanguage;
       return Scaffold(
         appBar: AppBar(
           title: const Text('Favorite character'),

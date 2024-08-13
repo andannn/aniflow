@@ -2,27 +2,25 @@ import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:flutter/material.dart';
 
 class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin {
+    with ChangeNotifier {
   AfRouterDelegate();
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final GlobalKey<_TopLevelNavigatorState> _topLevelStateKey = GlobalKey();
 
-  @override
-  GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
+  RestorableEnum<TopLevelNavigation>? get _topLevelState =>
+      _topLevelStateKey.currentState?.topLevel;
 
-  /// get current top level.
-  RestorableEnum<TopLevelNavigation> get _topLevelState =>
-      _topLevelStateKey.currentState!.topLevel;
+  TopLevelNavigation get currentTopLevelNavigation =>
+      _topLevelState?.value ?? TopLevelNavigation.discover;
 
-  TopLevelNavigation get currentTopLevelNavigation => _topLevelState.value;
+  bool get canPop => currentTopLevelNavigation == TopLevelNavigation.discover;
 
   @override
   Widget build(BuildContext context) {
     return TopLevelNavigator(
       key: _topLevelStateKey,
       navigatorKey: _navigatorKey,
-      onPopPage: _onPopPage,
       onRouteChanged: _onRouteChanged,
     );
   }
@@ -33,22 +31,10 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
   }
 
   void navigateToTopLevelPage(TopLevelNavigation navigation) {
-    _topLevelState.value = navigation;
+    _topLevelState?.value = navigation;
 
-// TODO:
-//     FirebaseAnalytics.instance
-//         .logAniFlowPathChangeEvent(navigation.toRoutePath());
-  }
-
-  /// Judgment of whether need to pop current page.
-  bool _onPopPage(Route<dynamic> route, result) {
-    if (!route.didPop(result)) {
-      return false;
-    }
-
-    _topLevelState.value = TopLevelNavigation.discover;
-
-    return true;
+    // FirebaseAnalytics.instance
+    //     .logAniFlowPathChangeEvent(navigation.toRoutePath());
   }
 
   void _onRouteChanged() {
@@ -56,18 +42,25 @@ class AfRouterDelegate extends RouterDelegate<TopLevelNavigation>
       notifyListeners();
     });
   }
+
+  void onPopPage(bool didPop, Object? result) {
+    _topLevelState?.value = TopLevelNavigation.discover;
+  }
+
+  @override
+  Future<bool> popRoute() {
+    throw StateError('popRoute is not supported');
+  }
 }
 
 class TopLevelNavigator extends StatefulWidget {
   const TopLevelNavigator({
     super.key,
     required this.navigatorKey,
-    this.onPopPage,
     required this.onRouteChanged,
   });
 
   final GlobalKey<NavigatorState> navigatorKey;
-  final PopPageCallback? onPopPage;
   final VoidCallback onRouteChanged;
 
   @override
@@ -105,7 +98,6 @@ class _TopLevelNavigatorState extends State<TopLevelNavigator>
     return Navigator(
       key: widget.navigatorKey,
       pages: _backStack.map((path) => path.toPage()).toList(),
-      onPopPage: widget.onPopPage,
     );
   }
 

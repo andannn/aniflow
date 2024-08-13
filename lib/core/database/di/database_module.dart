@@ -19,9 +19,10 @@ import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/isolate.dart';
 import 'package:drift/native.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
@@ -33,7 +34,9 @@ String _tag = 'DIDataBaseModule';
 abstract class DIDataBaseModule {
   @preResolve
   Future<AniflowDatabase> get database async {
-    return AniflowDatabase(await createIsolate());
+    return AniflowDatabase(
+      kDebugMode ? _openDatabaseConnection() : await _openIsolateConnection(),
+    );
   }
 
   UserDao getUserDao(AniflowDatabase db) => db.userDao;
@@ -58,7 +61,7 @@ abstract class DIDataBaseModule {
   EpisodeDao geEpisodeDao(AniflowDatabase db) => db.episodeDao;
 }
 
-FutureOr<DatabaseConnection> createIsolate() async {
+FutureOr<DatabaseConnection> _openIsolateConnection() async {
   return DatabaseConnection.delayed(
     Future(
       () async {
@@ -75,20 +78,7 @@ FutureOr<DatabaseConnection> createIsolate() async {
           isolate = await DriftIsolate.spawn(() {
             BackgroundIsolateBinaryMessenger.ensureInitialized(token);
 
-            return LazyDatabase(() async {
-              final dbFolder = await getApplicationDocumentsDirectory();
-
-              final cachebase = (await getTemporaryDirectory()).path;
-
-              sqlite3.tempDirectory = cachebase;
-
-              if (Platform.isAndroid) {
-                await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
-              }
-
-              return NativeDatabase(File(join(dbFolder.path, 'db1.sqlite')))
-                  .interceptWith(LogInterceptor());
-            });
+            return _openDatabaseConnection();
           });
           IsolateNameServer.registerPortWithName(
             isolate.connectPort,
@@ -100,4 +90,29 @@ FutureOr<DatabaseConnection> createIsolate() async {
       },
     ),
   );
+}
+
+LazyDatabase _openDatabaseConnection() {
+  // the LazyDatabase util lets us find the right location for the file async.
+  return LazyDatabase(() async {
+    // put the database file, called db.sqlite here, into the documents folder
+    // for your app.
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'db1.sqlite'));
+
+    // Also work around limitations on old Android versions
+    if (Platform.isAndroid) {
+      await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
+    }
+
+    // Make sqlite3 pick a more suitable location for temporary files - the
+    // one from the system may be inaccessible due to sandboxing.
+    final cachebase = (await getTemporaryDirectory()).path;
+    // We can't access /tmp on Android, which sqlite3 would try by default.
+    // Explicitly tell it about the correct temporary directory.
+    sqlite3.tempDirectory = cachebase;
+
+    return NativeDatabase.createInBackground(file)
+        .interceptWith(LogInterceptor());
+  });
 }

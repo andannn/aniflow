@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
@@ -9,7 +10,6 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class FavoriteStaffListPage extends Page {
   const FavoriteStaffListPage({super.key, required this.userId});
@@ -33,7 +33,7 @@ class FavoriteStaffListRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<FavoriteStaffPagingBloc>(
+      create: (context) => GetItScope.of(context).get<FavoriteStaffPagingBloc>(
         param1: userId,
         param2: AfConfig.defaultPerPageCount,
       ),

@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
@@ -11,7 +12,6 @@ import 'package:aniflow/feature/birthday_characters_page/birthday_character_page
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class BirthdayCharactersPage extends Page {
   const BirthdayCharactersPage({super.key});
@@ -28,7 +28,8 @@ class MediaListRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<BirthdayCharacterPageBloc>(),
+      create: (context) =>
+          GetItScope.of(context).get<BirthdayCharacterPageBloc>(),
       child: const _BirthdayCharactersPageContent(),
     );
   }
@@ -63,9 +64,9 @@ class _BirthdayCharactersPageContent extends StatelessWidget {
 
   Widget _buildGridItems(BuildContext context, CharacterModel model) {
     final staffNameLanguage =
-        GetIt.instance.get<UserDataRepository>().userStaffNameLanguage;
+        GetItScope.of(context).get<UserDataRepository>().userStaffNameLanguage;
     final titleLanguage =
-        GetIt.instance.get<UserDataRepository>().userTitleLanguage;
+        GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

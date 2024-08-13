@@ -1,13 +1,12 @@
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 @module
 abstract class DINetworkModule {
   @lazySingleton
-  Dio get dio => Dio()
+  Dio getDio(UserDataPreferences preferences) => Dio()
     ..options = BaseOptions(
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
@@ -18,11 +17,10 @@ abstract class DINetworkModule {
     )
     ..interceptors.addAll([
       LogInterceptor(),
-      GetIt.instance.get<AniListTokenHeaderInterceptor>(),
+      AniListTokenHeaderInterceptor(preferences),
     ]);
 }
 
-@injectable
 class AniListTokenHeaderInterceptor extends Interceptor {
   final UserDataPreferences _preferences;
 

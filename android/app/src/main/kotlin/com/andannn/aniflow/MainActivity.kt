@@ -11,7 +11,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 
 private const val TAG = "MainActivity"
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterFragmentActivity() {
     private lateinit var authChannel: EventChannel
     private lateinit var methodChannel: MethodChannel
     private var authEventSink: EventChannel.EventSink? = null

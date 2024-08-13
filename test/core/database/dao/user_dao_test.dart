@@ -9,7 +9,7 @@ void main() {
     late UserDao dao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       dao = db.userDao;
     });
 

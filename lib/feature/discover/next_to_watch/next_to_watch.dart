@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
@@ -27,7 +28,7 @@ class NextToWatchAnimeBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       key: ValueKey('$userId+$mediaType'),
-      create: (context) => GetIt.instance.get<NextToWatchBloc>(
+      create: (context) => GetItScope.of(context).get<NextToWatchBloc>(
         param1: userId,
         param2: mediaType,
       ),

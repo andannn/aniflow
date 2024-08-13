@@ -1,9 +1,9 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/design_system/widget/avatar_icon.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/feature/settings/github_link/github_link_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GithubLink extends StatelessWidget {
@@ -12,7 +12,7 @@ class GithubLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<GithubLinkBloc>(),
+      create: (context) => GetItScope.of(context).get<GithubLinkBloc>(),
       child: const GithubLinkContent(),
     );
   }

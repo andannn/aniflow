@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
@@ -24,7 +25,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class DetailStaffPage extends Page {
   final String id;
@@ -48,11 +48,13 @@ class DetailStaffRoute extends PageRoute with MaterialRouteTransitionMixin {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GetIt.instance.get<DetailStaffBloc>(param1: id),
+          create: (context) =>
+              GetItScope.of(context).get<DetailStaffBloc>(param1: id),
         ),
         BlocProvider(
-          create: (context) => GetIt.instance.get<VoiceActorContentsPagingBloc>(
-              param1: id, param2: MediaSort.newest),
+          create: (context) => GetItScope.of(context)
+              .get<VoiceActorContentsPagingBloc>(
+                  param1: id, param2: MediaSort.newest),
         ),
       ],
       child: const ScaffoldMessenger(

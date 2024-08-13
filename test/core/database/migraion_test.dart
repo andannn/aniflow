@@ -19,7 +19,7 @@ void main() {
     // Use startAt(1) to obtain a database connection with all tables
     // from the v1 schema.
     final connection = await verifier.startAt(1);
-    final db = AniflowDatabase.test(connection);
+    final db = AniflowDatabase(connection);
 
     // Use this to run a migration to v2 and then validate that the
     // database has the expected schema.
@@ -29,7 +29,7 @@ void main() {
 // TODO:
   // test('upgrade from v2 to v3', () async {
   //   final connection = await verifier.startAt(2);
-  //   final db = AniflowDatabase.test(connection);
+  //   final db = AniflowDatabase(connection);
   //
   //   await verifier.migrateAndValidate(db, 3);
   // });

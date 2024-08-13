@@ -17,7 +17,7 @@ void main() {
     late CharacterDao characterDao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       favoriteDao = db.favoriteDao;
       mediaDao = db.mediaDao;
       staffDao = db.staffDao;
