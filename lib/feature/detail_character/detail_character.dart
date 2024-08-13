@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
@@ -16,7 +17,6 @@ import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dar
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class DetailCharacterPage extends Page {
   final String id;
@@ -38,7 +38,7 @@ class DetailCharacterRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<DetailCharacterBloc>(param1: id),
+      create: (context) => GetItScope.of(context).get<DetailCharacterBloc>(param1: id),
       child: const ScaffoldMessenger(
         child: _DetailCharacterContent(),
       ),

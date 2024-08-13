@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
@@ -15,7 +16,6 @@ import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class AnimeTrackPage extends Page {
   const AnimeTrackPage({super.key});
@@ -138,7 +138,7 @@ class _MediaTrackPageContentState extends State<_MediaTrackPageContent> {
 
   Widget? _buildMediaListItem(
       BuildContext context, MediaWithListModel item, bool showNewBadge) {
-    final language = GetIt.instance.get<UserDataRepository>().userTitleLanguage;
+    final language = GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
     const identifier = 'track_tab';
     return Padding(
       key: ValueKey('anime_track_list_item_$item'),

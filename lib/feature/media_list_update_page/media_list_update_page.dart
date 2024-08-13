@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
@@ -15,7 +16,6 @@ import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_pa
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class StatusModel {
   StatusModel({required this.status, required this.label, required this.icon});
@@ -51,7 +51,7 @@ class MediaListUpdateRoute extends PageRoute<MediaListModifyResult>
   Widget buildContent(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          GetIt.instance.get<MediaListUpdateBloc>(param1: mediaId),
+          GetItScope.of(context).get<MediaListUpdateBloc>(param1: mediaId),
       child: MediaListUpdatePageContent(
         mediaId: mediaId,
         from: from,
@@ -88,7 +88,7 @@ class MediaListUpdatePageContent extends StatelessWidget {
         builder: (context, state) {
       final mediaModel = state.mediaWithListModel?.mediaModel;
       final mediaListItem = state.mediaWithListModel?.mediaListModel;
-      final userDataRepo = GetIt.instance.get<UserDataRepository>();
+      final userDataRepo = GetItScope.of(context).get<UserDataRepository>();
       final scoreFormat = userDataRepo.scoreFormat;
       final userTitleLanguage = userDataRepo.userTitleLanguage;
 

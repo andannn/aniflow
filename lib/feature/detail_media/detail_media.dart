@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
@@ -36,7 +37,6 @@ import 'package:aniflow/feature/media_list_update_page/media_list_update_page.da
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,7 +62,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<DetailMediaBloc>(param1: mediaId),
+      create: (context) => GetItScope.of(context).get<DetailMediaBloc>(param1: mediaId),
       child: const ScaffoldMessenger(
         child: _DetailAnimePageContent(),
       ),

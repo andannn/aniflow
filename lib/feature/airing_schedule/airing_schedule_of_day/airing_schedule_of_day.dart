@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../app/di/get_it_scope.dart';
+
 class AiringScheduleOfDayPage extends StatefulWidget {
   const AiringScheduleOfDayPage({super.key});
 
@@ -103,7 +105,7 @@ class AiringScheduleOfDayBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          GetIt.instance.get<AiringScheduleOfDayBloc>(param1: dateTime),
+          GetItScope.of(context).get<AiringScheduleOfDayBloc>(param1: dateTime),
       child: const _SchedulePageWidget(),
     );
   }

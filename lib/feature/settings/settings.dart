@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/dialog/dialog_handler.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
@@ -14,7 +15,6 @@ import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:aniflow/feature/settings/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class SettingsPage extends Page {
   const SettingsPage({super.key});
@@ -32,7 +32,7 @@ class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   Widget buildContent(BuildContext context) {
     return DialogEventHandler(
       child: BlocProvider(
-        create: (BuildContext context) => GetIt.instance.get<SettingsBloc>(),
+        create: (BuildContext context) => GetItScope.of(context).get<SettingsBloc>(),
         child: const ScaffoldMessenger(
           child: _MediaSettingsPageContent(),
         ),

@@ -1,10 +1,10 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/feature/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:aniflow/feature/edit_profile/bloc/edit_profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 
 const _bannerHeight = 160.0;
@@ -36,7 +36,7 @@ class EditProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetIt.instance.get<EditProfileBloc>(),
+      create: (BuildContext context) => GetItScope.of(context).get<EditProfileBloc>(),
       child: const _EditProfileContent(),
     );
   }

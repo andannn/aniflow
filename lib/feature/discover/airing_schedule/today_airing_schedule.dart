@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -11,7 +12,6 @@ import 'package:aniflow/feature/discover/airing_schedule/today_airing_schedule_s
 import 'package:aniflow/feature/discover/birthday_characters/birthday_character.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class TodayAiringScheduleBlocProvider extends StatelessWidget {
   const TodayAiringScheduleBlocProvider({super.key});
@@ -20,7 +20,7 @@ class TodayAiringScheduleBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          GetIt.instance.get<TodayAiringScheduleBloc>(),
+          GetItScope.of(context).get<TodayAiringScheduleBloc>(),
       child: const TodayAiringSchedule(),
     );
   }
@@ -136,7 +136,7 @@ class _TimeLineItem extends StatelessWidget {
 
   Widget mediaItemBuilder(BuildContext context, MediaModel media) {
     final userTitleLanguage =
-        GetIt.instance.get<UserDataRepository>().userTitleLanguage;
+        GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
     return SizedBox(
       width: 160,
       height: 270,

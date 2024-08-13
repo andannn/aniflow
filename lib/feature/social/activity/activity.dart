@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
@@ -16,7 +17,6 @@ import 'package:aniflow/feature/social/activity/bloc/activity_paging_bloc.dart';
 import 'package:aniflow/feature/social/activity/bloc/activity_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({super.key});
@@ -24,7 +24,7 @@ class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetIt.instance.get<ActivityBloc>(),
+      create: (BuildContext context) => GetItScope.of(context).get<ActivityBloc>(),
       child: const _ActivityPageContent(),
     );
   }
@@ -164,7 +164,7 @@ class ActivityPageBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetIt.instance.get<ActivityPagingBloc>(
+      create: (BuildContext context) => GetItScope.of(context).get<ActivityPagingBloc>(
         param1: userType,
         param2: filterType,
       ),
@@ -227,7 +227,7 @@ class ActivityStatusBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          GetIt.instance.get<ActivityStatusBloc>(param1: activityId),
+          GetItScope.of(context).get<ActivityStatusBloc>(param1: activityId),
       child: const ActivityItemContent(),
     );
   }

@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/message_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 const String _tag = 'ShowSnackBarMixin';
 
@@ -15,7 +15,7 @@ mixin ShowSnackBarMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
 
-    final repo = GetIt.instance.get<MessageRepository>();
+    final repo = GetItScope.of(context).get<MessageRepository>();
     _messageSub = repo.getSnackBarMessageStream().listen(
       (message) {
         if (ModalRoute.of(context)?.isCurrent == false) {

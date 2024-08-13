@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
@@ -42,7 +43,7 @@ class ActivityRepliesRoute extends PageRoute with MaterialRouteTransitionMixin {
   Widget buildContent(BuildContext context) {
     return BlocProvider(
         create: (BuildContext context) =>
-            GetIt.instance.get<ActivityRepliesBloc>(
+            GetItScope.of(context).get<ActivityRepliesBloc>(
               param1: activityId,
             ),
         child: const _ActivityRepliesPageContent());

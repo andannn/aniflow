@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
@@ -13,7 +14,6 @@ import 'package:aniflow/feature/discover/recent_movies/recent_movies_state.dart'
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class RecentMoviesBlocProvider extends StatelessWidget {
   const RecentMoviesBlocProvider({super.key});
@@ -22,7 +22,7 @@ class RecentMoviesBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       key: const ValueKey('recent_movies'),
-      create: (context) => GetIt.instance.get<RecentMoviesBloc>(),
+      create: (context) => GetItScope.of(context).get<RecentMoviesBloc>(),
       child: const RecentMoviesContent(),
     );
   }
@@ -38,7 +38,7 @@ class RecentMoviesContent extends StatelessWidget {
         return RecentMoviesWidget(
           models: state.movies,
           titleLanguage:
-              GetIt.instance.get<UserDataRepository>().userTitleLanguage,
+              GetItScope.of(context).get<UserDataRepository>().userTitleLanguage,
         );
       },
     );

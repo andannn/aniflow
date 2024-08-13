@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
@@ -20,7 +21,6 @@ import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class ProfilePage extends Page {
   const ProfilePage({
@@ -54,7 +54,7 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => GetIt.instance.get<ProfileBloc>(
+        create: (BuildContext context) => GetItScope.of(context).get<ProfileBloc>(
               param1: userId,
             ),
         child:
@@ -83,47 +83,47 @@ class _ProfilePageContent extends StatelessWidget {
             providers: [
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteAnimePagingBloc>(
+                    GetItScope.of(context).get<FavoriteAnimePagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteMangaPagingBloc>(
+                    GetItScope.of(context).get<FavoriteMangaPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteCharacterPagingBloc>(
+                    GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteStaffPagingBloc>(
+                    GetItScope.of(context).get<FavoriteStaffPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
-                create: (BuildContext context) => GetIt.instance.get<StatsBloc>(
+                create: (BuildContext context) => GetItScope.of(context).get<StatsBloc>(
                   param1: userState.id,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<UserActivityPagingBloc>(
+                    GetItScope.of(context).get<UserActivityPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<ProfileAnimeListBloc>(
+                    GetItScope.of(context).get<ProfileAnimeListBloc>(
                   param1: ProfileMediaListParam(
                     userId: userState.id,
                     mediaType: MediaType.anime,
@@ -132,7 +132,7 @@ class _ProfilePageContent extends StatelessWidget {
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<ProfileMangaListBloc>(
+                    GetItScope.of(context).get<ProfileMangaListBloc>(
                   param1: ProfileMediaListParam(
                     userId: userState.id,
                     mediaType: MediaType.manga,

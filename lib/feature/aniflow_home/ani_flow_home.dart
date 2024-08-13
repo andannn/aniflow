@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/dialog/dialog_handler.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
@@ -12,7 +13,6 @@ import 'package:aniflow/feature/media_list_update_page/media_list_update_page.da
 import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class AniFlowHomePage extends Page {
   const AniFlowHomePage({super.key});
@@ -31,7 +31,7 @@ class AniFlowRoute extends PageRoute with MaterialRouteTransitionMixin {
     return RootRestorationScope(
       restorationId: 'aniflow_route',
       child: BlocProvider(
-        create: (context) => GetIt.instance.get<AniflowHomeBloc>(),
+        create: (context) => GetItScope.of(context).get<AniflowHomeBloc>(),
         child: const DialogEventHandler(
           child: AniFlowAppScaffold(),
         ),
@@ -137,13 +137,13 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => GetIt.instance.get<DiscoverBloc>(),
+            create: (context) => GetItScope.of(context).get<DiscoverBloc>(),
           ),
           BlocProvider(
-            create: (context) => GetIt.instance.get<TrackBloc>(),
+            create: (context) => GetItScope.of(context).get<TrackBloc>(),
           ),
           BlocProvider(
-            create: (context) => GetIt.instance.get<AuthBloc>(),
+            create: (context) => GetItScope.of(context).get<AuthBloc>(),
           ),
         ],
         child: Scaffold(

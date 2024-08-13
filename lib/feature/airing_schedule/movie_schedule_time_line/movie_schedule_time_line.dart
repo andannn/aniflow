@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../app/di/get_it_scope.dart';
+
 class MovieScheduleTimeLine extends StatelessWidget {
   const MovieScheduleTimeLine({super.key});
 
@@ -26,7 +28,7 @@ class MovieScheduleTimeLineBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          GetIt.instance.get<MovieScheduleTimeLineBloc>(),
+          GetItScope.of(context).get<MovieScheduleTimeLineBloc>(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(context.appLocal.movieSchedule),

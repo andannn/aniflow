@@ -1,5 +1,7 @@
 import 'package:aniflow/app/app_bloc.dart';
 import 'package:aniflow/app/app_state.dart';
+import 'package:aniflow/app/di/get_it_di.dart';
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
@@ -9,16 +11,68 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 
-class AniFlowApp extends StatelessWidget {
+class AniFlowApp extends StatefulWidget {
   const AniFlowApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
-      final theme = state.theme;
-      return DynamicColorApp(themeSetting: theme);
+  State<AniFlowApp> createState() => _AniFlowAppState();
+}
+
+class _AniFlowAppState extends State<AniFlowApp> {
+  GetIt? _getItInstance;
+
+  @override
+  void initState() {
+    super.initState();
+
+    initDI(GetIt.instance).then((GetIt getIt) {
+      setState(() {
+        _getItInstance = getIt;
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _getItInstance?.dispose();
+    _getItInstance = null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final instance = _getItInstance;
+    if (instance == null) {
+      return const MaterialApp(home: Scaffold());
+    }
+
+    return GetItScope(
+      getIt: instance,
+      child: const _AppContent(),
+    );
+  }
+}
+
+class _AppContent extends StatelessWidget {
+  const _AppContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => GetItScope.of(context).get<AppBloc>(),
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<AppBloc, AppState>(
+            builder: (context, state) {
+              final theme = state.theme;
+              return DynamicColorApp(themeSetting: theme);
+            },
+          );
+        },
+      ),
+    );
   }
 }
 

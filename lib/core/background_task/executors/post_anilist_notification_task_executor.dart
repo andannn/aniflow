@@ -14,7 +14,6 @@ import 'package:aniflow/core/notification/notification_channel.dart';
 import 'package:aniflow/core/notification/notification_util.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:platform_notification/platform_notification.dart';
 import 'package:platform_notification/platform_notification_model.dart';
@@ -185,8 +184,9 @@ class PostAnilistNotificationExecutor implements Executor {
 }
 
 extension on NotificationModel {
-  UserTitleLanguage get userTitleLanguage =>
-      GetIt.instance.get<UserDataRepository>().userTitleLanguage;
+  UserTitleLanguage get userTitleLanguage => UserTitleLanguage.native;
+// TODO:
+// GetItScope.of(context).get<UserDataRepository>().userTitleLanguage;
 
   PlatformNotificationModel? mapToPlatformModel() {
     final notification = this;

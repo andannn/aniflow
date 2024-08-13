@@ -18,7 +18,7 @@ void callbackDispatcher() async {
 
   await Firebase.initializeApp();
 
-  await initDI(GetIt.instance);
+  final getIt = await initDI(GetIt.instance);
 
   Workmanager().executeTask((taskName, inputData) async {
     logger.d('$_tag executeTask $taskName, inputData $inputData.');
@@ -40,7 +40,7 @@ void callbackDispatcher() async {
       return false;
     } finally {
       logger.d('$_tag executeTask $taskName finished.');
-      await GetIt.instance.get<AniflowDatabase>().close();
+      await getIt.get<AniflowDatabase>().close();
     }
   });
 }
