@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -26,7 +27,7 @@ class Episode extends Equatable {
   List<Object?> get props => [url, title, epNumber];
 }
 
-@Injectable()
+@LazySingleton(env: [AfEnvironment.impl])
 class HiAnimationRepository {
   HiAnimationRepository(this.datasource, this.episodeDao);
 

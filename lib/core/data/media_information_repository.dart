@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
@@ -53,7 +54,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class MediaInformationRepository {
   MediaInformationRepository(
     this.dataSource,

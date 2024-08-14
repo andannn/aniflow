@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
@@ -24,7 +25,7 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class MediaListRepository {
   MediaListRepository(
     this.authDataSource,

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -26,7 +27,7 @@ const String _clientId = '14409';
 const String authUrl =
     'https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&response_type=token';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class AuthRepository {
   AuthRepository(
     this.authDataSource,

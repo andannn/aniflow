@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
@@ -33,7 +34,7 @@ import 'package:drift/drift.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class FavoriteRepository {
   FavoriteRepository(
       this.aniListDataSource,

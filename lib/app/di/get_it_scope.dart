@@ -1,12 +1,15 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/app/di/get_it_di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class RootGetItScope extends StatefulWidget {
-  const RootGetItScope({super.key, required this.child});
+  const RootGetItScope(
+      {super.key, required this.child, this.env = AfEnvironment.impl});
 
   final Widget child;
+  final String env;
 
   @override
   State<RootGetItScope> createState() => _RootGetItScopeState();
@@ -19,7 +22,7 @@ class _RootGetItScopeState extends State<RootGetItScope> {
   void initState() {
     super.initState();
 
-    initDI(GetIt.instance).then((GetIt getIt) {
+    initDI(GetIt.instance, env: widget.env).then((GetIt getIt) {
       setState(() {
         _getItInstance = getIt;
       });

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
@@ -23,7 +24,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class UserDataRepository {
   UserDataRepository(this._preferences, this._remoteConfigManager);
 

@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/character_mapper.dart';
@@ -8,7 +9,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@LazySingleton(env: [AfEnvironment.impl])
 class CharacterRepository {
   const CharacterRepository(
     this.characterDao,
