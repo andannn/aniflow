@@ -9,7 +9,6 @@ import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
 import 'package:aniflow/feature/discover/discover_bloc.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
-import 'package:aniflow/feature/media_track/bloc/track_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -91,9 +90,6 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
         providers: [
           BlocProvider(
             create: (context) => GetItScope.of(context).get<DiscoverBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => GetItScope.of(context).get<TrackBloc>(),
           ),
           BlocProvider(
             create: (context) => GetItScope.of(context).get<AuthBloc>(),

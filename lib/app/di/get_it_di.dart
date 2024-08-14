@@ -13,7 +13,7 @@ extension GetItEx on GetIt {
     return Future.wait(
       [
         /// close database
-        get<AniflowDatabase>().close(),
+        if (isRegistered<AniflowDatabase>()) get<AniflowDatabase>().close(),
       ],
     );
   }

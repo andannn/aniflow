@@ -33,6 +33,7 @@ class _RootGetItScopeState extends State<RootGetItScope> {
   void dispose() {
     super.dispose();
     _getItInstance?.dispose();
+    _getItInstance?.reset();
     _getItInstance = null;
   }
 
