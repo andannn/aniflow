@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -11,7 +12,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class UserStatisticsRepository {
   UserStatisticsRepository(
     this.mediaDao,

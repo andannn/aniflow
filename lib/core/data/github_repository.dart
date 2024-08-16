@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/github_mapper.dart';
 import 'package:aniflow/core/data/model/github_user_model.dart';
@@ -8,7 +9,7 @@ import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class GithubRepository {
   GithubRepository(this.githubDataSource, this.preferences);
 

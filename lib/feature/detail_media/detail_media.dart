@@ -61,13 +61,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          GetItScope.of(context).get<DetailMediaBloc>(param1: mediaId),
-      child: const ScaffoldMessenger(
-        child: _DetailAnimePageContent(),
-      ),
-    );
+    return DetailMediaPageContent(mediaId: mediaId);
   }
 
   @override
@@ -83,15 +77,32 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailAnimePageContent extends StatefulWidget {
-  const _DetailAnimePageContent();
+class DetailMediaPageContent extends StatelessWidget {
+  const DetailMediaPageContent({super.key, required this.mediaId});
+
+  final String mediaId;
 
   @override
-  State<_DetailAnimePageContent> createState() =>
-      _DetailAnimePageContentState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          GetItScope.of(context).get<DetailMediaBloc>(param1: mediaId),
+      child: const ScaffoldMessenger(
+        child: _DetailMediaPageContent(),
+      ),
+    );
+  }
 }
 
-class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
+class _DetailMediaPageContent extends StatefulWidget {
+  const _DetailMediaPageContent();
+
+  @override
+  State<_DetailMediaPageContent> createState() =>
+      _DetailMediaPageContentState();
+}
+
+class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
     with ShowSnackBarMixin {
   late ScrollController controller;
 
@@ -191,6 +202,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
             ],
           ),
           body: CustomScrollView(
+            key: const ValueKey('detail_media_page_scroll_view'),
             controller: controller,
             cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
@@ -245,6 +257,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
+                key: const ValueKey('character_sector_title'),
                 child: _buildCharacterSection(
                   context,
                   model.characterAndVoiceActors,
@@ -259,6 +272,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
+                key: const ValueKey('character_trailer_title'),
                 child: _buildTrailerSection(
                   context,
                   trailerModel: model.trailerModel,

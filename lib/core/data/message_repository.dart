@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
@@ -39,7 +40,7 @@ abstract class SnackBarMessage extends Message {
   List<Object?> get props => [...varargs, duration];
 }
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class MessageRepository {
   MessageRepository() {
     _messageSubject = PublishSubject(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -26,24 +27,24 @@ const String _clientId = '14409';
 const String authUrl =
     'https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&response_type=token';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class AuthRepository {
   AuthRepository(
-    this.authDataSource,
-    this.userDataDao,
-    this.animeTrackListDao,
-    this.preferences,
+    this._authDataSource,
+    this._userDataDao,
+    this._animeTrackListDao,
+    this._preferences,
   );
 
-  final AuthEventChannel authEventChannel = AuthEventChannel();
+  final AuthEventChannel _authEventChannel = AuthEventChannel();
 
-  final UserDataPreferences preferences;
+  final UserDataPreferences _preferences;
 
-  final AuthDataSource authDataSource;
+  final AuthDataSource _authDataSource;
 
-  final UserDao userDataDao;
+  final UserDao _userDataDao;
 
-  final MediaListDao animeTrackListDao;
+  final MediaListDao _animeTrackListDao;
 
   Future<bool> awaitAuthLogin() async {
     final authUri = Uri.parse(authUrl.replaceFirst('{client_id}', _clientId));
@@ -56,24 +57,24 @@ class AuthRepository {
     /// jump to web view and try to get access token.
     await launchUrl(authUri);
     try {
-      final authResult = await authEventChannel
+      final authResult = await _authEventChannel
           .awaitAuthResult()
           .timeout(const Duration(minutes: 10));
 
       /// save token.
-      await preferences.setAuthToken(authResult.token);
-      await preferences.setAuthExpiredTime(
+      await _preferences.setAuthToken(authResult.token);
+      await _preferences.setAuthExpiredTime(
         DateTime.fromMillisecondsSinceEpoch(
           DateTime.now().millisecondsSinceEpoch + authResult.expiresInTime,
         ),
       );
 
       /// retrieve user data from ani list api;
-      final userDto = await authDataSource.getAuthedUserDataDto();
+      final userDto = await _authDataSource.getAuthedUserDataDto();
       final userEntity = userDto.toEntity();
-      await userDataDao.upsertUser(userEntity);
-      await preferences.setAuthedUserId(userEntity.id);
-      await preferences.setAniListSettings(
+      await _userDataDao.upsertUser(userEntity);
+      await _preferences.setAuthedUserId(userEntity.id);
+      await _preferences.setAniListSettings(
         AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
       );
 
@@ -85,32 +86,32 @@ class AuthRepository {
   }
 
   Future logout() async {
-    final userId = preferences.userData.authedUserId;
+    final userId = _preferences.userData.authedUserId;
     if (userId != null) {
-      await animeTrackListDao.removeMediaListOfUser(userId);
+      await _animeTrackListDao.removeMediaListOfUser(userId);
     }
-    await preferences.setAuthExpiredTime(null);
-    await preferences.setAuthToken(null);
-    await preferences.setAuthedUserId(null);
+    await _preferences.setAuthExpiredTime(null);
+    await _preferences.setAuthToken(null);
+    await _preferences.setAuthedUserId(null);
   }
 
   Stream<UserModel?> getAuthedUserStream() {
     Stream<String?> userIdStream =
-        preferences.userDataStream.map((e) => e.authedUserId);
+        _preferences.userDataStream.map((e) => e.authedUserId);
     return userIdStream.asyncMap((userId) async {
       if (userId == null) {
         return null;
       } else {
-        final userEntity = await userDataDao.getUser(userId);
+        final userEntity = await _userDataDao.getUser(userId);
         return userEntity?.toModel();
       }
     });
   }
 
   Future<UserModel?> getAuthedUser() async {
-    final userId = preferences.userData.authedUserId;
+    final userId = _preferences.userData.authedUserId;
     if (userId == null) return null;
-    final userEntity = await userDataDao.getUser(userId);
+    final userEntity = await _userDataDao.getUser(userId);
     return userEntity?.toModel();
   }
 
@@ -122,7 +123,7 @@ class AuthRepository {
     CancelToken? token,
   }) {
     return NetworkUtil.postMutationAndRevertWhenException(
-      initialModel: preferences.userData.aniListSettings,
+      initialModel: _preferences.userData.aniListSettings,
       onModifyModel: (settings) {
         var newSettings = settings.copyWith();
         if (userTitleLanguage != null) {
@@ -142,9 +143,9 @@ class AuthRepository {
         }
         return newSettings;
       },
-      onSaveLocal: (settings) => preferences.setAniListSettings(settings),
+      onSaveLocal: (settings) => _preferences.setAniListSettings(settings),
       onSyncWithRemote: (settings) async {
-        final user = await authDataSource.updateUserSettings(
+        final user = await _authDataSource.updateUserSettings(
           param: UpdateUserMotionParam(
               titleLanguage: userTitleLanguage,
               displayAdultContent: displayAdultContent,
@@ -158,16 +159,16 @@ class AuthRepository {
   }
 
   Future<LoadResult> syncUserCondition() async {
-    final userId = preferences.userData.authedUserId;
+    final userId = _preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
 
     try {
-      final userDto = await authDataSource.getAuthedUserDataDto();
+      final userDto = await _authDataSource.getAuthedUserDataDto();
       final userEntity = userDto.toEntity();
-      await userDataDao.upsertUser(userEntity);
-      await preferences.setAniListSettings(
+      await _userDataDao.upsertUser(userEntity);
+      await _preferences.setAniListSettings(
         AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
       );
       return LoadSuccess(data: null);

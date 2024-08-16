@@ -1,0 +1,712 @@
+{
+  "id": 171457,
+  "title": {
+    "romaji": "Make Heroine ga Oosugiru!",
+    "english": "Makeine: Too Many Losing Heroines!",
+    "native": "負けヒロインが多すぎる！"
+  },
+  "type": "ANIME",
+  "description": "Kazuhiko Nukumizu is a high school boy content to blend in with the background mob, until he witnessed his more popular classmate Anna Yanami get dumped by her childhood friend. He felt like he had to try to comfort Yanami, but this led him to become entangled with other girls who have met defeat at love?",
+  "episodes": 12,
+  "seasonYear": 2024,
+  "season": "SUMMER",
+  "source": "LIGHT_NOVEL",
+  "genres": [
+    "Comedy",
+    "Romance"
+  ],
+  "status": "RELEASING",
+  "hashtag": "#マケイン",
+  "isFavourite": true,
+  "externalLinks": [
+    {
+      "id": 83440,
+      "url": "https://makeine-anime.com/",
+      "site": "Official Site",
+      "type": "INFO",
+      "siteId": 1,
+      "color": null,
+      "icon": null
+    },
+    {
+      "id": 83441,
+      "url": "https://twitter.com/makeine_anime",
+      "site": "Twitter",
+      "type": "SOCIAL",
+      "siteId": 17,
+      "color": "#000000",
+      "icon": "https://s4.anilist.co/file/anilistcdn/link/icon/17-R0tMgOvwvhsS.png"
+    },
+    {
+      "id": 93337,
+      "url": "https://www.crunchyroll.com/series/GJ0H7QGXE/makeine-too-many-losing-heroines",
+      "site": "Crunchyroll",
+      "type": "STREAMING",
+      "siteId": 5,
+      "color": "#F88B24",
+      "icon": "https://s4.anilist.co/file/anilistcdn/link/icon/5-AWN2pVlluCOO.png"
+    },
+    {
+      "id": 95396,
+      "url": "https://www.bilibili.tv/en/media/2113390",
+      "site": "Bilibili TV",
+      "type": "STREAMING",
+      "siteId": 119,
+      "color": "#00A1D6",
+      "icon": "https://s4.anilist.co/file/anilistcdn/link/icon/119-NCwGvCjFADGQ.png"
+    }
+  ],
+  "rankings": [
+    {
+      "rank": 258,
+      "type": "RATED",
+      "allTime": true
+    },
+    {
+      "rank": 13,
+      "type": "RATED",
+      "allTime": false
+    },
+    {
+      "rank": 46,
+      "type": "POPULAR",
+      "allTime": false
+    },
+    {
+      "rank": 2,
+      "type": "RATED",
+      "allTime": false
+    },
+    {
+      "rank": 8,
+      "type": "POPULAR",
+      "allTime": false
+    }
+  ],
+  "trailer": {
+    "id": "uytJ6_KTCZI",
+    "site": "youtube",
+    "thumbnail": "https://i.ytimg.com/vi/uytJ6_KTCZI/hqdefault.jpg"
+  },
+  "coverImage": {
+    "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx171457-Z8tZRk7LhcZk.jpg",
+    "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx171457-Z8tZRk7LhcZk.jpg",
+    "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx171457-Z8tZRk7LhcZk.jpg",
+    "color": "#0d6be4"
+  },
+  "format": "TV",
+  "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/171457-VBH6gmvCKHwV.jpg",
+  "averageScore": 80,
+  "favourites": 688,
+  "trending": 40,
+  "nextAiringEpisode": {
+    "id": 379538,
+    "airingAt": 1723908600,
+    "episode": 6,
+    "timeUntilAiring": 176633
+  },
+  "characters": {
+    "pageInfo": {
+      "total": 500,
+      "perPage": 9,
+      "currentPage": 1,
+      "lastPage": 55,
+      "hasNextPage": true
+    },
+    "edges": [
+      {
+        "role": "MAIN",
+        "node": {
+          "id": 230874,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b230874-fygp5vwmaW7K.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b230874-fygp5vwmaW7K.png"
+          },
+          "name": {
+            "first": "Kazuhiko",
+            "middle": null,
+            "last": "Nukumizu",
+            "full": "Nukumizu Kazuhiko",
+            "native": "温水和彦"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 236715,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n236715-AqVwesOw9zVK.jpg",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n236715-AqVwesOw9zVK.jpg"
+            },
+            "name": {
+              "first": "Shuichirou",
+              "middle": null,
+              "last": "Umeda",
+              "full": "Umeda Shuichirou",
+              "native": "梅田修一朗"
+            }
+          }
+        ]
+      },
+      {
+        "role": "MAIN",
+        "node": {
+          "id": 230873,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b230873-hTaTgyabFAKA.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b230873-hTaTgyabFAKA.jpg"
+          },
+          "name": {
+            "first": "Anna",
+            "middle": null,
+            "last": "Yanami",
+            "full": "Yanami Anna",
+            "native": "八奈見杏菜"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 137842,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n137842-ygQx5blzWLlV.jpg",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n137842-ygQx5blzWLlV.jpg"
+            },
+            "name": {
+              "first": "Hikaru",
+              "middle": null,
+              "last": "Toono",
+              "full": "Toono Hikaru",
+              "native": "遠野ひかる"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 230877,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b230877-sEpTS8h0UvN8.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b230877-sEpTS8h0UvN8.png"
+          },
+          "name": {
+            "first": "Lemon",
+            "middle": null,
+            "last": "Yakishio",
+            "full": "Yakishio Lemon",
+            "native": "焼塩檸檬"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 148220,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n148220-VY4dx4JwvAer.png",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n148220-VY4dx4JwvAer.png"
+            },
+            "name": {
+              "first": "Shion",
+              "middle": null,
+              "last": "Wakayama",
+              "full": "Wakayama Shion",
+              "native": "若山詩音"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 230876,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b230876-TEykZAvgbJii.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b230876-TEykZAvgbJii.png"
+          },
+          "name": {
+            "first": "Chika",
+            "middle": null,
+            "last": "Komari",
+            "full": "Komari Chika",
+            "native": "小鞠知花"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 292760,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n292760-Q84CUHPXu1qv.jpg",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n292760-Q84CUHPXu1qv.jpg"
+            },
+            "name": {
+              "first": "Momoka",
+              "middle": null,
+              "last": "Terasawa",
+              "full": "Terasawa Momoka",
+              "native": "寺澤百花"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 230875,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b230875-GvtyIrdfF3BT.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b230875-GvtyIrdfF3BT.png"
+          },
+          "name": {
+            "first": "Kaju",
+            "middle": null,
+            "last": "Nukumizu",
+            "full": "Nukumizu Kaju",
+            "native": "温水佳樹"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 118473,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n118473-Zc8ufQpELoU3.jpg",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n118473-Zc8ufQpELoU3.jpg"
+            },
+            "name": {
+              "first": "Minami",
+              "middle": null,
+              "last": "Tanaka",
+              "full": "Tanaka Minami",
+              "native": "田中美海"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 339761,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b339761-8ya3Ytleb2iB.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b339761-8ya3Ytleb2iB.png"
+          },
+          "name": {
+            "first": "Koto",
+            "middle": null,
+            "last": "Tsukinoki",
+            "full": "Tsukinoki Koto",
+            "native": "月之木古都"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 112215,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n112215-kfABGD8W2YSJ.jpg",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n112215-kfABGD8W2YSJ.jpg"
+            },
+            "name": {
+              "first": "Atsumi",
+              "middle": null,
+              "last": "Tanezaki",
+              "full": "Tanezaki Atsumi",
+              "native": "種﨑敦美"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 339760,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b339760-gWtKSPwohtwL.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b339760-gWtKSPwohtwL.png"
+          },
+          "name": {
+            "first": "Shintarou",
+            "middle": null,
+            "last": "Tamaki",
+            "full": "Tamaki Shintarou",
+            "native": "玉木慎太郎"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 118407,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n118407-QvEt3bGtuRQM.png",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n118407-QvEt3bGtuRQM.png"
+            },
+            "name": {
+              "first": "Yuusuke",
+              "middle": null,
+              "last": "Kobayashi",
+              "full": "Kobayashi Yuusuke",
+              "native": "小林裕介"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 341638,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b341638-LZ001eZdZsxu.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b341638-LZ001eZdZsxu.png"
+          },
+          "name": {
+            "first": "Sousuke",
+            "middle": null,
+            "last": "Hakamada",
+            "full": "Hakamada Sousuke",
+            "native": "袴田草介"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 110743,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n110743-k2SgQwU0JD33.png",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n110743-k2SgQwU0JD33.png"
+            },
+            "name": {
+              "first": "Ryouta",
+              "middle": null,
+              "last": "Oosaka",
+              "full": "Oosaka Ryouta",
+              "native": "逢坂良太"
+            }
+          }
+        ]
+      },
+      {
+        "role": "SUPPORTING",
+        "node": {
+          "id": 341639,
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b341639-bJNPhdS4YZIR.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b341639-bJNPhdS4YZIR.png"
+          },
+          "name": {
+            "first": "Karen",
+            "middle": null,
+            "last": "Himemiya",
+            "full": "Himemiya Karen",
+            "native": "姫宮華恋"
+          }
+        },
+        "voiceActors": [
+          {
+            "id": 119517,
+            "image": {
+              "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n119517-ggxWaTnTOrxW.jpg",
+              "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n119517-ggxWaTnTOrxW.jpg"
+            },
+            "name": {
+              "first": "Azumi",
+              "middle": null,
+              "last": "Waki",
+              "full": "Waki Azumi",
+              "native": "和氣あず未"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "staff": {
+    "pageInfo": {
+      "total": 500,
+      "perPage": 9,
+      "currentPage": 1,
+      "lastPage": 55,
+      "hasNextPage": true
+    },
+    "edges": [
+      {
+        "role": "Theme Song Performance (ED2)",
+        "node": {
+          "id": 148220,
+          "name": {
+            "first": "Shion",
+            "middle": null,
+            "last": "Wakayama",
+            "full": "Wakayama Shion",
+            "native": "若山詩音"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n148220-VY4dx4JwvAer.png",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n148220-VY4dx4JwvAer.png"
+          }
+        }
+      },
+      {
+        "role": "Key Animation (OP, ep 3)",
+        "node": {
+          "id": 214408,
+          "name": {
+            "first": "Kay",
+            "middle": null,
+            "last": "Yu",
+            "full": "Yu Kay",
+            "native": "ケイユウ"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n214408-D02XFoHbBhnP.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n214408-D02XFoHbBhnP.jpg"
+          }
+        }
+      },
+      {
+        "role": "Planning",
+        "node": {
+          "id": 109031,
+          "name": {
+            "first": "Atsuhiro",
+            "middle": null,
+            "last": "Iwakami",
+            "full": "Iwakami Atsuhiro",
+            "native": "岩上敦宏"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n109031-dwx9wRDFxquk.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n109031-dwx9wRDFxquk.jpg"
+          }
+        }
+      },
+      {
+        "role": "Theme Song Performance (ED1)",
+        "node": {
+          "id": 137842,
+          "name": {
+            "first": "Hikaru",
+            "middle": null,
+            "last": "Toono",
+            "full": "Toono Hikaru",
+            "native": "遠野ひかる"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n137842-ygQx5blzWLlV.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n137842-ygQx5blzWLlV.jpg"
+          }
+        }
+      },
+      {
+        "role": "Original Character Design",
+        "node": {
+          "id": 108095,
+          "name": {
+            "first": "Muru",
+            "middle": null,
+            "last": "Imigi",
+            "full": "Imigi Muru",
+            "native": "いみぎむる"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n108095-t7PC95EJ5RUe.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n108095-t7PC95EJ5RUe.jpg"
+          }
+        }
+      },
+      {
+        "role": "Finishing (ED2)",
+        "node": {
+          "id": 192255,
+          "name": {
+            "first": "Souta",
+            "middle": null,
+            "last": "Yamazaki",
+            "full": "Yamazaki Souta",
+            "native": "山崎爽太"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n192255-hMNjf8zvxb7Y.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n192255-hMNjf8zvxb7Y.jpg"
+          }
+        }
+      },
+      {
+        "role": "Animation Director (ED2)",
+        "node": {
+          "id": 192255,
+          "name": {
+            "first": "Souta",
+            "middle": null,
+            "last": "Yamazaki",
+            "full": "Yamazaki Souta",
+            "native": "山崎爽太"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n192255-hMNjf8zvxb7Y.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n192255-hMNjf8zvxb7Y.jpg"
+          }
+        }
+      },
+      {
+        "role": "In-Between Animation (ED2)",
+        "node": {
+          "id": 192255,
+          "name": {
+            "first": "Souta",
+            "middle": null,
+            "last": "Yamazaki",
+            "full": "Yamazaki Souta",
+            "native": "山崎爽太"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n192255-hMNjf8zvxb7Y.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n192255-hMNjf8zvxb7Y.jpg"
+          }
+        }
+      },
+      {
+        "role": "Character Design (ED2)",
+        "node": {
+          "id": 192255,
+          "name": {
+            "first": "Souta",
+            "middle": null,
+            "last": "Yamazaki",
+            "full": "Yamazaki Souta",
+            "native": "山崎爽太"
+          },
+          "image": {
+            "large": "https://s4.anilist.co/file/anilistcdn/staff/large/n192255-hMNjf8zvxb7Y.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/staff/medium/n192255-hMNjf8zvxb7Y.jpg"
+          }
+        }
+      }
+    ]
+  },
+  "studios": {
+    "nodes": [
+      {
+        "id": 17,
+        "name": "Aniplex",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/17",
+        "isFavourite": false
+      },
+      {
+        "id": 561,
+        "name": "A-1 Pictures",
+        "isAnimationStudio": true,
+        "siteUrl": "https://anilist.co/studio/561",
+        "isFavourite": false
+      },
+      {
+        "id": 6616,
+        "name": "BS11",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/6616",
+        "isFavourite": false
+      },
+      {
+        "id": 6259,
+        "name": "TOKYO MX",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/6259",
+        "isFavourite": false
+      },
+      {
+        "id": 76,
+        "name": "Yomiuri TV",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/76",
+        "isFavourite": false
+      },
+      {
+        "id": 6339,
+        "name": "Good Smile Company",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/6339",
+        "isFavourite": false
+      },
+      {
+        "id": 6863,
+        "name": "Contents Seed",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/6863",
+        "isFavourite": false
+      },
+      {
+        "id": 7538,
+        "name": "JR Toukai Agency",
+        "isAnimationStudio": false,
+        "siteUrl": "https://anilist.co/studio/7538",
+        "isFavourite": false
+      }
+    ]
+  },
+  "relations": {
+    "edges": [
+      {
+        "relationType": "ALTERNATIVE",
+        "node": {
+          "id": 147664,
+          "type": "MANGA",
+          "format": "MANGA",
+          "status": "RELEASING",
+          "episodes": null,
+          "seasonYear": null,
+          "season": null,
+          "source": "LIGHT_NOVEL",
+          "coverImage": {
+            "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx147664-k48ADp7MMEyl.jpg",
+            "large": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx147664-k48ADp7MMEyl.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/small/bx147664-k48ADp7MMEyl.jpg",
+            "color": "#f12878"
+          },
+          "title": {
+            "romaji": "Make Heroine ga Oosugiru! @comic",
+            "english": "Too Many Losing Heroines!",
+            "native": "負けヒロインが多すぎる！@comic"
+          },
+          "startDate": {
+            "year": 2022,
+            "month": 4,
+            "day": 29
+          },
+          "endDate": {
+            "year": null,
+            "month": null,
+            "day": null
+          }
+        }
+      },
+      {
+        "relationType": "ADAPTATION",
+        "node": {
+          "id": 135276,
+          "type": "MANGA",
+          "format": "NOVEL",
+          "status": "RELEASING",
+          "episodes": null,
+          "seasonYear": null,
+          "season": null,
+          "source": "ORIGINAL",
+          "coverImage": {
+            "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx135276-BGRuVuGlHIQY.jpg",
+            "large": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx135276-BGRuVuGlHIQY.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/small/bx135276-BGRuVuGlHIQY.jpg",
+            "color": "#e4bb50"
+          },
+          "title": {
+            "romaji": "Make Heroine ga Oosugiru!",
+            "english": "Too Many Losing Heroines!",
+            "native": "負けヒロインが多すぎる！"
+          },
+          "startDate": {
+            "year": 2021,
+            "month": 7,
+            "day": 21
+          },
+          "endDate": {
+            "year": null,
+            "month": null,
+            "day": null
+          }
+        }
+      }
+    ]
+  }
+}

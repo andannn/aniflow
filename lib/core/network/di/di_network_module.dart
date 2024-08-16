@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
@@ -6,6 +7,7 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class DINetworkModule {
   @lazySingleton
+  @Environment(AfEnvironment.impl)
   Dio getDio(UserDataPreferences preferences) => Dio()
     ..options = BaseOptions(
       connectTimeout: const Duration(seconds: 15),

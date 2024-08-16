@@ -31,17 +31,27 @@ class MediaTrackRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Scaffold(
-      body: _MediaTrackPageContent(),
-    );
+    return const MediaTrackPageContent();
   }
 
   @override
   bool get maintainState => true;
 }
 
+class MediaTrackPageContent extends StatelessWidget {
+  const MediaTrackPageContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<TrackBloc>(
+      create: (BuildContext context) => GetItScope.of(context).get<TrackBloc>(),
+      child: const _MediaTrackPageContent(),
+    );
+  }
+}
+
 class _MediaTrackPageContent extends StatefulWidget {
-  const _MediaTrackPageContent();
+  const _MediaTrackPageContent({super.key});
 
   @override
   State<_MediaTrackPageContent> createState() => _MediaTrackPageContentState();

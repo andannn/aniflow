@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -21,7 +22,7 @@ enum NotificationCategory {
   media;
 }
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class NotificationRepository {
   NotificationRepository(
     this.dataSource,

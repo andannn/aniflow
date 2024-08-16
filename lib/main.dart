@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'app/di/get_it_scope.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,7 +28,11 @@ void main() async {
   ));
 
   /// run app after core instance initialized.
-  runApp(const AniFlowApp());
+  runApp(
+    const RootGetItScope(
+      child: AniflowApp(),
+    ),
+  );
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
@@ -41,8 +47,6 @@ void main() async {
   unawaited(FirebaseAnalytics.instance.logAppDataSizeEvent());
 
   unawaited(requestNotificationPermissionIfNeeded());
-
-  // GetItScope.of(context).get<BackgroundTaskManager>();
 }
 
 Future requestNotificationPermissionIfNeeded() async {

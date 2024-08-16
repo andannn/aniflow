@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
@@ -26,17 +27,17 @@ class Episode extends Equatable {
   List<Object?> get props => [url, title, epNumber];
 }
 
-@Injectable()
+@LazySingleton(env: [AfEnvironment.impl])
 class HiAnimationRepository {
-  HiAnimationRepository(this.datasource, this.episodeDao);
+  HiAnimationRepository(this._datasource, this._episodeDao);
 
-  final HiAnimationDataSource datasource;
-  final EpisodeDao episodeDao;
+  final HiAnimationDataSource _datasource;
+  final EpisodeDao _episodeDao;
 
   Future<LoadResult<Episode>> searchPlaySourceByKeyword(
       String animeId, List<String> keywords, String episode,
       [CancelToken? cancelToken]) async {
-    final episodeOrNull = await episodeDao.findEpisode(animeId, episode);
+    final episodeOrNull = await _episodeDao.findEpisode(animeId, episode);
 
     if (episodeOrNull != null) {
       return LoadSuccess(
@@ -53,7 +54,7 @@ class HiAnimationRepository {
             .toString();
     try {
       final animeHref =
-          await datasource.searchAnimationByKeyword(keywords, cancelToken);
+          await _datasource.searchAnimationByKeyword(keywords, cancelToken);
 
       if (animeHref == null) {
         return LoadError(NotFoundEpisodeException(
@@ -62,7 +63,7 @@ class HiAnimationRepository {
         ));
       }
 
-      final episodes = await datasource.getEpisodesById(animeHref, cancelToken);
+      final episodes = await _datasource.getEpisodesById(animeHref, cancelToken);
 
       final epOrNull = episodes.firstWhereOrNull((e) => e.$3 == episode);
 
@@ -76,7 +77,7 @@ class HiAnimationRepository {
       final (episodeId, title, epNumber) = epOrNull;
       final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
 
-      await episodeDao.upsertEpisode(
+      await _episodeDao.upsertEpisode(
         EpisodeEntity(
           animeId: animeId,
           title: title,

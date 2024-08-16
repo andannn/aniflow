@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/activity_dao.dart';
@@ -33,6 +34,7 @@ String _tag = 'DIDataBaseModule';
 @module
 abstract class DIDataBaseModule {
   @preResolve
+  @Environment(AfEnvironment.impl)
   Future<AniflowDatabase> get database async {
     return AniflowDatabase(
       kDebugMode ? _openDatabaseConnection() : await _openIsolateConnection(),

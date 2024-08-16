@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
@@ -10,7 +11,6 @@ import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
-import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/media_list_mapper.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/network/ani_list_data_source.dart';
@@ -24,23 +24,21 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class MediaListRepository {
   MediaListRepository(
-    this.authDataSource,
-    this.aniListDataSource,
-    this.mediaListDao,
-    this.userDataDao,
-    this.mediaDao,
-    this.preferences,
+    this._authDataSource,
+    this._aniListDataSource,
+    this._mediaListDao,
+    this._mediaDao,
+    this._preferences,
   );
 
-  final MediaListDao mediaListDao;
-  final UserDao userDataDao;
-  final MediaDao mediaDao;
-  final AniListDataSource aniListDataSource;
-  final AuthDataSource authDataSource;
-  final UserDataPreferences preferences;
+  final MediaListDao _mediaListDao;
+  final MediaDao _mediaDao;
+  final AniListDataSource _aniListDataSource;
+  final AuthDataSource _authDataSource;
+  final UserDataPreferences _preferences;
 
   Future<LoadResult<List<MediaWithListModel>>> getMediaListByPage({
     required List<MediaListStatus> status,
@@ -50,7 +48,7 @@ class MediaListRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    final targetUserId = userId ?? preferences.userData.authedUserId;
+    final targetUserId = userId ?? _preferences.userData.authedUserId;
     if (targetUserId == null) {
       /// No user.
       return LoadError(const NotFoundException());
@@ -58,14 +56,14 @@ class MediaListRepository {
 
     return LoadPageUtil.loadPageWithoutOrderingCache(
       onGetNetworkRes: (int page, int perPage) {
-        return aniListDataSource.getUserMediaListPage(
+        return _aniListDataSource.getUserMediaListPage(
           param: UserAnimeListPageQueryParam(
               page: page,
               perPage: perPage,
               userId: int.parse(targetUserId),
               mediaType: type,
               status: status,
-              format: preferences.userData.scoreFormat),
+              format: _preferences.userData.scoreFormat),
           token: token,
         );
       },
@@ -74,7 +72,7 @@ class MediaListRepository {
       mapDtoToModel: (dto) => dto.toModel(),
       onInsertToDB: (dto) async {
         final entities = dto.map((e) => e.media!.toEntity()).toList();
-        await mediaDao.insertOrIgnoreMedia(entities);
+        await _mediaDao.insertOrIgnoreMedia(entities);
       },
     );
   }
@@ -87,34 +85,34 @@ class MediaListRepository {
     CancelToken? token,
   }) async {
     try {
-      final targetUserId = userId ?? preferences.userData.authedUserId;
+      final targetUserId = userId ?? _preferences.userData.authedUserId;
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
       }
 
       /// get all anime list items from network.
-      final networkAnimeList = await aniListDataSource.getUserMediaListPage(
+      final networkAnimeList = await _aniListDataSource.getUserMediaListPage(
         param: page == -1
             ? UserAnimeListPageQueryParam.all(
                 mediaType: mediaType,
                 status: status,
                 userId: int.parse(targetUserId.toString()),
-                format: preferences.userData.scoreFormat,
+                format: _preferences.userData.scoreFormat,
               )
             : UserAnimeListPageQueryParam(
                 page: page,
                 mediaType: mediaType,
                 status: status,
                 userId: int.parse(targetUserId.toString()),
-                format: preferences.userData.scoreFormat,
+                format: _preferences.userData.scoreFormat,
               ),
         token: token,
       );
 
       /// insert data to db.
       final entities = networkAnimeList.map((e) => e.toRelation()).toList();
-      await mediaListDao.upsertMediaListAndMediaRelations(entities);
+      await _mediaListDao.upsertMediaListAndMediaRelations(entities);
 
       return LoadSuccess(data: null);
     } on DioException catch (e) {
@@ -129,14 +127,14 @@ class MediaListRepository {
     CancelToken? token,
   }) async {
     try {
-      final targetUserId = userId ?? preferences.userData.authedUserId;
+      final targetUserId = userId ?? _preferences.userData.authedUserId;
       if (targetUserId == null) {
         /// No user.
         return LoadError(Exception('no user'));
       }
 
       /// get all anime list items from network.
-      final networkMediaList = await aniListDataSource.getSingleMediaListItem(
+      final networkMediaList = await _aniListDataSource.getSingleMediaListItem(
         userId: targetUserId,
         mediaId: mediaId,
         format: format,
@@ -150,7 +148,7 @@ class MediaListRepository {
         return LoadError(Exception('No media list'));
       }
 
-      await mediaListDao.upsertMediaListAndMediaRelations([entity]);
+      await _mediaListDao.upsertMediaListAndMediaRelations([entity]);
       return LoadSuccess(data: null);
     } on DioException catch (e) {
 // TODO: Convert to app defined Exception.
@@ -165,7 +163,7 @@ class MediaListRepository {
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
-    return mediaListDao
+    return _mediaListDao
         .getAllSortedMediaListOfUserStream(
           userId,
           status.map((e) => e.toJson()).toList(),
@@ -183,7 +181,7 @@ class MediaListRepository {
       {required List<MediaListStatus> status,
       required String userId,
       required MediaType type}) {
-    return mediaListDao
+    return _mediaListDao
         .getMediaListStream(
           userId,
           status.map((e) => e.toJson()).toList(),
@@ -196,23 +194,23 @@ class MediaListRepository {
 
   Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
       {required String userId, required String animeId}) {
-    return mediaListDao.getMediaListOfUserStream(userId, animeId).map(
+    return _mediaListDao.getMediaListOfUserStream(userId, animeId).map(
           (entity) => entity?.mediaListEntity?.toModel(),
         );
   }
 
   Future<MediaWithListModel?> getMediaListItemByMediaId(
       {required String mediaId}) {
-    return mediaListDao.getMediaListItemByMediaId(mediaId).then(
+    return _mediaListDao.getMediaListItemByMediaId(mediaId).then(
           (entity) => entity?.toModel(),
         );
   }
 
-  Stream<Set<String>> getMediaIdsOfUserStream(
+  Stream<Set<String>> getMediaIdsInMediaListStream(
       {required String userId,
       required List<MediaListStatus> status,
       required MediaType type}) {
-    return mediaListDao
+    return _mediaListDao
         .getAllMediaIdInMediaListStream(
           userId,
           status.map((e) => e.toJson()).toList(),
@@ -235,8 +233,8 @@ class MediaListRepository {
     DateTime? completedAt,
     CancelToken? cancelToken,
   }) async {
-    final entity = await mediaListDao.getMediaListItem(animeId);
-    final targetUserId = preferences.userData.authedUserId;
+    final entity = await _mediaListDao.getMediaListItem(animeId);
+    final targetUserId = _preferences.userData.authedUserId;
 
     if (targetUserId == null) {
       /// no login, return with error.
@@ -258,12 +256,12 @@ class MediaListRepository {
             Value(completedAt?.millisecondsSinceEpoch ?? entity.completedAt),
         updatedAt: Value(DateTime.now().millisecondsSinceEpoch ~/ 1000),
       );
-      await mediaListDao.upsertMediaListEntities([updatedEntity]);
+      await _mediaListDao.upsertMediaListEntities([updatedEntity]);
     }
 
     try {
       /// post mutation to network and insert result to database.
-      final result = await authDataSource.saveMediaToMediaList(
+      final result = await _authDataSource.saveMediaToMediaList(
         param: MediaListMutationParam(
           entryId: int.tryParse(entryId ?? ''),
           mediaId: int.parse(animeId),
@@ -280,21 +278,21 @@ class MediaListRepository {
         token: cancelToken,
       );
       final updateEntity = result.toEntity();
-      await mediaListDao.upsertMediaListEntities([updateEntity]);
+      await _mediaListDao.upsertMediaListEntities([updateEntity]);
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
       /// network error happened.
       /// revert the changes in database.
       if (entity != null) {
-        await mediaListDao.upsertMediaListEntities([entity]);
+        await _mediaListDao.upsertMediaListEntities([entity]);
       }
       return LoadError(exception);
     }
   }
 
   Stream<TrackListFilter> getTrackListFilterStream() =>
-      preferences.userDataStream.map((e) => e.trackListFilter);
+      _preferences.userDataStream.map((e) => e.trackListFilter);
 
   void setTrackListFilter(TrackListFilter trackListFilter) =>
-      preferences.setTrackListFilter(trackListFilter);
+      _preferences.setTrackListFilter(trackListFilter);
 }

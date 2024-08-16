@@ -56,7 +56,7 @@ class MediaCategoryPreviewBloc
     final Stream<Set<String>> followingIdListStream;
     if (userId != null) {
       followingIdListStream = _mediaListRepository
-          .getMediaIdsOfUserStream(
+          .getMediaIdsInMediaListStream(
               userId: userId,
               status: [MediaListStatus.planning, MediaListStatus.current],
               type: _params.mediaType)

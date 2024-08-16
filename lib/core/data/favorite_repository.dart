@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
@@ -15,9 +16,7 @@ import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
-import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
-import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/character_mapper.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/database/mappers/staff_mapper.dart';
@@ -33,27 +32,23 @@ import 'package:drift/drift.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class FavoriteRepository {
   FavoriteRepository(
-      this.aniListDataSource,
-      this.userDataDao,
-      this.mediaInfoDao,
-      this.staffDao,
-      this.characterDao,
-      this.mediaListDao,
-      this.favoriteDao,
-      this.preferences);
+      this._aniListDataSource,
+      this._mediaInfoDao,
+      this._staffDao,
+      this._characterDao,
+      this._favoriteDao,
+      this._preferences);
 
-  final AniListDataSource aniListDataSource;
-  final UserDao userDataDao;
+  final AniListDataSource _aniListDataSource;
 
-  final MediaDao mediaInfoDao;
-  final StaffDao staffDao;
-  final CharacterDao characterDao;
-  final MediaListDao mediaListDao;
-  final FavoriteDao favoriteDao;
-  final UserDataPreferences preferences;
+  final MediaDao _mediaInfoDao;
+  final StaffDao _staffDao;
+  final CharacterDao _characterDao;
+  final FavoriteDao _favoriteDao;
+  final UserDataPreferences _preferences;
 
   Future<LoadResult<List<MediaModel>>> loadFavoriteMediaByPage({
     required MediaType type,
@@ -61,7 +56,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.userData.authedUserId;
+    userId ??= _preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -71,14 +66,14 @@ class FavoriteRepository {
       type: loadType,
       onGetNetworkRes: (int page, int perPage) {
         if (isAnime) {
-          return aniListDataSource.getFavoriteAnimeMedia(
+          return _aniListDataSource.getFavoriteAnimeMedia(
             userId: userId!,
             page: page,
             perPage: perPage,
             token: token,
           );
         } else {
-          return aniListDataSource.getFavoriteMangaMedia(
+          return _aniListDataSource.getFavoriteMangaMedia(
             userId: userId!,
             page: page,
             perPage: perPage,
@@ -86,19 +81,19 @@ class FavoriteRepository {
         }
       },
       onInsertEntityToDB: (List<MediaEntity> entities) async {
-        await mediaInfoDao.insertOrIgnoreMedia(entities);
+        await _mediaInfoDao.insertOrIgnoreMedia(entities);
         if (type == MediaType.anime) {
-          await favoriteDao.insertFavoritesCrossRef(
+          await _favoriteDao.insertFavoritesCrossRef(
               userId!, FavoriteType.anime, entities.map((e) => e.id).toList());
         } else {
-          await favoriteDao.insertFavoritesCrossRef(
+          await _favoriteDao.insertFavoritesCrossRef(
               userId!, FavoriteType.manga, entities.map((e) => e.id).toList());
         }
       },
-      onClearDbCache: () => favoriteDao.clearFavorites(
+      onClearDbCache: () => _favoriteDao.clearFavorites(
           userId!, isAnime ? FavoriteType.anime : FavoriteType.manga),
       onGetEntityFromDB: (int page, int perPage) =>
-          favoriteDao.getFavoriteMediaByPage(type, userId!, page, perPage),
+          _favoriteDao.getFavoriteMediaByPage(type, userId!, page, perPage),
       mapDtoToEntity: (dto) => dto.toEntity(),
       mapEntityToModel: (entity) => entity.toModel(),
     );
@@ -109,7 +104,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.userData.authedUserId;
+    userId ??= _preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -117,7 +112,7 @@ class FavoriteRepository {
     return LoadPageUtil.loadPage(
       type: loadType,
       onGetNetworkRes: (int page, int perPage) {
-        return aniListDataSource.getFavoriteCharacter(
+        return _aniListDataSource.getFavoriteCharacter(
           userId: userId!,
           page: page,
           perPage: perPage,
@@ -125,14 +120,14 @@ class FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<CharacterEntity> entities) async {
-        await characterDao.insertOrIgnoreCharacters(entities);
-        await favoriteDao.insertFavoritesCrossRef(userId!,
+        await _characterDao.insertOrIgnoreCharacters(entities);
+        await _favoriteDao.insertFavoritesCrossRef(userId!,
             FavoriteType.character, entities.map((e) => e.id).toList());
       },
       onClearDbCache: () =>
-          favoriteDao.clearFavorites(userId!, FavoriteType.character),
+          _favoriteDao.clearFavorites(userId!, FavoriteType.character),
       onGetEntityFromDB: (int page, int perPage) =>
-          favoriteDao.getFavoriteCharacters(userId!, page, perPage),
+          _favoriteDao.getFavoriteCharacters(userId!, page, perPage),
       mapDtoToEntity: (dto) => dto.toEntity(),
       mapEntityToModel: (entity) => entity.toModel(),
     );
@@ -143,7 +138,7 @@ class FavoriteRepository {
     String? userId,
     CancelToken? token,
   }) async {
-    userId ??= preferences.userData.authedUserId;
+    userId ??= _preferences.userData.authedUserId;
     if (userId == null) {
       return LoadError(const UnauthorizedException());
     }
@@ -151,7 +146,7 @@ class FavoriteRepository {
     return LoadPageUtil.loadPage<StaffDto, StaffEntity, StaffModel>(
       type: loadType,
       onGetNetworkRes: (int page, int perPage) {
-        return aniListDataSource.getFavoriteStaffs(
+        return _aniListDataSource.getFavoriteStaffs(
           userId: userId!,
           page: page,
           perPage: perPage,
@@ -159,21 +154,21 @@ class FavoriteRepository {
         );
       },
       onInsertEntityToDB: (List<StaffEntity> entities) async {
-        await staffDao.insertOrIgnoreStaffEntities(entities);
-        await favoriteDao.insertFavoritesCrossRef(
+        await _staffDao.insertOrIgnoreStaffEntities(entities);
+        await _favoriteDao.insertFavoritesCrossRef(
             userId!, FavoriteType.staff, entities.map((e) => e.id).toList());
       },
       onClearDbCache: () =>
-          favoriteDao.clearFavorites(userId!, FavoriteType.staff),
+          _favoriteDao.clearFavorites(userId!, FavoriteType.staff),
       onGetEntityFromDB: (int page, int perPage) =>
-          favoriteDao.getFavoriteStaffs(userId!, page, perPage),
+          _favoriteDao.getFavoriteStaffs(userId!, page, perPage),
       mapDtoToEntity: (dto) => dto.toEntity(),
       mapEntityToModel: (entity) => entity.toModel(),
     );
   }
 
   Future<LoadResult> toggleFavoriteAnime(String id, CancelToken token) async {
-    final animeEntity = await mediaInfoDao.getMedia(id);
+    final animeEntity = await _mediaInfoDao.getMedia(id);
     final isLiked = animeEntity.isFavourite ?? false;
 
     final result = await NetworkUtil.postMutationAndRevertWhenException(
@@ -182,9 +177,9 @@ class FavoriteRepository {
         final isFavourite = anime.isFavourite ?? false;
         return anime.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (status) => mediaInfoDao.insertOrUpdateMedia([status]),
+      onSaveLocal: (status) => _mediaInfoDao.insertOrUpdateMedia([status]),
       onSyncWithRemote: (status) async {
-        await aniListDataSource.toggleFavorite(
+        await _aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(animeId: int.parse(id)), token);
         return null;
       },
@@ -202,7 +197,7 @@ class FavoriteRepository {
 
   Future<LoadResult> toggleFavoriteCharacter(
       String id, CancelToken token) async {
-    final characterEntity = await characterDao.getCharacter(id);
+    final characterEntity = await _characterDao.getCharacter(id);
     final isLiked = characterEntity.isFavourite ?? false;
 
     final result = await NetworkUtil.postMutationAndRevertWhenException(
@@ -211,9 +206,9 @@ class FavoriteRepository {
         final isFavourite = character.isFavourite ?? false;
         return character.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (character) => characterDao.upsertCharacters([character]),
+      onSaveLocal: (character) => _characterDao.upsertCharacters([character]),
       onSyncWithRemote: (status) async {
-        await aniListDataSource.toggleFavorite(
+        await _aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(characterId: int.parse(id)), token);
         return null;
       },
@@ -235,7 +230,7 @@ class FavoriteRepository {
   }
 
   Future<LoadResult> toggleFavoriteStaff(String id, CancelToken token) async {
-    final staffEntity = await staffDao.getStaff(id);
+    final staffEntity = await _staffDao.getStaff(id);
     if (staffEntity == null) {
       return LoadError(Exception('Invalid Id'));
     }
@@ -248,9 +243,9 @@ class FavoriteRepository {
         final isFavourite = staff.isFavourite ?? false;
         return staff.copyWith(isFavourite: Value(!isFavourite));
       },
-      onSaveLocal: (staff) => staffDao.upsertStaffEntities([staff]),
+      onSaveLocal: (staff) => _staffDao.upsertStaffEntities([staff]),
       onSyncWithRemote: (status) async {
-        await aniListDataSource.toggleFavorite(
+        await _aniListDataSource.toggleFavorite(
             ToggleFavoriteMutationParam(staffId: int.parse(id)), token);
         return null;
       },
