@@ -1,5 +1,4 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
-import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/dialog/dialog_handler.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AniFlowHomePage extends Page {
-  const AniFlowHomePage({super.key});
+  const AniFlowHomePage({super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
@@ -60,7 +59,6 @@ class AniFlowAppScaffold extends StatefulWidget {
 class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
     with ShowSnackBarMixin {
   AfRouterDelegate afRouterDelegate = AfRouterDelegate();
-  RouteObserver rootObserver = RootRouterDelegate.get().routeObserver;
 
   var currentTopLevel = TopLevelNavigation.discover;
 

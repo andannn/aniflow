@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteStaffListPage extends Page {
-  const FavoriteStaffListPage({super.key, required this.userId});
+  const FavoriteStaffListPage(
+      {super.key, required this.userId, super.onPopInvoked});
 
   final String userId;
 

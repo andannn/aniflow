@@ -23,11 +23,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends Page {
-  const ProfilePage({
-    this.userId,
-    super.key,
-    this.isFullScreenPageRoute = false,
-  });
+  const ProfilePage(
+      {this.userId,
+      super.key,
+      this.isFullScreenPageRoute = false,
+      super.onPopInvoked});
 
   final String? userId;
   final bool isFullScreenPageRoute;

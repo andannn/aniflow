@@ -15,11 +15,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class ActivityRepliesPage extends Page {
-  const ActivityRepliesPage({
-    required this.activityId,
-    super.key,
-    this.showBackKey = false,
-  });
+  const ActivityRepliesPage(
+      {required this.activityId,
+      super.key,
+      this.showBackKey = false,
+      super.onPopInvoked});
 
   final String activityId;
   final bool showBackKey;

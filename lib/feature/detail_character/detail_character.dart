@@ -21,7 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailCharacterPage extends Page {
   final String id;
 
-  const DetailCharacterPage({required this.id, super.key});
+  const DetailCharacterPage({required this.id, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

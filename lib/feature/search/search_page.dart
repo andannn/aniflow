@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchPage extends Page {
-  const SearchPage({super.key});
+  const SearchPage({super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

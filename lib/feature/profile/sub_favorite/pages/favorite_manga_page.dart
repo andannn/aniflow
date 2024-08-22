@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteMangaListPage extends Page {
-  const FavoriteMangaListPage({super.key, required this.userId});
+  const FavoriteMangaListPage(
+      {super.key, required this.userId, super.onPopInvoked});
 
   final String userId;
 
@@ -32,9 +33,7 @@ class FavoriteMangaListRoute extends PageRoute
   Widget buildContent(BuildContext context) {
     return BlocProvider(
       create: (context) => GetItScope.of(context).get<FavoriteMangaPagingBloc>(
-        param1: userId,
-        param2: AfConfig.defaultPerPageCount
-      ),
+          param1: userId, param2: AfConfig.defaultPerPageCount),
       child: const _FavoriteMangaListPageContent(),
     );
   }

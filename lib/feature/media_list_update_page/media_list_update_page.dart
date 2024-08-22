@@ -30,7 +30,10 @@ class UpdateMediaListPage extends Page<MediaListModifyResult> {
   final String from;
 
   const UpdateMediaListPage(
-      {required this.mediaId, required this.from, super.key});
+      {required this.mediaId,
+      required this.from,
+      super.key,
+      super.onPopInvoked});
 
   @override
   Route<MediaListModifyResult> createRoute(BuildContext context) {

@@ -16,7 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CharacterListPage extends Page {
   final String animeId;
 
-  const CharacterListPage({required this.animeId, super.key});
+  const CharacterListPage(
+      {required this.animeId, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

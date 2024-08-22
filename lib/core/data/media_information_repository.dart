@@ -293,7 +293,8 @@ class MediaInformationRepository {
       /// insert studio info to database.
       if (studios.isNotEmpty) {
         final studioEntities = studios.map((e) => e.toEntity()).toList();
-        await _studioDao.insertOrIgnoreStudioEntitiesOfMedia(id, studioEntities);
+        await _studioDao.insertOrIgnoreStudioEntitiesOfMedia(
+            id, studioEntities);
       }
 
       final List<MediaExternalLinkDto> externalLinks =
@@ -443,7 +444,8 @@ class MediaInformationRepository {
       {required String id, CancelToken? token}) async {
     try {
       /// fetch detail character information.
-      final staffDto = await _dataSource.getStaffById(staffId: id, token: token);
+      final staffDto =
+          await _dataSource.getStaffById(staffId: id, token: token);
 
       /// insert data to database.
       final staffEntity = staffDto.toEntity();

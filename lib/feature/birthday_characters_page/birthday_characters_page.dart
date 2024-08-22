@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BirthdayCharactersPage extends Page {
-  const BirthdayCharactersPage({super.key});
+  const BirthdayCharactersPage({super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

@@ -98,6 +98,7 @@ class _TopLevelNavigatorState extends State<TopLevelNavigator>
     return Navigator(
       key: widget.navigatorKey,
       pages: _backStack.map((path) => path.toPage()).toList(),
+      onDidRemovePage: (_) {},
     );
   }
 

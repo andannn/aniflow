@@ -45,7 +45,7 @@ const _identifier = 'detail_media';
 class DetailAnimePage extends Page {
   final String animeId;
 
-  const DetailAnimePage({required this.animeId, super.key});
+  const DetailAnimePage({required this.animeId, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

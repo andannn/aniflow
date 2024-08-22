@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotificationPage extends Page {
-  const NotificationPage({super.key});
+  const NotificationPage({super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
