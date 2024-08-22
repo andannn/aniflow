@@ -379,6 +379,15 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i779.TodayAiringScheduleBloc>(() =>
         _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));
+    gh.factoryParam<_i653.ProfileMediaListBloc, _i653.ProfileMediaListParam,
+        dynamic>((
+      param,
+      _,
+    ) =>
+        _i653.ProfileMediaListBloc(
+          param,
+          gh<_i319.MediaListRepository>(),
+        ));
     gh.factoryParam<_i801.VoiceActorContentsPagingBloc, String,
         _i797.MediaSort>((
       staffId,
@@ -446,24 +455,6 @@ extension GetItInjectableX on _i174.GetIt {
     ) =>
         _i782.MediaListUpdateBloc(
           _mediaId,
-          gh<_i319.MediaListRepository>(),
-        ));
-    gh.factoryParam<_i653.ProfileAnimeListBloc, _i653.ProfileMediaListParam,
-        dynamic>((
-      param,
-      _,
-    ) =>
-        _i653.ProfileAnimeListBloc(
-          param,
-          gh<_i319.MediaListRepository>(),
-        ));
-    gh.factoryParam<_i653.ProfileMangaListBloc, _i653.ProfileMediaListParam,
-        dynamic>((
-      param,
-      _,
-    ) =>
-        _i653.ProfileMangaListBloc(
-          param,
           gh<_i319.MediaListRepository>(),
         ));
     gh.factory<_i1013.RecentMoviesBloc>(
@@ -614,16 +605,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_Implement},
     );
-    gh.factoryParam<_i131.UserActivityPagingBloc, String, int>((
-      userId,
-      perPageCount,
-    ) =>
-        _i131.UserActivityPagingBloc(
-          userId,
-          gh<_i951.ActivityRepository>(),
-          gh<_i810.UserDataRepository>(),
-          perPageCount,
-        ));
     gh.factory<_i462.PostAnilistNotificationExecutor>(
         () => _i462.PostAnilistNotificationExecutor(
               gh<_i221.NotificationRepository>(),
@@ -650,6 +631,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i619.ActivityBloc>(
         () => _i619.ActivityBloc(gh<_i951.ActivityRepository>()));
+    gh.factoryParam<_i131.UserActivityPagingBloc, String, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i131.UserActivityPagingBloc(
+          userId,
+          gh<_i951.ActivityRepository>(),
+          gh<_i810.UserDataRepository>(),
+        ));
     gh.factoryParam<_i57.NotificationPagingBloc, _i221.NotificationCategory,
         dynamic>((
       _category,

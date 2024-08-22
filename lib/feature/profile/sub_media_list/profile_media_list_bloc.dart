@@ -36,26 +36,11 @@ class _OnMediaListChanged extends ProfileMediaListEvent {
 }
 
 @injectable
-class ProfileAnimeListBloc extends ProfileMediaListBloc {
-  ProfileAnimeListBloc(
-    @factoryParam super.param,
-    super.mediaListRepository,
-  );
-}
-
-@injectable
-class ProfileMangaListBloc extends ProfileMediaListBloc {
-  ProfileMangaListBloc(
-    @factoryParam super.param,
-    super.mediaListRepository,
-  );
-}
-
-abstract class ProfileMediaListBloc
+class ProfileMediaListBloc
     extends Bloc<ProfileMediaListEvent, ProfileMediaListState>
     with AutoCancelMixin {
   ProfileMediaListBloc(
-    this.param,
+    @factoryParam this.param,
     this._mediaListRepository,
   ) : super(const ProfileMediaListState()) {
     on<_OnMediaListChanged>(
