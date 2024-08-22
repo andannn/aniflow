@@ -13,7 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteCharacterListPage extends Page {
-  const FavoriteCharacterListPage({super.key, required this.userId});
+  const FavoriteCharacterListPage(
+      {super.key, required this.userId, super.onPopInvoked});
 
   final String userId;
 

@@ -12,10 +12,7 @@ import 'package:platform_downloader/platform_downloader.dart';
 class ImagePreviewPage extends Page {
   final PreviewSource source;
 
-  const ImagePreviewPage({
-    required this.source,
-    super.key,
-  });
+  const ImagePreviewPage({required this.source, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
@@ -131,10 +128,9 @@ class _ImagePreviewContentWidgetState
                     onPressed: () {
                       if (item == 'Save') {
                         PlatformDownloader().downloadImageToExternalStorage(
-                          widget.source.imageUrl,
-                          AfConfig.imageDownloadFolder,
-                          widget.source.savedFileTitle
-                        );
+                            widget.source.imageUrl,
+                            AfConfig.imageDownloadFolder,
+                            widget.source.savedFileTitle);
                       }
                     },
                   );

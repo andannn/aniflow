@@ -29,7 +29,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailStaffPage extends Page {
   final String id;
 
-  const DetailStaffPage({required this.id, super.key});
+  const DetailStaffPage({required this.id, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

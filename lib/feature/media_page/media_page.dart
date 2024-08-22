@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MediaListPage extends Page {
   final MediaCategory category;
 
-  const MediaListPage({required this.category, super.key});
+  const MediaListPage({required this.category, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class StaffListPage extends Page {
   final String animeId;
 
-  const StaffListPage({required this.animeId, super.key});
+  const StaffListPage({required this.animeId, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {

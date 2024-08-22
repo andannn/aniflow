@@ -12,10 +12,8 @@ enum ScheduleType {
 }
 
 class AiringSchedule extends Page {
-  const AiringSchedule({
-    super.key,
-    required this.scheduleType,
-  });
+  const AiringSchedule(
+      {super.key, required this.scheduleType, super.onPopInvoked});
 
   final ScheduleType scheduleType;
 

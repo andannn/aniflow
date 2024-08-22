@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:aniflow/app/routing/model/af_router_back_stack.dart';
 import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/app/routing/util/ani_flow_page_generator.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -42,21 +41,18 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     return RootNavigatorWidget(
       key: _backStackKey,
       navigatorKey: _navigatorKey,
-      onPopPage: _onPopPage,
+      onDidRemovePage: _onDidRemovePage,
       observers: [routeObserver],
+      onPopInvoked: _onPopInvoked,
     );
   }
 
-  /// Judgment of whether need to pop current page.
-  bool _onPopPage(Route<dynamic> route, result) {
-    logger.d('onPopPage: $route, $result');
-    if (!route.didPop(result)) {
-      return false;
-    }
-
-    _pageResultStreamController.add(result);
+  void _onDidRemovePage(Page<Object?> page) {
     popBackStack();
-    return true;
+  }
+
+  void _onPopInvoked(bool didPop, result) {
+    _pageResultStreamController.add(result);
   }
 
   @override
@@ -75,13 +71,15 @@ class RootNavigatorWidget extends StatefulWidget {
   const RootNavigatorWidget({
     super.key,
     required this.navigatorKey,
-    this.onPopPage,
+    this.onDidRemovePage,
     required this.observers,
+    required this.onPopInvoked,
   });
 
   final GlobalKey<NavigatorState> navigatorKey;
-  final PopPageCallback? onPopPage;
+  final DidRemovePageCallback? onDidRemovePage;
   final List<NavigatorObserver> observers;
+  final PopInvokedWithResultCallback onPopInvoked;
 
   @override
   State<RootNavigatorWidget> createState() => RootNavigatorWidgetState();
@@ -93,9 +91,10 @@ class RootNavigatorWidgetState extends State<RootNavigatorWidget>
   Widget build(BuildContext context) {
     return Navigator(
       key: widget.navigatorKey,
-      pages:
-          restorableAfStack.value.map((path) => path.generatePage()).toList(),
-      onPopPage: widget.onPopPage,
+      pages: restorableAfStack.value
+          .map((path) => path.generatePage(onPopInvoked: widget.onPopInvoked))
+          .toList(),
+      onDidRemovePage: widget.onDidRemovePage,
       observers: widget.observers,
     );
   }

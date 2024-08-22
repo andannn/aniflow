@@ -63,7 +63,8 @@ class HiAnimationRepository {
         ));
       }
 
-      final episodes = await _datasource.getEpisodesById(animeHref, cancelToken);
+      final episodes =
+          await _datasource.getEpisodesById(animeHref, cancelToken);
 
       final epOrNull = episodes.firstWhereOrNull((e) => e.$3 == episode);
 

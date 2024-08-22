@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/util/logger.dart';
