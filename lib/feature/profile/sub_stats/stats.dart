@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _ProfileStatsTabPageState extends State<ProfileStatsTabPage> {
     return BlocProvider(
       create: (BuildContext context) => GetItScope.of(context).get<StatsBloc>(
         param1: widget.userId,
+        param2: context.read<ProfileBloc>(),
       ),
       child: const _ProfileStatsTabPageContent(),
     );

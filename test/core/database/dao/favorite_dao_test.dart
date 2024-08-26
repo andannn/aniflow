@@ -54,9 +54,9 @@ void main() {
     test('get_favorite_anime', () async {
       await mediaDao.insertOrUpdateMedia(dummyMediaData);
       await favoriteDao
-          .insertFavoritesCrossRef('1', FavoriteType.anime, ['33']);
+          .insertOrIgnoreFavoritesCrossRef('1', FavoriteType.anime, ['33']);
       await favoriteDao
-          .insertFavoritesCrossRef('1', FavoriteType.manga, ['55']);
+          .insertOrIgnoreFavoritesCrossRef('1', FavoriteType.manga, ['55']);
 
       final res =
           await favoriteDao.getFavoriteMediaByPage(MediaType.anime, '1', 1, 10);
@@ -66,7 +66,7 @@ void main() {
     test('get_favorite_staff', () async {
       await staffDao.upsertStaffEntities(dummyStaffData);
       await favoriteDao
-          .insertFavoritesCrossRef('1', FavoriteType.staff, ['95084']);
+          .insertOrIgnoreFavoritesCrossRef('1', FavoriteType.staff, ['95084']);
 
       final res = await favoriteDao.getFavoriteStaffs('1', 1, 10);
       expect(res, equals([dummyStaffData[0]]));
@@ -75,7 +75,7 @@ void main() {
     test('get_favorite_character', () async {
       await characterDao.upsertCharacters(dummyCharacterData);
       await favoriteDao
-          .insertFavoritesCrossRef('1', FavoriteType.character, ['2334']);
+          .insertOrIgnoreFavoritesCrossRef('1', FavoriteType.character, ['2334']);
 
       final res = await favoriteDao.getFavoriteCharacters('1', 1, 10);
       expect(res, equals([dummyCharacterData[0]]));

@@ -30,62 +30,6 @@ Map<String, dynamic> _$$SearchRoutePathImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$FavoriteStaffListPathImpl _$$FavoriteStaffListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FavoriteStaffListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$FavoriteStaffListPathImplToJson(
-        _$FavoriteStaffListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$FavoriteCharacterListPathImpl _$$FavoriteCharacterListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FavoriteCharacterListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$FavoriteCharacterListPathImplToJson(
-        _$FavoriteCharacterListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$FavoriteAnimeListPathImpl _$$FavoriteAnimeListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FavoriteAnimeListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$FavoriteAnimeListPathImplToJson(
-        _$FavoriteAnimeListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$FavoriteMangaListPathImpl _$$FavoriteMangaListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FavoriteMangaListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$FavoriteMangaListPathImplToJson(
-        _$FavoriteMangaListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
 _$UserProfileRoutePathImpl _$$UserProfileRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$UserProfileRoutePathImpl(

@@ -1,5 +1,5 @@
-import 'package:aniflow/feature/profile/sub_favorite/favorite_item_model.dart';
-import 'package:aniflow/feature/profile/sub_favorite/profile_favorite_bloc.dart';
+import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/data/model/favorite_item_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'profile_favorite_state.freezed.dart';
@@ -8,6 +8,6 @@ part 'profile_favorite_state.freezed.dart';
 class ProfileFavoriteState with _$ProfileFavoriteState {
   factory ProfileFavoriteState({
     @Default({})
-    Map<ProfileFavoriteType, List<FavoriteItemModel>> favoriteItems,
+    Map<FavoriteType, List<FavoriteItemModel>> favoriteItems,
   }) = _ProfileFavoriteState;
 }

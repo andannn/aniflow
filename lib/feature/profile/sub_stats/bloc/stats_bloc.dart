@@ -11,7 +11,6 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/data/user_statistics_repository.dart';
-import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -32,13 +31,12 @@ class _OnUserStatsContentChanged extends StatsEvent {
 }
 
 @injectable
-class StatsBloc extends Bloc<StatsEvent, StatsState>
-    with LoadingStateNotifier<StatsEvent, StatsState> {
+class StatsBloc extends Bloc<StatsEvent, StatsState>{
   StatsBloc(
+    @factoryParam this.userId,
     this._statisticsRepository,
     this._messageRepository,
-    this.userDataRepository,
-    @factoryParam this.userId,
+    this._userDataRepository,
   ) : super(const StatsState()) {
     on<OnStatsTypeChanged>(
       (event, emit) => emit(state.copyWith(type: event.type)),
@@ -54,15 +52,15 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
 
   final UserStatisticsRepository _statisticsRepository;
   final MessageRepository _messageRepository;
-  final UserDataRepository userDataRepository;
+  final UserDataRepository _userDataRepository;
   final String userId;
   CancelToken? _cancelToken;
 
   UserTitleLanguage get userTitleLanguage =>
-      userDataRepository.userTitleLanguage;
+      _userDataRepository.userTitleLanguage;
 
   UserStaffNameLanguage get userStaffNameLanguage =>
-      userDataRepository.userStaffNameLanguage;
+      _userDataRepository.userStaffNameLanguage;
 
   @override
   void onChange(Change<StatsState> change) {
@@ -107,7 +105,4 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
   Future<LoadResult<List<MediaModel>>> getMediasById(
           {required List<String> ids, CancelToken? cancelToken}) =>
       _statisticsRepository.getMediasById(ids: ids, cancelToken: cancelToken);
-
-  @override
-  bool isLoading(StatsState state) => state.loadState is Loading;
 }

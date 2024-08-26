@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileFavoriteState {
-  Map<ProfileFavoriteType, List<FavoriteItemModel>> get favoriteItems =>
+  Map<FavoriteType, List<FavoriteItemModel>> get favoriteItems =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileFavoriteState
@@ -32,7 +32,7 @@ abstract class $ProfileFavoriteStateCopyWith<$Res> {
           $Res Function(ProfileFavoriteState) then) =
       _$ProfileFavoriteStateCopyWithImpl<$Res, ProfileFavoriteState>;
   @useResult
-  $Res call({Map<ProfileFavoriteType, List<FavoriteItemModel>> favoriteItems});
+  $Res call({Map<FavoriteType, List<FavoriteItemModel>> favoriteItems});
 }
 
 /// @nodoc
@@ -57,7 +57,7 @@ class _$ProfileFavoriteStateCopyWithImpl<$Res,
       favoriteItems: null == favoriteItems
           ? _value.favoriteItems
           : favoriteItems // ignore: cast_nullable_to_non_nullable
-              as Map<ProfileFavoriteType, List<FavoriteItemModel>>,
+              as Map<FavoriteType, List<FavoriteItemModel>>,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$ProfileFavoriteStateImplCopyWith<$Res>
       __$$ProfileFavoriteStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<ProfileFavoriteType, List<FavoriteItemModel>> favoriteItems});
+  $Res call({Map<FavoriteType, List<FavoriteItemModel>> favoriteItems});
 }
 
 /// @nodoc
@@ -92,7 +92,7 @@ class __$$ProfileFavoriteStateImplCopyWithImpl<$Res>
       favoriteItems: null == favoriteItems
           ? _value._favoriteItems
           : favoriteItems // ignore: cast_nullable_to_non_nullable
-              as Map<ProfileFavoriteType, List<FavoriteItemModel>>,
+              as Map<FavoriteType, List<FavoriteItemModel>>,
     ));
   }
 }
@@ -101,14 +101,14 @@ class __$$ProfileFavoriteStateImplCopyWithImpl<$Res>
 
 class _$ProfileFavoriteStateImpl implements _ProfileFavoriteState {
   _$ProfileFavoriteStateImpl(
-      {final Map<ProfileFavoriteType, List<FavoriteItemModel>> favoriteItems =
+      {final Map<FavoriteType, List<FavoriteItemModel>> favoriteItems =
           const {}})
       : _favoriteItems = favoriteItems;
 
-  final Map<ProfileFavoriteType, List<FavoriteItemModel>> _favoriteItems;
+  final Map<FavoriteType, List<FavoriteItemModel>> _favoriteItems;
   @override
   @JsonKey()
-  Map<ProfileFavoriteType, List<FavoriteItemModel>> get favoriteItems {
+  Map<FavoriteType, List<FavoriteItemModel>> get favoriteItems {
     if (_favoriteItems is EqualUnmodifiableMapView) return _favoriteItems;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_favoriteItems);
@@ -145,11 +145,11 @@ class _$ProfileFavoriteStateImpl implements _ProfileFavoriteState {
 
 abstract class _ProfileFavoriteState implements ProfileFavoriteState {
   factory _ProfileFavoriteState(
-      {final Map<ProfileFavoriteType, List<FavoriteItemModel>>
-          favoriteItems}) = _$ProfileFavoriteStateImpl;
+          {final Map<FavoriteType, List<FavoriteItemModel>> favoriteItems}) =
+      _$ProfileFavoriteStateImpl;
 
   @override
-  Map<ProfileFavoriteType, List<FavoriteItemModel>> get favoriteItems;
+  Map<FavoriteType, List<FavoriteItemModel>> get favoriteItems;
 
   /// Create a copy of ProfileFavoriteState
   /// with the given fields replaced by the non-null parameter values.

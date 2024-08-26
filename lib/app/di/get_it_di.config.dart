@@ -122,14 +122,8 @@ import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart'
 import 'package:aniflow/feature/profile/profile_bloc.dart' as _i688;
 import 'package:aniflow/feature/profile/sub_activity/user_activity_paging_bloc.dart'
     as _i131;
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart'
-    as _i971;
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart'
-    as _i474;
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart'
-    as _i658;
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart'
-    as _i764;
+import 'package:aniflow/feature/profile/sub_favorite/profile_favorite_bloc.dart'
+    as _i440;
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart'
     as _i653;
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart'
@@ -250,6 +244,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i989.MockFavoriteRepository(),
       registerFor: {_Mock},
     );
+    gh.factoryParam<_i440.ProfileFavoriteBloc, String, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i440.ProfileFavoriteBloc(
+          userId,
+          gh<_i462.FavoriteRepository>(),
+        ));
     gh.lazySingleton<_i319.MediaListRepository>(
       () => _i949.MockMediaListRepository(),
       registerFor: {_Mock},
@@ -289,16 +291,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i810.UserDataRepository>(),
           gh<_i67.MessageRepository>(),
         ));
-    gh.factoryParam<_i764.FavoriteStaffPagingBloc, String, int>((
-      userId,
-      perPageCount,
-    ) =>
-        _i764.FavoriteStaffPagingBloc(
-          userId,
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-          perPageCount,
-        ));
     gh.factory<_i993.SearchBloc>(
         () => _i993.SearchBloc(gh<_i810.UserDataRepository>()));
     gh.factory<_i234.CharacterPageBloc>(
@@ -318,15 +310,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i847.EditProfileBloc>(
         () => _i847.EditProfileBloc(gh<_i768.AuthRepository>()));
-    gh.factoryParam<_i971.FavoriteAnimePagingBloc, String, int>((
-      userId,
-      perPageCount,
-    ) =>
-        _i971.FavoriteAnimePagingBloc(
-          userId,
-          perPageCount,
-          gh<_i462.FavoriteRepository>(),
-        ));
     gh.factoryParam<_i688.ProfileBloc, String?, dynamic>((
       _userId,
       _,
@@ -468,24 +451,6 @@ extension GetItInjectableX on _i174.GetIt {
           _mediaType,
           gh<_i319.MediaListRepository>(),
         ));
-    gh.factoryParam<_i474.FavoriteCharacterPagingBloc, String, int>((
-      userId,
-      perPageCount,
-    ) =>
-        _i474.FavoriteCharacterPagingBloc(
-          userId,
-          gh<_i462.FavoriteRepository>(),
-          perPageCount,
-        ));
-    gh.factoryParam<_i658.FavoriteMangaPagingBloc, String, int>((
-      userId,
-      perPageCount,
-    ) =>
-        _i658.FavoriteMangaPagingBloc(
-          userId,
-          gh<_i462.FavoriteRepository>(),
-          perPageCount,
-        ));
     gh.factoryParam<_i409.StudioContentsPagingBloc, String, dynamic>((
       studioId,
       _,
@@ -553,6 +518,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i638.HiAnimationDataSource>(
         () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
+    gh.factoryParam<_i231.StatsBloc, String, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i231.StatsBloc(
+          userId,
+          gh<_i227.UserStatisticsRepository>(),
+          gh<_i67.MessageRepository>(),
+          gh<_i810.UserDataRepository>(),
+        ));
     gh.lazySingleton<_i221.NotificationRepository>(
       () => _i221.NotificationRepository(
         gh<_i1026.AuthDataSource>(),
@@ -586,16 +561,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_Implement},
     );
-    gh.factoryParam<_i231.StatsBloc, String, dynamic>((
-      userId,
-      _,
-    ) =>
-        _i231.StatsBloc(
-          gh<_i227.UserStatisticsRepository>(),
-          gh<_i67.MessageRepository>(),
-          gh<_i810.UserDataRepository>(),
-          userId,
-        ));
     gh.lazySingleton<_i768.AuthRepository>(
       () => _i768.AuthRepository(
         gh<_i1026.AuthDataSource>(),

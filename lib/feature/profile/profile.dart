@@ -9,10 +9,6 @@ import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
 import 'package:aniflow/feature/profile/profile_tab_category.dart';
 import 'package:aniflow/feature/profile/sub_activity/profile_activity_overview.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
 import 'package:aniflow/feature/profile/sub_stats/stats.dart';
@@ -77,42 +73,9 @@ class _ProfilePageContent extends StatelessWidget {
         if (userState == null) {
           return const SizedBox();
         } else {
-          final loadingStateRepository = context.read<ProfileBloc>();
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteAnimePagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteMangaPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteStaffPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-            ],
-            child: _UserProfile(
-              userState: userState,
-              isFullScreenPageRoute: isFullScreenPageRoute,
-            ),
+          return _UserProfile(
+            userState: userState,
+            isFullScreenPageRoute: isFullScreenPageRoute,
           );
         }
       },
@@ -187,7 +150,7 @@ class _UserProfileState extends State<_UserProfile>
       case ProfileTabType.activity:
         return ProfileActivityPage(userId: userId);
       case ProfileTabType.favorite:
-        return const ProfileFavoriteTabPage();
+        return ProfileFavoriteTabPage(userId: userId);
       case ProfileTabType.animeList:
         return ProfileMediaList(mediaType: MediaType.anime, userId: userId);
       case ProfileTabType.mangaList:
