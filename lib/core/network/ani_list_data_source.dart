@@ -24,6 +24,7 @@ import 'package:aniflow/core/network/api/toggle_favorite_mutation_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_anime_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_character_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_manga_query_graphql.dart';
+import 'package:aniflow/core/network/api/user_favorite_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_favorite_staff_query_graphql.dart';
 import 'package:aniflow/core/network/api/user_stats_query_graphql.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
@@ -39,6 +40,7 @@ import 'package:aniflow/core/network/model/staff_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
+import 'package:aniflow/core/network/model/user_favourites_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/date_time_util.dart';
@@ -422,6 +424,26 @@ class AniListDataSource {
         resultJson.map((e) => StaffDto.fromJson(e)).toList();
 
     return staffList;
+  }
+
+  Future<UserFavouritesDto> getFavoriteInfo({
+    required String userId,
+    CancelToken? token,
+  }) async {
+    final queryGraphQL = userFavoriteQueryGraphQl;
+    final variablesMap = <String, dynamic>{
+      'UserId': userId,
+    };
+    final response = await dio.post(
+      aniListUrl,
+      cancelToken: token,
+      data: {'query': queryGraphQL, 'variables': variablesMap},
+    );
+    final Map<String, dynamic> resultJson =
+        response.data['data']['User']['favourites'];
+    final UserFavouritesDto userFavourites =
+        UserFavouritesDto.fromJson(resultJson);
+    return userFavourites;
   }
 
   Future<List<MediaDto>> getFavoriteAnimeMedia({

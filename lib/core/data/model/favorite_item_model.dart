@@ -5,6 +5,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
+import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:equatable/equatable.dart';
 
 class FavoriteItemModel extends Equatable {
@@ -48,6 +49,16 @@ extension StaffModelEx on StaffModel {
       id: id,
       title: name?.getNameByUserSetting(language) ?? '',
       imageUrl: largeImage,
+    );
+  }
+}
+
+extension StudioModleEx on StudioModel {
+  FavoriteItemModel toFavoriteItemModel() {
+    return FavoriteItemModel(
+      id: id,
+      title: name ?? '',
+      imageUrl: '',
     );
   }
 }

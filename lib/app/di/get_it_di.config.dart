@@ -22,6 +22,7 @@ import 'package:aniflow/core/common/definitions/media_category.dart' as _i505;
 import 'package:aniflow/core/common/definitions/media_sort.dart' as _i797;
 import 'package:aniflow/core/common/definitions/media_type.dart' as _i55;
 import 'package:aniflow/core/common/definitions/staff_language.dart' as _i115;
+import 'package:aniflow/core/common/util/loading_state_mixin.dart' as _i636;
 import 'package:aniflow/core/data/activity_repository.dart' as _i951;
 import 'package:aniflow/core/data/auth_repository.dart' as _i768;
 import 'package:aniflow/core/data/character_repository.dart' as _i14;
@@ -244,14 +245,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i989.MockFavoriteRepository(),
       registerFor: {_Mock},
     );
-    gh.factoryParam<_i440.ProfileFavoriteBloc, String, dynamic>((
-      userId,
-      _,
-    ) =>
-        _i440.ProfileFavoriteBloc(
-          userId,
-          gh<_i462.FavoriteRepository>(),
-        ));
     gh.lazySingleton<_i319.MediaListRepository>(
       () => _i949.MockMediaListRepository(),
       registerFor: {_Mock},
@@ -362,15 +355,6 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i779.TodayAiringScheduleBloc>(() =>
         _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));
-    gh.factoryParam<_i653.ProfileMediaListBloc, _i653.ProfileMediaListParam,
-        dynamic>((
-      param,
-      _,
-    ) =>
-        _i653.ProfileMediaListBloc(
-          param,
-          gh<_i319.MediaListRepository>(),
-        ));
     gh.factoryParam<_i801.VoiceActorContentsPagingBloc, String,
         _i797.MediaSort>((
       staffId,
@@ -451,6 +435,17 @@ extension GetItInjectableX on _i174.GetIt {
           _mediaType,
           gh<_i319.MediaListRepository>(),
         ));
+    gh.factoryParam<_i653.ProfileMediaListBloc, _i653.ProfileMediaListParam,
+        _i636.LoadingStateRepository>((
+      param,
+      _loadingStateRepository,
+    ) =>
+        _i653.ProfileMediaListBloc(
+          param,
+          _loadingStateRepository,
+          gh<_i319.MediaListRepository>(),
+          gh<_i810.UserDataRepository>(),
+        ));
     gh.factoryParam<_i409.StudioContentsPagingBloc, String, dynamic>((
       studioId,
       _,
@@ -458,6 +453,17 @@ extension GetItInjectableX on _i174.GetIt {
         _i409.StudioContentsPagingBloc(
           studioId,
           gh<_i970.MediaInformationRepository>(),
+        ));
+    gh.factoryParam<_i440.ProfileFavoriteBloc, String,
+        _i636.LoadingStateRepository>((
+      userId,
+      _loadingStateRepository,
+    ) =>
+        _i440.ProfileFavoriteBloc(
+          userId,
+          _loadingStateRepository,
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
         ));
     gh.factory<_i343.AppBloc>(() => _i343.AppBloc(
           gh<_i810.UserDataRepository>(),
@@ -505,6 +511,8 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_Implement},
     );
+    gh.lazySingleton<_i638.HiAnimationDataSource>(
+        () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i462.FavoriteRepository>(
       () => _i462.FavoriteRepository(
         gh<_i1001.AniListDataSource>(),
@@ -513,21 +521,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i595.CharacterDao>(),
         gh<_i609.FavoriteDao>(),
         gh<_i918.UserDataPreferences>(),
+        gh<_i159.StudioDao>(),
       ),
       registerFor: {_Implement},
     );
-    gh.lazySingleton<_i638.HiAnimationDataSource>(
-        () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
-    gh.factoryParam<_i231.StatsBloc, String, dynamic>((
-      userId,
-      _,
-    ) =>
-        _i231.StatsBloc(
-          userId,
-          gh<_i227.UserStatisticsRepository>(),
-          gh<_i67.MessageRepository>(),
-          gh<_i810.UserDataRepository>(),
-        ));
     gh.lazySingleton<_i221.NotificationRepository>(
       () => _i221.NotificationRepository(
         gh<_i1026.AuthDataSource>(),
@@ -570,6 +567,16 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_Implement},
     );
+    gh.factoryParam<_i231.StatsBloc, String, _i636.LoadingStateRepository>((
+      userId,
+      _loadingStateRepository,
+    ) =>
+        _i231.StatsBloc(
+          userId,
+          _loadingStateRepository,
+          gh<_i227.UserStatisticsRepository>(),
+          gh<_i810.UserDataRepository>(),
+        ));
     gh.factory<_i462.PostAnilistNotificationExecutor>(
         () => _i462.PostAnilistNotificationExecutor(
               gh<_i221.NotificationRepository>(),

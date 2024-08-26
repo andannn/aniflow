@@ -3,10 +3,9 @@ import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
-import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
-import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -31,11 +30,11 @@ class _OnUserStatsContentChanged extends StatsEvent {
 }
 
 @injectable
-class StatsBloc extends Bloc<StatsEvent, StatsState>{
+class StatsBloc extends Bloc<StatsEvent, StatsState> {
   StatsBloc(
     @factoryParam this.userId,
+    @factoryParam this._loadingStateRepository,
     this._statisticsRepository,
-    this._messageRepository,
     this._userDataRepository,
   ) : super(const StatsState()) {
     on<OnStatsTypeChanged>(
@@ -51,8 +50,8 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>{
   }
 
   final UserStatisticsRepository _statisticsRepository;
-  final MessageRepository _messageRepository;
   final UserDataRepository _userDataRepository;
+  final LoadingStateRepository _loadingStateRepository;
   final String userId;
   CancelToken? _cancelToken;
 
@@ -88,18 +87,14 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>{
     // Change state to Loading.
     safeAdd(_OnUserStatsContentChanged(loadState: const Loading()));
 
-    final result = await _statisticsRepository.getUserStatics(
-        userId: userId, type: type, sort: sort);
-    switch (result) {
-      case LoadError<List<UserStatisticsModel>>():
-        final message =
-            await ErrorHandler.convertExceptionToMessage(result.exception);
-        if (message != null) {
-          _messageRepository.showMessage(message);
-        }
-      case LoadSuccess<List<UserStatisticsModel>>():
+    await _loadingStateRepository.doRefresh('refresh_user_statics', () async {
+      final result = await _statisticsRepository.getUserStatics(
+          userId: userId, type: type, sort: sort);
+      if (result is LoadSuccess<List<UserStatisticsModel>>) {
         safeAdd(_OnUserStatsContentChanged(loadState: Ready(result.data)));
-    }
+      }
+      return result;
+    });
   }
 
   Future<LoadResult<List<MediaModel>>> getMediasById(

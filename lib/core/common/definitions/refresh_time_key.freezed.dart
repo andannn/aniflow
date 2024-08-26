@@ -26,6 +26,10 @@ RefreshTimeKey _$RefreshTimeKeyFromJson(Map<String, dynamic> json) {
       return MediaCategoryKey.fromJson(json);
     case 'mediaList':
       return MediaList.fromJson(json);
+    case 'userFavorite':
+      return UserFavorite.fromJson(json);
+    case 'userStatic':
+      return UserStatics.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'RefreshTimeKey',
@@ -41,7 +45,12 @@ mixin _$RefreshTimeKey {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId) mediaList,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,7 +59,11 @@ mixin _$RefreshTimeKey {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId)? mediaList,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,7 +72,11 @@ mixin _$RefreshTimeKey {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId)? mediaList,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -70,6 +87,8 @@ mixin _$RefreshTimeKey {
     required TResult Function(RecentMovies value) recentMovies,
     required TResult Function(MediaCategoryKey value) mediaCategory,
     required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -79,6 +98,8 @@ mixin _$RefreshTimeKey {
     TResult? Function(RecentMovies value)? recentMovies,
     TResult? Function(MediaCategoryKey value)? mediaCategory,
     TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -88,6 +109,8 @@ mixin _$RefreshTimeKey {
     TResult Function(RecentMovies value)? recentMovies,
     TResult Function(MediaCategoryKey value)? mediaCategory,
     TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -170,7 +193,12 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId) mediaList,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
   }) {
     return birthdayCharacters();
   }
@@ -182,7 +210,11 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId)? mediaList,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
   }) {
     return birthdayCharacters?.call();
   }
@@ -194,7 +226,11 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId)? mediaList,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
     required TResult orElse(),
   }) {
     if (birthdayCharacters != null) {
@@ -211,6 +247,8 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     required TResult Function(RecentMovies value) recentMovies,
     required TResult Function(MediaCategoryKey value) mediaCategory,
     required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
   }) {
     return birthdayCharacters(this);
   }
@@ -223,6 +261,8 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     TResult? Function(RecentMovies value)? recentMovies,
     TResult? Function(MediaCategoryKey value)? mediaCategory,
     TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
   }) {
     return birthdayCharacters?.call(this);
   }
@@ -235,6 +275,8 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     TResult Function(RecentMovies value)? recentMovies,
     TResult Function(MediaCategoryKey value)? mediaCategory,
     TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
     required TResult orElse(),
   }) {
     if (birthdayCharacters != null) {
@@ -311,7 +353,12 @@ class _$AiringScheduleImpl implements AiringSchedule {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId) mediaList,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
   }) {
     return airingSchedule();
   }
@@ -323,7 +370,11 @@ class _$AiringScheduleImpl implements AiringSchedule {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId)? mediaList,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
   }) {
     return airingSchedule?.call();
   }
@@ -335,7 +386,11 @@ class _$AiringScheduleImpl implements AiringSchedule {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId)? mediaList,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
     required TResult orElse(),
   }) {
     if (airingSchedule != null) {
@@ -352,6 +407,8 @@ class _$AiringScheduleImpl implements AiringSchedule {
     required TResult Function(RecentMovies value) recentMovies,
     required TResult Function(MediaCategoryKey value) mediaCategory,
     required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
   }) {
     return airingSchedule(this);
   }
@@ -364,6 +421,8 @@ class _$AiringScheduleImpl implements AiringSchedule {
     TResult? Function(RecentMovies value)? recentMovies,
     TResult? Function(MediaCategoryKey value)? mediaCategory,
     TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
   }) {
     return airingSchedule?.call(this);
   }
@@ -376,6 +435,8 @@ class _$AiringScheduleImpl implements AiringSchedule {
     TResult Function(RecentMovies value)? recentMovies,
     TResult Function(MediaCategoryKey value)? mediaCategory,
     TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
     required TResult orElse(),
   }) {
     if (airingSchedule != null) {
@@ -452,7 +513,12 @@ class _$RecentMoviesImpl implements RecentMovies {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId) mediaList,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
   }) {
     return recentMovies();
   }
@@ -464,7 +530,11 @@ class _$RecentMoviesImpl implements RecentMovies {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId)? mediaList,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
   }) {
     return recentMovies?.call();
   }
@@ -476,7 +546,11 @@ class _$RecentMoviesImpl implements RecentMovies {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId)? mediaList,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
     required TResult orElse(),
   }) {
     if (recentMovies != null) {
@@ -493,6 +567,8 @@ class _$RecentMoviesImpl implements RecentMovies {
     required TResult Function(RecentMovies value) recentMovies,
     required TResult Function(MediaCategoryKey value) mediaCategory,
     required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
   }) {
     return recentMovies(this);
   }
@@ -505,6 +581,8 @@ class _$RecentMoviesImpl implements RecentMovies {
     TResult? Function(RecentMovies value)? recentMovies,
     TResult? Function(MediaCategoryKey value)? mediaCategory,
     TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
   }) {
     return recentMovies?.call(this);
   }
@@ -517,6 +595,8 @@ class _$RecentMoviesImpl implements RecentMovies {
     TResult Function(RecentMovies value)? recentMovies,
     TResult Function(MediaCategoryKey value)? mediaCategory,
     TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
     required TResult orElse(),
   }) {
     if (recentMovies != null) {
@@ -622,7 +702,12 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId) mediaList,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
   }) {
     return mediaCategory(category);
   }
@@ -634,7 +719,11 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId)? mediaList,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
   }) {
     return mediaCategory?.call(category);
   }
@@ -646,7 +735,11 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId)? mediaList,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
     required TResult orElse(),
   }) {
     if (mediaCategory != null) {
@@ -663,6 +756,8 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     required TResult Function(RecentMovies value) recentMovies,
     required TResult Function(MediaCategoryKey value) mediaCategory,
     required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
   }) {
     return mediaCategory(this);
   }
@@ -675,6 +770,8 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     TResult? Function(RecentMovies value)? recentMovies,
     TResult? Function(MediaCategoryKey value)? mediaCategory,
     TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
   }) {
     return mediaCategory?.call(this);
   }
@@ -687,6 +784,8 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     TResult Function(RecentMovies value)? recentMovies,
     TResult Function(MediaCategoryKey value)? mediaCategory,
     TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
     required TResult orElse(),
   }) {
     if (mediaCategory != null) {
@@ -725,7 +824,7 @@ abstract class _$$MediaListImplCopyWith<$Res> {
           _$MediaListImpl value, $Res Function(_$MediaListImpl) then) =
       __$$MediaListImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String userId});
+  $Res call({String userId, List<MediaListStatus> status});
 }
 
 /// @nodoc
@@ -742,12 +841,17 @@ class __$$MediaListImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
+    Object? status = null,
   }) {
     return _then(_$MediaListImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value._status
+          : status // ignore: cast_nullable_to_non_nullable
+              as List<MediaListStatus>,
     ));
   }
 }
@@ -755,21 +859,32 @@ class __$$MediaListImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MediaListImpl implements MediaList {
-  const _$MediaListImpl({required this.userId, final String? $type})
-      : $type = $type ?? 'mediaList';
+  const _$MediaListImpl(
+      {required this.userId,
+      required final List<MediaListStatus> status,
+      final String? $type})
+      : _status = status,
+        $type = $type ?? 'mediaList';
 
   factory _$MediaListImpl.fromJson(Map<String, dynamic> json) =>
       _$$MediaListImplFromJson(json);
 
   @override
   final String userId;
+  final List<MediaListStatus> _status;
+  @override
+  List<MediaListStatus> get status {
+    if (_status is EqualUnmodifiableListView) return _status;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_status);
+  }
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'RefreshTimeKey.mediaList(userId: $userId)';
+    return 'RefreshTimeKey.mediaList(userId: $userId, status: $status)';
   }
 
   @override
@@ -777,12 +892,14 @@ class _$MediaListImpl implements MediaList {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MediaListImpl &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality().equals(other._status, _status));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userId);
+  int get hashCode => Object.hash(
+      runtimeType, userId, const DeepCollectionEquality().hash(_status));
 
   /// Create a copy of RefreshTimeKey
   /// with the given fields replaced by the non-null parameter values.
@@ -799,9 +916,14 @@ class _$MediaListImpl implements MediaList {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId) mediaList,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
   }) {
-    return mediaList(userId);
+    return mediaList(userId, status);
   }
 
   @override
@@ -811,9 +933,13 @@ class _$MediaListImpl implements MediaList {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId)? mediaList,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
   }) {
-    return mediaList?.call(userId);
+    return mediaList?.call(userId, status);
   }
 
   @override
@@ -823,11 +949,15 @@ class _$MediaListImpl implements MediaList {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId)? mediaList,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
     required TResult orElse(),
   }) {
     if (mediaList != null) {
-      return mediaList(userId);
+      return mediaList(userId, status);
     }
     return orElse();
   }
@@ -840,6 +970,8 @@ class _$MediaListImpl implements MediaList {
     required TResult Function(RecentMovies value) recentMovies,
     required TResult Function(MediaCategoryKey value) mediaCategory,
     required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
   }) {
     return mediaList(this);
   }
@@ -852,6 +984,8 @@ class _$MediaListImpl implements MediaList {
     TResult? Function(RecentMovies value)? recentMovies,
     TResult? Function(MediaCategoryKey value)? mediaCategory,
     TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
   }) {
     return mediaList?.call(this);
   }
@@ -864,6 +998,8 @@ class _$MediaListImpl implements MediaList {
     TResult Function(RecentMovies value)? recentMovies,
     TResult Function(MediaCategoryKey value)? mediaCategory,
     TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
     required TResult orElse(),
   }) {
     if (mediaList != null) {
@@ -881,16 +1017,435 @@ class _$MediaListImpl implements MediaList {
 }
 
 abstract class MediaList implements RefreshTimeKey {
-  const factory MediaList({required final String userId}) = _$MediaListImpl;
+  const factory MediaList(
+      {required final String userId,
+      required final List<MediaListStatus> status}) = _$MediaListImpl;
 
   factory MediaList.fromJson(Map<String, dynamic> json) =
       _$MediaListImpl.fromJson;
+
+  String get userId;
+  List<MediaListStatus> get status;
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MediaListImplCopyWith<_$MediaListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UserFavoriteImplCopyWith<$Res> {
+  factory _$$UserFavoriteImplCopyWith(
+          _$UserFavoriteImpl value, $Res Function(_$UserFavoriteImpl) then) =
+      __$$UserFavoriteImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String userId});
+}
+
+/// @nodoc
+class __$$UserFavoriteImplCopyWithImpl<$Res>
+    extends _$RefreshTimeKeyCopyWithImpl<$Res, _$UserFavoriteImpl>
+    implements _$$UserFavoriteImplCopyWith<$Res> {
+  __$$UserFavoriteImplCopyWithImpl(
+      _$UserFavoriteImpl _value, $Res Function(_$UserFavoriteImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+  }) {
+    return _then(_$UserFavoriteImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserFavoriteImpl implements UserFavorite {
+  const _$UserFavoriteImpl({required this.userId, final String? $type})
+      : $type = $type ?? 'userFavorite';
+
+  factory _$UserFavoriteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserFavoriteImplFromJson(json);
+
+  @override
+  final String userId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'RefreshTimeKey.userFavorite(userId: $userId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserFavoriteImpl &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserFavoriteImplCopyWith<_$UserFavoriteImpl> get copyWith =>
+      __$$UserFavoriteImplCopyWithImpl<_$UserFavoriteImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() birthdayCharacters,
+    required TResult Function() airingSchedule,
+    required TResult Function() recentMovies,
+    required TResult Function(MediaCategory category) mediaCategory,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
+  }) {
+    return userFavorite(userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? birthdayCharacters,
+    TResult? Function()? airingSchedule,
+    TResult? Function()? recentMovies,
+    TResult? Function(MediaCategory category)? mediaCategory,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
+  }) {
+    return userFavorite?.call(userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? birthdayCharacters,
+    TResult Function()? airingSchedule,
+    TResult Function()? recentMovies,
+    TResult Function(MediaCategory category)? mediaCategory,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
+    required TResult orElse(),
+  }) {
+    if (userFavorite != null) {
+      return userFavorite(userId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(BirthdayCharacters value) birthdayCharacters,
+    required TResult Function(AiringSchedule value) airingSchedule,
+    required TResult Function(RecentMovies value) recentMovies,
+    required TResult Function(MediaCategoryKey value) mediaCategory,
+    required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
+  }) {
+    return userFavorite(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BirthdayCharacters value)? birthdayCharacters,
+    TResult? Function(AiringSchedule value)? airingSchedule,
+    TResult? Function(RecentMovies value)? recentMovies,
+    TResult? Function(MediaCategoryKey value)? mediaCategory,
+    TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
+  }) {
+    return userFavorite?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(BirthdayCharacters value)? birthdayCharacters,
+    TResult Function(AiringSchedule value)? airingSchedule,
+    TResult Function(RecentMovies value)? recentMovies,
+    TResult Function(MediaCategoryKey value)? mediaCategory,
+    TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
+    required TResult orElse(),
+  }) {
+    if (userFavorite != null) {
+      return userFavorite(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserFavoriteImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class UserFavorite implements RefreshTimeKey {
+  const factory UserFavorite({required final String userId}) =
+      _$UserFavoriteImpl;
+
+  factory UserFavorite.fromJson(Map<String, dynamic> json) =
+      _$UserFavoriteImpl.fromJson;
 
   String get userId;
 
   /// Create a copy of RefreshTimeKey
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MediaListImplCopyWith<_$MediaListImpl> get copyWith =>
+  _$$UserFavoriteImplCopyWith<_$UserFavoriteImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UserStaticsImplCopyWith<$Res> {
+  factory _$$UserStaticsImplCopyWith(
+          _$UserStaticsImpl value, $Res Function(_$UserStaticsImpl) then) =
+      __$$UserStaticsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String userId, UserStatisticType type, UserStaticsSort sort});
+}
+
+/// @nodoc
+class __$$UserStaticsImplCopyWithImpl<$Res>
+    extends _$RefreshTimeKeyCopyWithImpl<$Res, _$UserStaticsImpl>
+    implements _$$UserStaticsImplCopyWith<$Res> {
+  __$$UserStaticsImplCopyWithImpl(
+      _$UserStaticsImpl _value, $Res Function(_$UserStaticsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? type = null,
+    Object? sort = null,
+  }) {
+    return _then(_$UserStaticsImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as UserStatisticType,
+      sort: null == sort
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as UserStaticsSort,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserStaticsImpl implements UserStatics {
+  const _$UserStaticsImpl(
+      {required this.userId,
+      required this.type,
+      required this.sort,
+      final String? $type})
+      : $type = $type ?? 'userStatic';
+
+  factory _$UserStaticsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserStaticsImplFromJson(json);
+
+  @override
+  final String userId;
+  @override
+  final UserStatisticType type;
+  @override
+  final UserStaticsSort sort;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'RefreshTimeKey.userStatic(userId: $userId, type: $type, sort: $sort)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserStaticsImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.sort, sort) || other.sort == sort));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, type, sort);
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserStaticsImplCopyWith<_$UserStaticsImpl> get copyWith =>
+      __$$UserStaticsImplCopyWithImpl<_$UserStaticsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() birthdayCharacters,
+    required TResult Function() airingSchedule,
+    required TResult Function() recentMovies,
+    required TResult Function(MediaCategory category) mediaCategory,
+    required TResult Function(String userId, List<MediaListStatus> status)
+        mediaList,
+    required TResult Function(String userId) userFavorite,
+    required TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)
+        userStatic,
+  }) {
+    return userStatic(userId, type, sort);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? birthdayCharacters,
+    TResult? Function()? airingSchedule,
+    TResult? Function()? recentMovies,
+    TResult? Function(MediaCategory category)? mediaCategory,
+    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(String userId)? userFavorite,
+    TResult? Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
+  }) {
+    return userStatic?.call(userId, type, sort);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? birthdayCharacters,
+    TResult Function()? airingSchedule,
+    TResult Function()? recentMovies,
+    TResult Function(MediaCategory category)? mediaCategory,
+    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(String userId)? userFavorite,
+    TResult Function(
+            String userId, UserStatisticType type, UserStaticsSort sort)?
+        userStatic,
+    required TResult orElse(),
+  }) {
+    if (userStatic != null) {
+      return userStatic(userId, type, sort);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(BirthdayCharacters value) birthdayCharacters,
+    required TResult Function(AiringSchedule value) airingSchedule,
+    required TResult Function(RecentMovies value) recentMovies,
+    required TResult Function(MediaCategoryKey value) mediaCategory,
+    required TResult Function(MediaList value) mediaList,
+    required TResult Function(UserFavorite value) userFavorite,
+    required TResult Function(UserStatics value) userStatic,
+  }) {
+    return userStatic(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BirthdayCharacters value)? birthdayCharacters,
+    TResult? Function(AiringSchedule value)? airingSchedule,
+    TResult? Function(RecentMovies value)? recentMovies,
+    TResult? Function(MediaCategoryKey value)? mediaCategory,
+    TResult? Function(MediaList value)? mediaList,
+    TResult? Function(UserFavorite value)? userFavorite,
+    TResult? Function(UserStatics value)? userStatic,
+  }) {
+    return userStatic?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(BirthdayCharacters value)? birthdayCharacters,
+    TResult Function(AiringSchedule value)? airingSchedule,
+    TResult Function(RecentMovies value)? recentMovies,
+    TResult Function(MediaCategoryKey value)? mediaCategory,
+    TResult Function(MediaList value)? mediaList,
+    TResult Function(UserFavorite value)? userFavorite,
+    TResult Function(UserStatics value)? userStatic,
+    required TResult orElse(),
+  }) {
+    if (userStatic != null) {
+      return userStatic(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserStaticsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class UserStatics implements RefreshTimeKey {
+  const factory UserStatics(
+      {required final String userId,
+      required final UserStatisticType type,
+      required final UserStaticsSort sort}) = _$UserStaticsImpl;
+
+  factory UserStatics.fromJson(Map<String, dynamic> json) =
+      _$UserStaticsImpl.fromJson;
+
+  String get userId;
+  UserStatisticType get type;
+  UserStaticsSort get sort;
+
+  /// Create a copy of RefreshTimeKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UserStaticsImplCopyWith<_$UserStaticsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

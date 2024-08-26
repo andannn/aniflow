@@ -178,18 +178,18 @@ class MockMediaInformationRepository implements MediaInformationRepository {
   @override
   Future<LoadResult<void>> startFetchDetailCharacterInfo(
       {required String id, CancelToken? token}) async {
-    return LoadSuccess(data: []);
+    return LoadSuccess(data: null);
   }
 
   @override
   Future<LoadResult<void>> startFetchDetailStaffInfo(
       {required String id, CancelToken? token}) async {
-    return LoadSuccess(data: []);
+    return LoadSuccess(data: null);
   }
 
   @override
   Future<LoadResult<void>> startFetchDetailStudioInfo(
       {required String id, required CancelToken token}) async {
-    return LoadSuccess(data: []);
+    return LoadSuccess(data: null);
   }
 }

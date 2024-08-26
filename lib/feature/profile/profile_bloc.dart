@@ -1,6 +1,8 @@
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/loading_state_mixin.dart';
+import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/data/user_info_repository.dart';
@@ -23,7 +25,8 @@ class _LoadingStateChanged extends ProfileEvent {
 }
 
 @injectable
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState>
+    with LoadingControllerMixin<ProfileEvent, ProfileState> {
   ProfileBloc(
     @factoryParam this._userId,
     this._userInfoRepository,
@@ -53,5 +56,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final userId = _userId ?? _userDataRepository.authedUserId;
     final userData = await _userInfoRepository.getUserDataById(userId!);
     safeAdd(_OnUserDataLoaded(userData: userData));
+  }
+
+  @override
+  void onLoadingFinished(List<LoadError<dynamic>> errors) {
+    // TODO: implement onLoadingFinished
+  }
+
+  @override
+  void onLoadingStateChanged(bool isLoading) {
+    safeAdd(_LoadingStateChanged(isLoading: isLoading));
   }
 }

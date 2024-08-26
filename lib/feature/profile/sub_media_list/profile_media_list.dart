@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_state.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _ProfileMediaListState extends State<ProfileMediaList>
           userId: widget.userId,
           mediaType: widget.mediaType,
         ),
+        param2: context.read<ProfileBloc>(),
       ),
       child: _ProfileMediaListContent(mediaType: widget.mediaType),
     );

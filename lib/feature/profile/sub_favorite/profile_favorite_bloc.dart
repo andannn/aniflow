@@ -1,11 +1,13 @@
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
-import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
-import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/favorite_item_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 sealed class ProfileFavoriteEvent {}
@@ -23,7 +25,9 @@ class ProfileFavoriteBloc
     with AutoCancelMixin {
   ProfileFavoriteBloc(
     @factoryParam this.userId,
+    @factoryParam this._loadingStateRepository,
     this._favoriteRepository,
+    this._userDataRepository,
   ) : super(ProfileFavoriteState()) {
     on<_OnFavoriteInfoChanged>(
       (event, emit) => emit(
@@ -51,27 +55,18 @@ class ProfileFavoriteBloc
 
   final String userId;
   final FavoriteRepository _favoriteRepository;
+  final LoadingStateRepository _loadingStateRepository;
+  final UserDataRepository _userDataRepository;
+  final CancelToken _token = CancelToken();
 
   Future _syncFavoriteInfo() async {
-    return Future.wait([
-      _favoriteRepository.loadFavoriteMediaByPage(
-        type: MediaType.anime,
+    await _loadingStateRepository.doRefreshOrRejected(
+      _userDataRepository,
+      RefreshTimeKey.userFavorite(userId: userId),
+      () => _favoriteRepository.refreshFavoriteInfo(
         userId: userId,
-        loadType: const Refresh(50),
+        token: _token,
       ),
-      _favoriteRepository.loadFavoriteMediaByPage(
-        type: MediaType.manga,
-        userId: userId,
-        loadType: const Refresh(50),
-      ),
-      _favoriteRepository.loadFavoriteStaffByPage(
-        userId: userId,
-        loadType: const Refresh(50),
-      ),
-      _favoriteRepository.loadFavoriteCharacterByPage(
-        userId: userId,
-        loadType: const Refresh(50),
-      ),
-    ]);
+    );
   }
 }

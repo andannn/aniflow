@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/home_sector_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
@@ -30,15 +31,32 @@ class DiscoverPageRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return const DiscoverScreen();
+    return const DiscoverContent();
   }
 
   @override
   bool get maintainState => true;
 }
 
-class DiscoverScreen extends StatelessWidget {
-  const DiscoverScreen({super.key});
+class DiscoverContent extends StatefulWidget {
+  const DiscoverContent({super.key});
+
+  @override
+  State<DiscoverContent> createState() => _DiscoverContentState();
+}
+
+class _DiscoverContentState extends State<DiscoverContent> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => GetItScope.of(context).get<DiscoverBloc>(),
+      child: const _DiscoverContent(),
+    );
+  }
+}
+
+class _DiscoverContent extends StatelessWidget {
+  const _DiscoverContent();
 
   @override
   Widget build(BuildContext context) {

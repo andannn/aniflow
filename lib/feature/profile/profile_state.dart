@@ -7,6 +7,6 @@ part 'profile_state.freezed.dart';
 class ProfileState with _$ProfileState {
   factory ProfileState({
     UserModel? userData,
-    @Default(true) bool isLoading,
+    @Default(false) bool isLoading,
   }) = _ProfileState;
 }

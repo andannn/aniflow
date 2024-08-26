@@ -60,4 +60,10 @@ class MockFavoriteRepository implements FavoriteRepository {
       {required FavoriteType type,
       required String userId,
       required int limit}) async* {}
+
+  @override
+  Future<LoadResult> refreshFavoriteInfo(
+      {String? userId, CancelToken? token}) async {
+    return LoadSuccess(data: null);
+  }
 }

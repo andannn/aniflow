@@ -46,18 +46,39 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => GetItScope.of(context).get<ProfileBloc>(
-        param1: userId,
-      ),
-      child: _ProfilePageContent(
-        isFullScreenPageRoute: isFullScreenPageRoute,
-      ),
+    return ProfilePageContent(
+      userId: userId,
+      isFullScreenPageRoute: isFullScreenPageRoute,
     );
   }
 
   @override
   bool get maintainState => true;
+}
+
+class ProfilePageContent extends StatefulWidget {
+  const ProfilePageContent(
+      {super.key, this.userId, required this.isFullScreenPageRoute});
+
+  final String? userId;
+  final bool isFullScreenPageRoute;
+
+  @override
+  State<ProfilePageContent> createState() => _ProfilePageContentState();
+}
+
+class _ProfilePageContentState extends State<ProfilePageContent> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => GetItScope.of(context).get<ProfileBloc>(
+        param1: widget.userId,
+      ),
+      child: _ProfilePageContent(
+        isFullScreenPageRoute: widget.isFullScreenPageRoute,
+      ),
+    );
+  }
 }
 
 class _ProfilePageContent extends StatelessWidget {

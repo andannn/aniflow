@@ -5,6 +5,7 @@ import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/favorite_info_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
 import 'package:aniflow/core/database/tables/staff_table.dart';
+import 'package:aniflow/core/database/tables/studio_table.dart';
 import 'package:drift/drift.dart';
 
 part 'favorite_dao.g.dart';
@@ -14,6 +15,7 @@ part 'favorite_dao.g.dart';
   MediaTable,
   CharacterTable,
   StaffTable,
+  StudioTable,
 ])
 class FavoriteDao extends DatabaseAccessor<AniflowDatabase>
     with _$FavoriteDaoMixin {
@@ -140,12 +142,35 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase>
     return (query.map((row) => row.readTable(staffTable))).watch();
   }
 
-  Future clearFavorites(String userId, FavoriteType type) {
+  JoinedSelectStatement<HasResultSet, dynamic> _studioQuery(
+    limit,
+    offset,
+    userId,
+  ) =>
+      select(favoriteInfoTable).join([
+        innerJoin(
+            studioTable, favoriteInfoTable.infoId.equalsExp(studioTable.id))
+      ])
+        ..where(favoriteInfoTable.favoriteType
+                .equals(FavoriteType.studio.contentValues) &
+            favoriteInfoTable.userId.equals(userId))
+        ..orderBy([OrderingTerm.asc(favoriteInfoTable.id)])
+        ..limit(limit, offset: offset);
+
+  Stream<List<StudioEntity>> getFavoriteStudiosStream(
+      String userId, int limit) {
+    final query = _studioQuery(limit, 0, userId);
+
+    return (query.map((row) => row.readTable(studioTable))).watch();
+  }
+
+  Future clearFavorites(String userId, List<FavoriteType> type) {
     return attachedDatabase.transaction(() async {
       return (delete(favoriteInfoTable)
             ..where((tbl) =>
                 favoriteInfoTable.userId.equals(userId) &
-                favoriteInfoTable.favoriteType.equals(type.contentValues)))
+                favoriteInfoTable.favoriteType
+                    .isIn(type.map((e) => e.contentValues).toList())))
           .go();
     });
   }
