@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DetailMediaUiState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isHiAnimationFeatureEnabled => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
   MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
   UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
@@ -25,7 +26,9 @@ mixin _$DetailMediaUiState {
   ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
   LoadingState<Episode> get episode => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DetailMediaUiStateCopyWith<DetailMediaUiState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38,6 +41,7 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isHiAnimationFeatureEnabled,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
       UserTitleLanguage userTitleLanguage,
@@ -59,10 +63,13 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isHiAnimationFeatureEnabled = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
     Object? userTitleLanguage = null,
@@ -74,6 +81,10 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isHiAnimationFeatureEnabled: null == isHiAnimationFeatureEnabled
+          ? _value.isHiAnimationFeatureEnabled
+          : isHiAnimationFeatureEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
@@ -102,6 +113,8 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     ) as $Val);
   }
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaModelCopyWith<$Res>? get detailAnimeModel {
@@ -114,6 +127,8 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
     });
   }
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaListItemModelCopyWith<$Res>? get mediaListItem {
@@ -137,6 +152,7 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isHiAnimationFeatureEnabled,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
       UserTitleLanguage userTitleLanguage,
@@ -158,10 +174,13 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
       $Res Function(_$DetailMediaUiStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isHiAnimationFeatureEnabled = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
     Object? userTitleLanguage = null,
@@ -173,6 +192,10 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isHiAnimationFeatureEnabled: null == isHiAnimationFeatureEnabled
+          ? _value.isHiAnimationFeatureEnabled
+          : isHiAnimationFeatureEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
@@ -207,6 +230,7 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
 class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   _$DetailMediaUiStateImpl(
       {this.isLoading = false,
+      this.isHiAnimationFeatureEnabled = false,
       this.detailAnimeModel,
       this.mediaListItem,
       this.userTitleLanguage = UserTitleLanguage.native,
@@ -217,6 +241,9 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isHiAnimationFeatureEnabled;
   @override
   final MediaModel? detailAnimeModel;
   @override
@@ -236,7 +263,7 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
 
   @override
   String toString() {
-    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, episode: $episode)';
+    return 'DetailMediaUiState(isLoading: $isLoading, isHiAnimationFeatureEnabled: $isHiAnimationFeatureEnabled, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, episode: $episode)';
   }
 
   @override
@@ -246,6 +273,10 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
             other is _$DetailMediaUiStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isHiAnimationFeatureEnabled,
+                    isHiAnimationFeatureEnabled) ||
+                other.isHiAnimationFeatureEnabled ==
+                    isHiAnimationFeatureEnabled) &&
             (identical(other.detailAnimeModel, detailAnimeModel) ||
                 other.detailAnimeModel == detailAnimeModel) &&
             (identical(other.mediaListItem, mediaListItem) ||
@@ -263,6 +294,7 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
+      isHiAnimationFeatureEnabled,
       detailAnimeModel,
       mediaListItem,
       userTitleLanguage,
@@ -270,7 +302,9 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
       scoreFormat,
       episode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
@@ -281,6 +315,7 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
 abstract class _DetailMediaUiState implements DetailMediaUiState {
   factory _DetailMediaUiState(
       {final bool isLoading,
+      final bool isHiAnimationFeatureEnabled,
       final MediaModel? detailAnimeModel,
       final MediaListItemModel? mediaListItem,
       final UserTitleLanguage userTitleLanguage,
@@ -290,6 +325,8 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isHiAnimationFeatureEnabled;
   @override
   MediaModel? get detailAnimeModel;
   @override
@@ -302,8 +339,11 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   ScoreFormat get scoreFormat;
   @override
   LoadingState<Episode> get episode;
+
+  /// Create a copy of DetailMediaUiState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailMediaUiStateImplCopyWith<_$DetailMediaUiStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

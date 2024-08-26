@@ -21,8 +21,10 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future upsertStudioEntities(List<StudioEntity> entities) async {
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(studioTable, entities);
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(studioTable, entities);
+      });
     });
   }
 
@@ -30,17 +32,19 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase>
     String mediaId,
     List<StudioEntity> entities,
   ) async {
-    await batch((batch) async {
-      batch.insertAll(studioTable, entities, mode: InsertMode.insertOrIgnore);
-      batch.insertAllOnConflictUpdate(
-        studioMediaCrossRefTable,
-        entities.map(
-          (e) => StudioMediaCrossRefTableCompanion.insert(
-            studioId: e.id,
-            mediaId: mediaId,
+    return attachedDatabase.transaction(() async {
+      await batch((batch) async {
+        batch.insertAll(studioTable, entities, mode: InsertMode.insertOrIgnore);
+        batch.insertAllOnConflictUpdate(
+          studioMediaCrossRefTable,
+          entities.map(
+            (e) => StudioMediaCrossRefTableCompanion.insert(
+              studioId: e.id,
+              mediaId: mediaId,
+            ),
           ),
-        ),
-      );
+        );
+      });
     });
   }
 
@@ -59,11 +63,13 @@ class StudioDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future insertOrIgnoreEntities(List<StudioEntity> entities) async {
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        studioTable,
-        entities.map((e) => e.toCompanion(true)),
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          studioTable,
+          entities.map((e) => e.toCompanion(true)),
+        );
+      });
     });
   }
 }

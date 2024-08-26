@@ -86,76 +86,6 @@ Map<String, dynamic> _$$FavoriteMangaListPathImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$WatchingAnimeListPathImpl _$$WatchingAnimeListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WatchingAnimeListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$WatchingAnimeListPathImplToJson(
-        _$WatchingAnimeListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$CompletedAnimeListPathImpl _$$CompletedAnimeListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CompletedAnimeListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$CompletedAnimeListPathImplToJson(
-        _$CompletedAnimeListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$DroppedAnimeListPathImpl _$$DroppedAnimeListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DroppedAnimeListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$DroppedAnimeListPathImplToJson(
-        _$DroppedAnimeListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$ReadingMangaListPathImpl _$$ReadingMangaListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ReadingMangaListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$ReadingMangaListPathImplToJson(
-        _$ReadingMangaListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
-_$DroppedMangaListPathImpl _$$DroppedMangaListPathImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DroppedMangaListPathImpl(
-      id: json['id'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$DroppedMangaListPathImplToJson(
-        _$DroppedMangaListPathImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'runtimeType': instance.$type,
-    };
-
 _$UserProfileRoutePathImpl _$$UserProfileRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$UserProfileRoutePathImpl(
@@ -267,14 +197,21 @@ Map<String, dynamic> _$$DetailStaffPathImplToJson(
 _$AiringScheduleRoutePathImpl _$$AiringScheduleRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$AiringScheduleRoutePathImpl(
+      type: $enumDecode(_$ScheduleTypeEnumMap, json['type']),
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$AiringScheduleRoutePathImplToJson(
         _$AiringScheduleRoutePathImpl instance) =>
     <String, dynamic>{
+      'type': _$ScheduleTypeEnumMap[instance.type]!,
       'runtimeType': instance.$type,
     };
+
+const _$ScheduleTypeEnumMap = {
+  ScheduleType.bangumi: 'bangumi',
+  ScheduleType.movie: 'movie',
+};
 
 _$NotificationRoutePathImpl _$$NotificationRoutePathImplFromJson(
         Map<String, dynamic> json) =>
@@ -334,14 +271,28 @@ Map<String, dynamic> _$$ImagePreviewRoutePathImplToJson(
 _$MediaListUpdateRoutePathImpl _$$MediaListUpdateRoutePathImplFromJson(
         Map<String, dynamic> json) =>
     _$MediaListUpdateRoutePathImpl(
-      mediaListId: json['mediaListId'] as String,
+      mediaId: json['mediaId'] as String,
+      from: json['from'] as String,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$MediaListUpdateRoutePathImplToJson(
         _$MediaListUpdateRoutePathImpl instance) =>
     <String, dynamic>{
-      'mediaListId': instance.mediaListId,
+      'mediaId': instance.mediaId,
+      'from': instance.from,
+      'runtimeType': instance.$type,
+    };
+
+_$SettingsRoutePathImpl _$$SettingsRoutePathImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SettingsRoutePathImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$SettingsRoutePathImplToJson(
+        _$SettingsRoutePathImpl instance) =>
+    <String, dynamic>{
       'runtimeType': instance.$type,
     };
 

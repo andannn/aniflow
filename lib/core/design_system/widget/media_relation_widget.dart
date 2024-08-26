@@ -29,8 +29,11 @@ class MediaRelationWidget extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 3.0 / 4,
-              child: AFNetworkImage(
-                imageUrl: model.media.coverImage?.medium ?? '',
+              child: Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: AFNetworkImage(
+                  imageUrl: model.media.coverImage?.large ?? '',
+                ),
               ),
             ),
             const SizedBox(width: 8),
@@ -56,7 +59,7 @@ class MediaRelationWidget extends StatelessWidget {
                     ),
                   ),
                   const Expanded(child: SizedBox()),
-                  Text(model.media.getAnimeInfoString(context),
+                  Text(model.media.getMediaInfoString(context),
                       style: textStyle),
                 ],
               ),

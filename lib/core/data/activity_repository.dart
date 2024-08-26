@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/activity_type.dart';
@@ -36,7 +37,7 @@ class ActivityStatus extends Equatable {
   List<Object?> get props => [replyCount, likeCount, isLiked];
 }
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class ActivityRepository {
   ActivityRepository(
       this.activityDao, this.aniListDataSource, this.preferences);

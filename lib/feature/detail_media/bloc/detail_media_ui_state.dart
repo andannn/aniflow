@@ -13,6 +13,7 @@ part 'detail_media_ui_state.freezed.dart';
 class DetailMediaUiState with _$DetailMediaUiState {
   factory DetailMediaUiState({
     @Default(false) bool isLoading,
+    @Default(false) bool isHiAnimationFeatureEnabled,
     MediaModel? detailAnimeModel,
     MediaListItemModel? mediaListItem,
     @Default(UserTitleLanguage.native) UserTitleLanguage userTitleLanguage,

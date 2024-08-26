@@ -30,8 +30,12 @@ mixin _$AniListSettings {
   @JsonKey(name: AniListSettingsKeys.scoreFormat)
   ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
 
+  /// Serializes this AniListSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AniListSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AniListSettingsCopyWith<AniListSettings> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$AniListSettingsCopyWithImpl<$Res, $Val extends AniListSettings>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AniListSettings
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -117,6 +123,8 @@ class __$$AniListSettingsImplCopyWithImpl<$Res>
       _$AniListSettingsImpl _value, $Res Function(_$AniListSettingsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AniListSettings
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -195,12 +203,14 @@ class _$AniListSettingsImpl implements _AniListSettings {
                 other.scoreFormat == scoreFormat));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, displayAdultContent,
       userTitleLanguage, userStaffNameLanguage, scoreFormat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AniListSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AniListSettingsImplCopyWith<_$AniListSettingsImpl> get copyWith =>
@@ -241,8 +251,11 @@ abstract class _AniListSettings implements AniListSettings {
   @override
   @JsonKey(name: AniListSettingsKeys.scoreFormat)
   ScoreFormat get scoreFormat;
+
+  /// Create a copy of AniListSettings
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AniListSettingsImplCopyWith<_$AniListSettingsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

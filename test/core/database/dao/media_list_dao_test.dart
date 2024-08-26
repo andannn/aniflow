@@ -12,7 +12,7 @@ void main() {
     late MediaListDao dao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       dao = db.mediaListDao;
     });
 
@@ -21,8 +21,8 @@ void main() {
     });
 
     final dummyData = [
-      const MediaListAndMediaRelation(
-        mediaEntity: MediaEntity(
+      MediaListAndMediaRelation(
+        mediaEntity: const MediaEntity(
             id: '8917',
             englishTitle: 'Bodacious Space Pirates',
             romajiTitle: 'Mouretsu Pirates',
@@ -36,10 +36,11 @@ void main() {
           userId: '22',
           mediaId: '8917',
           status: 'current',
+          updatedAt: DateTime(2023, 1).microsecondsSinceEpoch,
         ),
       ),
-      const MediaListAndMediaRelation(
-        mediaEntity: MediaEntity(
+      MediaListAndMediaRelation(
+        mediaEntity: const MediaEntity(
           id: '9523',
           englishTitle: '',
           romajiTitle: 'Minori Scramble!',
@@ -54,6 +55,7 @@ void main() {
           userId: '22',
           mediaId: '9523',
           status: 'dropped',
+          updatedAt: DateTime(2023, 3).microsecondsSinceEpoch,
         ),
       )
     ];
@@ -69,7 +71,7 @@ void main() {
     test('upsert and get mediaList by media List id', () async {
       await dao.upsertMediaListAndMediaRelations(dummyData);
 
-      final res = await dao.getMediaListItemByMediaListId('1');
+      final res = await dao.getMediaListItemByMediaId('8917');
 
       expect(res, equals(dummyData[0]));
     });
@@ -89,7 +91,7 @@ void main() {
 
     test('upsert and get mediaList stream', () async {
       final stream =
-          dao.getAllMediaListOfUserStream('22', ['current'], 'anime');
+          dao.getAllSortedMediaListOfUserStream('22', ['current'], 'anime');
       final data = [
         MediaListAndMediaRelation(
           mediaEntity: MediaEntity(
@@ -151,6 +153,43 @@ void main() {
         emitsInOrder([
           ['8917']
         ]),
+      );
+
+      await expectation;
+    });
+
+    test('upsert and get media list and media relation stream', () async {
+      final dummyData = [
+        MediaListAndMediaRelation(
+          mediaEntity: const MediaEntity(id: '8917', type: 'anime'),
+          mediaListEntity: MediaListEntity(
+            id: '1',
+            userId: '22',
+            mediaId: '8917',
+            status: 'current',
+            updatedAt: DateTime(2023, 3).microsecondsSinceEpoch,
+          ),
+        ),
+        MediaListAndMediaRelation(
+          mediaEntity: const MediaEntity(
+            id: '9523',
+            type: 'anime',
+          ),
+          mediaListEntity: MediaListEntity(
+            id: '2',
+            userId: '22',
+            mediaId: '9523',
+            status: 'current',
+            updatedAt: DateTime(2023, 1).microsecondsSinceEpoch,
+          ),
+        )
+      ];
+      final stream = dao.getMediaListStream('22', ['current'], 'anime');
+      await dao.upsertMediaListAndMediaRelations(dummyData);
+
+      final expectation = expectLater(
+        stream,
+        emitsInOrder([dummyData]),
       );
 
       await expectation;

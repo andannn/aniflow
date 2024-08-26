@@ -10,7 +10,7 @@ void main() {
     late AiringSchedulesDao dao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       dao = db.airingSchedulesDao;
     });
 

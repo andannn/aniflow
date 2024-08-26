@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/logger.dart';
@@ -9,7 +11,6 @@ import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
-import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_external_link_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_relation_model.dart';
@@ -36,14 +37,15 @@ import 'package:aniflow/feature/media_list_update_page/media_list_update_page.da
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+const _identifier = 'detail_media';
 
 class DetailAnimePage extends Page {
   final String animeId;
 
-  const DetailAnimePage({required this.animeId, super.key});
+  const DetailAnimePage({required this.animeId, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
@@ -59,12 +61,7 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetIt.instance.get<DetailMediaBloc>(param1: mediaId),
-      child: const ScaffoldMessenger(
-        child: _DetailAnimePageContent(),
-      ),
-    );
+    return DetailMediaPageContent(mediaId: mediaId);
   }
 
   @override
@@ -80,15 +77,32 @@ class DetailAnimeRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class _DetailAnimePageContent extends StatefulWidget {
-  const _DetailAnimePageContent();
+class DetailMediaPageContent extends StatelessWidget {
+  const DetailMediaPageContent({super.key, required this.mediaId});
+
+  final String mediaId;
 
   @override
-  State<_DetailAnimePageContent> createState() =>
-      _DetailAnimePageContentState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          GetItScope.of(context).get<DetailMediaBloc>(param1: mediaId),
+      child: const ScaffoldMessenger(
+        child: _DetailMediaPageContent(),
+      ),
+    );
+  }
 }
 
-class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
+class _DetailMediaPageContent extends StatefulWidget {
+  const _DetailMediaPageContent();
+
+  @override
+  State<_DetailMediaPageContent> createState() =>
+      _DetailMediaPageContentState();
+}
+
+class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
     with ShowSnackBarMixin {
   late ScrollController controller;
 
@@ -134,12 +148,12 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
 
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
-          RootRouterDelegate.get()
-              .navigateToMediaListUpdatePage(state.mediaListItem!);
+          RootRouterDelegate.get().navigateToMediaListUpdatePage(
+              state.detailAnimeModel!.id, _identifier);
           MediaListModifyResult? result =
               await RootRouterDelegate.get().awaitPageResult();
           if (result != null) {
-            bloc.add(OnMediaListModified(result: result));
+            bloc.safeAdd(OnMediaListModified(result: result));
           }
         }
 
@@ -178,7 +192,8 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
               ),
               const SizedBox(height: 8),
               ShrinkableFloatingActionButton(
-                heroTag: mediaListUpdatePageHeroTag,
+                heroTag:
+                    mediaListUpdatePageHeroTagBuilder(model.id, _identifier),
                 isExtended: hasDescription && !isScrollOverLimit,
                 icon: Icon(statusIcon),
                 label: Text(stateString),
@@ -187,6 +202,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
             ],
           ),
           body: CustomScrollView(
+            key: const ValueKey('detail_media_page_scroll_view'),
             controller: controller,
             cacheExtent: AfConfig.defaultCatchExtend,
             slivers: [
@@ -228,19 +244,20 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
                 child: _buildWatchNextEpisodeArea(context, state),
               ),
               SliverToBoxAdapter(
-                child: _buildAnimeRelations(
+                child: _buildMediaRelations(
                   context: context,
                   relations: model.relations,
                 ),
               ),
               SliverToBoxAdapter(
-                child: _buildAnimeDescription(
+                child: _buildMediaDescription(
                   context: context,
                   description: model.description,
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
+                key: const ValueKey('character_sector_title'),
                 child: _buildCharacterSection(
                   context,
                   model.characterAndVoiceActors,
@@ -255,6 +272,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 16)),
               SliverToBoxAdapter(
+                key: const ValueKey('character_trailer_title'),
                 child: _buildTrailerSection(
                   context,
                   trailerModel: model.trailerModel,
@@ -313,7 +331,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
                     child: Hero(
                       tag: model.coverPreviewSource,
                       child: AFNetworkImage(
-                        imageUrl: model.coverImage?.large ?? '',
+                        imageUrl: model.coverImage?.extraLarge ?? '',
                       ),
                     ),
                   ),
@@ -386,7 +404,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
     return widgets;
   }
 
-  Widget _buildAnimeDescription(
+  Widget _buildMediaDescription(
       {required BuildContext context, required String? description}) {
     return AnimatedScaleSwitcher(
       visible: description != null,
@@ -670,7 +688,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
   }
 
   Widget _buildAnimeInfoSection(BuildContext context, MediaModel model) {
-    final infoString = model.getAnimeInfoString(context);
+    final infoString = model.getMediaInfoString(context);
     return AnimatedScaleSwitcher(
       visible: infoString.isNotEmpty,
       builder: () => Padding(
@@ -679,7 +697,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              model.getAnimeInfoString(context),
+              model.getMediaInfoString(context),
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
@@ -693,13 +711,16 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
     final airingTimeString = model.getReleasingTimeString(context);
     return AnimatedScaleSwitcher(
       visible: airingTimeString.isNotEmpty && nextAiringEpisode != null,
-      builder: () => Card.filled(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            context.appLocal
-                .nextAiringInfo(nextAiringEpisode!, airingTimeString),
-            style: Theme.of(context).textTheme.bodyMedium,
+      builder: () => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Card.filled(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              context.appLocal
+                  .nextAiringInfo(nextAiringEpisode!, airingTimeString),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ),
       ),
@@ -735,7 +756,7 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
     return widgets;
   }
 
-  Widget _buildAnimeRelations(
+  Widget _buildMediaRelations(
       {required BuildContext context,
       required List<MediaRelationModel> relations}) {
     return AnimatedScaleSwitcher(
@@ -808,6 +829,10 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
 
   Widget _buildWatchNextEpisodeArea(
       BuildContext context, DetailMediaUiState state) {
+    if (!state.isHiAnimationFeatureEnabled) {
+      return const SizedBox();
+    }
+
     return Column(
       children: [
         _buildAiringInfo(context, state.detailAnimeModel!),
@@ -819,16 +844,13 @@ class _DetailAnimePageContentState extends State<_DetailAnimePageContent>
   Widget _buildNextEpisodeInfo(BuildContext context, DetailMediaUiState state) {
     final episode = state.episode;
     final nextProgress = (state.mediaListItem?.progress ?? 0) + 1;
-    final mediaListItem =
-        state.mediaListItem?.copyWith(animeModel: state.detailAnimeModel);
-    final hasNextReleasedEpisode =
-        mediaListItem?.hasNextReleasedEpisode == true;
+    final hasNextReleasedEpisode = state.hasNextReleasedEpisode;
     return AnimatedScaleSwitcher(
       visible: hasNextReleasedEpisode,
       builder: () => Padding(
         key: ValueKey(episode.runtimeType),
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Card(
+        child: Card.filled(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(

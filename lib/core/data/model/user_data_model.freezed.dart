@@ -21,7 +21,7 @@ mixin _$UserDataModel {
   AnimeSeason get season => throw _privateConstructorUsedError;
   int get seasonYear => throw _privateConstructorUsedError;
   ThemeSetting get themeSetting => throw _privateConstructorUsedError;
-  bool get isShowReleaseOnly => throw _privateConstructorUsedError;
+  TrackListFilter get trackListFilter => throw _privateConstructorUsedError;
   ActivityScopeCategory get activityScopeCategory =>
       throw _privateConstructorUsedError;
   ActivityFilterType get activityFilterType =>
@@ -36,8 +36,11 @@ mixin _$UserDataModel {
   UserStaffNameLanguage get userStaffNameLanguage =>
       throw _privateConstructorUsedError;
   ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
+  List<String> get sentNotificationIds => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserDataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserDataModelCopyWith<UserDataModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,7 +56,7 @@ abstract class $UserDataModelCopyWith<$Res> {
       AnimeSeason season,
       int seasonYear,
       ThemeSetting themeSetting,
-      bool isShowReleaseOnly,
+      TrackListFilter trackListFilter,
       ActivityScopeCategory activityScopeCategory,
       ActivityFilterType activityFilterType,
       String? authedUserId,
@@ -62,7 +65,8 @@ abstract class $UserDataModelCopyWith<$Res> {
       bool displayAdultContent,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
-      ScoreFormat scoreFormat});
+      ScoreFormat scoreFormat,
+      List<String> sentNotificationIds});
 }
 
 /// @nodoc
@@ -75,6 +79,8 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserDataModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -82,7 +88,7 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
     Object? season = null,
     Object? seasonYear = null,
     Object? themeSetting = null,
-    Object? isShowReleaseOnly = null,
+    Object? trackListFilter = null,
     Object? activityScopeCategory = null,
     Object? activityFilterType = null,
     Object? authedUserId = freezed,
@@ -92,6 +98,7 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
     Object? scoreFormat = null,
+    Object? sentNotificationIds = null,
   }) {
     return _then(_value.copyWith(
       mediaType: null == mediaType
@@ -110,10 +117,10 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
           ? _value.themeSetting
           : themeSetting // ignore: cast_nullable_to_non_nullable
               as ThemeSetting,
-      isShowReleaseOnly: null == isShowReleaseOnly
-          ? _value.isShowReleaseOnly
-          : isShowReleaseOnly // ignore: cast_nullable_to_non_nullable
-              as bool,
+      trackListFilter: null == trackListFilter
+          ? _value.trackListFilter
+          : trackListFilter // ignore: cast_nullable_to_non_nullable
+              as TrackListFilter,
       activityScopeCategory: null == activityScopeCategory
           ? _value.activityScopeCategory
           : activityScopeCategory // ignore: cast_nullable_to_non_nullable
@@ -150,6 +157,10 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
           ? _value.scoreFormat
           : scoreFormat // ignore: cast_nullable_to_non_nullable
               as ScoreFormat,
+      sentNotificationIds: null == sentNotificationIds
+          ? _value.sentNotificationIds
+          : sentNotificationIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -167,7 +178,7 @@ abstract class _$$UserDataModelImplCopyWith<$Res>
       AnimeSeason season,
       int seasonYear,
       ThemeSetting themeSetting,
-      bool isShowReleaseOnly,
+      TrackListFilter trackListFilter,
       ActivityScopeCategory activityScopeCategory,
       ActivityFilterType activityFilterType,
       String? authedUserId,
@@ -176,7 +187,8 @@ abstract class _$$UserDataModelImplCopyWith<$Res>
       bool displayAdultContent,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
-      ScoreFormat scoreFormat});
+      ScoreFormat scoreFormat,
+      List<String> sentNotificationIds});
 }
 
 /// @nodoc
@@ -187,6 +199,8 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
       _$UserDataModelImpl _value, $Res Function(_$UserDataModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserDataModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,7 +208,7 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
     Object? season = null,
     Object? seasonYear = null,
     Object? themeSetting = null,
-    Object? isShowReleaseOnly = null,
+    Object? trackListFilter = null,
     Object? activityScopeCategory = null,
     Object? activityFilterType = null,
     Object? authedUserId = freezed,
@@ -204,6 +218,7 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
     Object? scoreFormat = null,
+    Object? sentNotificationIds = null,
   }) {
     return _then(_$UserDataModelImpl(
       mediaType: null == mediaType
@@ -222,10 +237,10 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
           ? _value.themeSetting
           : themeSetting // ignore: cast_nullable_to_non_nullable
               as ThemeSetting,
-      isShowReleaseOnly: null == isShowReleaseOnly
-          ? _value.isShowReleaseOnly
-          : isShowReleaseOnly // ignore: cast_nullable_to_non_nullable
-              as bool,
+      trackListFilter: null == trackListFilter
+          ? _value.trackListFilter
+          : trackListFilter // ignore: cast_nullable_to_non_nullable
+              as TrackListFilter,
       activityScopeCategory: null == activityScopeCategory
           ? _value.activityScopeCategory
           : activityScopeCategory // ignore: cast_nullable_to_non_nullable
@@ -262,6 +277,10 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
           ? _value.scoreFormat
           : scoreFormat // ignore: cast_nullable_to_non_nullable
               as ScoreFormat,
+      sentNotificationIds: null == sentNotificationIds
+          ? _value._sentNotificationIds
+          : sentNotificationIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -274,7 +293,7 @@ class _$UserDataModelImpl implements _UserDataModel {
       this.season = AnimeSeason.summer,
       this.seasonYear = -1,
       this.themeSetting = ThemeSetting.system,
-      this.isShowReleaseOnly = false,
+      this.trackListFilter = TrackListFilter.all,
       this.activityScopeCategory = ActivityScopeCategory.global,
       this.activityFilterType = ActivityFilterType.all,
       this.authedUserId,
@@ -283,7 +302,9 @@ class _$UserDataModelImpl implements _UserDataModel {
       this.displayAdultContent = false,
       this.userTitleLanguage = UserTitleLanguage.native,
       this.userStaffNameLanguage = UserStaffNameLanguage.native,
-      this.scoreFormat = ScoreFormat.point100});
+      this.scoreFormat = ScoreFormat.point100,
+      final List<String> sentNotificationIds = const []})
+      : _sentNotificationIds = sentNotificationIds;
 
   /// local data.
   @override
@@ -300,7 +321,7 @@ class _$UserDataModelImpl implements _UserDataModel {
   final ThemeSetting themeSetting;
   @override
   @JsonKey()
-  final bool isShowReleaseOnly;
+  final TrackListFilter trackListFilter;
   @override
   @JsonKey()
   final ActivityScopeCategory activityScopeCategory;
@@ -327,10 +348,19 @@ class _$UserDataModelImpl implements _UserDataModel {
   @override
   @JsonKey()
   final ScoreFormat scoreFormat;
+  final List<String> _sentNotificationIds;
+  @override
+  @JsonKey()
+  List<String> get sentNotificationIds {
+    if (_sentNotificationIds is EqualUnmodifiableListView)
+      return _sentNotificationIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sentNotificationIds);
+  }
 
   @override
   String toString() {
-    return 'UserDataModel(mediaType: $mediaType, season: $season, seasonYear: $seasonYear, themeSetting: $themeSetting, isShowReleaseOnly: $isShowReleaseOnly, activityScopeCategory: $activityScopeCategory, activityFilterType: $activityFilterType, authedUserId: $authedUserId, authToken: $authToken, authExpiredTime: $authExpiredTime, displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat)';
+    return 'UserDataModel(mediaType: $mediaType, season: $season, seasonYear: $seasonYear, themeSetting: $themeSetting, trackListFilter: $trackListFilter, activityScopeCategory: $activityScopeCategory, activityFilterType: $activityFilterType, authedUserId: $authedUserId, authToken: $authToken, authExpiredTime: $authExpiredTime, displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, sentNotificationIds: $sentNotificationIds)';
   }
 
   @override
@@ -345,8 +375,8 @@ class _$UserDataModelImpl implements _UserDataModel {
                 other.seasonYear == seasonYear) &&
             (identical(other.themeSetting, themeSetting) ||
                 other.themeSetting == themeSetting) &&
-            (identical(other.isShowReleaseOnly, isShowReleaseOnly) ||
-                other.isShowReleaseOnly == isShowReleaseOnly) &&
+            (identical(other.trackListFilter, trackListFilter) ||
+                other.trackListFilter == trackListFilter) &&
             (identical(other.activityScopeCategory, activityScopeCategory) ||
                 other.activityScopeCategory == activityScopeCategory) &&
             (identical(other.activityFilterType, activityFilterType) ||
@@ -364,7 +394,9 @@ class _$UserDataModelImpl implements _UserDataModel {
             (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
                 other.userStaffNameLanguage == userStaffNameLanguage) &&
             (identical(other.scoreFormat, scoreFormat) ||
-                other.scoreFormat == scoreFormat));
+                other.scoreFormat == scoreFormat) &&
+            const DeepCollectionEquality()
+                .equals(other._sentNotificationIds, _sentNotificationIds));
   }
 
   @override
@@ -374,7 +406,7 @@ class _$UserDataModelImpl implements _UserDataModel {
       season,
       seasonYear,
       themeSetting,
-      isShowReleaseOnly,
+      trackListFilter,
       activityScopeCategory,
       activityFilterType,
       authedUserId,
@@ -383,9 +415,12 @@ class _$UserDataModelImpl implements _UserDataModel {
       displayAdultContent,
       userTitleLanguage,
       userStaffNameLanguage,
-      scoreFormat);
+      scoreFormat,
+      const DeepCollectionEquality().hash(_sentNotificationIds));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserDataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserDataModelImplCopyWith<_$UserDataModelImpl> get copyWith =>
@@ -398,7 +433,7 @@ abstract class _UserDataModel implements UserDataModel {
       final AnimeSeason season,
       final int seasonYear,
       final ThemeSetting themeSetting,
-      final bool isShowReleaseOnly,
+      final TrackListFilter trackListFilter,
       final ActivityScopeCategory activityScopeCategory,
       final ActivityFilterType activityFilterType,
       final String? authedUserId,
@@ -407,11 +442,11 @@ abstract class _UserDataModel implements UserDataModel {
       final bool displayAdultContent,
       final UserTitleLanguage userTitleLanguage,
       final UserStaffNameLanguage userStaffNameLanguage,
-      final ScoreFormat scoreFormat}) = _$UserDataModelImpl;
-
-  @override
+      final ScoreFormat scoreFormat,
+      final List<String> sentNotificationIds}) = _$UserDataModelImpl;
 
   /// local data.
+  @override
   MediaType get mediaType;
   @override
   AnimeSeason get season;
@@ -420,7 +455,7 @@ abstract class _UserDataModel implements UserDataModel {
   @override
   ThemeSetting get themeSetting;
   @override
-  bool get isShowReleaseOnly;
+  TrackListFilter get trackListFilter;
   @override
   ActivityScopeCategory get activityScopeCategory;
   @override
@@ -431,9 +466,9 @@ abstract class _UserDataModel implements UserDataModel {
   String? get authToken;
   @override
   DateTime? get authExpiredTime;
-  @override
 
   /// ani-list remote data.
+  @override
   bool get displayAdultContent;
   @override
   UserTitleLanguage get userTitleLanguage;
@@ -442,7 +477,12 @@ abstract class _UserDataModel implements UserDataModel {
   @override
   ScoreFormat get scoreFormat;
   @override
-  @JsonKey(ignore: true)
+  List<String> get sentNotificationIds;
+
+  /// Create a copy of UserDataModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserDataModelImplCopyWith<_$UserDataModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -47,8 +47,12 @@ mixin _$MediaListDto {
   @JsonKey(name: 'media')
   MediaDto? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaListDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaListDtoCopyWith<MediaListDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -89,6 +93,8 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,6 +168,8 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
     ) as $Val);
   }
 
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get startedAt {
@@ -174,6 +182,8 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
     });
   }
 
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get completedAt {
@@ -186,6 +196,8 @@ class _$MediaListDtoCopyWithImpl<$Res, $Val extends MediaListDto>
     });
   }
 
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaDtoCopyWith<$Res>? get media {
@@ -238,6 +250,8 @@ class __$$MediaListDtoImplCopyWithImpl<$Res>
       _$MediaListDtoImpl _value, $Res Function(_$MediaListDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -403,7 +417,7 @@ class _$MediaListDtoImpl implements _MediaListDto {
             (identical(other.media, media) || other.media == media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -421,7 +435,9 @@ class _$MediaListDtoImpl implements _MediaListDto {
       completedAt,
       media);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaListDtoImplCopyWith<_$MediaListDtoImpl> get copyWith =>
@@ -493,8 +509,11 @@ abstract class _MediaListDto implements MediaListDto {
   @override
   @JsonKey(name: 'media')
   MediaDto? get media;
+
+  /// Create a copy of MediaListDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaListDtoImplCopyWith<_$MediaListDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

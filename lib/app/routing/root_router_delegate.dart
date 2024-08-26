@@ -41,20 +41,18 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     return RootNavigatorWidget(
       key: _backStackKey,
       navigatorKey: _navigatorKey,
-      onPopPage: _onPopPage,
+      onDidRemovePage: _onDidRemovePage,
       observers: [routeObserver],
+      onPopInvoked: _onPopInvoked,
     );
   }
 
-  /// Judgment of whether need to pop current page.
-  bool _onPopPage(Route<dynamic> route, result) {
-    if (!route.didPop(result)) {
-      return false;
-    }
-
-    _pageResultStreamController.add(result);
+  void _onDidRemovePage(Page<Object?> page) {
     popBackStack();
-    return true;
+  }
+
+  void _onPopInvoked(bool didPop, result) {
+    _pageResultStreamController.add(result);
   }
 
   @override
@@ -64,8 +62,8 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     _pageResultStreamController.close();
   }
 
-  Future<T> awaitPageResult<T>() {
-    return _pageResultStreamController.stream.whereType<T>().first;
+  Future<R> awaitPageResult<R>() {
+    return _pageResultStreamController.stream.whereType<R>().first;
   }
 }
 
@@ -73,13 +71,15 @@ class RootNavigatorWidget extends StatefulWidget {
   const RootNavigatorWidget({
     super.key,
     required this.navigatorKey,
-    this.onPopPage,
+    this.onDidRemovePage,
     required this.observers,
+    required this.onPopInvoked,
   });
 
   final GlobalKey<NavigatorState> navigatorKey;
-  final PopPageCallback? onPopPage;
+  final DidRemovePageCallback? onDidRemovePage;
   final List<NavigatorObserver> observers;
+  final PopInvokedWithResultCallback onPopInvoked;
 
   @override
   State<RootNavigatorWidget> createState() => RootNavigatorWidgetState();
@@ -91,9 +91,10 @@ class RootNavigatorWidgetState extends State<RootNavigatorWidget>
   Widget build(BuildContext context) {
     return Navigator(
       key: widget.navigatorKey,
-      pages:
-          restorableAfStack.value.map((path) => path.generatePage()).toList(),
-      onPopPage: widget.onPopPage,
+      pages: restorableAfStack.value
+          .map((path) => path.generatePage(onPopInvoked: widget.onPopInvoked))
+          .toList(),
+      onDidRemovePage: widget.onDidRemovePage,
       observers: widget.observers,
     );
   }

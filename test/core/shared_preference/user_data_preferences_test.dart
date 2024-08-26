@@ -3,6 +3,8 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -58,11 +60,11 @@ void main() {
       await expectLater(stream, emits(MediaType.manga));
     });
 
-    test('setIsShowReleaseOnly test', () async {
+    test('setTrackListFilter test', () async {
       final stream =
-          preferences.userDataStream.map((event) => event.isShowReleaseOnly);
-      await preferences.setIsShowReleaseOnly(true);
-      await expectLater(stream, emits(true));
+          preferences.userDataStream.map((event) => event.trackListFilter);
+      await preferences.setTrackListFilter(TrackListFilter.all);
+      await expectLater(stream, emits(TrackListFilter.all));
     });
 
     test('setActivityScopeCategory test', () async {
@@ -176,6 +178,43 @@ void main() {
       await preferences.setAniListSettings(
           AniListSettings(scoreFormat: ScoreFormat.point100));
       await expectLater(stream, emits(ScoreFormat.point100));
+    });
+
+    test('setAniListSettings add and clear NotificationId test', () async {
+      await preferences.addNotificationId('1');
+      expect(preferences.userData.sentNotificationIds, ['1']);
+      await preferences.addNotificationId('2');
+      expect(preferences.userData.sentNotificationIds, ['1', '2']);
+      await preferences.clearNotificationId();
+      expect(preferences.userData.sentNotificationIds, []);
+    });
+
+    test('setAniListSettings add and clear NotificationId stream test',
+        () async {
+      final stream =
+          preferences.userDataStream.map((event) => event.sentNotificationIds);
+      await preferences.addNotificationId('1');
+      await expectLater(stream, emits(['1']));
+    });
+
+    test('get last refresh time test', () async {
+      final time = DateTime.now();
+      await preferences.setLastSuccessRefreshTime(
+          const MediaList(userId: ''), time);
+
+      final getTime =
+          preferences.getLastSuccessRefreshTime(const MediaList(userId: ''));
+      expect(getTime, time);
+    });
+
+    test('get last refresh time with wrong key test', () async {
+      final time = DateTime.now();
+      await preferences.setLastSuccessRefreshTime(
+          const BirthdayCharacters(), time);
+
+      final getTime =
+          preferences.getLastSuccessRefreshTime(const MediaList(userId: ''));
+      expect(getTime, null);
     });
   });
 }

@@ -17,7 +17,10 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   MediaListDao(super.db);
 
   Future removeMediaListOfUser(String userId) {
-    return (delete(mediaListTable)..where((t) => t.userId.equals(userId))).go();
+    return attachedDatabase.transaction(() async {
+      return (delete(mediaListTable)..where((t) => t.userId.equals(userId)))
+          .go();
+    });
   }
 
   Future<List<MediaListAndMediaRelation>> getMediaListByPage(
@@ -65,23 +68,47 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .map((value) => value.whereNotNull().toList());
   }
 
+  Stream<List<MediaListAndMediaRelation>> getMediaListStream(
+      String userId, List<String> status, String mediaType) {
+    final query = select(mediaListTable).join([
+      innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+    ])
+      ..where(
+        mediaListTable.status.isIn(status) &
+            mediaListTable.userId.equals(userId) &
+            mediaTable.type.equals(mediaType),
+      )
+      ..orderBy([
+        OrderingTerm.desc(mediaListTable.updatedAt),
+      ]);
+
+    return query
+        .map(
+          (row) => MediaListAndMediaRelation(
+            mediaListEntity: row.readTable(mediaListTable),
+            mediaEntity: row.readTable(mediaTable),
+          ),
+        )
+        .watch();
+  }
+
   Future<MediaListEntity?> getMediaListItem(String mediaId) {
     return (select(mediaListTable)
           ..where((tbl) => mediaListTable.mediaId.equals(mediaId)))
         .getSingleOrNull();
   }
 
-  Future<MediaListAndMediaRelation?> getMediaListItemByMediaListId(
-      String mediaListId) {
-    final query = select(mediaListTable).join([
-      leftOuterJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+  Future<MediaListAndMediaRelation?> getMediaListItemByMediaId(String mediaId) {
+    final query = select(mediaTable).join([
+      leftOuterJoin(
+          mediaListTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
     ])
-      ..where(mediaListTable.id.equals(mediaListId));
+      ..where(mediaTable.id.equals(mediaId));
 
     return query
         .map(
           (row) => MediaListAndMediaRelation(
-            mediaListEntity: row.readTable(mediaListTable),
+            mediaListEntity: row.readTableOrNull(mediaListTable),
             mediaEntity: row.readTable(mediaTable),
           ),
         )
@@ -107,21 +134,25 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future upsertMediaListEntities(List<MediaListEntity> entities) async {
-    await batch((batch) {
-      batch.insertAll(
-        mediaListTable,
-        entities,
-        mode: InsertMode.insertOrReplace,
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAll(
+          mediaListTable,
+          entities,
+          mode: InsertMode.insertOrReplace,
+        );
+      });
     });
   }
 
   Future deleteMediaListOfUser(String userId) {
-    return (delete(mediaListTable)..where((tbl) => tbl.userId.equals(userId)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      return (delete(mediaListTable)..where((tbl) => tbl.userId.equals(userId)))
+          .go();
+    });
   }
 
-  Stream<SortedGroupMediaListEntity> getAllMediaListOfUserStream(
+  Stream<SortedGroupMediaListEntity> getAllSortedMediaListOfUserStream(
       String userId, List<String> status, String mediaType) {
     SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
       bool isNewUpdateMedia(MediaListAndMediaRelation relation) {
@@ -143,7 +174,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
           .reversed
           .toList();
       final otherList = (map[false] ?? [])
-          .sortedBy<num>((e) => e.mediaListEntity.updatedAt ?? 0)
+          .sortedBy<num>((e) => e.mediaListEntity?.updatedAt ?? 0)
           .reversed
           .toList();
       return SortedGroupMediaListEntity(newUpdateList, otherList);
@@ -174,18 +205,20 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
   /// upsert mediaList and ignore media when conflict.
   Future upsertMediaListAndMediaRelations(
       List<MediaListAndMediaRelation> entities) {
-    return batch((batch) {
-      batch.insertAll(
-        mediaListTable,
-        entities.map((e) => e.mediaListEntity),
-        mode: InsertMode.replace,
-      );
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAll(
+          mediaListTable,
+          entities.map((e) => e.mediaListEntity).whereNotNull(),
+          mode: InsertMode.replace,
+        );
 
-      // insert the table or update columns except Value.absent().
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        entities.map((e) => e.mediaEntity.toCompanion(true)),
-      );
+        // insert the table or update columns except Value.absent().
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          entities.map((e) => e.mediaEntity.toCompanion(true)),
+        );
+      });
     });
   }
 }

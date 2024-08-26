@@ -1,5 +1,8 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
@@ -19,7 +22,6 @@ import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
@@ -46,57 +48,93 @@ import 'package:aniflow/core/network/model/media_edge.dart';
 import 'package:aniflow/core/network/model/media_external_links_dto.dart';
 import 'package:aniflow/core/network/model/staff_edge.dart';
 import 'package:aniflow/core/network/model/studio_dto.dart';
-import 'package:aniflow/core/network/util/http_status_util.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class MediaInformationRepository {
   MediaInformationRepository(
-    this.dataSource,
-    this.characterDao,
-    this.staffDao,
-    this.studioDao,
-    this.airingScheduleDao,
-    this.mediaDao,
-    this.preferences,
+    this._dataSource,
+    this._characterDao,
+    this._staffDao,
+    this._studioDao,
+    this._airingScheduleDao,
+    this._mediaDao,
+    this._preferences,
   );
 
-  final AniListDataSource dataSource;
-  final MediaDao mediaDao;
-  final CharacterDao characterDao;
-  final StaffDao staffDao;
-  final StudioDao studioDao;
-  final AiringSchedulesDao airingScheduleDao;
-  final UserDataRepository preferences;
+  final AniListDataSource _dataSource;
+  final MediaDao _mediaDao;
+  final CharacterDao _characterDao;
+  final StaffDao _staffDao;
+  final StudioDao _studioDao;
+  final AiringSchedulesDao _airingScheduleDao;
+  final UserDataPreferences _preferences;
 
   Future<LoadResult<List<MediaModel>>> loadMediaPageByCategory({
     required MediaCategory category,
+    required bool displayAdultContent,
     required LoadType loadType,
     CancelToken? token,
   }) {
     return LoadPageUtil.loadPage(
       type: loadType,
-      onGetNetworkRes: (page, perPage) => dataSource.getNetworkAnimePage(
+      onGetNetworkRes: (page, perPage) => _dataSource.getNetworkMediaPage(
         page: page,
         perPage: perPage,
         token: token,
-        param: createAnimePageQueryParam(
-            category,
-            preferences.userData.season,
-            preferences.userData.seasonYear,
-            preferences.userData.displayAdultContent),
+        param: createMediaPageQueryParamByCategory(
+          category,
+          _preferences.userData.season,
+          _preferences.userData.seasonYear,
+          displayAdultContent,
+        ),
       ),
-      onGetEntityFromDB: (page, perPage) => mediaDao.getMediaByPage(
+      onGetEntityFromDB: (page, perPage) => _mediaDao.getMediaPageByCategory(
           category.getContentValue(),
           page: page,
           perPage: perPage),
-      onInsertEntityToDB: (entities) => mediaDao
+      onInsertEntityToDB: (entities) => _mediaDao
           .upsertMediaByCategory(category.getContentValue(), medias: entities),
       onClearDbCache: () =>
-          mediaDao.clearCategoryMediaCrossRef(category.getContentValue()),
+          _mediaDao.clearCategoryMediaCrossRef(category.getContentValue()),
+      mapDtoToEntity: (dto) => dto.toEntity(),
+      mapEntityToModel: (entity) => entity.toModel(),
+    );
+  }
+
+  Future<LoadResult<List<MediaModel>>> refreshMoviesPage({
+    required DateTime startDateGreater,
+    required DateTime endDateLesser,
+    required bool isAdult,
+    CancelToken? token,
+  }) {
+    return LoadPageUtil.loadPage(
+      type: const Refresh(50),
+      onGetNetworkRes: (page, perPage) => _dataSource.getNetworkMediaPage(
+        page: page,
+        perPage: perPage,
+        token: token,
+        param: AnimePageQueryParam(
+          type: MediaType.anime,
+          startDateGreater: startDateGreater,
+          endDateGreater: endDateLesser,
+          animeFormat: [MediaFormat.movie],
+          isAdult: isAdult,
+        ),
+      ),
+      onGetEntityFromDB: (page, perPage) => _mediaDao.getMediasByTimeRange(
+        page: page,
+        perPage: perPage,
+        mediaFormat: [MediaFormat.movie].map((e) => e.toJson()).toList(),
+        startDate: startDateGreater,
+        endDate: endDateLesser,
+      ),
+      onInsertEntityToDB: (entities) => _mediaDao.insertOrUpdateMedia(entities),
+      onClearDbCache: () async {},
       mapDtoToEntity: (dto) => dto.toEntity(),
       mapEntityToModel: (entity) => entity.toModel(),
     );
@@ -111,18 +149,18 @@ class MediaInformationRepository {
   }) async {
     return LoadPageUtil.loadPage(
       type: loadType,
-      onGetNetworkRes: (page, perPage) => dataSource.getCharacterPage(
+      onGetNetworkRes: (page, perPage) => _dataSource.getCharacterPage(
         animeId: int.parse(animeId),
         language: language,
         page: page,
         perPage: perPage,
         token: token,
       ),
-      onClearDbCache: () => characterDao.clearMediaCharacterCrossRef(animeId),
+      onClearDbCache: () => _characterDao.clearMediaCharacterCrossRef(animeId),
       onInsertEntityToDB: (entities) =>
-          characterDao.insertCharacterVoiceActorsOfMedia(animeId, entities),
+          _characterDao.insertCharacterVoiceActorsOfMedia(animeId, entities),
       onGetEntityFromDB: (page, perPage) =>
-          characterDao.getCharacterOfMediaByPage(
+          _characterDao.getCharacterOfMediaByPage(
         animeId.toString(),
         staffLanguage: language.toJson(),
         page: page,
@@ -147,7 +185,7 @@ class MediaInformationRepository {
   }) {
     return LoadPageUtil.loadPage(
       type: loadType,
-      onGetNetworkRes: (page, perPage) => dataSource.getStaffPage(
+      onGetNetworkRes: (page, perPage) => _dataSource.getStaffPage(
         animeId: int.parse(animeId),
         page: page,
         perPage: perPage,
@@ -155,8 +193,8 @@ class MediaInformationRepository {
       ),
       onClearDbCache: () async {},
       onInsertEntityToDB: (entities) =>
-          staffDao.insertStaffRelationEntitiesOfMedia(animeId, entities),
-      onGetEntityFromDB: (page, perPage) => staffDao.getStaffOfMediaByPage(
+          _staffDao.insertStaffRelationEntitiesOfMedia(animeId, entities),
+      onGetEntityFromDB: (page, perPage) => _staffDao.getStaffOfMediaByPage(
         animeId.toString(),
         page: page,
         perPage: perPage,
@@ -170,13 +208,13 @@ class MediaInformationRepository {
   }
 
   Stream<MediaModel> getDetailMediaInfoStream(String id) {
-    final mediaStream = mediaDao.getMediaStream(id);
-    final characterStream = characterDao.getCharacterListStream(id,
+    final mediaStream = _mediaDao.getMediaStream(id);
+    final characterStream = _characterDao.getCharacterListStream(id,
         staffLanguage: StaffLanguage.japanese.toJson());
-    final staffStream = staffDao.getStaffListStream(id);
-    final studioStream = studioDao.getStudioOfMediaStream(id);
-    final externalLinkStream = mediaDao.getAllExternalLinksOfMediaStream(id);
-    final mediaRelationStream = mediaDao.getMediaRelationsStream(id);
+    final staffStream = _staffDao.getStaffListStream(id);
+    final studioStream = _studioDao.getStudioOfMediaStream(id);
+    final externalLinkStream = _mediaDao.getAllExternalLinksOfMediaStream(id);
+    final mediaRelationStream = _mediaDao.getMediaRelationsStream(id);
     return CombineLatestStream.combine6(
       mediaStream,
       characterStream,
@@ -209,15 +247,15 @@ class MediaInformationRepository {
     try {
       /// fetch anime info from network.
       MediaDto networkResult =
-          await dataSource.getNetworkAnime(id: int.parse(id), token: token);
+          await _dataSource.getNetworkAnime(id: int.parse(id), token: token);
 
       /// insert anime info to db.
-      await mediaDao.insertOrUpdateMedia([networkResult.toEntity()]);
+      await _mediaDao.insertOrUpdateMedia([networkResult.toEntity()]);
 
       final List<CharacterEdge> characters =
           networkResult.characters?.edges ?? [];
       if (characters.isNotEmpty) {
-        await characterDao.clearMediaCharacterCrossRef(id);
+        await _characterDao.clearMediaCharacterCrossRef(id);
 
         /// inset character entities to db.
         final List<CharacterAndVoiceActorRelation> characterAndVoiceActors =
@@ -232,7 +270,7 @@ class MediaInformationRepository {
                 )
                 .toList();
 
-        await characterDao.insertCharacterVoiceActorsOfMedia(
+        await _characterDao.insertCharacterVoiceActorsOfMedia(
             id, characterAndVoiceActors);
       }
 
@@ -247,7 +285,7 @@ class MediaInformationRepository {
               ),
             )
             .toList();
-        await staffDao.insertStaffRelationEntitiesOfMedia(id, entities);
+        await _staffDao.insertStaffRelationEntitiesOfMedia(id, entities);
       }
 
       final List<StudioDto> studios = networkResult.studios?.nodes ?? [];
@@ -255,7 +293,8 @@ class MediaInformationRepository {
       /// insert studio info to database.
       if (studios.isNotEmpty) {
         final studioEntities = studios.map((e) => e.toEntity()).toList();
-        await studioDao.insertOrIgnoreStudioEntitiesOfMedia(id, studioEntities);
+        await _studioDao.insertOrIgnoreStudioEntitiesOfMedia(
+            id, studioEntities);
       }
 
       final List<MediaExternalLinkDto> externalLinks =
@@ -264,14 +303,14 @@ class MediaInformationRepository {
       /// insert external links to database.
       if (externalLinks.isNotEmpty) {
         final linkEntities = externalLinks.map((e) => e.toEntity(id)).toList();
-        await mediaDao.upsertMediaExternalLinks(linkEntities);
+        await _mediaDao.upsertMediaExternalLinks(linkEntities);
       }
 
       final MediaConnection? relations = networkResult.relations;
 
       /// insert media relations to database.
       if (relations != null) {
-        await mediaDao.upsertMediaRelations(
+        await _mediaDao.upsertMediaRelations(
           id,
           relations.edges
               .map((e) => MediaAndRelationTypeEntity.fromDto(e))
@@ -288,7 +327,7 @@ class MediaInformationRepository {
   Future<List<AiringScheduleAndAnimeModel>> getAiringScheduleAndAnimeByDateTime(
       DateTime dateTime) async {
     final (startMs, endMs) = TimeUtil.getTimeRangeOfTheTargetDay(dateTime);
-    final entities = await airingScheduleDao
+    final entities = await _airingScheduleDao
         .getAiringSchedulesByTimeRange(timeRange: (startMs, endMs));
 
     return entities
@@ -299,6 +338,24 @@ class MediaInformationRepository {
           ),
         )
         .toList();
+  }
+
+  Stream<List<AiringScheduleAndAnimeModel>>
+      getAiringScheduleAndAnimeByDateTimeStream(DateTime dateTime) {
+    final (startMs, endMs) = TimeUtil.getTimeRangeOfTheTargetDay(dateTime);
+    final entities = _airingScheduleDao
+        .getAiringSchedulesByTimeRangeStream(timeRange: (startMs, endMs));
+
+    return entities.map(
+      (e) => e
+          .map(
+            (e) => AiringScheduleAndAnimeModel(
+              airingSchedule: e.airingSchedule.toModel(),
+              animeModel: e.mediaEntity.toModel(),
+            ),
+          )
+          .toList(),
+    );
   }
 
   /// Refresh airing schedule data in range of [now - dayAgo, not + dayAfter].
@@ -315,14 +372,14 @@ class MediaInformationRepository {
           TimeUtil.getTimeRange(now, daysAgo: dayAgo, daysAfter: dayAfter);
 
       /// Get all airing schedule from network source.
-      final networkResults = await dataSource.getAiringSchedules(
+      final networkResults = await _dataSource.getAiringSchedules(
         param: AiringSchedulesQueryParam(
             airingAtGreater: startMs ~/ 1000, airingAtLesser: endMs ~/ 1000),
         token: token,
       );
 
       /// insert airing schedule data to db.
-      await airingScheduleDao.upsertAiringSchedules(
+      await _airingScheduleDao.upsertAiringSchedules(
         networkResults
             .map(
               (e) => AiringScheduleAndMediaRelation(
@@ -333,7 +390,7 @@ class MediaInformationRepository {
       );
 
       return LoadSuccess(data: null);
-    } on NetworkException catch (exception) {
+    } on Exception catch (exception) {
       return LoadError(exception);
     }
   }
@@ -343,14 +400,14 @@ class MediaInformationRepository {
     try {
       /// fetch detail character information.
       final characterDto =
-          await dataSource.getCharacterById(characterId: id, token: token);
+          await _dataSource.getCharacterById(characterId: id, token: token);
 
       /// insert data to database.
       final characterEntity = characterDto.toEntity();
       final mediaEntityList =
           characterDto.media?.edges.map((e) => e.media!.toEntity()).toList() ??
               [];
-      await characterDao
+      await _characterDao
           .upsertCharacterAndRelatedMedia(CharacterAndRelatedMediaRelation(
         character: characterEntity,
         medias: mediaEntityList,
@@ -366,31 +423,34 @@ class MediaInformationRepository {
     required MediaCategory category,
     required int max,
   }) {
-    return mediaDao.getMediasStream(category.getContentValue(), limit: max).map(
+    return _mediaDao
+        .getCategoryMediasStream(category.getContentValue(), limit: max)
+        .map(
           (e) => e.map((e) => e.toModel()).toList(),
         );
   }
 
   Stream<CharacterModel> getDetailCharacterStream(String id) {
-    return characterDao.getCharacterAndRelatedMediaStreamById(id).map(
+    return _characterDao.getCharacterAndRelatedMediaStreamById(id).map(
           (entity) => entity.toModel(),
         );
   }
 
   Stream<StaffModel?> getDetailStaffStream(String id) {
-    return staffDao.getStaffStream(id).map((entity) => entity?.toModel());
+    return _staffDao.getStaffStream(id).map((entity) => entity?.toModel());
   }
 
   Future<LoadResult<void>> startFetchDetailStaffInfo(
       {required String id, CancelToken? token}) async {
     try {
       /// fetch detail character information.
-      final staffDto = await dataSource.getStaffById(staffId: id, token: token);
+      final staffDto =
+          await _dataSource.getStaffById(staffId: id, token: token);
 
       /// insert data to database.
       final staffEntity = staffDto.toEntity();
 
-      await staffDao.upsertStaffEntities([staffEntity]);
+      await _staffDao.upsertStaffEntities([staffEntity]);
 
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
@@ -410,7 +470,7 @@ class MediaInformationRepository {
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
-        final mediaConnection = await dataSource.getMediaConnectionByStaffId(
+        final mediaConnection = await _dataSource.getMediaConnectionByStaffId(
             staffId, page, perPage, mediaSort, token);
         return mediaConnection.edges;
       },
@@ -421,7 +481,7 @@ class MediaInformationRepository {
             .map((e) => e.toEntity())
             .toList();
 
-        await characterDao.insertOrIgnoreCharacters(characters);
+        await _characterDao.insertOrIgnoreCharacters(characters);
 
         final medias = dtoList
             .map((e) => e.media)
@@ -429,25 +489,25 @@ class MediaInformationRepository {
             .map((e) => e.toEntity())
             .toList();
 
-        await mediaDao.insertOrIgnoreMedia(medias);
+        await _mediaDao.insertOrIgnoreMedia(medias);
       },
       mapDtoToModel: CharacterAndMediaConnection.fromDto,
     );
   }
 
   Stream<StudioModel?> getStudioStream(String id) =>
-      studioDao.getStudioStream(id).map((entity) => entity?.toModel());
+      _studioDao.getStudioStream(id).map((entity) => entity?.toModel());
 
   Future<LoadResult<void>> startFetchDetailStudioInfo(
       {required String id, required CancelToken token}) async {
     try {
       /// fetch detail studio information.
       final studioDto =
-          await dataSource.getStudioById(studioId: id, token: token);
+          await _dataSource.getStudioById(studioId: id, token: token);
 
       /// insert data to database.
       final studioEntity = studioDto.toEntity();
-      await studioDao.upsertStudioEntities([studioEntity]);
+      await _studioDao.upsertStudioEntities([studioEntity]);
 
       return LoadSuccess(data: null);
     } on Exception catch (exception) {
@@ -464,7 +524,7 @@ class MediaInformationRepository {
       page: page,
       perPage: perPage,
       onGetNetworkRes: (page, prePage) async {
-        final mediaConnection = await dataSource.getMediaConnectionByStudioId(
+        final mediaConnection = await _dataSource.getMediaConnectionByStudioId(
             studioId, page, perPage);
         return mediaConnection.edges;
       },
@@ -475,9 +535,24 @@ class MediaInformationRepository {
             .map((e) => e.toEntity())
             .toList();
 
-        await mediaDao.insertOrIgnoreMedia(medias);
+        await _mediaDao.insertOrIgnoreMedia(medias);
       },
       mapDtoToModel: (edge) => edge.media!.toModel(),
     );
+  }
+
+  Stream<List<MediaModel>> getMediaStreamByAiringTimeRange(
+      {required DateTime start,
+      required DateTime end,
+      required List<MediaFormat> format}) {
+    return _mediaDao
+        .getMediaStreamByAiringTimeRange(
+          start,
+          end,
+          format.map((e) => e.toJson()).toList(),
+        )
+        .map(
+          (entities) => entities.map((entity) => entity.toModel()).toList(),
+        );
   }
 }

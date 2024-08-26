@@ -28,8 +28,12 @@ mixin _$MediaExternalLinkModel {
   String get icon => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaExternalLinkModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaExternalLinkModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaExternalLinkModelCopyWith<MediaExternalLinkModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$MediaExternalLinkModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaExternalLinkModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,6 +133,8 @@ class __$$MediaExternalLinkModelImplCopyWithImpl<$Res>
       $Res Function(_$MediaExternalLinkModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaExternalLinkModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -217,12 +225,14 @@ class _$MediaExternalLinkModelImpl implements _MediaExternalLinkModel {
             (identical(other.color, color) || other.color == color));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, url, site, type, siteId, icon, color);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaExternalLinkModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaExternalLinkModelImplCopyWith<_$MediaExternalLinkModelImpl>
@@ -261,8 +271,11 @@ abstract class _MediaExternalLinkModel implements MediaExternalLinkModel {
   String get icon;
   @override
   String get color;
+
+  /// Create a copy of MediaExternalLinkModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaExternalLinkModelImplCopyWith<_$MediaExternalLinkModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

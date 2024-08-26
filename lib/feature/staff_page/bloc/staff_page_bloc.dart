@@ -24,7 +24,7 @@ class StaffPageBloc extends PagingBloc<StaffAndRoleModel> {
   final UserDataRepository _userDataRepository;
 
   UserStaffNameLanguage get userStaffNameLanguage =>
-      _userDataRepository.userData.userStaffNameLanguage;
+      _userDataRepository.userStaffNameLanguage;
 
   @override
   Future<LoadResult<List<StaffAndRoleModel>>> loadPage({

@@ -6,6 +6,9 @@ import 'package:aniflow/core/common/definitions/activity_scope_category.dart';
 import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
+import 'package:aniflow/core/common/definitions/track_list_filter.dart';
+import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
@@ -33,12 +36,17 @@ mixin _UserDataKey {
   /// ani-list settings. [AniListSettings]
   static const aniListSettingsKey = 'ani_list_settings_key';
 
-  static const showReleasedOnlyKey = 'show_released_only_key';
+  static const trackListFilterKey = 'track_list_filter_key';
 
   static const themeSettingKey = 'theme_setting_key';
+
+  static const alreadySentNotificationIdsKey =
+      'already_sent_notification_ids_key';
+
+  static const mineGithubUserInfoKey = 'mine_github_user_info_key';
 }
 
-@injectable
+@lazySingleton
 class UserDataPreferences {
   UserDataPreferences(this._preferences);
 
@@ -53,7 +61,7 @@ class UserDataPreferences {
       season: _season,
       seasonYear: _seasonYear,
       themeSetting: _themeSetting,
-      isShowReleaseOnly: _isShowReleaseOnly,
+      trackListFilter: _trackListFilter,
       activityScopeCategory: _activityScopeCategory,
       activityFilterType: _activityFilterType,
       authedUserId: _authedUserId,
@@ -63,6 +71,7 @@ class UserDataPreferences {
       userTitleLanguage: settings.userTitleLanguage,
       userStaffNameLanguage: settings.userStaffNameLanguage,
       scoreFormat: settings.scoreFormat,
+      sentNotificationIds: _sentNotificationIds,
     );
   }
 
@@ -114,12 +123,14 @@ class UserDataPreferences {
     _changeNotifier.notifyChanged();
   }
 
-  bool get _isShowReleaseOnly =>
-      _preferences.getBool(_UserDataKey.showReleasedOnlyKey) ?? false;
+  TrackListFilter get _trackListFilter =>
+      TrackListFilter.fromJson(
+          _preferences.getString(_UserDataKey.trackListFilterKey)) ??
+      TrackListFilter.all;
 
-  Future setIsShowReleaseOnly(bool showReleasedOnly) async {
-    await _preferences.setBool(
-        _UserDataKey.showReleasedOnlyKey, showReleasedOnly);
+  Future setTrackListFilter(TrackListFilter trackListFilter) async {
+    await _preferences.setString(
+        _UserDataKey.trackListFilterKey, trackListFilter.toJson());
     _changeNotifier.notifyChanged();
   }
 
@@ -198,5 +209,71 @@ class UserDataPreferences {
       await _preferences.remove(_UserDataKey.authExpiredTime);
     }
     _changeNotifier.notifyChanged();
+  }
+
+  List<String> get _sentNotificationIds {
+    final sentNotificationIdsString =
+        _preferences.getString(_UserDataKey.alreadySentNotificationIdsKey) ??
+            "[]";
+    final jsonList = jsonDecode(sentNotificationIdsString) as List<dynamic>;
+    return jsonList.map((e) => e.toString()).toList();
+  }
+
+  Future addNotificationId(String id) async {
+    final newIds = jsonEncode({..._sentNotificationIds, id}.toList());
+    await _preferences.setString(
+        _UserDataKey.alreadySentNotificationIdsKey, newIds);
+
+    _changeNotifier.notifyChanged();
+  }
+
+  Future clearNotificationId() async {
+    await _preferences.remove(_UserDataKey.alreadySentNotificationIdsKey);
+
+    _changeNotifier.notifyChanged();
+  }
+
+  Future setMineGithubUserInfo(String userInfo) async {
+    await _preferences.setString(_UserDataKey.mineGithubUserInfoKey, userInfo);
+    _changeNotifier.notifyChanged();
+  }
+
+  Stream<String?> getMineGithubUserInfoStream() {
+    return StreamUtil.createStream(
+      _changeNotifier,
+      () {
+        return Future.value(
+            _preferences.getString(_UserDataKey.mineGithubUserInfoKey));
+      },
+    ).distinct();
+  }
+
+  Future setLastSuccessRefreshTime(RefreshTimeKey key, DateTime time) async {
+    await _preferences.setString(
+        jsonEncode(key.toJson()), time.toIso8601String());
+  }
+
+  DateTime? getLastSuccessRefreshTime(RefreshTimeKey key) {
+    final timeStringOrNull = _preferences.getString(jsonEncode(key.toJson()));
+    if (timeStringOrNull == null) {
+      return null;
+    }
+
+    return DateTime.tryParse(timeStringOrNull);
+  }
+
+  Future setDialogClosedTime(DialogType dialog, DateTime time) async {
+    await _preferences.setString(
+        jsonEncode(dialog.toJson()), time.toIso8601String());
+  }
+
+  DateTime? getDialogClosedTime(DialogType dialog) {
+    final timeStringOrNull =
+        _preferences.getString(jsonEncode(dialog.toJson()));
+    if (timeStringOrNull == null) {
+      return null;
+    }
+
+    return DateTime.tryParse(timeStringOrNull);
   }
 }

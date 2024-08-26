@@ -33,8 +33,12 @@ mixin _$UserGenreStaticsDto {
   @JsonKey(name: 'genre')
   String? get genre => throw _privateConstructorUsedError;
 
+  /// Serializes this UserGenreStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserGenreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserGenreStaticsDtoCopyWith<UserGenreStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64,6 +68,8 @@ class _$UserGenreStaticsDtoCopyWithImpl<$Res, $Val extends UserGenreStaticsDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserGenreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -128,6 +134,8 @@ class __$$UserGenreStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserGenreStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserGenreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -228,12 +236,14 @@ class _$UserGenreStaticsDtoImpl implements _UserGenreStaticsDto {
             (identical(other.genre, genre) || other.genre == genre));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, count, meanScore, minutesWatched,
       chaptersRead, const DeepCollectionEquality().hash(_mediaIds), genre);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserGenreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserGenreStaticsDtoImplCopyWith<_$UserGenreStaticsDtoImpl> get copyWith =>
@@ -278,8 +288,11 @@ abstract class _UserGenreStaticsDto implements UserGenreStaticsDto {
   @override
   @JsonKey(name: 'genre')
   String? get genre;
+
+  /// Create a copy of UserGenreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserGenreStaticsDtoImplCopyWith<_$UserGenreStaticsDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

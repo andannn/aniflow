@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/notification_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -21,7 +22,7 @@ enum NotificationCategory {
   media;
 }
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class NotificationRepository {
   NotificationRepository(
     this.dataSource,
@@ -36,7 +37,9 @@ class NotificationRepository {
   Future<LoadResult<List<NotificationModel>>> loadNotificationsByPage({
     required int page,
     required int perPage,
+    bool accessDb = true,
     required NotificationCategory category,
+    required bool resetNotificationCount,
     CancelToken? token,
   }) {
     final types = switch (category) {
@@ -63,10 +66,12 @@ class NotificationRepository {
     return LoadPageUtil.loadPageWithoutOrderingCache(
       page: page,
       perPage: perPage,
+      accessDb: accessDb,
       onGetNetworkRes: (int page, int perPage) => dataSource.getNotifications(
         param: NotificationQueryParam(
           page: page,
           perPage: perPage,
+          resetNotificationCount: resetNotificationCount,
           type: types,
         ),
         token: token,

@@ -1,11 +1,12 @@
 import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
@@ -58,10 +59,10 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
   CancelToken? _cancelToken;
 
   UserTitleLanguage get userTitleLanguage =>
-      userDataRepository.userData.userTitleLanguage;
+      userDataRepository.userTitleLanguage;
 
   UserStaffNameLanguage get userStaffNameLanguage =>
-      userDataRepository.userData.userStaffNameLanguage;
+      userDataRepository.userStaffNameLanguage;
 
   @override
   void onChange(Change<StatsState> change) {
@@ -87,7 +88,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
     // Cancel last task if needed.
     _cancelToken?.cancel();
     // Change state to Loading.
-    add(_OnUserStatsContentChanged(loadState: const Loading()));
+    safeAdd(_OnUserStatsContentChanged(loadState: const Loading()));
 
     final result = await _statisticsRepository.getUserStatics(
         userId: userId, type: type, sort: sort);
@@ -99,7 +100,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
           _messageRepository.showMessage(message);
         }
       case LoadSuccess<List<UserStatisticsModel>>():
-        add(_OnUserStatsContentChanged(loadState: Ready(result.data)));
+        safeAdd(_OnUserStatsContentChanged(loadState: Ready(result.data)));
     }
   }
 

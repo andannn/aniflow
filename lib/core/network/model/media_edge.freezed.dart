@@ -29,8 +29,12 @@ mixin _$MediaEdge {
   @JsonKey(name: 'node')
   MediaDto? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaEdge to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaEdge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaEdgeCopyWith<MediaEdge> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,6 +63,8 @@ class _$MediaEdgeCopyWithImpl<$Res, $Val extends MediaEdge>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaEdge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +93,8 @@ class _$MediaEdgeCopyWithImpl<$Res, $Val extends MediaEdge>
     ) as $Val);
   }
 
+  /// Create a copy of MediaEdge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaDtoCopyWith<$Res>? get media {
@@ -126,6 +134,8 @@ class __$$MediaEdgeImplCopyWithImpl<$Res>
       _$MediaEdgeImpl _value, $Res Function(_$MediaEdgeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaEdge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -208,12 +218,14 @@ class _$MediaEdgeImpl implements _MediaEdge {
             (identical(other.media, media) || other.media == media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, relationType,
       const DeepCollectionEquality().hash(_characters), characterRole, media);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaEdge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaEdgeImplCopyWith<_$MediaEdgeImpl> get copyWith =>
@@ -249,8 +261,11 @@ abstract class _MediaEdge implements MediaEdge {
   @override
   @JsonKey(name: 'node')
   MediaDto? get media;
+
+  /// Create a copy of MediaEdge
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaEdgeImplCopyWith<_$MediaEdgeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

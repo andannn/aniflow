@@ -30,14 +30,20 @@ mixin _$UserDto {
   String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'unreadNotificationCount')
   int get unreadNotificationCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'options')
   UserOptions? get options => throw _privateConstructorUsedError;
   @JsonKey(name: 'mediaListOptions')
   MediaListOptionDto? get mediaListOptions =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this UserDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserDtoCopyWith<UserDto> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -52,6 +58,7 @@ abstract class $UserDtoCopyWith<$Res> {
       @JsonKey(name: 'avatar') Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'unreadNotificationCount') int unreadNotificationCount,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'options') UserOptions? options,
       @JsonKey(name: 'mediaListOptions') MediaListOptionDto? mediaListOptions});
 
@@ -69,6 +76,8 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -77,6 +86,7 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     Object? avatar = null,
     Object? bannerImage = freezed,
     Object? unreadNotificationCount = null,
+    Object? siteUrl = freezed,
     Object? options = freezed,
     Object? mediaListOptions = freezed,
   }) {
@@ -101,6 +111,10 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
           ? _value.unreadNotificationCount
           : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
               as int,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       options: freezed == options
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
@@ -112,6 +126,8 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     ) as $Val);
   }
 
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserOptionsCopyWith<$Res>? get options {
@@ -124,6 +140,8 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
     });
   }
 
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaListOptionDtoCopyWith<$Res>? get mediaListOptions {
@@ -150,6 +168,7 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
       @JsonKey(name: 'avatar') Map<String, String> avatar,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'unreadNotificationCount') int unreadNotificationCount,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'options') UserOptions? options,
       @JsonKey(name: 'mediaListOptions') MediaListOptionDto? mediaListOptions});
 
@@ -167,6 +186,8 @@ class __$$UserDtoImplCopyWithImpl<$Res>
       _$UserDtoImpl _value, $Res Function(_$UserDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -175,6 +196,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
     Object? avatar = null,
     Object? bannerImage = freezed,
     Object? unreadNotificationCount = null,
+    Object? siteUrl = freezed,
     Object? options = freezed,
     Object? mediaListOptions = freezed,
   }) {
@@ -199,6 +221,10 @@ class __$$UserDtoImplCopyWithImpl<$Res>
           ? _value.unreadNotificationCount
           : unreadNotificationCount // ignore: cast_nullable_to_non_nullable
               as int,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       options: freezed == options
           ? _value.options
           : options // ignore: cast_nullable_to_non_nullable
@@ -221,6 +247,7 @@ class _$UserDtoImpl implements _UserDto {
       @JsonKey(name: 'bannerImage') this.bannerImage = '',
       @JsonKey(name: 'unreadNotificationCount')
       this.unreadNotificationCount = 0,
+      @JsonKey(name: 'siteUrl') this.siteUrl,
       @JsonKey(name: 'options') this.options,
       @JsonKey(name: 'mediaListOptions') this.mediaListOptions})
       : _avatar = avatar;
@@ -250,6 +277,9 @@ class _$UserDtoImpl implements _UserDto {
   @JsonKey(name: 'unreadNotificationCount')
   final int unreadNotificationCount;
   @override
+  @JsonKey(name: 'siteUrl')
+  final String? siteUrl;
+  @override
   @JsonKey(name: 'options')
   final UserOptions? options;
   @override
@@ -258,7 +288,7 @@ class _$UserDtoImpl implements _UserDto {
 
   @override
   String toString() {
-    return 'UserDto(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, unreadNotificationCount: $unreadNotificationCount, options: $options, mediaListOptions: $mediaListOptions)';
+    return 'UserDto(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, unreadNotificationCount: $unreadNotificationCount, siteUrl: $siteUrl, options: $options, mediaListOptions: $mediaListOptions)';
   }
 
   @override
@@ -274,12 +304,13 @@ class _$UserDtoImpl implements _UserDto {
             (identical(
                     other.unreadNotificationCount, unreadNotificationCount) ||
                 other.unreadNotificationCount == unreadNotificationCount) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
             (identical(other.options, options) || other.options == options) &&
             (identical(other.mediaListOptions, mediaListOptions) ||
                 other.mediaListOptions == mediaListOptions));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -288,10 +319,13 @@ class _$UserDtoImpl implements _UserDto {
       const DeepCollectionEquality().hash(_avatar),
       bannerImage,
       unreadNotificationCount,
+      siteUrl,
       options,
       mediaListOptions);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserDtoImplCopyWith<_$UserDtoImpl> get copyWith =>
@@ -313,6 +347,7 @@ abstract class _UserDto implements UserDto {
       @JsonKey(name: 'bannerImage') final String? bannerImage,
       @JsonKey(name: 'unreadNotificationCount')
       final int unreadNotificationCount,
+      @JsonKey(name: 'siteUrl') final String? siteUrl,
       @JsonKey(name: 'options') final UserOptions? options,
       @JsonKey(name: 'mediaListOptions')
       final MediaListOptionDto? mediaListOptions}) = _$UserDtoImpl;
@@ -335,13 +370,19 @@ abstract class _UserDto implements UserDto {
   @JsonKey(name: 'unreadNotificationCount')
   int get unreadNotificationCount;
   @override
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl;
+  @override
   @JsonKey(name: 'options')
   UserOptions? get options;
   @override
   @JsonKey(name: 'mediaListOptions')
   MediaListOptionDto? get mediaListOptions;
+
+  /// Create a copy of UserDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserDtoImplCopyWith<_$UserDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

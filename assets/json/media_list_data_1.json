@@ -1,0 +1,105 @@
+[
+  {
+    "id": 365744603,
+    "status": "CURRENT",
+    "progress": 7,
+    "priority": 0,
+    "notes": null,
+    "repeat": 0,
+    "private": false,
+    "userId": 6378393,
+    "updatedAt": 1722684076,
+    "score": 0,
+    "progressVolumes": null,
+    "startedAt": {
+      "year": 2023,
+      "month": 9,
+      "day": 25
+    },
+    "completedAt": {
+      "year": null,
+      "month": null,
+      "day": null
+    },
+    "media": {
+      "id": 139435,
+      "title": {
+        "romaji": "Shinigami Bocchan to Kuro Maid 2nd Season",
+        "english": "The Duke of Death and His Maid Season 2",
+        "native": "死神坊ちゃんと黒メイド 第2期"
+      },
+      "type": "ANIME",
+      "format": "TV",
+      "description": "The second season of <i>Shinigami Bocchan to Kuro Maid</i>.\n<br><br>\nThe duke, full of love and kindness, treads carefully around every living being, be it a tender flower or his seductive maid, Alice Lendrott. Were it not for the devotion Alice shows him and the fondness that grows ever stronger between them, the duke would have barely paid heed to his mother's demand: to either lift the dreadful curse placed upon him or lose his family inheritance. Although the duke has no greed for riches, he yearns to be rid of his frightful powers—which cause all he touches to die—for the sake of those closest to him.\n<br><br>\nAs the duke, Alice, and their friends enjoy spirited days filled with the ridiculous affairs of the supernatural, the spring deadline looms heavily over them. Nonetheless, the duke refuses to take any shortcuts in this endeavor if it means betraying the trust of his cherished friends.\n<br><br>\n(Source: MAL Rewrite)",
+      "episodes": 12,
+      "seasonYear": 2023,
+      "season": "SUMMER",
+      "source": "MANGA",
+      "status": "FINISHED",
+      "coverImage": {
+        "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx139435-7cLDzwDsRqAn.png",
+        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx139435-7cLDzwDsRqAn.png",
+        "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx139435-7cLDzwDsRqAn.png",
+        "color": "#e4865d"
+      },
+      "averageScore": 75,
+      "favourites": 468,
+      "trending": 0,
+      "nextAiringEpisode": null
+    }
+  },
+  {
+    "id": 399868919,
+    "status": "CURRENT",
+    "progress": 12,
+    "priority": 0,
+    "notes": null,
+    "repeat": 0,
+    "private": false,
+    "userId": 6378393,
+    "updatedAt": 1722698061,
+    "score": 0,
+    "progressVolumes": null,
+    "startedAt": {
+      "year": 2024,
+      "month": 5,
+      "day": 4
+    },
+    "completedAt": {
+      "year": -100,
+      "month": 1,
+      "day": 1
+    },
+    "media": {
+      "id": 163139,
+      "title": {
+        "romaji": "Boku no Hero Academia 7",
+        "english": "My Hero Academia Season 7",
+        "native": "僕のヒーローアカデミア 7"
+      },
+      "type": "ANIME",
+      "format": "TV",
+      "description": "The seventh season of <i>Boku no Hero Academia</i>.<br>\n<br>\nFollowing an all-out battle with the Paranormal Liberation Front, it is difficult for the people of Japan to continue placing faith in their heroes. To combat the combined power of Tomura Shigaraki and All For One, All Might calls for his ally from the West—the strongest woman on the planet, Star and Stripe.<br>\n<br>\nHowever, All For One decides to intercept Star and her fleet to get his hands on her overpowered quirk before she can enter Japanese airspace. Although Endeavor, Hawks, and Best Jeanist are headed to the rendezvous point, Star makes a gamble in the present to save her comrades.<br>\n<br>\n(Source: MAL Rewrite)<br>\n<br>\n<i>Note: The season was preceded by a 4-episode special titled 'Boku no Hero Academia: Memories' recapping events from the 6th season along with adding a few minutes of new material each episode.</i>",
+      "episodes": 21,
+      "seasonYear": 2024,
+      "season": "SPRING",
+      "source": "MANGA",
+      "status": "RELEASING",
+      "coverImage": {
+        "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx163139-JchZhUFlNTWU.jpg",
+        "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx163139-JchZhUFlNTWU.jpg",
+        "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx163139-JchZhUFlNTWU.jpg",
+        "color": "#2893e4"
+      },
+      "averageScore": 78,
+      "favourites": 2024,
+      "trending": 14,
+      "nextAiringEpisode": {
+        "id": 383036,
+        "airingAt": 1723883400,
+        "episode": 13,
+        "timeUntilAiring": 101831
+      }
+    }
+  }
+]

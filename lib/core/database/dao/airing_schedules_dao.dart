@@ -16,41 +16,59 @@ class AiringSchedulesDao extends DatabaseAccessor<AniflowDatabase>
 
   Future upsertAiringSchedules(
       List<AiringScheduleAndMediaRelation> schedules) async {
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        airingScheduleTable,
-        schedules.map((e) => e.airingSchedule),
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          airingScheduleTable,
+          schedules.map((e) => e.airingSchedule),
+        );
 
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        schedules.map((e) => e.mediaEntity.toCompanion(true)),
-      );
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          schedules.map((e) => e.mediaEntity.toCompanion(true)),
+        );
+      });
     });
   }
 
   Future clearAiringSchedule() {
-    return delete(airingScheduleTable).go();
+    return attachedDatabase.transaction(() async {
+      return delete(airingScheduleTable).go();
+    });
   }
+
+  Selectable<AiringScheduleAndMediaRelation> _getScheduleQuery(
+    startSecond,
+    endSecond,
+  ) =>
+      (select(airingScheduleTable).join([
+        innerJoin(
+            mediaTable, airingScheduleTable.mediaId.equalsExp(mediaTable.id))
+      ])
+            ..where(airingScheduleTable.airingAt
+                    .isBiggerOrEqualValue(startSecond) &
+                airingScheduleTable.airingAt.isSmallerOrEqualValue(endSecond))
+            ..orderBy(
+              [OrderingTerm.asc(airingScheduleTable.airingAt)],
+            ))
+          .map((row) => AiringScheduleAndMediaRelation(
+                airingSchedule: row.readTable(airingScheduleTable),
+                mediaEntity: row.readTable(mediaTable),
+              ));
 
   Future<List<AiringScheduleAndMediaRelation>> getAiringSchedulesByTimeRange(
       {required (int startMs, int endMs) timeRange}) {
     final (startMs, endMs) = timeRange;
     final (startSecond, endSecond) = (startMs ~/ 1000, endMs ~/ 1000);
+    return _getScheduleQuery(startSecond, endSecond).get();
+  }
 
-    final query = select(airingScheduleTable).join([
-      innerJoin(
-          mediaTable, airingScheduleTable.mediaId.equalsExp(mediaTable.id))
-    ])
-      ..where(airingScheduleTable.airingAt.isBiggerOrEqualValue(startSecond) &
-          airingScheduleTable.airingAt.isSmallerOrEqualValue(endSecond))
-      ..orderBy([OrderingTerm.asc(airingScheduleTable.airingAt)]);
+  Stream<List<AiringScheduleAndMediaRelation>>
+      getAiringSchedulesByTimeRangeStream(
+          {required (int startMs, int endMs) timeRange}) {
+    final (startMs, endMs) = timeRange;
+    final (startSecond, endSecond) = (startMs ~/ 1000, endMs ~/ 1000);
 
-    return (query.map(
-      (row) => AiringScheduleAndMediaRelation(
-        airingSchedule: row.readTable(airingScheduleTable),
-        mediaEntity: row.readTable(mediaTable),
-      ),
-    )).get();
+    return _getScheduleQuery(startSecond, endSecond).watch();
   }
 }

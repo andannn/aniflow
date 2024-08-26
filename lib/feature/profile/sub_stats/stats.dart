@@ -1,6 +1,7 @@
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
@@ -159,7 +160,9 @@ class UserStatics extends StatelessWidget {
                     ),
                     const Expanded(child: SizedBox()),
                     _InfoItem(
-                      content: model.minutesWatched.toString(),
+                      content:
+                          // ignore: lines_longer_than_80_chars
+                          '${Duration(minutes: model.minutesWatched).inHours}${context.appLocal.hours}',
                       title: 'Time Watched',
                     ),
                     const SizedBox(height: 12),

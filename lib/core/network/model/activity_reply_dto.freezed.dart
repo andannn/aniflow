@@ -33,8 +33,12 @@ mixin _$ActivityReplyDto {
   @JsonKey(name: 'createdAt')
   int? get createdAt => throw _privateConstructorUsedError;
 
+  /// Serializes this ActivityReplyDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ActivityReplyDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ActivityReplyDtoCopyWith<ActivityReplyDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$ActivityReplyDtoCopyWithImpl<$Res, $Val extends ActivityReplyDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ActivityReplyDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class _$ActivityReplyDtoCopyWithImpl<$Res, $Val extends ActivityReplyDto>
     ) as $Val);
   }
 
+  /// Create a copy of ActivityReplyDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserDtoCopyWith<$Res>? get user {
@@ -145,6 +153,8 @@ class __$$ActivityReplyDtoImplCopyWithImpl<$Res>
       $Res Function(_$ActivityReplyDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ActivityReplyDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -237,12 +247,14 @@ class _$ActivityReplyDtoImpl implements _ActivityReplyDto {
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, likeCount, text, user, isLiked, createdAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityReplyDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityReplyDtoImplCopyWith<_$ActivityReplyDtoImpl> get copyWith =>
@@ -288,8 +300,11 @@ abstract class _ActivityReplyDto implements ActivityReplyDto {
   @override
   @JsonKey(name: 'createdAt')
   int? get createdAt;
+
+  /// Create a copy of ActivityReplyDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityReplyDtoImplCopyWith<_$ActivityReplyDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

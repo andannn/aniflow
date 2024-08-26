@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:dio/dio.dart';
 
@@ -63,18 +64,22 @@ mixin LoadPageUtil {
     required Future<List<Dto>> Function(int page, int perPage) onGetNetworkRes,
     required Future<void> Function(List<Dto> dto) onInsertToDB,
     required Model Function(Dto dto) mapDtoToModel,
+    bool accessDb = true,
   }) async {
     try {
       /// get data from network datasource.
       final networkRes = await onGetNetworkRes(page, perPage);
 
-      /// insert network resource to DB.
-      await onInsertToDB(networkRes);
+      if (accessDb) {
+        /// insert network resource to DB.
+        await onInsertToDB(networkRes);
+      }
 
       /// load success, return result.
       return LoadSuccess(
           data: networkRes.map((e) => mapDtoToModel(e)).toList());
     } on DioException catch (e) {
+      logger.d('loadPageWithoutOrderingCache failed $e');
       return LoadError(e);
     }
   }

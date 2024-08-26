@@ -9,15 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:platform_downloader/platform_downloader.dart';
 
-const heroImagePreviewTag = 'hero_image_preview';
-
 class ImagePreviewPage extends Page {
   final PreviewSource source;
 
-  const ImagePreviewPage({
-    required this.source,
-    super.key,
-  });
+  const ImagePreviewPage({required this.source, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
@@ -133,10 +128,9 @@ class _ImagePreviewContentWidgetState
                     onPressed: () {
                       if (item == 'Save') {
                         PlatformDownloader().downloadImageToExternalStorage(
-                          widget.source.imageUrl,
-                          AfConfig.imageDownloadFolder,
-                          widget.source.savedFileTitle
-                        );
+                            widget.source.imageUrl,
+                            AfConfig.imageDownloadFolder,
+                            widget.source.savedFileTitle);
                       }
                     },
                   );

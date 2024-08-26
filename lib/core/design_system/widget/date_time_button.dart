@@ -12,21 +12,24 @@ class DateTimeButton extends StatelessWidget {
     final formattedDate = dateTime != null
         ? DateFormat("yyyy-MM-dd").format(dateTime!)
         : '----';
-    return TextButton.icon(
-      onPressed: () async {
-        final dateTimeResult = await showDatePicker(
-          context: context,
-          initialDate: dateTime ?? DateTime.now(),
-          firstDate: DateTime(1800),
-          lastDate: DateTime.now(),
-        );
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: TextButton.icon(
+        onPressed: () async {
+          final dateTimeResult = await showDatePicker(
+            context: context,
+            initialDate: dateTime ?? DateTime.now(),
+            firstDate: DateTime(1800),
+            lastDate: DateTime.now(),
+          );
 
-        if (dateTimeResult != null && dateTime != dateTimeResult) {
-          onDateTimeChanged?.call(dateTimeResult);
-        }
-      },
-      label: Text(formattedDate),
-      icon: const Icon(Icons.date_range_outlined),
+          if (dateTimeResult != null && dateTime != dateTimeResult) {
+            onDateTimeChanged?.call(dateTimeResult);
+          }
+        },
+        label: Text(formattedDate),
+        icon: const Icon(Icons.date_range_outlined),
+      ),
     );
   }
 }

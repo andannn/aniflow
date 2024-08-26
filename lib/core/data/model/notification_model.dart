@@ -23,8 +23,10 @@ import 'package:aniflow/core/network/model/related_media_addition_notification_d
 import 'package:equatable/equatable.dart';
 
 sealed class NotificationModel extends Equatable {
-  const NotificationModel({required this.context, required this.createdAt});
+  const NotificationModel(
+      {required this.id, required this.context, required this.createdAt});
 
+  final String id;
   final String context;
   final int createdAt;
 
@@ -39,15 +41,18 @@ sealed class NotificationModel extends Equatable {
           episode: dto.episode ?? 0,
           media: dto.media!.toModel(),
           context: jsonEncode(dto.contexts),
+          id: dto.id.toString(),
         );
       case FollowingNotificationDto():
         return FollowNotification(
+          id: dto.id.toString(),
           user: dto.user!.toModel(),
           context: dto.context ?? '',
           createdAt: dto.createdAt ?? 0,
         );
       case ActivityLikeNotificationDto():
         return ActivityLikeNotification(
+          id: dto.id.toString(),
           user: dto.user!.toModel(),
           activity: dto.activity!.toModel(),
           context: dto.context ?? '',
@@ -55,6 +60,7 @@ sealed class NotificationModel extends Equatable {
         );
       case ActivityReplyNotificationDto():
         return ActivityReplyNotification(
+          id: dto.id.toString(),
           user: dto.user!.toModel(),
           activity: dto.activity!.toModel(),
           context: dto.context ?? '',
@@ -62,6 +68,7 @@ sealed class NotificationModel extends Equatable {
         );
       case ActivityReplyLikeNotificationDto():
         return ActivityReplyLikeNotification(
+          id: dto.id.toString(),
           user: dto.user!.toModel(),
           activity: dto.activity!.toModel(),
           context: dto.context ?? '',
@@ -69,6 +76,7 @@ sealed class NotificationModel extends Equatable {
         );
       case ActivityReplySubscribedNotificationDto():
         return ActivityReplySubscribedNotification(
+          id: dto.id.toString(),
           user: dto.user!.toModel(),
           activity: dto.activity!.toModel(),
           context: dto.context ?? '',
@@ -76,6 +84,7 @@ sealed class NotificationModel extends Equatable {
         );
       case ActivityMessageNotificationDto():
         return ActivityMessageNotification(
+          id: dto.id.toString(),
           user: dto.user!.toModel(),
           activity: dto.activity!.toModel(),
           context: dto.context ?? '',
@@ -84,6 +93,7 @@ sealed class NotificationModel extends Equatable {
 
       case MediaDataChangeNotificationDto():
         return MediaDataChangeNotification(
+          id: dto.id.toString(),
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
           media: dto.media!.toModel(),
@@ -91,12 +101,14 @@ sealed class NotificationModel extends Equatable {
         );
       case RelatedMediaAdditionNotificationDto():
         return RelatedMediaAdditionNotification(
+          id: dto.id.toString(),
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
           media: dto.media!.toModel(),
         );
       case MediaDeletionNotificationDto():
         return MediaDeletionNotification(
+          id: dto.id.toString(),
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
           deletedMediaTitle: dto.deletedMediaTitle ?? '',
@@ -104,6 +116,7 @@ sealed class NotificationModel extends Equatable {
         );
       case MediaMergeNotificationDto():
         return MediaMergeNotification(
+          id: dto.id.toString(),
           createdAt: dto.createdAt ?? 0,
           context: dto.context ?? '',
           media: dto.media!.toModel(),
@@ -119,7 +132,8 @@ class AiringNotification extends NotificationModel {
       {required this.episode,
       required super.context,
       required super.createdAt,
-      required this.media});
+      required this.media,
+      required super.id});
 
   final int episode;
   final MediaModel media;
@@ -133,6 +147,7 @@ class FollowNotification extends NotificationModel {
     required super.context,
     required super.createdAt,
     required this.user,
+    required super.id,
   });
 
   final UserModel user;
@@ -149,7 +164,8 @@ abstract class ActivityNotification extends NotificationModel {
       {required this.user,
       required this.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 
   @override
   List<Object?> get props => [...super.props, user, activity];
@@ -160,7 +176,8 @@ class ActivityMentionNotification extends ActivityNotification {
       {required super.user,
       required super.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 }
 
 class ActivityReplyNotification extends ActivityNotification {
@@ -168,7 +185,8 @@ class ActivityReplyNotification extends ActivityNotification {
       {required super.user,
       required super.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 }
 
 class ActivityReplyLikeNotification extends ActivityNotification {
@@ -176,7 +194,8 @@ class ActivityReplyLikeNotification extends ActivityNotification {
       {required super.user,
       required super.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 }
 
 class ActivityLikeNotification extends ActivityNotification {
@@ -184,7 +203,8 @@ class ActivityLikeNotification extends ActivityNotification {
       {required super.user,
       required super.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 }
 
 class ActivityMessageNotification extends ActivityNotification {
@@ -192,7 +212,8 @@ class ActivityMessageNotification extends ActivityNotification {
       {required super.user,
       required super.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 }
 
 class ActivityReplySubscribedNotification extends ActivityNotification {
@@ -200,7 +221,8 @@ class ActivityReplySubscribedNotification extends ActivityNotification {
       {required super.user,
       required super.activity,
       required super.context,
-      required super.createdAt});
+      required super.createdAt,
+      required super.id});
 }
 
 abstract class MediaNotification extends NotificationModel {
@@ -208,6 +230,7 @@ abstract class MediaNotification extends NotificationModel {
     required super.context,
     required super.createdAt,
     required this.media,
+    required super.id,
   });
 
   final MediaModel media;
@@ -221,6 +244,7 @@ class RelatedMediaAdditionNotification extends MediaNotification {
     required super.context,
     required super.createdAt,
     required super.media,
+    required super.id,
   });
 }
 
@@ -230,6 +254,7 @@ class MediaDataChangeNotification extends MediaNotification {
     required super.createdAt,
     required super.media,
     required this.reason,
+    required super.id,
   });
 
   final String reason;
@@ -240,6 +265,7 @@ class MediaMergeNotification extends MediaNotification {
     required super.context,
     required super.createdAt,
     required super.media,
+    required super.id,
   });
 }
 
@@ -249,6 +275,7 @@ class MediaDeletionNotification extends NotificationModel {
     required super.createdAt,
     required this.deletedMediaTitle,
     required this.reason,
+    required super.id,
   });
 
   final String deletedMediaTitle;

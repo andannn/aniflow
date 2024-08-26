@@ -22,7 +22,9 @@ mixin _$MediaTagModel {
   String? get category => throw _privateConstructorUsedError;
   String? get rank => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaTagModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaTagModelCopyWith<MediaTagModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$MediaTagModelCopyWithImpl<$Res, $Val extends MediaTagModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaTagModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class __$$MediaTagModelImplCopyWithImpl<$Res>
       _$MediaTagModelImpl _value, $Res Function(_$MediaTagModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaTagModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -184,7 +190,9 @@ class _$MediaTagModelImpl implements _MediaTagModel {
   int get hashCode =>
       Object.hash(runtimeType, id, name, description, category, rank);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaTagModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaTagModelImplCopyWith<_$MediaTagModelImpl> get copyWith =>
@@ -209,8 +217,11 @@ abstract class _MediaTagModel implements MediaTagModel {
   String? get category;
   @override
   String? get rank;
+
+  /// Create a copy of MediaTagModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaTagModelImplCopyWith<_$MediaTagModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

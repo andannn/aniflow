@@ -25,8 +25,12 @@ mixin _$MediaConnection {
   @JsonKey(name: 'edges')
   List<MediaEdge> get edges => throw _privateConstructorUsedError;
 
+  /// Serializes this MediaConnection to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaConnectionCopyWith<MediaConnection> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$MediaConnectionCopyWithImpl<$Res, $Val extends MediaConnection>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$MediaConnectionCopyWithImpl<$Res, $Val extends MediaConnection>
     ) as $Val);
   }
 
+  /// Create a copy of MediaConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PageInfoCopyWith<$Res>? get pageInfo {
@@ -109,6 +117,8 @@ class __$$MediaConnectionImplCopyWithImpl<$Res>
       _$MediaConnectionImpl _value, $Res Function(_$MediaConnectionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,12 +176,14 @@ class _$MediaConnectionImpl implements _MediaConnection {
             const DeepCollectionEquality().equals(other._edges, _edges));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, pageInfo, const DeepCollectionEquality().hash(_edges));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaConnectionImplCopyWith<_$MediaConnectionImpl> get copyWith =>
@@ -201,8 +213,11 @@ abstract class _MediaConnection implements MediaConnection {
   @override
   @JsonKey(name: 'edges')
   List<MediaEdge> get edges;
+
+  /// Create a copy of MediaConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaConnectionImplCopyWith<_$MediaConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

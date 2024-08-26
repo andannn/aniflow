@@ -16,6 +16,7 @@ class UserDto with _$UserDto {
     @Default(0)
     @JsonKey(name: 'unreadNotificationCount')
     int unreadNotificationCount,
+    @JsonKey(name: 'siteUrl') String? siteUrl,
     @JsonKey(name: 'options') UserOptions? options,
     @JsonKey(name: 'mediaListOptions') MediaListOptionDto? mediaListOptions,
   }) = _UserDto;

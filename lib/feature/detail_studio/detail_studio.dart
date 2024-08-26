@@ -1,5 +1,6 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -13,12 +14,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class DetailStudioPage extends Page {
   final String id;
 
-  const DetailStudioPage({required this.id, super.key});
+  const DetailStudioPage({required this.id, super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
@@ -38,13 +38,13 @@ class DetailStudioRoute extends PageRoute with MaterialRouteTransitionMixin {
       providers: [
         BlocProvider(
           create: (BuildContext context) =>
-              GetIt.instance.get<DetailStudioBloc>(
+              GetItScope.of(context).get<DetailStudioBloc>(
             param1: id,
           ),
         ),
         BlocProvider(
           create: (BuildContext context) =>
-              GetIt.instance.get<StudioContentsPagingBloc>(
+              GetItScope.of(context).get<StudioContentsPagingBloc>(
             param1: id,
           ),
         ),

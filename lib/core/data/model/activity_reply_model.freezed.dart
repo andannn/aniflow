@@ -23,7 +23,9 @@ mixin _$ActivityReplyModel {
   bool get isLiked => throw _privateConstructorUsedError;
   int? get createdAt => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityReplyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ActivityReplyModelCopyWith<ActivityReplyModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +57,8 @@ class _$ActivityReplyModelCopyWithImpl<$Res, $Val extends ActivityReplyModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ActivityReplyModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +97,8 @@ class _$ActivityReplyModelCopyWithImpl<$Res, $Val extends ActivityReplyModel>
     ) as $Val);
   }
 
+  /// Create a copy of ActivityReplyModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserModelCopyWith<$Res>? get user {
@@ -134,6 +140,8 @@ class __$$ActivityReplyModelImplCopyWithImpl<$Res>
       $Res Function(_$ActivityReplyModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ActivityReplyModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -225,7 +233,9 @@ class _$ActivityReplyModelImpl implements _ActivityReplyModel {
   int get hashCode =>
       Object.hash(runtimeType, id, likeCount, text, user, isLiked, createdAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityReplyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityReplyModelImplCopyWith<_$ActivityReplyModelImpl> get copyWith =>
@@ -254,8 +264,11 @@ abstract class _ActivityReplyModel implements ActivityReplyModel {
   bool get isLiked;
   @override
   int? get createdAt;
+
+  /// Create a copy of ActivityReplyModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityReplyModelImplCopyWith<_$ActivityReplyModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

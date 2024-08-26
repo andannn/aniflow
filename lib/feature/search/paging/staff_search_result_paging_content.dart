@@ -31,7 +31,6 @@ class StaffSearchResultPagingContent extends StatelessWidget {
     final userStaffNameLanguage = context
         .read<SearchBloc>()
         .userDataRepository
-        .userData
         .userStaffNameLanguage;
     return SearchStaffItem(
       userStaffNameLanguage: userStaffNameLanguage,

@@ -5,6 +5,11 @@ String get mediaContentQueryGraphql => '''
       status
       season
       seasonYear
+      startDate {
+        year
+        month
+        day
+      }
       coverImage {
         extraLarge
         large

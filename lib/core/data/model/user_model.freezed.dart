@@ -20,10 +20,13 @@ mixin _$UserModel {
   String get name => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
   String? get bannerImage => throw _privateConstructorUsedError;
+  String? get siteUrl => throw _privateConstructorUsedError;
   Color? get profileColor => throw _privateConstructorUsedError;
   int get unreadNotificationCount => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserModelCopyWith<UserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -38,6 +41,7 @@ abstract class $UserModelCopyWith<$Res> {
       String name,
       String avatar,
       String? bannerImage,
+      String? siteUrl,
       Color? profileColor,
       int unreadNotificationCount});
 }
@@ -52,6 +56,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -59,6 +65,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? name = null,
     Object? avatar = null,
     Object? bannerImage = freezed,
+    Object? siteUrl = freezed,
     Object? profileColor = freezed,
     Object? unreadNotificationCount = null,
   }) {
@@ -78,6 +85,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       profileColor: freezed == profileColor
           ? _value.profileColor
@@ -104,6 +115,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String name,
       String avatar,
       String? bannerImage,
+      String? siteUrl,
       Color? profileColor,
       int unreadNotificationCount});
 }
@@ -116,6 +128,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
       _$UserModelImpl _value, $Res Function(_$UserModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,6 +137,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? name = null,
     Object? avatar = null,
     Object? bannerImage = freezed,
+    Object? siteUrl = freezed,
     Object? profileColor = freezed,
     Object? unreadNotificationCount = null,
   }) {
@@ -142,6 +157,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       profileColor: freezed == profileColor
           ? _value.profileColor
@@ -163,6 +182,7 @@ class _$UserModelImpl implements _UserModel {
       this.name = '',
       this.avatar = '',
       this.bannerImage,
+      this.siteUrl,
       this.profileColor,
       this.unreadNotificationCount = 0});
 
@@ -178,6 +198,8 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? bannerImage;
   @override
+  final String? siteUrl;
+  @override
   final Color? profileColor;
   @override
   @JsonKey()
@@ -185,7 +207,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, profileColor: $profileColor, unreadNotificationCount: $unreadNotificationCount)';
+    return 'UserModel(id: $id, name: $name, avatar: $avatar, bannerImage: $bannerImage, siteUrl: $siteUrl, profileColor: $profileColor, unreadNotificationCount: $unreadNotificationCount)';
   }
 
   @override
@@ -198,6 +220,7 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
             (identical(other.profileColor, profileColor) ||
                 other.profileColor == profileColor) &&
             (identical(
@@ -207,9 +230,11 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, name, avatar, bannerImage,
-      profileColor, unreadNotificationCount);
+      siteUrl, profileColor, unreadNotificationCount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
@@ -222,6 +247,7 @@ abstract class _UserModel implements UserModel {
       final String name,
       final String avatar,
       final String? bannerImage,
+      final String? siteUrl,
       final Color? profileColor,
       final int unreadNotificationCount}) = _$UserModelImpl;
 
@@ -234,11 +260,16 @@ abstract class _UserModel implements UserModel {
   @override
   String? get bannerImage;
   @override
+  String? get siteUrl;
+  @override
   Color? get profileColor;
   @override
   int get unreadNotificationCount;
+
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,5 +1,6 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/notification_model.dart';
 import 'package:aniflow/core/data/notification_repository.dart';
@@ -12,10 +13,9 @@ import 'package:aniflow/feature/notification/bloc/notification_paging_bloc.dart'
 import 'package:aniflow/feature/notification/bloc/notification_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class NotificationPage extends Page {
-  const NotificationPage({super.key});
+  const NotificationPage({super.key, super.onPopInvoked});
 
   @override
   Route createRoute(BuildContext context) {
@@ -30,7 +30,8 @@ class NotificationPageRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetIt.instance.get<NotificationBloc>(),
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<NotificationBloc>(),
       child: const ScaffoldMessenger(
         child: _NotificationPageContent(),
       ),
@@ -119,8 +120,8 @@ class _NotificationPagingBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) =>
-            GetIt.instance.get<NotificationPagingBloc>(param1: category),
+        create: (BuildContext context) => GetItScope.of(context)
+            .get<NotificationPagingBloc>(param1: category),
         child: const _NotificationPagingContent());
   }
 }
@@ -143,38 +144,40 @@ class _NotificationPagingContent extends StatelessWidget {
 
   Widget _buildNotificationItem(BuildContext context, NotificationModel model) {
     final navigator = RootRouterDelegate.get();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-      child: NotificationItem(
-        model: model,
-        onCoverImageClick: () {
-          switch (model) {
-            case AiringNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case FollowNotification():
-              navigator.navigateToUserProfile(model.user.id);
-            case ActivityNotification():
-              navigator.navigateToUserProfile(model.user.id);
-            case MediaNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case MediaDeletionNotification():
-            // Do nothing.
-          }
-        },
-        onNotificationClick: () {
-          switch (model) {
-            case AiringNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case MediaNotification():
-              navigator.navigateToDetailMedia(model.media.id);
-            case ActivityNotification(activity: var activity):
-              navigator.navigateToActivityRepliesPage(activity.id);
-            case MediaDeletionNotification():
-            case FollowNotification():
-            // Do nothing.
-          }
-        },
-      ),
+    return Column(
+      children: [
+        NotificationItem(
+          model: model,
+          onCoverImageClick: () {
+            switch (model) {
+              case AiringNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case FollowNotification():
+                navigator.navigateToUserProfile(model.user.id);
+              case ActivityNotification():
+                navigator.navigateToUserProfile(model.user.id);
+              case MediaNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case MediaDeletionNotification():
+              // Do nothing.
+            }
+          },
+          onNotificationClick: () {
+            switch (model) {
+              case AiringNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case MediaNotification():
+                navigator.navigateToDetailMedia(model.media.id);
+              case ActivityNotification(activity: var activity):
+                navigator.navigateToActivityRepliesPage(activity.id);
+              case MediaDeletionNotification():
+              case FollowNotification():
+              // Do nothing.
+            }
+          },
+        ),
+        const Divider(),
+      ],
     );
   }
 }

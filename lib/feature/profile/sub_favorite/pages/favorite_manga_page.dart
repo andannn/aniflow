@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -7,10 +8,10 @@ import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class FavoriteMangaListPage extends Page {
-  const FavoriteMangaListPage({super.key, required this.userId});
+  const FavoriteMangaListPage(
+      {super.key, required this.userId, super.onPopInvoked});
 
   final String userId;
 
@@ -31,10 +32,8 @@ class FavoriteMangaListRoute extends PageRoute
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetIt.instance.get<FavoriteMangaPagingBloc>(
-        param1: userId,
-        param2: AfConfig.defaultPerPageCount
-      ),
+      create: (context) => GetItScope.of(context).get<FavoriteMangaPagingBloc>(
+          param1: userId, param2: AfConfig.defaultPerPageCount),
       child: const _FavoriteMangaListPageContent(),
     );
   }

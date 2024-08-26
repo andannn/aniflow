@@ -1,7 +1,8 @@
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/activity_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/data/model/activity_reply_model.dart';
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_state.dart';
@@ -55,9 +56,9 @@ class ActivityRepliesBloc
 
   Future loadReplies() async {
     final activity = await _activityRepository.getActivityModel(activityId);
-    add(OnActivityLoaded(activity));
+    safeAdd(OnActivityLoaded(activity));
 
-    add(OnLoadingStateChanged(true));
+    safeAdd(OnLoadingStateChanged(true));
     final result = await _activityRepository.getActivityReplies(activityId);
     switch (result) {
       case LoadError<List<ActivityReplyModel>>():
@@ -67,8 +68,8 @@ class ActivityRepliesBloc
           _messageRepository.showMessage(message);
         }
       case LoadSuccess<List<ActivityReplyModel>>():
-        add(OnRepliesLoaded(result.data));
+        safeAdd(OnRepliesLoaded(result.data));
     }
-    add(OnLoadingStateChanged(false));
+    safeAdd(OnLoadingStateChanged(false));
   }
 }

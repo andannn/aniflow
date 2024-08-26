@@ -1,11 +1,13 @@
-import 'package:aniflow/core/common/message/message.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_bloc.dart';
-import 'package:aniflow/feature/aniflow_home/auth/bloc/auth_ui_state.dart';
+import 'package:aniflow/feature/auth/bloc/auth_bloc.dart';
+import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../../../core/data/mocks/auth_repository_mock.dart';
+
 
 void main() {
   group('auth_bloc_test', () {

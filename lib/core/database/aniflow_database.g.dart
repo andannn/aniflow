@@ -37,6 +37,12 @@ class $UserTableTable extends UserTable
   late final GeneratedColumn<String> profileColor = GeneratedColumn<String>(
       'user_data_profile_color', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _siteUrlMeta =
+      const VerificationMeta('siteUrl');
+  @override
+  late final GeneratedColumn<String> siteUrl = GeneratedColumn<String>(
+      'user_data_site_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _unreadNotificationCountMeta =
       const VerificationMeta('unreadNotificationCount');
   @override
@@ -51,6 +57,7 @@ class $UserTableTable extends UserTable
         avatarImage,
         bannerImage,
         profileColor,
+        siteUrl,
         unreadNotificationCount
       ];
   @override
@@ -93,6 +100,12 @@ class $UserTableTable extends UserTable
           profileColor.isAcceptableOrUnknown(
               data['user_data_profile_color']!, _profileColorMeta));
     }
+    if (data.containsKey('user_data_site_url')) {
+      context.handle(
+          _siteUrlMeta,
+          siteUrl.isAcceptableOrUnknown(
+              data['user_data_site_url']!, _siteUrlMeta));
+    }
     if (data.containsKey('user_data_unread_notification_count')) {
       context.handle(
           _unreadNotificationCountMeta,
@@ -119,6 +132,8 @@ class $UserTableTable extends UserTable
           data['${effectivePrefix}user_data_banner_image']),
       profileColor: attachedDatabase.typeMapping.read(DriftSqlType.string,
           data['${effectivePrefix}user_data_profile_color']),
+      siteUrl: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}user_data_site_url']),
       unreadNotificationCount: attachedDatabase.typeMapping.read(
           DriftSqlType.int,
           data['${effectivePrefix}user_data_unread_notification_count']),
@@ -137,6 +152,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final String? avatarImage;
   final String? bannerImage;
   final String? profileColor;
+  final String? siteUrl;
   final int? unreadNotificationCount;
   const UserEntity(
       {required this.id,
@@ -144,6 +160,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       this.avatarImage,
       this.bannerImage,
       this.profileColor,
+      this.siteUrl,
       this.unreadNotificationCount});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -158,6 +175,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     }
     if (!nullToAbsent || profileColor != null) {
       map['user_data_profile_color'] = Variable<String>(profileColor);
+    }
+    if (!nullToAbsent || siteUrl != null) {
+      map['user_data_site_url'] = Variable<String>(siteUrl);
     }
     if (!nullToAbsent || unreadNotificationCount != null) {
       map['user_data_unread_notification_count'] =
@@ -179,6 +199,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       profileColor: profileColor == null && nullToAbsent
           ? const Value.absent()
           : Value(profileColor),
+      siteUrl: siteUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteUrl),
       unreadNotificationCount: unreadNotificationCount == null && nullToAbsent
           ? const Value.absent()
           : Value(unreadNotificationCount),
@@ -194,6 +217,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       avatarImage: serializer.fromJson<String?>(json['avatarImage']),
       bannerImage: serializer.fromJson<String?>(json['bannerImage']),
       profileColor: serializer.fromJson<String?>(json['profileColor']),
+      siteUrl: serializer.fromJson<String?>(json['siteUrl']),
       unreadNotificationCount:
           serializer.fromJson<int?>(json['unreadNotificationCount']),
     );
@@ -207,6 +231,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'avatarImage': serializer.toJson<String?>(avatarImage),
       'bannerImage': serializer.toJson<String?>(bannerImage),
       'profileColor': serializer.toJson<String?>(profileColor),
+      'siteUrl': serializer.toJson<String?>(siteUrl),
       'unreadNotificationCount':
           serializer.toJson<int?>(unreadNotificationCount),
     };
@@ -218,6 +243,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           Value<String?> avatarImage = const Value.absent(),
           Value<String?> bannerImage = const Value.absent(),
           Value<String?> profileColor = const Value.absent(),
+          Value<String?> siteUrl = const Value.absent(),
           Value<int?> unreadNotificationCount = const Value.absent()}) =>
       UserEntity(
         id: id ?? this.id,
@@ -226,10 +252,29 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         bannerImage: bannerImage.present ? bannerImage.value : this.bannerImage,
         profileColor:
             profileColor.present ? profileColor.value : this.profileColor,
+        siteUrl: siteUrl.present ? siteUrl.value : this.siteUrl,
         unreadNotificationCount: unreadNotificationCount.present
             ? unreadNotificationCount.value
             : this.unreadNotificationCount,
       );
+  UserEntity copyWithCompanion(UserTableCompanion data) {
+    return UserEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      avatarImage:
+          data.avatarImage.present ? data.avatarImage.value : this.avatarImage,
+      bannerImage:
+          data.bannerImage.present ? data.bannerImage.value : this.bannerImage,
+      profileColor: data.profileColor.present
+          ? data.profileColor.value
+          : this.profileColor,
+      siteUrl: data.siteUrl.present ? data.siteUrl.value : this.siteUrl,
+      unreadNotificationCount: data.unreadNotificationCount.present
+          ? data.unreadNotificationCount.value
+          : this.unreadNotificationCount,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('UserEntity(')
@@ -238,6 +283,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('avatarImage: $avatarImage, ')
           ..write('bannerImage: $bannerImage, ')
           ..write('profileColor: $profileColor, ')
+          ..write('siteUrl: $siteUrl, ')
           ..write('unreadNotificationCount: $unreadNotificationCount')
           ..write(')'))
         .toString();
@@ -245,7 +291,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
 
   @override
   int get hashCode => Object.hash(id, name, avatarImage, bannerImage,
-      profileColor, unreadNotificationCount);
+      profileColor, siteUrl, unreadNotificationCount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -255,6 +301,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.avatarImage == this.avatarImage &&
           other.bannerImage == this.bannerImage &&
           other.profileColor == this.profileColor &&
+          other.siteUrl == this.siteUrl &&
           other.unreadNotificationCount == this.unreadNotificationCount);
 }
 
@@ -264,6 +311,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
   final Value<String?> avatarImage;
   final Value<String?> bannerImage;
   final Value<String?> profileColor;
+  final Value<String?> siteUrl;
   final Value<int?> unreadNotificationCount;
   final Value<int> rowid;
   const UserTableCompanion({
@@ -272,6 +320,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     this.avatarImage = const Value.absent(),
     this.bannerImage = const Value.absent(),
     this.profileColor = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.unreadNotificationCount = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -281,6 +330,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     this.avatarImage = const Value.absent(),
     this.bannerImage = const Value.absent(),
     this.profileColor = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.unreadNotificationCount = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
@@ -291,6 +341,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     Expression<String>? avatarImage,
     Expression<String>? bannerImage,
     Expression<String>? profileColor,
+    Expression<String>? siteUrl,
     Expression<int>? unreadNotificationCount,
     Expression<int>? rowid,
   }) {
@@ -300,6 +351,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
       if (avatarImage != null) 'user_data_avatar_image': avatarImage,
       if (bannerImage != null) 'user_data_banner_image': bannerImage,
       if (profileColor != null) 'user_data_profile_color': profileColor,
+      if (siteUrl != null) 'user_data_site_url': siteUrl,
       if (unreadNotificationCount != null)
         'user_data_unread_notification_count': unreadNotificationCount,
       if (rowid != null) 'rowid': rowid,
@@ -312,6 +364,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
       Value<String?>? avatarImage,
       Value<String?>? bannerImage,
       Value<String?>? profileColor,
+      Value<String?>? siteUrl,
       Value<int?>? unreadNotificationCount,
       Value<int>? rowid}) {
     return UserTableCompanion(
@@ -320,6 +373,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
       avatarImage: avatarImage ?? this.avatarImage,
       bannerImage: bannerImage ?? this.bannerImage,
       profileColor: profileColor ?? this.profileColor,
+      siteUrl: siteUrl ?? this.siteUrl,
       unreadNotificationCount:
           unreadNotificationCount ?? this.unreadNotificationCount,
       rowid: rowid ?? this.rowid,
@@ -344,6 +398,9 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
     if (profileColor.present) {
       map['user_data_profile_color'] = Variable<String>(profileColor.value);
     }
+    if (siteUrl.present) {
+      map['user_data_site_url'] = Variable<String>(siteUrl.value);
+    }
     if (unreadNotificationCount.present) {
       map['user_data_unread_notification_count'] =
           Variable<int>(unreadNotificationCount.value);
@@ -362,6 +419,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntity> {
           ..write('avatarImage: $avatarImage, ')
           ..write('bannerImage: $bannerImage, ')
           ..write('profileColor: $profileColor, ')
+          ..write('siteUrl: $siteUrl, ')
           ..write('unreadNotificationCount: $unreadNotificationCount, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -557,6 +615,19 @@ class StudioEntity extends DataClass implements Insertable<StudioEntity> {
         isAnimationStudio: isAnimationStudio ?? this.isAnimationStudio,
         isFavourite: isFavourite ?? this.isFavourite,
       );
+  StudioEntity copyWithCompanion(StudioTableCompanion data) {
+    return StudioEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      siteUrl: data.siteUrl.present ? data.siteUrl.value : this.siteUrl,
+      isAnimationStudio: data.isAnimationStudio.present
+          ? data.isAnimationStudio.value
+          : this.isAnimationStudio,
+      isFavourite:
+          data.isFavourite.present ? data.isFavourite.value : this.isFavourite,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('StudioEntity(')
@@ -1223,6 +1294,38 @@ class StaffEntity extends DataClass implements Insertable<StaffEntity> {
         homeTown: homeTown.present ? homeTown.value : this.homeTown,
         bloodType: bloodType.present ? bloodType.value : this.bloodType,
       );
+  StaffEntity copyWithCompanion(StaffTableCompanion data) {
+    return StaffEntity(
+      id: data.id.present ? data.id.value : this.id,
+      largeImage:
+          data.largeImage.present ? data.largeImage.value : this.largeImage,
+      mediumImage:
+          data.mediumImage.present ? data.mediumImage.value : this.mediumImage,
+      firstName: data.firstName.present ? data.firstName.value : this.firstName,
+      middleName:
+          data.middleName.present ? data.middleName.value : this.middleName,
+      lastName: data.lastName.present ? data.lastName.value : this.lastName,
+      fullName: data.fullName.present ? data.fullName.value : this.fullName,
+      nativeName:
+          data.nativeName.present ? data.nativeName.value : this.nativeName,
+      description:
+          data.description.present ? data.description.value : this.description,
+      gender: data.gender.present ? data.gender.value : this.gender,
+      siteUrl: data.siteUrl.present ? data.siteUrl.value : this.siteUrl,
+      dateOfBirth:
+          data.dateOfBirth.present ? data.dateOfBirth.value : this.dateOfBirth,
+      dateOfDeath:
+          data.dateOfDeath.present ? data.dateOfDeath.value : this.dateOfDeath,
+      age: data.age.present ? data.age.value : this.age,
+      isFavourite:
+          data.isFavourite.present ? data.isFavourite.value : this.isFavourite,
+      yearsActive:
+          data.yearsActive.present ? data.yearsActive.value : this.yearsActive,
+      homeTown: data.homeTown.present ? data.homeTown.value : this.homeTown,
+      bloodType: data.bloodType.present ? data.bloodType.value : this.bloodType,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('StaffEntity(')
@@ -1959,6 +2062,27 @@ class ActivityEntity extends DataClass implements Insertable<ActivityEntity> {
         isLiked: isLiked ?? this.isLiked,
         isPinned: isPinned.present ? isPinned.value : this.isPinned,
       );
+  ActivityEntity copyWithCompanion(ActivityTableCompanion data) {
+    return ActivityEntity(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      textContent:
+          data.textContent.present ? data.textContent.value : this.textContent,
+      status: data.status.present ? data.status.value : this.status,
+      progress: data.progress.present ? data.progress.value : this.progress,
+      type: data.type.present ? data.type.value : this.type,
+      siteUrl: data.siteUrl.present ? data.siteUrl.value : this.siteUrl,
+      replyCount:
+          data.replyCount.present ? data.replyCount.value : this.replyCount,
+      likeCount: data.likeCount.present ? data.likeCount.value : this.likeCount,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      isLocked: data.isLocked.present ? data.isLocked.value : this.isLocked,
+      isLiked: data.isLiked.present ? data.isLiked.value : this.isLiked,
+      isPinned: data.isPinned.present ? data.isPinned.value : this.isPinned,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ActivityEntity(')
@@ -2407,6 +2531,18 @@ class AiringScheduleEntity extends DataClass
             : this.timeUntilAiring,
         episode: episode.present ? episode.value : this.episode,
       );
+  AiringScheduleEntity copyWithCompanion(AiringScheduleTableCompanion data) {
+    return AiringScheduleEntity(
+      id: data.id.present ? data.id.value : this.id,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      airingAt: data.airingAt.present ? data.airingAt.value : this.airingAt,
+      timeUntilAiring: data.timeUntilAiring.present
+          ? data.timeUntilAiring.value
+          : this.timeUntilAiring,
+      episode: data.episode.present ? data.episode.value : this.episode,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('AiringScheduleEntity(')
@@ -3020,6 +3156,35 @@ class CharacterEntity extends DataClass implements Insertable<CharacterEntity> {
         favourites: favourites.present ? favourites.value : this.favourites,
         isFavourite: isFavourite.present ? isFavourite.value : this.isFavourite,
       );
+  CharacterEntity copyWithCompanion(CharacterTableCompanion data) {
+    return CharacterEntity(
+      id: data.id.present ? data.id.value : this.id,
+      largeImage:
+          data.largeImage.present ? data.largeImage.value : this.largeImage,
+      mediumImage:
+          data.mediumImage.present ? data.mediumImage.value : this.mediumImage,
+      firstName: data.firstName.present ? data.firstName.value : this.firstName,
+      middleName:
+          data.middleName.present ? data.middleName.value : this.middleName,
+      lastName: data.lastName.present ? data.lastName.value : this.lastName,
+      fullName: data.fullName.present ? data.fullName.value : this.fullName,
+      nativeName:
+          data.nativeName.present ? data.nativeName.value : this.nativeName,
+      description:
+          data.description.present ? data.description.value : this.description,
+      gender: data.gender.present ? data.gender.value : this.gender,
+      age: data.age.present ? data.age.value : this.age,
+      bloodType: data.bloodType.present ? data.bloodType.value : this.bloodType,
+      siteUrl: data.siteUrl.present ? data.siteUrl.value : this.siteUrl,
+      dateOfBirth:
+          data.dateOfBirth.present ? data.dateOfBirth.value : this.dateOfBirth,
+      favourites:
+          data.favourites.present ? data.favourites.value : this.favourites,
+      isFavourite:
+          data.isFavourite.present ? data.isFavourite.value : this.isFavourite,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CharacterEntity(')
@@ -3700,6 +3865,27 @@ class MediaListEntity extends DataClass implements Insertable<MediaListEntity> {
         score: score.present ? score.value : this.score,
         private: private.present ? private.value : this.private,
       );
+  MediaListEntity copyWithCompanion(MediaListTableCompanion data) {
+    return MediaListEntity(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      status: data.status.present ? data.status.value : this.status,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      progress: data.progress.present ? data.progress.value : this.progress,
+      progressVolumes: data.progressVolumes.present
+          ? data.progressVolumes.value
+          : this.progressVolumes,
+      startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      completedAt:
+          data.completedAt.present ? data.completedAt.value : this.completedAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      repeat: data.repeat.present ? data.repeat.value : this.repeat,
+      score: data.score.present ? data.score.value : this.score,
+      private: data.private.present ? data.private.value : this.private,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MediaListEntity(')
@@ -4073,6 +4259,11 @@ class $MediaTableTable extends MediaTable
   late final GeneratedColumn<String> genres = GeneratedColumn<String>(
       'genres', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _formatMeta = const VerificationMeta('format');
+  @override
+  late final GeneratedColumn<String> format = GeneratedColumn<String>(
+      'format', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _trendingMeta =
       const VerificationMeta('trending');
   @override
@@ -4112,15 +4303,15 @@ class $MediaTableTable extends MediaTable
   static const VerificationMeta _startDateMeta =
       const VerificationMeta('startDate');
   @override
-  late final GeneratedColumn<int> startDate = GeneratedColumn<int>(
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
       'start_date', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _endDateMeta =
       const VerificationMeta('endDate');
   @override
-  late final GeneratedColumn<int> endDate = GeneratedColumn<int>(
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
       'end_date', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _isFavouriteMeta =
       const VerificationMeta('isFavourite');
   @override
@@ -4137,6 +4328,12 @@ class $MediaTableTable extends MediaTable
       GeneratedColumn<DateTime>(
           'next_airing_episode_update_time', aliasedName, true,
           type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _siteUrlMeta =
+      const VerificationMeta('siteUrl');
+  @override
+  late final GeneratedColumn<String> siteUrl = GeneratedColumn<String>(
+      'user_data_site_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -4161,6 +4358,7 @@ class $MediaTableTable extends MediaTable
         trailerSite,
         trailerThumbnail,
         genres,
+        format,
         trending,
         favourites,
         popularRanking,
@@ -4170,7 +4368,8 @@ class $MediaTableTable extends MediaTable
         startDate,
         endDate,
         isFavourite,
-        nextAiringEpisodeUpdateTime
+        nextAiringEpisodeUpdateTime,
+        siteUrl
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4297,6 +4496,10 @@ class $MediaTableTable extends MediaTable
       context.handle(_genresMeta,
           genres.isAcceptableOrUnknown(data['genres']!, _genresMeta));
     }
+    if (data.containsKey('format')) {
+      context.handle(_formatMeta,
+          format.isAcceptableOrUnknown(data['format']!, _formatMeta));
+    }
     if (data.containsKey('trending')) {
       context.handle(_trendingMeta,
           trending.isAcceptableOrUnknown(data['trending']!, _trendingMeta));
@@ -4352,6 +4555,12 @@ class $MediaTableTable extends MediaTable
               data['next_airing_episode_update_time']!,
               _nextAiringEpisodeUpdateTimeMeta));
     }
+    if (data.containsKey('user_data_site_url')) {
+      context.handle(
+          _siteUrlMeta,
+          siteUrl.isAcceptableOrUnknown(
+              data['user_data_site_url']!, _siteUrlMeta));
+    }
     return context;
   }
 
@@ -4406,6 +4615,8 @@ class $MediaTableTable extends MediaTable
           DriftSqlType.string, data['${effectivePrefix}trailer_thumbnail']),
       genres: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}genres']),
+      format: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}format']),
       trending: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}trending']),
       favourites: attachedDatabase.typeMapping
@@ -4419,14 +4630,16 @@ class $MediaTableTable extends MediaTable
       timeUntilAiring: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}time_until_airing']),
       startDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}start_date']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}start_date']),
       endDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}end_date']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}end_date']),
       isFavourite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favourite']),
       nextAiringEpisodeUpdateTime: attachedDatabase.typeMapping.read(
           DriftSqlType.dateTime,
           data['${effectivePrefix}next_airing_episode_update_time']),
+      siteUrl: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}user_data_site_url']),
     );
   }
 
@@ -4459,16 +4672,18 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
   final String? trailerSite;
   final String? trailerThumbnail;
   final String? genres;
+  final String? format;
   final int? trending;
   final int? favourites;
   final int? popularRanking;
   final int? ratedRanking;
   final int? nextAiringEpisode;
   final int? timeUntilAiring;
-  final int? startDate;
-  final int? endDate;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final bool? isFavourite;
   final DateTime? nextAiringEpisodeUpdateTime;
+  final String? siteUrl;
   const MediaEntity(
       {required this.id,
       this.type,
@@ -4492,6 +4707,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       this.trailerSite,
       this.trailerThumbnail,
       this.genres,
+      this.format,
       this.trending,
       this.favourites,
       this.popularRanking,
@@ -4501,7 +4717,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       this.startDate,
       this.endDate,
       this.isFavourite,
-      this.nextAiringEpisodeUpdateTime});
+      this.nextAiringEpisodeUpdateTime,
+      this.siteUrl});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -4569,6 +4786,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
     if (!nullToAbsent || genres != null) {
       map['genres'] = Variable<String>(genres);
     }
+    if (!nullToAbsent || format != null) {
+      map['format'] = Variable<String>(format);
+    }
     if (!nullToAbsent || trending != null) {
       map['trending'] = Variable<int>(trending);
     }
@@ -4588,10 +4808,10 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       map['time_until_airing'] = Variable<int>(timeUntilAiring);
     }
     if (!nullToAbsent || startDate != null) {
-      map['start_date'] = Variable<int>(startDate);
+      map['start_date'] = Variable<DateTime>(startDate);
     }
     if (!nullToAbsent || endDate != null) {
-      map['end_date'] = Variable<int>(endDate);
+      map['end_date'] = Variable<DateTime>(endDate);
     }
     if (!nullToAbsent || isFavourite != null) {
       map['is_favourite'] = Variable<bool>(isFavourite);
@@ -4599,6 +4819,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
     if (!nullToAbsent || nextAiringEpisodeUpdateTime != null) {
       map['next_airing_episode_update_time'] =
           Variable<DateTime>(nextAiringEpisodeUpdateTime);
+    }
+    if (!nullToAbsent || siteUrl != null) {
+      map['user_data_site_url'] = Variable<String>(siteUrl);
     }
     return map;
   }
@@ -4663,6 +4886,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           : Value(trailerThumbnail),
       genres:
           genres == null && nullToAbsent ? const Value.absent() : Value(genres),
+      format:
+          format == null && nullToAbsent ? const Value.absent() : Value(format),
       trending: trending == null && nullToAbsent
           ? const Value.absent()
           : Value(trending),
@@ -4694,6 +4919,9 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           nextAiringEpisodeUpdateTime == null && nullToAbsent
               ? const Value.absent()
               : Value(nextAiringEpisodeUpdateTime),
+      siteUrl: siteUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteUrl),
     );
   }
 
@@ -4724,17 +4952,19 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       trailerSite: serializer.fromJson<String?>(json['trailerSite']),
       trailerThumbnail: serializer.fromJson<String?>(json['trailerThumbnail']),
       genres: serializer.fromJson<String?>(json['genres']),
+      format: serializer.fromJson<String?>(json['format']),
       trending: serializer.fromJson<int?>(json['trending']),
       favourites: serializer.fromJson<int?>(json['favourites']),
       popularRanking: serializer.fromJson<int?>(json['popularRanking']),
       ratedRanking: serializer.fromJson<int?>(json['ratedRanking']),
       nextAiringEpisode: serializer.fromJson<int?>(json['nextAiringEpisode']),
       timeUntilAiring: serializer.fromJson<int?>(json['timeUntilAiring']),
-      startDate: serializer.fromJson<int?>(json['startDate']),
-      endDate: serializer.fromJson<int?>(json['endDate']),
+      startDate: serializer.fromJson<DateTime?>(json['startDate']),
+      endDate: serializer.fromJson<DateTime?>(json['endDate']),
       isFavourite: serializer.fromJson<bool?>(json['isFavourite']),
       nextAiringEpisodeUpdateTime:
           serializer.fromJson<DateTime?>(json['nextAiringEpisodeUpdateTime']),
+      siteUrl: serializer.fromJson<String?>(json['siteUrl']),
     );
   }
   @override
@@ -4763,17 +4993,19 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
       'trailerSite': serializer.toJson<String?>(trailerSite),
       'trailerThumbnail': serializer.toJson<String?>(trailerThumbnail),
       'genres': serializer.toJson<String?>(genres),
+      'format': serializer.toJson<String?>(format),
       'trending': serializer.toJson<int?>(trending),
       'favourites': serializer.toJson<int?>(favourites),
       'popularRanking': serializer.toJson<int?>(popularRanking),
       'ratedRanking': serializer.toJson<int?>(ratedRanking),
       'nextAiringEpisode': serializer.toJson<int?>(nextAiringEpisode),
       'timeUntilAiring': serializer.toJson<int?>(timeUntilAiring),
-      'startDate': serializer.toJson<int?>(startDate),
-      'endDate': serializer.toJson<int?>(endDate),
+      'startDate': serializer.toJson<DateTime?>(startDate),
+      'endDate': serializer.toJson<DateTime?>(endDate),
       'isFavourite': serializer.toJson<bool?>(isFavourite),
       'nextAiringEpisodeUpdateTime':
           serializer.toJson<DateTime?>(nextAiringEpisodeUpdateTime),
+      'siteUrl': serializer.toJson<String?>(siteUrl),
     };
   }
 
@@ -4800,17 +5032,18 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           Value<String?> trailerSite = const Value.absent(),
           Value<String?> trailerThumbnail = const Value.absent(),
           Value<String?> genres = const Value.absent(),
+          Value<String?> format = const Value.absent(),
           Value<int?> trending = const Value.absent(),
           Value<int?> favourites = const Value.absent(),
           Value<int?> popularRanking = const Value.absent(),
           Value<int?> ratedRanking = const Value.absent(),
           Value<int?> nextAiringEpisode = const Value.absent(),
           Value<int?> timeUntilAiring = const Value.absent(),
-          Value<int?> startDate = const Value.absent(),
-          Value<int?> endDate = const Value.absent(),
+          Value<DateTime?> startDate = const Value.absent(),
+          Value<DateTime?> endDate = const Value.absent(),
           Value<bool?> isFavourite = const Value.absent(),
-          Value<DateTime?> nextAiringEpisodeUpdateTime =
-              const Value.absent()}) =>
+          Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
+          Value<String?> siteUrl = const Value.absent()}) =>
       MediaEntity(
         id: id ?? this.id,
         type: type.present ? type.value : this.type,
@@ -4846,6 +5079,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
             ? trailerThumbnail.value
             : this.trailerThumbnail,
         genres: genres.present ? genres.value : this.genres,
+        format: format.present ? format.value : this.format,
         trending: trending.present ? trending.value : this.trending,
         favourites: favourites.present ? favourites.value : this.favourites,
         popularRanking:
@@ -4864,7 +5098,79 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime.present
             ? nextAiringEpisodeUpdateTime.value
             : this.nextAiringEpisodeUpdateTime,
+        siteUrl: siteUrl.present ? siteUrl.value : this.siteUrl,
       );
+  MediaEntity copyWithCompanion(MediaTableCompanion data) {
+    return MediaEntity(
+      id: data.id.present ? data.id.value : this.id,
+      type: data.type.present ? data.type.value : this.type,
+      englishTitle: data.englishTitle.present
+          ? data.englishTitle.value
+          : this.englishTitle,
+      romajiTitle:
+          data.romajiTitle.present ? data.romajiTitle.value : this.romajiTitle,
+      nativeTitle:
+          data.nativeTitle.present ? data.nativeTitle.value : this.nativeTitle,
+      coverImageExtraLarge: data.coverImageExtraLarge.present
+          ? data.coverImageExtraLarge.value
+          : this.coverImageExtraLarge,
+      coverImageLarge: data.coverImageLarge.present
+          ? data.coverImageLarge.value
+          : this.coverImageLarge,
+      coverImageMedium: data.coverImageMedium.present
+          ? data.coverImageMedium.value
+          : this.coverImageMedium,
+      coverImageColor: data.coverImageColor.present
+          ? data.coverImageColor.value
+          : this.coverImageColor,
+      description:
+          data.description.present ? data.description.value : this.description,
+      episodes: data.episodes.present ? data.episodes.value : this.episodes,
+      seasonYear:
+          data.seasonYear.present ? data.seasonYear.value : this.seasonYear,
+      season: data.season.present ? data.season.value : this.season,
+      source: data.source.present ? data.source.value : this.source,
+      status: data.status.present ? data.status.value : this.status,
+      hashtag: data.hashtag.present ? data.hashtag.value : this.hashtag,
+      bannerImage:
+          data.bannerImage.present ? data.bannerImage.value : this.bannerImage,
+      averageScore: data.averageScore.present
+          ? data.averageScore.value
+          : this.averageScore,
+      trailerId: data.trailerId.present ? data.trailerId.value : this.trailerId,
+      trailerSite:
+          data.trailerSite.present ? data.trailerSite.value : this.trailerSite,
+      trailerThumbnail: data.trailerThumbnail.present
+          ? data.trailerThumbnail.value
+          : this.trailerThumbnail,
+      genres: data.genres.present ? data.genres.value : this.genres,
+      format: data.format.present ? data.format.value : this.format,
+      trending: data.trending.present ? data.trending.value : this.trending,
+      favourites:
+          data.favourites.present ? data.favourites.value : this.favourites,
+      popularRanking: data.popularRanking.present
+          ? data.popularRanking.value
+          : this.popularRanking,
+      ratedRanking: data.ratedRanking.present
+          ? data.ratedRanking.value
+          : this.ratedRanking,
+      nextAiringEpisode: data.nextAiringEpisode.present
+          ? data.nextAiringEpisode.value
+          : this.nextAiringEpisode,
+      timeUntilAiring: data.timeUntilAiring.present
+          ? data.timeUntilAiring.value
+          : this.timeUntilAiring,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      endDate: data.endDate.present ? data.endDate.value : this.endDate,
+      isFavourite:
+          data.isFavourite.present ? data.isFavourite.value : this.isFavourite,
+      nextAiringEpisodeUpdateTime: data.nextAiringEpisodeUpdateTime.present
+          ? data.nextAiringEpisodeUpdateTime.value
+          : this.nextAiringEpisodeUpdateTime,
+      siteUrl: data.siteUrl.present ? data.siteUrl.value : this.siteUrl,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MediaEntity(')
@@ -4890,6 +5196,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           ..write('trailerSite: $trailerSite, ')
           ..write('trailerThumbnail: $trailerThumbnail, ')
           ..write('genres: $genres, ')
+          ..write('format: $format, ')
           ..write('trending: $trending, ')
           ..write('favourites: $favourites, ')
           ..write('popularRanking: $popularRanking, ')
@@ -4899,7 +5206,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           ..write('startDate: $startDate, ')
           ..write('endDate: $endDate, ')
           ..write('isFavourite: $isFavourite, ')
-          ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime')
+          ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime, ')
+          ..write('siteUrl: $siteUrl')
           ..write(')'))
         .toString();
   }
@@ -4928,6 +5236,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         trailerSite,
         trailerThumbnail,
         genres,
+        format,
         trending,
         favourites,
         popularRanking,
@@ -4937,7 +5246,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
         startDate,
         endDate,
         isFavourite,
-        nextAiringEpisodeUpdateTime
+        nextAiringEpisodeUpdateTime,
+        siteUrl
       ]);
   @override
   bool operator ==(Object other) =>
@@ -4965,6 +5275,7 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           other.trailerSite == this.trailerSite &&
           other.trailerThumbnail == this.trailerThumbnail &&
           other.genres == this.genres &&
+          other.format == this.format &&
           other.trending == this.trending &&
           other.favourites == this.favourites &&
           other.popularRanking == this.popularRanking &&
@@ -4975,7 +5286,8 @@ class MediaEntity extends DataClass implements Insertable<MediaEntity> {
           other.endDate == this.endDate &&
           other.isFavourite == this.isFavourite &&
           other.nextAiringEpisodeUpdateTime ==
-              this.nextAiringEpisodeUpdateTime);
+              this.nextAiringEpisodeUpdateTime &&
+          other.siteUrl == this.siteUrl);
 }
 
 class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
@@ -5001,16 +5313,18 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
   final Value<String?> trailerSite;
   final Value<String?> trailerThumbnail;
   final Value<String?> genres;
+  final Value<String?> format;
   final Value<int?> trending;
   final Value<int?> favourites;
   final Value<int?> popularRanking;
   final Value<int?> ratedRanking;
   final Value<int?> nextAiringEpisode;
   final Value<int?> timeUntilAiring;
-  final Value<int?> startDate;
-  final Value<int?> endDate;
+  final Value<DateTime?> startDate;
+  final Value<DateTime?> endDate;
   final Value<bool?> isFavourite;
   final Value<DateTime?> nextAiringEpisodeUpdateTime;
+  final Value<String?> siteUrl;
   final Value<int> rowid;
   const MediaTableCompanion({
     this.id = const Value.absent(),
@@ -5035,6 +5349,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.trailerSite = const Value.absent(),
     this.trailerThumbnail = const Value.absent(),
     this.genres = const Value.absent(),
+    this.format = const Value.absent(),
     this.trending = const Value.absent(),
     this.favourites = const Value.absent(),
     this.popularRanking = const Value.absent(),
@@ -5045,6 +5360,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.endDate = const Value.absent(),
     this.isFavourite = const Value.absent(),
     this.nextAiringEpisodeUpdateTime = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   MediaTableCompanion.insert({
@@ -5070,6 +5386,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.trailerSite = const Value.absent(),
     this.trailerThumbnail = const Value.absent(),
     this.genres = const Value.absent(),
+    this.format = const Value.absent(),
     this.trending = const Value.absent(),
     this.favourites = const Value.absent(),
     this.popularRanking = const Value.absent(),
@@ -5080,6 +5397,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     this.endDate = const Value.absent(),
     this.isFavourite = const Value.absent(),
     this.nextAiringEpisodeUpdateTime = const Value.absent(),
+    this.siteUrl = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id);
   static Insertable<MediaEntity> custom({
@@ -5105,16 +5423,18 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     Expression<String>? trailerSite,
     Expression<String>? trailerThumbnail,
     Expression<String>? genres,
+    Expression<String>? format,
     Expression<int>? trending,
     Expression<int>? favourites,
     Expression<int>? popularRanking,
     Expression<int>? ratedRanking,
     Expression<int>? nextAiringEpisode,
     Expression<int>? timeUntilAiring,
-    Expression<int>? startDate,
-    Expression<int>? endDate,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
     Expression<bool>? isFavourite,
     Expression<DateTime>? nextAiringEpisodeUpdateTime,
+    Expression<String>? siteUrl,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5141,6 +5461,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       if (trailerSite != null) 'trailer_site': trailerSite,
       if (trailerThumbnail != null) 'trailer_thumbnail': trailerThumbnail,
       if (genres != null) 'genres': genres,
+      if (format != null) 'format': format,
       if (trending != null) 'trending': trending,
       if (favourites != null) 'favourites': favourites,
       if (popularRanking != null) 'popular_ranking': popularRanking,
@@ -5152,6 +5473,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       if (isFavourite != null) 'is_favourite': isFavourite,
       if (nextAiringEpisodeUpdateTime != null)
         'next_airing_episode_update_time': nextAiringEpisodeUpdateTime,
+      if (siteUrl != null) 'user_data_site_url': siteUrl,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5179,16 +5501,18 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       Value<String?>? trailerSite,
       Value<String?>? trailerThumbnail,
       Value<String?>? genres,
+      Value<String?>? format,
       Value<int?>? trending,
       Value<int?>? favourites,
       Value<int?>? popularRanking,
       Value<int?>? ratedRanking,
       Value<int?>? nextAiringEpisode,
       Value<int?>? timeUntilAiring,
-      Value<int?>? startDate,
-      Value<int?>? endDate,
+      Value<DateTime?>? startDate,
+      Value<DateTime?>? endDate,
       Value<bool?>? isFavourite,
       Value<DateTime?>? nextAiringEpisodeUpdateTime,
+      Value<String?>? siteUrl,
       Value<int>? rowid}) {
     return MediaTableCompanion(
       id: id ?? this.id,
@@ -5213,6 +5537,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       trailerSite: trailerSite ?? this.trailerSite,
       trailerThumbnail: trailerThumbnail ?? this.trailerThumbnail,
       genres: genres ?? this.genres,
+      format: format ?? this.format,
       trending: trending ?? this.trending,
       favourites: favourites ?? this.favourites,
       popularRanking: popularRanking ?? this.popularRanking,
@@ -5224,6 +5549,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       isFavourite: isFavourite ?? this.isFavourite,
       nextAiringEpisodeUpdateTime:
           nextAiringEpisodeUpdateTime ?? this.nextAiringEpisodeUpdateTime,
+      siteUrl: siteUrl ?? this.siteUrl,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5298,6 +5624,9 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     if (genres.present) {
       map['genres'] = Variable<String>(genres.value);
     }
+    if (format.present) {
+      map['format'] = Variable<String>(format.value);
+    }
     if (trending.present) {
       map['trending'] = Variable<int>(trending.value);
     }
@@ -5317,10 +5646,10 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
       map['time_until_airing'] = Variable<int>(timeUntilAiring.value);
     }
     if (startDate.present) {
-      map['start_date'] = Variable<int>(startDate.value);
+      map['start_date'] = Variable<DateTime>(startDate.value);
     }
     if (endDate.present) {
-      map['end_date'] = Variable<int>(endDate.value);
+      map['end_date'] = Variable<DateTime>(endDate.value);
     }
     if (isFavourite.present) {
       map['is_favourite'] = Variable<bool>(isFavourite.value);
@@ -5328,6 +5657,9 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
     if (nextAiringEpisodeUpdateTime.present) {
       map['next_airing_episode_update_time'] =
           Variable<DateTime>(nextAiringEpisodeUpdateTime.value);
+    }
+    if (siteUrl.present) {
+      map['user_data_site_url'] = Variable<String>(siteUrl.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -5360,6 +5692,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
           ..write('trailerSite: $trailerSite, ')
           ..write('trailerThumbnail: $trailerThumbnail, ')
           ..write('genres: $genres, ')
+          ..write('format: $format, ')
           ..write('trending: $trending, ')
           ..write('favourites: $favourites, ')
           ..write('popularRanking: $popularRanking, ')
@@ -5370,6 +5703,7 @@ class MediaTableCompanion extends UpdateCompanion<MediaEntity> {
           ..write('endDate: $endDate, ')
           ..write('isFavourite: $isFavourite, ')
           ..write('nextAiringEpisodeUpdateTime: $nextAiringEpisodeUpdateTime, ')
+          ..write('siteUrl: $siteUrl, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -5489,6 +5823,14 @@ class StudioMediaCrossRefEntity extends DataClass
         studioId: studioId ?? this.studioId,
         mediaId: mediaId ?? this.mediaId,
       );
+  StudioMediaCrossRefEntity copyWithCompanion(
+      StudioMediaCrossRefTableCompanion data) {
+    return StudioMediaCrossRefEntity(
+      studioId: data.studioId.present ? data.studioId.value : this.studioId,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('StudioMediaCrossRefEntity(')
@@ -5700,6 +6042,15 @@ class CharacterRelatedMediaCrossRefEntity extends DataClass
         characterId: characterId ?? this.characterId,
         mediaId: mediaId ?? this.mediaId,
       );
+  CharacterRelatedMediaCrossRefEntity copyWithCompanion(
+      CharacterRelatedMediaCrossRefTableCompanion data) {
+    return CharacterRelatedMediaCrossRefEntity(
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CharacterRelatedMediaCrossRefEntity(')
@@ -5939,6 +6290,16 @@ class ActivityFilterTypePagingCrossRefEntity extends DataClass
         activityId: activityId ?? this.activityId,
         category: category ?? this.category,
       );
+  ActivityFilterTypePagingCrossRefEntity copyWithCompanion(
+      ActivityFilterTypePagingCrossRefTableCompanion data) {
+    return ActivityFilterTypePagingCrossRefEntity(
+      id: data.id.present ? data.id.value : this.id,
+      activityId:
+          data.activityId.present ? data.activityId.value : this.activityId,
+      category: data.category.present ? data.category.value : this.category,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ActivityFilterTypePagingCrossRefEntity(')
@@ -6168,6 +6529,16 @@ class MediaCharacterPagingCrossRefEntity extends DataClass
         mediaId: mediaId ?? this.mediaId,
         timeStamp: timeStamp ?? this.timeStamp,
       );
+  MediaCharacterPagingCrossRefEntity copyWithCompanion(
+      MediaCharacterPagingCrossRefTableCompanion data) {
+    return MediaCharacterPagingCrossRefEntity(
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      timeStamp: data.timeStamp.present ? data.timeStamp.value : this.timeStamp,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MediaCharacterPagingCrossRefEntity(')
@@ -6467,6 +6838,18 @@ class CharacterCharacterVoiceActorCrossRefEntity extends DataClass
         role: role ?? this.role,
         language: language ?? this.language,
       );
+  CharacterCharacterVoiceActorCrossRefEntity copyWithCompanion(
+      CharacterVoiceActorCrossRefTableCompanion data) {
+    return CharacterCharacterVoiceActorCrossRefEntity(
+      id: data.id.present ? data.id.value : this.id,
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      staffId: data.staffId.present ? data.staffId.value : this.staffId,
+      role: data.role.present ? data.role.value : this.role,
+      language: data.language.present ? data.language.value : this.language,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CharacterCharacterVoiceActorCrossRefEntity(')
@@ -6729,6 +7112,18 @@ class MediaRelationCrossRefEntity extends DataClass
         relationId: relationId ?? this.relationId,
         relationType: relationType ?? this.relationType,
       );
+  MediaRelationCrossRefEntity copyWithCompanion(
+      MediaRelationCrossRefTableCompanion data) {
+    return MediaRelationCrossRefEntity(
+      ownerId: data.ownerId.present ? data.ownerId.value : this.ownerId,
+      relationId:
+          data.relationId.present ? data.relationId.value : this.relationId,
+      relationType: data.relationType.present
+          ? data.relationType.value
+          : this.relationType,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MediaRelationCrossRefEntity(')
@@ -6999,6 +7394,16 @@ class MediaStaffPagingCrossRefEntity extends DataClass
         staffRole: staffRole ?? this.staffRole,
         timeStamp: timeStamp ?? this.timeStamp,
       );
+  MediaStaffPagingCrossRefEntity copyWithCompanion(
+      MediaStaffPagingCrossRefTableCompanion data) {
+    return MediaStaffPagingCrossRefEntity(
+      staffId: data.staffId.present ? data.staffId.value : this.staffId,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      staffRole: data.staffRole.present ? data.staffRole.value : this.staffRole,
+      timeStamp: data.timeStamp.present ? data.timeStamp.value : this.timeStamp,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MediaStaffPagingCrossRefEntity(')
@@ -7357,6 +7762,20 @@ class MediaExternalLinkEntity extends DataClass
         color: color.present ? color.value : this.color,
         icon: icon.present ? icon.value : this.icon,
       );
+  MediaExternalLinkEntity copyWithCompanion(
+      MediaExternalLinkTableCompanion data) {
+    return MediaExternalLinkEntity(
+      id: data.id.present ? data.id.value : this.id,
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      url: data.url.present ? data.url.value : this.url,
+      site: data.site.present ? data.site.value : this.site,
+      type: data.type.present ? data.type.value : this.type,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      color: data.color.present ? data.color.value : this.color,
+      icon: data.icon.present ? data.icon.value : this.icon,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MediaExternalLinkEntity(')
@@ -7659,6 +8078,15 @@ class CategoryMediaPagingCrossRefEntity extends DataClass
         category: category ?? this.category,
         timeStamp: timeStamp ?? this.timeStamp,
       );
+  CategoryMediaPagingCrossRefEntity copyWithCompanion(
+      CategoryMediaPagingCrossRefTableCompanion data) {
+    return CategoryMediaPagingCrossRefEntity(
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      category: data.category.present ? data.category.value : this.category,
+      timeStamp: data.timeStamp.present ? data.timeStamp.value : this.timeStamp,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CategoryMediaPagingCrossRefEntity(')
@@ -7912,6 +8340,17 @@ class FavoriteInfoEntity extends DataClass
         infoId: infoId ?? this.infoId,
         userId: userId ?? this.userId,
       );
+  FavoriteInfoEntity copyWithCompanion(FavoriteInfoTableCompanion data) {
+    return FavoriteInfoEntity(
+      id: data.id.present ? data.id.value : this.id,
+      favoriteType: data.favoriteType.present
+          ? data.favoriteType.value
+          : this.favoriteType,
+      infoId: data.infoId.present ? data.infoId.value : this.infoId,
+      userId: data.userId.present ? data.userId.value : this.userId,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('FavoriteInfoEntity(')
@@ -8191,6 +8630,17 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
         url: url ?? this.url,
         episodeNum: episodeNum ?? this.episodeNum,
       );
+  EpisodeEntity copyWithCompanion(EpisodeTableCompanion data) {
+    return EpisodeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      animeId: data.animeId.present ? data.animeId.value : this.animeId,
+      title: data.title.present ? data.title.value : this.title,
+      url: data.url.present ? data.url.value : this.url,
+      episodeNum:
+          data.episodeNum.present ? data.episodeNum.value : this.episodeNum,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('EpisodeEntity(')
@@ -8306,7 +8756,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
 
 abstract class _$AniflowDatabase extends GeneratedDatabase {
   _$AniflowDatabase(QueryExecutor e) : super(e);
-  _$AniflowDatabaseManager get managers => _$AniflowDatabaseManager(this);
+  $AniflowDatabaseManager get managers => $AniflowDatabaseManager(this);
   late final $UserTableTable userTable = $UserTableTable(this);
   late final $StudioTableTable studioTable = $StudioTableTable(this);
   late final $StaffTableTable staffTable = $StaffTableTable(this);
@@ -8380,12 +8830,13 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
       ];
 }
 
-typedef $$UserTableTableInsertCompanionBuilder = UserTableCompanion Function({
+typedef $$UserTableTableCreateCompanionBuilder = UserTableCompanion Function({
   required String id,
   required String name,
   Value<String?> avatarImage,
   Value<String?> bannerImage,
   Value<String?> profileColor,
+  Value<String?> siteUrl,
   Value<int?> unreadNotificationCount,
   Value<int> rowid,
 });
@@ -8395,6 +8846,7 @@ typedef $$UserTableTableUpdateCompanionBuilder = UserTableCompanion Function({
   Value<String?> avatarImage,
   Value<String?> bannerImage,
   Value<String?> profileColor,
+  Value<String?> siteUrl,
   Value<int?> unreadNotificationCount,
   Value<int> rowid,
 });
@@ -8405,8 +8857,7 @@ class $$UserTableTableTableManager extends RootTableManager<
     UserEntity,
     $$UserTableTableFilterComposer,
     $$UserTableTableOrderingComposer,
-    $$UserTableTableProcessedTableManager,
-    $$UserTableTableInsertCompanionBuilder,
+    $$UserTableTableCreateCompanionBuilder,
     $$UserTableTableUpdateCompanionBuilder> {
   $$UserTableTableTableManager(_$AniflowDatabase db, $UserTableTable table)
       : super(TableManagerState(
@@ -8416,14 +8867,13 @@ class $$UserTableTableTableManager extends RootTableManager<
               $$UserTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$UserTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$UserTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<String?> avatarImage = const Value.absent(),
             Value<String?> bannerImage = const Value.absent(),
             Value<String?> profileColor = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int?> unreadNotificationCount = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
@@ -8433,15 +8883,17 @@ class $$UserTableTableTableManager extends RootTableManager<
             avatarImage: avatarImage,
             bannerImage: bannerImage,
             profileColor: profileColor,
+            siteUrl: siteUrl,
             unreadNotificationCount: unreadNotificationCount,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String name,
             Value<String?> avatarImage = const Value.absent(),
             Value<String?> bannerImage = const Value.absent(),
             Value<String?> profileColor = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int?> unreadNotificationCount = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
@@ -8451,22 +8903,11 @@ class $$UserTableTableTableManager extends RootTableManager<
             avatarImage: avatarImage,
             bannerImage: bannerImage,
             profileColor: profileColor,
+            siteUrl: siteUrl,
             unreadNotificationCount: unreadNotificationCount,
             rowid: rowid,
           ),
         ));
-}
-
-class $$UserTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $UserTableTable,
-    UserEntity,
-    $$UserTableTableFilterComposer,
-    $$UserTableTableOrderingComposer,
-    $$UserTableTableProcessedTableManager,
-    $$UserTableTableInsertCompanionBuilder,
-    $$UserTableTableUpdateCompanionBuilder> {
-  $$UserTableTableProcessedTableManager(super.$state);
 }
 
 class $$UserTableTableFilterComposer
@@ -8494,6 +8935,11 @@ class $$UserTableTableFilterComposer
 
   ColumnFilters<String> get profileColor => $state.composableBuilder(
       column: $state.table.profileColor,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -8531,13 +8977,18 @@ class $$UserTableTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
+  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
   ColumnOrderings<int> get unreadNotificationCount => $state.composableBuilder(
       column: $state.table.unreadNotificationCount,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$StudioTableTableInsertCompanionBuilder = StudioTableCompanion
+typedef $$StudioTableTableCreateCompanionBuilder = StudioTableCompanion
     Function({
   required String id,
   required String name,
@@ -8562,8 +9013,7 @@ class $$StudioTableTableTableManager extends RootTableManager<
     StudioEntity,
     $$StudioTableTableFilterComposer,
     $$StudioTableTableOrderingComposer,
-    $$StudioTableTableProcessedTableManager,
-    $$StudioTableTableInsertCompanionBuilder,
+    $$StudioTableTableCreateCompanionBuilder,
     $$StudioTableTableUpdateCompanionBuilder> {
   $$StudioTableTableTableManager(_$AniflowDatabase db, $StudioTableTable table)
       : super(TableManagerState(
@@ -8573,9 +9023,7 @@ class $$StudioTableTableTableManager extends RootTableManager<
               $$StudioTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$StudioTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$StudioTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<String?> siteUrl = const Value.absent(),
@@ -8591,7 +9039,7 @@ class $$StudioTableTableTableManager extends RootTableManager<
             isFavourite: isFavourite,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String name,
             Value<String?> siteUrl = const Value.absent(),
@@ -8608,18 +9056,6 @@ class $$StudioTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$StudioTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $StudioTableTable,
-    StudioEntity,
-    $$StudioTableTableFilterComposer,
-    $$StudioTableTableOrderingComposer,
-    $$StudioTableTableProcessedTableManager,
-    $$StudioTableTableInsertCompanionBuilder,
-    $$StudioTableTableUpdateCompanionBuilder> {
-  $$StudioTableTableProcessedTableManager(super.$state);
 }
 
 class $$StudioTableTableFilterComposer
@@ -8680,7 +9116,7 @@ class $$StudioTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$StaffTableTableInsertCompanionBuilder = StaffTableCompanion Function({
+typedef $$StaffTableTableCreateCompanionBuilder = StaffTableCompanion Function({
   required String id,
   Value<String?> largeImage,
   Value<String?> mediumImage,
@@ -8729,8 +9165,7 @@ class $$StaffTableTableTableManager extends RootTableManager<
     StaffEntity,
     $$StaffTableTableFilterComposer,
     $$StaffTableTableOrderingComposer,
-    $$StaffTableTableProcessedTableManager,
-    $$StaffTableTableInsertCompanionBuilder,
+    $$StaffTableTableCreateCompanionBuilder,
     $$StaffTableTableUpdateCompanionBuilder> {
   $$StaffTableTableTableManager(_$AniflowDatabase db, $StaffTableTable table)
       : super(TableManagerState(
@@ -8740,9 +9175,7 @@ class $$StaffTableTableTableManager extends RootTableManager<
               $$StaffTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$StaffTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$StaffTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String?> largeImage = const Value.absent(),
             Value<String?> mediumImage = const Value.absent(),
@@ -8784,7 +9217,7 @@ class $$StaffTableTableTableManager extends RootTableManager<
             bloodType: bloodType,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             Value<String?> largeImage = const Value.absent(),
             Value<String?> mediumImage = const Value.absent(),
@@ -8827,18 +9260,6 @@ class $$StaffTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$StaffTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $StaffTableTable,
-    StaffEntity,
-    $$StaffTableTableFilterComposer,
-    $$StaffTableTableOrderingComposer,
-    $$StaffTableTableProcessedTableManager,
-    $$StaffTableTableInsertCompanionBuilder,
-    $$StaffTableTableUpdateCompanionBuilder> {
-  $$StaffTableTableProcessedTableManager(super.$state);
 }
 
 class $$StaffTableTableFilterComposer
@@ -9029,7 +9450,7 @@ class $$StaffTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$ActivityTableTableInsertCompanionBuilder = ActivityTableCompanion
+typedef $$ActivityTableTableCreateCompanionBuilder = ActivityTableCompanion
     Function({
   required String id,
   required String userId,
@@ -9072,8 +9493,7 @@ class $$ActivityTableTableTableManager extends RootTableManager<
     ActivityEntity,
     $$ActivityTableTableFilterComposer,
     $$ActivityTableTableOrderingComposer,
-    $$ActivityTableTableProcessedTableManager,
-    $$ActivityTableTableInsertCompanionBuilder,
+    $$ActivityTableTableCreateCompanionBuilder,
     $$ActivityTableTableUpdateCompanionBuilder> {
   $$ActivityTableTableTableManager(
       _$AniflowDatabase db, $ActivityTableTable table)
@@ -9084,9 +9504,7 @@ class $$ActivityTableTableTableManager extends RootTableManager<
               $$ActivityTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$ActivityTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$ActivityTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> userId = const Value.absent(),
             Value<String?> mediaId = const Value.absent(),
@@ -9120,7 +9538,7 @@ class $$ActivityTableTableTableManager extends RootTableManager<
             isPinned: isPinned,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String userId,
             Value<String?> mediaId = const Value.absent(),
@@ -9155,18 +9573,6 @@ class $$ActivityTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$ActivityTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $ActivityTableTable,
-    ActivityEntity,
-    $$ActivityTableTableFilterComposer,
-    $$ActivityTableTableOrderingComposer,
-    $$ActivityTableTableProcessedTableManager,
-    $$ActivityTableTableInsertCompanionBuilder,
-    $$ActivityTableTableUpdateCompanionBuilder> {
-  $$ActivityTableTableProcessedTableManager(super.$state);
 }
 
 class $$ActivityTableTableFilterComposer
@@ -9317,7 +9723,7 @@ class $$ActivityTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$AiringScheduleTableTableInsertCompanionBuilder
+typedef $$AiringScheduleTableTableCreateCompanionBuilder
     = AiringScheduleTableCompanion Function({
   required String id,
   required String mediaId,
@@ -9342,8 +9748,7 @@ class $$AiringScheduleTableTableTableManager extends RootTableManager<
     AiringScheduleEntity,
     $$AiringScheduleTableTableFilterComposer,
     $$AiringScheduleTableTableOrderingComposer,
-    $$AiringScheduleTableTableProcessedTableManager,
-    $$AiringScheduleTableTableInsertCompanionBuilder,
+    $$AiringScheduleTableTableCreateCompanionBuilder,
     $$AiringScheduleTableTableUpdateCompanionBuilder> {
   $$AiringScheduleTableTableTableManager(
       _$AniflowDatabase db, $AiringScheduleTableTable table)
@@ -9354,9 +9759,7 @@ class $$AiringScheduleTableTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           orderingComposer: $$AiringScheduleTableTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$AiringScheduleTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
             Value<int?> airingAt = const Value.absent(),
@@ -9372,7 +9775,7 @@ class $$AiringScheduleTableTableTableManager extends RootTableManager<
             episode: episode,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String mediaId,
             Value<int?> airingAt = const Value.absent(),
@@ -9389,19 +9792,6 @@ class $$AiringScheduleTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$AiringScheduleTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $AiringScheduleTableTable,
-        AiringScheduleEntity,
-        $$AiringScheduleTableTableFilterComposer,
-        $$AiringScheduleTableTableOrderingComposer,
-        $$AiringScheduleTableTableProcessedTableManager,
-        $$AiringScheduleTableTableInsertCompanionBuilder,
-        $$AiringScheduleTableTableUpdateCompanionBuilder> {
-  $$AiringScheduleTableTableProcessedTableManager(super.$state);
 }
 
 class $$AiringScheduleTableTableFilterComposer
@@ -9462,7 +9852,7 @@ class $$AiringScheduleTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$CharacterTableTableInsertCompanionBuilder = CharacterTableCompanion
+typedef $$CharacterTableTableCreateCompanionBuilder = CharacterTableCompanion
     Function({
   required String id,
   Value<String?> largeImage,
@@ -9509,8 +9899,7 @@ class $$CharacterTableTableTableManager extends RootTableManager<
     CharacterEntity,
     $$CharacterTableTableFilterComposer,
     $$CharacterTableTableOrderingComposer,
-    $$CharacterTableTableProcessedTableManager,
-    $$CharacterTableTableInsertCompanionBuilder,
+    $$CharacterTableTableCreateCompanionBuilder,
     $$CharacterTableTableUpdateCompanionBuilder> {
   $$CharacterTableTableTableManager(
       _$AniflowDatabase db, $CharacterTableTable table)
@@ -9521,9 +9910,7 @@ class $$CharacterTableTableTableManager extends RootTableManager<
               $$CharacterTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$CharacterTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CharacterTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String?> largeImage = const Value.absent(),
             Value<String?> mediumImage = const Value.absent(),
@@ -9561,7 +9948,7 @@ class $$CharacterTableTableTableManager extends RootTableManager<
             isFavourite: isFavourite,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             Value<String?> largeImage = const Value.absent(),
             Value<String?> mediumImage = const Value.absent(),
@@ -9600,18 +9987,6 @@ class $$CharacterTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$CharacterTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $CharacterTableTable,
-    CharacterEntity,
-    $$CharacterTableTableFilterComposer,
-    $$CharacterTableTableOrderingComposer,
-    $$CharacterTableTableProcessedTableManager,
-    $$CharacterTableTableInsertCompanionBuilder,
-    $$CharacterTableTableUpdateCompanionBuilder> {
-  $$CharacterTableTableProcessedTableManager(super.$state);
 }
 
 class $$CharacterTableTableFilterComposer
@@ -9782,7 +10157,7 @@ class $$CharacterTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$MediaListTableTableInsertCompanionBuilder = MediaListTableCompanion
+typedef $$MediaListTableTableCreateCompanionBuilder = MediaListTableCompanion
     Function({
   required String id,
   required String userId,
@@ -9823,8 +10198,7 @@ class $$MediaListTableTableTableManager extends RootTableManager<
     MediaListEntity,
     $$MediaListTableTableFilterComposer,
     $$MediaListTableTableOrderingComposer,
-    $$MediaListTableTableProcessedTableManager,
-    $$MediaListTableTableInsertCompanionBuilder,
+    $$MediaListTableTableCreateCompanionBuilder,
     $$MediaListTableTableUpdateCompanionBuilder> {
   $$MediaListTableTableTableManager(
       _$AniflowDatabase db, $MediaListTableTable table)
@@ -9835,9 +10209,7 @@ class $$MediaListTableTableTableManager extends RootTableManager<
               $$MediaListTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$MediaListTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MediaListTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> userId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -9869,7 +10241,7 @@ class $$MediaListTableTableTableManager extends RootTableManager<
             private: private,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String userId,
             required String mediaId,
@@ -9902,18 +10274,6 @@ class $$MediaListTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$MediaListTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $MediaListTableTable,
-    MediaListEntity,
-    $$MediaListTableTableFilterComposer,
-    $$MediaListTableTableOrderingComposer,
-    $$MediaListTableTableProcessedTableManager,
-    $$MediaListTableTableInsertCompanionBuilder,
-    $$MediaListTableTableUpdateCompanionBuilder> {
-  $$MediaListTableTableProcessedTableManager(super.$state);
 }
 
 class $$MediaListTableTableFilterComposer
@@ -10054,7 +10414,7 @@ class $$MediaListTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$MediaTableTableInsertCompanionBuilder = MediaTableCompanion Function({
+typedef $$MediaTableTableCreateCompanionBuilder = MediaTableCompanion Function({
   required String id,
   Value<String?> type,
   Value<String?> englishTitle,
@@ -10077,16 +10437,18 @@ typedef $$MediaTableTableInsertCompanionBuilder = MediaTableCompanion Function({
   Value<String?> trailerSite,
   Value<String?> trailerThumbnail,
   Value<String?> genres,
+  Value<String?> format,
   Value<int?> trending,
   Value<int?> favourites,
   Value<int?> popularRanking,
   Value<int?> ratedRanking,
   Value<int?> nextAiringEpisode,
   Value<int?> timeUntilAiring,
-  Value<int?> startDate,
-  Value<int?> endDate,
+  Value<DateTime?> startDate,
+  Value<DateTime?> endDate,
   Value<bool?> isFavourite,
   Value<DateTime?> nextAiringEpisodeUpdateTime,
+  Value<String?> siteUrl,
   Value<int> rowid,
 });
 typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
@@ -10112,16 +10474,18 @@ typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
   Value<String?> trailerSite,
   Value<String?> trailerThumbnail,
   Value<String?> genres,
+  Value<String?> format,
   Value<int?> trending,
   Value<int?> favourites,
   Value<int?> popularRanking,
   Value<int?> ratedRanking,
   Value<int?> nextAiringEpisode,
   Value<int?> timeUntilAiring,
-  Value<int?> startDate,
-  Value<int?> endDate,
+  Value<DateTime?> startDate,
+  Value<DateTime?> endDate,
   Value<bool?> isFavourite,
   Value<DateTime?> nextAiringEpisodeUpdateTime,
+  Value<String?> siteUrl,
   Value<int> rowid,
 });
 
@@ -10131,8 +10495,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
     MediaEntity,
     $$MediaTableTableFilterComposer,
     $$MediaTableTableOrderingComposer,
-    $$MediaTableTableProcessedTableManager,
-    $$MediaTableTableInsertCompanionBuilder,
+    $$MediaTableTableCreateCompanionBuilder,
     $$MediaTableTableUpdateCompanionBuilder> {
   $$MediaTableTableTableManager(_$AniflowDatabase db, $MediaTableTable table)
       : super(TableManagerState(
@@ -10142,9 +10505,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
               $$MediaTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$MediaTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MediaTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String?> type = const Value.absent(),
             Value<String?> englishTitle = const Value.absent(),
@@ -10167,16 +10528,18 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<String?> trailerSite = const Value.absent(),
             Value<String?> trailerThumbnail = const Value.absent(),
             Value<String?> genres = const Value.absent(),
+            Value<String?> format = const Value.absent(),
             Value<int?> trending = const Value.absent(),
             Value<int?> favourites = const Value.absent(),
             Value<int?> popularRanking = const Value.absent(),
             Value<int?> ratedRanking = const Value.absent(),
             Value<int?> nextAiringEpisode = const Value.absent(),
             Value<int?> timeUntilAiring = const Value.absent(),
-            Value<int?> startDate = const Value.absent(),
-            Value<int?> endDate = const Value.absent(),
+            Value<DateTime?> startDate = const Value.absent(),
+            Value<DateTime?> endDate = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               MediaTableCompanion(
@@ -10202,6 +10565,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             trailerSite: trailerSite,
             trailerThumbnail: trailerThumbnail,
             genres: genres,
+            format: format,
             trending: trending,
             favourites: favourites,
             popularRanking: popularRanking,
@@ -10212,9 +10576,10 @@ class $$MediaTableTableTableManager extends RootTableManager<
             endDate: endDate,
             isFavourite: isFavourite,
             nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime,
+            siteUrl: siteUrl,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             Value<String?> type = const Value.absent(),
             Value<String?> englishTitle = const Value.absent(),
@@ -10237,16 +10602,18 @@ class $$MediaTableTableTableManager extends RootTableManager<
             Value<String?> trailerSite = const Value.absent(),
             Value<String?> trailerThumbnail = const Value.absent(),
             Value<String?> genres = const Value.absent(),
+            Value<String?> format = const Value.absent(),
             Value<int?> trending = const Value.absent(),
             Value<int?> favourites = const Value.absent(),
             Value<int?> popularRanking = const Value.absent(),
             Value<int?> ratedRanking = const Value.absent(),
             Value<int?> nextAiringEpisode = const Value.absent(),
             Value<int?> timeUntilAiring = const Value.absent(),
-            Value<int?> startDate = const Value.absent(),
-            Value<int?> endDate = const Value.absent(),
+            Value<DateTime?> startDate = const Value.absent(),
+            Value<DateTime?> endDate = const Value.absent(),
             Value<bool?> isFavourite = const Value.absent(),
             Value<DateTime?> nextAiringEpisodeUpdateTime = const Value.absent(),
+            Value<String?> siteUrl = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               MediaTableCompanion.insert(
@@ -10272,6 +10639,7 @@ class $$MediaTableTableTableManager extends RootTableManager<
             trailerSite: trailerSite,
             trailerThumbnail: trailerThumbnail,
             genres: genres,
+            format: format,
             trending: trending,
             favourites: favourites,
             popularRanking: popularRanking,
@@ -10282,21 +10650,10 @@ class $$MediaTableTableTableManager extends RootTableManager<
             endDate: endDate,
             isFavourite: isFavourite,
             nextAiringEpisodeUpdateTime: nextAiringEpisodeUpdateTime,
+            siteUrl: siteUrl,
             rowid: rowid,
           ),
         ));
-}
-
-class $$MediaTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $MediaTableTable,
-    MediaEntity,
-    $$MediaTableTableFilterComposer,
-    $$MediaTableTableOrderingComposer,
-    $$MediaTableTableProcessedTableManager,
-    $$MediaTableTableInsertCompanionBuilder,
-    $$MediaTableTableUpdateCompanionBuilder> {
-  $$MediaTableTableProcessedTableManager(super.$state);
 }
 
 class $$MediaTableTableFilterComposer
@@ -10412,6 +10769,11 @@ class $$MediaTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
+  ColumnFilters<String> get format => $state.composableBuilder(
+      column: $state.table.format,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
   ColumnFilters<int> get trending => $state.composableBuilder(
       column: $state.table.trending,
       builder: (column, joinBuilders) =>
@@ -10442,12 +10804,12 @@ class $$MediaTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<int> get startDate => $state.composableBuilder(
+  ColumnFilters<DateTime> get startDate => $state.composableBuilder(
       column: $state.table.startDate,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<int> get endDate => $state.composableBuilder(
+  ColumnFilters<DateTime> get endDate => $state.composableBuilder(
       column: $state.table.endDate,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
@@ -10462,6 +10824,11 @@ class $$MediaTableTableFilterComposer
           column: $state.table.nextAiringEpisodeUpdateTime,
           builder: (column, joinBuilders) =>
               ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $$MediaTableTableOrderingComposer
@@ -10577,6 +10944,11 @@ class $$MediaTableTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
+  ColumnOrderings<String> get format => $state.composableBuilder(
+      column: $state.table.format,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
   ColumnOrderings<int> get trending => $state.composableBuilder(
       column: $state.table.trending,
       builder: (column, joinBuilders) =>
@@ -10607,12 +10979,12 @@ class $$MediaTableTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<int> get startDate => $state.composableBuilder(
+  ColumnOrderings<DateTime> get startDate => $state.composableBuilder(
       column: $state.table.startDate,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<int> get endDate => $state.composableBuilder(
+  ColumnOrderings<DateTime> get endDate => $state.composableBuilder(
       column: $state.table.endDate,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
@@ -10627,9 +10999,14 @@ class $$MediaTableTableOrderingComposer
           column: $state.table.nextAiringEpisodeUpdateTime,
           builder: (column, joinBuilders) =>
               ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
+      column: $state.table.siteUrl,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$StudioMediaCrossRefTableTableInsertCompanionBuilder
+typedef $$StudioMediaCrossRefTableTableCreateCompanionBuilder
     = StudioMediaCrossRefTableCompanion Function({
   required String studioId,
   required String mediaId,
@@ -10648,8 +11025,7 @@ class $$StudioMediaCrossRefTableTableTableManager extends RootTableManager<
     StudioMediaCrossRefEntity,
     $$StudioMediaCrossRefTableTableFilterComposer,
     $$StudioMediaCrossRefTableTableOrderingComposer,
-    $$StudioMediaCrossRefTableTableProcessedTableManager,
-    $$StudioMediaCrossRefTableTableInsertCompanionBuilder,
+    $$StudioMediaCrossRefTableTableCreateCompanionBuilder,
     $$StudioMediaCrossRefTableTableUpdateCompanionBuilder> {
   $$StudioMediaCrossRefTableTableTableManager(
       _$AniflowDatabase db, $StudioMediaCrossRefTableTable table)
@@ -10660,9 +11036,7 @@ class $$StudioMediaCrossRefTableTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           orderingComposer: $$StudioMediaCrossRefTableTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$StudioMediaCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> studioId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -10672,7 +11046,7 @@ class $$StudioMediaCrossRefTableTableTableManager extends RootTableManager<
             mediaId: mediaId,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String studioId,
             required String mediaId,
             Value<int> rowid = const Value.absent(),
@@ -10683,19 +11057,6 @@ class $$StudioMediaCrossRefTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$StudioMediaCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $StudioMediaCrossRefTableTable,
-        StudioMediaCrossRefEntity,
-        $$StudioMediaCrossRefTableTableFilterComposer,
-        $$StudioMediaCrossRefTableTableOrderingComposer,
-        $$StudioMediaCrossRefTableTableProcessedTableManager,
-        $$StudioMediaCrossRefTableTableInsertCompanionBuilder,
-        $$StudioMediaCrossRefTableTableUpdateCompanionBuilder> {
-  $$StudioMediaCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$StudioMediaCrossRefTableTableFilterComposer
@@ -10726,7 +11087,7 @@ class $$StudioMediaCrossRefTableTableOrderingComposer extends OrderingComposer<
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$CharacterRelatedMediaCrossRefTableTableInsertCompanionBuilder
+typedef $$CharacterRelatedMediaCrossRefTableTableCreateCompanionBuilder
     = CharacterRelatedMediaCrossRefTableCompanion Function({
   required String characterId,
   required String mediaId,
@@ -10746,8 +11107,7 @@ class $$CharacterRelatedMediaCrossRefTableTableTableManager
         CharacterRelatedMediaCrossRefEntity,
         $$CharacterRelatedMediaCrossRefTableTableFilterComposer,
         $$CharacterRelatedMediaCrossRefTableTableOrderingComposer,
-        $$CharacterRelatedMediaCrossRefTableTableProcessedTableManager,
-        $$CharacterRelatedMediaCrossRefTableTableInsertCompanionBuilder,
+        $$CharacterRelatedMediaCrossRefTableTableCreateCompanionBuilder,
         $$CharacterRelatedMediaCrossRefTableTableUpdateCompanionBuilder> {
   $$CharacterRelatedMediaCrossRefTableTableTableManager(
       _$AniflowDatabase db, $CharacterRelatedMediaCrossRefTableTable table)
@@ -10760,9 +11120,7 @@ class $$CharacterRelatedMediaCrossRefTableTableTableManager
           orderingComposer:
               $$CharacterRelatedMediaCrossRefTableTableOrderingComposer(
                   ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CharacterRelatedMediaCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> characterId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -10772,7 +11130,7 @@ class $$CharacterRelatedMediaCrossRefTableTableTableManager
             mediaId: mediaId,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String characterId,
             required String mediaId,
             Value<int> rowid = const Value.absent(),
@@ -10783,19 +11141,6 @@ class $$CharacterRelatedMediaCrossRefTableTableTableManager
             rowid: rowid,
           ),
         ));
-}
-
-class $$CharacterRelatedMediaCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $CharacterRelatedMediaCrossRefTableTable,
-        CharacterRelatedMediaCrossRefEntity,
-        $$CharacterRelatedMediaCrossRefTableTableFilterComposer,
-        $$CharacterRelatedMediaCrossRefTableTableOrderingComposer,
-        $$CharacterRelatedMediaCrossRefTableTableProcessedTableManager,
-        $$CharacterRelatedMediaCrossRefTableTableInsertCompanionBuilder,
-        $$CharacterRelatedMediaCrossRefTableTableUpdateCompanionBuilder> {
-  $$CharacterRelatedMediaCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$CharacterRelatedMediaCrossRefTableTableFilterComposer
@@ -10828,7 +11173,7 @@ class $$CharacterRelatedMediaCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$ActivityFilterTypePagingCrossRefTableTableInsertCompanionBuilder
+typedef $$ActivityFilterTypePagingCrossRefTableTableCreateCompanionBuilder
     = ActivityFilterTypePagingCrossRefTableCompanion Function({
   Value<int> id,
   required String activityId,
@@ -10848,8 +11193,7 @@ class $$ActivityFilterTypePagingCrossRefTableTableTableManager
         ActivityFilterTypePagingCrossRefEntity,
         $$ActivityFilterTypePagingCrossRefTableTableFilterComposer,
         $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer,
-        $$ActivityFilterTypePagingCrossRefTableTableProcessedTableManager,
-        $$ActivityFilterTypePagingCrossRefTableTableInsertCompanionBuilder,
+        $$ActivityFilterTypePagingCrossRefTableTableCreateCompanionBuilder,
         $$ActivityFilterTypePagingCrossRefTableTableUpdateCompanionBuilder> {
   $$ActivityFilterTypePagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $ActivityFilterTypePagingCrossRefTableTable table)
@@ -10862,10 +11206,7 @@ class $$ActivityFilterTypePagingCrossRefTableTableTableManager
           orderingComposer:
               $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer(
                   ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$ActivityFilterTypePagingCrossRefTableTableProcessedTableManager(
-                  p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> activityId = const Value.absent(),
             Value<String> category = const Value.absent(),
@@ -10875,7 +11216,7 @@ class $$ActivityFilterTypePagingCrossRefTableTableTableManager
             activityId: activityId,
             category: category,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String activityId,
             required String category,
@@ -10886,20 +11227,6 @@ class $$ActivityFilterTypePagingCrossRefTableTableTableManager
             category: category,
           ),
         ));
-}
-
-class $$ActivityFilterTypePagingCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $ActivityFilterTypePagingCrossRefTableTable,
-        ActivityFilterTypePagingCrossRefEntity,
-        $$ActivityFilterTypePagingCrossRefTableTableFilterComposer,
-        $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer,
-        $$ActivityFilterTypePagingCrossRefTableTableProcessedTableManager,
-        $$ActivityFilterTypePagingCrossRefTableTableInsertCompanionBuilder,
-        $$ActivityFilterTypePagingCrossRefTableTableUpdateCompanionBuilder> {
-  $$ActivityFilterTypePagingCrossRefTableTableProcessedTableManager(
-      super.$state);
 }
 
 class $$ActivityFilterTypePagingCrossRefTableTableFilterComposer
@@ -10942,7 +11269,7 @@ class $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$MediaCharacterPagingCrossRefTableTableInsertCompanionBuilder
+typedef $$MediaCharacterPagingCrossRefTableTableCreateCompanionBuilder
     = MediaCharacterPagingCrossRefTableCompanion Function({
   required String characterId,
   required String mediaId,
@@ -10964,8 +11291,7 @@ class $$MediaCharacterPagingCrossRefTableTableTableManager
         MediaCharacterPagingCrossRefEntity,
         $$MediaCharacterPagingCrossRefTableTableFilterComposer,
         $$MediaCharacterPagingCrossRefTableTableOrderingComposer,
-        $$MediaCharacterPagingCrossRefTableTableProcessedTableManager,
-        $$MediaCharacterPagingCrossRefTableTableInsertCompanionBuilder,
+        $$MediaCharacterPagingCrossRefTableTableCreateCompanionBuilder,
         $$MediaCharacterPagingCrossRefTableTableUpdateCompanionBuilder> {
   $$MediaCharacterPagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $MediaCharacterPagingCrossRefTableTable table)
@@ -10978,9 +11304,7 @@ class $$MediaCharacterPagingCrossRefTableTableTableManager
           orderingComposer:
               $$MediaCharacterPagingCrossRefTableTableOrderingComposer(
                   ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MediaCharacterPagingCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> characterId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
             Value<int> timeStamp = const Value.absent(),
@@ -10992,7 +11316,7 @@ class $$MediaCharacterPagingCrossRefTableTableTableManager
             timeStamp: timeStamp,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String characterId,
             required String mediaId,
             required int timeStamp,
@@ -11005,19 +11329,6 @@ class $$MediaCharacterPagingCrossRefTableTableTableManager
             rowid: rowid,
           ),
         ));
-}
-
-class $$MediaCharacterPagingCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $MediaCharacterPagingCrossRefTableTable,
-        MediaCharacterPagingCrossRefEntity,
-        $$MediaCharacterPagingCrossRefTableTableFilterComposer,
-        $$MediaCharacterPagingCrossRefTableTableOrderingComposer,
-        $$MediaCharacterPagingCrossRefTableTableProcessedTableManager,
-        $$MediaCharacterPagingCrossRefTableTableInsertCompanionBuilder,
-        $$MediaCharacterPagingCrossRefTableTableUpdateCompanionBuilder> {
-  $$MediaCharacterPagingCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$MediaCharacterPagingCrossRefTableTableFilterComposer
@@ -11060,7 +11371,7 @@ class $$MediaCharacterPagingCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$CharacterVoiceActorCrossRefTableTableInsertCompanionBuilder
+typedef $$CharacterVoiceActorCrossRefTableTableCreateCompanionBuilder
     = CharacterVoiceActorCrossRefTableCompanion Function({
   Value<int> id,
   required String characterId,
@@ -11084,8 +11395,7 @@ class $$CharacterVoiceActorCrossRefTableTableTableManager
         CharacterCharacterVoiceActorCrossRefEntity,
         $$CharacterVoiceActorCrossRefTableTableFilterComposer,
         $$CharacterVoiceActorCrossRefTableTableOrderingComposer,
-        $$CharacterVoiceActorCrossRefTableTableProcessedTableManager,
-        $$CharacterVoiceActorCrossRefTableTableInsertCompanionBuilder,
+        $$CharacterVoiceActorCrossRefTableTableCreateCompanionBuilder,
         $$CharacterVoiceActorCrossRefTableTableUpdateCompanionBuilder> {
   $$CharacterVoiceActorCrossRefTableTableTableManager(
       _$AniflowDatabase db, $CharacterVoiceActorCrossRefTableTable table)
@@ -11098,9 +11408,7 @@ class $$CharacterVoiceActorCrossRefTableTableTableManager
           orderingComposer:
               $$CharacterVoiceActorCrossRefTableTableOrderingComposer(
                   ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CharacterVoiceActorCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> characterId = const Value.absent(),
             Value<String> staffId = const Value.absent(),
@@ -11114,7 +11422,7 @@ class $$CharacterVoiceActorCrossRefTableTableTableManager
             role: role,
             language: language,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String characterId,
             required String staffId,
@@ -11129,19 +11437,6 @@ class $$CharacterVoiceActorCrossRefTableTableTableManager
             language: language,
           ),
         ));
-}
-
-class $$CharacterVoiceActorCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $CharacterVoiceActorCrossRefTableTable,
-        CharacterCharacterVoiceActorCrossRefEntity,
-        $$CharacterVoiceActorCrossRefTableTableFilterComposer,
-        $$CharacterVoiceActorCrossRefTableTableOrderingComposer,
-        $$CharacterVoiceActorCrossRefTableTableProcessedTableManager,
-        $$CharacterVoiceActorCrossRefTableTableInsertCompanionBuilder,
-        $$CharacterVoiceActorCrossRefTableTableUpdateCompanionBuilder> {
-  $$CharacterVoiceActorCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$CharacterVoiceActorCrossRefTableTableFilterComposer
@@ -11204,7 +11499,7 @@ class $$CharacterVoiceActorCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$MediaRelationCrossRefTableTableInsertCompanionBuilder
+typedef $$MediaRelationCrossRefTableTableCreateCompanionBuilder
     = MediaRelationCrossRefTableCompanion Function({
   required String ownerId,
   required String relationId,
@@ -11225,8 +11520,7 @@ class $$MediaRelationCrossRefTableTableTableManager extends RootTableManager<
     MediaRelationCrossRefEntity,
     $$MediaRelationCrossRefTableTableFilterComposer,
     $$MediaRelationCrossRefTableTableOrderingComposer,
-    $$MediaRelationCrossRefTableTableProcessedTableManager,
-    $$MediaRelationCrossRefTableTableInsertCompanionBuilder,
+    $$MediaRelationCrossRefTableTableCreateCompanionBuilder,
     $$MediaRelationCrossRefTableTableUpdateCompanionBuilder> {
   $$MediaRelationCrossRefTableTableTableManager(
       _$AniflowDatabase db, $MediaRelationCrossRefTableTable table)
@@ -11237,9 +11531,7 @@ class $$MediaRelationCrossRefTableTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           orderingComposer: $$MediaRelationCrossRefTableTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MediaRelationCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> ownerId = const Value.absent(),
             Value<String> relationId = const Value.absent(),
             Value<String> relationType = const Value.absent(),
@@ -11251,7 +11543,7 @@ class $$MediaRelationCrossRefTableTableTableManager extends RootTableManager<
             relationType: relationType,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String ownerId,
             required String relationId,
             required String relationType,
@@ -11264,19 +11556,6 @@ class $$MediaRelationCrossRefTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$MediaRelationCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $MediaRelationCrossRefTableTable,
-        MediaRelationCrossRefEntity,
-        $$MediaRelationCrossRefTableTableFilterComposer,
-        $$MediaRelationCrossRefTableTableOrderingComposer,
-        $$MediaRelationCrossRefTableTableProcessedTableManager,
-        $$MediaRelationCrossRefTableTableInsertCompanionBuilder,
-        $$MediaRelationCrossRefTableTableUpdateCompanionBuilder> {
-  $$MediaRelationCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$MediaRelationCrossRefTableTableFilterComposer extends FilterComposer<
@@ -11318,7 +11597,7 @@ class $$MediaRelationCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$MediaStaffPagingCrossRefTableTableInsertCompanionBuilder
+typedef $$MediaStaffPagingCrossRefTableTableCreateCompanionBuilder
     = MediaStaffPagingCrossRefTableCompanion Function({
   required String staffId,
   required String mediaId,
@@ -11341,8 +11620,7 @@ class $$MediaStaffPagingCrossRefTableTableTableManager extends RootTableManager<
     MediaStaffPagingCrossRefEntity,
     $$MediaStaffPagingCrossRefTableTableFilterComposer,
     $$MediaStaffPagingCrossRefTableTableOrderingComposer,
-    $$MediaStaffPagingCrossRefTableTableProcessedTableManager,
-    $$MediaStaffPagingCrossRefTableTableInsertCompanionBuilder,
+    $$MediaStaffPagingCrossRefTableTableCreateCompanionBuilder,
     $$MediaStaffPagingCrossRefTableTableUpdateCompanionBuilder> {
   $$MediaStaffPagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $MediaStaffPagingCrossRefTableTable table)
@@ -11354,9 +11632,7 @@ class $$MediaStaffPagingCrossRefTableTableTableManager extends RootTableManager<
           orderingComposer:
               $$MediaStaffPagingCrossRefTableTableOrderingComposer(
                   ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MediaStaffPagingCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> staffId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
             Value<String> staffRole = const Value.absent(),
@@ -11370,7 +11646,7 @@ class $$MediaStaffPagingCrossRefTableTableTableManager extends RootTableManager<
             timeStamp: timeStamp,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String staffId,
             required String mediaId,
             required String staffRole,
@@ -11385,19 +11661,6 @@ class $$MediaStaffPagingCrossRefTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$MediaStaffPagingCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $MediaStaffPagingCrossRefTableTable,
-        MediaStaffPagingCrossRefEntity,
-        $$MediaStaffPagingCrossRefTableTableFilterComposer,
-        $$MediaStaffPagingCrossRefTableTableOrderingComposer,
-        $$MediaStaffPagingCrossRefTableTableProcessedTableManager,
-        $$MediaStaffPagingCrossRefTableTableInsertCompanionBuilder,
-        $$MediaStaffPagingCrossRefTableTableUpdateCompanionBuilder> {
-  $$MediaStaffPagingCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$MediaStaffPagingCrossRefTableTableFilterComposer extends FilterComposer<
@@ -11449,7 +11712,7 @@ class $$MediaStaffPagingCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$MediaExternalLinkTableTableInsertCompanionBuilder
+typedef $$MediaExternalLinkTableTableCreateCompanionBuilder
     = MediaExternalLinkTableCompanion Function({
   required String id,
   required String mediaId,
@@ -11480,8 +11743,7 @@ class $$MediaExternalLinkTableTableTableManager extends RootTableManager<
     MediaExternalLinkEntity,
     $$MediaExternalLinkTableTableFilterComposer,
     $$MediaExternalLinkTableTableOrderingComposer,
-    $$MediaExternalLinkTableTableProcessedTableManager,
-    $$MediaExternalLinkTableTableInsertCompanionBuilder,
+    $$MediaExternalLinkTableTableCreateCompanionBuilder,
     $$MediaExternalLinkTableTableUpdateCompanionBuilder> {
   $$MediaExternalLinkTableTableTableManager(
       _$AniflowDatabase db, $MediaExternalLinkTableTable table)
@@ -11492,9 +11754,7 @@ class $$MediaExternalLinkTableTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           orderingComposer: $$MediaExternalLinkTableTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MediaExternalLinkTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
             Value<String?> url = const Value.absent(),
@@ -11516,7 +11776,7 @@ class $$MediaExternalLinkTableTableTableManager extends RootTableManager<
             icon: icon,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String mediaId,
             Value<String?> url = const Value.absent(),
@@ -11539,19 +11799,6 @@ class $$MediaExternalLinkTableTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$MediaExternalLinkTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $MediaExternalLinkTableTable,
-        MediaExternalLinkEntity,
-        $$MediaExternalLinkTableTableFilterComposer,
-        $$MediaExternalLinkTableTableOrderingComposer,
-        $$MediaExternalLinkTableTableProcessedTableManager,
-        $$MediaExternalLinkTableTableInsertCompanionBuilder,
-        $$MediaExternalLinkTableTableUpdateCompanionBuilder> {
-  $$MediaExternalLinkTableTableProcessedTableManager(super.$state);
 }
 
 class $$MediaExternalLinkTableTableFilterComposer
@@ -11642,7 +11889,7 @@ class $$MediaExternalLinkTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$CategoryMediaPagingCrossRefTableTableInsertCompanionBuilder
+typedef $$CategoryMediaPagingCrossRefTableTableCreateCompanionBuilder
     = CategoryMediaPagingCrossRefTableCompanion Function({
   required String mediaId,
   required String category,
@@ -11664,8 +11911,7 @@ class $$CategoryMediaPagingCrossRefTableTableTableManager
         CategoryMediaPagingCrossRefEntity,
         $$CategoryMediaPagingCrossRefTableTableFilterComposer,
         $$CategoryMediaPagingCrossRefTableTableOrderingComposer,
-        $$CategoryMediaPagingCrossRefTableTableProcessedTableManager,
-        $$CategoryMediaPagingCrossRefTableTableInsertCompanionBuilder,
+        $$CategoryMediaPagingCrossRefTableTableCreateCompanionBuilder,
         $$CategoryMediaPagingCrossRefTableTableUpdateCompanionBuilder> {
   $$CategoryMediaPagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $CategoryMediaPagingCrossRefTableTable table)
@@ -11678,9 +11924,7 @@ class $$CategoryMediaPagingCrossRefTableTableTableManager
           orderingComposer:
               $$CategoryMediaPagingCrossRefTableTableOrderingComposer(
                   ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CategoryMediaPagingCrossRefTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> mediaId = const Value.absent(),
             Value<String> category = const Value.absent(),
             Value<int> timeStamp = const Value.absent(),
@@ -11692,7 +11936,7 @@ class $$CategoryMediaPagingCrossRefTableTableTableManager
             timeStamp: timeStamp,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String mediaId,
             required String category,
             required int timeStamp,
@@ -11705,19 +11949,6 @@ class $$CategoryMediaPagingCrossRefTableTableTableManager
             rowid: rowid,
           ),
         ));
-}
-
-class $$CategoryMediaPagingCrossRefTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $CategoryMediaPagingCrossRefTableTable,
-        CategoryMediaPagingCrossRefEntity,
-        $$CategoryMediaPagingCrossRefTableTableFilterComposer,
-        $$CategoryMediaPagingCrossRefTableTableOrderingComposer,
-        $$CategoryMediaPagingCrossRefTableTableProcessedTableManager,
-        $$CategoryMediaPagingCrossRefTableTableInsertCompanionBuilder,
-        $$CategoryMediaPagingCrossRefTableTableUpdateCompanionBuilder> {
-  $$CategoryMediaPagingCrossRefTableTableProcessedTableManager(super.$state);
 }
 
 class $$CategoryMediaPagingCrossRefTableTableFilterComposer
@@ -11760,7 +11991,7 @@ class $$CategoryMediaPagingCrossRefTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$FavoriteInfoTableTableInsertCompanionBuilder
+typedef $$FavoriteInfoTableTableCreateCompanionBuilder
     = FavoriteInfoTableCompanion Function({
   Value<int> id,
   required String favoriteType,
@@ -11781,8 +12012,7 @@ class $$FavoriteInfoTableTableTableManager extends RootTableManager<
     FavoriteInfoEntity,
     $$FavoriteInfoTableTableFilterComposer,
     $$FavoriteInfoTableTableOrderingComposer,
-    $$FavoriteInfoTableTableProcessedTableManager,
-    $$FavoriteInfoTableTableInsertCompanionBuilder,
+    $$FavoriteInfoTableTableCreateCompanionBuilder,
     $$FavoriteInfoTableTableUpdateCompanionBuilder> {
   $$FavoriteInfoTableTableTableManager(
       _$AniflowDatabase db, $FavoriteInfoTableTable table)
@@ -11793,9 +12023,7 @@ class $$FavoriteInfoTableTableTableManager extends RootTableManager<
               $$FavoriteInfoTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer: $$FavoriteInfoTableTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$FavoriteInfoTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> favoriteType = const Value.absent(),
             Value<String> infoId = const Value.absent(),
@@ -11807,7 +12035,7 @@ class $$FavoriteInfoTableTableTableManager extends RootTableManager<
             infoId: infoId,
             userId: userId,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String favoriteType,
             required String infoId,
@@ -11820,19 +12048,6 @@ class $$FavoriteInfoTableTableTableManager extends RootTableManager<
             userId: userId,
           ),
         ));
-}
-
-class $$FavoriteInfoTableTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AniflowDatabase,
-        $FavoriteInfoTableTable,
-        FavoriteInfoEntity,
-        $$FavoriteInfoTableTableFilterComposer,
-        $$FavoriteInfoTableTableOrderingComposer,
-        $$FavoriteInfoTableTableProcessedTableManager,
-        $$FavoriteInfoTableTableInsertCompanionBuilder,
-        $$FavoriteInfoTableTableUpdateCompanionBuilder> {
-  $$FavoriteInfoTableTableProcessedTableManager(super.$state);
 }
 
 class $$FavoriteInfoTableTableFilterComposer
@@ -11883,7 +12098,7 @@ class $$FavoriteInfoTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$EpisodeTableTableInsertCompanionBuilder = EpisodeTableCompanion
+typedef $$EpisodeTableTableCreateCompanionBuilder = EpisodeTableCompanion
     Function({
   Value<int?> id,
   required String animeId,
@@ -11906,8 +12121,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
     EpisodeEntity,
     $$EpisodeTableTableFilterComposer,
     $$EpisodeTableTableOrderingComposer,
-    $$EpisodeTableTableProcessedTableManager,
-    $$EpisodeTableTableInsertCompanionBuilder,
+    $$EpisodeTableTableCreateCompanionBuilder,
     $$EpisodeTableTableUpdateCompanionBuilder> {
   $$EpisodeTableTableTableManager(
       _$AniflowDatabase db, $EpisodeTableTable table)
@@ -11918,9 +12132,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
               $$EpisodeTableTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$EpisodeTableTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$EpisodeTableTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int?> id = const Value.absent(),
             Value<String> animeId = const Value.absent(),
             Value<String> title = const Value.absent(),
@@ -11934,7 +12146,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             url: url,
             episodeNum: episodeNum,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int?> id = const Value.absent(),
             required String animeId,
             required String title,
@@ -11949,18 +12161,6 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             episodeNum: episodeNum,
           ),
         ));
-}
-
-class $$EpisodeTableTableProcessedTableManager extends ProcessedTableManager<
-    _$AniflowDatabase,
-    $EpisodeTableTable,
-    EpisodeEntity,
-    $$EpisodeTableTableFilterComposer,
-    $$EpisodeTableTableOrderingComposer,
-    $$EpisodeTableTableProcessedTableManager,
-    $$EpisodeTableTableInsertCompanionBuilder,
-    $$EpisodeTableTableUpdateCompanionBuilder> {
-  $$EpisodeTableTableProcessedTableManager(super.$state);
 }
 
 class $$EpisodeTableTableFilterComposer
@@ -12021,9 +12221,9 @@ class $$EpisodeTableTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$AniflowDatabaseManager {
+class $AniflowDatabaseManager {
   final _$AniflowDatabase _db;
-  _$AniflowDatabaseManager(this._db);
+  $AniflowDatabaseManager(this._db);
   $$UserTableTableTableManager get userTable =>
       $$UserTableTableTableManager(_db, _db.userTable);
   $$StudioTableTableTableManager get studioTable =>

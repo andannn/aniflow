@@ -17,75 +17,140 @@ import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_anime_page.d
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_character_page.dart';
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_manga_page.dart';
 import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_staff_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/completed_anime_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_anime_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/dropped_manga_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/reading_manga_list_page.dart';
-import 'package:aniflow/feature/profile/sub_media_list/pages/watching_anime_list_page.dart';
 import 'package:aniflow/feature/search/search_page.dart';
+import 'package:aniflow/feature/settings/settings.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
 import 'package:flutter/material.dart';
 
 extension AniFlowRoutePathEx on AniFlowRoutePath {
-  Page generatePage() {
+  static void _defaultPopInvokedHandler(bool didPop, Object? result) {}
+
+  Page generatePage(
+      {PopInvokedWithResultCallback onPopInvoked = _defaultPopInvokedHandler}) {
     switch (this) {
       case AniFlowHomePath():
-        return AniFlowHomePage(key: ValueKey(toString()));
+        return AniFlowHomePage(
+          key: ValueKey(toString()),
+          onPopInvoked: onPopInvoked,
+        );
       case CategoryAnimeListRoutePath(category: final category):
-        return MediaListPage(key: ValueKey(toString()), category: category);
+        return MediaListPage(
+          key: ValueKey(toString()),
+          category: category,
+          onPopInvoked: onPopInvoked,
+        );
       case MediaCharacterListRoutePath(id: final animeId):
-        return CharacterListPage(key: ValueKey(toString()), animeId: animeId);
+        return CharacterListPage(
+          key: ValueKey(toString()),
+          animeId: animeId,
+          onPopInvoked: onPopInvoked,
+        );
       case MediaStaffListRoutePath(id: final animeId):
-        return StaffListPage(key: ValueKey(toString()), animeId: animeId);
+        return StaffListPage(
+          key: ValueKey(toString()),
+          animeId: animeId,
+          onPopInvoked: onPopInvoked,
+        );
       case DetailMediaRoutePath(id: final animeId):
-        return DetailAnimePage(key: ValueKey(toString()), animeId: animeId);
+        return DetailAnimePage(
+          key: ValueKey(toString()),
+          animeId: animeId,
+          onPopInvoked: onPopInvoked,
+        );
       case UserProfileRoutePath(id: final id):
         return ProfilePage(
           key: ValueKey(toString()),
           userId: id,
-          showBackKey: true,
+          isFullScreenPageRoute: true,
+          onPopInvoked: onPopInvoked,
         );
-      case AiringScheduleRoutePath():
-        return AiringSchedule(key: ValueKey(toString()));
+      case AiringScheduleRoutePath(type: final type):
+        return AiringSchedule(
+          key: ValueKey(toString()),
+          scheduleType: type,
+          onPopInvoked: onPopInvoked,
+        );
       case SearchRoutePath():
-        return SearchPage(key: ValueKey(toString()));
+        return SearchPage(
+          key: ValueKey(toString()),
+          onPopInvoked: onPopInvoked,
+        );
       case NotificationRoutePath():
-        return NotificationPage(key: ValueKey(toString()));
+        return NotificationPage(
+          key: ValueKey(toString()),
+          onPopInvoked: onPopInvoked,
+        );
       case FavoriteStaffListPath(id: final id):
-        return FavoriteStaffListPage(key: ValueKey(toString()), userId: id);
+        return FavoriteStaffListPage(
+          key: ValueKey(toString()),
+          userId: id,
+          onPopInvoked: onPopInvoked,
+        );
       case FavoriteCharacterListPath(id: final id):
-        return FavoriteCharacterListPage(key: ValueKey(toString()), userId: id);
+        return FavoriteCharacterListPage(
+          key: ValueKey(toString()),
+          userId: id,
+          onPopInvoked: onPopInvoked,
+        );
       case FavoriteAnimeListPath(id: final id):
-        return FavoriteAnimeListPage(key: ValueKey(toString()), userId: id);
+        return FavoriteAnimeListPage(
+          key: ValueKey(toString()),
+          userId: id,
+          onPopInvoked: onPopInvoked,
+        );
       case FavoriteMangaListPath(id: final id):
-        return FavoriteMangaListPage(key: ValueKey(toString()), userId: id);
-      case WatchingAnimeListPath(id: final id):
-        return WatchingAnimePage(key: ValueKey(toString()), userId: id);
-      case CompletedAnimeListPath(id: final id):
-        return CompletedAnimePage(key: ValueKey(toString()), userId: id);
-      case DroppedAnimeListPath(id: final id):
-        return DroppedAnimePage(key: ValueKey(toString()), userId: id);
-      case DroppedMangaListPath(id: final id):
-        return DroppedMangaPage(key: ValueKey(toString()), userId: id);
-      case ReadingMangaListPath(id: final id):
-        return ReadingMangaPage(key: ValueKey(toString()), userId: id);
+        return FavoriteMangaListPage(
+          key: ValueKey(toString()),
+          userId: id,
+          onPopInvoked: onPopInvoked,
+        );
       case DetailCharacterPath(id: final id):
-        return DetailCharacterPage(key: ValueKey(toString()), id: id);
+        return DetailCharacterPage(
+          key: ValueKey(toString()),
+          id: id,
+          onPopInvoked: onPopInvoked,
+        );
       case DetailStaffPath(id: final id):
-        return DetailStaffPage(key: ValueKey(toString()), id: id);
+        return DetailStaffPage(
+          key: ValueKey(toString()),
+          id: id,
+          onPopInvoked: onPopInvoked,
+        );
       case DetailStudioRoutePath(id: final id):
-        return DetailStudioPage(key: ValueKey(toString()), id: id);
+        return DetailStudioPage(
+          key: ValueKey(toString()),
+          id: id,
+          onPopInvoked: onPopInvoked,
+        );
       case ActivityRepliesRoutePath(id: final id):
-        return ActivityRepliesPage(key: ValueKey(toString()), activityId: id);
+        return ActivityRepliesPage(
+          key: ValueKey(toString()),
+          activityId: id,
+          onPopInvoked: onPopInvoked,
+        );
       case ImagePreviewRoutePath(source: final source):
-        return ImagePreviewPage(key: ValueKey(toString()), source: source);
-      case MediaListUpdateRoutePath(mediaListId: final mediaListId):
+        return ImagePreviewPage(
+          key: ValueKey(toString()),
+          source: source,
+          onPopInvoked: onPopInvoked,
+        );
+      case MediaListUpdateRoutePath(mediaId: final mediaId, from: final from):
         return UpdateMediaListPage(
           key: ValueKey(toString()),
-          mediaListId: mediaListId,
+          mediaId: mediaId,
+          from: from,
+          onPopInvoked: onPopInvoked,
         );
       case BirthdayCharacterPagePath():
-        return BirthdayCharactersPage(key: ValueKey(toString()));
+        return BirthdayCharactersPage(
+          key: ValueKey(toString()),
+          onPopInvoked: onPopInvoked,
+        );
+      case SettingsRoutePath():
+        return SettingsPage(
+          key: ValueKey(toString()),
+          onPopInvoked: onPopInvoked,
+        );
       default:
         return const MaterialPage(child: SizedBox());
     }

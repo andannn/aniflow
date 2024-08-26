@@ -33,8 +33,12 @@ mixin _$UserScoreStaticsDto {
   @JsonKey(name: 'score')
   int? get score => throw _privateConstructorUsedError;
 
+  /// Serializes this UserScoreStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserScoreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserScoreStaticsDtoCopyWith<UserScoreStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64,6 +68,8 @@ class _$UserScoreStaticsDtoCopyWithImpl<$Res, $Val extends UserScoreStaticsDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserScoreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -128,6 +134,8 @@ class __$$UserScoreStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserScoreStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserScoreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -228,12 +236,14 @@ class _$UserScoreStaticsDtoImpl implements _UserScoreStaticsDto {
             (identical(other.score, score) || other.score == score));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, count, meanScore, minutesWatched,
       chaptersRead, const DeepCollectionEquality().hash(_mediaIds), score);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserScoreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserScoreStaticsDtoImplCopyWith<_$UserScoreStaticsDtoImpl> get copyWith =>
@@ -278,8 +288,11 @@ abstract class _UserScoreStaticsDto implements UserScoreStaticsDto {
   @override
   @JsonKey(name: 'score')
   int? get score;
+
+  /// Create a copy of UserScoreStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserScoreStaticsDtoImplCopyWith<_$UserScoreStaticsDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

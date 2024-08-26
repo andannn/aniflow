@@ -1,8 +1,8 @@
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/mappers/media_mapper.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
-import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 
 extension MediaListMapper on MediaListDto {
   MediaListEntity toEntity() {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/load_page_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -32,7 +33,7 @@ import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.impl])
 class SearchRepository {
   SearchRepository(
     this.dataSource,
@@ -55,6 +56,7 @@ class SearchRepository {
     required int perPage,
     required String search,
     required MediaType type,
+    required bool isAdult,
     CancelToken? token,
   }) {
     return LoadPageUtil.loadPageWithoutOrderingCache(
@@ -66,6 +68,7 @@ class SearchRepository {
         type: type,
         search: search,
         token: token,
+        isAdult: isAdult,
       ),
       mapDtoToModel: (MediaDto dto) => dto.toModel(),
       onInsertToDB: (List<MediaDto> dto) async {

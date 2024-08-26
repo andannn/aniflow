@@ -17,8 +17,10 @@ class EpisodeDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future upsertEpisode(EpisodeEntity episode) async {
-    await batch((batch) {
-      batch.insert(episodeTable, episode, mode: InsertMode.insertOrReplace);
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insert(episodeTable, episode, mode: InsertMode.insertOrReplace);
+      });
     });
   }
 }

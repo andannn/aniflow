@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_sort.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/staff_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
@@ -35,7 +36,8 @@ class _OnLoadingChanged extends DetailStaffEvent {
 class OnToggleLike extends DetailStaffEvent {}
 
 @injectable
-class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
+class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState>
+    with AutoCancelMixin {
   DetailStaffBloc(
     @factoryParam this.staffId,
     this._mediaRepository,
@@ -43,7 +45,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     this._favoriteRepository,
     UserDataRepository preferences,
   ) : super(DetailStaffState(
-          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
+          userStaffNameLanguage: preferences.userStaffNameLanguage,
         )) {
     on<_OnDetailStaffInfoChanged>(
       (event, emit) => emit(state.copyWith(staffModel: event.model)),
@@ -56,12 +58,14 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
       (event, emit) => emit(state.copyWith(mediaSort: event.mediaSort)),
     );
 
-    _detailStaffSub = _mediaRepository
-        .getDetailStaffStream(staffId)
-        .distinct()
-        .listen((model) {
-      add(_OnDetailStaffInfoChanged(model: model));
-    });
+    autoCancel(
+      () => _mediaRepository
+          .getDetailStaffStream(staffId)
+          .distinct()
+          .listen((model) {
+        safeAdd(_OnDetailStaffInfoChanged(model: model));
+      }),
+    );
 
     _init();
   }
@@ -70,13 +74,11 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
   final FavoriteRepository _favoriteRepository;
   final MessageRepository _messageRepository;
   final String staffId;
-  StreamSubscription? _detailStaffSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
 
   @override
   Future<void> close() {
-    _detailStaffSub?.cancel();
     _contentFetchCancelToken.cancel();
     _toggleLikeCancelToken?.cancel();
 
@@ -84,7 +86,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
   }
 
   void _init() async {
-    add(_OnLoadingChanged(isLoading: true));
+    safeAdd(_OnLoadingChanged(isLoading: true));
     final result = await _mediaRepository.startFetchDetailStaffInfo(
       id: staffId,
       token: _contentFetchCancelToken,
@@ -93,7 +95,7 @@ class DetailStaffBloc extends Bloc<DetailStaffEvent, DetailStaffState> {
     if (result is LoadError) {
       _messageRepository.handleException(result.exception);
     }
-    add(_OnLoadingChanged(isLoading: false));
+    safeAdd(_OnLoadingChanged(isLoading: false));
   }
 
   FutureOr<void> _onToggleLike(

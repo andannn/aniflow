@@ -33,8 +33,11 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
             onTap: onCharacterTap,
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
-              child: AFNetworkImage(
-                imageUrl: model.characterModel.mediumImage,
+              child: Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: AFNetworkImage(
+                  imageUrl: model.characterModel.mediumImage,
+                ),
               ),
             ),
           ),
@@ -88,8 +91,11 @@ class CharacterAndVoiceActorWidget extends StatelessWidget {
             onTap: onVoiceActorTop,
             child: AspectRatio(
               aspectRatio: 3.0 / 4,
-              child: AFNetworkImage(
-                imageUrl: model.voiceActorModel?.mediumImage ?? '',
+              child: Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: AFNetworkImage(
+                  imageUrl: model.voiceActorModel?.mediumImage ?? '',
+                ),
               ),
             ),
           ),

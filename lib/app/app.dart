@@ -1,142 +1,107 @@
-import 'dart:async';
-
+import 'package:aniflow/app/app_bloc.dart';
+import 'package:aniflow/app/app_state.dart';
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get_it/get_it.dart';
 
-class AniFlowApp extends StatefulWidget {
-  const AniFlowApp({super.key});
-
-  @override
-  State<StatefulWidget> createState() => AniFlowAppState();
-
-  static void restartApp(BuildContext context) {
-    context.findAncestorStateOfType<AniFlowAppState>()?.restartApp();
-  }
-}
-
-class AniFlowAppState extends State<AniFlowApp> {
-  var key = UniqueKey();
-  var setting = ThemeSetting.system;
-  late StreamSubscription themeSub;
-  late RouteInformationProvider informationProvider;
-  late RootRouterDelegate rootRouterDelegate;
-
-  ThemeMode get themeMode => switch (setting) {
-        ThemeSetting.dark => ThemeMode.dark,
-        ThemeSetting.light => ThemeMode.light,
-        ThemeSetting.system => ThemeMode.system,
-      };
-
-  @override
-  void initState() {
-    super.initState();
-
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
-    ));
-
-    informationProvider = PlatformRouteInformationProvider(
-      initialRouteInformation: RouteInformation(
-        uri: Uri.parse(
-            WidgetsBinding.instance.platformDispatcher.defaultRouteName),
-      ),
-    );
-
-    rootRouterDelegate = RootRouterDelegate();
-
-    themeSub = GetIt.instance
-        .get<UserDataRepository>()
-        .userDataStream
-        .map((event) => event.themeSetting)
-        .listen((setting) {
-      setState(() {
-        this.setting = setting;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    themeSub.cancel();
-    rootRouterDelegate.dispose();
-  }
-
-  void restartApp() {
-    setState(() {
-      key = UniqueKey();
-    });
-  }
+class AniflowApp extends StatelessWidget {
+  const AniflowApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      key: key,
-      builder: (context) {
-        return DynamicColorBuilder(
-          builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-            ColorScheme lightColorScheme;
-            ColorScheme darkColorScheme;
+    return BlocProvider(
+      create: (BuildContext context) => GetItScope.of(context).get<AppBloc>(),
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<AppBloc, AppState>(
+            builder: (context, state) {
+              final theme = state.theme;
+              return DynamicColorApp(themeSetting: theme);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
 
-            lightColorScheme = ColorScheme.fromSeed(
-              seedColor: lightDynamic?.primary ?? brandColor,
-            );
-            darkColorScheme = ColorScheme.fromSeed(
-                seedColor: darkDynamic?.primary ?? brandColor,
-                brightness: Brightness.dark,
-            );
+class DynamicColorApp extends StatefulWidget {
+  const DynamicColorApp({super.key, required this.themeSetting});
 
-            const pageTransitionsTheme = PageTransitionsTheme(
-              builders: <TargetPlatform, PageTransitionsBuilder>{
-                TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-              },
-            );
-            return MaterialApp.router(
-              restorationScopeId: "root",
-              themeMode: themeMode,
-              theme: ThemeData(
-                useMaterial3: true,
-                colorScheme: lightColorScheme,
-                pageTransitionsTheme: pageTransitionsTheme,
-              ),
-              darkTheme: ThemeData(
-                useMaterial3: true,
-                colorScheme: darkColorScheme,
-                pageTransitionsTheme: pageTransitionsTheme,
-              ),
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en'),
-                Locale('es'),
-                Locale('zh'),
-                Locale('Jpan'),
-                Locale('ja'),
-              ],
-              routerDelegate: rootRouterDelegate,
-              routeInformationProvider: informationProvider,
-              routeInformationParser: const RootRouterInfoParser(),
-              backButtonDispatcher: rootRouterDelegate.backButtonDispatcher,
-            );
+  final ThemeSetting themeSetting;
+
+  @override
+  State<DynamicColorApp> createState() => _DynamicColorAppState();
+}
+
+class _DynamicColorAppState extends State<DynamicColorApp> {
+  final routerDelegate = RootRouterDelegate();
+
+  @override
+  Widget build(BuildContext context) {
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
+
+        lightColorScheme = ColorScheme.fromSeed(
+          seedColor: lightDynamic?.primary ?? brandColor,
+        );
+        darkColorScheme = ColorScheme.fromSeed(
+          seedColor: darkDynamic?.primary ?? brandColor,
+          brightness: Brightness.dark,
+        );
+        const pageTransitionsTheme = PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
+        );
+
+        return MaterialApp.router(
+          restorationScopeId: "root",
+          themeMode: _getThemeMode(widget.themeSetting),
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme,
+            pageTransitionsTheme: pageTransitionsTheme,
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme,
+            pageTransitionsTheme: pageTransitionsTheme,
+          ),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerDelegate: routerDelegate,
+          routeInformationProvider: PlatformRouteInformationProvider(
+            initialRouteInformation: RouteInformation(
+              uri: Uri.parse(
+                  WidgetsBinding.instance.platformDispatcher.defaultRouteName),
+            ),
+          ),
+          routeInformationParser: const RootRouterInfoParser(),
+          backButtonDispatcher: routerDelegate.backButtonDispatcher,
         );
       },
     );
   }
+
+  ThemeMode _getThemeMode(ThemeSetting setting) => switch (setting) {
+        ThemeSetting.dark => ThemeMode.dark,
+        ThemeSetting.light => ThemeMode.light,
+        ThemeSetting.system => ThemeMode.system,
+      };
 }

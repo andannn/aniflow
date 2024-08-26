@@ -42,6 +42,8 @@ mixin _$MediaDto {
   AnimeSeason? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'hashtag')
   String? get hashtag => throw _privateConstructorUsedError;
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'bannerImage')
   String? get bannerImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'averageScore')
@@ -52,6 +54,8 @@ mixin _$MediaDto {
   int? get favourites => throw _privateConstructorUsedError;
   @JsonKey(name: 'startDate')
   FuzzyDateDto? get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'format')
+  MediaFormat? get format => throw _privateConstructorUsedError;
   @JsonKey(name: 'endDate')
   FuzzyDateDto? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'genres')
@@ -77,8 +81,12 @@ mixin _$MediaDto {
   List<MediaExternalLinkDto> get externalLinks =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MediaDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaDtoCopyWith<MediaDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -100,11 +108,13 @@ abstract class $MediaDtoCopyWith<$Res> {
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String? hashtag,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
       @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'startDate') FuzzyDateDto? startDate,
+      @JsonKey(name: 'format') MediaFormat? format,
       @JsonKey(name: 'endDate') FuzzyDateDto? endDate,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
@@ -140,6 +150,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,11 +166,13 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     Object? seasonYear = freezed,
     Object? season = freezed,
     Object? hashtag = freezed,
+    Object? siteUrl = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
     Object? favourites = freezed,
     Object? startDate = freezed,
+    Object? format = freezed,
     Object? endDate = freezed,
     Object? genres = null,
     Object? trailer = freezed,
@@ -216,6 +230,10 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
               as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -236,6 +254,10 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
               as FuzzyDateDto?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as MediaFormat?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
@@ -283,6 +305,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     ) as $Val);
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaTitleCopyWith<$Res>? get title {
@@ -295,6 +319,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaCoverImageDtoCopyWith<$Res>? get coverImage {
@@ -307,6 +333,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get startDate {
@@ -319,6 +347,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FuzzyDateDtoCopyWith<$Res>? get endDate {
@@ -331,6 +361,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TrailerDtoCopyWith<$Res>? get trailer {
@@ -343,6 +375,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AiringScheduleDtoCopyWith<$Res>? get nextAiringEpisode {
@@ -355,6 +389,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CharacterConnectionCopyWith<$Res>? get characters {
@@ -367,6 +403,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StaffConnectionCopyWith<$Res>? get staff {
@@ -379,6 +417,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StudioConnectionCopyWith<$Res>? get studios {
@@ -391,6 +431,8 @@ class _$MediaDtoCopyWithImpl<$Res, $Val extends MediaDto>
     });
   }
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaConnectionCopyWith<$Res>? get relations {
@@ -424,11 +466,13 @@ abstract class _$$MediaDtoImplCopyWith<$Res>
       @JsonKey(name: 'seasonYear') int? seasonYear,
       @JsonKey(name: 'season') AnimeSeason? season,
       @JsonKey(name: 'hashtag') String? hashtag,
+      @JsonKey(name: 'siteUrl') String? siteUrl,
       @JsonKey(name: 'bannerImage') String? bannerImage,
       @JsonKey(name: 'averageScore') int? averageScore,
       @JsonKey(name: 'trending') int? trending,
       @JsonKey(name: 'favourites') int? favourites,
       @JsonKey(name: 'startDate') FuzzyDateDto? startDate,
+      @JsonKey(name: 'format') MediaFormat? format,
       @JsonKey(name: 'endDate') FuzzyDateDto? endDate,
       @JsonKey(name: 'genres') List<dynamic> genres,
       @JsonKey(name: 'trailer') TrailerDto? trailer,
@@ -472,6 +516,8 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
       _$MediaDtoImpl _value, $Res Function(_$MediaDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -486,11 +532,13 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
     Object? seasonYear = freezed,
     Object? season = freezed,
     Object? hashtag = freezed,
+    Object? siteUrl = freezed,
     Object? bannerImage = freezed,
     Object? averageScore = freezed,
     Object? trending = freezed,
     Object? favourites = freezed,
     Object? startDate = freezed,
+    Object? format = freezed,
     Object? endDate = freezed,
     Object? genres = null,
     Object? trailer = freezed,
@@ -548,6 +596,10 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
           ? _value.hashtag
           : hashtag // ignore: cast_nullable_to_non_nullable
               as String?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       bannerImage: freezed == bannerImage
           ? _value.bannerImage
           : bannerImage // ignore: cast_nullable_to_non_nullable
@@ -568,6 +620,10 @@ class __$$MediaDtoImplCopyWithImpl<$Res>
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
               as FuzzyDateDto?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as MediaFormat?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
@@ -631,11 +687,13 @@ class _$MediaDtoImpl implements _MediaDto {
       @JsonKey(name: 'seasonYear') this.seasonYear,
       @JsonKey(name: 'season') this.season,
       @JsonKey(name: 'hashtag') this.hashtag,
+      @JsonKey(name: 'siteUrl') this.siteUrl,
       @JsonKey(name: 'bannerImage') this.bannerImage,
       @JsonKey(name: 'averageScore') this.averageScore,
       @JsonKey(name: 'trending') this.trending,
       @JsonKey(name: 'favourites') this.favourites,
       @JsonKey(name: 'startDate') this.startDate,
+      @JsonKey(name: 'format') this.format,
       @JsonKey(name: 'endDate') this.endDate,
       @JsonKey(name: 'genres') final List<dynamic> genres = const [],
       @JsonKey(name: 'trailer') this.trailer,
@@ -689,6 +747,9 @@ class _$MediaDtoImpl implements _MediaDto {
   @JsonKey(name: 'hashtag')
   final String? hashtag;
   @override
+  @JsonKey(name: 'siteUrl')
+  final String? siteUrl;
+  @override
   @JsonKey(name: 'bannerImage')
   final String? bannerImage;
   @override
@@ -703,6 +764,9 @@ class _$MediaDtoImpl implements _MediaDto {
   @override
   @JsonKey(name: 'startDate')
   final FuzzyDateDto? startDate;
+  @override
+  @JsonKey(name: 'format')
+  final MediaFormat? format;
   @override
   @JsonKey(name: 'endDate')
   final FuzzyDateDto? endDate;
@@ -756,7 +820,7 @@ class _$MediaDtoImpl implements _MediaDto {
 
   @override
   String toString() {
-    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, studios: $studios, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
+    return 'MediaDto(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, status: $status, source: $source, episodes: $episodes, seasonYear: $seasonYear, season: $season, hashtag: $hashtag, siteUrl: $siteUrl, bannerImage: $bannerImage, averageScore: $averageScore, trending: $trending, favourites: $favourites, startDate: $startDate, format: $format, endDate: $endDate, genres: $genres, trailer: $trailer, nextAiringEpisode: $nextAiringEpisode, rankings: $rankings, characters: $characters, staff: $staff, studios: $studios, relations: $relations, isFavourite: $isFavourite, externalLinks: $externalLinks)';
   }
 
   @override
@@ -779,6 +843,7 @@ class _$MediaDtoImpl implements _MediaDto {
                 other.seasonYear == seasonYear) &&
             (identical(other.season, season) || other.season == season) &&
             (identical(other.hashtag, hashtag) || other.hashtag == hashtag) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
             (identical(other.bannerImage, bannerImage) ||
                 other.bannerImage == bannerImage) &&
             (identical(other.averageScore, averageScore) ||
@@ -789,6 +854,7 @@ class _$MediaDtoImpl implements _MediaDto {
                 other.favourites == favourites) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
+            (identical(other.format, format) || other.format == format) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.trailer, trailer) || other.trailer == trailer) &&
@@ -807,7 +873,7 @@ class _$MediaDtoImpl implements _MediaDto {
                 .equals(other._externalLinks, _externalLinks));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -822,11 +888,13 @@ class _$MediaDtoImpl implements _MediaDto {
         seasonYear,
         season,
         hashtag,
+        siteUrl,
         bannerImage,
         averageScore,
         trending,
         favourites,
         startDate,
+        format,
         endDate,
         const DeepCollectionEquality().hash(_genres),
         trailer,
@@ -840,7 +908,9 @@ class _$MediaDtoImpl implements _MediaDto {
         const DeepCollectionEquality().hash(_externalLinks)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaDtoImplCopyWith<_$MediaDtoImpl> get copyWith =>
@@ -867,11 +937,13 @@ abstract class _MediaDto implements MediaDto {
       @JsonKey(name: 'seasonYear') final int? seasonYear,
       @JsonKey(name: 'season') final AnimeSeason? season,
       @JsonKey(name: 'hashtag') final String? hashtag,
+      @JsonKey(name: 'siteUrl') final String? siteUrl,
       @JsonKey(name: 'bannerImage') final String? bannerImage,
       @JsonKey(name: 'averageScore') final int? averageScore,
       @JsonKey(name: 'trending') final int? trending,
       @JsonKey(name: 'favourites') final int? favourites,
       @JsonKey(name: 'startDate') final FuzzyDateDto? startDate,
+      @JsonKey(name: 'format') final MediaFormat? format,
       @JsonKey(name: 'endDate') final FuzzyDateDto? endDate,
       @JsonKey(name: 'genres') final List<dynamic> genres,
       @JsonKey(name: 'trailer') final TrailerDto? trailer,
@@ -923,6 +995,9 @@ abstract class _MediaDto implements MediaDto {
   @JsonKey(name: 'hashtag')
   String? get hashtag;
   @override
+  @JsonKey(name: 'siteUrl')
+  String? get siteUrl;
+  @override
   @JsonKey(name: 'bannerImage')
   String? get bannerImage;
   @override
@@ -937,6 +1012,9 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'startDate')
   FuzzyDateDto? get startDate;
+  @override
+  @JsonKey(name: 'format')
+  MediaFormat? get format;
   @override
   @JsonKey(name: 'endDate')
   FuzzyDateDto? get endDate;
@@ -970,8 +1048,11 @@ abstract class _MediaDto implements MediaDto {
   @override
   @JsonKey(name: 'externalLinks')
   List<MediaExternalLinkDto> get externalLinks;
+
+  /// Create a copy of MediaDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaDtoImplCopyWith<_$MediaDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -30,6 +30,7 @@ mixin _$MediaModel {
   AnimeSeason? get season => throw _privateConstructorUsedError;
   MediaStatus? get status => throw _privateConstructorUsedError;
   int? get ratedRank => throw _privateConstructorUsedError;
+  String? get siteUrl => throw _privateConstructorUsedError;
   int? get popularRank => throw _privateConstructorUsedError;
   List<String> get hashtags => throw _privateConstructorUsedError;
   List<String> get genres => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ mixin _$MediaModel {
   bool get isFollowing => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
+  MediaFormat? get format => throw _privateConstructorUsedError;
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors =>
       throw _privateConstructorUsedError;
   List<StaffAndRoleModel> get staffs => throw _privateConstructorUsedError;
@@ -48,7 +50,9 @@ mixin _$MediaModel {
   List<MediaRelationModel> get relations => throw _privateConstructorUsedError;
   List<StudioModel> get studios => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaModelCopyWith<MediaModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,6 +78,7 @@ abstract class $MediaModelCopyWith<$Res> {
       AnimeSeason? season,
       MediaStatus? status,
       int? ratedRank,
+      String? siteUrl,
       int? popularRank,
       List<String> hashtags,
       List<String> genres,
@@ -84,6 +89,7 @@ abstract class $MediaModelCopyWith<$Res> {
       bool isFollowing,
       DateTime? startDate,
       DateTime? endDate,
+      MediaFormat? format,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       List<StaffAndRoleModel> staffs,
       List<MediaExternalLinkModel> externalLinks,
@@ -105,6 +111,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,6 +130,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? season = freezed,
     Object? status = freezed,
     Object? ratedRank = freezed,
+    Object? siteUrl = freezed,
     Object? popularRank = freezed,
     Object? hashtags = null,
     Object? genres = null,
@@ -132,6 +141,7 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     Object? isFollowing = null,
     Object? startDate = freezed,
     Object? endDate = freezed,
+    Object? format = freezed,
     Object? characterAndVoiceActors = null,
     Object? staffs = null,
     Object? externalLinks = null,
@@ -195,6 +205,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.ratedRank
           : ratedRank // ignore: cast_nullable_to_non_nullable
               as int?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       popularRank: freezed == popularRank
           ? _value.popularRank
           : popularRank // ignore: cast_nullable_to_non_nullable
@@ -235,6 +249,10 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as MediaFormat?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value.characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -258,6 +276,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     ) as $Val);
   }
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaTitleCopyWith<$Res>? get title {
@@ -270,6 +290,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     });
   }
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MediaCoverImageModelCopyWith<$Res>? get coverImage {
@@ -282,6 +304,8 @@ class _$MediaModelCopyWithImpl<$Res, $Val extends MediaModel>
     });
   }
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TrailerModelCopyWith<$Res>? get trailerModel {
@@ -318,6 +342,7 @@ abstract class _$$MediaModelImplCopyWith<$Res>
       AnimeSeason? season,
       MediaStatus? status,
       int? ratedRank,
+      String? siteUrl,
       int? popularRank,
       List<String> hashtags,
       List<String> genres,
@@ -328,6 +353,7 @@ abstract class _$$MediaModelImplCopyWith<$Res>
       bool isFollowing,
       DateTime? startDate,
       DateTime? endDate,
+      MediaFormat? format,
       List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       List<StaffAndRoleModel> staffs,
       List<MediaExternalLinkModel> externalLinks,
@@ -350,6 +376,8 @@ class __$$MediaModelImplCopyWithImpl<$Res>
       _$MediaModelImpl _value, $Res Function(_$MediaModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -367,6 +395,7 @@ class __$$MediaModelImplCopyWithImpl<$Res>
     Object? season = freezed,
     Object? status = freezed,
     Object? ratedRank = freezed,
+    Object? siteUrl = freezed,
     Object? popularRank = freezed,
     Object? hashtags = null,
     Object? genres = null,
@@ -377,6 +406,7 @@ class __$$MediaModelImplCopyWithImpl<$Res>
     Object? isFollowing = null,
     Object? startDate = freezed,
     Object? endDate = freezed,
+    Object? format = freezed,
     Object? characterAndVoiceActors = null,
     Object? staffs = null,
     Object? externalLinks = null,
@@ -440,6 +470,10 @@ class __$$MediaModelImplCopyWithImpl<$Res>
           ? _value.ratedRank
           : ratedRank // ignore: cast_nullable_to_non_nullable
               as int?,
+      siteUrl: freezed == siteUrl
+          ? _value.siteUrl
+          : siteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       popularRank: freezed == popularRank
           ? _value.popularRank
           : popularRank // ignore: cast_nullable_to_non_nullable
@@ -480,6 +514,10 @@ class __$$MediaModelImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      format: freezed == format
+          ? _value.format
+          : format // ignore: cast_nullable_to_non_nullable
+              as MediaFormat?,
       characterAndVoiceActors: null == characterAndVoiceActors
           ? _value._characterAndVoiceActors
           : characterAndVoiceActors // ignore: cast_nullable_to_non_nullable
@@ -522,6 +560,7 @@ class _$MediaModelImpl implements _MediaModel {
       this.season,
       this.status,
       this.ratedRank,
+      this.siteUrl,
       this.popularRank,
       final List<String> hashtags = const [],
       final List<String> genres = const [],
@@ -532,6 +571,7 @@ class _$MediaModelImpl implements _MediaModel {
       this.isFollowing = false,
       this.startDate,
       this.endDate,
+      this.format,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors =
           const [],
       final List<StaffAndRoleModel> staffs = const [],
@@ -577,6 +617,8 @@ class _$MediaModelImpl implements _MediaModel {
   @override
   final int? ratedRank;
   @override
+  final String? siteUrl;
+  @override
   final int? popularRank;
   final List<String> _hashtags;
   @override
@@ -612,6 +654,8 @@ class _$MediaModelImpl implements _MediaModel {
   final DateTime? startDate;
   @override
   final DateTime? endDate;
+  @override
+  final MediaFormat? format;
   final List<CharacterAndVoiceActorModel> _characterAndVoiceActors;
   @override
   @JsonKey()
@@ -660,7 +704,7 @@ class _$MediaModelImpl implements _MediaModel {
 
   @override
   String toString() {
-    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFavourite: $isFavourite, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
+    return 'MediaModel(id: $id, title: $title, type: $type, coverImage: $coverImage, description: $description, source: $source, bannerImage: $bannerImage, averageScore: $averageScore, favourites: $favourites, trailerModel: $trailerModel, seasonYear: $seasonYear, season: $season, status: $status, ratedRank: $ratedRank, siteUrl: $siteUrl, popularRank: $popularRank, hashtags: $hashtags, genres: $genres, episodes: $episodes, timeUntilAiring: $timeUntilAiring, nextAiringEpisode: $nextAiringEpisode, isFavourite: $isFavourite, isFollowing: $isFollowing, startDate: $startDate, endDate: $endDate, format: $format, characterAndVoiceActors: $characterAndVoiceActors, staffs: $staffs, externalLinks: $externalLinks, relations: $relations, studios: $studios)';
   }
 
   @override
@@ -690,6 +734,7 @@ class _$MediaModelImpl implements _MediaModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.ratedRank, ratedRank) ||
                 other.ratedRank == ratedRank) &&
+            (identical(other.siteUrl, siteUrl) || other.siteUrl == siteUrl) &&
             (identical(other.popularRank, popularRank) ||
                 other.popularRank == popularRank) &&
             const DeepCollectionEquality().equals(other._hashtags, _hashtags) &&
@@ -707,6 +752,7 @@ class _$MediaModelImpl implements _MediaModel {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.format, format) || other.format == format) &&
             const DeepCollectionEquality().equals(
                 other._characterAndVoiceActors, _characterAndVoiceActors) &&
             const DeepCollectionEquality().equals(other._staffs, _staffs) &&
@@ -734,6 +780,7 @@ class _$MediaModelImpl implements _MediaModel {
         season,
         status,
         ratedRank,
+        siteUrl,
         popularRank,
         const DeepCollectionEquality().hash(_hashtags),
         const DeepCollectionEquality().hash(_genres),
@@ -744,6 +791,7 @@ class _$MediaModelImpl implements _MediaModel {
         isFollowing,
         startDate,
         endDate,
+        format,
         const DeepCollectionEquality().hash(_characterAndVoiceActors),
         const DeepCollectionEquality().hash(_staffs),
         const DeepCollectionEquality().hash(_externalLinks),
@@ -751,7 +799,9 @@ class _$MediaModelImpl implements _MediaModel {
         const DeepCollectionEquality().hash(_studios)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaModelImplCopyWith<_$MediaModelImpl> get copyWith =>
@@ -774,6 +824,7 @@ abstract class _MediaModel implements MediaModel {
       final AnimeSeason? season,
       final MediaStatus? status,
       final int? ratedRank,
+      final String? siteUrl,
       final int? popularRank,
       final List<String> hashtags,
       final List<String> genres,
@@ -784,6 +835,7 @@ abstract class _MediaModel implements MediaModel {
       final bool isFollowing,
       final DateTime? startDate,
       final DateTime? endDate,
+      final MediaFormat? format,
       final List<CharacterAndVoiceActorModel> characterAndVoiceActors,
       final List<StaffAndRoleModel> staffs,
       final List<MediaExternalLinkModel> externalLinks,
@@ -819,6 +871,8 @@ abstract class _MediaModel implements MediaModel {
   @override
   int? get ratedRank;
   @override
+  String? get siteUrl;
+  @override
   int? get popularRank;
   @override
   List<String> get hashtags;
@@ -839,6 +893,8 @@ abstract class _MediaModel implements MediaModel {
   @override
   DateTime? get endDate;
   @override
+  MediaFormat? get format;
+  @override
   List<CharacterAndVoiceActorModel> get characterAndVoiceActors;
   @override
   List<StaffAndRoleModel> get staffs;
@@ -848,8 +904,11 @@ abstract class _MediaModel implements MediaModel {
   List<MediaRelationModel> get relations;
   @override
   List<StudioModel> get studios;
+
+  /// Create a copy of MediaModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaModelImplCopyWith<_$MediaModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

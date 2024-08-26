@@ -27,8 +27,12 @@ mixin _$FuzzyDateInputDto {
   @JsonKey(name: 'day')
   int? get day => throw _privateConstructorUsedError;
 
+  /// Serializes this FuzzyDateInputDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FuzzyDateInputDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FuzzyDateInputDtoCopyWith<FuzzyDateInputDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$FuzzyDateInputDtoCopyWithImpl<$Res, $Val extends FuzzyDateInputDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FuzzyDateInputDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$FuzzyDateInputDtoImplCopyWithImpl<$Res>
       $Res Function(_$FuzzyDateInputDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FuzzyDateInputDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -161,11 +169,13 @@ class _$FuzzyDateInputDtoImpl implements _FuzzyDateInputDto {
             (identical(other.day, day) || other.day == day));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, year, month, day);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FuzzyDateInputDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FuzzyDateInputDtoImplCopyWith<_$FuzzyDateInputDtoImpl> get copyWith =>
@@ -198,8 +208,11 @@ abstract class _FuzzyDateInputDto implements FuzzyDateInputDto {
   @override
   @JsonKey(name: 'day')
   int? get day;
+
+  /// Create a copy of FuzzyDateInputDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FuzzyDateInputDtoImplCopyWith<_$FuzzyDateInputDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

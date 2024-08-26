@@ -1,6 +1,7 @@
 
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
@@ -32,6 +33,7 @@ class MediaModel with _$MediaModel {
     AnimeSeason? season,
     MediaStatus? status,
     int? ratedRank,
+    String? siteUrl,
     int? popularRank,
     @Default([]) List<String> hashtags,
     @Default([]) List<String> genres,
@@ -42,6 +44,7 @@ class MediaModel with _$MediaModel {
     @Default(false) bool isFollowing,
     DateTime? startDate,
     DateTime? endDate,
+    MediaFormat? format,
     @Default([]) List<CharacterAndVoiceActorModel> characterAndVoiceActors,
     @Default([]) List<StaffAndRoleModel> staffs,
     @Default([]) List<MediaExternalLinkModel> externalLinks,

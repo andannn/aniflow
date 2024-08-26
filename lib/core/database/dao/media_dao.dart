@@ -49,43 +49,56 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
 
   Future upsertMediaRelations(
       String ownerId, List<MediaAndRelationTypeEntity> relationEntity) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        mediaRelationCrossRefTable,
-        relationEntity.map(
-          (e) => MediaRelationCrossRefTableCompanion(
-            ownerId: Value(ownerId),
-            relationId: Value(e.media.id),
-            relationType: Value.absentIfNull(e.mediaRelation),
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          mediaRelationCrossRefTable,
+          relationEntity.map(
+            (e) => MediaRelationCrossRefTableCompanion(
+              ownerId: Value(ownerId),
+              relationId: Value(e.media.id),
+              relationType: Value.absentIfNull(e.mediaRelation),
+            ),
           ),
-        ),
-      );
+        );
 
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        relationEntity.map((e) => e.media.toCompanion(true)),
-      );
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          relationEntity.map((e) => e.media.toCompanion(true)),
+        );
+      });
     });
   }
 
   Future insertOrIgnoreMedia(List<MediaEntity> entities) {
-    return batch((batch) {
-      batch.insertAll(mediaTable, entities, mode: InsertMode.insertOrIgnore);
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAll(mediaTable, entities, mode: InsertMode.insertOrIgnore);
+      });
     });
   }
 
   Future insertOrUpdateMedia(List<MediaEntity> entities) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        entities.map((e) => e.toCompanion(true)),
-      );
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        /// 1. Set media table column to Value.absent() if null.
+        /// 2. Update nextAiringEpisode even if data is null because the
+        ///    nextAiringEpisode will be null when last episode aired.
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          entities.map((e) => e
+              .toCompanion(true)
+              .copyWith(nextAiringEpisode: Value(e.nextAiringEpisode))),
+        );
+      });
     });
   }
 
   Future upsertMediaExternalLinks(List<MediaExternalLinkEntity> entities) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(mediaExternalLinkTable, entities);
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAllOnConflictUpdate(mediaExternalLinkTable, entities);
+      });
     });
   }
 
@@ -97,7 +110,7 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
         .watch();
   }
 
-  Future<List<MediaEntity>> getMediaByPage(String category,
+  Future<List<MediaEntity>> getMediaPageByCategory(String category,
       {required int page, int perPage = AfConfig.defaultPerPageCount}) {
     final int limit = perPage;
     final int offset = (page - 1) * perPage;
@@ -113,7 +126,27 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
     return (query.map((row) => row.readTable(mediaTable))).get();
   }
 
-  Stream<List<MediaEntity>> getMediasStream(String category,
+  Future<List<MediaEntity>> getMediasByTimeRange({
+    required int page,
+    required int perPage,
+    required List<String> mediaFormat,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    final int limit = perPage;
+    final int offset = (page - 1) * perPage;
+
+    final query = select(mediaTable)
+      ..where((t) =>
+          t.startDate.isBiggerOrEqualValue(startDate) &
+          t.startDate.isSmallerOrEqualValue(endDate) &
+          t.format.isIn(mediaFormat))
+      ..limit(limit, offset: offset);
+
+    return query.get();
+  }
+
+  Stream<List<MediaEntity>> getCategoryMediasStream(String category,
       {required int limit}) {
     final query = select(mediaTable).join([
       innerJoin(categoryMediaPagingCrossRefTable,
@@ -127,29 +160,46 @@ class MediaDao extends DatabaseAccessor<AniflowDatabase> with _$MediaDaoMixin {
   }
 
   Future clearCategoryMediaCrossRef(String category) {
-    return (delete(categoryMediaPagingCrossRefTable)
-          ..where((tbl) => tbl.category.equals(category)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      return (delete(categoryMediaPagingCrossRefTable)
+            ..where((tbl) => tbl.category.equals(category)))
+          .go();
+    });
   }
 
   Future upsertMediaByCategory(String category,
       {required List<MediaEntity> medias}) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        categoryMediaPagingCrossRefTable,
-        medias.map(
-          (e) => CategoryMediaPagingCrossRefTableCompanion(
-            category: Value(category),
-            mediaId: Value(e.id),
-            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          categoryMediaPagingCrossRefTable,
+          medias.map(
+            (e) => CategoryMediaPagingCrossRefTableCompanion(
+              category: Value(category),
+              mediaId: Value(e.id),
+              timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+            ),
           ),
-        ),
-      );
+        );
 
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        medias.map((e) => e.toCompanion(true)),
-      );
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          medias.map((e) => e.toCompanion(true)),
+        );
+      });
     });
+  }
+
+  Stream<List<MediaEntity>> getMediaStreamByAiringTimeRange(
+      DateTime start, DateTime end, List<String> format) {
+    final query = select(mediaTable)
+      ..where(
+        (t) =>
+            t.startDate.isBiggerOrEqualValue(start) &
+            t.startDate.isSmallerOrEqualValue(end) &
+            t.format.isIn(format),
+      )
+      ..orderBy([(t) => OrderingTerm.asc(mediaTable.startDate)]);
+    return query.watch();
   }
 }

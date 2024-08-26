@@ -25,8 +25,12 @@ mixin _$StudioConnection {
   @JsonKey(name: 'nodes')
   List<StudioDto> get nodes => throw _privateConstructorUsedError;
 
+  /// Serializes this StudioConnection to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StudioConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StudioConnectionCopyWith<StudioConnection> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$StudioConnectionCopyWithImpl<$Res, $Val extends StudioConnection>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StudioConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$StudioConnectionCopyWithImpl<$Res, $Val extends StudioConnection>
     ) as $Val);
   }
 
+  /// Create a copy of StudioConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PageInfoCopyWith<$Res>? get pageInfo {
@@ -109,6 +117,8 @@ class __$$StudioConnectionImplCopyWithImpl<$Res>
       $Res Function(_$StudioConnectionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StudioConnection
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,12 +176,14 @@ class _$StudioConnectionImpl implements _StudioConnection {
             const DeepCollectionEquality().equals(other._nodes, _nodes));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, pageInfo, const DeepCollectionEquality().hash(_nodes));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StudioConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StudioConnectionImplCopyWith<_$StudioConnectionImpl> get copyWith =>
@@ -201,8 +213,11 @@ abstract class _StudioConnection implements StudioConnection {
   @override
   @JsonKey(name: 'nodes')
   List<StudioDto> get nodes;
+
+  /// Create a copy of StudioConnection
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StudioConnectionImplCopyWith<_$StudioConnectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,4 +1,3 @@
-import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/design_system/widget/page_bottom_state_indicator.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
 import 'package:aniflow/core/paging/paging_bloc.dart';
@@ -24,7 +23,6 @@ class PagingContent<MODEL,
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      cacheExtent: AfConfig.defaultCatchExtend,
       slivers: [
         ...buildSliverItemsSection<MODEL, BLOC>(
           context: context,

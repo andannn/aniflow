@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
+import 'package:aniflow/core/common/definitions/media_format.dart';
 import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/network/model/airing_schedule_dto.dart';
@@ -32,11 +33,13 @@ class MediaDto with _$MediaDto {
     @JsonKey(name: 'seasonYear') int? seasonYear,
     @JsonKey(name: 'season') AnimeSeason? season,
     @JsonKey(name: 'hashtag') String? hashtag,
+    @JsonKey(name: 'siteUrl') String? siteUrl,
     @JsonKey(name: 'bannerImage') String? bannerImage,
     @JsonKey(name: 'averageScore') int? averageScore,
     @JsonKey(name: 'trending') int? trending,
     @JsonKey(name: 'favourites') int? favourites,
     @JsonKey(name: 'startDate') FuzzyDateDto? startDate,
+    @JsonKey(name: 'format') MediaFormat? format,
     @JsonKey(name: 'endDate') FuzzyDateDto? endDate,
     @Default([]) @JsonKey(name: 'genres') List genres,
     @JsonKey(name: 'trailer') TrailerDto? trailer,

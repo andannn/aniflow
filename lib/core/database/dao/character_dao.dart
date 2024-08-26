@@ -31,17 +31,21 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
   Future upsertCharacters(
     List<CharacterEntity> entities,
   ) async {
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(characterTable, entities);
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(characterTable, entities);
+      });
     });
   }
 
   Future insertOrIgnoreCharacters(
     List<CharacterEntity> entities,
   ) async {
-    await batch((batch) {
-      batch.insertAll(characterTable, entities,
-          mode: InsertMode.insertOrIgnore);
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAll(characterTable, entities,
+            mode: InsertMode.insertOrIgnore);
+      });
     });
   }
 
@@ -75,46 +79,9 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
   /// upsert character table and ignore media table if conflict.
   Future upsertCharacterAndRelatedMedia(
       CharacterAndRelatedMediaRelation entity) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
-
-      batch.insertAll(
-        mediaTable,
-        entity.medias,
-        mode: InsertMode.insertOrIgnore,
-      );
-
-      batch.insertAll(
-        characterRelatedMediaCrossRefTable,
-        entity.medias.map(
-          (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
-            characterId: entity.character.id,
-            mediaId: media.id,
-          ),
-        ),
-        mode: InsertMode.replace,
-      );
-    });
-  }
-
-  Future upsertBirthdayCharacters(
-      List<CharacterAndRelatedMediaRelation> entities) {
-    return batch((batch) {
-      for (final entity in entities) {
-        batch.insert(
-          categoryMediaPagingCrossRefTable,
-          CategoryMediaPagingCrossRefTableCompanion(
-            category: const Value(CategoryColumnsValues.birthdayCharacters),
-            mediaId: Value(entity.character.id),
-            timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
-          ),
-          mode: InsertMode.insertOrReplace,
-        );
-
-        batch.insertAllOnConflictUpdate(
-          characterTable,
-          [entity.character.toCompanion(true)],
-        );
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAllOnConflictUpdate(characterTable, [entity.character]);
 
         batch.insertAll(
           mediaTable,
@@ -132,7 +99,48 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
           ),
           mode: InsertMode.replace,
         );
-      }
+      });
+    });
+  }
+
+  Future upsertBirthdayCharacters(
+      List<CharacterAndRelatedMediaRelation> entities) {
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        for (final entity in entities) {
+          batch.insert(
+            categoryMediaPagingCrossRefTable,
+            CategoryMediaPagingCrossRefTableCompanion(
+              category: const Value(CategoryColumnsValues.birthdayCharacters),
+              mediaId: Value(entity.character.id),
+              timeStamp: Value(DateTime.now().microsecondsSinceEpoch),
+            ),
+            mode: InsertMode.insertOrReplace,
+          );
+
+          batch.insertAllOnConflictUpdate(
+            characterTable,
+            [entity.character.toCompanion(true)],
+          );
+
+          batch.insertAll(
+            mediaTable,
+            entity.medias,
+            mode: InsertMode.insertOrIgnore,
+          );
+
+          batch.insertAll(
+            characterRelatedMediaCrossRefTable,
+            entity.medias.map(
+              (media) => CharacterRelatedMediaCrossRefTableCompanion.insert(
+                characterId: entity.character.id,
+                mediaId: media.id,
+              ),
+            ),
+            mode: InsertMode.replace,
+          );
+        }
+      });
     });
   }
 
@@ -231,10 +239,12 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future clearBirthdayCharacters() async {
-    return (delete(categoryMediaPagingCrossRefTable)
-          ..where((tbl) => categoryMediaPagingCrossRefTable.category
-              .equals(CategoryColumnsValues.birthdayCharacters)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      return (delete(categoryMediaPagingCrossRefTable)
+            ..where((tbl) => categoryMediaPagingCrossRefTable.category
+                .equals(CategoryColumnsValues.birthdayCharacters)))
+          .go();
+    });
   }
 
   Future<List<CharacterAndVoiceActorRelation>> getCharacterOfMediaByPage(
@@ -346,9 +356,11 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future clearMediaCharacterCrossRef(String mediaId) {
-    return (delete(mediaCharacterPagingCrossRefTable)
-          ..where((tbl) =>
-              mediaCharacterPagingCrossRefTable.mediaId.equals(mediaId)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      return (delete(mediaCharacterPagingCrossRefTable)
+            ..where((tbl) =>
+                mediaCharacterPagingCrossRefTable.mediaId.equals(mediaId)))
+          .go();
+    });
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:aniflow/core/database/aniflow_database.dart';
-import 'package:aniflow/core/network/model/fuzzy_date_dto.dart';
 import 'package:aniflow/core/network/model/media_dto.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
 
 extension MediaMapper on MediaDto {
   MediaEntity toEntity() => MediaEntity(
@@ -30,6 +30,7 @@ extension MediaMapper on MediaDto {
     seasonYear: seasonYear,
     isFavourite: isFavourite,
     status: status?.toJson(),
+    format: format?.toJson(),
     timeUntilAiring: nextAiringEpisode?.timeUntilAiring,
     nextAiringEpisode: nextAiringEpisode?.episode,
     genres: genres.isNotEmpty ? jsonEncode(genres) : null,
@@ -45,7 +46,8 @@ extension MediaMapper on MediaDto {
       orElse: () => null,
     )
         ?.rank,
-    startDate: startDate.toDateTime()?.millisecondsSinceEpoch,
-    endDate: endDate.toDateTime()?.millisecondsSinceEpoch,
+    startDate: startDate.toDateTime(),
+    endDate: endDate.toDateTime(),
+    siteUrl: siteUrl
   );
 }

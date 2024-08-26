@@ -1,29 +1,42 @@
 import 'dart:async';
 
-import 'package:aniflow/app/app.dart';
-import 'package:aniflow/core/common/message/message.dart';
-import 'package:aniflow/core/common/setting/about.dart';
+import 'package:aniflow/app/di/get_it_scope.dart';
+import 'package:aniflow/core/common/dialog/dialog_handler.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/animation/page_transaction_animation.dart';
 import 'package:aniflow/core/design_system/dialog/restart_app_dialog.dart';
-import 'package:aniflow/feature/settings/bloc/settings_bloc.dart';
-import 'package:aniflow/feature/settings/bloc/settings_category.dart';
-import 'package:aniflow/feature/settings/bloc/settings_state.dart';
+import 'package:aniflow/feature/settings/check_for_update/check_for_update.dart';
+import 'package:aniflow/feature/settings/github_link/github_link.dart';
 import 'package:aniflow/feature/settings/list_settings_dialog.dart';
+import 'package:aniflow/feature/settings/settings_bloc.dart';
+import 'package:aniflow/feature/settings/settings_category.dart';
+import 'package:aniflow/feature/settings/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+
+class SettingsPage extends Page {
+  const SettingsPage({super.key, super.onPopInvoked});
+
+  @override
+  Route createRoute(BuildContext context) {
+    return SettingsPageRoute(settings: this);
+  }
+}
 
 class SettingsPageRoute extends PageRoute with MaterialRouteTransitionMixin {
   SettingsPageRoute({super.settings}) : super(allowSnapshotting: false);
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => GetIt.instance.get<SettingsBloc>(),
-      child: const ScaffoldMessenger(
-        child: _MediaSettingsPageContent(),
+    return DialogEventHandler(
+      child: BlocProvider(
+        create: (BuildContext context) =>
+            GetItScope.of(context).get<SettingsBloc>(),
+        child: const ScaffoldMessenger(
+          child: _MediaSettingsPageContent(),
+        ),
       ),
     );
   }
@@ -58,7 +71,8 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        final categories = state.categories;
+        final categories =
+            context.read<SettingsBloc>().buildSettingCategoryList();
 
         return Scaffold(
           appBar: AppBar(
@@ -67,16 +81,25 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
           body: ListView.builder(
             itemCount: categories.length,
             itemBuilder: (BuildContext context, int index) {
-              return _createSettingCategory(context, categories[index]);
+              return SettingCategoryWidget(category: categories[index]);
             },
           ),
         );
       },
     );
   }
+}
 
-  Widget _createSettingCategory(
-      BuildContext context, SettingCategory category) {
+class SettingCategoryWidget extends StatelessWidget {
+  const SettingCategoryWidget({
+    super.key,
+    required this.category,
+  });
+
+  final SettingCategory category;
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final settingItems = category.settingItems;
@@ -98,9 +121,8 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return _createSettingItem(
-                context,
-                settingItems[index],
+              return SettingItemWidget(
+                settingItem: settingItems[index],
                 onSettingChanged: (setting) async {
                   context
                       .read<SettingsBloc>()
@@ -113,15 +135,14 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
                     final isAccepted = await showRestartAppDialog(context);
                     if (isAccepted == true) {
                       // ignore: use_build_context_synchronously
-                      AniFlowApp.restartApp(context);
+                      // AniFlowApp.restartApp(context);
                     }
                   }
                 },
-                onSettingTap: (type) {
-                  if (type == About) {
-                    showAboutDialog(
-                        context: context, applicationName: 'AniFlow');
-                  }
+                onSingleTapSettingClick: (type) async {
+                  context
+                      .read<SettingsBloc>()
+                      .add(OnSingleLineSettingsClick(type));
                 },
               );
             },
@@ -130,13 +151,22 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
       ),
     );
   }
+}
 
-  Widget _createSettingItem<T extends Setting>(
-    BuildContext context,
-    final SettingItem<T> settingItem, {
-    required Function(Setting) onSettingChanged,
-    required Function(Type) onSettingTap,
-  }) {
+class SettingItemWidget<T extends Setting> extends StatelessWidget {
+  const SettingItemWidget({
+    super.key,
+    required this.settingItem,
+    required this.onSettingChanged,
+    required this.onSingleTapSettingClick,
+  });
+
+  final SettingItem<T> settingItem;
+  final Function(Setting) onSettingChanged;
+  final Function(Type) onSingleTapSettingClick;
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     switch (settingItem) {
       case SwitchSettingItem(current: var setting):
@@ -145,7 +175,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
           child: Row(
             children: [
               Text(
-                settingItem.titleBuilder(context),
+                settingItem.titleBuilder!(context),
                 style: textTheme.headlineSmall,
               ),
               const Expanded(child: SizedBox()),
@@ -167,7 +197,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
           onTap: () async {
             final result = await showSettingsDialog<T>(
               context: context,
-              title: titleBuilder(context),
+              title: titleBuilder!(context),
               selectedOption: selectedOption.setting,
               options: options,
             );
@@ -181,7 +211,7 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  settingItem.titleBuilder(context),
+                  settingItem.titleBuilder!(context),
                   style: textTheme.titleLarge,
                 ),
                 const SizedBox(height: 2),
@@ -196,20 +226,24 @@ class _MediaSettingsPageContentState extends State<_MediaSettingsPageContent>
       case SingleLineWithTapActionSettingItem():
         return InkWell(
           onTap: () {
-            onSettingTap.call(settingItem.type);
+            onSingleTapSettingClick.call(settingItem.type);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
             child: Row(
               children: [
                 Text(
-                  settingItem.titleBuilder(context),
+                  settingItem.titleBuilder!(context),
                   style: textTheme.headlineSmall,
                 ),
               ],
             ),
           ),
         );
+      case GithubLinkSettingItem():
+        return const GithubLink();
+      case CheckForUpdateSettingItem():
+        return const CheckForUpdate();
       default:
         throw Exception('Invalid Type');
     }

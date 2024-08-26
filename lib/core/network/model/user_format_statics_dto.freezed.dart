@@ -33,8 +33,12 @@ mixin _$UserFormatStaticsDto {
   @JsonKey(name: 'status')
   MediaListStatus? get status => throw _privateConstructorUsedError;
 
+  /// Serializes this UserFormatStaticsDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserFormatStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserFormatStaticsDtoCopyWith<UserFormatStaticsDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +69,8 @@ class _$UserFormatStaticsDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserFormatStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,6 +135,8 @@ class __$$UserFormatStaticsDtoImplCopyWithImpl<$Res>
       $Res Function(_$UserFormatStaticsDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserFormatStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -229,12 +237,14 @@ class _$UserFormatStaticsDtoImpl implements _UserFormatStaticsDto {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, count, meanScore, minutesWatched,
       chaptersRead, const DeepCollectionEquality().hash(_mediaIds), status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserFormatStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserFormatStaticsDtoImplCopyWith<_$UserFormatStaticsDtoImpl>
@@ -281,8 +291,11 @@ abstract class _UserFormatStaticsDto implements UserFormatStaticsDto {
   @override
   @JsonKey(name: 'status')
   MediaListStatus? get status;
+
+  /// Create a copy of UserFormatStaticsDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserFormatStaticsDtoImplCopyWith<_$UserFormatStaticsDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

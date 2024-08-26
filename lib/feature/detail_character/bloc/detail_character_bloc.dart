@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
@@ -30,7 +31,8 @@ class OnToggleLike extends DetailCharacterEvent {}
 
 @injectable
 class DetailCharacterBloc
-    extends Bloc<DetailCharacterEvent, DetailCharacterState> {
+    extends Bloc<DetailCharacterEvent, DetailCharacterState>
+    with AutoCancelMixin {
   DetailCharacterBloc(
     @factoryParam this._characterId,
     this._mediaRepository,
@@ -38,8 +40,8 @@ class DetailCharacterBloc
     this._favoriteRepository,
     UserDataRepository preferences,
   ) : super(DetailCharacterState(
-          userStaffNameLanguage: preferences.userData.userStaffNameLanguage,
-          userTitleLanguage: preferences.userData.userTitleLanguage,
+          userStaffNameLanguage: preferences.userStaffNameLanguage,
+          userTitleLanguage: preferences.userTitleLanguage,
         )) {
     on<_OnDetailCharacterInfoChanged>(
       (event, emit) => emit(state.copyWith(characterModel: event.model)),
@@ -56,12 +58,14 @@ class DetailCharacterBloc
       );
     });
 
-    _detailCharacterSub = _mediaRepository
-        .getDetailCharacterStream(_characterId)
-        .distinct()
-        .listen((model) {
-      add(_OnDetailCharacterInfoChanged(model: model));
-    });
+    autoCancel(
+      () => _mediaRepository
+          .getDetailCharacterStream(_characterId)
+          .distinct()
+          .listen((model) {
+        safeAdd(_OnDetailCharacterInfoChanged(model: model));
+      }),
+    );
 
     _init();
   }
@@ -71,13 +75,11 @@ class DetailCharacterBloc
   final MessageRepository _messageRepository;
   final String _characterId;
 
-  StreamSubscription? _detailCharacterSub;
   final _contentFetchCancelToken = CancelToken();
   CancelToken? _toggleLikeCancelToken;
 
   @override
   Future<void> close() {
-    _detailCharacterSub?.cancel();
     _contentFetchCancelToken.cancel();
     _toggleLikeCancelToken?.cancel();
 
@@ -85,7 +87,7 @@ class DetailCharacterBloc
   }
 
   void _init() async {
-    add(_OnLoadingChanged(isLoading: true));
+    safeAdd(_OnLoadingChanged(isLoading: true));
     final result = await _mediaRepository.startFetchDetailCharacterInfo(
       id: _characterId,
       token: _contentFetchCancelToken,
@@ -98,6 +100,6 @@ class DetailCharacterBloc
         _messageRepository.showMessage(message);
       }
     }
-    add(_OnLoadingChanged(isLoading: false));
+    safeAdd(_OnLoadingChanged(isLoading: false));
   }
 }

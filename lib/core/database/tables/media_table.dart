@@ -54,6 +54,8 @@ class MediaTable extends Table {
 
   TextColumn get genres => text().named('genres').nullable()();
 
+  TextColumn get format => text().named('format').nullable()();
+
   IntColumn get trending => integer().named('trending').nullable()();
 
   IntColumn get favourites => integer().named('favourites').nullable()();
@@ -69,12 +71,14 @@ class MediaTable extends Table {
   IntColumn get timeUntilAiring =>
       integer().named('time_until_airing').nullable()();
 
-  IntColumn get startDate => integer().named('start_date').nullable()();
+  DateTimeColumn get startDate => dateTime().named('start_date').nullable()();
 
-  IntColumn get endDate => integer().named('end_date').nullable()();
+  DateTimeColumn get endDate => dateTime().named('end_date').nullable()();
 
   BoolColumn get isFavourite => boolean().named('is_favourite').nullable()();
 
   DateTimeColumn get nextAiringEpisodeUpdateTime =>
       dateTime().named('next_airing_episode_update_time').nullable()();
+
+  TextColumn get siteUrl => text().named('user_data_site_url').nullable()();
 }

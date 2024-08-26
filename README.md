@@ -3,12 +3,12 @@
 An unofficial client for [AniList](https://anilist.co/home).
 
 <p float="left">
-  <img src="screen_shots/discover.png" width="25%" />
-  <img src="screen_shots/track.png" width="25%" />
-  <img src="screen_shots/activity.png" width="25%" />
-  <img src="screen_shots/profile.png" width="25%" />
-  <img src="screen_shots/detail.png" width="25%" />
-  <img src="screen_shots/schedule.png" width="25%" />
+  <img src="screen_shots/home_page.png" width="25%" />
+  <img src="screen_shots/track_list.png" width="25%" />
+  <img src="screen_shots/voice_actor.png" width="25%" />
+  <img src="screen_shots/profile.jpeg" width="25%" />
+  <img src="screen_shots/character.png" width="25%" />
+  <img src="screen_shots/anime.png" width="25%" />
 </p>
 
 ## Feature
@@ -32,4 +32,3 @@ flutter run
    - $ dart run drift_dev schema generate lib/core/database/drift_schemas/ test/core/database/generated_migrations/
  - State Management: [Bloc](https://pub.dev/packages/bloc)
  - Dynamic theme: [dynamic_color](https://pub.dev/packages/dynamic_color)
- - Architecture: MVVM

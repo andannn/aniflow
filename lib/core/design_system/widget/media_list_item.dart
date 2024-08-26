@@ -2,8 +2,8 @@
 
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
-import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -15,11 +15,13 @@ class MediaListItem extends StatelessWidget {
     this.showNewBadge = false,
     required this.onMarkWatchedClick,
     required this.onClick,
+    this.onLongPress,
     required this.language,
   });
 
-  final MediaListItemModel model;
+  final MediaWithListModel model;
   final VoidCallback onClick;
+  final VoidCallback? onLongPress;
   final VoidCallback onMarkWatchedClick;
   final UserTitleLanguage language;
   final bool showNewBadge;
@@ -28,40 +30,42 @@ class MediaListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     final colorScheme = Theme.of(context).colorScheme;
-    return Opacity(
-      opacity: hasNextReleasingEpisode ? 1.0 : 0.7,
-      child: Card.filled(
-        clipBehavior: Clip.antiAlias,
-        child: MarkWatchSlideWidget(
-          onWatchedClick: onMarkWatchedClick,
-          canSlide: hasNextReleasingEpisode,
-          child: MediaRowItem(
-            model: model.animeModel!,
-            language: language,
-            showNewBadge: showNewBadge,
-            watchingInfo: _buildWatchingInfoLabel(context, model),
-            titleMaxLines: null,
-            watchInfoTextColor: model.hasNextReleasedEpisode
-                ? colorScheme.primary
-                : colorScheme.secondary,
-            onClick: onClick,
+    return Card.filled(
+      clipBehavior: Clip.antiAlias,
+      child: MarkWatchSlideWidget(
+        onWatchedClick: onMarkWatchedClick,
+        canSlide: hasNextReleasingEpisode,
+        child: MediaRowItem(
+          model: model.mediaModel,
+          language: language,
+          showNewBadge: showNewBadge,
+          centerWidget: Text(
+            _buildWatchingInfoLabel(context, model),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: model.hasNextReleasedEpisode
+                    ? colorScheme.primary
+                    : colorScheme.secondary),
           ),
+          titleMaxLines: 3,
+          onClick: onClick,
+          onLongPress: onLongPress,
         ),
       ),
     );
   }
 
   String _buildWatchingInfoLabel(
-      BuildContext context, MediaListItemModel model) {
+      BuildContext context, MediaWithListModel model) {
     final hasNextReleasingEpisode = model.hasNextReleasedEpisode;
     String label = '';
     if (hasNextReleasingEpisode) {
-      label = context.appLocal.nextEpToWatch(model.progress! + 1);
+      label =
+          context.appLocal.nextEpToWatch(model.mediaListModel!.progress! + 1);
     } else {
-      if (model.animeModel!.nextAiringEpisode != null) {
+      if (model.mediaModel.nextAiringEpisode != null) {
         label = context.appLocal.nextAiringInfo(
-            model.animeModel!.nextAiringEpisode!,
-            model.animeModel!.getReleasingTimeString(context));
+            model.mediaModel.nextAiringEpisode!,
+            model.mediaModel.getReleasingTimeString(context));
       }
     }
     return label;

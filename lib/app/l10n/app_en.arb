@@ -26,7 +26,7 @@
 	"episodes": "episodes",
 	"favorite": "Favorite",
 	"lightNovelAnimation": "Light novel",
-	"mangaAnimation": "Manga",
+	"mangaAnimation": "manga",
 	"mangaList": "Manga List",
 	"originalAnimation": "Original",
 	"otherAnimation": "Other",
@@ -70,7 +70,7 @@
 	"korean": "Korean",
 	"portuguese": "Portuguese",
 	"spanish": "Spanish",
-	"schedule": "Schedule",
+	"schedule": "bangumi schedule",
 	"watchNow": "Watch now",
 	"markWatched": "Watched",
 	"track": "Track",
@@ -144,16 +144,68 @@
 	"finishDate": "Finish Date",
 	"notes": "Notes",
 	"current": "Current",
-	"completed": "Completed",
-	"dropped": "Dropped",
 	"paused": "Paused",
-	"planning": "Planning",
-	"todayBirthdayCharacter": "今日 {date} 誕生日のキャラクター",
-	"@todayBirthdayCharacter": {
+	"todayBirthdayCharacter": "Characters with a birthday today",
+	"animeSchedule": "{date}'s schedule",
+	"@animeSchedule": {
 		"placeholders": {
 			"date": {
 				"type": "String"
 			}
 		}
-	}
+	},
+	"@releaseDate": {
+		"description": "The release date of the movie",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"releaseDate": "Will be released on {date}",
+	"@releasedAt": {
+		"description": "The release date and time of the movie",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"releasedAt": "Released at {date}",
+	"movieSchedule": "Movie schedule",
+	"recentMovies": "Recent movies",
+	"progress": "Progress",
+	"newAired": "New aired",
+	"hasNextEpisode": "Has next episode",
+	"appUpgrade": "App upgrade",
+	"upgrade": "UPGRADE",
+	"upgradeDialogDenyActionLabel": "NO, THANKS",
+	"upgradeDialogMessage": "Version {newVersion} is available.\nWould you like to upgrade now?",
+	"@upgradeDialogMessage": {
+		"placeholders": {
+			"newVersion": {
+				"type": "String"
+			}
+		}
+	},
+	"checkForUpdate": "Check for update",
+	"appUpToDate": "App is up to date",
+	"currentVersion": "Current version",
+	"clickToUpdate": "Latest version is {latestVersion}, click to update!",
+	"@clickToUpdate": {
+		"placeholders": {
+			"latestVersion": {
+				"type": "String"
+			}
+		}
+	},
+	"tutorialTitle": "Tutorial",
+	"longPressManageList": "Long press to manage your list",
+	"slideLeftMarkWatched": "Slide left to mark as watched",
+	"gesture": "Gesture",
+	"watching": "Watching",
+	"planning": "Planning",
+	"completed": "Completed",
+	"dropped": "Dropped",
+	"reading": "Reading"
 }

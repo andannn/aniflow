@@ -22,54 +22,59 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
 
   /// upsert activities and ignore user and media if conflict.
   Future upsertActivityEntities(List<ActivityAndUserRelation> entities) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        activityTable,
-        entities.map((e) => e.activity),
-      );
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          activityTable,
+          entities.map((e) => e.activity),
+        );
 
-      batch.insertAll(
-        userTable,
-        entities.map((e) => e.user).whereNotNull(),
-        mode: InsertMode.insertOrIgnore,
-      );
+        batch.insertAll(
+          userTable,
+          entities.map((e) => e.user).whereNotNull(),
+          mode: InsertMode.insertOrIgnore,
+        );
 
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
-      );
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
+        );
+      });
     });
   }
 
   /// upsert activities and ignore user and media if conflict.
   Future upsertActivityEntitiesWithCategory(
       List<ActivityAndUserRelation> entities, String category) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        activityFilterTypePagingCrossRefTable,
-        entities.map(
-          (e) => ActivityFilterTypePagingCrossRefTableCompanion.insert(
-            activityId: e.activity.id,
-            category: category,
+    return attachedDatabase.transaction(() async {
+      await batch((batch) {
+        batch.insertAll(
+          activityFilterTypePagingCrossRefTable,
+          entities.map(
+            (e) => ActivityFilterTypePagingCrossRefTableCompanion.insert(
+              activityId: e.activity.id,
+              category: category,
+            ),
           ),
-        ),
-      );
+          mode: InsertMode.replace,
+        );
 
-      batch.insertAllOnConflictUpdate(
-        activityTable,
-        entities.map((e) => e.activity),
-      );
+        batch.insertAllOnConflictUpdate(
+          activityTable,
+          entities.map((e) => e.activity),
+        );
 
-      batch.insertAll(
-        userTable,
-        entities.map((e) => e.user).whereNotNull(),
-        mode: InsertMode.insertOrIgnore,
-      );
+        batch.insertAll(
+          userTable,
+          entities.map((e) => e.user).whereNotNull(),
+          mode: InsertMode.insertOrIgnore,
+        );
 
-      batch.insertAllOnConflictUpdate(
-        mediaTable,
-        entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
-      );
+        batch.insertAllOnConflictUpdate(
+          mediaTable,
+          entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
+        );
+      });
     });
   }
 
@@ -102,9 +107,11 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future clearActivityEntities(String category) {
-    return (delete(activityFilterTypePagingCrossRefTable)
-          ..where((t) => t.category.equals(category)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      await (delete(activityFilterTypePagingCrossRefTable)
+            ..where((t) => t.category.equals(category)))
+          .go();
+    });
   }
 
   Future<ActivityAndUserRelation> getActivity(String id) {
@@ -139,10 +146,14 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future updateActivityStatus(String id, (int, int, bool) record) {
-    return (update(activityTable)..where((t) => t.id.equals(id))).write(
+    return attachedDatabase.transaction(() async {
+      return (update(activityTable)..where((t) => t.id.equals(id))).write(
         ActivityTableCompanion(
-            likeCount: Value(record.$1),
-            replyCount: Value(record.$2),
-            isLiked: Value(record.$3)));
+          likeCount: Value(record.$1),
+          replyCount: Value(record.$2),
+          isLiked: Value(record.$3),
+        ),
+      );
+    });
   }
 }

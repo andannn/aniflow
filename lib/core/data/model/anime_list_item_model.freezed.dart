@@ -27,9 +27,10 @@ mixin _$MediaListItemModel {
   String? get notes => throw _privateConstructorUsedError;
   int? get repeat => throw _privateConstructorUsedError;
   bool get private => throw _privateConstructorUsedError;
-  MediaModel? get animeModel => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaListItemModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MediaListItemModelCopyWith<MediaListItemModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,10 +52,7 @@ abstract class $MediaListItemModelCopyWith<$Res> {
       DateTime? completedAt,
       String? notes,
       int? repeat,
-      bool private,
-      MediaModel? animeModel});
-
-  $MediaModelCopyWith<$Res>? get animeModel;
+      bool private});
 }
 
 /// @nodoc
@@ -67,6 +65,8 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MediaListItemModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,7 +81,6 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
     Object? notes = freezed,
     Object? repeat = freezed,
     Object? private = null,
-    Object? animeModel = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -128,23 +127,7 @@ class _$MediaListItemModelCopyWithImpl<$Res, $Val extends MediaListItemModel>
           ? _value.private
           : private // ignore: cast_nullable_to_non_nullable
               as bool,
-      animeModel: freezed == animeModel
-          ? _value.animeModel
-          : animeModel // ignore: cast_nullable_to_non_nullable
-              as MediaModel?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MediaModelCopyWith<$Res>? get animeModel {
-    if (_value.animeModel == null) {
-      return null;
-    }
-
-    return $MediaModelCopyWith<$Res>(_value.animeModel!, (value) {
-      return _then(_value.copyWith(animeModel: value) as $Val);
-    });
   }
 }
 
@@ -167,11 +150,7 @@ abstract class _$$MediaListItemModelImplCopyWith<$Res>
       DateTime? completedAt,
       String? notes,
       int? repeat,
-      bool private,
-      MediaModel? animeModel});
-
-  @override
-  $MediaModelCopyWith<$Res>? get animeModel;
+      bool private});
 }
 
 /// @nodoc
@@ -182,6 +161,8 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
       $Res Function(_$MediaListItemModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MediaListItemModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -196,7 +177,6 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
     Object? notes = freezed,
     Object? repeat = freezed,
     Object? private = null,
-    Object? animeModel = freezed,
   }) {
     return _then(_$MediaListItemModelImpl(
       id: null == id
@@ -243,10 +223,6 @@ class __$$MediaListItemModelImplCopyWithImpl<$Res>
           ? _value.private
           : private // ignore: cast_nullable_to_non_nullable
               as bool,
-      animeModel: freezed == animeModel
-          ? _value.animeModel
-          : animeModel // ignore: cast_nullable_to_non_nullable
-              as MediaModel?,
     ));
   }
 }
@@ -265,8 +241,7 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
       this.completedAt,
       this.notes,
       this.repeat,
-      this.private = false,
-      this.animeModel});
+      this.private = false});
 
   @override
   @JsonKey()
@@ -292,12 +267,10 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
   @override
   @JsonKey()
   final bool private;
-  @override
-  final MediaModel? animeModel;
 
   @override
   String toString() {
-    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, progressVolumes: $progressVolumes, startedAt: $startedAt, completedAt: $completedAt, notes: $notes, repeat: $repeat, private: $private, animeModel: $animeModel)';
+    return 'MediaListItemModel(id: $id, status: $status, score: $score, updatedAt: $updatedAt, progress: $progress, progressVolumes: $progressVolumes, startedAt: $startedAt, completedAt: $completedAt, notes: $notes, repeat: $repeat, private: $private)';
   }
 
   @override
@@ -320,9 +293,7 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
                 other.completedAt == completedAt) &&
             (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.repeat, repeat) || other.repeat == repeat) &&
-            (identical(other.private, private) || other.private == private) &&
-            (identical(other.animeModel, animeModel) ||
-                other.animeModel == animeModel));
+            (identical(other.private, private) || other.private == private));
   }
 
   @override
@@ -338,10 +309,11 @@ class _$MediaListItemModelImpl implements _MediaListItemModel {
       completedAt,
       notes,
       repeat,
-      private,
-      animeModel);
+      private);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MediaListItemModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MediaListItemModelImplCopyWith<_$MediaListItemModelImpl> get copyWith =>
@@ -361,8 +333,7 @@ abstract class _MediaListItemModel implements MediaListItemModel {
       final DateTime? completedAt,
       final String? notes,
       final int? repeat,
-      final bool private,
-      final MediaModel? animeModel}) = _$MediaListItemModelImpl;
+      final bool private}) = _$MediaListItemModelImpl;
 
   @override
   String get id;
@@ -386,10 +357,11 @@ abstract class _MediaListItemModel implements MediaListItemModel {
   int? get repeat;
   @override
   bool get private;
+
+  /// Create a copy of MediaListItemModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  MediaModel? get animeModel;
-  @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MediaListItemModelImplCopyWith<_$MediaListItemModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

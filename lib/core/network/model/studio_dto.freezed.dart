@@ -31,8 +31,12 @@ mixin _$StudioDto {
   @JsonKey(name: 'isFavourite')
   bool get isFavourite => throw _privateConstructorUsedError;
 
+  /// Serializes this StudioDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StudioDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StudioDtoCopyWith<StudioDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$StudioDtoCopyWithImpl<$Res, $Val extends StudioDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StudioDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,6 +124,8 @@ class __$$StudioDtoImplCopyWithImpl<$Res>
       _$StudioDtoImpl _value, $Res Function(_$StudioDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StudioDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -200,12 +208,14 @@ class _$StudioDtoImpl implements _StudioDto {
                 other.isFavourite == isFavourite));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, name, siteUrl, isAnimationStudio, isFavourite);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StudioDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StudioDtoImplCopyWith<_$StudioDtoImpl> get copyWith =>
@@ -245,8 +255,11 @@ abstract class _StudioDto implements StudioDto {
   @override
   @JsonKey(name: 'isFavourite')
   bool get isFavourite;
+
+  /// Create a copy of StudioDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StudioDtoImplCopyWith<_$StudioDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

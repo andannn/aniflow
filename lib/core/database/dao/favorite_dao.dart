@@ -21,17 +21,19 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase>
 
   Future insertFavoritesCrossRef(
       String userId, FavoriteType type, List<String> ids) {
-    return batch((batch) {
-      batch.insertAllOnConflictUpdate(
-        favoriteInfoTable,
-        ids.map(
-          (id) => FavoriteInfoTableCompanion. insert(
-            favoriteType: type.contentValues,
-            infoId: id,
-            userId: userId,
+    return attachedDatabase.transaction(() async {
+      return batch((batch) {
+        batch.insertAllOnConflictUpdate(
+          favoriteInfoTable,
+          ids.map(
+            (id) => FavoriteInfoTableCompanion.insert(
+              favoriteType: type.contentValues,
+              infoId: id,
+              userId: userId,
+            ),
           ),
-        ),
-      );
+        );
+      });
     });
   }
 
@@ -87,10 +89,12 @@ class FavoriteDao extends DatabaseAccessor<AniflowDatabase>
   }
 
   Future clearFavorites(String userId, FavoriteType type) {
-    return (delete(favoriteInfoTable)
-          ..where((tbl) =>
-              favoriteInfoTable.userId.equals(userId) &
-              favoriteInfoTable.favoriteType.equals(type.contentValues)))
-        .go();
+    return attachedDatabase.transaction(() async {
+      return (delete(favoriteInfoTable)
+            ..where((tbl) =>
+                favoriteInfoTable.userId.equals(userId) &
+                favoriteInfoTable.favoriteType.equals(type.contentValues)))
+          .go();
+    });
   }
 }

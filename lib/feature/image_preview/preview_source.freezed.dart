@@ -23,8 +23,12 @@ mixin _$PreviewSource {
   String get imageUrl => throw _privateConstructorUsedError;
   String? get savedFileTitle => throw _privateConstructorUsedError;
 
+  /// Serializes this PreviewSource to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PreviewSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PreviewSourceCopyWith<PreviewSource> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$PreviewSourceCopyWithImpl<$Res, $Val extends PreviewSource>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PreviewSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$PreviewSourceImplCopyWithImpl<$Res>
       _$PreviewSourceImpl _value, $Res Function(_$PreviewSourceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PreviewSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,11 +142,13 @@ class _$PreviewSourceImpl implements _PreviewSource {
                 other.savedFileTitle == savedFileTitle));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, imageUrl, savedFileTitle);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PreviewSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PreviewSourceImplCopyWith<_$PreviewSourceImpl> get copyWith =>
@@ -164,8 +174,11 @@ abstract class _PreviewSource implements PreviewSource {
   String get imageUrl;
   @override
   String? get savedFileTitle;
+
+  /// Create a copy of PreviewSource
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PreviewSourceImplCopyWith<_$PreviewSourceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

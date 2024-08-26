@@ -5,8 +5,7 @@
 
 version: 2
 updates:
-  - package-ecosystem: "flutter"
-    directory: "/"
+  - package-ecosystem: "pub" # See documentation for possible values
+    directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 5

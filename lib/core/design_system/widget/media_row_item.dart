@@ -4,7 +4,7 @@ import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
-import 'package:aniflow/core/design_system/icons/icons.dart';
+import 'package:aniflow/core/design_system/assets/icons.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,7 @@ class MediaRowItem extends StatelessWidget {
     required this.model,
     required this.language,
     this.onClick,
-    this.watchInfoTextColor,
-    this.watchingInfo,
+    this.centerWidget,
     super.key,
     this.titleMaxLines = 2,
     this.showNewBadge = false,
@@ -23,10 +22,9 @@ class MediaRowItem extends StatelessWidget {
 
   final MediaModel model;
   final bool showNewBadge;
-  final String? watchingInfo;
+  final Widget? centerWidget;
   final VoidCallback? onClick;
   final VoidCallback? onLongPress;
-  final Color? watchInfoTextColor;
   final int? titleMaxLines;
   final UserTitleLanguage language;
 
@@ -47,11 +45,14 @@ class MediaRowItem extends StatelessWidget {
               // this height value will no take effect because we have set the IntrinsicHeight
               height: 1,
               width: 85,
-              child: AFNetworkImage(
-                imageUrl: model.coverImage?.large ?? '',
+              child: Card.filled(
+                clipBehavior: Clip.antiAlias,
+                child: AFNetworkImage(
+                  imageUrl: model.coverImage?.large ?? '',
+                ),
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 8),
             Expanded(
               flex: 1,
               child: Stack(
@@ -61,25 +62,28 @@ class MediaRowItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 4),
-                      Text(
-                        model.title!.getTitle(language),
-                        style: textTheme.titleMedium
-                            ?.copyWith(color: surfaceTextColor),
-                        maxLines: titleMaxLines,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Text(
+                          model.title?.getTitle(language) ?? '',
+                          style: textTheme.titleMedium
+                              ?.copyWith(color: surfaceTextColor),
+                          maxLines: titleMaxLines,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const SizedBox(height: 16),
-                      watchingInfo != null
-                          ? Text(
-                              watchingInfo!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(color: watchInfoTextColor),
-                            )
-                          : const SizedBox(),
+                      centerWidget ?? const SizedBox(),
+                          // ? Text(
+                          //     centerWidget!,
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .labelLarge
+                          //         ?.copyWith(color: watchInfoTextColor),
+                          //   )
                       const SizedBox(height: 16),
                       Text(
-                        model.getAnimeInfoString(context),
+                        model.getMediaInfoString(context),
                         style: textTheme.bodySmall
                             ?.copyWith(color: surfaceTextColor),
                       ),
@@ -93,7 +97,7 @@ class MediaRowItem extends StatelessWidget {
                       child: SizedBox.square(
                         dimension: 36,
                         child: Image.asset(
-                          ATIcons.icNewBadge,
+                          AfIcons.icNewBadge,
                           color: Colors.red,
                         ),
                       ),

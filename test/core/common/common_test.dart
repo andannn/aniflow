@@ -1,6 +1,12 @@
+import 'package:aniflow/core/background_task/executors/post_anilist_notification_task_executor.dart';
 import 'package:aniflow/core/common/state_stream.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/time_util.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/notification_model.dart';
+import 'package:aniflow/core/network/util/date_time_util.dart';
+import 'package:aniflow/core/notification/notification_channel.dart';
+import 'package:aniflow/feature/airing_schedule/movie_schedule_time_line/month_schedule_category.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -46,6 +52,39 @@ void main() {
           });
 
       expect(stream.value, equals(0));
+    });
+
+    test('date_time_to_fuzzy_int', () async {
+      expect(DateTime(2024, 1, 1).toFuzzyDateInt(), equals('20240101'));
+      expect(DateTime(2024, 12, 11).toFuzzyDateInt(), equals('20241211'));
+    });
+
+    test('date_time_to_fuzzy_int', () async {
+      final result = [
+        MediaModel(id: '1', startDate: DateTime(2023, 1, 1)),
+        MediaModel(id: '2', startDate: DateTime(2024, 1, 23)),
+        MediaModel(id: '3', startDate: DateTime(2024, 1, 13)),
+      ].toScheduleCategory();
+      expect(result.length, equals(2));
+    });
+
+    test('date_time_to_fuzzy_int', () async {
+      expect(
+        PostAnilistNotificationExecutor.isAvailableNotification(
+            AiringNotification, [AiredNotificationChannel()]),
+        equals(true),
+      );
+      expect(
+        PostAnilistNotificationExecutor.isAvailableNotification(
+            MediaDeletionNotification, [AiredNotificationChannel()]),
+        equals(false),
+      );
+      expect(
+        PostAnilistNotificationExecutor.isAvailableNotification(
+            FollowNotification,
+            [AiredNotificationChannel(), NewFollowerNotificationChannel()]),
+        equals(true),
+      );
     });
   });
 }

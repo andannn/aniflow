@@ -9,7 +9,7 @@ void main() {
     late UserDao dao;
 
     setUp(() async {
-      db = AniflowDatabase.test(NativeDatabase.memory());
+      db = AniflowDatabase(NativeDatabase.memory());
       dao = db.userDao;
     });
 
@@ -25,11 +25,11 @@ void main() {
     });
 
     test('stream emits a new user when the name updates', () async {
-      await dao.upsertUser(const UserEntity(id: '1', name: 'name'));
       final expectation = expectLater(
         dao.getUserStream('1').map((event) => event?.name),
         emitsInOrder(['name', 'AAA']),
       );
+      await dao.upsertUser(const UserEntity(id: '1', name: 'name'));
 
       await dao.upsertUser(const UserEntity(id: '1', name: 'AAA'));
       await expectation;

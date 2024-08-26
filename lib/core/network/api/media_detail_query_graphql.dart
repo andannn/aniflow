@@ -45,6 +45,7 @@ query (\$id: Int) {
       medium
       color
     }
+    format
     bannerImage
     averageScore
     favourites

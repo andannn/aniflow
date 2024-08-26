@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
 import 'package:aniflow/feature/image_preview/preview_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -28,26 +29,6 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
     required String id,
   }) = FavoriteMangaListPath;
 
-  const factory AniFlowRoutePath.watchingAnimeList({
-    required String id,
-  }) = WatchingAnimeListPath;
-
-  const factory AniFlowRoutePath.completedCompletedList({
-    required String id,
-  }) = CompletedAnimeListPath;
-
-  const factory AniFlowRoutePath.droppedCompletedList({
-    required String id,
-  }) = DroppedAnimeListPath;
-
-  const factory AniFlowRoutePath.readingMangaList({
-    required String id,
-  }) = ReadingMangaListPath;
-
-  const factory AniFlowRoutePath.droppedMangaList({
-    required String id,
-  }) = DroppedMangaListPath;
-
   const factory AniFlowRoutePath.userProfile({
     required String id,
   }) = UserProfileRoutePath;
@@ -76,7 +57,9 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
     required String id,
   }) = DetailStaffPath;
 
-  const factory AniFlowRoutePath.airingSchedule() = AiringScheduleRoutePath;
+  const factory AniFlowRoutePath.airingSchedule({
+    required ScheduleType type,
+  }) = AiringScheduleRoutePath;
 
   const factory AniFlowRoutePath.notification() = NotificationRoutePath;
 
@@ -93,8 +76,11 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
   }) = ImagePreviewRoutePath;
 
   const factory AniFlowRoutePath.mediaListUpdate({
-    required String mediaListId,
+    required String mediaId,
+    required String from,
   }) = MediaListUpdateRoutePath;
+
+  const factory AniFlowRoutePath.settings() = SettingsRoutePath;
 
   const factory AniFlowRoutePath.birthdayCharacterPage() =
       BirthdayCharacterPagePath;

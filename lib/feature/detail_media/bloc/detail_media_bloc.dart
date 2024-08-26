@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
-import 'package:aniflow/core/common/message/message.dart';
+import 'package:aniflow/core/common/message/snack_bar_message.dart';
+import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -10,9 +11,11 @@ import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
+import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
+import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
@@ -33,6 +36,12 @@ class _OnMediaListItemChanged extends DetailAnimeEvent {
   _OnMediaListItemChanged({required this.mediaListItemModel});
 
   final MediaListItemModel? mediaListItemModel;
+}
+
+class _OnHiAnimationEnabledChanged extends DetailAnimeEvent {
+  _OnHiAnimationEnabledChanged({required this.enabled});
+
+  final bool enabled;
 }
 
 class OnMediaListModified extends DetailAnimeEvent {
@@ -108,8 +117,21 @@ class Error<T> extends LoadingState<T> {
   Error(this.exception, this.searchUrl);
 }
 
+extension DetailMediaUiStateEx on DetailMediaUiState {
+  bool get hasNextReleasedEpisode {
+    if (mediaListItem == null) return false;
+    if (detailAnimeModel == null) return false;
+
+    return MediaWithListModel(
+      mediaModel: detailAnimeModel!,
+      mediaListModel: mediaListItem,
+    ).hasNextReleasedEpisode;
+  }
+}
+
 @injectable
-class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
+class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
+    with AutoCancelMixin {
   DetailMediaBloc(
     @factoryParam this.mediaId,
     this._authRepository,
@@ -120,10 +142,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     this._hiAnimationRepository,
     this._messageRepository,
   ) : super(DetailMediaUiState(
-          userTitleLanguage: _userDataRepository.userData.userTitleLanguage,
-          userStaffNameLanguage:
-              _userDataRepository.userData.userStaffNameLanguage,
-          scoreFormat: _userDataRepository.userData.scoreFormat,
+          userTitleLanguage: _userDataRepository.userTitleLanguage,
+          userStaffNameLanguage: _userDataRepository.userStaffNameLanguage,
+          scoreFormat: _userDataRepository.scoreFormat,
         )) {
     on<_OnDetailAnimeModelChangedEvent>(
       (event, emit) => emit(state.copyWith(detailAnimeModel: event.model)),
@@ -131,6 +152,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     on<_OnMediaListItemChanged>(
       (event, emit) =>
           emit(state.copyWith(mediaListItem: event.mediaListItemModel)),
+    );
+    on<_OnHiAnimationEnabledChanged>(
+      (event, emit) =>
+          emit(state.copyWith(isHiAnimationFeatureEnabled: event.enabled)),
     );
     on<OnMediaListModified>(_onMediaListModified);
     on<OnToggleFavoriteState>(_onToggleFavoriteState);
@@ -163,31 +188,39 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   HiAnimationSource? _hiAnimationSource;
 
-  StreamSubscription? _detailAnimeSub;
-  StreamSubscription? _isTrackingSub;
+  StreamSubscription? _isHiAnimationEnabledSub;
 
   CancelToken? _toggleFavoriteCancelToken;
   CancelToken? _networkActionCancelToken;
   CancelToken? _findPlaySourceCancelToken;
 
   void _init() async {
-    _detailAnimeSub = _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
-      (animeModel) {
-        add(_OnDetailAnimeModelChangedEvent(model: animeModel));
-      },
+    autoCancel(
+      () => _mediaRepository.getDetailMediaInfoStream(mediaId).listen(
+        (animeModel) {
+          safeAdd(_OnDetailAnimeModelChangedEvent(model: animeModel));
+        },
+      ),
     );
 
     final userData = await _authRepository.getAuthedUserStream().first;
     if (userData != null) {
-      _isTrackingSub = _mediaListRepository
-          .getMediaListItemByUserAndIdStream(
-              userId: userData.id, animeId: mediaId)
-          .listen(
-        (item) {
-          add(_OnMediaListItemChanged(mediaListItemModel: item));
-        },
+      autoCancel(
+        () => _mediaListRepository
+            .getMediaListItemByUserAndIdStream(
+                userId: userData.id, animeId: mediaId)
+            .listen(
+          (item) {
+            safeAdd(_OnMediaListItemChanged(mediaListItemModel: item));
+          },
+        ),
       );
     }
+
+    _isHiAnimationEnabledSub =
+        _userDataRepository.isHiAnimationFeatureEnabledStream.listen((enabled) {
+      safeAdd(_OnHiAnimationEnabledChanged(enabled: enabled));
+    });
 
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
@@ -200,9 +233,11 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     final progress = change.nextState.mediaListItem?.progress;
     final title = change.nextState.detailAnimeModel?.title;
 
-    if (progress != null && title != null) {
+    if (change.nextState.isHiAnimationFeatureEnabled &&
+        progress != null &&
+        title != null) {
       final hasNextReleasingEpisode =
-          change.nextState.mediaListItem?.hasNextReleasedEpisode == true;
+          change.nextState.hasNextReleasedEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
       final animeId = change.nextState.detailAnimeModel!.id;
       if (nextProgress != null) {
@@ -221,12 +256,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
 
   @override
   Future<void> close() {
-    _detailAnimeSub?.cancel();
-    _isTrackingSub?.cancel();
-
     _toggleFavoriteCancelToken?.cancel();
     _networkActionCancelToken?.cancel();
     _findPlaySourceCancelToken?.cancel();
+    _isHiAnimationEnabledSub?.cancel();
 
     return super.close();
   }
@@ -235,7 +268,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
     _networkActionCancelToken?.cancel();
     _networkActionCancelToken = CancelToken();
 
-    add(_OnLoadingStateChanged(isLoading: true));
+    safeAdd(_OnLoadingStateChanged(isLoading: true));
     final resultList = await Future.wait([
       _mediaRepository.startFetchDetailAnimeInfo(
         id: mediaId,
@@ -243,11 +276,11 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       ),
       _mediaListRepository.syncMediaListItem(
         mediaId: mediaId,
-        format: _userDataRepository.userData.scoreFormat,
+        format: _userDataRepository.scoreFormat,
         token: _networkActionCancelToken,
       ),
     ]);
-    add(_OnLoadingStateChanged(isLoading: false));
+    safeAdd(_OnLoadingStateChanged(isLoading: false));
 
     final fetchDetailResult = resultList[0];
     final syncListResult = resultList[1];
@@ -263,7 +296,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       OnMediaListModified event, Emitter<DetailMediaUiState> emit) async {
     final state = event.result;
 
-    add(_OnLoadingStateChanged(isLoading: true));
+    safeAdd(_OnLoadingStateChanged(isLoading: true));
     final result = await _mediaListRepository.updateMediaList(
       animeId: mediaId,
       status: state.status,
@@ -276,7 +309,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       startedAt: state.startedAt,
       completedAt: state.completedAt,
     );
-    add(_OnLoadingStateChanged(isLoading: false));
+    safeAdd(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
       final message =
@@ -308,7 +341,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
       _hiAnimationSource = source;
       _findPlaySourceCancelToken?.cancel();
       _findPlaySourceCancelToken = CancelToken();
-      add(_OnStartFindSource());
+      safeAdd(_OnStartFindSource());
       final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
         source.animeId,
         source.keywords,
@@ -320,10 +353,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
         case LoadError<Episode>(exception: final exception):
           logger.d('findPlaySource failed ${result.exception}');
           if (exception is NotFoundEpisodeException) {
-            add(_OnFindEpisodeError(
+            safeAdd(_OnFindEpisodeError(
                 exception: result.exception, searchUrl: exception.searchUrl));
           } else {
-            add(_OnFindEpisodeError(exception: result.exception));
+            safeAdd(_OnFindEpisodeError(exception: result.exception));
           }
 
           final message =
@@ -333,7 +366,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
           }
         case LoadSuccess<Episode>():
           logger.d('findPlaySource success ${result.data}');
-          add(_OnEpisodeFound(episode: result.data));
+          safeAdd(_OnEpisodeFound(episode: result.data));
       }
     }
   }
@@ -344,23 +377,22 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState> {
   ) async {
     logger.d('_onMarkWatchedClick.');
     final listItem = state.mediaListItem;
-    if (listItem == null) {
-      logger.d('_onMarkWatchedClick. listItem is null.');
+    final anime = state.detailAnimeModel;
+    if (listItem == null || anime == null) {
+      logger.d('_onMarkWatchedClick. listItem $listItem, anime $anime.');
       return;
     }
 
     final currentProgress = listItem.progress ?? 0;
     final nextEpisode = currentProgress + 1;
-    final isFinished = nextEpisode == listItem.animeModel?.episodes;
+    final isFinished = nextEpisode == anime.episodes;
     final MediaListStatus status =
         isFinished ? MediaListStatus.completed : MediaListStatus.current;
 
-    add(_OnLoadingStateChanged(isLoading: true));
+    safeAdd(_OnLoadingStateChanged(isLoading: true));
     final result = await _mediaListRepository.updateMediaList(
-        animeId: listItem.animeModel!.id,
-        status: status,
-        progress: nextEpisode);
-    add(_OnLoadingStateChanged(isLoading: false));
+        animeId: anime.id, status: status, progress: nextEpisode);
+    safeAdd(_OnLoadingStateChanged(isLoading: false));
 
     if (result is LoadError) {
       final message =

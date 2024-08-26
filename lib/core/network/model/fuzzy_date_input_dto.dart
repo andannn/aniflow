@@ -16,14 +16,3 @@ class FuzzyDateInputDto extends AniNotification with _$FuzzyDateInputDto {
   factory FuzzyDateInputDto.fromJson(Map<String, dynamic> json) =>
       _$$FuzzyDateInputDtoImplFromJson(json);
 }
-
-extension DateTimeEx on DateTime? {
-  FuzzyDateInputDto? toFuzzyDateInput() {
-    final date = this;
-    if (date == null) {
-      return null;
-    }
-
-    return FuzzyDateInputDto(year: date.year, month: date.month, day: date.day);
-  }
-}

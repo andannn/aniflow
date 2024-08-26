@@ -34,8 +34,12 @@ mixin _$FollowingNotificationDto {
   @JsonKey(name: 'user')
   UserDto? get user => throw _privateConstructorUsedError;
 
+  /// Serializes this FollowingNotificationDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FollowingNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FollowingNotificationDtoCopyWith<FollowingNotificationDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,6 +72,8 @@ class _$FollowingNotificationDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FollowingNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +112,8 @@ class _$FollowingNotificationDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FollowingNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserDtoCopyWith<$Res>? get user {
@@ -150,6 +158,8 @@ class __$$FollowingNotificationDtoImplCopyWithImpl<$Res>
       $Res Function(_$FollowingNotificationDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FollowingNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -241,12 +251,14 @@ class _$FollowingNotificationDtoImpl implements _FollowingNotificationDto {
             (identical(other.user, user) || other.user == user));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, type, userId, context, createdAt, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FollowingNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FollowingNotificationDtoImplCopyWith<_$FollowingNotificationDtoImpl>
@@ -292,8 +304,11 @@ abstract class _FollowingNotificationDto implements FollowingNotificationDto {
   @override
   @JsonKey(name: 'user')
   UserDto? get user;
+
+  /// Create a copy of FollowingNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FollowingNotificationDtoImplCopyWith<_$FollowingNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

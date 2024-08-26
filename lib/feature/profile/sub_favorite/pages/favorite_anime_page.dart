@@ -10,7 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class FavoriteAnimeListPage extends Page {
-  const FavoriteAnimeListPage({super.key, required this.userId});
+  const FavoriteAnimeListPage(
+      {super.key, required this.userId, super.onPopInvoked});
 
   final String userId;
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:aniflow/core/database/dao/activity_dao.dart';
 import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
@@ -12,7 +11,6 @@ import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/drift_schemas/schema_versions.dart';
-import 'package:aniflow/core/database/intercepters/log_interceptor.dart';
 import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/activity_table.dart';
 import 'package:aniflow/core/database/tables/airing_schedule_table.dart';
@@ -33,11 +31,6 @@ import 'package:aniflow/core/database/tables/studio_media_cross_reference_table.
 import 'package:aniflow/core/database/tables/studio_table.dart';
 import 'package:aniflow/core/database/tables/user_table.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-import 'package:sqlite3/sqlite3.dart';
-import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 part 'aniflow_database.g.dart';
 
@@ -77,12 +70,10 @@ part 'aniflow_database.g.dart';
   ],
 )
 class AniflowDatabase extends _$AniflowDatabase {
-  AniflowDatabase() : super(_openConnection());
-
-  AniflowDatabase.test(super.executor);
+  AniflowDatabase(super.executor);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 6;
 
   @override
   DriftDatabaseOptions get options =>
@@ -133,32 +124,33 @@ class AniflowDatabase extends _$AniflowDatabase {
             ),
           );
         },
+        from4To5: (Migrator m, Schema5 schema) async {
+          await delete(mediaTable).go();
+          await m.addColumn(
+            schema.mediaTable,
+            schema.mediaTable.format,
+          );
+          await m.alterTable(
+            TableMigration(
+              mediaTable,
+              columnTransformer: {
+                mediaTable.startDate: mediaTable.startDate.cast<DateTime>(),
+                mediaTable.endDate: mediaTable.endDate.cast<DateTime>(),
+              },
+            ),
+          );
+        },
+        from5To6: (Migrator m, Schema6 schema) async {
+          await m.addColumn(
+            schema.mediaTable,
+            schema.mediaTable.siteUrl,
+          );
+          await m.addColumn(
+            schema.userTable,
+            schema.userTable.siteUrl,
+          );
+        },
       ),
     );
   }
-}
-
-LazyDatabase _openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
-  return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db1.sqlite'));
-
-    // Also work around limitations on old Android versions
-    if (Platform.isAndroid) {
-      await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
-    }
-
-    // Make sqlite3 pick a more suitable location for temporary files - the
-    // one from the system may be inaccessible due to sandboxing.
-    final cachebase = (await getTemporaryDirectory()).path;
-    // We can't access /tmp on Android, which sqlite3 would try by default.
-    // Explicitly tell it about the correct temporary directory.
-    sqlite3.tempDirectory = cachebase;
-
-    return NativeDatabase.createInBackground(file)
-        .interceptWith(LogInterceptor());
-  });
 }

@@ -39,8 +39,12 @@ mixin _$ActivityReplySubscribedNotificationDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   AniActivity? get activity => throw _privateConstructorUsedError;
 
+  /// Serializes this ActivityReplySubscribedNotificationDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ActivityReplySubscribedNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ActivityReplySubscribedNotificationDtoCopyWith<
           ActivityReplySubscribedNotificationDto>
       get copyWith => throw _privateConstructorUsedError;
@@ -79,6 +83,8 @@ class _$ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ActivityReplySubscribedNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,6 +133,8 @@ class _$ActivityReplySubscribedNotificationDtoCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of ActivityReplySubscribedNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserDtoCopyWith<$Res>? get user {
@@ -174,6 +182,8 @@ class __$$ActivityReplySubscribedNotificationDtoImplCopyWithImpl<$Res>
       $Res Function(_$ActivityReplySubscribedNotificationDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ActivityReplySubscribedNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -289,12 +299,14 @@ class _$ActivityReplySubscribedNotificationDtoImpl
                 other.activity == activity));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, userId, activityId,
       context, createdAt, user, activity);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ActivityReplySubscribedNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityReplySubscribedNotificationDtoImplCopyWith<
@@ -353,8 +365,11 @@ abstract class _ActivityReplySubscribedNotificationDto
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   AniActivity? get activity;
+
+  /// Create a copy of ActivityReplySubscribedNotificationDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityReplySubscribedNotificationDtoImplCopyWith<
           _$ActivityReplySubscribedNotificationDtoImpl>
       get copyWith => throw _privateConstructorUsedError;

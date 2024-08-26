@@ -1,3 +1,5 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
+import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
@@ -13,47 +15,51 @@ import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_pag
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
-import 'package:aniflow/feature/profile/sub_media_list/bloc/anime_list_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_media_list/bloc/manga_list_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
+import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class ProfilePage extends Page {
-  const ProfilePage({
-    this.userId,
-    super.key,
-    this.showBackKey = false,
-  });
+  const ProfilePage(
+      {this.userId,
+      super.key,
+      this.isFullScreenPageRoute = false,
+      super.onPopInvoked});
 
   final String? userId;
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Route createRoute(BuildContext context) {
     return ProfileRoute(
-        settings: this, userId: userId, showBackKey: showBackKey);
+        settings: this,
+        userId: userId,
+        isFullScreenPageRoute: isFullScreenPageRoute);
   }
 }
 
 class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   ProfileRoute(
-      {required this.userId, required this.showBackKey, super.settings})
+      {required this.userId,
+      required this.isFullScreenPageRoute,
+      super.settings})
       : super(allowSnapshotting: false);
 
   final String? userId;
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Widget buildContent(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => GetIt.instance.get<ProfileBloc>(
+        create: (BuildContext context) =>
+            GetItScope.of(context).get<ProfileBloc>(
               param1: userId,
             ),
-        child: _ProfilePageContent(showBackKey: showBackKey));
+        child:
+            _ProfilePageContent(isFullScreenPageRoute: isFullScreenPageRoute));
   }
 
   @override
@@ -61,9 +67,9 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _ProfilePageContent extends StatelessWidget {
-  const _ProfilePageContent({required this.showBackKey});
+  const _ProfilePageContent({required this.isFullScreenPageRoute});
 
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -78,83 +84,67 @@ class _ProfilePageContent extends StatelessWidget {
             providers: [
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteAnimePagingBloc>(
+                    GetItScope.of(context).get<FavoriteAnimePagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteMangaPagingBloc>(
+                    GetItScope.of(context).get<FavoriteMangaPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteCharacterPagingBloc>(
+                    GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<FavoriteStaffPagingBloc>(
+                    GetItScope.of(context).get<FavoriteStaffPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<WatchingAnimeListPagingBloc>(
+                    GetItScope.of(context).get<StatsBloc>(
+                  param1: userState.id,
+                )..loadingStateRepository = loadingStateRepository,
+              ),
+              BlocProvider(
+                create: (BuildContext context) =>
+                    GetItScope.of(context).get<UserActivityPagingBloc>(
                   param1: userState.id,
                   param2: AfConfig.profilePageDefaultPerPageCount,
                 )..loadingStateRepository = loadingStateRepository,
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<DroppedAnimeListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
+                    GetItScope.of(context).get<ProfileAnimeListBloc>(
+                  param1: ProfileMediaListParam(
+                    userId: userState.id,
+                    mediaType: MediaType.anime,
+                  ),
+                ),
               ),
               BlocProvider(
                 create: (BuildContext context) =>
-                    GetIt.instance.get<CompleteAnimeListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<ReadingMangaListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<DroppedMangaListPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) => GetIt.instance.get<StatsBloc>(
-                  param1: userState.id,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetIt.instance.get<UserActivityPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
+                    GetItScope.of(context).get<ProfileMangaListBloc>(
+                  param1: ProfileMediaListParam(
+                    userId: userState.id,
+                    mediaType: MediaType.manga,
+                  ),
+                ),
               ),
             ],
             child: _UserProfile(
               userState: userState,
-              showBackKey: showBackKey,
+              isFullScreenPageRoute: isFullScreenPageRoute,
             ),
           );
         }
@@ -164,10 +154,11 @@ class _ProfilePageContent extends StatelessWidget {
 }
 
 class _UserProfile extends StatefulWidget {
-  const _UserProfile({required this.userState, required this.showBackKey});
+  const _UserProfile(
+      {required this.userState, required this.isFullScreenPageRoute});
 
   final UserModel userState;
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   State<_UserProfile> createState() => _UserProfileState();
@@ -202,7 +193,7 @@ class _UserProfileState extends State<_UserProfile>
               sliver: SliverPersistentHeader(
                 delegate: _CustomSliverAppBarDelegate(
                   state: widget.userState,
-                  showBackKey: widget.showBackKey,
+                  isFullScreenPageRoute: widget.isFullScreenPageRoute,
                   tabController: _tabController,
                   tabs: ProfileTabType.values
                       .map((e) => Text(e.translated(context)))
@@ -217,23 +208,23 @@ class _UserProfileState extends State<_UserProfile>
         body: TabBarView(
           controller: _tabController,
           children: ProfileTabType.values
-              .map((e) => _buildPageByProfileCategory(e))
+              .map((e) => _buildPageByProfileCategory(e, widget.userState.id))
               .toList(),
         ),
       ),
     );
   }
 
-  Widget _buildPageByProfileCategory(ProfileTabType category) {
+  Widget _buildPageByProfileCategory(ProfileTabType category, String userId) {
     switch (category) {
       case ProfileTabType.activity:
         return const ProfileActivityPage();
       case ProfileTabType.favorite:
         return const ProfileFavoriteTabPage();
       case ProfileTabType.animeList:
-        return const ProfileMediaListTabPage(mediaType: MediaType.anime);
+        return ProfileMediaList(mediaType: MediaType.anime, userId: userId);
       case ProfileTabType.mangaList:
-        return const ProfileMediaListTabPage(mediaType: MediaType.manga);
+        return ProfileMediaList(mediaType: MediaType.manga, userId: userId);
       case ProfileTabType.stats:
         return const ProfileStatsTabPage();
     }
@@ -245,7 +236,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.state,
     required this.tabController,
     required this.tabs,
-    required this.showBackKey,
+    required this.isFullScreenPageRoute,
   });
 
   final TabController tabController;
@@ -255,7 +246,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final _maxExtent = 360.0;
   final _minExtent = 160.0;
 
-  final bool showBackKey;
+  final bool isFullScreenPageRoute;
 
   @override
   Widget build(
@@ -321,6 +312,27 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
       );
 
+  Widget _buildBackButton(BuildContext context, double shrinkOffset) => Opacity(
+        opacity: 1 - shrinkOffset / (_maxExtent - _minExtent),
+        child: _HalfTransparentIconButton(
+          icon: Icons.arrow_back,
+          onPressed: () {
+            RootRouterDelegate.get().popBackStack();
+          },
+        ),
+      );
+
+  Widget _buildSettingButton(BuildContext context, double shrinkOffset) =>
+      Opacity(
+        opacity: 1 - shrinkOffset / (_maxExtent - _minExtent),
+        child: _HalfTransparentIconButton(
+          icon: Icons.settings,
+          onPressed: () {
+            RootRouterDelegate.get().navigateToSettingsPage();
+          },
+        ),
+      );
+
   Widget _buildCustomHeader(
       BuildContext context, shrinkOffset, bool isLoading) {
     return Column(
@@ -332,6 +344,18 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             children: [
               _buildBackground(context, shrinkOffset),
               _buildAppbar(shrinkOffset),
+              if (isFullScreenPageRoute)
+                Positioned(
+                  left: 0,
+                  top: 50,
+                  child: _buildBackButton(context, shrinkOffset),
+                ),
+              if (!isFullScreenPageRoute)
+                Positioned(
+                  top: 50,
+                  right: 0,
+                  child: _buildSettingButton(context, shrinkOffset),
+                ),
             ],
           ),
         ),
@@ -364,7 +388,38 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         opacity: shrinkOffset / (_maxExtent - _minExtent),
         child: AppBar(
           title: Text(state.name),
-          automaticallyImplyLeading: showBackKey,
+          automaticallyImplyLeading: isFullScreenPageRoute,
+          actions: [
+            if (!isFullScreenPageRoute)
+              IconButton(
+                onPressed: () {
+                  RootRouterDelegate.get().navigateToSettingsPage();
+                },
+                icon: const Icon(Icons.settings),
+              )
+          ],
         ),
       );
+}
+
+class _HalfTransparentIconButton extends StatelessWidget {
+  const _HalfTransparentIconButton({this.icon, this.onPressed});
+
+  final IconData? icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface.withAlpha(223),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Icon(icon, color: Theme.of(context).colorScheme.onSurface),
+      ),
+      onPressed: onPressed,
+    );
+  }
 }
