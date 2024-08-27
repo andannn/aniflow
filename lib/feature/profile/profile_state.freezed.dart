@@ -128,7 +128,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProfileStateImpl implements _ProfileState {
-  _$ProfileStateImpl({this.userData, this.isLoading = true});
+  _$ProfileStateImpl({this.userData, this.isLoading = false});
 
   @override
   final UserModel? userData;

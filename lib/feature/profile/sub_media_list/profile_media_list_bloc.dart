@@ -1,9 +1,12 @@
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_state.dart';
 import 'package:aniflow/feature/settings/settings_category.dart';
 import 'package:bloc/bloc.dart';
@@ -36,27 +39,14 @@ class _OnMediaListChanged extends ProfileMediaListEvent {
 }
 
 @injectable
-class ProfileAnimeListBloc extends ProfileMediaListBloc {
-  ProfileAnimeListBloc(
-    @factoryParam super.param,
-    super.mediaListRepository,
-  );
-}
-
-@injectable
-class ProfileMangaListBloc extends ProfileMediaListBloc {
-  ProfileMangaListBloc(
-    @factoryParam super.param,
-    super.mediaListRepository,
-  );
-}
-
-abstract class ProfileMediaListBloc
+class ProfileMediaListBloc
     extends Bloc<ProfileMediaListEvent, ProfileMediaListState>
     with AutoCancelMixin {
   ProfileMediaListBloc(
-    this.param,
+    @factoryParam this.param,
+    @factoryParam this._loadingStateRepository,
     this._mediaListRepository,
+    this._userDataRepository,
   ) : super(const ProfileMediaListState()) {
     on<_OnMediaListChanged>(
       (event, emit) => emit(
@@ -90,6 +80,8 @@ abstract class ProfileMediaListBloc
 
   final ProfileMediaListParam param;
   final MediaListRepository _mediaListRepository;
+  final LoadingStateRepository _loadingStateRepository;
+  final UserDataRepository _userDataRepository;
   CancelToken? _token;
 
   Future onPullToRefresh() async {
@@ -97,36 +89,21 @@ abstract class ProfileMediaListBloc
   }
 
   Future _syncMediaList() async {
-    await Future.wait([
-      _mediaListRepository.syncMediaList(
-        page: 1,
-        userId: param.userId,
-        mediaType: param.mediaType,
-        token: _token,
-        status: const [
-          MediaListStatus.current,
-          MediaListStatus.planning,
-        ],
+    final tasks =
+        MediaListSectorParam.buildSectors(param.mediaType, param.userId).map(
+      (sector) => _loadingStateRepository.doRefreshOrRejected(
+        _userDataRepository,
+        RefreshTimeKey.mediaList(userId: sector.userId, status: sector.status),
+        () => _mediaListRepository.syncMediaList(
+          page: 1,
+          userId: sector.userId,
+          mediaType: param.mediaType,
+          token: _token,
+          status: sector.status,
+        ),
       ),
-      _mediaListRepository.syncMediaList(
-        page: 1,
-        userId: param.userId,
-        mediaType: param.mediaType,
-        token: _token,
-        status: const [
-          MediaListStatus.completed,
-        ],
-      ),
-      _mediaListRepository.syncMediaList(
-        page: 1,
-        userId: param.userId,
-        mediaType: param.mediaType,
-        token: _token,
-        status: const [
-          MediaListStatus.dropped,
-        ],
-      ),
-    ]);
+    );
+    await Future.wait(tasks);
   }
 
   @override

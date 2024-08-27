@@ -13,10 +13,6 @@ import 'package:aniflow/feature/media_list_update_page/media_list_update_page.da
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/notification/notification.dart';
 import 'package:aniflow/feature/profile/profile.dart';
-import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_anime_page.dart';
-import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_character_page.dart';
-import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_manga_page.dart';
-import 'package:aniflow/feature/profile/sub_favorite/pages/favorite_staff_page.dart';
 import 'package:aniflow/feature/search/search_page.dart';
 import 'package:aniflow/feature/settings/settings.dart';
 import 'package:aniflow/feature/staff_page/staff_page.dart';
@@ -78,30 +74,6 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case NotificationRoutePath():
         return NotificationPage(
           key: ValueKey(toString()),
-          onPopInvoked: onPopInvoked,
-        );
-      case FavoriteStaffListPath(id: final id):
-        return FavoriteStaffListPage(
-          key: ValueKey(toString()),
-          userId: id,
-          onPopInvoked: onPopInvoked,
-        );
-      case FavoriteCharacterListPath(id: final id):
-        return FavoriteCharacterListPage(
-          key: ValueKey(toString()),
-          userId: id,
-          onPopInvoked: onPopInvoked,
-        );
-      case FavoriteAnimeListPath(id: final id):
-        return FavoriteAnimeListPage(
-          key: ValueKey(toString()),
-          userId: id,
-          onPopInvoked: onPopInvoked,
-        );
-      case FavoriteMangaListPath(id: final id):
-        return FavoriteMangaListPage(
-          key: ValueKey(toString()),
-          userId: id,
           onPopInvoked: onPopInvoked,
         );
       case DetailCharacterPath(id: final id):

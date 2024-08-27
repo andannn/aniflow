@@ -119,6 +119,6 @@ class MockMediaListRepository implements MediaListRepository {
       DateTime? startedAt,
       DateTime? completedAt,
       CancelToken? cancelToken}) {
-    return Future.value(LoadSuccess(data: []));
+    return Future.value(LoadSuccess(data: null));
   }
 }

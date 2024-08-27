@@ -1,5 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/data/model/activity_model.dart';
 import 'package:aniflow/core/design_system/widget/activity_item_widget.dart';
@@ -11,13 +12,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileActivityPage extends StatefulWidget {
-  const ProfileActivityPage({super.key});
+  const ProfileActivityPage({super.key, required this.userId});
+
+  final String userId;
 
   @override
   State<ProfileActivityPage> createState() => _ProfileActivityPageState();
 }
 
-class _ProfileActivityPageState extends State<ProfileActivityPage> {
+class _ProfileActivityPageState extends State<ProfileActivityPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return BlocProvider(
+      create: (BuildContext context) => GetItScope.of(context)
+          .get<UserActivityPagingBloc>(param1: widget.userId),
+      child: const _ProfileActivityPageContent(),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class _ProfileActivityPageContent extends StatelessWidget {
+  const _ProfileActivityPageContent();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserActivityPagingBloc,

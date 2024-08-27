@@ -9,4 +9,5 @@ mixin _$FavoriteDaoMixin on DatabaseAccessor<AniflowDatabase> {
   $MediaTableTable get mediaTable => attachedDatabase.mediaTable;
   $CharacterTableTable get characterTable => attachedDatabase.characterTable;
   $StaffTableTable get staffTable => attachedDatabase.staffTable;
+  $StudioTableTable get studioTable => attachedDatabase.studioTable;
 }

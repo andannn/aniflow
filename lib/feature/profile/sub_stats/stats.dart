@@ -1,3 +1,4 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -8,19 +9,36 @@ import 'package:aniflow/core/data/model/staff_character_name_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileStatsTabPage extends StatefulWidget {
-  const ProfileStatsTabPage({super.key});
+  const ProfileStatsTabPage({super.key, required this.userId});
+  final String userId;
 
   @override
-  State<ProfileStatsTabPage> createState() => _ProfileMediaListTabPageState();
+  State<ProfileStatsTabPage> createState() => _ProfileStatsTabPageState();
 }
 
-class _ProfileMediaListTabPageState extends State<ProfileStatsTabPage> {
+class _ProfileStatsTabPageState extends State<ProfileStatsTabPage> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => GetItScope.of(context).get<StatsBloc>(
+        param1: widget.userId,
+        param2: context.read<ProfileBloc>(),
+      ),
+      child: const _ProfileStatsTabPageContent(),
+    );
+  }
+}
+
+class _ProfileStatsTabPageContent extends StatelessWidget {
+  const _ProfileStatsTabPageContent();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StatsBloc, StatsState>(

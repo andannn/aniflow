@@ -2,7 +2,6 @@
 
 import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
-import 'package:aniflow/core/common/definitions/favorite_category.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
@@ -49,19 +48,6 @@ mixin AfRouterBackStackMixin
 
   void navigateToUserProfile(String userId) {
     _pushAsSingleton(UserProfileRoutePath(id: userId));
-  }
-
-  void navigateToFavoritePage(FavoriteType type, String userId) {
-    switch (type) {
-      case FavoriteType.anime:
-        _pushAsSingleton(FavoriteAnimeListPath(id: userId));
-      case FavoriteType.manga:
-        _pushAsSingleton(FavoriteMangaListPath(id: userId));
-      case FavoriteType.character:
-        _pushAsSingleton(FavoriteCharacterListPath(id: userId));
-      case FavoriteType.staff:
-        _pushAsSingleton(FavoriteStaffListPath(id: userId));
-    }
   }
 
   void navigateToDetailCharacter(String id) {

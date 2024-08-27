@@ -20,14 +20,6 @@ AniFlowRoutePath _$AniFlowRoutePathFromJson(Map<String, dynamic> json) {
       return AniFlowHomePath.fromJson(json);
     case 'search':
       return SearchRoutePath.fromJson(json);
-    case 'favoriteStaffList':
-      return FavoriteStaffListPath.fromJson(json);
-    case 'favoriteCharacterList':
-      return FavoriteCharacterListPath.fromJson(json);
-    case 'favoriteAnimeList':
-      return FavoriteAnimeListPath.fromJson(json);
-    case 'favoriteMangaList':
-      return FavoriteMangaListPath.fromJson(json);
     case 'userProfile':
       return UserProfileRoutePath.fromJson(json);
     case 'categoryAnimeList':
@@ -71,10 +63,6 @@ mixin _$AniFlowRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -97,10 +85,6 @@ mixin _$AniFlowRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -123,10 +107,6 @@ mixin _$AniFlowRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -150,11 +130,6 @@ mixin _$AniFlowRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -179,10 +154,6 @@ mixin _$AniFlowRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -204,10 +175,6 @@ mixin _$AniFlowRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -302,10 +269,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -331,10 +294,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -360,10 +319,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -393,11 +348,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -425,10 +375,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -453,10 +399,6 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -546,10 +488,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -575,10 +513,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -604,10 +538,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -637,11 +567,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -669,10 +594,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -697,10 +618,6 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -737,1136 +654,6 @@ abstract class SearchRoutePath implements AniFlowRoutePath {
 
   factory SearchRoutePath.fromJson(Map<String, dynamic> json) =
       _$SearchRoutePathImpl.fromJson;
-}
-
-/// @nodoc
-abstract class _$$FavoriteStaffListPathImplCopyWith<$Res> {
-  factory _$$FavoriteStaffListPathImplCopyWith(
-          _$FavoriteStaffListPathImpl value,
-          $Res Function(_$FavoriteStaffListPathImpl) then) =
-      __$$FavoriteStaffListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$FavoriteStaffListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$FavoriteStaffListPathImpl>
-    implements _$$FavoriteStaffListPathImplCopyWith<$Res> {
-  __$$FavoriteStaffListPathImplCopyWithImpl(_$FavoriteStaffListPathImpl _value,
-      $Res Function(_$FavoriteStaffListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$FavoriteStaffListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$FavoriteStaffListPathImpl implements FavoriteStaffListPath {
-  const _$FavoriteStaffListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'favoriteStaffList';
-
-  factory _$FavoriteStaffListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FavoriteStaffListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.favoriteStaffList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FavoriteStaffListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FavoriteStaffListPathImplCopyWith<_$FavoriteStaffListPathImpl>
-      get copyWith => __$$FavoriteStaffListPathImplCopyWithImpl<
-          _$FavoriteStaffListPathImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return favoriteStaffList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return favoriteStaffList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteStaffList != null) {
-      return favoriteStaffList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return favoriteStaffList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return favoriteStaffList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteStaffList != null) {
-      return favoriteStaffList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FavoriteStaffListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class FavoriteStaffListPath implements AniFlowRoutePath {
-  const factory FavoriteStaffListPath({required final String id}) =
-      _$FavoriteStaffListPathImpl;
-
-  factory FavoriteStaffListPath.fromJson(Map<String, dynamic> json) =
-      _$FavoriteStaffListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FavoriteStaffListPathImplCopyWith<_$FavoriteStaffListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$FavoriteCharacterListPathImplCopyWith<$Res> {
-  factory _$$FavoriteCharacterListPathImplCopyWith(
-          _$FavoriteCharacterListPathImpl value,
-          $Res Function(_$FavoriteCharacterListPathImpl) then) =
-      __$$FavoriteCharacterListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$FavoriteCharacterListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res,
-        _$FavoriteCharacterListPathImpl>
-    implements _$$FavoriteCharacterListPathImplCopyWith<$Res> {
-  __$$FavoriteCharacterListPathImplCopyWithImpl(
-      _$FavoriteCharacterListPathImpl _value,
-      $Res Function(_$FavoriteCharacterListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$FavoriteCharacterListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$FavoriteCharacterListPathImpl implements FavoriteCharacterListPath {
-  const _$FavoriteCharacterListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'favoriteCharacterList';
-
-  factory _$FavoriteCharacterListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FavoriteCharacterListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.favoriteCharacterList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FavoriteCharacterListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FavoriteCharacterListPathImplCopyWith<_$FavoriteCharacterListPathImpl>
-      get copyWith => __$$FavoriteCharacterListPathImplCopyWithImpl<
-          _$FavoriteCharacterListPathImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return favoriteCharacterList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return favoriteCharacterList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteCharacterList != null) {
-      return favoriteCharacterList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return favoriteCharacterList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return favoriteCharacterList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteCharacterList != null) {
-      return favoriteCharacterList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FavoriteCharacterListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class FavoriteCharacterListPath implements AniFlowRoutePath {
-  const factory FavoriteCharacterListPath({required final String id}) =
-      _$FavoriteCharacterListPathImpl;
-
-  factory FavoriteCharacterListPath.fromJson(Map<String, dynamic> json) =
-      _$FavoriteCharacterListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FavoriteCharacterListPathImplCopyWith<_$FavoriteCharacterListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$FavoriteAnimeListPathImplCopyWith<$Res> {
-  factory _$$FavoriteAnimeListPathImplCopyWith(
-          _$FavoriteAnimeListPathImpl value,
-          $Res Function(_$FavoriteAnimeListPathImpl) then) =
-      __$$FavoriteAnimeListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$FavoriteAnimeListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$FavoriteAnimeListPathImpl>
-    implements _$$FavoriteAnimeListPathImplCopyWith<$Res> {
-  __$$FavoriteAnimeListPathImplCopyWithImpl(_$FavoriteAnimeListPathImpl _value,
-      $Res Function(_$FavoriteAnimeListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$FavoriteAnimeListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$FavoriteAnimeListPathImpl implements FavoriteAnimeListPath {
-  const _$FavoriteAnimeListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'favoriteAnimeList';
-
-  factory _$FavoriteAnimeListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FavoriteAnimeListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.favoriteAnimeList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FavoriteAnimeListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FavoriteAnimeListPathImplCopyWith<_$FavoriteAnimeListPathImpl>
-      get copyWith => __$$FavoriteAnimeListPathImplCopyWithImpl<
-          _$FavoriteAnimeListPathImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return favoriteAnimeList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return favoriteAnimeList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteAnimeList != null) {
-      return favoriteAnimeList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return favoriteAnimeList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return favoriteAnimeList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteAnimeList != null) {
-      return favoriteAnimeList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FavoriteAnimeListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class FavoriteAnimeListPath implements AniFlowRoutePath {
-  const factory FavoriteAnimeListPath({required final String id}) =
-      _$FavoriteAnimeListPathImpl;
-
-  factory FavoriteAnimeListPath.fromJson(Map<String, dynamic> json) =
-      _$FavoriteAnimeListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FavoriteAnimeListPathImplCopyWith<_$FavoriteAnimeListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$FavoriteMangaListPathImplCopyWith<$Res> {
-  factory _$$FavoriteMangaListPathImplCopyWith(
-          _$FavoriteMangaListPathImpl value,
-          $Res Function(_$FavoriteMangaListPathImpl) then) =
-      __$$FavoriteMangaListPathImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String id});
-}
-
-/// @nodoc
-class __$$FavoriteMangaListPathImplCopyWithImpl<$Res>
-    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$FavoriteMangaListPathImpl>
-    implements _$$FavoriteMangaListPathImplCopyWith<$Res> {
-  __$$FavoriteMangaListPathImplCopyWithImpl(_$FavoriteMangaListPathImpl _value,
-      $Res Function(_$FavoriteMangaListPathImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_$FavoriteMangaListPathImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$FavoriteMangaListPathImpl implements FavoriteMangaListPath {
-  const _$FavoriteMangaListPathImpl({required this.id, final String? $type})
-      : $type = $type ?? 'favoriteMangaList';
-
-  factory _$FavoriteMangaListPathImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FavoriteMangaListPathImplFromJson(json);
-
-  @override
-  final String id;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'AniFlowRoutePath.favoriteMangaList(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FavoriteMangaListPathImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FavoriteMangaListPathImplCopyWith<_$FavoriteMangaListPathImpl>
-      get copyWith => __$$FavoriteMangaListPathImplCopyWithImpl<
-          _$FavoriteMangaListPathImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() home,
-    required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
-    required TResult Function(String id) userProfile,
-    required TResult Function(MediaCategory category) categoryAnimeList,
-    required TResult Function(String id) mediaCharacterList,
-    required TResult Function(String id) mediaStaffList,
-    required TResult Function(String id) detailMedia,
-    required TResult Function(String id) detailCharacter,
-    required TResult Function(String id) detailStaff,
-    required TResult Function(ScheduleType type) airingSchedule,
-    required TResult Function() notification,
-    required TResult Function(String id) detailStudio,
-    required TResult Function(String id) activityReplies,
-    required TResult Function(@PreviewSourceConverter() PreviewSource source)
-        imagePreview,
-    required TResult Function(String mediaId, String from) mediaListUpdate,
-    required TResult Function() settings,
-    required TResult Function() birthdayCharacterPage,
-  }) {
-    return favoriteMangaList(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? home,
-    TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
-    TResult? Function(String id)? userProfile,
-    TResult? Function(MediaCategory category)? categoryAnimeList,
-    TResult? Function(String id)? mediaCharacterList,
-    TResult? Function(String id)? mediaStaffList,
-    TResult? Function(String id)? detailMedia,
-    TResult? Function(String id)? detailCharacter,
-    TResult? Function(String id)? detailStaff,
-    TResult? Function(ScheduleType type)? airingSchedule,
-    TResult? Function()? notification,
-    TResult? Function(String id)? detailStudio,
-    TResult? Function(String id)? activityReplies,
-    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult? Function(String mediaId, String from)? mediaListUpdate,
-    TResult? Function()? settings,
-    TResult? Function()? birthdayCharacterPage,
-  }) {
-    return favoriteMangaList?.call(id);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? home,
-    TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
-    TResult Function(String id)? userProfile,
-    TResult Function(MediaCategory category)? categoryAnimeList,
-    TResult Function(String id)? mediaCharacterList,
-    TResult Function(String id)? mediaStaffList,
-    TResult Function(String id)? detailMedia,
-    TResult Function(String id)? detailCharacter,
-    TResult Function(String id)? detailStaff,
-    TResult Function(ScheduleType type)? airingSchedule,
-    TResult Function()? notification,
-    TResult Function(String id)? detailStudio,
-    TResult Function(String id)? activityReplies,
-    TResult Function(@PreviewSourceConverter() PreviewSource source)?
-        imagePreview,
-    TResult Function(String mediaId, String from)? mediaListUpdate,
-    TResult Function()? settings,
-    TResult Function()? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteMangaList != null) {
-      return favoriteMangaList(id);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AniFlowHomePath value) home,
-    required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
-    required TResult Function(UserProfileRoutePath value) userProfile,
-    required TResult Function(CategoryAnimeListRoutePath value)
-        categoryAnimeList,
-    required TResult Function(MediaCharacterListRoutePath value)
-        mediaCharacterList,
-    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
-    required TResult Function(DetailMediaRoutePath value) detailMedia,
-    required TResult Function(DetailCharacterPath value) detailCharacter,
-    required TResult Function(DetailStaffPath value) detailStaff,
-    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
-    required TResult Function(NotificationRoutePath value) notification,
-    required TResult Function(DetailStudioRoutePath value) detailStudio,
-    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
-    required TResult Function(ImagePreviewRoutePath value) imagePreview,
-    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
-    required TResult Function(SettingsRoutePath value) settings,
-    required TResult Function(BirthdayCharacterPagePath value)
-        birthdayCharacterPage,
-  }) {
-    return favoriteMangaList(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AniFlowHomePath value)? home,
-    TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult? Function(UserProfileRoutePath value)? userProfile,
-    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult? Function(DetailMediaRoutePath value)? detailMedia,
-    TResult? Function(DetailCharacterPath value)? detailCharacter,
-    TResult? Function(DetailStaffPath value)? detailStaff,
-    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult? Function(NotificationRoutePath value)? notification,
-    TResult? Function(DetailStudioRoutePath value)? detailStudio,
-    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult? Function(SettingsRoutePath value)? settings,
-    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-  }) {
-    return favoriteMangaList?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AniFlowHomePath value)? home,
-    TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
-    TResult Function(UserProfileRoutePath value)? userProfile,
-    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
-    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
-    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
-    TResult Function(DetailMediaRoutePath value)? detailMedia,
-    TResult Function(DetailCharacterPath value)? detailCharacter,
-    TResult Function(DetailStaffPath value)? detailStaff,
-    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
-    TResult Function(NotificationRoutePath value)? notification,
-    TResult Function(DetailStudioRoutePath value)? detailStudio,
-    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
-    TResult Function(ImagePreviewRoutePath value)? imagePreview,
-    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
-    TResult Function(SettingsRoutePath value)? settings,
-    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
-    required TResult orElse(),
-  }) {
-    if (favoriteMangaList != null) {
-      return favoriteMangaList(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FavoriteMangaListPathImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class FavoriteMangaListPath implements AniFlowRoutePath {
-  const factory FavoriteMangaListPath({required final String id}) =
-      _$FavoriteMangaListPathImpl;
-
-  factory FavoriteMangaListPath.fromJson(Map<String, dynamic> json) =
-      _$FavoriteMangaListPathImpl.fromJson;
-
-  String get id;
-
-  /// Create a copy of AniFlowRoutePath
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FavoriteMangaListPathImplCopyWith<_$FavoriteMangaListPathImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1949,10 +736,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -1978,10 +761,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -2007,10 +786,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -2040,11 +815,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -2072,10 +842,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2100,10 +866,6 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2236,10 +998,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -2265,10 +1023,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -2294,10 +1048,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -2327,11 +1077,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -2359,10 +1104,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2387,10 +1128,6 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2523,10 +1260,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -2552,10 +1285,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -2581,10 +1310,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -2614,11 +1339,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -2646,10 +1366,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2674,10 +1390,6 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2806,10 +1518,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -2835,10 +1543,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -2864,10 +1568,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -2897,11 +1597,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -2929,10 +1624,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -2957,10 +1648,6 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3088,10 +1775,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -3117,10 +1800,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -3146,10 +1825,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -3179,11 +1854,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -3211,10 +1881,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3239,10 +1905,6 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3369,10 +2031,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -3398,10 +2056,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -3427,10 +2081,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -3460,11 +2110,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -3492,10 +2137,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3520,10 +2161,6 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3650,10 +2287,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -3679,10 +2312,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -3708,10 +2337,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -3741,11 +2366,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -3773,10 +2393,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3801,10 +2417,6 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -3933,10 +2545,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -3962,10 +2570,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -3991,10 +2595,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4024,11 +2624,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4056,10 +2651,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4084,10 +2675,6 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4188,10 +2775,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -4217,10 +2800,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -4246,10 +2825,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4279,11 +2854,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4311,10 +2881,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4339,10 +2905,6 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4461,10 +3023,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -4490,10 +3048,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -4519,10 +3073,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4552,11 +3102,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4584,10 +3129,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4612,10 +3153,6 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4744,10 +3281,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -4773,10 +3306,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -4802,10 +3331,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -4835,11 +3360,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -4867,10 +3387,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -4895,10 +3411,6 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5040,10 +3552,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5069,10 +3577,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5098,10 +3602,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5131,11 +3631,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5163,10 +3658,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5191,10 +3682,6 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5334,10 +3821,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5363,10 +3846,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5392,10 +3871,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5425,11 +3900,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5457,10 +3927,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5485,10 +3951,6 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5589,10 +4051,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5618,10 +4076,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5647,10 +4101,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5680,11 +4130,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5712,10 +4157,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5740,10 +4181,6 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5837,10 +4274,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
   TResult when<TResult extends Object?>({
     required TResult Function() home,
     required TResult Function() search,
-    required TResult Function(String id) favoriteStaffList,
-    required TResult Function(String id) favoriteCharacterList,
-    required TResult Function(String id) favoriteAnimeList,
-    required TResult Function(String id) favoriteMangaList,
     required TResult Function(String id) userProfile,
     required TResult Function(MediaCategory category) categoryAnimeList,
     required TResult Function(String id) mediaCharacterList,
@@ -5866,10 +4299,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? home,
     TResult? Function()? search,
-    TResult? Function(String id)? favoriteStaffList,
-    TResult? Function(String id)? favoriteCharacterList,
-    TResult? Function(String id)? favoriteAnimeList,
-    TResult? Function(String id)? favoriteMangaList,
     TResult? Function(String id)? userProfile,
     TResult? Function(MediaCategory category)? categoryAnimeList,
     TResult? Function(String id)? mediaCharacterList,
@@ -5895,10 +4324,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? home,
     TResult Function()? search,
-    TResult Function(String id)? favoriteStaffList,
-    TResult Function(String id)? favoriteCharacterList,
-    TResult Function(String id)? favoriteAnimeList,
-    TResult Function(String id)? favoriteMangaList,
     TResult Function(String id)? userProfile,
     TResult Function(MediaCategory category)? categoryAnimeList,
     TResult Function(String id)? mediaCharacterList,
@@ -5928,11 +4353,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
   TResult map<TResult extends Object?>({
     required TResult Function(AniFlowHomePath value) home,
     required TResult Function(SearchRoutePath value) search,
-    required TResult Function(FavoriteStaffListPath value) favoriteStaffList,
-    required TResult Function(FavoriteCharacterListPath value)
-        favoriteCharacterList,
-    required TResult Function(FavoriteAnimeListPath value) favoriteAnimeList,
-    required TResult Function(FavoriteMangaListPath value) favoriteMangaList,
     required TResult Function(UserProfileRoutePath value) userProfile,
     required TResult Function(CategoryAnimeListRoutePath value)
         categoryAnimeList,
@@ -5960,10 +4380,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(AniFlowHomePath value)? home,
     TResult? Function(SearchRoutePath value)? search,
-    TResult? Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult? Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult? Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult? Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult? Function(UserProfileRoutePath value)? userProfile,
     TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
@@ -5988,10 +4404,6 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AniFlowHomePath value)? home,
     TResult Function(SearchRoutePath value)? search,
-    TResult Function(FavoriteStaffListPath value)? favoriteStaffList,
-    TResult Function(FavoriteCharacterListPath value)? favoriteCharacterList,
-    TResult Function(FavoriteAnimeListPath value)? favoriteAnimeList,
-    TResult Function(FavoriteMangaListPath value)? favoriteMangaList,
     TResult Function(UserProfileRoutePath value)? userProfile,
     TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
     TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,

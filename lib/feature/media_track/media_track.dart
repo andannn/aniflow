@@ -51,7 +51,7 @@ class MediaTrackPageContent extends StatelessWidget {
 }
 
 class _MediaTrackPageContent extends StatefulWidget {
-  const _MediaTrackPageContent({super.key});
+  const _MediaTrackPageContent();
 
   @override
   State<_MediaTrackPageContent> createState() => _MediaTrackPageContentState();

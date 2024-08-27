@@ -9,15 +9,8 @@ import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/profile_state.dart';
 import 'package:aniflow/feature/profile/profile_tab_category.dart';
 import 'package:aniflow/feature/profile/sub_activity/profile_activity_overview.dart';
-import 'package:aniflow/feature/profile/sub_activity/user_activity_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_anime_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_character_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_manga_paging_bloc.dart';
-import 'package:aniflow/feature/profile/sub_favorite/bloc/favorite_staff_paging_bloc.dart';
 import 'package:aniflow/feature/profile/sub_favorite/profile_favorite.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list.dart';
-import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart';
-import 'package:aniflow/feature/profile/sub_stats/bloc/stats_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,17 +46,39 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return BlocProvider(
-        create: (BuildContext context) =>
-            GetItScope.of(context).get<ProfileBloc>(
-              param1: userId,
-            ),
-        child:
-            _ProfilePageContent(isFullScreenPageRoute: isFullScreenPageRoute));
+    return ProfilePageContent(
+      userId: userId,
+      isFullScreenPageRoute: isFullScreenPageRoute,
+    );
   }
 
   @override
   bool get maintainState => true;
+}
+
+class ProfilePageContent extends StatefulWidget {
+  const ProfilePageContent(
+      {super.key, this.userId, required this.isFullScreenPageRoute});
+
+  final String? userId;
+  final bool isFullScreenPageRoute;
+
+  @override
+  State<ProfilePageContent> createState() => _ProfilePageContentState();
+}
+
+class _ProfilePageContentState extends State<ProfilePageContent> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => GetItScope.of(context).get<ProfileBloc>(
+        param1: widget.userId,
+      ),
+      child: _ProfilePageContent(
+        isFullScreenPageRoute: widget.isFullScreenPageRoute,
+      ),
+    );
+  }
 }
 
 class _ProfilePageContent extends StatelessWidget {
@@ -79,73 +94,9 @@ class _ProfilePageContent extends StatelessWidget {
         if (userState == null) {
           return const SizedBox();
         } else {
-          final loadingStateRepository = context.read<ProfileBloc>();
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteAnimePagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteMangaPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteCharacterPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<FavoriteStaffPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<StatsBloc>(
-                  param1: userState.id,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<UserActivityPagingBloc>(
-                  param1: userState.id,
-                  param2: AfConfig.profilePageDefaultPerPageCount,
-                )..loadingStateRepository = loadingStateRepository,
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<ProfileAnimeListBloc>(
-                  param1: ProfileMediaListParam(
-                    userId: userState.id,
-                    mediaType: MediaType.anime,
-                  ),
-                ),
-              ),
-              BlocProvider(
-                create: (BuildContext context) =>
-                    GetItScope.of(context).get<ProfileMangaListBloc>(
-                  param1: ProfileMediaListParam(
-                    userId: userState.id,
-                    mediaType: MediaType.manga,
-                  ),
-                ),
-              ),
-            ],
-            child: _UserProfile(
-              userState: userState,
-              isFullScreenPageRoute: isFullScreenPageRoute,
-            ),
+          return _UserProfile(
+            userState: userState,
+            isFullScreenPageRoute: isFullScreenPageRoute,
           );
         }
       },
@@ -218,15 +169,15 @@ class _UserProfileState extends State<_UserProfile>
   Widget _buildPageByProfileCategory(ProfileTabType category, String userId) {
     switch (category) {
       case ProfileTabType.activity:
-        return const ProfileActivityPage();
+        return ProfileActivityPage(userId: userId);
       case ProfileTabType.favorite:
-        return const ProfileFavoriteTabPage();
+        return ProfileFavoriteTabPage(userId: userId);
       case ProfileTabType.animeList:
         return ProfileMediaList(mediaType: MediaType.anime, userId: userId);
       case ProfileTabType.mangaList:
         return ProfileMediaList(mediaType: MediaType.manga, userId: userId);
       case ProfileTabType.stats:
-        return const ProfileStatsTabPage();
+        return ProfileStatsTabPage(userId: userId);
     }
   }
 }

@@ -13,22 +13,6 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
 
   const factory AniFlowRoutePath.search() = SearchRoutePath;
 
-  const factory AniFlowRoutePath.favoriteStaffList({
-    required String id,
-  }) = FavoriteStaffListPath;
-
-  const factory AniFlowRoutePath.favoriteCharacterList({
-    required String id,
-  }) = FavoriteCharacterListPath;
-
-  const factory AniFlowRoutePath.favoriteAnimeList({
-    required String id,
-  }) = FavoriteAnimeListPath;
-
-  const factory AniFlowRoutePath.favoriteMangaList({
-    required String id,
-  }) = FavoriteMangaListPath;
-
   const factory AniFlowRoutePath.userProfile({
     required String id,
   }) = UserProfileRoutePath;

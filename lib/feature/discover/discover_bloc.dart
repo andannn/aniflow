@@ -10,7 +10,6 @@ import 'package:aniflow/core/common/util/anime_season_util.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/loading_state_mixin.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/character_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
@@ -173,7 +172,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
 
   Future _refreshMediaPreviewOfCategory(MediaCategory category,
           [bool isForce = false]) =>
-      doRefresh(
+      doRefreshOrRejected(
+        _userDataRepository,
         RefreshTimeKey.mediaCategory(category: category),
         () => _mediaInfoRepository.loadMediaPageByCategory(
           category: category,
@@ -184,8 +184,11 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       );
 
   Future _refreshAllMediaList(String userId, [bool isForce = false]) =>
-      doRefresh(
-        RefreshTimeKey.mediaList(userId: userId),
+      doRefreshOrRejected(
+        _userDataRepository,
+        RefreshTimeKey.mediaList(
+            userId: userId,
+            status: [MediaListStatus.current, MediaListStatus.planning]),
         () => _mediaListRepository.syncMediaList(
           userId: userId,
           status: [MediaListStatus.current, MediaListStatus.planning],
@@ -194,7 +197,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         isForce,
       );
 
-  Future _refreshBirthdayCharacters([bool isForce = false]) => doRefresh(
+  Future _refreshBirthdayCharacters([bool isForce = false]) => doRefreshOrRejected(
+        _userDataRepository,
         const RefreshTimeKey.birthdayCharacters(),
         () => _characterRepository.loadBirthdayCharacterPage(
           loadType: const Refresh(12),
@@ -202,13 +206,15 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         isForce,
       );
 
-  Future _refreshAiringSchedule([bool isForce = false]) => doRefresh(
+  Future _refreshAiringSchedule([bool isForce = false]) => doRefreshOrRejected(
+        _userDataRepository,
         const RefreshTimeKey.airingSchedule(),
         () => _mediaInfoRepository.refreshAiringSchedule(DateTime.now()),
         isForce,
       );
 
-  Future _refreshRecentMovies([bool isForce = false]) => doRefresh(
+  Future _refreshRecentMovies([bool isForce = false]) => doRefreshOrRejected(
+        _userDataRepository,
         const RefreshTimeKey.recentMovies(),
         () => _mediaInfoRepository.refreshMoviesPage(
           startDateGreater: DateTime.now().subtract(
@@ -228,21 +234,5 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
   @override
   void onLoadingStateChanged(bool isLoading) {
     add(_OnLoadStateChanged(isLoading));
-  }
-
-  Future doRefresh(RefreshTimeKey key, Future<LoadResult> Function() doRefresh,
-      [bool isForce = false]) async {
-    if (!_userDataRepository.canRefresh(key) && !isForce) {
-      logger.d("can't refresh $key");
-      return;
-    }
-
-    startLoading(key.toString());
-    final result = await doRefresh();
-    finishLoading(key.toString(), result);
-
-    if (result is LoadSuccess) {
-      await _userDataRepository.setLastSuccessRefreshTime(key, DateTime.now());
-    }
   }
 }

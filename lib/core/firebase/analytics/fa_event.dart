@@ -52,7 +52,8 @@ enum LikeContentMetrics {
   anime(name: 'anime'),
   manga(name: 'manga'),
   character(name: 'character'),
-  staff(name: 'staff');
+  staff(name: 'staff'),
+  studio(name: 'studio');
 
   final String name;
 

@@ -1,14 +1,16 @@
+import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/design_system/widget/media_row_item.dart';
+import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_bloc.dart';
 import 'package:aniflow/feature/profile/sub_media_list/profile_media_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileMediaList extends StatelessWidget {
+class ProfileMediaList extends StatefulWidget {
   const ProfileMediaList(
       {super.key, required this.mediaType, required this.userId});
 
@@ -16,42 +18,52 @@ class ProfileMediaList extends StatelessWidget {
   final String userId;
 
   @override
-  Widget build(BuildContext context) {
-    return ProfileMediaListContent(mediaType: mediaType);
-  }
+  State<ProfileMediaList> createState() => _ProfileMediaListState();
 }
 
-class ProfileMediaListContent extends StatelessWidget {
-  const ProfileMediaListContent({super.key, required this.mediaType});
+class _ProfileMediaListState extends State<ProfileMediaList>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return BlocProvider(
+      create: (BuildContext context) =>
+          GetItScope.of(context).get<ProfileMediaListBloc>(
+        param1: ProfileMediaListParam(
+          userId: widget.userId,
+          mediaType: widget.mediaType,
+        ),
+        param2: context.read<ProfileBloc>(),
+      ),
+      child: _ProfileMediaListContent(mediaType: widget.mediaType),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class _ProfileMediaListContent extends StatelessWidget {
+  const _ProfileMediaListContent({required this.mediaType});
 
   final MediaType mediaType;
 
   @override
   Widget build(BuildContext context) {
-    Widget builder<T extends ProfileMediaListBloc>() {
-      return BlocBuilder<T, ProfileMediaListState>(
-          builder: (context, state) {
-            final param = context
-                .read<T>()
-                .param;
-            return CustomScrollView(
-              key: PageStorageKey<String>('profile_$param'),
-              slivers: [
-                SliverOverlapInjector(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context),
-                ),
-                for (var item in state.sectorMap.entries)
-                  ..._buildSector(context, item.key, item.value),
-              ],
-            );
-          });
-    }
-    if (mediaType == MediaType.anime) {
-      return builder<ProfileAnimeListBloc>();
-    } else {
-      return builder<ProfileMangaListBloc>();
-    }
+    return BlocBuilder<ProfileMediaListBloc, ProfileMediaListState>(
+        builder: (context, state) {
+      final param = context.read<ProfileMediaListBloc>().param;
+      return CustomScrollView(
+        key: PageStorageKey<String>('profile_$param'),
+        slivers: [
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          for (var item in state.sectorMap.entries)
+            ..._buildSector(context, item.key, item.value),
+        ],
+      );
+    });
   }
 
   List<Widget> _buildSector(BuildContext context, MediaListSectorParam key,
@@ -65,10 +77,7 @@ class ProfileMediaListContent extends StatelessWidget {
               children: [
                 Text(
                   key.name(context),
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineSmall,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ],
             ),
@@ -103,10 +112,7 @@ class ProfileMediaListContent extends StatelessWidget {
                     flex: 1,
                     child: Text(
                       '$progress/$totalEp',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .labelLarge,
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
                   if (score != null && score > 0)
@@ -116,24 +122,17 @@ class ProfileMediaListContent extends StatelessWidget {
                         children: [
                           Text(
                             score.toString(),
-                            style: Theme
-                                .of(context)
+                            style: Theme.of(context)
                                 .textTheme
                                 .labelLarge
                                 ?.copyWith(
-                                color:
-                                Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .primary),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                           ),
                           Icon(
                             Icons.star,
                             size: 16,
-                            color: Theme
-                                .of(context)
-                                .colorScheme
-                                .primary,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ],
                       ),

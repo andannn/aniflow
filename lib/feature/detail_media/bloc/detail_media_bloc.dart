@@ -322,18 +322,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
 
   FutureOr<void> _onToggleFavoriteState(
       OnToggleFavoriteState event, Emitter<DetailMediaUiState> emit) async {
-    final isAnime = event.isAnime;
     final mediaId = event.mediaId;
 
     _toggleFavoriteCancelToken?.cancel();
     _toggleFavoriteCancelToken = CancelToken();
-    if (isAnime) {
-      unawaited(_favoriteRepository.toggleFavoriteAnime(
-          mediaId, _toggleFavoriteCancelToken!));
-    } else {
-      unawaited(_favoriteRepository.toggleFavoriteManga(
-          mediaId, _toggleFavoriteCancelToken!));
-    }
+    unawaited(_favoriteRepository.toggleFavoriteMedia(
+        mediaId, _toggleFavoriteCancelToken!));
   }
 
   void _updateHiAnimationSource(HiAnimationSource source) async {

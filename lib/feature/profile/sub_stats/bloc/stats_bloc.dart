@@ -3,15 +3,13 @@ import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
-import 'package:aniflow/core/common/util/error_handler.dart';
+import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
-import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/user_statistics_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/data/user_statistics_repository.dart';
-import 'package:aniflow/feature/profile/profile_bloc.dart';
 import 'package:aniflow/feature/profile/sub_stats/bloc/stats_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -32,13 +30,12 @@ class _OnUserStatsContentChanged extends StatsEvent {
 }
 
 @injectable
-class StatsBloc extends Bloc<StatsEvent, StatsState>
-    with LoadingStateNotifier<StatsEvent, StatsState> {
+class StatsBloc extends Bloc<StatsEvent, StatsState> {
   StatsBloc(
-    this._statisticsRepository,
-    this._messageRepository,
-    this.userDataRepository,
     @factoryParam this.userId,
+    @factoryParam this._loadingStateRepository,
+    this._statisticsRepository,
+    this._userDataRepository,
   ) : super(const StatsState()) {
     on<OnStatsTypeChanged>(
       (event, emit) => emit(state.copyWith(type: event.type)),
@@ -53,16 +50,16 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
   }
 
   final UserStatisticsRepository _statisticsRepository;
-  final MessageRepository _messageRepository;
-  final UserDataRepository userDataRepository;
+  final UserDataRepository _userDataRepository;
+  final LoadingStateRepository _loadingStateRepository;
   final String userId;
   CancelToken? _cancelToken;
 
   UserTitleLanguage get userTitleLanguage =>
-      userDataRepository.userTitleLanguage;
+      _userDataRepository.userTitleLanguage;
 
   UserStaffNameLanguage get userStaffNameLanguage =>
-      userDataRepository.userStaffNameLanguage;
+      _userDataRepository.userStaffNameLanguage;
 
   @override
   void onChange(Change<StatsState> change) {
@@ -90,24 +87,17 @@ class StatsBloc extends Bloc<StatsEvent, StatsState>
     // Change state to Loading.
     safeAdd(_OnUserStatsContentChanged(loadState: const Loading()));
 
-    final result = await _statisticsRepository.getUserStatics(
-        userId: userId, type: type, sort: sort);
-    switch (result) {
-      case LoadError<List<UserStatisticsModel>>():
-        final message =
-            await ErrorHandler.convertExceptionToMessage(result.exception);
-        if (message != null) {
-          _messageRepository.showMessage(message);
-        }
-      case LoadSuccess<List<UserStatisticsModel>>():
+    await _loadingStateRepository.doRefresh('refresh_user_statics', () async {
+      final result = await _statisticsRepository.getUserStatics(
+          userId: userId, type: type, sort: sort);
+      if (result is LoadSuccess<List<UserStatisticsModel>>) {
         safeAdd(_OnUserStatsContentChanged(loadState: Ready(result.data)));
-    }
+      }
+      return result;
+    });
   }
 
   Future<LoadResult<List<MediaModel>>> getMediasById(
           {required List<String> ids, CancelToken? cancelToken}) =>
       _statisticsRepository.getMediasById(ids: ids, cancelToken: cancelToken);
-
-  @override
-  bool isLoading(StatsState state) => state.loadState is Loading;
 }

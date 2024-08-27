@@ -152,9 +152,9 @@ class MediaPreviewItemV2 extends StatelessWidget {
                     scaleX: 0.8,
                     child: Stack(
                       children: [
-                        Positioned.fill(child: Icon(
+                        const Positioned.fill(child: Icon(
                           Icons.bookmark,
-                          color: Theme.of(context).colorScheme.onTertiary,
+                          color: Colors.white,
                         )),
                         Transform.scale(
                           scaleX: 0.9,
