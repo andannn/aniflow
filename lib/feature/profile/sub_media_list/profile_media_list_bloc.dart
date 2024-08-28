@@ -93,7 +93,11 @@ class ProfileMediaListBloc
         MediaListSectorParam.buildSectors(param.mediaType, param.userId).map(
       (sector) => _loadingStateRepository.doRefreshOrRejected(
         _userDataRepository,
-        RefreshTimeKey.mediaList(userId: sector.userId, status: sector.status),
+        RefreshTimeKey.mediaList(
+          userId: sector.userId,
+          status: sector.status,
+          type: param.mediaType,
+        ),
         () => _mediaListRepository.syncMediaList(
           page: 1,
           userId: sector.userId,

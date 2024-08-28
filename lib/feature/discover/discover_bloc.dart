@@ -187,8 +187,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
       doRefreshOrRejected(
         _userDataRepository,
         RefreshTimeKey.mediaList(
-            userId: userId,
-            status: [MediaListStatus.current, MediaListStatus.planning]),
+          userId: userId,
+          status: [MediaListStatus.current, MediaListStatus.planning],
+          type: _userDataRepository.mediaType,
+        ),
         () => _mediaListRepository.syncMediaList(
           userId: userId,
           status: [MediaListStatus.current, MediaListStatus.planning],

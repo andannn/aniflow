@@ -200,10 +200,10 @@ void main() {
     test('get last refresh time test', () async {
       final time = DateTime.now();
       await preferences.setLastSuccessRefreshTime(
-          const MediaList(userId: '', status: []), time);
+          const MediaList(userId: '', status: [], type: MediaType.anime), time);
 
-      final getTime = preferences
-          .getLastSuccessRefreshTime(const MediaList(userId: '', status: []));
+      final getTime = preferences.getLastSuccessRefreshTime(
+          const MediaList(userId: '', status: [], type: MediaType.anime));
       expect(getTime, time);
     });
 
@@ -212,8 +212,8 @@ void main() {
       await preferences.setLastSuccessRefreshTime(
           const BirthdayCharacters(), time);
 
-      final getTime = preferences
-          .getLastSuccessRefreshTime(const MediaList(userId: '', status: []));
+      final getTime = preferences.getLastSuccessRefreshTime(
+          const MediaList(userId: '', status: [], type: MediaType.anime));
       expect(getTime, null);
     });
   });
