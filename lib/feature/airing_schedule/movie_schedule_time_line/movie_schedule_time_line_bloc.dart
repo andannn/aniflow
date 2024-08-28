@@ -1,4 +1,7 @@
+import 'package:aniflow/core/common/definitions/media_format.dart';
+import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/loading_state_mixin.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/message_repository.dart';
@@ -17,19 +20,10 @@ class _OnStateChangedEvent extends MovieScheduleEvent {
   _OnStateChangedEvent(this.state);
 }
 
-sealed class MovieScheduleState extends Equatable {
-  const MovieScheduleState();
+class MovieScheduleState extends Equatable {
+  const MovieScheduleState({this.models = const[]});
 
-  @override
-  List<Object?> get props => [];
-}
-
-class Loading extends MovieScheduleState {}
-
-class Ready extends MovieScheduleState {
   final List<MediaModel> models;
-
-  const Ready(this.models);
 
   List<MonthScheduleCategory> get categories => models.toScheduleCategory();
 
@@ -39,36 +33,54 @@ class Ready extends MovieScheduleState {
 
 @injectable
 class MovieScheduleTimeLineBloc
-    extends Bloc<MovieScheduleEvent, MovieScheduleState> {
+    extends Bloc<MovieScheduleEvent, MovieScheduleState>
+    with LoadingControllerMixin, AutoCancelMixin {
   MovieScheduleTimeLineBloc(
-    this.mediaRepository,
+    this._mediaRepository,
     this._messageRepository,
     this._userDataRepository,
-  ) : super(Loading()) {
+  ) : super(const MovieScheduleState()) {
     on<_OnStateChangedEvent>((event, emit) => emit(event.state));
 
-    _init();
+    autoCancel(
+      () => _mediaRepository.getMediaStreamByAiringTimeRange(
+        start: startDateGreater,
+        end: endDateLesser,
+        format: [MediaFormat.movie],
+      ).listen((data) {
+        safeAdd(_OnStateChangedEvent(MovieScheduleState(models: data)));
+      }),
+    );
+
+    _refreshMovies();
   }
 
-  final MediaInformationRepository mediaRepository;
+  final MediaInformationRepository _mediaRepository;
   final MessageRepository _messageRepository;
   final UserDataRepository _userDataRepository;
 
-  void _init() async {
-    final startDateGreater =
-        DateTime.now().subtract(const Duration(days: 30 * 3));
-    final endDateLesser = DateTime.now().add(const Duration(days: 30 * 6));
-    final result = await mediaRepository.refreshMoviesPage(
-      startDateGreater: startDateGreater,
-      endDateLesser: endDateLesser,
-      isAdult: _userDataRepository.displayAdultContent,
-    );
+  final startDateGreater =
+      DateTime.now().subtract(const Duration(days: 30 * 3));
+  final endDateLesser = DateTime.now().add(const Duration(days: 30 * 6));
 
-    switch (result) {
-      case LoadError<List<MediaModel>>():
-        _messageRepository.handleException(result.exception);
-      case LoadSuccess<List<MediaModel>>():
-        safeAdd(_OnStateChangedEvent(Ready(result.data)));
-    }
+  void _refreshMovies() async {
+    await doRefreshOrRejected(
+      _userDataRepository,
+      const RefreshTimeKey.recentMovies(),
+      () async {
+        final result = await _mediaRepository.refreshMoviesPage(
+          startDateGreater: startDateGreater,
+          endDateLesser: endDateLesser,
+          isAdult: false,
+        );
+
+        return result;
+      },
+    );
+  }
+
+  @override
+  void onLoadingFinished(List<LoadError> errors) {
+    _messageRepository.handleException(errors.first.exception);
   }
 }

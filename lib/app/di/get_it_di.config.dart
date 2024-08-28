@@ -267,6 +267,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i768.AuthRepository>(),
           gh<_i67.MessageRepository>(),
         ));
+    gh.factory<_i336.MovieScheduleTimeLineBloc>(
+        () => _i336.MovieScheduleTimeLineBloc(
+              gh<_i970.MediaInformationRepository>(),
+              gh<_i67.MessageRepository>(),
+              gh<_i810.UserDataRepository>(),
+            ));
     gh.factoryParam<_i748.AnimePageBloc, _i505.MediaCategory, dynamic>((
       category,
       _,
@@ -338,12 +344,6 @@ extension GetItInjectableX on _i174.GetIt {
           staffLanguage,
           gh<_i970.MediaInformationRepository>(),
         ));
-    gh.factory<_i336.MovieScheduleTimeLineBloc>(
-        () => _i336.MovieScheduleTimeLineBloc(
-              gh<_i970.MediaInformationRepository>(),
-              gh<_i67.MessageRepository>(),
-              gh<_i810.UserDataRepository>(),
-            ));
     gh.factory<_i779.TodayAiringScheduleBloc>(() =>
         _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));
     gh.factoryParam<_i801.VoiceActorContentsPagingBloc, String,
