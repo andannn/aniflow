@@ -61,7 +61,7 @@ mixin LoadingControllerMixin<Event, State> on Bloc<Event, State>
 
   void onLoadingFinished(List<LoadError> errors);
 
-  void onLoadingStateChanged(bool isLoading);
+  void onLoadingStateChanged(bool isLoading) {}
 }
 
 extension LoadingControllerMixinEx on LoadingStateRepository {

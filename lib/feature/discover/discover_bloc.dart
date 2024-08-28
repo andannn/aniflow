@@ -197,7 +197,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverUiState>
         isForce,
       );
 
-  Future _refreshBirthdayCharacters([bool isForce = false]) => doRefreshOrRejected(
+  Future _refreshBirthdayCharacters([bool isForce = false]) =>
+      doRefreshOrRejected(
         _userDataRepository,
         const RefreshTimeKey.birthdayCharacters(),
         () => _characterRepository.loadBirthdayCharacterPage(
