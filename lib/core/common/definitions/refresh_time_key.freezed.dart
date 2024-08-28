@@ -45,7 +45,8 @@ mixin _$RefreshTimeKey {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -59,7 +60,9 @@ mixin _$RefreshTimeKey {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -72,7 +75,9 @@ mixin _$RefreshTimeKey {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -193,7 +198,8 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -210,7 +216,9 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -226,7 +234,9 @@ class _$BirthdayCharactersImpl implements BirthdayCharacters {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -353,7 +363,8 @@ class _$AiringScheduleImpl implements AiringSchedule {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -370,7 +381,9 @@ class _$AiringScheduleImpl implements AiringSchedule {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -386,7 +399,9 @@ class _$AiringScheduleImpl implements AiringSchedule {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -513,7 +528,8 @@ class _$RecentMoviesImpl implements RecentMovies {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -530,7 +546,9 @@ class _$RecentMoviesImpl implements RecentMovies {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -546,7 +564,9 @@ class _$RecentMoviesImpl implements RecentMovies {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -702,7 +722,8 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -719,7 +740,9 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -735,7 +758,9 @@ class _$MediaCategoryKeyImpl implements MediaCategoryKey {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -824,7 +849,7 @@ abstract class _$$MediaListImplCopyWith<$Res> {
           _$MediaListImpl value, $Res Function(_$MediaListImpl) then) =
       __$$MediaListImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String userId, List<MediaListStatus> status});
+  $Res call({String userId, List<MediaListStatus> status, MediaType type});
 }
 
 /// @nodoc
@@ -842,6 +867,7 @@ class __$$MediaListImplCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
     Object? status = null,
+    Object? type = null,
   }) {
     return _then(_$MediaListImpl(
       userId: null == userId
@@ -852,6 +878,10 @@ class __$$MediaListImplCopyWithImpl<$Res>
           ? _value._status
           : status // ignore: cast_nullable_to_non_nullable
               as List<MediaListStatus>,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MediaType,
     ));
   }
 }
@@ -862,6 +892,7 @@ class _$MediaListImpl implements MediaList {
   const _$MediaListImpl(
       {required this.userId,
       required final List<MediaListStatus> status,
+      required this.type,
       final String? $type})
       : _status = status,
         $type = $type ?? 'mediaList';
@@ -879,12 +910,15 @@ class _$MediaListImpl implements MediaList {
     return EqualUnmodifiableListView(_status);
   }
 
+  @override
+  final MediaType type;
+
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'RefreshTimeKey.mediaList(userId: $userId, status: $status)';
+    return 'RefreshTimeKey.mediaList(userId: $userId, status: $status, type: $type)';
   }
 
   @override
@@ -893,13 +927,14 @@ class _$MediaListImpl implements MediaList {
         (other.runtimeType == runtimeType &&
             other is _$MediaListImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other._status, _status));
+            const DeepCollectionEquality().equals(other._status, _status) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, userId, const DeepCollectionEquality().hash(_status));
+      runtimeType, userId, const DeepCollectionEquality().hash(_status), type);
 
   /// Create a copy of RefreshTimeKey
   /// with the given fields replaced by the non-null parameter values.
@@ -916,14 +951,15 @@ class _$MediaListImpl implements MediaList {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)
         userStatic,
   }) {
-    return mediaList(userId, status);
+    return mediaList(userId, status, type);
   }
 
   @override
@@ -933,13 +969,15 @@ class _$MediaListImpl implements MediaList {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
         userStatic,
   }) {
-    return mediaList?.call(userId, status);
+    return mediaList?.call(userId, status, type);
   }
 
   @override
@@ -949,7 +987,9 @@ class _$MediaListImpl implements MediaList {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -957,7 +997,7 @@ class _$MediaListImpl implements MediaList {
     required TResult orElse(),
   }) {
     if (mediaList != null) {
-      return mediaList(userId, status);
+      return mediaList(userId, status, type);
     }
     return orElse();
   }
@@ -1019,13 +1059,15 @@ class _$MediaListImpl implements MediaList {
 abstract class MediaList implements RefreshTimeKey {
   const factory MediaList(
       {required final String userId,
-      required final List<MediaListStatus> status}) = _$MediaListImpl;
+      required final List<MediaListStatus> status,
+      required final MediaType type}) = _$MediaListImpl;
 
   factory MediaList.fromJson(Map<String, dynamic> json) =
       _$MediaListImpl.fromJson;
 
   String get userId;
   List<MediaListStatus> get status;
+  MediaType get type;
 
   /// Create a copy of RefreshTimeKey
   /// with the given fields replaced by the non-null parameter values.
@@ -1114,7 +1156,8 @@ class _$UserFavoriteImpl implements UserFavorite {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -1131,7 +1174,9 @@ class _$UserFavoriteImpl implements UserFavorite {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -1147,7 +1192,9 @@ class _$UserFavoriteImpl implements UserFavorite {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -1330,7 +1377,8 @@ class _$UserStaticsImpl implements UserStatics {
     required TResult Function() airingSchedule,
     required TResult Function() recentMovies,
     required TResult Function(MediaCategory category) mediaCategory,
-    required TResult Function(String userId, List<MediaListStatus> status)
+    required TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)
         mediaList,
     required TResult Function(String userId) userFavorite,
     required TResult Function(
@@ -1347,7 +1395,9 @@ class _$UserStaticsImpl implements UserStatics {
     TResult? Function()? airingSchedule,
     TResult? Function()? recentMovies,
     TResult? Function(MediaCategory category)? mediaCategory,
-    TResult? Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult? Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult? Function(String userId)? userFavorite,
     TResult? Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?
@@ -1363,7 +1413,9 @@ class _$UserStaticsImpl implements UserStatics {
     TResult Function()? airingSchedule,
     TResult Function()? recentMovies,
     TResult Function(MediaCategory category)? mediaCategory,
-    TResult Function(String userId, List<MediaListStatus> status)? mediaList,
+    TResult Function(
+            String userId, List<MediaListStatus> status, MediaType type)?
+        mediaList,
     TResult Function(String userId)? userFavorite,
     TResult Function(
             String userId, UserStatisticType type, UserStaticsSort sort)?

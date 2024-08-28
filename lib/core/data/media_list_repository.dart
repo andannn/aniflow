@@ -81,7 +81,7 @@ class MediaListRepository {
     String? userId,
     List<MediaListStatus> status = const [],
     int page = -1,
-    MediaType? mediaType,
+    required MediaType mediaType,
     CancelToken? token,
   }) async {
     try {

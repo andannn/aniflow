@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/definitions/media_category.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/user_statics_sort.dart';
 import 'package:aniflow/core/common/definitions/user_stats_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -30,6 +31,7 @@ sealed class RefreshTimeKey with _$RefreshTimeKey {
   const factory RefreshTimeKey.mediaList({
     required String userId,
     required List<MediaListStatus> status,
+    required MediaType type,
   }) = MediaList;
 
   const factory RefreshTimeKey.userFavorite({
@@ -52,7 +54,7 @@ extension RefreshTimeKeyEx on RefreshTimeKey {
         airingSchedule: () => RefreshTimeKey.airingScheduleRefreshInterval,
         recentMovies: () => RefreshTimeKey.recentMoviesRefreshInterval,
         mediaCategory: (type) => RefreshTimeKey.mediaCategoryRefreshInterval,
-        mediaList: (_, __) => RefreshTimeKey.mediaListRefreshInterval,
+        mediaList: (_, __, ___) => RefreshTimeKey.mediaListRefreshInterval,
         userFavorite: (_) => RefreshTimeKey.userFavoriteRefreshInterval,
         userStatic: (_, __, ___) => RefreshTimeKey.userStatsRefreshInterval,
       );

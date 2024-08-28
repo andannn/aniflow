@@ -69,6 +69,7 @@ _$MediaListImpl _$$MediaListImplFromJson(Map<String, dynamic> json) =>
       status: (json['status'] as List<dynamic>)
           .map((e) => $enumDecode(_$MediaListStatusEnumMap, e))
           .toList(),
+      type: $enumDecode(_$MediaTypeEnumMap, json['type']),
       $type: json['runtimeType'] as String?,
     );
 
@@ -76,6 +77,7 @@ Map<String, dynamic> _$$MediaListImplToJson(_$MediaListImpl instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'status': instance.status,
+      'type': instance.type,
       'runtimeType': instance.$type,
     };
 
@@ -85,6 +87,11 @@ const _$MediaListStatusEnumMap = {
   MediaListStatus.dropped: 'DROPPED',
   MediaListStatus.paused: 'PAUSED',
   MediaListStatus.planning: 'PLANNING',
+};
+
+const _$MediaTypeEnumMap = {
+  MediaType.anime: 'ANIME',
+  MediaType.manga: 'MANGA',
 };
 
 _$UserFavoriteImpl _$$UserFavoriteImplFromJson(Map<String, dynamic> json) =>
