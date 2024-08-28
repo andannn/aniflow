@@ -63,7 +63,7 @@ class MessageRepository {
   var _listenerCount = 0;
 
   Stream<SnackBarMessage> getSnackBarMessageStream() =>
-      _messageSubject.whereType<SnackBarMessage>().distinct();
+      _messageSubject.whereType<SnackBarMessage>();
 
   Stream<DialogType> getDialogMessageStream() => _dialogSubject;
 

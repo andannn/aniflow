@@ -11,10 +11,6 @@ const _tag = 'LoadingControllerMixin';
 abstract class LoadingStateRepository {
   bool get isLoading;
 
-  void onLoadingFinished(List<LoadError> errors);
-
-  void onLoadingStateChanged(bool isLoading);
-
   void notifyLoadingStart(String type);
 
   void notifyLoadingStop(String type, LoadResult loadResult);
@@ -62,6 +58,10 @@ mixin LoadingControllerMixin<Event, State> on Bloc<Event, State>
 
     logger.d('$_tag finishLoading $type , loadingStateMap $_loadingStateMap');
   }
+
+  void onLoadingFinished(List<LoadError> errors);
+
+  void onLoadingStateChanged(bool isLoading);
 }
 
 extension LoadingControllerMixinEx on LoadingStateRepository {

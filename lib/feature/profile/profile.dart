@@ -1,6 +1,7 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
@@ -46,9 +47,11 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
 
   @override
   Widget buildContent(BuildContext context) {
-    return ProfilePageContent(
-      userId: userId,
-      isFullScreenPageRoute: isFullScreenPageRoute,
+    return ScaffoldMessenger(
+      child: ProfilePageContent(
+        userId: userId,
+        isFullScreenPageRoute: isFullScreenPageRoute,
+      ),
     );
   }
 
@@ -56,7 +59,7 @@ class ProfileRoute extends PageRoute with MaterialRouteTransitionMixin {
   bool get maintainState => true;
 }
 
-class ProfilePageContent extends StatefulWidget {
+class ProfilePageContent extends StatelessWidget {
   const ProfilePageContent(
       {super.key, this.userId, required this.isFullScreenPageRoute});
 
@@ -64,28 +67,31 @@ class ProfilePageContent extends StatefulWidget {
   final bool isFullScreenPageRoute;
 
   @override
-  State<ProfilePageContent> createState() => _ProfilePageContentState();
-}
-
-class _ProfilePageContentState extends State<ProfilePageContent> {
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => GetItScope.of(context).get<ProfileBloc>(
-        param1: widget.userId,
+        param1: userId,
       ),
-      child: _ProfilePageContent(
-        isFullScreenPageRoute: widget.isFullScreenPageRoute,
+      child: ScaffoldMessenger(
+        child: _ProfilePageContent(
+          isFullScreenPageRoute: isFullScreenPageRoute,
+        ),
       ),
     );
   }
 }
 
-class _ProfilePageContent extends StatelessWidget {
+class _ProfilePageContent extends StatefulWidget {
   const _ProfilePageContent({required this.isFullScreenPageRoute});
 
   final bool isFullScreenPageRoute;
 
+  @override
+  State<_ProfilePageContent> createState() => _ProfilePageContentState();
+}
+
+class _ProfilePageContentState extends State<_ProfilePageContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -96,7 +102,7 @@ class _ProfilePageContent extends StatelessWidget {
         } else {
           return _UserProfile(
             userState: userState,
-            isFullScreenPageRoute: isFullScreenPageRoute,
+            isFullScreenPageRoute: widget.isFullScreenPageRoute,
           );
         }
       },
