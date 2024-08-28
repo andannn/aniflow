@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:aniflow/app/routing/model/af_router_back_stack.dart';
 import 'package:aniflow/app/routing/model/ani_flow_route_path.dart';
 import 'package:aniflow/app/routing/util/ani_flow_page_generator.dart';
+import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
+import 'package:aniflow/feature/airing_schedule/airing_schedule.dart';
+import 'package:aniflow/feature/image_preview/preview_source.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
     with
         ChangeNotifier,
         PopNavigatorRouterDelegateMixin<AniFlowRoutePath>,
-        AfRouterBackStackMixin {
+        _AfRouterBackStackMixin {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final GlobalKey<RootNavigatorWidgetState> _backStackKey = GlobalKey();
 
@@ -48,7 +53,7 @@ class RootRouterDelegate extends RouterDelegate<AniFlowRoutePath>
   }
 
   void _onDidRemovePage(Page<Object?> page) {
-    popBackStack();
+    _popBackStack();
   }
 
   void _onPopInvoked(bool didPop, result) {
@@ -131,5 +136,109 @@ class RestorableAfStack extends RestorableValue<List<AniFlowRoutePath>> {
   @override
   Object? toPrimitives() {
     return jsonEncode(value.map((e) => e.toJson()).toList());
+  }
+}
+
+mixin _AfRouterBackStackMixin
+    on ChangeNotifier, RouterDelegate<AniFlowRoutePath> {
+  GlobalKey<RootNavigatorWidgetState> get backStackKey;
+
+  RestorableAfStack get _stack => backStackKey.currentState!.restorableAfStack;
+
+  void navigateToAnimeList(MediaCategory category) {
+    _pushAsSingleton(CategoryAnimeListRoutePath(category: category));
+  }
+
+  void navigateToCharacterList(String characterId) {
+    _pushAsSingleton(MediaCharacterListRoutePath(id: characterId));
+  }
+
+  void navigateToStaffList(String staffId) {
+    _pushAsSingleton(MediaStaffListRoutePath(id: staffId));
+  }
+
+  void navigateToDetailMedia(String animeId) {
+    _pushAsSingleton(DetailMediaRoutePath(id: animeId));
+  }
+
+  void navigateToAiringSchedule({ScheduleType type = ScheduleType.bangumi}) {
+    _pushAsSingleton(AiringScheduleRoutePath(type: type));
+  }
+
+  void navigateToSearch() {
+    _pushAsSingleton(const SearchRoutePath());
+  }
+
+  void navigateToNotification() {
+    _pushAsSingleton(const NotificationRoutePath());
+  }
+
+  void navigateToUserProfile(String userId) {
+    _pushAsSingleton(UserProfileRoutePath(id: userId));
+  }
+
+  void navigateToDetailCharacter(String id) {
+    _pushAsSingleton(DetailCharacterPath(id: id));
+  }
+
+  void navigateToDetailStaff(String id) {
+    _pushAsSingleton(DetailStaffPath(id: id));
+  }
+
+  void navigateToDetailStudio(String id) {
+    _pushAsSingleton(DetailStudioRoutePath(id: id));
+  }
+
+  void navigateToActivityRepliesPage(String id) {
+    _pushAsSingleton(ActivityRepliesRoutePath(id: id));
+  }
+
+  void navigateImagePreviewPage(PreviewSource source) {
+    _pushAsSingleton(ImagePreviewRoutePath(source: source));
+  }
+
+  void navigateToMediaListUpdatePage(String mediaId, String from) {
+    _pushAsSingleton(MediaListUpdateRoutePath(mediaId: mediaId, from: from));
+  }
+
+  void navigateToBirthdayCharacterPage() {
+    _pushAsSingleton(const BirthdayCharacterPagePath());
+  }
+
+  void navigateToSettingsPage() {
+    _pushAsSingleton(const SettingsRoutePath());
+  }
+
+  void _popBackStack() {
+    _stack.value = [..._stack.value]..removeLast();
+    notifyListeners();
+
+    final topPageOrNull = _stack.value.lastOrNull;
+    if (topPageOrNull != null) {
+      FirebaseAnalytics.instance.logAniFlowPathChangeEvent(topPageOrNull);
+    }
+  }
+
+  void _pushAsSingleton(AniFlowRoutePath path) {
+    if (_stack.value.contains(path)) {
+      _stack.value = [..._stack.value]..remove(path);
+    }
+
+    _stack.value = [..._stack.value, path];
+
+    notifyListeners();
+
+    FirebaseAnalytics.instance.logAniFlowPathChangeEvent(path);
+  }
+
+  @override
+  Future<void> setNewRoutePath(AniFlowRoutePath configuration) async {
+    if (_stack.value.isNotEmpty && configuration is AniFlowHomePath) {
+      // when app launched by re-construction, the back stack is restored
+      // and already having initial value.
+      return;
+    }
+
+    _pushAsSingleton(configuration);
   }
 }

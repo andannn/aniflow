@@ -268,7 +268,7 @@ class _CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         child: _HalfTransparentIconButton(
           icon: Icons.arrow_back,
           onPressed: () {
-            RootRouterDelegate.get().popBackStack();
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
       );

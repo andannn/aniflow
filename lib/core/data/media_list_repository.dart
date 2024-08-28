@@ -238,7 +238,12 @@ class MediaListRepository {
     DateTime? completedAt,
     CancelToken? cancelToken,
   }) async {
-    final entity = await _mediaListDao.getMediaListItem(animeId);
+    final userId = _preferences.userData.authedUserId;
+    if (userId == null) {
+      return LoadError(const UnauthorizedException());
+    }
+
+    final entity = await _mediaListDao.getMediaListItem(animeId, userId);
     final targetUserId = _preferences.userData.authedUserId;
 
     if (targetUserId == null) {

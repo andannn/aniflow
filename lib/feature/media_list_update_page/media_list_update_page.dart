@@ -1,5 +1,4 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
-import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
@@ -97,7 +96,7 @@ class MediaListUpdatePageContent extends StatelessWidget {
 
       return GestureDetector(
         onTap: () {
-          RootRouterDelegate.get().popBackStack();
+          Navigator.of(context).pop();
         },
         child: Container(
           constraints: const BoxConstraints.expand(),

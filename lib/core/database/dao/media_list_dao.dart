@@ -92,9 +92,11 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
         .watch();
   }
 
-  Future<MediaListEntity?> getMediaListItem(String mediaId) {
+  Future<MediaListEntity?> getMediaListItem(String mediaId, String userId) {
     return (select(mediaListTable)
-          ..where((tbl) => mediaListTable.mediaId.equals(mediaId)))
+          ..where((tbl) =>
+              mediaListTable.mediaId.equals(mediaId) &
+              mediaListTable.userId.equals(userId)))
         .getSingleOrNull();
   }
 
