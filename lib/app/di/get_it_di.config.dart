@@ -303,15 +303,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i847.EditProfileBloc>(
         () => _i847.EditProfileBloc(gh<_i768.AuthRepository>()));
-    gh.factoryParam<_i688.ProfileBloc, String?, dynamic>((
-      _userId,
-      _,
-    ) =>
-        _i688.ProfileBloc(
-          _userId,
-          gh<_i1066.UserInfoRepository>(),
-          gh<_i810.UserDataRepository>(),
-        ));
     gh.factory<_i308.CheckForUpdateBloc>(() => _i308.CheckForUpdateBloc(
           gh<_i810.UserDataRepository>(),
           gh<_i67.MessageRepository>(),
@@ -423,6 +414,16 @@ extension GetItInjectableX on _i174.GetIt {
         _i782.MediaListUpdateBloc(
           _mediaId,
           gh<_i319.MediaListRepository>(),
+        ));
+    gh.factoryParam<_i688.ProfileBloc, String?, dynamic>((
+      _userId,
+      _,
+    ) =>
+        _i688.ProfileBloc(
+          _userId,
+          gh<_i1066.UserInfoRepository>(),
+          gh<_i810.UserDataRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
     gh.factory<_i1013.RecentMoviesBloc>(
         () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));

@@ -63,7 +63,7 @@ void main() {
     test('upsert and get mediaList by mediaId', () async {
       await dao.upsertMediaListAndMediaRelations(dummyData);
 
-      final res = await dao.getMediaListItem('9523');
+      final res = await dao.getMediaListItem('9523', '22');
 
       expect(res, equals(dummyData[1].mediaListEntity));
     });
@@ -71,7 +71,7 @@ void main() {
     test('upsert and get mediaList by media List id', () async {
       await dao.upsertMediaListAndMediaRelations(dummyData);
 
-      final res = await dao.getMediaListItemByMediaId('8917');
+      final res = await dao.getMediaListItemByMediaId('8917', '22');
 
       expect(res, equals(dummyData[0]));
     });

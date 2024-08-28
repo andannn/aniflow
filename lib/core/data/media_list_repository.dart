@@ -200,8 +200,13 @@ class MediaListRepository {
   }
 
   Future<MediaWithListModel?> getMediaListItemByMediaId(
-      {required String mediaId}) {
-    return _mediaListDao.getMediaListItemByMediaId(mediaId).then(
+      {required String mediaId, String? userId}) {
+    userId ??= _preferences.userData.authedUserId;
+    if (userId == null) {
+      return Future.value(null);
+    }
+
+    return _mediaListDao.getMediaListItemByMediaId(mediaId, userId).then(
           (entity) => entity?.toModel(),
         );
   }
@@ -233,7 +238,12 @@ class MediaListRepository {
     DateTime? completedAt,
     CancelToken? cancelToken,
   }) async {
-    final entity = await _mediaListDao.getMediaListItem(animeId);
+    final userId = _preferences.userData.authedUserId;
+    if (userId == null) {
+      return LoadError(const UnauthorizedException());
+    }
+
+    final entity = await _mediaListDao.getMediaListItem(animeId, userId);
     final targetUserId = _preferences.userData.authedUserId;
 
     if (targetUserId == null) {

@@ -6,23 +6,20 @@ import 'package:dio/dio.dart';
 mixin ErrorHandler {
   static Future<SnackBarMessage?> convertExceptionToMessage(
       Exception exception) async {
-    switch (exception) {
-      case DioException():
-        return await _toMessageType(exception);
-    }
-
-    return null;
+    return await _toMessageType(exception);
   }
 
-  static Future<SnackBarMessage?> _toMessageType(DioException exception) async {
-    if (exception.type == DioExceptionType.sendTimeout ||
-        exception.type == DioExceptionType.receiveTimeout) {
-      return const ConnectionTimeOutMessage();
-    }
+  static Future<SnackBarMessage?> _toMessageType(Exception exception) async {
+    if (exception is DioException) {
+      if (exception.type == DioExceptionType.sendTimeout ||
+          exception.type == DioExceptionType.receiveTimeout) {
+        return const ConnectionTimeOutMessage();
+      }
 
-    final statusCode = exception.response?.statusCode;
-    if (statusCode != null) {
-      return NetworkErrorMessage(varargs: [statusCode]);
+      final statusCode = exception.response?.statusCode;
+      if (statusCode != null) {
+        return NetworkErrorMessage(varargs: [statusCode]);
+      }
     }
 
     final isConnected = await ConnectivityUtil.isNetworkConnected();

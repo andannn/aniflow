@@ -38,12 +38,6 @@ class MockMediaListRepository implements MediaListRepository {
   }
 
   @override
-  Future<MediaWithListModel?> getMediaListItemByMediaId(
-      {required String mediaId}) {
-    return Future.value(null);
-  }
-
-  @override
   Stream<MediaListItemModel?> getMediaListItemByUserAndIdStream(
       {required String userId, required String animeId}) {
     return Stream.value(null);
@@ -120,5 +114,11 @@ class MockMediaListRepository implements MediaListRepository {
       DateTime? completedAt,
       CancelToken? cancelToken}) {
     return Future.value(LoadSuccess(data: null));
+  }
+
+  @override
+  Future<MediaWithListModel?> getMediaListItemByMediaId(
+      {required String mediaId, String? userId}) {
+    return Future.value(null);
   }
 }
