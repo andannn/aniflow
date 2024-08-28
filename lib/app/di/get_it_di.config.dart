@@ -342,7 +342,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i336.MovieScheduleTimeLineBloc(
               gh<_i970.MediaInformationRepository>(),
               gh<_i67.MessageRepository>(),
-              gh<_i810.UserDataRepository>(),
             ));
     gh.factory<_i779.TodayAiringScheduleBloc>(() =>
         _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));

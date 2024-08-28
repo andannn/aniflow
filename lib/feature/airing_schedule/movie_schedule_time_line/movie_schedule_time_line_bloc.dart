@@ -3,7 +3,6 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/feature/airing_schedule/movie_schedule_time_line/month_schedule_category.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -43,7 +42,6 @@ class MovieScheduleTimeLineBloc
   MovieScheduleTimeLineBloc(
     this.mediaRepository,
     this._messageRepository,
-    this._userDataRepository,
   ) : super(Loading()) {
     on<_OnStateChangedEvent>((event, emit) => emit(event.state));
 
@@ -52,7 +50,6 @@ class MovieScheduleTimeLineBloc
 
   final MediaInformationRepository mediaRepository;
   final MessageRepository _messageRepository;
-  final UserDataRepository _userDataRepository;
 
   void _init() async {
     final startDateGreater =
@@ -61,7 +58,7 @@ class MovieScheduleTimeLineBloc
     final result = await mediaRepository.refreshMoviesPage(
       startDateGreater: startDateGreater,
       endDateLesser: endDateLesser,
-      isAdult: _userDataRepository.displayAdultContent,
+      isAdult: false,
     );
 
     switch (result) {
