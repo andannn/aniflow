@@ -155,8 +155,10 @@ extension ProfileTabTypeEx on ProfileTabType {
 
 extension MediaCategoryEx on MediaCategory {
   String translated(BuildContext context) => switch (this) {
-        MediaCategory.currentSeasonAnime => context.appLocal.popularThisSeasonLabel,
-        MediaCategory.nextSeasonAnime => context.appLocal.upComingNextSeasonLabel,
+        MediaCategory.currentSeasonAnime =>
+          context.appLocal.popularThisSeasonLabel,
+        MediaCategory.nextSeasonAnime =>
+          context.appLocal.upComingNextSeasonLabel,
         MediaCategory.trendingAnime => context.appLocal.trendingNowLabel,
         MediaCategory.movieAnime => context.appLocal.movieLabel,
         MediaCategory.trendingManga => context.appLocal.trendingNowLabel,
@@ -237,7 +239,8 @@ extension AnimeModelEx on MediaModel {
     if (nextAiringEpisode == null || timeUntilAiring == null) {
       return '';
     }
-    final airingTimeString = TimeUtil.getFormattedDuration(context, TimeUtil.durationFromSeconds(timeUntilAiring!));
+    final airingTimeString = TimeUtil.getFormattedDuration(
+        context, TimeUtil.durationFromSeconds(timeUntilAiring!));
     if (airingTimeString == null) {
       return '';
     }
@@ -246,7 +249,8 @@ extension AnimeModelEx on MediaModel {
 }
 
 extension AiringNotificationEx on AiringNotification {
-  List<TextSpan> createTextSpanList(BuildContext buildContext, {required VoidCallback onMediaTextClick}) {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onMediaTextClick}) {
     final List contextList = jsonDecode(context);
     final colorScheme = Theme.of(buildContext).colorScheme;
     return [
@@ -268,7 +272,8 @@ extension AiringNotificationEx on AiringNotification {
 }
 
 extension FollowNotificationEx on FollowNotification {
-  List<TextSpan> createTextSpanList(BuildContext buildContext, {required VoidCallback onUserTextClick}) {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onUserTextClick}) {
     final colorScheme = Theme.of(buildContext).colorScheme;
     return [
       TextSpan(
@@ -286,7 +291,8 @@ extension FollowNotificationEx on FollowNotification {
 }
 
 extension ActivityNotificationEx on ActivityNotification {
-  List<TextSpan> createTextSpanList(BuildContext buildContext, {required VoidCallback onUserTextClick}) {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onUserTextClick}) {
     final colorScheme = Theme.of(buildContext).colorScheme;
     return [
       TextSpan(
@@ -304,7 +310,8 @@ extension ActivityNotificationEx on ActivityNotification {
 }
 
 extension MediaNotificationEx on MediaNotification {
-  List<TextSpan> createTextSpanList(BuildContext buildContext, {required VoidCallback onUserTextClick}) {
+  List<TextSpan> createTextSpanList(BuildContext buildContext,
+      {required VoidCallback onUserTextClick}) {
     final colorScheme = Theme.of(buildContext).colorScheme;
     return [
       TextSpan(
@@ -322,7 +329,8 @@ extension MediaNotificationEx on MediaNotification {
 }
 
 extension ListActivityModelEx on ListActivityModel {
-  List<TextSpan> createTextSpanList(BuildContext buildContext, UserTitleLanguage userTitleLanguage,
+  List<TextSpan> createTextSpanList(
+      BuildContext buildContext, UserTitleLanguage userTitleLanguage,
       {required VoidCallback onMediaClick}) {
     final colorScheme = Theme.of(buildContext).colorScheme;
     return [
@@ -344,7 +352,9 @@ extension MediaModelEx on MediaModel {
     }
 
     return startDate.isAfter(DateTime.now())
-        ? context.appLocal.releaseDate(context.materialLocal.formatMediumDate(startDate))
-        : context.appLocal.releasedAt(context.materialLocal.formatMediumDate(startDate));
+        ? context.appLocal
+            .releaseDate(context.materialLocal.formatMediumDate(startDate))
+        : context.appLocal
+            .releasedAt(context.materialLocal.formatMediumDate(startDate));
   }
 }
