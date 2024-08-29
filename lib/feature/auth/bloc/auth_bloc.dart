@@ -7,6 +7,7 @@ import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/feature/auth/bloc/auth_ui_state.dart';
+import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -49,11 +50,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AutoCancelMixin {
   final AuthRepository _authRepository;
   final MessageRepository _messageRepository;
 
+  CancelableOperation<bool?>? _loginOperation;
+
   Future<void> _onLoginButtonTapped(
       OnLoginButtonTapped event, Emitter<AuthState> emit) async {
-    final isSuccess = await _authRepository.awaitAuthLogin();
+    final operation = _authRepository.loginProcessOperation();
 
-    if (isSuccess) {
+    await _loginOperation?.cancel();
+    final result = await operation.valueOrCancellation();
+    if (result == null) {
+      return;
+    }
+
+    if (result) {
       logger.d('login success');
       _messageRepository.showMessage(const LoginSuccessMessage());
     } else {

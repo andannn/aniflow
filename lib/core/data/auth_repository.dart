@@ -5,6 +5,7 @@ import 'package:aniflow/core/common/definitions/ani_list_settings.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/network_util.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
@@ -17,6 +18,7 @@ import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/util/http_status_util.dart';
 import 'package:aniflow/core/platform/auth_event_channel.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
+import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,15 +28,18 @@ const String _clientId = '14409';
 const String authUrl =
     'https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&response_type=token';
 
+class CancelException implements Exception {}
+
 @LazySingleton(env: [AfEnvironment.impl])
 class AuthRepository {
   AuthRepository(
     this._authDataSource,
     this._userDataDao,
     this._preferences,
+    this._authEventChannel,
   );
 
-  final AuthEventChannel _authEventChannel = AuthEventChannel();
+  final AuthEventChannel _authEventChannel;
 
   final UserDataPreferences _preferences;
 
@@ -42,20 +47,24 @@ class AuthRepository {
 
   final UserDao _userDataDao;
 
-  Future<bool> awaitAuthLogin() async {
-    final authUri = Uri.parse(authUrl.replaceFirst('{client_id}', _clientId));
-    final canLaunch = await canLaunchUrl(authUri);
-    if (!canLaunch) {
-      /// auth fail because invalid uri.
-      return false;
-    }
+  CancelableOperation<bool?> loginProcessOperation() {
+    CancelableOperation<AuthResult>? authResultOperation;
 
-    /// jump to web view and try to get access token.
-    await launchUrl(authUri);
-    try {
-      final authResult = await _authEventChannel
-          .awaitAuthResult()
-          .timeout(const Duration(minutes: 10));
+    Future<bool?> awaitTask() async {
+      final authUri = Uri.parse(authUrl.replaceFirst('{client_id}', _clientId));
+      final canLaunch = await canLaunchUrl(authUri);
+      if (!canLaunch) {
+        /// auth fail because invalid uri.
+        return false;
+      }
+      await launchUrl(authUri);
+
+      authResultOperation = _authEventChannel.awaitAuthResult();
+
+      final authResult = await authResultOperation?.valueOrCancellation();
+      if (authResult == null) {
+        return null;
+      }
 
       /// save token.
       await _preferences.setAuthToken(authResult.token);
@@ -74,11 +83,16 @@ class AuthRepository {
         AniListSettings.fromDto(userDto.options!, userDto.mediaListOptions!),
       );
 
-      /// login success.
       return true;
-    } catch (e) {
-      return false;
     }
+
+    return CancelableOperation.fromFuture(
+      awaitTask(),
+      onCancel: () {
+        authResultOperation?.cancel();
+        logger.d('auth login operation canceled');
+      },
+    );
   }
 
   Future logout() async {

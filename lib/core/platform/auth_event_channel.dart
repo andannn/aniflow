@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:async/async.dart';
 import 'package:flutter/services.dart';
 
 class AuthResult {
@@ -22,23 +21,39 @@ class AuthEventChannel {
 
   /// Call this method to wait auth result.
   /// Do not call this method again when last call is not completed.
-  Future<AuthResult> awaitAuthResult() async {
+  CancelableOperation<AuthResult> awaitAuthResult() {
     logger.d('start await auth result');
-    dynamic resultString = await _authChannel.receiveBroadcastStream().first;
-    final queryParameters = Uri.parse(resultString).queryParameters;
-    final token = queryParameters['access_token'] ?? '';
-    if (token.isEmpty) {
-      throw Exception('no token');
-    }
-    final expiresInTime =
-        int.tryParse(queryParameters['expires_in'] ?? '') ?? -1;
-    if (expiresInTime == -1) {
-      throw Exception('result error');
-    }
+    final stream = _authChannel.receiveBroadcastStream();
+    var completer = CancelableCompleter<AuthResult>();
+    final subscription = stream.listen(
+      (dynamic resultString) {
+        final queryParameters = Uri.parse(resultString).queryParameters;
+        final token = queryParameters['access_token'] ?? '';
+        if (token.isEmpty) {
+          throw Exception('no token');
+        }
+        final expiresInTime =
+            int.tryParse(queryParameters['expires_in'] ?? '') ?? -1;
+        if (expiresInTime == -1) {
+          throw Exception('result error');
+        }
 
-    logger.d('login success and token will be expired in'
-        // ignore: lines_longer_than_80_chars
-        ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
-    return AuthResult(token: token, expiresInTime: expiresInTime);
+        logger.d('login success and token will be expired in'
+            // ignore: lines_longer_than_80_chars
+            ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
+        completer.complete(
+          AuthResult(token: token, expiresInTime: expiresInTime),
+        );
+      },
+      onDone: () {
+        logger.d('auth event channel done');
+      }
+    );
+
+    completer = CancelableCompleter<AuthResult>(onCancel: () {
+      subscription.cancel();
+    });
+
+    return completer.operation;
   }
 }

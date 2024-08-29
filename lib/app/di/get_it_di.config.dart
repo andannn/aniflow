@@ -69,6 +69,9 @@ import 'package:aniflow/core/network/auth_data_source.dart' as _i1026;
 import 'package:aniflow/core/network/di/di_network_module.dart' as _i106;
 import 'package:aniflow/core/network/github_data_source.dart' as _i70;
 import 'package:aniflow/core/network/hianime_data_source.dart' as _i638;
+import 'package:aniflow/core/platform/auth_event_channel.dart' as _i4;
+import 'package:aniflow/core/platform/di/auth_event_channel_module.dart'
+    as _i329;
 import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart'
     as _i365;
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
@@ -173,12 +176,15 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    final authEventChannelModule = _$AuthEventChannelModule();
     final dIWorkmanagerModule = _$DIWorkmanagerModule();
     final dIFirebaseRemoteConfigModule = _$DIFirebaseRemoteConfigModule();
     final dIDataBaseModule = _$DIDataBaseModule();
     final registerModule = _$RegisterModule();
     final dINetworkModule = _$DINetworkModule();
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
+    gh.lazySingleton<_i4.AuthEventChannel>(
+        () => authEventChannelModule.getAuthEventChannel());
     await gh.lazySingletonAsync<_i500.Workmanager>(
       () => dIWorkmanagerModule.workManager,
       registerFor: {_Implement},
@@ -514,6 +520,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i638.HiAnimationDataSource>(
         () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
+    gh.lazySingleton<_i768.AuthRepository>(
+      () => _i768.AuthRepository(
+        gh<_i1026.AuthDataSource>(),
+        gh<_i874.UserDao>(),
+        gh<_i918.UserDataPreferences>(),
+        gh<_i4.AuthEventChannel>(),
+      ),
+      registerFor: {_Implement},
+    );
     gh.lazySingleton<_i462.FavoriteRepository>(
       () => _i462.FavoriteRepository(
         gh<_i1001.AniListDataSource>(),
@@ -556,14 +571,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i827.HiAnimationRepository(
         gh<_i638.HiAnimationDataSource>(),
         gh<_i393.EpisodeDao>(),
-      ),
-      registerFor: {_Implement},
-    );
-    gh.lazySingleton<_i768.AuthRepository>(
-      () => _i768.AuthRepository(
-        gh<_i1026.AuthDataSource>(),
-        gh<_i874.UserDao>(),
-        gh<_i918.UserDataPreferences>(),
       ),
       registerFor: {_Implement},
     );
@@ -710,6 +717,8 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$AuthEventChannelModule extends _i329.AuthEventChannelModule {}
 
 class _$DIWorkmanagerModule extends _i555.DIWorkmanagerModule {}
 

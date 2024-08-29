@@ -63,7 +63,7 @@ packages:
     source: hosted
     version: "2.5.0"
   async:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: async
       sha256: "947bfcf187f74dbc5e146c9eb9c0f10c9f8b30743e341481c1e2ed3ecc18c20c"
@@ -1122,7 +1122,7 @@ packages:
     source: hosted
     version: "5.4.4"
   mocktail:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: mocktail
       sha256: "890df3f9688106f25755f26b1c60589a92b3ab91a22b8b224947ad041bf172d8"
@@ -1328,7 +1328,7 @@ packages:
     source: path
     version: "0.0.1"
   plugin_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: plugin_platform_interface
       sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
@@ -1741,7 +1741,7 @@ packages:
     source: hosted
     version: "3.2.0"
   url_launcher_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher_platform_interface
       sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
