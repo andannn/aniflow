@@ -50,8 +50,8 @@ class _TodayAiringScheduleState extends State<TodayAiringSchedule> {
         .then((state) {
       final group = state.schedules.toScheduleCategory();
       final initialIndex = group.indexWhere(
-            (element) => element.key!.hour > DateTime.now().hour,
-          );
+        (element) => element.key!.hour > DateTime.now().hour,
+      );
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
         itemScrollController.jumpTo(
           index: (initialIndex - 1).clamp(0, group.length - 1),
