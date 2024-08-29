@@ -39,6 +39,14 @@ class LoginSuccessMessage extends SnackBarMessage {
       context.appLocal.loginSuccessMessage;
 }
 
+class LogoutMessage extends SnackBarMessage {
+  const LogoutMessage() : super(duration: SnackBarDuration.medium);
+
+  @override
+  String translated(BuildContext context) =>
+      context.appLocal.logoutSuccessMessage;
+}
+
 class ConnectionTimeOutMessage extends SnackBarMessage {
   const ConnectionTimeOutMessage() : super(duration: SnackBarDuration.medium);
 

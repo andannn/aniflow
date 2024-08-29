@@ -563,7 +563,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i768.AuthRepository(
         gh<_i1026.AuthDataSource>(),
         gh<_i874.UserDao>(),
-        gh<_i29.MediaListDao>(),
         gh<_i918.UserDataPreferences>(),
       ),
       registerFor: {_Implement},

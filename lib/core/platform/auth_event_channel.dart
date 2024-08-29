@@ -22,30 +22,23 @@ class AuthEventChannel {
 
   /// Call this method to wait auth result.
   /// Do not call this method again when last call is not completed.
-  Future<AuthResult> awaitAuthResult() {
+  Future<AuthResult> awaitAuthResult() async {
     logger.d('start await auth result');
-    final completer = Completer<AuthResult>();
-    _authChannel.receiveBroadcastStream().listen(
-      (dynamic resultString) {
-        final queryParameters = Uri.parse(resultString).queryParameters;
-        final token = queryParameters['access_token'] ?? '';
-        if (token.isEmpty) {
-          throw Exception('no token');
-        }
-        final expiresInTime =
-            int.tryParse(queryParameters['expires_in'] ?? '') ?? -1;
-        if (expiresInTime == -1) {
-          throw Exception('result error');
-        }
+    dynamic resultString = await _authChannel.receiveBroadcastStream().first;
+    final queryParameters = Uri.parse(resultString).queryParameters;
+    final token = queryParameters['access_token'] ?? '';
+    if (token.isEmpty) {
+      throw Exception('no token');
+    }
+    final expiresInTime =
+        int.tryParse(queryParameters['expires_in'] ?? '') ?? -1;
+    if (expiresInTime == -1) {
+      throw Exception('result error');
+    }
 
-        logger.d('login success and token will be expired in'
+    logger.d('login success and token will be expired in'
         // ignore: lines_longer_than_80_chars
-            ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
-        completer.complete(
-          AuthResult(token: token, expiresInTime: expiresInTime),
-        );
-      },
-    );
-    return completer.future;
+        ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
+    return AuthResult(token: token, expiresInTime: expiresInTime);
   }
 }

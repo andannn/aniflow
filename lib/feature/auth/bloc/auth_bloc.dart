@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AutoCancelMixin {
   FutureOr<void> _onLogoutButtonTapped(
       OnLogoutButtonTapped event, Emitter<AuthState> emit) async {
     await _authRepository.logout();
-    _messageRepository.showMessage(const LoginSuccessMessage());
+    _messageRepository.showMessage(const LogoutMessage());
   }
 
   FutureOr<void> _onUserDataChanged(

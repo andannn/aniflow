@@ -10,7 +10,6 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/user_mapper.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
-import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/ani_auth_mution_graphql.dart';
@@ -32,7 +31,6 @@ class AuthRepository {
   AuthRepository(
     this._authDataSource,
     this._userDataDao,
-    this._animeTrackListDao,
     this._preferences,
   );
 
@@ -43,8 +41,6 @@ class AuthRepository {
   final AuthDataSource _authDataSource;
 
   final UserDao _userDataDao;
-
-  final MediaListDao _animeTrackListDao;
 
   Future<bool> awaitAuthLogin() async {
     final authUri = Uri.parse(authUrl.replaceFirst('{client_id}', _clientId));
@@ -86,10 +82,6 @@ class AuthRepository {
   }
 
   Future logout() async {
-    final userId = _preferences.userData.authedUserId;
-    if (userId != null) {
-      await _animeTrackListDao.removeMediaListOfUser(userId);
-    }
     await _preferences.setAuthExpiredTime(null);
     await _preferences.setAuthToken(null);
     await _preferences.setAuthedUserId(null);
