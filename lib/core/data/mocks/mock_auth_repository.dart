@@ -5,16 +5,12 @@ import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
+import 'package:async/src/cancelable_operation.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(env: [AfEnvironment.mock], as: AuthRepository)
 class MockAuthRepository implements AuthRepository {
-  @override
-  Future<bool> awaitAuthLogin() {
-    return Future.value(true);
-  }
-
   @override
   Future<UserModel?> getAuthedUser() {
     return Future.value(null);
@@ -44,5 +40,10 @@ class MockAuthRepository implements AuthRepository {
       ScoreFormat? scoreFormat,
       CancelToken? token}) {
     return Future.value(LoadSuccess(data: null));
+  }
+
+  @override
+  CancelableOperation<bool?> loginProcessOperation() {
+    return CancelableOperation.fromValue(true);
   }
 }

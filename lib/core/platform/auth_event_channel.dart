@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:async/async.dart';
 import 'package:flutter/services.dart';
 
 class AuthResult {
@@ -22,10 +21,11 @@ class AuthEventChannel {
 
   /// Call this method to wait auth result.
   /// Do not call this method again when last call is not completed.
-  Future<AuthResult> awaitAuthResult() {
+  CancelableOperation<AuthResult> awaitAuthResult() {
     logger.d('start await auth result');
-    final completer = Completer<AuthResult>();
-    _authChannel.receiveBroadcastStream().listen(
+    final stream = _authChannel.receiveBroadcastStream();
+    var completer = CancelableCompleter<AuthResult>();
+    final subscription = stream.listen(
       (dynamic resultString) {
         final queryParameters = Uri.parse(resultString).queryParameters;
         final token = queryParameters['access_token'] ?? '';
@@ -39,13 +39,21 @@ class AuthEventChannel {
         }
 
         logger.d('login success and token will be expired in'
-        // ignore: lines_longer_than_80_chars
+            // ignore: lines_longer_than_80_chars
             ' ${DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch + expiresInTime)}');
         completer.complete(
           AuthResult(token: token, expiresInTime: expiresInTime),
         );
       },
+      onDone: () {
+        logger.d('auth event channel done');
+      }
     );
-    return completer.future;
+
+    completer = CancelableCompleter<AuthResult>(onCancel: () {
+      subscription.cancel();
+    });
+
+    return completer.operation;
   }
 }
