@@ -14,13 +14,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TodayAiringScheduleBlocProvider extends StatelessWidget {
-  const TodayAiringScheduleBlocProvider({super.key});
+  const TodayAiringScheduleBlocProvider({super.key, required this.userId});
+
+  final String? userId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+      key: ValueKey('TodayAiringScheduleBlocProvider+$userId'),
       create: (BuildContext context) =>
-          GetItScope.of(context).get<TodayAiringScheduleBloc>(),
+          GetItScope.of(context).get<TodayAiringScheduleBloc>(param1: userId),
       child: const TodayAiringSchedule(),
     );
   }
@@ -90,7 +93,7 @@ class _TimeLineItem extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16.0, top: 48),
           child: Row(
             children: category.schedules
-                .map((e) => e.animeModel)
+                .map((e) => e.mediaModel)
                 .map(
                   (media) => mediaItemBuilder(context, media),
                 )
@@ -146,6 +149,7 @@ class _TimeLineItem extends StatelessWidget {
         },
         coverImage: media.coverImage?.extraLarge ?? '',
         titleVerticalPadding: 5,
+        isFollowing: media.isFollowing,
         title: media.title?.getTitle(userTitleLanguage) ?? '',
       ),
     );

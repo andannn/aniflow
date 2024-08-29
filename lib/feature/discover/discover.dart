@@ -151,8 +151,9 @@ class _DiscoverContent extends StatelessWidget {
             ),
           HomeSectorCategory.birthdayCharacters =>
             const BirthdayCharactersBlocProvider(),
-          HomeSectorCategory.todaySchedule =>
-            const TodayAiringScheduleBlocProvider(),
+          HomeSectorCategory.todaySchedule => TodayAiringScheduleBlocProvider(
+              userId: state.userData?.id,
+            ),
           HomeSectorCategory.recentMovies => const RecentMoviesBlocProvider(),
           HomeSectorCategory.currentSeasonAnime => MediaPreviewBlocProvider(
               mediaCategory: MediaCategory.currentSeasonAnime,

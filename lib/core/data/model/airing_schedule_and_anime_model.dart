@@ -3,8 +3,8 @@ import 'package:aniflow/core/data/model/media_model.dart';
 
 class AiringScheduleAndAnimeModel {
   AiringScheduleAndAnimeModel(
-      {required this.airingSchedule, required this.animeModel});
+      {required this.airingSchedule, required this.mediaModel});
 
   final AiringScheduleModel airingSchedule;
-  final MediaModel animeModel;
+  final MediaModel mediaModel;
 }
