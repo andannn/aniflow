@@ -12,6 +12,7 @@ import 'package:aniflow/feature/discover/airing_schedule/today_airing_schedule_s
 import 'package:aniflow/feature/discover/birthday_characters/birthday_character.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TodayAiringScheduleBlocProvider extends StatelessWidget {
   const TodayAiringScheduleBlocProvider({super.key, required this.userId});
@@ -29,8 +30,35 @@ class TodayAiringScheduleBlocProvider extends StatelessWidget {
   }
 }
 
-class TodayAiringSchedule extends StatelessWidget {
+class TodayAiringSchedule extends StatefulWidget {
   const TodayAiringSchedule({super.key});
+
+  @override
+  State<TodayAiringSchedule> createState() => _TodayAiringScheduleState();
+}
+
+class _TodayAiringScheduleState extends State<TodayAiringSchedule> {
+  final ItemScrollController itemScrollController = ItemScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<TodayAiringScheduleBloc>()
+        .stream
+        .firstWhere((state) => state.schedules.isNotEmpty)
+        .then((state) {
+      final group = state.schedules.toScheduleCategory();
+      final initialIndex = group.indexWhere(
+            (element) => element.key!.hour > DateTime.now().hour,
+          );
+      WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+        itemScrollController.jumpTo(
+          index: (initialIndex - 1).clamp(0, group.length - 1),
+        );
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,19 +80,13 @@ class TodayAiringSchedule extends StatelessWidget {
             ),
             SizedBox(
               height: 320,
-              child: CustomScrollView(
+              child: ScrollablePositionedList.builder(
+                itemScrollController: itemScrollController,
                 scrollDirection: Axis.horizontal,
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    sliver: SliverList.builder(
-                      itemCount: airingSchedules.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _buildItem(airingSchedules[index]);
-                      },
-                    ),
-                  ),
-                ],
+                itemCount: airingSchedules.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _buildItem(airingSchedules[index]);
+                },
               ),
             ),
           ],
