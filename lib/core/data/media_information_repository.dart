@@ -334,7 +334,7 @@ class MediaInformationRepository {
         .map(
           (e) => AiringScheduleAndAnimeModel(
             airingSchedule: e.airingSchedule.toModel(),
-            animeModel: e.mediaEntity.toModel(),
+            mediaModel: e.mediaEntity.toModel(),
           ),
         )
         .toList();
@@ -351,7 +351,7 @@ class MediaInformationRepository {
           .map(
             (e) => AiringScheduleAndAnimeModel(
               airingSchedule: e.airingSchedule.toModel(),
-              animeModel: e.mediaEntity.toModel(),
+              mediaModel: e.mediaEntity.toModel(),
             ),
           )
           .toList(),

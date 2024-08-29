@@ -141,12 +141,12 @@ class _SchedulePageWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           top: 2.0, bottom: 2.0, left: 16.0, right: 8.0),
                       child: AiringMediaItem(
-                        model: schedule.animeModel,
+                        model: schedule.mediaModel,
                         userTitleLanguage: userTitleLanguage,
                         description: 'EP.${schedule.airingSchedule.episode}',
                         onClick: () {
                           RootRouterDelegate.get()
-                              .navigateToDetailMedia(schedule.animeModel.id);
+                              .navigateToDetailMedia(schedule.mediaModel.id);
                         },
                       ),
                     );

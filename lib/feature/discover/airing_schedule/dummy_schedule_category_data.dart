@@ -10,7 +10,7 @@ final dummyScheduleCategoryData = [
     List.generate(3, (index) {
       return AiringScheduleAndAnimeModel(
         airingSchedule: AiringScheduleModel(),
-        animeModel: MediaModel(),
+        mediaModel: MediaModel(),
       );
     }),
   ),

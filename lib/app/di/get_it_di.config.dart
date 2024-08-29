@@ -350,8 +350,15 @@ extension GetItInjectableX on _i174.GetIt {
           staffLanguage,
           gh<_i970.MediaInformationRepository>(),
         ));
-    gh.factory<_i779.TodayAiringScheduleBloc>(() =>
-        _i779.TodayAiringScheduleBloc(gh<_i970.MediaInformationRepository>()));
+    gh.factoryParam<_i779.TodayAiringScheduleBloc, String?, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i779.TodayAiringScheduleBloc(
+          userId,
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i319.MediaListRepository>(),
+        ));
     gh.factoryParam<_i801.VoiceActorContentsPagingBloc, String,
         _i797.MediaSort>((
       staffId,
