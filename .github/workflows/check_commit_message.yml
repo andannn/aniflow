@@ -23,9 +23,9 @@ jobs:
         run: |
           commits=$(git log ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} --pretty=format:"%s" | grep -vE '^Merge branch')
           echo "$commits"
-          if echo "$commits" | grep -Eqv '^sp\d{2,}\s+DPCAPP-\d+\s+.*'; then
+          if echo "$commits" | grep -Eqv '^sp\d{2,}\sDPCAPP-\d+\s.*'; then
             echo "One or more commit messages do not match the required pattern."
-            echo "$commits" | grep -Ev '^sp\d{2,}\s+DPCAPP-\d+\s+.*'
+            echo "$commits" | grep -Ev '^sp\d{2,}\sDPCAPP-\d+\s.*'
             exit 1
           fi
           
