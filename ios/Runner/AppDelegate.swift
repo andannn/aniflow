@@ -1,7 +1,7 @@
 import UIKit
 import Flutter
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
     static let channelName = "com.andannn.animetracker/auth"
 	private var eventSink: FlutterEventSink?
