@@ -71,66 +71,69 @@ class NextToWatchAnimeWidget extends StatelessWidget {
       visible: models.isNotEmpty,
       builder: () => Padding(
         padding: const EdgeInsets.all(12.0),
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: Card.outlined(
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              onTap: () {
-                RootRouterDelegate.get()
-                    .navigateToDetailMedia(models.first.mediaModel.id);
-              },
-              child: Stack(
-                children: [
-                  SizedBox.expand(
-                    child: AFNetworkImage(
-                      imageUrl: models.first.mediaModel.bannerImage ??
-                          models.first.mediaModel.coverImage?.large ??
-                          '',
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Card.outlined(
+              clipBehavior: Clip.hardEdge,
+              child: InkWell(
+                onTap: () {
+                  RootRouterDelegate.get()
+                      .navigateToDetailMedia(models.first.mediaModel.id);
+                },
+                child: Stack(
+                  children: [
+                    SizedBox.expand(
+                      child: AFNetworkImage(
+                        imageUrl: models.first.mediaModel.bannerImage ??
+                            models.first.mediaModel.coverImage?.large ??
+                            '',
+                      ),
                     ),
-                  ),
-                  Container(
-                    color:
-                        Theme.of(context).colorScheme.surface.withOpacity(0.8),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: ShapeDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            shape: const StadiumBorder(),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 6.0,
-                            ),
-                            child: Text(
-                              'Up next',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                        ),
-                        const Expanded(child: SizedBox()),
-                        Text(
-                          models.first.mediaModel.title
-                                  ?.getTitle(titleLanguage) ??
-                              '',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          context.appLocal.nextEpToWatch(
-                              (models.first.mediaListModel?.progress ?? 0) + 1),
-                        ),
-                      ],
+                    Container(
+                      color:
+                          Theme.of(context).colorScheme.surface.withOpacity(0.8),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: ShapeDecoration(
+                              color:
+                                  Theme.of(context).colorScheme.primaryContainer,
+                              shape: const StadiumBorder(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 6.0,
+                              ),
+                              child: Text(
+                                'Up next',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
+                          Text(
+                            models.first.mediaModel.title
+                                    ?.getTitle(titleLanguage) ??
+                                '',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            context.appLocal.nextEpToWatch(
+                                (models.first.mediaListModel?.progress ?? 0) + 1),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

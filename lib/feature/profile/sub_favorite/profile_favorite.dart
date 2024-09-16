@@ -98,9 +98,9 @@ class _ProfileFavoriteTabContent extends StatelessWidget {
             )
           : SliverGrid.builder(
               itemCount: items.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: 3.0 / 5.2,
+                maxCrossAxisExtent: 230,
               ),
               itemBuilder: (context, index) => _buildGridItems(
                 context,
