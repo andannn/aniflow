@@ -1,6 +1,7 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/dialog/dialog_handler.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
+import 'package:aniflow/core/common/util/screen_size_util.dart';
 import 'package:aniflow/feature/aniflow_home/ani_flow_router_delegate.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_bloc.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_state.dart';
@@ -89,30 +90,78 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
             create: (context) => GetItScope.of(context).get<AuthBloc>(),
           ),
         ],
-        child: Scaffold(
-          body: PopScope(
-            canPop: afRouterDelegate.canPop,
-            onPopInvokedWithResult: (didPop, result) {
-              afRouterDelegate.onPopPage(didPop, result);
-            },
-            child: Router(
-              restorationScopeId: "aniflow_home",
-              routerDelegate: afRouterDelegate,
+        child: LayoutBuilder(builder: (context, constrains) {
+          Widget body() => PopScope(
+                canPop: afRouterDelegate.canPop,
+                onPopInvokedWithResult: (didPop, result) {
+                  afRouterDelegate.onPopPage(didPop, result);
+                },
+                child: Router(
+                  restorationScopeId: "aniflow_home",
+                  routerDelegate: afRouterDelegate,
+                ),
+              );
+
+          if (ScreenSizeUtil.isLargeScreen(context)) {
+            return Scaffold(
+              body: Row(
+                children: [
+                  _navigationRail(
+                    navigationList: state.topLevelNavigationList,
+                    selected: currentTopLevel,
+                    onNavigateToDestination: (navigation) {
+                      afRouterDelegate.navigateToTopLevelPage(navigation);
+                    },
+                  ),
+                  Expanded(child: body())
+                ],
+              ),
+            );
+          }
+
+          return Scaffold(
+            body: body(),
+            bottomNavigationBar: _navigationBar(
+              navigationList: state.topLevelNavigationList,
+              selected: currentTopLevel,
+              onNavigateToDestination: (navigation) {
+                afRouterDelegate.navigateToTopLevelPage(navigation);
+              },
             ),
-          ),
-          bottomNavigationBar: _animeTrackerNavigationBar(
-            navigationList: state.topLevelNavigationList,
-            selected: currentTopLevel,
-            onNavigateToDestination: (navigation) async {
-              afRouterDelegate.navigateToTopLevelPage(navigation);
-            },
-          ),
-        ),
+          );
+        }),
       );
     });
   }
 
-  Widget _animeTrackerNavigationBar(
+  NavigationRail _navigationRail({
+    required List<TopLevelNavigation> navigationList,
+    required TopLevelNavigation selected,
+    required Function(TopLevelNavigation navigation) onNavigateToDestination,
+  }) {
+    final currentIndex = navigationList.indexOf(selected);
+    return NavigationRail(
+      elevation: 5,
+      leading: const SizedBox(height: 32),
+      destinations: navigationList
+          .map(
+            (navigation) => _buildNavigationRailItem(
+          navigation,
+          isSelected: navigation == selected,
+        ),
+      )
+          .toList(),
+      labelType: NavigationRailLabelType.all,
+      onDestinationSelected: (index) {
+        if (currentIndex != index) {
+          onNavigateToDestination(navigationList[index]);
+        }
+      },
+      selectedIndex: currentIndex,
+    );
+  }
+
+  Widget _navigationBar(
       {required List<TopLevelNavigation> navigationList,
       required TopLevelNavigation selected,
       required Function(TopLevelNavigation) onNavigateToDestination}) {
@@ -139,6 +188,15 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
       {required bool isSelected}) {
     return NavigationDestination(
       label: item.iconTextId,
+      icon: Icon(item.unSelectedIcon),
+      selectedIcon: Icon(item.selectedIcon),
+    );
+  }
+
+  NavigationRailDestination _buildNavigationRailItem(TopLevelNavigation item,
+      {required bool isSelected}) {
+    return NavigationRailDestination(
+      label: Text(item.iconTextId),
       icon: Icon(item.unSelectedIcon),
       selectedIcon: Icon(item.selectedIcon),
     );

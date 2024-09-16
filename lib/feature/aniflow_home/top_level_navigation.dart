@@ -42,7 +42,7 @@ extension TopLevelNavigationEx on TopLevelNavigation {
       case TopLevelNavigation.discover:
         return DiscoverPage(key: ValueKey(toString()));
       case TopLevelNavigation.track:
-        return AnimeTrackPage(key: ValueKey(toString()));
+        return MediaTrackPage(key: ValueKey(toString()));
       case TopLevelNavigation.social:
         return SocialPage(key: ValueKey(toString()));
       case TopLevelNavigation.profile:

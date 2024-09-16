@@ -17,8 +17,8 @@ import 'package:aniflow/feature/media_track/bloc/track_ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AnimeTrackPage extends Page {
-  const AnimeTrackPage({super.key});
+class MediaTrackPage extends Page {
+  const MediaTrackPage({super.key});
 
   @override
   Route createRoute(BuildContext context) {

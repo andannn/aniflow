@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_title_language.dart';
@@ -68,67 +70,78 @@ class RecentMoviesWidget extends StatelessWidget {
                 .navigateToAiringSchedule(type: ScheduleType.movie);
           },
         ),
-        SizedBox(
-          height: 450,
-          child: PageView.builder(
-            controller: PageController(
-              viewportFraction: 0.7,
-              initialPage: movies.length > 1 ? 1 : 0,
+        LayoutBuilder(builder: (context, constrains) {
+          const maxMovieImageWidth = 260;
+          const imageAspectRadio = 1 / 1.414;
+
+          final screenWidth = constrains.maxWidth;
+          final imageWidth = min(screenWidth * 0.7, maxMovieImageWidth);
+          final imageHeight = imageWidth / imageAspectRadio;
+          final viewportFraction = imageWidth / screenWidth;
+          final totalHeight = imageHeight + 50;
+
+          return SizedBox(
+            height: totalHeight,
+            child: PageView.builder(
+              controller: PageController(
+                viewportFraction: viewportFraction,
+                initialPage: movies.length > 1 ? 1 : 0,
+              ),
+              itemCount: movies.length,
+              itemBuilder: (context, index) {
+                final model = movies[index];
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Card.filled(
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () {
+                          RootRouterDelegate.get()
+                              .navigateToDetailMedia(model.id);
+                        },
+                        child: AspectRatio(
+                          aspectRatio: imageAspectRadio,
+                          child: AFNetworkImage(
+                            imageUrl: model.coverImage?.extraLarge ?? '',
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: Opacity(
+                          opacity: 0.7,
+                          child: AutoSizeText(
+                            model.title?.getTitle(titleLanguage) ?? '',
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: Opacity(
+                          opacity: 0.7,
+                          child: model.startDate != null
+                              ? AutoSizeText(
+                                  context.materialLocal
+                                      .formatMediumDate(model.startDate!),
+                                )
+                              : const SizedBox(),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
-            itemCount: movies.length,
-            itemBuilder: (context, index) {
-              final model = movies[index];
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Card.filled(
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
-                      onTap: () {
-                        RootRouterDelegate.get()
-                            .navigateToDetailMedia(model.id);
-                      },
-                      child: AspectRatio(
-                        aspectRatio: 1 / 1.414,
-                        child: AFNetworkImage(
-                          imageUrl: model.coverImage?.extraLarge ?? '',
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Flexible(
-                    flex: 1,
-                    child: Center(
-                      child: Opacity(
-                        opacity: 0.7,
-                        child: AutoSizeText(
-                          model.title?.getTitle(titleLanguage) ?? '',
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Center(
-                      child: Opacity(
-                        opacity: 0.7,
-                        child: model.startDate != null
-                            ? AutoSizeText(
-                                context.materialLocal
-                                    .formatMediumDate(model.startDate!),
-                              )
-                            : const SizedBox(),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
+          );
+        }),
       ],
     );
   }
