@@ -128,11 +128,16 @@ class _DiscoverContent extends StatelessWidget {
             },
             child: CustomScrollView(
               cacheExtent: AfConfig.defaultCatchExtend,
-              slivers: _buildSectors(
-                context: context,
-                state: state,
-                sectors: sectors,
-              ),
+              slivers: [
+                for (final sector in _buildSectors(
+                  context: context,
+                  state: state,
+                  sectors: sectors,
+                )) ...[
+                  sector,
+                  const SliverPadding(padding: EdgeInsets.only(top: 32))
+                ]
+              ],
             ),
           ),
         );
@@ -187,6 +192,16 @@ class _DiscoverContent extends StatelessWidget {
             ),
           HomeSectorCategory.topManhwa => MediaPreviewBlocProvider(
               mediaCategory: MediaCategory.topManhwa,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.newAddedAnime => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.newAddedAnime,
+              userId: state.userData?.id,
+              mediaType: state.currentMediaType,
+            ),
+          HomeSectorCategory.newAddedManga => MediaPreviewBlocProvider(
+              mediaCategory: MediaCategory.newAddedManga,
               userId: state.userData?.id,
               mediaType: state.currentMediaType,
             ),

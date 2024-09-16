@@ -207,5 +207,7 @@
 	"planning": "Planning",
 	"completed": "Completed",
 	"dropped": "Dropped",
-	"reading": "Reading"
+	"reading": "Reading",
+	"newAddedAnime": "New Added Anime",
+	"newAddedManga": "New Added Manga"
 }

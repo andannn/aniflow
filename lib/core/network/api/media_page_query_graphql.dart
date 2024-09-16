@@ -13,8 +13,8 @@ class AnimePageQueryParam {
   final MediaStatus? status;
   final CountryCode? countryCode;
   final MediaType type;
-  final List<MediaSort> animeSort;
-  final List<MediaFormat> animeFormat;
+  final List<MediaSort> mediaSort;
+  final List<MediaFormat> mediaFormat;
   final bool? isAdult;
   final DateTime? startDateGreater;
   final DateTime? endDateGreater;
@@ -25,8 +25,8 @@ class AnimePageQueryParam {
     this.season,
     this.countryCode,
     this.status,
-    this.animeSort = const [],
-    this.animeFormat = const [],
+    this.mediaSort = const [],
+    this.mediaFormat = const [],
     this.isAdult,
     this.startDateGreater,
     this.endDateGreater,
@@ -96,6 +96,16 @@ AnimePageQueryParam createMediaPageQueryParamByCategory(
       code = CountryCode.KR;
       format = [];
       sorts = [MediaSort.popularity];
+    case MediaCategory.newAddedAnime:
+      status = null;
+      seasonParam = null;
+      format = [];
+      sorts = [MediaSort.newest];
+    case MediaCategory.newAddedManga:
+      status = null;
+      seasonParam = null;
+      format = [];
+      sorts = [MediaSort.newest];
   }
 
   return AnimePageQueryParam(
@@ -104,8 +114,8 @@ AnimePageQueryParam createMediaPageQueryParamByCategory(
     type: type,
     countryCode: code,
     status: status,
-    animeSort: sorts,
-    animeFormat: format,
+    mediaSort: sorts,
+    mediaFormat: format,
     isAdult: showAdultContents == false ? false : null,
   );
 }

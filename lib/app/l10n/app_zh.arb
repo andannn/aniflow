@@ -146,5 +146,7 @@
 	"planning": "正在计划",
 	"completed": "已完成",
 	"dropped": "已放弃",
-	"reading": "正在读"
+	"reading": "正在读",
+	"newAddedAnime": "新增动画",
+	"newAddedManga": "新增漫画"
 }

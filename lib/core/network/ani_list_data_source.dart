@@ -96,12 +96,12 @@ class AniListDataSource {
     if (param.status != null) {
       variablesMap['status'] = param.status?.sqlTypeString;
     }
-    if (param.animeSort.isNotEmpty) {
-      variablesMap['sort'] = param.animeSort.map((e) => e.toJson()).toList();
+    if (param.mediaSort.isNotEmpty) {
+      variablesMap['sort'] = param.mediaSort.map((e) => e.toJson()).toList();
     }
-    if (param.animeFormat.isNotEmpty) {
+    if (param.mediaFormat.isNotEmpty) {
       variablesMap['format_in'] =
-          param.animeFormat.map((e) => e.toJson()).toList();
+          param.mediaFormat.map((e) => e.toJson()).toList();
     }
     if (param.countryCode != null) {
       variablesMap['countryCode'] = param.countryCode!.alpha2;

@@ -61,6 +61,8 @@ const _$MediaCategoryEnumMap = {
   MediaCategory.trendingManga: 'trendingManga',
   MediaCategory.allTimePopularManga: 'allTimePopularManga',
   MediaCategory.topManhwa: 'topManhwa',
+  MediaCategory.newAddedAnime: 'newAddedAnime',
+  MediaCategory.newAddedManga: 'newAddedManga',
 };
 
 _$MediaListImpl _$$MediaListImplFromJson(Map<String, dynamic> json) =>

@@ -40,4 +40,6 @@ const _$HomeSectorCategoryEnumMap = {
   HomeSectorCategory.trendingManga: 'trendingManga',
   HomeSectorCategory.allTimePopularManga: 'allTimePopularManga',
   HomeSectorCategory.topManhwa: 'topManhwa',
+  HomeSectorCategory.newAddedAnime: 'newAddedAnime',
+  HomeSectorCategory.newAddedManga: 'newAddedManga',
 };

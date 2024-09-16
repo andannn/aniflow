@@ -146,5 +146,7 @@
 	"planning": "計画している",
 	"completed": "完了",
 	"dropped": "中止",
-	"reading": "読んでいる"
+	"reading": "読んでいる",
+	"newAddedAnime": "新しく追加されたアニメ",
+	"newAddedManga": "新しく追加されたマンガ"
 }

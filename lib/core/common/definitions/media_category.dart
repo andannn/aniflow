@@ -20,7 +20,13 @@ enum MediaCategory {
   allTimePopularManga,
 
   /// South korea top.
-  topManhwa;
+  topManhwa,
+
+  /// New added anime
+  newAddedAnime,
+
+  /// New added manga
+  newAddedManga;
 
   static List<MediaCategory> getAllCategoryByType(MediaType type) {
     if (type == MediaType.anime) {
@@ -29,12 +35,14 @@ enum MediaCategory {
         nextSeasonAnime,
         trendingAnime,
         movieAnime,
+        newAddedAnime,
       ];
     } else {
       return [
         trendingManga,
         allTimePopularManga,
         topManhwa,
+        newAddedManga,
       ];
     }
   }
@@ -49,6 +57,8 @@ mixin CategoryColumnsValues {
   static const String allTimePopularManga = 'all_time_popular_manga';
   static const String topManhwa = 'top_manhwa';
   static const String birthdayCharacters = 'birthdayCharacters';
+  static const String newAddedAnime = 'newAddedAnime';
+  static const String newAddedManga = 'newAddedManga';
 }
 
 extension MediaCategoryEx on MediaCategory {
@@ -68,6 +78,10 @@ extension MediaCategoryEx on MediaCategory {
         return CategoryColumnsValues.allTimePopularManga;
       case MediaCategory.topManhwa:
         return CategoryColumnsValues.topManhwa;
+      case MediaCategory.newAddedAnime:
+        return CategoryColumnsValues.newAddedAnime;
+      case MediaCategory.newAddedManga:
+        return CategoryColumnsValues.newAddedManga;
     }
   }
 }

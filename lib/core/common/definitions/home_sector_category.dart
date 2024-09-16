@@ -25,5 +25,9 @@ enum HomeSectorCategory {
   @JsonValue('allTimePopularManga')
   allTimePopularManga,
   @JsonValue('topManhwa')
-  topManhwa;
+  topManhwa,
+  @JsonValue('newAddedAnime')
+  newAddedAnime,
+  @JsonValue('newAddedManga')
+  newAddedManga;
 }

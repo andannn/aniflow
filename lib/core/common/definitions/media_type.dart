@@ -25,10 +25,12 @@ MediaType getMediaTypeByCategory(MediaCategory category) {
     case MediaCategory.nextSeasonAnime:
     case MediaCategory.trendingAnime:
     case MediaCategory.movieAnime:
+    case MediaCategory.newAddedAnime:
       return MediaType.anime;
     case MediaCategory.trendingManga:
     case MediaCategory.allTimePopularManga:
     case MediaCategory.topManhwa:
+    case MediaCategory.newAddedManga:
       return MediaType.manga;
   }
 }

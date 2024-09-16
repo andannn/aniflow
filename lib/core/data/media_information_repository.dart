@@ -122,7 +122,7 @@ class MediaInformationRepository {
           type: MediaType.anime,
           startDateGreater: startDateGreater,
           endDateGreater: endDateLesser,
-          animeFormat: [MediaFormat.movie],
+          mediaFormat: [MediaFormat.movie],
           isAdult: isAdult,
         ),
       ),

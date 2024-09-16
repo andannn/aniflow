@@ -146,5 +146,7 @@
 	"planning": "Планирую",
 	"completed": "Завершено",
 	"dropped": "Брошено",
-	"reading": "Читаю"
+	"reading": "Читаю",
+	"newAddedAnime": "Новое Добавленное Аниме",
+	"newAddedManga": "Новый Добавленный Манга"
 }

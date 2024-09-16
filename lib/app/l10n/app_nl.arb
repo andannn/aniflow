@@ -146,5 +146,7 @@
 	"planning": "Aan het plannen",
 	"completed": "Voltooid",
 	"dropped": "Gestopt",
-	"reading": "Aan het lezen"
+	"reading": "Aan het lezen",
+	"newAddedAnime": "Nieuw Toegevoegde Anime",
+	"newAddedManga": "Nieuw Toegevoegde Manga"
 }

@@ -164,6 +164,8 @@ extension MediaCategoryEx on MediaCategory {
         MediaCategory.trendingManga => context.appLocal.trendingNowLabel,
         MediaCategory.allTimePopularManga => context.appLocal.allTimePopular,
         MediaCategory.topManhwa => context.appLocal.topManhwa,
+        MediaCategory.newAddedAnime => context.appLocal.newAddedAnime,
+        MediaCategory.newAddedManga => context.appLocal.newAddedManga,
       };
 }
 

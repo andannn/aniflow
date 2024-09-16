@@ -146,5 +146,7 @@
 	"planning": "Planen",
 	"completed": "Abgeschlossen",
 	"dropped": "Abgebrochen",
-	"reading": "Lesen"
+	"reading": "Lesen",
+	"newAddedAnime": "Neu hinzugefügter Anime",
+	"newAddedManga": "Neu hinzugefügter Manga"
 }
