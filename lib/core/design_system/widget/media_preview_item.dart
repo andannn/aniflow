@@ -130,16 +130,19 @@ class MediaPreviewItemV2 extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
+        Positioned.fill(
           bottom: 12,
-          left: 12,
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
-                ),
+          child: Container(
+            padding: const EdgeInsets.only(left: 8),
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
           ),
         ),
         isFollowing
@@ -152,7 +155,8 @@ class MediaPreviewItemV2 extends StatelessWidget {
                     scaleX: 0.8,
                     child: Stack(
                       children: [
-                        const Positioned.fill(child: Icon(
+                        const Positioned.fill(
+                            child: Icon(
                           Icons.bookmark,
                           color: Colors.white,
                         )),
