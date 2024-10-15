@@ -135,7 +135,7 @@ class _DiscoverContent extends StatelessWidget {
                   sectors: sectors,
                 )) ...[
                   sector,
-                  const SliverPadding(padding: EdgeInsets.only(top: 32))
+                  // const SliverPadding(padding: EdgeInsets.only(top: 32))
                 ]
               ],
             ),
