@@ -125,6 +125,7 @@ class _MediaCategoryPreview extends StatelessWidget {
                   },
                 ),
         ),
+        const SizedBox(height: 32),
       ],
     );
   }
