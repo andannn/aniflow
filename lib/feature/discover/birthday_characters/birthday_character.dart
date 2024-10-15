@@ -123,6 +123,11 @@ class BirthdayCharactersWidget extends StatelessWidget {
 
     final characterModels =
         models.isNotEmpty ? models : dummyBirthdayCharacterData;
+
+    if (models.isEmpty) {
+      return const SizedBox();
+    }
+
     return Column(
       children: [
         CategoryTitleBar(

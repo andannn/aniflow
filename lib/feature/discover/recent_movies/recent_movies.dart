@@ -142,6 +142,7 @@ class RecentMoviesWidget extends StatelessWidget {
             ),
           );
         }),
+        const SizedBox(height: 32),
       ],
     );
   }
