@@ -71,6 +71,8 @@ class _OnEpisodeFound extends DetailAnimeEvent {
 
 class OnMarkWatchedClick extends DetailAnimeEvent {}
 
+class OnRetryGetHighAnimationSource extends DetailAnimeEvent {}
+
 class _OnFindEpisodeError extends DetailAnimeEvent {
   _OnFindEpisodeError({
     required this.exception,
@@ -173,6 +175,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       (event, emit) => emit(state.copyWith(episode: Loading())),
     );
     on<OnMarkWatchedClick>(_onMarkWatchedClick);
+    on<OnRetryGetHighAnimationSource>(_onRetryGetHighAnimationSource);
 
     _init();
   }
@@ -330,8 +333,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
         mediaId, _toggleFavoriteCancelToken!));
   }
 
-  void _updateHiAnimationSource(HiAnimationSource source) async {
-    if (_hiAnimationSource != source) {
+  void _updateHiAnimationSource(HiAnimationSource source,
+      {bool isForce = false}) async {
+    if (_hiAnimationSource != source || isForce) {
       _hiAnimationSource = source;
       _findPlaySourceCancelToken?.cancel();
       _findPlaySourceCancelToken = CancelToken();
@@ -400,6 +404,14 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       } else {
         _messageRepository.showMessage(const MediaMarkWatchedMessage());
       }
+    }
+  }
+
+  FutureOr<void> _onRetryGetHighAnimationSource(
+      OnRetryGetHighAnimationSource event, Emitter<DetailMediaUiState> emit) {
+    final source = _hiAnimationSource;
+    if (source != null) {
+      _updateHiAnimationSource(source, isForce: true);
     }
   }
 }

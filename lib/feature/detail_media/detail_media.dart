@@ -942,10 +942,10 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                             OutlinedButton(
                               onPressed: () async {
                                 context.read<DetailMediaBloc>().add(
-                                      OnMarkWatchedClick(),
+                                      OnRetryGetHighAnimationSource(),
                                     );
                               },
-                              child: Text(context.appLocal.markWatched),
+                              child: Text(context.appLocal.retry),
                             ),
                             FilledButton(
                               onPressed: () async {
