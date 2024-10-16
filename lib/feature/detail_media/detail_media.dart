@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
@@ -318,22 +319,26 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
           children: [
             Expanded(
               flex: 1,
-              child: SizedBox(
-                height: 1,
-                child: InkWell(
-                  onTap: onImageClick,
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    )),
-                    child: Hero(
-                      tag: model.coverPreviewSource,
-                      child: AFNetworkImage(
-                        imageUrl: model.coverImage?.extraLarge ?? '',
+              child: InkWell(
+                onTap: onImageClick,
+                child: Hero(
+                  tag: model.coverPreviewSource,
+                  child: Column(
+                    children: [
+                      Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: const ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        )),
+                        child: AspectRatio(
+                          aspectRatio: 3 / 4,
+                          child: AFNetworkImage(
+                            imageUrl: model.coverImage?.extraLarge ?? '',
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
@@ -829,7 +834,8 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
 
   Widget _buildWatchNextEpisodeArea(
       BuildContext context, DetailMediaUiState state) {
-    if (!state.isHiAnimationFeatureEnabled) {
+    if (!state.isHiAnimationFeatureEnabled ||
+        state.detailAnimeModel?.type != MediaType.anime) {
       return const SizedBox();
     }
 

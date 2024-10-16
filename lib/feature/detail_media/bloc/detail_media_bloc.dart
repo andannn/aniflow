@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
@@ -235,10 +236,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
     super.onChange(change);
     final progress = change.nextState.mediaListItem?.progress;
     final title = change.nextState.detailAnimeModel?.title;
+    final isAnime = change.nextState.detailAnimeModel?.type == MediaType.anime;
 
     if (change.nextState.isHiAnimationFeatureEnabled &&
         progress != null &&
-        title != null) {
+        title != null &&
+        isAnime) {
       final hasNextReleasingEpisode =
           change.nextState.hasNextReleasedEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
