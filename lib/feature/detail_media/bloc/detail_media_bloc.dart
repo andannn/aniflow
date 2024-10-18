@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
+import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
@@ -70,6 +71,8 @@ class _OnEpisodeFound extends DetailAnimeEvent {
 }
 
 class OnMarkWatchedClick extends DetailAnimeEvent {}
+
+class OnRetryGetHighAnimationSource extends DetailAnimeEvent {}
 
 class _OnFindEpisodeError extends DetailAnimeEvent {
   _OnFindEpisodeError({
@@ -173,6 +176,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       (event, emit) => emit(state.copyWith(episode: Loading())),
     );
     on<OnMarkWatchedClick>(_onMarkWatchedClick);
+    on<OnRetryGetHighAnimationSource>(_onRetryGetHighAnimationSource);
 
     _init();
   }
@@ -232,10 +236,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
     super.onChange(change);
     final progress = change.nextState.mediaListItem?.progress;
     final title = change.nextState.detailAnimeModel?.title;
+    final isAnime = change.nextState.detailAnimeModel?.type == MediaType.anime;
 
     if (change.nextState.isHiAnimationFeatureEnabled &&
         progress != null &&
-        title != null) {
+        title != null &&
+        isAnime) {
       final hasNextReleasingEpisode =
           change.nextState.hasNextReleasedEpisode == true;
       final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
@@ -330,8 +336,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
         mediaId, _toggleFavoriteCancelToken!));
   }
 
-  void _updateHiAnimationSource(HiAnimationSource source) async {
-    if (_hiAnimationSource != source) {
+  void _updateHiAnimationSource(HiAnimationSource source,
+      {bool isForce = false}) async {
+    if (_hiAnimationSource != source || isForce) {
       _hiAnimationSource = source;
       _findPlaySourceCancelToken?.cancel();
       _findPlaySourceCancelToken = CancelToken();
@@ -400,6 +407,14 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       } else {
         _messageRepository.showMessage(const MediaMarkWatchedMessage());
       }
+    }
+  }
+
+  FutureOr<void> _onRetryGetHighAnimationSource(
+      OnRetryGetHighAnimationSource event, Emitter<DetailMediaUiState> emit) {
+    final source = _hiAnimationSource;
+    if (source != null) {
+      _updateHiAnimationSource(source, isForce: true);
     }
   }
 }
