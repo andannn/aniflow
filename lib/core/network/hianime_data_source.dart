@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/network/model/source_dto.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
@@ -86,4 +89,63 @@ class HiAnimationDataSource {
             ))
         .toList();
   }
+
+  Future<SourceDto> getPlayLink(String episodeId, [CancelToken? token]) async {
+    Map decodeResult(resultData) {
+      if (resultData is String) {
+        return jsonDecode(resultData);
+      } else if (resultData is Map) {
+        return resultData;
+      } else {
+        throw 'Unknown type of resultData: $resultData';
+      }
+    }
+
+    final result = await dio.get(
+      '${hiAnimationUrl}ajax/v2/episode/servers',
+      queryParameters: {'episodeId': episodeId},
+    );
+    logger.d("${result.data}");
+    logger.d("${result.data.runtimeType}");
+    final document = parse(decodeResult(result.data)["html"]);
+    final ids = document
+        .querySelectorAll("div.server-item[data-type][data-id]")
+        .map((element) {
+          return element.attributes["data-id"];
+        })
+        .whereNotNull()
+        .toList();
+
+    final linkResult = await dio.get(
+      '${hiAnimationUrl}ajax/v2/episode/sources',
+      queryParameters: {'id': ids[0]},
+    );
+
+    final link = decodeResult(linkResult.data)['link'].toString();
+    const mainUrl = "https://megacloud.tv";
+    const embed = "embed-2/ajax/e-1";
+    final source = await dio.get(
+      "$mainUrl/$embed/getSources",
+      queryParameters: {
+        "id": link.split('/').last.split('?').first,
+      },
+      options: Options(
+        headers: {
+          "Accept": "*/*",
+          "Accept-Language": "en-US,en;q=0.5",
+          "Connection": "keep-alive",
+          "TE": "trailers",
+          "X-Requested-With": "XMLHttpRequest",
+          "referer": mainUrl
+        },
+      ),
+    );
+    logger.d(source.data);
+    return SourceDto.fromJson(source.data);
+  }
+}
+
+extension SourceDtoEx on SourceDto {
+
+
 }

@@ -44,6 +44,8 @@ mixin _UserDataKey {
       'already_sent_notification_ids_key';
 
   static const mineGithubUserInfoKey = 'mine_github_user_info_key';
+
+  static const useInAppPlayerKey = 'use_in_app_player_key';
 }
 
 @lazySingleton
@@ -72,6 +74,7 @@ class UserDataPreferences {
       userStaffNameLanguage: settings.userStaffNameLanguage,
       scoreFormat: settings.scoreFormat,
       sentNotificationIds: _sentNotificationIds,
+      useInAppPlayer: _useInAppPlayer,
     );
   }
 
@@ -208,6 +211,15 @@ class UserDataPreferences {
     } else {
       await _preferences.remove(_UserDataKey.authExpiredTime);
     }
+    _changeNotifier.notifyChanged();
+  }
+
+  bool get _useInAppPlayer {
+    return _preferences.getBool(_UserDataKey.useInAppPlayerKey) ?? false;
+  }
+
+  Future setIsUseInAppPlayer(bool useInAppPlayer) async {
+    await _preferences.setBool(_UserDataKey.useInAppPlayerKey, useInAppPlayer);
     _changeNotifier.notifyChanged();
   }
 

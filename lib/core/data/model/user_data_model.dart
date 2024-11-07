@@ -27,6 +27,7 @@ class UserDataModel with _$UserDataModel {
     String? authedUserId,
     String? authToken,
     DateTime? authExpiredTime,
+    @Default(false) bool useInAppPlayer,
 
     /// ani-list remote data.
     @Default(false) bool displayAdultContent,

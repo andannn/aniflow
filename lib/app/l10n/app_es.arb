@@ -148,5 +148,7 @@
 	"dropped": "Dejado",
 	"reading": "Leyendo",
 	"newAddedAnime": "Nuevo Anime Añadido",
-	"newAddedManga": "Nuevo Manga Añadido"
+	"newAddedManga": "Nuevo Manga Añadido",
+	"experimental": "Experimental",
+	"useInAppPlayer": "Usar reproductor de la aplicación"
 }

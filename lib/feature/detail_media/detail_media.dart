@@ -913,7 +913,7 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                             ),
                             FilledButton(
                               onPressed: () async {
-                                final url = Uri.parse(episode.state.url);
+                                final url = Uri.parse(episode.state.webUrl);
                                 if (await canLaunchUrl(url)) {
                                   await launchUrl(url);
                                 }

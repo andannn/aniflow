@@ -17,5 +17,6 @@ class SettingsState with _$SettingsState {
     @Default(UserStaffNameLanguage.native)
     UserStaffNameLanguage selectedStaffNameLanguage,
     @Default(false) bool displayAdultContent,
+    @Default(false) bool useInAppPlayer,
   }) = _SettingsState;
 }

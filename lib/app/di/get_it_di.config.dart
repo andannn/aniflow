@@ -574,13 +574,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i67.MessageRepository>(),
           activityId,
         ));
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i827.HiAnimationRepository(
-        gh<_i638.HiAnimationDataSource>(),
-        gh<_i393.EpisodeDao>(),
-      ),
-      registerFor: {_Implement},
-    );
     gh.factoryParam<_i231.StatsBloc, String, _i636.LoadingStateRepository>((
       userId,
       _loadingStateRepository,
@@ -701,6 +694,14 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
         ));
+    gh.lazySingleton<_i827.HiAnimationRepository>(
+      () => _i827.HiAnimationRepository(
+        gh<_i638.HiAnimationDataSource>(),
+        gh<_i393.EpisodeDao>(),
+        gh<_i918.UserDataPreferences>(),
+      ),
+      registerFor: {_Implement},
+    );
     gh.factoryParam<_i425.MediaSearchResultPagingBloc, _i55.MediaType, String>((
       _mediaType,
       _searchString,

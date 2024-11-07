@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/network/hianime_data_source.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -17,24 +18,56 @@ class NotFoundEpisodeException implements Exception {
 }
 
 class Episode extends Equatable {
-  final String url;
+  final String webUrl;
   final String title;
+  final String episodeId;
   final String epNumber;
+  final String? encryptedLink;
 
-  const Episode(this.url, this.title, this.epNumber);
+  const Episode(this.webUrl, this.title, this.epNumber, this.episodeId,
+      [this.encryptedLink]);
 
   @override
-  List<Object?> get props => [url, title, epNumber];
+  List<Object?> get props => [webUrl, title, epNumber, encryptedLink];
 }
 
 @LazySingleton(env: [AfEnvironment.impl])
 class HiAnimationRepository {
-  HiAnimationRepository(this._datasource, this._episodeDao);
+  HiAnimationRepository(this._datasource, this._episodeDao, this._preferences);
 
   final HiAnimationDataSource _datasource;
   final EpisodeDao _episodeDao;
+  final UserDataPreferences _preferences;
 
   Future<LoadResult<Episode>> searchPlaySourceByKeyword(
+      String animeId, List<String> keywords, String episode,
+      [CancelToken? cancelToken]) async {
+    final episodeResult =
+        await _getEpisode(animeId, keywords, episode, cancelToken);
+
+    final useInAppPlayer = _preferences.userData.useInAppPlayer;
+    if (episodeResult is LoadError || !useInAppPlayer) {
+      return episodeResult;
+    }
+
+    final episodeModel = (episodeResult as LoadSuccess<Episode>).data;
+
+    try {
+      final source = await _datasource.getPlayLink(episodeModel.episodeId);
+      return LoadSuccess(
+          data: Episode(
+        episodeModel.webUrl,
+        episodeModel.title,
+        episodeModel.epNumber,
+        episodeModel.episodeId,
+        source.sources,
+      ));
+    } on Exception catch (e) {
+      return LoadError(e);
+    }
+  }
+
+  Future<LoadResult<Episode>> _getEpisode(
       String animeId, List<String> keywords, String episode,
       [CancelToken? cancelToken]) async {
     final episodeOrNull = await _episodeDao.findEpisode(animeId, episode);
@@ -45,6 +78,7 @@ class HiAnimationRepository {
           episodeOrNull.url,
           episodeOrNull.title,
           episodeOrNull.episodeNum.toString(),
+          episodeOrNull.episodeId,
         ),
       );
     }
@@ -81,14 +115,20 @@ class HiAnimationRepository {
       await _episodeDao.upsertEpisode(
         EpisodeEntity(
           animeId: animeId,
+          episodeId: episodeId,
           title: title,
           url: url,
           episodeNum: epNumber,
         ),
       );
       return LoadSuccess(
-          data: Episode(
-              '$hiAnimationUrl$animeHref?ep=$episodeId', title, epNumber));
+        data: Episode(
+          '$hiAnimationUrl$animeHref?ep=$episodeId',
+          title,
+          epNumber,
+          episodeId,
+        ),
+      );
     } on Exception catch (e) {
       logger.e('Exception on searchPlaySourceByKeyword: $e');
       return LoadError(NotFoundEpisodeException(

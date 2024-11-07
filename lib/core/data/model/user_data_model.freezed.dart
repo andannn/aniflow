@@ -29,6 +29,7 @@ mixin _$UserDataModel {
   String? get authedUserId => throw _privateConstructorUsedError;
   String? get authToken => throw _privateConstructorUsedError;
   DateTime? get authExpiredTime => throw _privateConstructorUsedError;
+  bool get useInAppPlayer => throw _privateConstructorUsedError;
 
   /// ani-list remote data.
   bool get displayAdultContent => throw _privateConstructorUsedError;
@@ -62,6 +63,7 @@ abstract class $UserDataModelCopyWith<$Res> {
       String? authedUserId,
       String? authToken,
       DateTime? authExpiredTime,
+      bool useInAppPlayer,
       bool displayAdultContent,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
@@ -94,6 +96,7 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
     Object? authedUserId = freezed,
     Object? authToken = freezed,
     Object? authExpiredTime = freezed,
+    Object? useInAppPlayer = null,
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
@@ -141,6 +144,10 @@ class _$UserDataModelCopyWithImpl<$Res, $Val extends UserDataModel>
           ? _value.authExpiredTime
           : authExpiredTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      useInAppPlayer: null == useInAppPlayer
+          ? _value.useInAppPlayer
+          : useInAppPlayer // ignore: cast_nullable_to_non_nullable
+              as bool,
       displayAdultContent: null == displayAdultContent
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
@@ -184,6 +191,7 @@ abstract class _$$UserDataModelImplCopyWith<$Res>
       String? authedUserId,
       String? authToken,
       DateTime? authExpiredTime,
+      bool useInAppPlayer,
       bool displayAdultContent,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
@@ -214,6 +222,7 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
     Object? authedUserId = freezed,
     Object? authToken = freezed,
     Object? authExpiredTime = freezed,
+    Object? useInAppPlayer = null,
     Object? displayAdultContent = null,
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
@@ -261,6 +270,10 @@ class __$$UserDataModelImplCopyWithImpl<$Res>
           ? _value.authExpiredTime
           : authExpiredTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      useInAppPlayer: null == useInAppPlayer
+          ? _value.useInAppPlayer
+          : useInAppPlayer // ignore: cast_nullable_to_non_nullable
+              as bool,
       displayAdultContent: null == displayAdultContent
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
@@ -299,6 +312,7 @@ class _$UserDataModelImpl implements _UserDataModel {
       this.authedUserId,
       this.authToken,
       this.authExpiredTime,
+      this.useInAppPlayer = false,
       this.displayAdultContent = false,
       this.userTitleLanguage = UserTitleLanguage.native,
       this.userStaffNameLanguage = UserStaffNameLanguage.native,
@@ -334,6 +348,9 @@ class _$UserDataModelImpl implements _UserDataModel {
   final String? authToken;
   @override
   final DateTime? authExpiredTime;
+  @override
+  @JsonKey()
+  final bool useInAppPlayer;
 
   /// ani-list remote data.
   @override
@@ -360,7 +377,7 @@ class _$UserDataModelImpl implements _UserDataModel {
 
   @override
   String toString() {
-    return 'UserDataModel(mediaType: $mediaType, season: $season, seasonYear: $seasonYear, themeSetting: $themeSetting, trackListFilter: $trackListFilter, activityScopeCategory: $activityScopeCategory, activityFilterType: $activityFilterType, authedUserId: $authedUserId, authToken: $authToken, authExpiredTime: $authExpiredTime, displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, sentNotificationIds: $sentNotificationIds)';
+    return 'UserDataModel(mediaType: $mediaType, season: $season, seasonYear: $seasonYear, themeSetting: $themeSetting, trackListFilter: $trackListFilter, activityScopeCategory: $activityScopeCategory, activityFilterType: $activityFilterType, authedUserId: $authedUserId, authToken: $authToken, authExpiredTime: $authExpiredTime, useInAppPlayer: $useInAppPlayer, displayAdultContent: $displayAdultContent, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, sentNotificationIds: $sentNotificationIds)';
   }
 
   @override
@@ -387,6 +404,8 @@ class _$UserDataModelImpl implements _UserDataModel {
                 other.authToken == authToken) &&
             (identical(other.authExpiredTime, authExpiredTime) ||
                 other.authExpiredTime == authExpiredTime) &&
+            (identical(other.useInAppPlayer, useInAppPlayer) ||
+                other.useInAppPlayer == useInAppPlayer) &&
             (identical(other.displayAdultContent, displayAdultContent) ||
                 other.displayAdultContent == displayAdultContent) &&
             (identical(other.userTitleLanguage, userTitleLanguage) ||
@@ -412,6 +431,7 @@ class _$UserDataModelImpl implements _UserDataModel {
       authedUserId,
       authToken,
       authExpiredTime,
+      useInAppPlayer,
       displayAdultContent,
       userTitleLanguage,
       userStaffNameLanguage,
@@ -439,6 +459,7 @@ abstract class _UserDataModel implements UserDataModel {
       final String? authedUserId,
       final String? authToken,
       final DateTime? authExpiredTime,
+      final bool useInAppPlayer,
       final bool displayAdultContent,
       final UserTitleLanguage userTitleLanguage,
       final UserStaffNameLanguage userStaffNameLanguage,
@@ -466,6 +487,8 @@ abstract class _UserDataModel implements UserDataModel {
   String? get authToken;
   @override
   DateTime? get authExpiredTime;
+  @override
+  bool get useInAppPlayer;
 
   /// ani-list remote data.
   @override

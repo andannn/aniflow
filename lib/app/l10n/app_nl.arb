@@ -148,5 +148,7 @@
 	"dropped": "Gestopt",
 	"reading": "Aan het lezen",
 	"newAddedAnime": "Nieuw Toegevoegde Anime",
-	"newAddedManga": "Nieuw Toegevoegde Manga"
+	"newAddedManga": "Nieuw Toegevoegde Manga",
+	"experimental": "Experimenteel",
+	"useInAppPlayer": "In-app-speler gebruiken"
 }

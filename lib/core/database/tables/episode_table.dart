@@ -7,6 +7,8 @@ class EpisodeTable extends Table {
 
   TextColumn get animeId => text().named('episode_anime_cross_id')();
 
+  TextColumn get episodeId => text().named('episode_source_episode_id')();
+
   TextColumn get title => text().named('episode_title')();
 
   TextColumn get url => text().named('episode_url')();
