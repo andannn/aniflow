@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:aniflow/app/di/get_it_scope.dart';
@@ -40,6 +41,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:platform_player/platform_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _identifier = 'detail_media';
@@ -919,8 +921,8 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                                         .get<UserDataRepository>()
                                         .useInAppPlayer;
                                 if (isUsingInAppPlayer) {
-                                  RootRouterDelegate.get()
-                                      .navigateToPlayer(episode.state.url);
+                                  unawaited(PlatformPlayer()
+                                      .navigateToPlayer(episode.state.url));
                                 } else {
                                   final url = Uri.parse(episode.state.url);
                                   if (await canLaunchUrl(url)) {
