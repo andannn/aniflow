@@ -1320,6 +1320,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  platform_extractor:
+    dependency: "direct main"
+    description:
+      path: platform_extractor
+      relative: true
+    source: path
+    version: "0.0.1"
   platform_notification:
     dependency: "direct main"
     description:
@@ -2005,5 +2012,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.5.0-259.0.dev <4.0.0"
+  dart: ">=3.5.3 <4.0.0"
   flutter: ">=3.22.0"

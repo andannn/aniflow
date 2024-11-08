@@ -159,6 +159,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_remote_config/firebase_remote_config.dart' as _i627;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:platform_extractor/platform_extractor.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:workmanager/workmanager.dart' as _i500;
 
@@ -176,7 +177,7 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final authEventChannelModule = _$AuthEventChannelModule();
+    final platformEventChannelModule = _$PlatformEventChannelModule();
     final dIWorkmanagerModule = _$DIWorkmanagerModule();
     final dIFirebaseRemoteConfigModule = _$DIFirebaseRemoteConfigModule();
     final dIDataBaseModule = _$DIDataBaseModule();
@@ -184,20 +185,22 @@ extension GetItInjectableX on _i174.GetIt {
     final dINetworkModule = _$DINetworkModule();
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
     gh.lazySingleton<_i4.AuthEventChannel>(
-        () => authEventChannelModule.getAuthEventChannel());
+        () => platformEventChannelModule.getAuthEventChannel());
+    gh.lazySingleton<_i974.PlatformExtractor>(
+        () => platformEventChannelModule.getPlatformExtractor());
     await gh.lazySingletonAsync<_i500.Workmanager>(
       () => dIWorkmanagerModule.workManager,
+      registerFor: {_Implement},
+      preResolve: true,
+    );
+    await gh.lazySingletonAsync<_i627.FirebaseRemoteConfig>(
+      () => dIFirebaseRemoteConfigModule.remoteConfig,
       registerFor: {_Implement},
       preResolve: true,
     );
     gh.lazySingleton<_i67.MessageRepository>(
       () => _i67.MessageRepository(),
       registerFor: {_Implement},
-    );
-    await gh.lazySingletonAsync<_i627.FirebaseRemoteConfig>(
-      () => dIFirebaseRemoteConfigModule.remoteConfig,
-      registerFor: {_Implement},
-      preResolve: true,
     );
     await gh.factoryAsync<_i545.AniflowDatabase>(
       () => dIDataBaseModule.database,
@@ -263,12 +266,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i520.MockUserDataRepository(),
       registerFor: {_Mock},
     );
-    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
+    gh.factory<_i565.SettingsBloc>(() => _i565.SettingsBloc(
           gh<_i810.UserDataRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i67.MessageRepository>(),
         ));
-    gh.factory<_i565.SettingsBloc>(() => _i565.SettingsBloc(
+    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
           gh<_i810.UserDataRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i67.MessageRepository>(),
@@ -296,10 +299,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i810.UserDataRepository>(),
           gh<_i67.MessageRepository>(),
         ));
-    gh.factory<_i234.CharacterPageBloc>(
-        () => _i234.CharacterPageBloc(gh<_i810.UserDataRepository>()));
     gh.factory<_i993.SearchBloc>(
         () => _i993.SearchBloc(gh<_i810.UserDataRepository>()));
+    gh.factory<_i234.CharacterPageBloc>(
+        () => _i234.CharacterPageBloc(gh<_i810.UserDataRepository>()));
     gh.factoryParam<_i376.AiringScheduleOfDayBloc, DateTime, dynamic>((
       _dateTime,
       _,
@@ -590,6 +593,15 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i768.AuthRepository>(),
               gh<_i810.UserDataRepository>(),
             ));
+    gh.lazySingleton<_i827.HiAnimationRepository>(
+      () => _i827.HiAnimationRepository(
+        gh<_i638.HiAnimationDataSource>(),
+        gh<_i393.EpisodeDao>(),
+        gh<_i918.UserDataPreferences>(),
+        gh<_i974.PlatformExtractor>(),
+      ),
+      registerFor: {_Implement},
+    );
     gh.lazySingleton<_i14.CharacterRepository>(
       () => _i14.CharacterRepository(
         gh<_i595.CharacterDao>(),
@@ -597,10 +609,10 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_Implement},
     );
-    gh.factory<_i951.BirthdayCharacterPageBloc>(
-        () => _i951.BirthdayCharacterPageBloc(gh<_i14.CharacterRepository>()));
     gh.factory<_i854.BirthdayCharactersBloc>(
         () => _i854.BirthdayCharactersBloc(gh<_i14.CharacterRepository>()));
+    gh.factory<_i951.BirthdayCharacterPageBloc>(
+        () => _i951.BirthdayCharacterPageBloc(gh<_i14.CharacterRepository>()));
     gh.lazySingleton<_i309.GithubRepository>(
       () => _i309.GithubRepository(
         gh<_i70.GithubDataSource>(),
@@ -662,22 +674,6 @@ extension GetItInjectableX on _i174.GetIt {
           userType,
           filterType,
         ));
-    gh.factoryParam<_i982.CharacterSearchResultPagingBloc, String, dynamic>((
-      _searchString,
-      _,
-    ) =>
-        _i982.CharacterSearchResultPagingBloc(
-          _searchString,
-          gh<_i365.SearchRepository>(),
-        ));
-    gh.factoryParam<_i204.StaffSearchResultPagingBloc, String, dynamic>((
-      _searchString,
-      _,
-    ) =>
-        _i204.StaffSearchResultPagingBloc(
-          _searchString,
-          gh<_i365.SearchRepository>(),
-        ));
     gh.factoryParam<_i214.StudioSearchResultPagingBloc, String, dynamic>((
       _searchString,
       _,
@@ -694,14 +690,22 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
         ));
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i827.HiAnimationRepository(
-        gh<_i638.HiAnimationDataSource>(),
-        gh<_i393.EpisodeDao>(),
-        gh<_i918.UserDataPreferences>(),
-      ),
-      registerFor: {_Implement},
-    );
+    gh.factoryParam<_i204.StaffSearchResultPagingBloc, String, dynamic>((
+      _searchString,
+      _,
+    ) =>
+        _i204.StaffSearchResultPagingBloc(
+          _searchString,
+          gh<_i365.SearchRepository>(),
+        ));
+    gh.factoryParam<_i982.CharacterSearchResultPagingBloc, String, dynamic>((
+      _searchString,
+      _,
+    ) =>
+        _i982.CharacterSearchResultPagingBloc(
+          _searchString,
+          gh<_i365.SearchRepository>(),
+        ));
     gh.factoryParam<_i425.MediaSearchResultPagingBloc, _i55.MediaType, String>((
       _mediaType,
       _searchString,
@@ -726,7 +730,7 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$AuthEventChannelModule extends _i329.AuthEventChannelModule {}
+class _$PlatformEventChannelModule extends _i329.PlatformEventChannelModule {}
 
 class _$DIWorkmanagerModule extends _i555.DIWorkmanagerModule {}
 

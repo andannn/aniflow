@@ -10,8 +10,14 @@ class MethodChannelPlatformExtractor extends PlatformExtractorPlatform {
   final methodChannel = const MethodChannel('platform_extractor');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Future<String> extract(String link) async {
+    final source = await methodChannel.invokeMethod<String>('extract', {'link': link });
+    if (source == null) {
+      throw PlatformException(
+        code: 'UNAVAILABLE',
+        details: 'PlatformExtractor is not available',
+      );
+    }
+    return source;
   }
 }

@@ -23,7 +23,7 @@ abstract class PlatformExtractorPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
+  Future<String> extract(String link) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 }

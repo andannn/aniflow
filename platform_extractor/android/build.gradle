@@ -22,7 +22,8 @@ allprojects {
 }
 
 apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-parcelize'
 
 android {
     if (project.android.hasProperty("namespace")) {
@@ -49,9 +50,8 @@ android {
         minSdk = 21
     }
 
-    dependencies {
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.mockito:mockito-core:5.0.0")
+    buildFeatures {
+        buildConfig true
     }
 
     testOptions {
@@ -65,4 +65,15 @@ android {
             }
         }
     }
+}
+
+dependencies {
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.mockito:mockito-core:5.0.0")
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okhttp3:okhttp-dnsoverhttps:4.12.0'
+    implementation 'org.jsoup:jsoup:1.17.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
 }

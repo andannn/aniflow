@@ -253,3 +253,17 @@ Map<String, dynamic> _$$BirthdayCharacterPagePathImplToJson(
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
+
+_$FullScreenPlayerPathImpl _$$FullScreenPlayerPathImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FullScreenPlayerPathImpl(
+      json['source'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$FullScreenPlayerPathImplToJson(
+        _$FullScreenPlayerPathImpl instance) =>
+    <String, dynamic>{
+      'source': instance.source,
+      'runtimeType': instance.$type,
+    };

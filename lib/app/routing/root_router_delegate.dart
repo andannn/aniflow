@@ -209,6 +209,10 @@ mixin _AfRouterBackStackMixin
     _pushAsSingleton(const SettingsRoutePath());
   }
 
+  void navigateToPlayer(String source) {
+    _pushAsSingleton(FullScreenPlayerPath(source));
+  }
+
   void _popBackStack() {
     _stack.value = [..._stack.value]..removeLast();
     notifyListeners();

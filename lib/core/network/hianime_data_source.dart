@@ -90,7 +90,7 @@ class HiAnimationDataSource {
         .toList();
   }
 
-  Future<SourceDto> getPlayLink(String episodeId, [CancelToken? token]) async {
+  Future<String> getPlayLink(String episodeId, [CancelToken? token]) async {
     Map decodeResult(resultData) {
       if (resultData is String) {
         return jsonDecode(resultData);
@@ -105,8 +105,6 @@ class HiAnimationDataSource {
       '${hiAnimationUrl}ajax/v2/episode/servers',
       queryParameters: {'episodeId': episodeId},
     );
-    logger.d("${result.data}");
-    logger.d("${result.data.runtimeType}");
     final document = parse(decodeResult(result.data)["html"]);
     final ids = document
         .querySelectorAll("div.server-item[data-type][data-id]")
@@ -121,27 +119,7 @@ class HiAnimationDataSource {
       queryParameters: {'id': ids[0]},
     );
 
-    final link = decodeResult(linkResult.data)['link'].toString();
-    const mainUrl = "https://megacloud.tv";
-    const embed = "embed-2/ajax/e-1";
-    final source = await dio.get(
-      "$mainUrl/$embed/getSources",
-      queryParameters: {
-        "id": link.split('/').last.split('?').first,
-      },
-      options: Options(
-        headers: {
-          "Accept": "*/*",
-          "Accept-Language": "en-US,en;q=0.5",
-          "Connection": "keep-alive",
-          "TE": "trailers",
-          "X-Requested-With": "XMLHttpRequest",
-          "referer": mainUrl
-        },
-      ),
-    );
-    logger.d(source.data);
-    return SourceDto.fromJson(source.data);
+    return decodeResult(linkResult.data)['link'].toString();
   }
 }
 

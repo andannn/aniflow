@@ -69,6 +69,8 @@ sealed class AniFlowRoutePath with _$AniFlowRoutePath {
   const factory AniFlowRoutePath.birthdayCharacterPage() =
       BirthdayCharacterPagePath;
 
+  const factory AniFlowRoutePath.player(String source) = FullScreenPlayerPath;
+
   factory AniFlowRoutePath.fromJson(Map<String, dynamic> json) =>
       _$AniFlowRoutePathFromJson(json);
 }

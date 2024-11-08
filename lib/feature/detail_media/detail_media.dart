@@ -19,6 +19,7 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/core/data/model/trailer_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
@@ -913,9 +914,18 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                             ),
                             FilledButton(
                               onPressed: () async {
-                                final url = Uri.parse(episode.state.webUrl);
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url);
+                                final isUsingInAppPlayer =
+                                    GetItScope.of(context)
+                                        .get<UserDataRepository>()
+                                        .useInAppPlayer;
+                                if (isUsingInAppPlayer) {
+                                  RootRouterDelegate.get()
+                                      .navigateToPlayer(episode.state.url);
+                                } else {
+                                  final url = Uri.parse(episode.state.url);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  }
                                 }
                               },
                               child: Text(context.appLocal.watchNow),

@@ -9,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:platform_extractor/platform_extractor.dart';
 
 class NotFoundEpisodeException implements Exception {
   final String message;
@@ -18,26 +19,30 @@ class NotFoundEpisodeException implements Exception {
 }
 
 class Episode extends Equatable {
-  final String webUrl;
+  final String url;
   final String title;
   final String episodeId;
   final String epNumber;
-  final String? encryptedLink;
 
-  const Episode(this.webUrl, this.title, this.epNumber, this.episodeId,
-      [this.encryptedLink]);
+  const Episode(this.url, this.title, this.epNumber, this.episodeId);
 
   @override
-  List<Object?> get props => [webUrl, title, epNumber, encryptedLink];
+  List<Object?> get props => [url, title, epNumber];
 }
 
 @LazySingleton(env: [AfEnvironment.impl])
 class HiAnimationRepository {
-  HiAnimationRepository(this._datasource, this._episodeDao, this._preferences);
+  HiAnimationRepository(
+    this._datasource,
+    this._episodeDao,
+    this._preferences,
+    this._extractor,
+  );
 
   final HiAnimationDataSource _datasource;
   final EpisodeDao _episodeDao;
   final UserDataPreferences _preferences;
+  final PlatformExtractor _extractor;
 
   Future<LoadResult<Episode>> searchPlaySourceByKeyword(
       String animeId, List<String> keywords, String episode,
@@ -53,15 +58,16 @@ class HiAnimationRepository {
     final episodeModel = (episodeResult as LoadSuccess<Episode>).data;
 
     try {
-      final source = await _datasource.getPlayLink(episodeModel.episodeId);
+      final link = await _datasource.getPlayLink(episodeModel.episodeId);
+      final playableLink = await _extractor.extract(link);
       return LoadSuccess(
-          data: Episode(
-        episodeModel.webUrl,
-        episodeModel.title,
-        episodeModel.epNumber,
-        episodeModel.episodeId,
-        source.sources,
-      ));
+        data: Episode(
+          playableLink,
+          episodeModel.title,
+          episodeModel.epNumber,
+          episodeModel.episodeId,
+        ),
+      );
     } on Exception catch (e) {
       return LoadError(e);
     }
