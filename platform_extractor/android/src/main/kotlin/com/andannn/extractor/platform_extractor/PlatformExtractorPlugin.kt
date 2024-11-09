@@ -39,7 +39,6 @@ class PlatformExtractorPlugin: FlutterPlugin, MethodCallHandler, CoroutineScope 
           val video = Extractor.extract(link = link)
           result.success(video.source)
         } catch (e: Exception) {
-            throw e
           result.error("EXTRACTOR_ERROR", e.message, e)
         }
       }
