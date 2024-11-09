@@ -151,7 +151,7 @@ class AniflowDatabase extends _$AniflowDatabase {
           );
         },
         from6To7: (Migrator m, Schema7 schema) async {
-          await m.deleteTable("episode_table");
+          await delete(episodeTable).go();
           await m.addColumn(schema.episodeTable, schema.episodeTable.episodeId);
         },
       ),
