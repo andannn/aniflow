@@ -148,5 +148,7 @@
 	"dropped": "Брошено",
 	"reading": "Читаю",
 	"newAddedAnime": "Новое Добавленное Аниме",
-	"newAddedManga": "Новый Добавленный Манга"
+	"newAddedManga": "Новый Добавленный Манга",
+	"experimental": "экспериментальный",
+	"useInAppPlayer": "Использовать встроенный плеер"
 }

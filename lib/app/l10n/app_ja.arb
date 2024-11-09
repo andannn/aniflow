@@ -148,5 +148,7 @@
 	"dropped": "中止",
 	"reading": "読んでいる",
 	"newAddedAnime": "新しく追加されたアニメ",
-	"newAddedManga": "新しく追加されたマンガ"
+	"newAddedManga": "新しく追加されたマンガ",
+	"experimental": "実験的",
+	"useInAppPlayer": "アプリ内プレーヤーを使用"
 }

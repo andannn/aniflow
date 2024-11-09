@@ -13,6 +13,8 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "/platform_downloader/**"
+    - "/platform_notification/**"
 #    - test/**
   errors:
     invalid_annotation_target: ignore

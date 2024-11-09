@@ -195,4 +195,15 @@ class MockUserDataRepository implements UserDataRepository {
 
   @override
   UserTitleLanguage get userTitleLanguage => UserTitleLanguage.native;
+
+  @override
+  Future setUseInAppPlayer(bool isOn) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<bool> get useInAppPlayerStream => throw UnimplementedError();
+
+  @override
+  bool get useInAppPlayer => throw UnimplementedError();
 }

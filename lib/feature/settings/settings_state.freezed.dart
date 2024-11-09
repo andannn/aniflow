@@ -24,6 +24,7 @@ mixin _$SettingsState {
   UserStaffNameLanguage get selectedStaffNameLanguage =>
       throw _privateConstructorUsedError;
   bool get displayAdultContent => throw _privateConstructorUsedError;
+  bool get useInAppPlayer => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +45,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       ScoreFormat selectedScoreFormat,
       UserTitleLanguage selectedTitleLanguage,
       UserStaffNameLanguage selectedStaffNameLanguage,
-      bool displayAdultContent});
+      bool displayAdultContent,
+      bool useInAppPlayer});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? selectedTitleLanguage = null,
     Object? selectedStaffNameLanguage = null,
     Object? displayAdultContent = null,
+    Object? useInAppPlayer = null,
   }) {
     return _then(_value.copyWith(
       theme: null == theme
@@ -94,6 +97,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
               as bool,
+      useInAppPlayer: null == useInAppPlayer
+          ? _value.useInAppPlayer
+          : useInAppPlayer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -112,7 +119,8 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       ScoreFormat selectedScoreFormat,
       UserTitleLanguage selectedTitleLanguage,
       UserStaffNameLanguage selectedStaffNameLanguage,
-      bool displayAdultContent});
+      bool displayAdultContent,
+      bool useInAppPlayer});
 }
 
 /// @nodoc
@@ -134,6 +142,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? selectedTitleLanguage = null,
     Object? selectedStaffNameLanguage = null,
     Object? displayAdultContent = null,
+    Object? useInAppPlayer = null,
   }) {
     return _then(_$SettingsStateImpl(
       theme: null == theme
@@ -160,6 +169,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.displayAdultContent
           : displayAdultContent // ignore: cast_nullable_to_non_nullable
               as bool,
+      useInAppPlayer: null == useInAppPlayer
+          ? _value.useInAppPlayer
+          : useInAppPlayer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -173,7 +186,8 @@ class _$SettingsStateImpl implements _SettingsState {
       this.selectedScoreFormat = ScoreFormat.point100,
       this.selectedTitleLanguage = UserTitleLanguage.native,
       this.selectedStaffNameLanguage = UserStaffNameLanguage.native,
-      this.displayAdultContent = false});
+      this.displayAdultContent = false,
+      this.useInAppPlayer = false});
 
   @override
   @JsonKey()
@@ -193,10 +207,13 @@ class _$SettingsStateImpl implements _SettingsState {
   @override
   @JsonKey()
   final bool displayAdultContent;
+  @override
+  @JsonKey()
+  final bool useInAppPlayer;
 
   @override
   String toString() {
-    return 'SettingsState(theme: $theme, type: $type, selectedScoreFormat: $selectedScoreFormat, selectedTitleLanguage: $selectedTitleLanguage, selectedStaffNameLanguage: $selectedStaffNameLanguage, displayAdultContent: $displayAdultContent)';
+    return 'SettingsState(theme: $theme, type: $type, selectedScoreFormat: $selectedScoreFormat, selectedTitleLanguage: $selectedTitleLanguage, selectedStaffNameLanguage: $selectedStaffNameLanguage, displayAdultContent: $displayAdultContent, useInAppPlayer: $useInAppPlayer)';
   }
 
   @override
@@ -214,12 +231,21 @@ class _$SettingsStateImpl implements _SettingsState {
                     selectedStaffNameLanguage) ||
                 other.selectedStaffNameLanguage == selectedStaffNameLanguage) &&
             (identical(other.displayAdultContent, displayAdultContent) ||
-                other.displayAdultContent == displayAdultContent));
+                other.displayAdultContent == displayAdultContent) &&
+            (identical(other.useInAppPlayer, useInAppPlayer) ||
+                other.useInAppPlayer == useInAppPlayer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, theme, type, selectedScoreFormat,
-      selectedTitleLanguage, selectedStaffNameLanguage, displayAdultContent);
+  int get hashCode => Object.hash(
+      runtimeType,
+      theme,
+      type,
+      selectedScoreFormat,
+      selectedTitleLanguage,
+      selectedStaffNameLanguage,
+      displayAdultContent,
+      useInAppPlayer);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -237,7 +263,8 @@ abstract class _SettingsState implements SettingsState {
       final ScoreFormat selectedScoreFormat,
       final UserTitleLanguage selectedTitleLanguage,
       final UserStaffNameLanguage selectedStaffNameLanguage,
-      final bool displayAdultContent}) = _$SettingsStateImpl;
+      final bool displayAdultContent,
+      final bool useInAppPlayer}) = _$SettingsStateImpl;
 
   @override
   ThemeSetting get theme;
@@ -251,6 +278,8 @@ abstract class _SettingsState implements SettingsState {
   UserStaffNameLanguage get selectedStaffNameLanguage;
   @override
   bool get displayAdultContent;
+  @override
+  bool get useInAppPlayer;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

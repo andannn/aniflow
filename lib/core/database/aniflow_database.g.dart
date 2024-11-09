@@ -8471,6 +8471,12 @@ class $EpisodeTableTable extends EpisodeTable
   late final GeneratedColumn<String> animeId = GeneratedColumn<String>(
       'episode_anime_cross_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _episodeIdMeta =
+      const VerificationMeta('episodeId');
+  @override
+  late final GeneratedColumn<String> episodeId = GeneratedColumn<String>(
+      'episode_source_episode_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -8488,7 +8494,8 @@ class $EpisodeTableTable extends EpisodeTable
       'episode_number', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, animeId, title, url, episodeNum];
+  List<GeneratedColumn> get $columns =>
+      [id, animeId, episodeId, title, url, episodeNum];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -8510,6 +8517,14 @@ class $EpisodeTableTable extends EpisodeTable
               data['episode_anime_cross_id']!, _animeIdMeta));
     } else if (isInserting) {
       context.missing(_animeIdMeta);
+    }
+    if (data.containsKey('episode_source_episode_id')) {
+      context.handle(
+          _episodeIdMeta,
+          episodeId.isAcceptableOrUnknown(
+              data['episode_source_episode_id']!, _episodeIdMeta));
+    } else if (isInserting) {
+      context.missing(_episodeIdMeta);
     }
     if (data.containsKey('episode_title')) {
       context.handle(_titleMeta,
@@ -8544,6 +8559,8 @@ class $EpisodeTableTable extends EpisodeTable
           .read(DriftSqlType.int, data['${effectivePrefix}episode_id']),
       animeId: attachedDatabase.typeMapping.read(DriftSqlType.string,
           data['${effectivePrefix}episode_anime_cross_id'])!,
+      episodeId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}episode_source_episode_id'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}episode_title'])!,
       url: attachedDatabase.typeMapping
@@ -8562,12 +8579,14 @@ class $EpisodeTableTable extends EpisodeTable
 class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
   final int? id;
   final String animeId;
+  final String episodeId;
   final String title;
   final String url;
   final String episodeNum;
   const EpisodeEntity(
       {this.id,
       required this.animeId,
+      required this.episodeId,
       required this.title,
       required this.url,
       required this.episodeNum});
@@ -8578,6 +8597,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       map['episode_id'] = Variable<int>(id);
     }
     map['episode_anime_cross_id'] = Variable<String>(animeId);
+    map['episode_source_episode_id'] = Variable<String>(episodeId);
     map['episode_title'] = Variable<String>(title);
     map['episode_url'] = Variable<String>(url);
     map['episode_number'] = Variable<String>(episodeNum);
@@ -8588,6 +8608,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     return EpisodeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       animeId: Value(animeId),
+      episodeId: Value(episodeId),
       title: Value(title),
       url: Value(url),
       episodeNum: Value(episodeNum),
@@ -8600,6 +8621,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     return EpisodeEntity(
       id: serializer.fromJson<int?>(json['id']),
       animeId: serializer.fromJson<String>(json['animeId']),
+      episodeId: serializer.fromJson<String>(json['episodeId']),
       title: serializer.fromJson<String>(json['title']),
       url: serializer.fromJson<String>(json['url']),
       episodeNum: serializer.fromJson<String>(json['episodeNum']),
@@ -8611,6 +8633,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
       'animeId': serializer.toJson<String>(animeId),
+      'episodeId': serializer.toJson<String>(episodeId),
       'title': serializer.toJson<String>(title),
       'url': serializer.toJson<String>(url),
       'episodeNum': serializer.toJson<String>(episodeNum),
@@ -8620,12 +8643,14 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
   EpisodeEntity copyWith(
           {Value<int?> id = const Value.absent(),
           String? animeId,
+          String? episodeId,
           String? title,
           String? url,
           String? episodeNum}) =>
       EpisodeEntity(
         id: id.present ? id.value : this.id,
         animeId: animeId ?? this.animeId,
+        episodeId: episodeId ?? this.episodeId,
         title: title ?? this.title,
         url: url ?? this.url,
         episodeNum: episodeNum ?? this.episodeNum,
@@ -8634,6 +8659,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     return EpisodeEntity(
       id: data.id.present ? data.id.value : this.id,
       animeId: data.animeId.present ? data.animeId.value : this.animeId,
+      episodeId: data.episodeId.present ? data.episodeId.value : this.episodeId,
       title: data.title.present ? data.title.value : this.title,
       url: data.url.present ? data.url.value : this.url,
       episodeNum:
@@ -8646,6 +8672,7 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     return (StringBuffer('EpisodeEntity(')
           ..write('id: $id, ')
           ..write('animeId: $animeId, ')
+          ..write('episodeId: $episodeId, ')
           ..write('title: $title, ')
           ..write('url: $url, ')
           ..write('episodeNum: $episodeNum')
@@ -8654,13 +8681,15 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
   }
 
   @override
-  int get hashCode => Object.hash(id, animeId, title, url, episodeNum);
+  int get hashCode =>
+      Object.hash(id, animeId, episodeId, title, url, episodeNum);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is EpisodeEntity &&
           other.id == this.id &&
           other.animeId == this.animeId &&
+          other.episodeId == this.episodeId &&
           other.title == this.title &&
           other.url == this.url &&
           other.episodeNum == this.episodeNum);
@@ -8669,12 +8698,14 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
 class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
   final Value<int?> id;
   final Value<String> animeId;
+  final Value<String> episodeId;
   final Value<String> title;
   final Value<String> url;
   final Value<String> episodeNum;
   const EpisodeTableCompanion({
     this.id = const Value.absent(),
     this.animeId = const Value.absent(),
+    this.episodeId = const Value.absent(),
     this.title = const Value.absent(),
     this.url = const Value.absent(),
     this.episodeNum = const Value.absent(),
@@ -8682,16 +8713,19 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
   EpisodeTableCompanion.insert({
     this.id = const Value.absent(),
     required String animeId,
+    required String episodeId,
     required String title,
     required String url,
     required String episodeNum,
   })  : animeId = Value(animeId),
+        episodeId = Value(episodeId),
         title = Value(title),
         url = Value(url),
         episodeNum = Value(episodeNum);
   static Insertable<EpisodeEntity> custom({
     Expression<int>? id,
     Expression<String>? animeId,
+    Expression<String>? episodeId,
     Expression<String>? title,
     Expression<String>? url,
     Expression<String>? episodeNum,
@@ -8699,6 +8733,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     return RawValuesInsertable({
       if (id != null) 'episode_id': id,
       if (animeId != null) 'episode_anime_cross_id': animeId,
+      if (episodeId != null) 'episode_source_episode_id': episodeId,
       if (title != null) 'episode_title': title,
       if (url != null) 'episode_url': url,
       if (episodeNum != null) 'episode_number': episodeNum,
@@ -8708,12 +8743,14 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
   EpisodeTableCompanion copyWith(
       {Value<int?>? id,
       Value<String>? animeId,
+      Value<String>? episodeId,
       Value<String>? title,
       Value<String>? url,
       Value<String>? episodeNum}) {
     return EpisodeTableCompanion(
       id: id ?? this.id,
       animeId: animeId ?? this.animeId,
+      episodeId: episodeId ?? this.episodeId,
       title: title ?? this.title,
       url: url ?? this.url,
       episodeNum: episodeNum ?? this.episodeNum,
@@ -8728,6 +8765,9 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     }
     if (animeId.present) {
       map['episode_anime_cross_id'] = Variable<String>(animeId.value);
+    }
+    if (episodeId.present) {
+      map['episode_source_episode_id'] = Variable<String>(episodeId.value);
     }
     if (title.present) {
       map['episode_title'] = Variable<String>(title.value);
@@ -8746,6 +8786,7 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     return (StringBuffer('EpisodeTableCompanion(')
           ..write('id: $id, ')
           ..write('animeId: $animeId, ')
+          ..write('episodeId: $episodeId, ')
           ..write('title: $title, ')
           ..write('url: $url, ')
           ..write('episodeNum: $episodeNum')
@@ -12102,6 +12143,7 @@ typedef $$EpisodeTableTableCreateCompanionBuilder = EpisodeTableCompanion
     Function({
   Value<int?> id,
   required String animeId,
+  required String episodeId,
   required String title,
   required String url,
   required String episodeNum,
@@ -12110,6 +12152,7 @@ typedef $$EpisodeTableTableUpdateCompanionBuilder = EpisodeTableCompanion
     Function({
   Value<int?> id,
   Value<String> animeId,
+  Value<String> episodeId,
   Value<String> title,
   Value<String> url,
   Value<String> episodeNum,
@@ -12135,6 +12178,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<int?> id = const Value.absent(),
             Value<String> animeId = const Value.absent(),
+            Value<String> episodeId = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<String> url = const Value.absent(),
             Value<String> episodeNum = const Value.absent(),
@@ -12142,6 +12186,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
               EpisodeTableCompanion(
             id: id,
             animeId: animeId,
+            episodeId: episodeId,
             title: title,
             url: url,
             episodeNum: episodeNum,
@@ -12149,6 +12194,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             Value<int?> id = const Value.absent(),
             required String animeId,
+            required String episodeId,
             required String title,
             required String url,
             required String episodeNum,
@@ -12156,6 +12202,7 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
               EpisodeTableCompanion.insert(
             id: id,
             animeId: animeId,
+            episodeId: episodeId,
             title: title,
             url: url,
             episodeNum: episodeNum,
@@ -12173,6 +12220,11 @@ class $$EpisodeTableTableFilterComposer
 
   ColumnFilters<String> get animeId => $state.composableBuilder(
       column: $state.table.animeId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get episodeId => $state.composableBuilder(
+      column: $state.table.episodeId,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -12202,6 +12254,11 @@ class $$EpisodeTableTableOrderingComposer
 
   ColumnOrderings<String> get animeId => $state.composableBuilder(
       column: $state.table.animeId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get episodeId => $state.composableBuilder(
+      column: $state.table.episodeId,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 

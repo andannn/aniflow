@@ -159,6 +159,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_remote_config/firebase_remote_config.dart' as _i627;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:platform_extractor/platform_extractor.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:workmanager/workmanager.dart' as _i500;
 
@@ -176,7 +177,7 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final authEventChannelModule = _$AuthEventChannelModule();
+    final platformEventChannelModule = _$PlatformEventChannelModule();
     final dIWorkmanagerModule = _$DIWorkmanagerModule();
     final dIFirebaseRemoteConfigModule = _$DIFirebaseRemoteConfigModule();
     final dIDataBaseModule = _$DIDataBaseModule();
@@ -184,7 +185,9 @@ extension GetItInjectableX on _i174.GetIt {
     final dINetworkModule = _$DINetworkModule();
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
     gh.lazySingleton<_i4.AuthEventChannel>(
-        () => authEventChannelModule.getAuthEventChannel());
+        () => platformEventChannelModule.getAuthEventChannel());
+    gh.lazySingleton<_i974.PlatformExtractor>(
+        () => platformEventChannelModule.getPlatformExtractor());
     await gh.lazySingletonAsync<_i500.Workmanager>(
       () => dIWorkmanagerModule.workManager,
       registerFor: {_Implement},
@@ -574,13 +577,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i67.MessageRepository>(),
           activityId,
         ));
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i827.HiAnimationRepository(
-        gh<_i638.HiAnimationDataSource>(),
-        gh<_i393.EpisodeDao>(),
-      ),
-      registerFor: {_Implement},
-    );
     gh.factoryParam<_i231.StatsBloc, String, _i636.LoadingStateRepository>((
       userId,
       _loadingStateRepository,
@@ -597,6 +593,15 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i768.AuthRepository>(),
               gh<_i810.UserDataRepository>(),
             ));
+    gh.lazySingleton<_i827.HiAnimationRepository>(
+      () => _i827.HiAnimationRepository(
+        gh<_i638.HiAnimationDataSource>(),
+        gh<_i393.EpisodeDao>(),
+        gh<_i918.UserDataPreferences>(),
+        gh<_i974.PlatformExtractor>(),
+      ),
+      registerFor: {_Implement},
+    );
     gh.lazySingleton<_i14.CharacterRepository>(
       () => _i14.CharacterRepository(
         gh<_i595.CharacterDao>(),
@@ -725,7 +730,7 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$AuthEventChannelModule extends _i329.AuthEventChannelModule {}
+class _$PlatformEventChannelModule extends _i329.PlatformEventChannelModule {}
 
 class _$DIWorkmanagerModule extends _i555.DIWorkmanagerModule {}
 

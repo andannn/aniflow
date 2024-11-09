@@ -148,5 +148,7 @@
 	"dropped": "Abbandonato",
 	"reading": "Leggendo",
 	"newAddedAnime": "Nuovo Anime Aggiunto",
-	"newAddedManga": "Nuovo Manga Aggiunto"
+	"newAddedManga": "Nuovo Manga Aggiunto",
+	"experimental": "Sperimentale",
+	"useInAppPlayer": "Usa il lettore in-app"
 }

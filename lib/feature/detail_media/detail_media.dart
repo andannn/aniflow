@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:aniflow/app/di/get_it_scope.dart';
@@ -19,6 +20,7 @@ import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/data/model/studio_model.dart';
 import 'package:aniflow/core/data/model/trailer_model.dart';
+import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
@@ -39,6 +41,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:platform_player/platform_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _identifier = 'detail_media';
@@ -913,9 +916,18 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                             ),
                             FilledButton(
                               onPressed: () async {
-                                final url = Uri.parse(episode.state.url);
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url);
+                                final isUsingInAppPlayer =
+                                    GetItScope.of(context)
+                                        .get<UserDataRepository>()
+                                        .useInAppPlayer;
+                                if (isUsingInAppPlayer) {
+                                  unawaited(PlatformPlayer()
+                                      .navigateToPlayer(episode.state.url));
+                                } else {
+                                  final url = Uri.parse(episode.state.url);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  }
                                 }
                               },
                               child: Text(context.appLocal.watchNow),

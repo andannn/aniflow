@@ -21,6 +21,7 @@ void main() {
     test('find Episode test', () async {
       const dummy = EpisodeEntity(
         animeId: '1',
+        episodeId: '10',
         title: 'Episode 1-10',
         url: 'url',
         episodeNum: '10',

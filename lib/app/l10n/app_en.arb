@@ -209,5 +209,7 @@
 	"dropped": "Dropped",
 	"reading": "Reading",
 	"newAddedAnime": "New Added Anime",
-	"newAddedManga": "New Added Manga"
+	"newAddedManga": "New Added Manga",
+	"experimental": "Experimental",
+	"useInAppPlayer": "Use in-app-player"
 }

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/network/model/source_dto.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
@@ -86,4 +89,41 @@ class HiAnimationDataSource {
             ))
         .toList();
   }
+
+  Future<String> getPlayLink(String episodeId, [CancelToken? token]) async {
+    Map decodeResult(resultData) {
+      if (resultData is String) {
+        return jsonDecode(resultData);
+      } else if (resultData is Map) {
+        return resultData;
+      } else {
+        throw 'Unknown type of resultData: $resultData';
+      }
+    }
+
+    final result = await dio.get(
+      '${hiAnimationUrl}ajax/v2/episode/servers',
+      queryParameters: {'episodeId': episodeId},
+    );
+    final document = parse(decodeResult(result.data)["html"]);
+    final ids = document
+        .querySelectorAll("div.server-item[data-type][data-id]")
+        .map((element) {
+          return element.attributes["data-id"];
+        })
+        .whereNotNull()
+        .toList();
+
+    final linkResult = await dio.get(
+      '${hiAnimationUrl}ajax/v2/episode/sources',
+      queryParameters: {'id': ids[0]},
+    );
+
+    return decodeResult(linkResult.data)['link'].toString();
+  }
+}
+
+extension SourceDtoEx on SourceDto {
+
+
 }

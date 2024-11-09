@@ -106,6 +106,11 @@ class UserDataRepository {
   Stream<bool> get isSocialFeatureEnabledStream =>
       _remoteConfigManager.isSocialFeatureEnabledStream();
 
+  Stream<bool> get useInAppPlayerStream =>
+      _preferences.userDataStream.map((data) => data.useInAppPlayer).distinct();
+
+  bool get useInAppPlayer => _preferences.userData.useInAppPlayer;
+
   bool get isAppUpdateDialogFeatureEnabled =>
       !BuildEnvironment.isFeatureLimited;
 
@@ -193,6 +198,8 @@ class UserDataRepository {
 
   Future setDialogClosedTime(DialogType key, DateTime time) =>
       _preferences.setDialogClosedTime(key, time);
+
+  Future setUseInAppPlayer(bool isOn) => _preferences.setIsUseInAppPlayer(isOn);
 
   bool canShowDialog(DialogType key) {
     final lastShowTime = _preferences.getDialogClosedTime(key);

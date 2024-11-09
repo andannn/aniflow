@@ -92,6 +92,10 @@ dependencies:
     path: ./platform_downloader
   platform_notification:
     path: ./platform_notification
+  platform_extractor:
+    path: ./platform_extractor
+  platform_player:
+    path: ./platform_player
   firebase_remote_config: ^5.0.4
   workmanager: ^0.5.2
   permission_handler: ^11.3.1

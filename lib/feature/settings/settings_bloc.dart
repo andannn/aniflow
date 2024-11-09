@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/setting/about.dart';
 import 'package:aniflow/core/common/setting/display_adult_content.dart';
+import 'package:aniflow/core/common/setting/in_app_player.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/setting.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
@@ -56,6 +57,12 @@ class _OnStaffLanguageChanged extends SettingEvent {
   final UserStaffNameLanguage staffNameLanguage;
 }
 
+class _OnUseInAppPlayerChanged extends SettingEvent {
+  _OnUseInAppPlayerChanged(this.use);
+
+  final bool use;
+}
+
 class _OnScoreFormatChanged extends SettingEvent {
   _OnScoreFormatChanged(this.scoreFormat);
 
@@ -102,6 +109,9 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
     );
     on<_OnDisplayAdultContentChanged>(
       (event, emit) => emit(state.copyWith(displayAdultContent: event.enabled)),
+    );
+    on<_OnUseInAppPlayerChanged>(
+      (event, emit) => emit(state.copyWith(useInAppPlayer: event.use)),
     );
     on<OnListOptionChanged>(_onListOptionChanged);
     on<OnSingleLineSettingsClick>(_onSingleLineSettingsClick);
@@ -151,6 +161,12 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
         (language) => safeAdd(_OnStaffLanguageChanged(language)),
       ),
     );
+
+    autoCancel(
+      () => _userDataRepository.useInAppPlayerStream.listen(
+        (use) => safeAdd(_OnUseInAppPlayerChanged(use)),
+      ),
+    );
   }
 
   FutureOr<void> _onListOptionChanged(
@@ -182,6 +198,8 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
         await _userDataRepository.setThemeSetting(setting);
       case MediaType():
         await _userDataRepository.setMediaType(setting);
+      case InAppPlayer():
+        await _userDataRepository.setUseInAppPlayer(setting.isOn);
 
       default:
         throw 'Invalid type';
@@ -299,6 +317,15 @@ extension SettingsBlocEx on SettingsBloc {
         settingItems: [
           SingleLineWithTapActionSettingItem<Gesture>(
             titleBuilder: (context) => context.appLocal.gesture,
+          ),
+        ],
+      ),
+      SettingCategory(
+        titleBuilder: (context) => context.appLocal.experimental,
+        settingItems: [
+          SwitchSettingItem<InAppPlayer>(
+            titleBuilder: (context) => context.appLocal.useInAppPlayer,
+            current: InAppPlayer.getSetting(state.useInAppPlayer),
           ),
         ],
       ),
