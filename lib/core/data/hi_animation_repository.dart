@@ -1,33 +1,34 @@
 import 'package:aniflow/app/di/env.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/episode_dao.dart';
+import 'package:aniflow/core/database/tables/episode_table.dart';
 import 'package:aniflow/core/network/hianime_data_source.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:platform_extractor/platform_extractor.dart';
 
-class NotFoundEpisodeException implements Exception {
+class NotFoundEpisodeException extends Equatable implements Exception {
   final String message;
   final String searchUrl;
 
-  NotFoundEpisodeException({required this.message, required this.searchUrl});
+  const NotFoundEpisodeException(
+      {required this.message, required this.searchUrl});
+
+  @override
+  List<Object?> get props => [message, searchUrl];
 }
 
 class Episode extends Equatable {
   final String url;
   final String title;
-  final String episodeId;
-  final String epNumber;
 
-  const Episode(this.url, this.title, this.epNumber, this.episodeId);
+  const Episode(this.url, this.title);
 
   @override
-  List<Object?> get props => [url, title, epNumber];
+  List<Object?> get props => [url, title];
 }
 
 @LazySingleton(env: [AfEnvironment.impl])
@@ -47,25 +48,39 @@ class HiAnimationRepository {
   Future<LoadResult<Episode>> searchPlaySourceByKeyword(
       String animeId, List<String> keywords, String episode,
       [CancelToken? cancelToken]) async {
-    final episodeResult =
-        await _getEpisode(animeId, keywords, episode, cancelToken);
-
-    final useInAppPlayer = _preferences.userData.useInAppPlayer;
-    if (episodeResult is LoadError || !useInAppPlayer) {
-      return episodeResult;
+    EpisodeEntity? episodeEntity;
+    try {
+      episodeEntity = await _getEpisodeWithoutWebPageLink(
+          animeId, keywords, episode, cancelToken);
+    } on Exception catch (e) {
+      return LoadError(e);
     }
 
-    final episodeModel = (episodeResult as LoadSuccess<Episode>).data;
+    final useInAppPlayer = _preferences.userData.useInAppPlayer;
+    if (!useInAppPlayer) {
+      return LoadSuccess(
+        data: Episode(
+          episodeEntity.playSourceSiteUrl,
+          episodeEntity.title,
+        ),
+      );
+    }
 
     try {
-      final link = await _datasource.getPlayLink(episodeModel.episodeId);
-      final playableLink = await _extractor.extract(link);
+      var playableLink = await _episodeDao.findPlayLink(
+          animeId, episode, PlaySource.hiAnimation);
+      if (playableLink == null) {
+        final link = await _datasource.getPlayLink(episodeEntity.playSourceId);
+        playableLink = await _extractor.extract(link);
+
+        await _episodeDao.updatePlayableLink(
+            playableLink, animeId, episode, PlaySource.hiAnimation);
+      }
+
       return LoadSuccess(
         data: Episode(
           playableLink,
-          episodeModel.title,
-          episodeModel.epNumber,
-          episodeModel.episodeId,
+          episodeEntity.title,
         ),
       );
     } on Exception catch (e) {
@@ -73,80 +88,63 @@ class HiAnimationRepository {
     }
   }
 
-  Future<LoadResult<Episode>> _getEpisode(
-      String animeId, List<String> keywords, String episode,
+  Future<EpisodeEntity> _getEpisodeWithoutWebPageLink(
+      String animeId, List<String> keywords, String episodeNum,
       [CancelToken? cancelToken]) async {
-    final episodeOrNull = await _episodeDao.findEpisode(animeId, episode);
+    final episode = await _episodeDao.findEpisode(animeId, episodeNum);
 
-    if (episodeOrNull != null) {
-      return LoadSuccess(
-        data: Episode(
-          episodeOrNull.url,
-          episodeOrNull.title,
-          episodeOrNull.episodeNum.toString(),
-          episodeOrNull.episodeId,
-        ),
-      );
+    if (episode != null) {
+      return episode;
     }
 
     final searchWebUrl =
         Uri.http(hiAnimationDomain, '/search', {'keyword': keywords[0]})
             .toString();
+
     try {
       final animeHref =
           await _datasource.searchAnimationByKeyword(keywords, cancelToken);
 
       if (animeHref == null) {
-        return LoadError(NotFoundEpisodeException(
+        throw NotFoundEpisodeException(
           message: 'not find animation id.',
           searchUrl: searchWebUrl,
-        ));
+        );
       }
 
       final episodes =
           await _datasource.getEpisodesById(animeHref, cancelToken);
 
-      final epOrNull = episodes.firstWhereOrNull((e) => e.$3 == episode);
+      await _episodeDao.upsertEpisode(
+        episodes.map((e) {
+          final (episodeId, title, epNumber) = e;
+          final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
+          return EpisodeEntity(
+            animeId: animeId,
+            playSourceId: episodeId,
+            title: title,
+            playSourceType: PlaySource.hiAnimation,
+            playSourceSiteUrl: url,
+            episodeNum: epNumber,
+          );
+        }).toList(),
+      );
 
-      if (epOrNull == null) {
-        return LoadError(NotFoundEpisodeException(
+      final savedEpisode = await _episodeDao.findEpisode(animeId, episodeNum);
+
+      if (savedEpisode == null) {
+        return throw NotFoundEpisodeException(
           message: 'not find episode: $episode',
           searchUrl: searchWebUrl,
-        ));
+        );
       }
 
-      final (episodeId, title, epNumber) = epOrNull;
-      final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
-
-      await _episodeDao.upsertEpisode(
-        EpisodeEntity(
-          animeId: animeId,
-          episodeId: episodeId,
-          title: title,
-          url: url,
-          episodeNum: epNumber,
-        ),
-      );
-      return LoadSuccess(
-        data: Episode(
-          '$hiAnimationUrl$animeHref?ep=$episodeId',
-          title,
-          epNumber,
-          episodeId,
-        ),
-      );
-    } on Exception catch (e) {
-      logger.e('Exception on searchPlaySourceByKeyword: $e');
-      return LoadError(NotFoundEpisodeException(
+      return savedEpisode;
+    } catch (e) {
+      throw NotFoundEpisodeException(
         message: e.toString(),
         searchUrl: searchWebUrl,
-      ));
-    } on Error catch (e) {
-      logger.e('Error on searchPlaySourceByKeyword: $e');
-      return LoadError(NotFoundEpisodeException(
-        message: e.toString(),
-        searchUrl: searchWebUrl,
-      ));
+      );
     }
   }
 }
