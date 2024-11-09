@@ -26,7 +26,7 @@ void main() {
         url: 'url',
         episodeNum: '10',
       );
-      await dao.upsertEpisode(dummy);
+      await dao.upsertEpisode([dummy]);
 
       final result1 = await dao.findEpisode('1', '10');
       expect(result1, equals(dummy.copyWith(id: const Value(1))));
