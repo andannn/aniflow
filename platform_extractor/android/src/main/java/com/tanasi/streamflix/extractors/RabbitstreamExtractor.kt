@@ -1,12 +1,15 @@
 package com.tanasi.streamflix.extractors
 
 import android.util.Base64
+import androidx.annotation.Keep
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import com.tanasi.streamflix.models.Video
 import com.tanasi.streamflix.utils.StringConverterFactory
 import retrofit2.Retrofit
@@ -216,6 +219,7 @@ open class RabbitstreamExtractor : Extractor() {
         suspend fun getScript(@Url url: String, @Query("v") v: Long): String
 
 
+        @Keep
         sealed class SourcesResponse {
             class Deserializer : JsonDeserializer<SourcesResponse> {
                 override fun deserialize(
@@ -226,25 +230,27 @@ open class RabbitstreamExtractor : Extractor() {
                     val jsonObject = json?.asJsonObject ?: JsonObject()
 
                     return when (jsonObject.get("sources")?.isJsonArray ?: false) {
-                        true -> Gson().fromJson(json, Sources::class.java)
-                        false -> Gson().fromJson(json, Sources.Encrypted::class.java)
+                        true -> Gson().fromJson<Sources>(json.toString())
+                        false -> Gson().fromJson<Sources.Encrypted>(json.toString())
                     }
                 }
             }
         }
 
+        @Keep
         data class Sources(
-            val sources: List<Source> = listOf(),
-            val sourcesBackup: List<Source> = listOf(),
-            val tracks: List<Track> = listOf(),
-            val server: Int? = null,
+            @SerializedName("sources") val sources: List<Source> = listOf(),
+            @SerializedName("sourcesBackup") val sourcesBackup: List<Source> = listOf(),
+            @SerializedName("tracks") val tracks: List<Track> = listOf(),
+            @SerializedName("server") val server: Int? = null,
         ) : SourcesResponse() {
 
+            @Keep
             data class Encrypted(
-                var sources: String,
-                val sourcesBackup: String? = null,
-                val tracks: List<Track> = listOf(),
-                val server: Int? = null,
+                @SerializedName("sources") var sources: String,
+                @SerializedName("sourcesBackup") val sourcesBackup: String? = null,
+                @SerializedName("tracks") val tracks: List<Track> = listOf(),
+                @SerializedName("server") val server: Int? = null,
             ) : SourcesResponse() {
                 fun decrypt(key: String): Sources {
                     fun decryptSourceUrl(decryptionKey: ByteArray, sourceUrl: String): String {
@@ -285,22 +291,24 @@ open class RabbitstreamExtractor : Extractor() {
                     )
 
                     return Sources(
-                        sources = Gson().fromJson(decrypted, Array<Source>::class.java).toList(),
+                        sources = Gson().fromJson<Array<Source>>(decrypted).toList(),
                         tracks = tracks
                     )
                 }
             }
 
+            @Keep
             data class Source(
-                val file: String = "",
-                val type: String = "",
+                @SerializedName("file") val file: String = "",
+                @SerializedName("type") val type: String = "",
             )
 
+            @Keep
             data class Track(
-                val file: String = "",
-                val label: String = "",
-                val kind: String = "",
-                val default: Boolean = false,
+                @SerializedName("file") val file: String = "",
+                @SerializedName("label") val label: String = "",
+                @SerializedName("kind") val kind: String = "",
+                @SerializedName("default") val default: Boolean = false,
             )
         }
 
@@ -329,3 +337,5 @@ open class RabbitstreamExtractor : Extractor() {
         }
     }
 }
+
+inline fun <reified T : Any> Gson.fromJson(text: String): T = fromJson(text, object : TypeToken<T>() {}.type)

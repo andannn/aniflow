@@ -95,7 +95,7 @@ android {
         }
 
         release {
-            minifyEnabled true // 启用混淆
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             // Signing with the debug keys for now, so `flutter run --release` works.
@@ -104,29 +104,29 @@ android {
     }
 }
 
-
-task moveKeyStoreRelease {
-    if (project.gradle.startParameter.taskNames.any { it.contains("Release") }) {
-        def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
-        def allFilesFromDir = new File(tmpFilePath).listFiles()
-        if (allFilesFromDir != null) {
-            def keystoreFile = allFilesFromDir.first()
-
-            if (keystoreFile == null || keystoreFile.name != 'aniflow-keystore.jks') {
-                throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
-            }
-
-            copy {
-                from keystoreFile.absolutePath
-                into "$projectDir/keystore"
-            }
-        } else {
-            throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
-        }
-    } else {
-        println("Debug mode. skip moving keystore file.")
-    }
-}
+//
+//task moveKeyStoreRelease {
+//    if (project.gradle.startParameter.taskNames.any { it.contains("Release") }) {
+//        def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
+//        def allFilesFromDir = new File(tmpFilePath).listFiles()
+//        if (allFilesFromDir != null) {
+//            def keystoreFile = allFilesFromDir.first()
+//
+//            if (keystoreFile == null || keystoreFile.name != 'aniflow-keystore.jks') {
+//                throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
+//            }
+//
+//            copy {
+//                from keystoreFile.absolutePath
+//                into "$projectDir/keystore"
+//            }
+//        } else {
+//            throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
+//        }
+//    } else {
+//        println("Debug mode. skip moving keystore file.")
+//    }
+//}
 flutter {
     source '../..'
 }
