@@ -21,15 +21,47 @@ void main() {
     test('find Episode test', () async {
       const dummy = EpisodeEntity(
         animeId: '1',
-        episodeId: '10',
+        playSourceId: '10',
         title: 'Episode 1-10',
-        url: 'url',
+        playSourceSiteUrl: 'url',
         episodeNum: '10',
+        playSourceType: "",
       );
       await dao.upsertEpisode([dummy]);
 
       final result1 = await dao.findEpisode('1', '10');
       expect(result1, equals(dummy.copyWith(id: const Value(1))));
+    });
+
+    test('find Playable link', () async {
+      const dummy = EpisodeEntity(
+          animeId: '1',
+          playSourceId: '10',
+          title: 'Episode 1-10',
+          playSourceSiteUrl: 'url',
+          episodeNum: '10',
+          playSourceType: "A",
+          playableLink: "BB");
+      await dao.upsertEpisode([dummy]);
+
+      final result1 = await dao.findPlayLink('1', '10', "A");
+      expect(result1, equals("BB"));
+    });
+
+    test('update Playable link', () async {
+      const dummy = EpisodeEntity(
+        animeId: '1',
+        playSourceId: '10',
+        title: 'Episode 1-10',
+        playSourceSiteUrl: 'url',
+        episodeNum: '10',
+        playSourceType: "A",
+      );
+      await dao.upsertEpisode([dummy]);
+      await dao.updatePlayableLink("BB", '1', '10', "A");
+
+      final result1 = await dao.findPlayLink('1', '10', "A");
+      expect(result1, equals("BB"));
     });
   });
 }

@@ -2,6 +2,7 @@ import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/episode_dao.dart';
+import 'package:aniflow/core/database/tables/episode_table.dart';
 import 'package:aniflow/core/network/hianime_data_source.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:dio/dio.dart';
@@ -9,11 +10,15 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:platform_extractor/platform_extractor.dart';
 
-class NotFoundEpisodeException implements Exception {
+class NotFoundEpisodeException extends Equatable implements Exception {
   final String message;
   final String searchUrl;
 
-  NotFoundEpisodeException({required this.message, required this.searchUrl});
+  const NotFoundEpisodeException(
+      {required this.message, required this.searchUrl});
+
+  @override
+  List<Object?> get props => [message, searchUrl];
 }
 
 class Episode extends Equatable {
@@ -55,15 +60,23 @@ class HiAnimationRepository {
     if (!useInAppPlayer) {
       return LoadSuccess(
         data: Episode(
-          episodeEntity.url,
+          episodeEntity.playSourceSiteUrl,
           episodeEntity.title,
         ),
       );
     }
 
     try {
-      final link = await _datasource.getPlayLink(episodeEntity.episodeId);
-      final playableLink = await _extractor.extract(link);
+      var playableLink = await _episodeDao.findPlayLink(
+          animeId, episode, PlaySource.hiAnimation);
+      if (playableLink == null) {
+        final link = await _datasource.getPlayLink(episodeEntity.playSourceId);
+        playableLink = await _extractor.extract(link);
+
+        await _episodeDao.updatePlayableLink(
+            playableLink, animeId, episode, PlaySource.hiAnimation);
+      }
+
       return LoadSuccess(
         data: Episode(
           playableLink,
@@ -108,9 +121,10 @@ class HiAnimationRepository {
           final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
           return EpisodeEntity(
             animeId: animeId,
-            episodeId: episodeId,
+            playSourceId: episodeId,
             title: title,
-            url: url,
+            playSourceType: PlaySource.hiAnimation,
+            playSourceSiteUrl: url,
             episodeNum: epNumber,
           );
         }).toList(),
