@@ -12,7 +12,6 @@ import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
 import 'package:aniflow/feature/notification/notification.dart';
-import 'package:aniflow/feature/player/gesture_tutorial.dart';
 import 'package:aniflow/feature/profile/profile.dart';
 import 'package:aniflow/feature/search/search_page.dart';
 import 'package:aniflow/feature/settings/settings.dart';
@@ -122,12 +121,6 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
       case SettingsRoutePath():
         return SettingsPage(
           key: ValueKey(toString()),
-          onPopInvoked: onPopInvoked,
-        );
-      case FullScreenPlayerPath(source: final source):
-        return FullScreenPlayerPage(
-          key: ValueKey(toString()),
-          source: source,
           onPopInvoked: onPopInvoked,
         );
       default:
