@@ -102,8 +102,10 @@ class HiAnimationRepository {
             .toString();
 
     try {
-      final animeHref =
-          await _datasource.searchAnimationByKeyword(keywords, cancelToken);
+      final animeHref = await _datasource.searchAnimationByKeyword(
+        keywords.map((e) => e.toLowerCase()).toList(),
+        cancelToken,
+      );
 
       if (animeHref == null) {
         throw NotFoundEpisodeException(
