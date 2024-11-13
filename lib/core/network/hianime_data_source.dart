@@ -35,11 +35,11 @@ class HiAnimationDataSource {
         }
         return matchNumbers &&
             keywords
-                .where((keyword) => title.similarityTo(keyword) > 0.7)
+                .where((keyword) => title.similarityTo(keyword) > 0.9)
                 .isNotEmpty;
       } else {
         return keywords
-            .where((keyword) => title.similarityTo(keyword) > 0.7)
+            .where((keyword) => title.similarityTo(keyword) > 0.9)
             .isNotEmpty;
       }
     }
@@ -60,7 +60,7 @@ class HiAnimationDataSource {
 
       for (var element in elements) {
         final title = element.attributes['title'] ?? '';
-        if (isMatchKeywords(title)) {
+        if (isMatchKeywords(title.toLowerCase())) {
           return element.attributes['href'] ?? '';
         }
       }
