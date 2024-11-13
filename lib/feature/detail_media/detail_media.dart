@@ -965,21 +965,24 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                               },
                               child: Text(context.appLocal.retry),
                             ),
-                            FilledButton(
-                              onPressed: () async {
-                                logger.d(
-                                    'episode.searchUrl ${episode.searchUrl}');
-                                if (episode.searchUrl == null) {
-                                  return;
-                                }
+                            if (GetItScope.of(context)
+                                .get<UserDataRepository>()
+                                .useInAppPlayer)
+                              FilledButton(
+                                onPressed: () async {
+                                  logger.d(
+                                      'episode.searchUrl ${episode.searchUrl}');
+                                  if (episode.searchUrl == null) {
+                                    return;
+                                  }
 
-                                final url = Uri.parse(episode.searchUrl!);
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url);
-                                }
-                              },
-                              child: Text(context.appLocal.toSearch),
-                            )
+                                  final url = Uri.parse(episode.searchUrl!);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  }
+                                },
+                                child: Text(context.appLocal.toSearch),
+                              )
                           ],
                         )
                       ],
