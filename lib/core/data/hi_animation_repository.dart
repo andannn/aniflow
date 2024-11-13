@@ -101,52 +101,44 @@ class HiAnimationRepository {
         Uri.http(hiAnimationDomain, '/search', {'keyword': keywords[0]})
             .toString();
 
-    try {
-      final animeHref = await _datasource.searchAnimationByKeyword(
-        keywords.map((e) => e.toLowerCase()).toList(),
-        cancelToken,
-      );
+    final animeHref = await _datasource.searchAnimationByKeyword(
+      keywords.map((e) => e.toLowerCase()).toList(),
+      cancelToken,
+    );
 
-      if (animeHref == null) {
-        throw NotFoundEpisodeException(
-          message: 'not find animation id.',
-          searchUrl: searchWebUrl,
-        );
-      }
-
-      final episodes =
-          await _datasource.getEpisodesById(animeHref, cancelToken);
-
-      await _episodeDao.upsertEpisode(
-        episodes.map((e) {
-          final (episodeId, title, epNumber) = e;
-          final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
-          return EpisodeEntity(
-            animeId: animeId,
-            playSourceId: episodeId,
-            title: title,
-            playSourceType: PlaySource.hiAnimation,
-            playSourceSiteUrl: url,
-            episodeNum: epNumber,
-          );
-        }).toList(),
-      );
-
-      final savedEpisode = await _episodeDao.findEpisode(animeId, episodeNum);
-
-      if (savedEpisode == null) {
-        return throw NotFoundEpisodeException(
-          message: 'not find episode: $episode',
-          searchUrl: searchWebUrl,
-        );
-      }
-
-      return savedEpisode;
-    } catch (e) {
+    if (animeHref == null) {
       throw NotFoundEpisodeException(
-        message: e.toString(),
+        message: 'not find animation id.',
         searchUrl: searchWebUrl,
       );
     }
+
+    final episodes = await _datasource.getEpisodesById(animeHref, cancelToken);
+
+    await _episodeDao.upsertEpisode(
+      episodes.map((e) {
+        final (episodeId, title, epNumber) = e;
+        final url = '$hiAnimationUrl$animeHref?ep=$episodeId';
+        return EpisodeEntity(
+          animeId: animeId,
+          playSourceId: episodeId,
+          title: title,
+          playSourceType: PlaySource.hiAnimation,
+          playSourceSiteUrl: url,
+          episodeNum: epNumber,
+        );
+      }).toList(),
+    );
+
+    final savedEpisode = await _episodeDao.findEpisode(animeId, episodeNum);
+
+    if (savedEpisode == null) {
+      return throw NotFoundEpisodeException(
+        message: 'not find episode: $episode',
+        searchUrl: searchWebUrl,
+      );
+    }
+
+    return savedEpisode;
   }
 }

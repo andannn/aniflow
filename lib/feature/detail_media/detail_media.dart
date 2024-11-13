@@ -8,7 +8,6 @@ import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/color_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
-import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
@@ -965,21 +964,6 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
                               },
                               child: Text(context.appLocal.retry),
                             ),
-                            FilledButton(
-                              onPressed: () async {
-                                logger.d(
-                                    'episode.searchUrl ${episode.searchUrl}');
-                                if (episode.searchUrl == null) {
-                                  return;
-                                }
-
-                                final url = Uri.parse(episode.searchUrl!);
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url);
-                                }
-                              },
-                              child: Text(context.appLocal.toSearch),
-                            )
                           ],
                         )
                       ],

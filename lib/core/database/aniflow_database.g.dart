@@ -8482,17 +8482,17 @@ class $EpisodeTableTable extends EpisodeTable
   late final GeneratedColumn<String> episodeNum = GeneratedColumn<String>(
       'episode_number', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _playSourceIdMeta =
-      const VerificationMeta('playSourceId');
-  @override
-  late final GeneratedColumn<String> playSourceId = GeneratedColumn<String>(
-      'episode_play_source_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _playSourceTypeMeta =
       const VerificationMeta('playSourceType');
   @override
   late final GeneratedColumn<String> playSourceType = GeneratedColumn<String>(
       'episode_play_source_type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _playSourceIdMeta =
+      const VerificationMeta('playSourceId');
+  @override
+  late final GeneratedColumn<String> playSourceId = GeneratedColumn<String>(
+      'episode_play_source_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _playSourceSiteUrlMeta =
       const VerificationMeta('playSourceSiteUrl');
@@ -8513,8 +8513,8 @@ class $EpisodeTableTable extends EpisodeTable
         animeId,
         title,
         episodeNum,
-        playSourceId,
         playSourceType,
+        playSourceId,
         playSourceSiteUrl,
         playableLink
       ];
@@ -8554,14 +8554,6 @@ class $EpisodeTableTable extends EpisodeTable
     } else if (isInserting) {
       context.missing(_episodeNumMeta);
     }
-    if (data.containsKey('episode_play_source_id')) {
-      context.handle(
-          _playSourceIdMeta,
-          playSourceId.isAcceptableOrUnknown(
-              data['episode_play_source_id']!, _playSourceIdMeta));
-    } else if (isInserting) {
-      context.missing(_playSourceIdMeta);
-    }
     if (data.containsKey('episode_play_source_type')) {
       context.handle(
           _playSourceTypeMeta,
@@ -8569,6 +8561,14 @@ class $EpisodeTableTable extends EpisodeTable
               data['episode_play_source_type']!, _playSourceTypeMeta));
     } else if (isInserting) {
       context.missing(_playSourceTypeMeta);
+    }
+    if (data.containsKey('episode_play_source_id')) {
+      context.handle(
+          _playSourceIdMeta,
+          playSourceId.isAcceptableOrUnknown(
+              data['episode_play_source_id']!, _playSourceIdMeta));
+    } else if (isInserting) {
+      context.missing(_playSourceIdMeta);
     }
     if (data.containsKey('episode_play_source_site_url')) {
       context.handle(
@@ -8601,10 +8601,10 @@ class $EpisodeTableTable extends EpisodeTable
           .read(DriftSqlType.string, data['${effectivePrefix}episode_title'])!,
       episodeNum: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}episode_number'])!,
-      playSourceId: attachedDatabase.typeMapping.read(DriftSqlType.string,
-          data['${effectivePrefix}episode_play_source_id'])!,
       playSourceType: attachedDatabase.typeMapping.read(DriftSqlType.string,
           data['${effectivePrefix}episode_play_source_type'])!,
+      playSourceId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}episode_play_source_id'])!,
       playSourceSiteUrl: attachedDatabase.typeMapping.read(DriftSqlType.string,
           data['${effectivePrefix}episode_play_source_site_url'])!,
       playableLink: attachedDatabase.typeMapping.read(
@@ -8623,8 +8623,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
   final String animeId;
   final String title;
   final String episodeNum;
-  final String playSourceId;
   final String playSourceType;
+  final String playSourceId;
   final String playSourceSiteUrl;
   final String? playableLink;
   const EpisodeEntity(
@@ -8632,8 +8632,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       required this.animeId,
       required this.title,
       required this.episodeNum,
-      required this.playSourceId,
       required this.playSourceType,
+      required this.playSourceId,
       required this.playSourceSiteUrl,
       this.playableLink});
   @override
@@ -8645,8 +8645,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
     map['episode_anime_cross_id'] = Variable<String>(animeId);
     map['episode_title'] = Variable<String>(title);
     map['episode_number'] = Variable<String>(episodeNum);
-    map['episode_play_source_id'] = Variable<String>(playSourceId);
     map['episode_play_source_type'] = Variable<String>(playSourceType);
+    map['episode_play_source_id'] = Variable<String>(playSourceId);
     map['episode_play_source_site_url'] = Variable<String>(playSourceSiteUrl);
     if (!nullToAbsent || playableLink != null) {
       map['episode_site_url'] = Variable<String>(playableLink);
@@ -8660,8 +8660,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       animeId: Value(animeId),
       title: Value(title),
       episodeNum: Value(episodeNum),
-      playSourceId: Value(playSourceId),
       playSourceType: Value(playSourceType),
+      playSourceId: Value(playSourceId),
       playSourceSiteUrl: Value(playSourceSiteUrl),
       playableLink: playableLink == null && nullToAbsent
           ? const Value.absent()
@@ -8677,8 +8677,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       animeId: serializer.fromJson<String>(json['animeId']),
       title: serializer.fromJson<String>(json['title']),
       episodeNum: serializer.fromJson<String>(json['episodeNum']),
-      playSourceId: serializer.fromJson<String>(json['playSourceId']),
       playSourceType: serializer.fromJson<String>(json['playSourceType']),
+      playSourceId: serializer.fromJson<String>(json['playSourceId']),
       playSourceSiteUrl: serializer.fromJson<String>(json['playSourceSiteUrl']),
       playableLink: serializer.fromJson<String?>(json['playableLink']),
     );
@@ -8691,8 +8691,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       'animeId': serializer.toJson<String>(animeId),
       'title': serializer.toJson<String>(title),
       'episodeNum': serializer.toJson<String>(episodeNum),
-      'playSourceId': serializer.toJson<String>(playSourceId),
       'playSourceType': serializer.toJson<String>(playSourceType),
+      'playSourceId': serializer.toJson<String>(playSourceId),
       'playSourceSiteUrl': serializer.toJson<String>(playSourceSiteUrl),
       'playableLink': serializer.toJson<String?>(playableLink),
     };
@@ -8703,8 +8703,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
           String? animeId,
           String? title,
           String? episodeNum,
-          String? playSourceId,
           String? playSourceType,
+          String? playSourceId,
           String? playSourceSiteUrl,
           Value<String?> playableLink = const Value.absent()}) =>
       EpisodeEntity(
@@ -8712,8 +8712,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
         animeId: animeId ?? this.animeId,
         title: title ?? this.title,
         episodeNum: episodeNum ?? this.episodeNum,
-        playSourceId: playSourceId ?? this.playSourceId,
         playSourceType: playSourceType ?? this.playSourceType,
+        playSourceId: playSourceId ?? this.playSourceId,
         playSourceSiteUrl: playSourceSiteUrl ?? this.playSourceSiteUrl,
         playableLink:
             playableLink.present ? playableLink.value : this.playableLink,
@@ -8725,12 +8725,12 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
       title: data.title.present ? data.title.value : this.title,
       episodeNum:
           data.episodeNum.present ? data.episodeNum.value : this.episodeNum,
-      playSourceId: data.playSourceId.present
-          ? data.playSourceId.value
-          : this.playSourceId,
       playSourceType: data.playSourceType.present
           ? data.playSourceType.value
           : this.playSourceType,
+      playSourceId: data.playSourceId.present
+          ? data.playSourceId.value
+          : this.playSourceId,
       playSourceSiteUrl: data.playSourceSiteUrl.present
           ? data.playSourceSiteUrl.value
           : this.playSourceSiteUrl,
@@ -8747,8 +8747,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
           ..write('animeId: $animeId, ')
           ..write('title: $title, ')
           ..write('episodeNum: $episodeNum, ')
-          ..write('playSourceId: $playSourceId, ')
           ..write('playSourceType: $playSourceType, ')
+          ..write('playSourceId: $playSourceId, ')
           ..write('playSourceSiteUrl: $playSourceSiteUrl, ')
           ..write('playableLink: $playableLink')
           ..write(')'))
@@ -8756,8 +8756,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
   }
 
   @override
-  int get hashCode => Object.hash(id, animeId, title, episodeNum, playSourceId,
-      playSourceType, playSourceSiteUrl, playableLink);
+  int get hashCode => Object.hash(id, animeId, title, episodeNum,
+      playSourceType, playSourceId, playSourceSiteUrl, playableLink);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -8766,8 +8766,8 @@ class EpisodeEntity extends DataClass implements Insertable<EpisodeEntity> {
           other.animeId == this.animeId &&
           other.title == this.title &&
           other.episodeNum == this.episodeNum &&
-          other.playSourceId == this.playSourceId &&
           other.playSourceType == this.playSourceType &&
+          other.playSourceId == this.playSourceId &&
           other.playSourceSiteUrl == this.playSourceSiteUrl &&
           other.playableLink == this.playableLink);
 }
@@ -8777,8 +8777,8 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
   final Value<String> animeId;
   final Value<String> title;
   final Value<String> episodeNum;
-  final Value<String> playSourceId;
   final Value<String> playSourceType;
+  final Value<String> playSourceId;
   final Value<String> playSourceSiteUrl;
   final Value<String?> playableLink;
   const EpisodeTableCompanion({
@@ -8786,8 +8786,8 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     this.animeId = const Value.absent(),
     this.title = const Value.absent(),
     this.episodeNum = const Value.absent(),
-    this.playSourceId = const Value.absent(),
     this.playSourceType = const Value.absent(),
+    this.playSourceId = const Value.absent(),
     this.playSourceSiteUrl = const Value.absent(),
     this.playableLink = const Value.absent(),
   });
@@ -8796,23 +8796,23 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     required String animeId,
     required String title,
     required String episodeNum,
-    required String playSourceId,
     required String playSourceType,
+    required String playSourceId,
     required String playSourceSiteUrl,
     this.playableLink = const Value.absent(),
   })  : animeId = Value(animeId),
         title = Value(title),
         episodeNum = Value(episodeNum),
-        playSourceId = Value(playSourceId),
         playSourceType = Value(playSourceType),
+        playSourceId = Value(playSourceId),
         playSourceSiteUrl = Value(playSourceSiteUrl);
   static Insertable<EpisodeEntity> custom({
     Expression<int>? id,
     Expression<String>? animeId,
     Expression<String>? title,
     Expression<String>? episodeNum,
-    Expression<String>? playSourceId,
     Expression<String>? playSourceType,
+    Expression<String>? playSourceId,
     Expression<String>? playSourceSiteUrl,
     Expression<String>? playableLink,
   }) {
@@ -8821,8 +8821,8 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
       if (animeId != null) 'episode_anime_cross_id': animeId,
       if (title != null) 'episode_title': title,
       if (episodeNum != null) 'episode_number': episodeNum,
-      if (playSourceId != null) 'episode_play_source_id': playSourceId,
       if (playSourceType != null) 'episode_play_source_type': playSourceType,
+      if (playSourceId != null) 'episode_play_source_id': playSourceId,
       if (playSourceSiteUrl != null)
         'episode_play_source_site_url': playSourceSiteUrl,
       if (playableLink != null) 'episode_site_url': playableLink,
@@ -8834,8 +8834,8 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
       Value<String>? animeId,
       Value<String>? title,
       Value<String>? episodeNum,
-      Value<String>? playSourceId,
       Value<String>? playSourceType,
+      Value<String>? playSourceId,
       Value<String>? playSourceSiteUrl,
       Value<String?>? playableLink}) {
     return EpisodeTableCompanion(
@@ -8843,8 +8843,8 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
       animeId: animeId ?? this.animeId,
       title: title ?? this.title,
       episodeNum: episodeNum ?? this.episodeNum,
-      playSourceId: playSourceId ?? this.playSourceId,
       playSourceType: playSourceType ?? this.playSourceType,
+      playSourceId: playSourceId ?? this.playSourceId,
       playSourceSiteUrl: playSourceSiteUrl ?? this.playSourceSiteUrl,
       playableLink: playableLink ?? this.playableLink,
     );
@@ -8865,11 +8865,11 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
     if (episodeNum.present) {
       map['episode_number'] = Variable<String>(episodeNum.value);
     }
-    if (playSourceId.present) {
-      map['episode_play_source_id'] = Variable<String>(playSourceId.value);
-    }
     if (playSourceType.present) {
       map['episode_play_source_type'] = Variable<String>(playSourceType.value);
+    }
+    if (playSourceId.present) {
+      map['episode_play_source_id'] = Variable<String>(playSourceId.value);
     }
     if (playSourceSiteUrl.present) {
       map['episode_play_source_site_url'] =
@@ -8888,8 +8888,8 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
           ..write('animeId: $animeId, ')
           ..write('title: $title, ')
           ..write('episodeNum: $episodeNum, ')
-          ..write('playSourceId: $playSourceId, ')
           ..write('playSourceType: $playSourceType, ')
+          ..write('playSourceId: $playSourceId, ')
           ..write('playSourceSiteUrl: $playSourceSiteUrl, ')
           ..write('playableLink: $playableLink')
           ..write(')'))
@@ -12247,8 +12247,8 @@ typedef $$EpisodeTableTableCreateCompanionBuilder = EpisodeTableCompanion
   required String animeId,
   required String title,
   required String episodeNum,
-  required String playSourceId,
   required String playSourceType,
+  required String playSourceId,
   required String playSourceSiteUrl,
   Value<String?> playableLink,
 });
@@ -12258,8 +12258,8 @@ typedef $$EpisodeTableTableUpdateCompanionBuilder = EpisodeTableCompanion
   Value<String> animeId,
   Value<String> title,
   Value<String> episodeNum,
-  Value<String> playSourceId,
   Value<String> playSourceType,
+  Value<String> playSourceId,
   Value<String> playSourceSiteUrl,
   Value<String?> playableLink,
 });
@@ -12286,8 +12286,8 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             Value<String> animeId = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<String> episodeNum = const Value.absent(),
-            Value<String> playSourceId = const Value.absent(),
             Value<String> playSourceType = const Value.absent(),
+            Value<String> playSourceId = const Value.absent(),
             Value<String> playSourceSiteUrl = const Value.absent(),
             Value<String?> playableLink = const Value.absent(),
           }) =>
@@ -12296,8 +12296,8 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             animeId: animeId,
             title: title,
             episodeNum: episodeNum,
-            playSourceId: playSourceId,
             playSourceType: playSourceType,
+            playSourceId: playSourceId,
             playSourceSiteUrl: playSourceSiteUrl,
             playableLink: playableLink,
           ),
@@ -12306,8 +12306,8 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             required String animeId,
             required String title,
             required String episodeNum,
-            required String playSourceId,
             required String playSourceType,
+            required String playSourceId,
             required String playSourceSiteUrl,
             Value<String?> playableLink = const Value.absent(),
           }) =>
@@ -12316,8 +12316,8 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             animeId: animeId,
             title: title,
             episodeNum: episodeNum,
-            playSourceId: playSourceId,
             playSourceType: playSourceType,
+            playSourceId: playSourceId,
             playSourceSiteUrl: playSourceSiteUrl,
             playableLink: playableLink,
           ),
@@ -12347,13 +12347,13 @@ class $$EpisodeTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<String> get playSourceId => $state.composableBuilder(
-      column: $state.table.playSourceId,
+  ColumnFilters<String> get playSourceType => $state.composableBuilder(
+      column: $state.table.playSourceType,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<String> get playSourceType => $state.composableBuilder(
-      column: $state.table.playSourceType,
+  ColumnFilters<String> get playSourceId => $state.composableBuilder(
+      column: $state.table.playSourceId,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -12391,13 +12391,13 @@ class $$EpisodeTableTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<String> get playSourceId => $state.composableBuilder(
-      column: $state.table.playSourceId,
+  ColumnOrderings<String> get playSourceType => $state.composableBuilder(
+      column: $state.table.playSourceType,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<String> get playSourceType => $state.composableBuilder(
-      column: $state.table.playSourceType,
+  ColumnOrderings<String> get playSourceId => $state.composableBuilder(
+      column: $state.table.playSourceId,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 

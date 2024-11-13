@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:aniflow/core/background_task/task.dart';
-import 'package:aniflow/core/background_task/tasks/post_anilist_notification_task.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +10,8 @@ const _tag = 'BackgroundTaskManager';
 
 mixin BackgroundTaskName {
   static const sendNotificationTaskName = 'post_platform_notifications_task_2';
+  static const syncNewReleasedPlaySourceTaskName =
+      'sync_new_released_play_source_task';
 }
 
 @lazySingleton
@@ -18,9 +19,9 @@ class BackgroundTaskManager {
   BackgroundTaskManager(this._authRepository, this._workManager) {
     _authRepository.getAuthedUserStream().distinct().listen((userOrNull) {
       if (userOrNull == null) {
-        _cancelTasks([const PostAnilistNotificationTask()]);
+        _cancelTasks(BackgroundTask.allTasks);
       } else {
-        _registerBackgroundTasks([const PostAnilistNotificationTask()]);
+        _registerBackgroundTasks(BackgroundTask.allTasks);
       }
     });
   }
