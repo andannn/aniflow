@@ -246,7 +246,7 @@ class ActivityItemContent extends StatelessWidget {
     }
 
     final defaultColor =
-        Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8);
+        Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.8);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

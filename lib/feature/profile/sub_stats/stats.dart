@@ -151,7 +151,7 @@ class UserStatics extends StatelessWidget {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
-      color: colorScheme.surfaceContainerHighest.withOpacity(0.7),
+      color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

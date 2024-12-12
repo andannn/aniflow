@@ -7,7 +7,6 @@ import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/model/media_list_dto.dart';
 import 'package:aniflow/core/network/model/notification.dart';
 import 'package:aniflow/core/network/model/user_dto.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -132,7 +131,7 @@ class AuthDataSource {
     List resultJson = response.data['data']['Page']['notifications'];
     return resultJson
         .map((e) => AniNotification.mapToAniNotification(e))
-        .whereNotNull()
+        .nonNulls
         .toList();
   }
 }

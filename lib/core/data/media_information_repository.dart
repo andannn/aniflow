@@ -477,7 +477,7 @@ class MediaInformationRepository {
       onInsertToDB: (dtoList) async {
         final characters = dtoList
             .map((e) => e.characters.firstOrNull)
-            .whereNotNull()
+            .nonNulls
             .map((e) => e.toEntity())
             .toList();
 
@@ -485,7 +485,7 @@ class MediaInformationRepository {
 
         final medias = dtoList
             .map((e) => e.media)
-            .whereNotNull()
+            .nonNulls
             .map((e) => e.toEntity())
             .toList();
 
@@ -531,7 +531,7 @@ class MediaInformationRepository {
       onInsertToDB: (dtoList) async {
         final medias = dtoList
             .map((e) => e.media)
-            .whereNotNull()
+            .nonNulls
             .map((e) => e.toEntity())
             .toList();
 

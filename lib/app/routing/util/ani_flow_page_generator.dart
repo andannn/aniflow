@@ -123,8 +123,6 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
           key: ValueKey(toString()),
           onPopInvoked: onPopInvoked,
         );
-      default:
-        return const MaterialPage(child: SizedBox());
     }
   }
 }

@@ -71,7 +71,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
     return streamRecord.map(
       (record) => CharacterAndRelatedMediaRelation(
         character: record.first.$1,
-        medias: record.map((e) => e.$2).whereNotNull().toList(),
+        medias: record.map((e) => e.$2).nonNulls.toList(),
       ),
     );
   }
@@ -349,7 +349,7 @@ class CharacterDao extends DatabaseAccessor<AniflowDatabase>
 
       batch.insertAll(
         staffTable,
-        entities.map((e) => e.voiceActorEntity).whereNotNull(),
+        entities.map((e) => e.voiceActorEntity).nonNulls,
         mode: InsertMode.insertOrIgnore,
       );
     });

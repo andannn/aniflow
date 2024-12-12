@@ -65,7 +65,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     return query
         .map((row) => row.read(mediaTable.id))
         .watch()
-        .map((value) => value.whereNotNull().toList());
+        .map((value) => value.nonNulls.toList());
   }
 
   Stream<List<MediaListAndMediaRelation>> getMediaListStream(
@@ -211,7 +211,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
       return batch((batch) {
         batch.insertAll(
           mediaListTable,
-          entities.map((e) => e.mediaListEntity).whereNotNull(),
+          entities.map((e) => e.mediaListEntity).nonNulls,
           mode: InsertMode.replace,
         );
 

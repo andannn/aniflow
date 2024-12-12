@@ -1724,7 +1724,7 @@ class $ActivityTableTable extends ActivityTable
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("activity_isLiked" IN (0, 1))'),
-      defaultValue: const Constant(false));
+      defaultValue: const Constant<bool>(false));
   static const VerificationMeta _isPinnedMeta =
       const VerificationMeta('isPinned');
   @override
@@ -1734,7 +1734,7 @@ class $ActivityTableTable extends ActivityTable
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("activity_isPinned" IN (0, 1))'),
-      defaultValue: const Constant(false));
+      defaultValue: const Constant<bool>(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -8994,22 +8994,127 @@ typedef $$UserTableTableUpdateCompanionBuilder = UserTableCompanion Function({
   Value<int> rowid,
 });
 
+class $$UserTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $UserTableTable> {
+  $$UserTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get avatarImage => $composableBuilder(
+      column: $table.avatarImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get bannerImage => $composableBuilder(
+      column: $table.bannerImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get profileColor => $composableBuilder(
+      column: $table.profileColor, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get unreadNotificationCount => $composableBuilder(
+      column: $table.unreadNotificationCount,
+      builder: (column) => ColumnFilters(column));
+}
+
+class $$UserTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $UserTableTable> {
+  $$UserTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get avatarImage => $composableBuilder(
+      column: $table.avatarImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get bannerImage => $composableBuilder(
+      column: $table.bannerImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get profileColor => $composableBuilder(
+      column: $table.profileColor,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get unreadNotificationCount => $composableBuilder(
+      column: $table.unreadNotificationCount,
+      builder: (column) => ColumnOrderings(column));
+}
+
+class $$UserTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $UserTableTable> {
+  $$UserTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get avatarImage => $composableBuilder(
+      column: $table.avatarImage, builder: (column) => column);
+
+  GeneratedColumn<String> get bannerImage => $composableBuilder(
+      column: $table.bannerImage, builder: (column) => column);
+
+  GeneratedColumn<String> get profileColor => $composableBuilder(
+      column: $table.profileColor, builder: (column) => column);
+
+  GeneratedColumn<String> get siteUrl =>
+      $composableBuilder(column: $table.siteUrl, builder: (column) => column);
+
+  GeneratedColumn<int> get unreadNotificationCount => $composableBuilder(
+      column: $table.unreadNotificationCount, builder: (column) => column);
+}
+
 class $$UserTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $UserTableTable,
     UserEntity,
     $$UserTableTableFilterComposer,
     $$UserTableTableOrderingComposer,
+    $$UserTableTableAnnotationComposer,
     $$UserTableTableCreateCompanionBuilder,
-    $$UserTableTableUpdateCompanionBuilder> {
+    $$UserTableTableUpdateCompanionBuilder,
+    (
+      UserEntity,
+      BaseReferences<_$AniflowDatabase, $UserTableTable, UserEntity>
+    ),
+    UserEntity,
+    PrefetchHooks Function()> {
   $$UserTableTableTableManager(_$AniflowDatabase db, $UserTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$UserTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$UserTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$UserTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
@@ -9050,87 +9155,28 @@ class $$UserTableTableTableManager extends RootTableManager<
             unreadNotificationCount: unreadNotificationCount,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$UserTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $UserTableTable> {
-  $$UserTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get avatarImage => $state.composableBuilder(
-      column: $state.table.avatarImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get bannerImage => $state.composableBuilder(
-      column: $state.table.bannerImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get profileColor => $state.composableBuilder(
-      column: $state.table.profileColor,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get unreadNotificationCount => $state.composableBuilder(
-      column: $state.table.unreadNotificationCount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$UserTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $UserTableTable> {
-  $$UserTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get avatarImage => $state.composableBuilder(
-      column: $state.table.avatarImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get bannerImage => $state.composableBuilder(
-      column: $state.table.bannerImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get profileColor => $state.composableBuilder(
-      column: $state.table.profileColor,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get unreadNotificationCount => $state.composableBuilder(
-      column: $state.table.unreadNotificationCount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$UserTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $UserTableTable,
+    UserEntity,
+    $$UserTableTableFilterComposer,
+    $$UserTableTableOrderingComposer,
+    $$UserTableTableAnnotationComposer,
+    $$UserTableTableCreateCompanionBuilder,
+    $$UserTableTableUpdateCompanionBuilder,
+    (
+      UserEntity,
+      BaseReferences<_$AniflowDatabase, $UserTableTable, UserEntity>
+    ),
+    UserEntity,
+    PrefetchHooks Function()>;
 typedef $$StudioTableTableCreateCompanionBuilder = StudioTableCompanion
     Function({
   required String id,
@@ -9150,22 +9196,108 @@ typedef $$StudioTableTableUpdateCompanionBuilder = StudioTableCompanion
   Value<int> rowid,
 });
 
+class $$StudioTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $StudioTableTable> {
+  $$StudioTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isAnimationStudio => $composableBuilder(
+      column: $table.isAnimationStudio,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnFilters(column));
+}
+
+class $$StudioTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $StudioTableTable> {
+  $$StudioTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isAnimationStudio => $composableBuilder(
+      column: $table.isAnimationStudio,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnOrderings(column));
+}
+
+class $$StudioTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $StudioTableTable> {
+  $$StudioTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get siteUrl =>
+      $composableBuilder(column: $table.siteUrl, builder: (column) => column);
+
+  GeneratedColumn<bool> get isAnimationStudio => $composableBuilder(
+      column: $table.isAnimationStudio, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => column);
+}
+
 class $$StudioTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $StudioTableTable,
     StudioEntity,
     $$StudioTableTableFilterComposer,
     $$StudioTableTableOrderingComposer,
+    $$StudioTableTableAnnotationComposer,
     $$StudioTableTableCreateCompanionBuilder,
-    $$StudioTableTableUpdateCompanionBuilder> {
+    $$StudioTableTableUpdateCompanionBuilder,
+    (
+      StudioEntity,
+      BaseReferences<_$AniflowDatabase, $StudioTableTable, StudioEntity>
+    ),
+    StudioEntity,
+    PrefetchHooks Function()> {
   $$StudioTableTableTableManager(_$AniflowDatabase db, $StudioTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$StudioTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$StudioTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$StudioTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StudioTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StudioTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
@@ -9198,67 +9330,28 @@ class $$StudioTableTableTableManager extends RootTableManager<
             isFavourite: isFavourite,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$StudioTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $StudioTableTable> {
-  $$StudioTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isAnimationStudio => $state.composableBuilder(
-      column: $state.table.isAnimationStudio,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$StudioTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $StudioTableTable> {
-  $$StudioTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isAnimationStudio => $state.composableBuilder(
-      column: $state.table.isAnimationStudio,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$StudioTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $StudioTableTable,
+    StudioEntity,
+    $$StudioTableTableFilterComposer,
+    $$StudioTableTableOrderingComposer,
+    $$StudioTableTableAnnotationComposer,
+    $$StudioTableTableCreateCompanionBuilder,
+    $$StudioTableTableUpdateCompanionBuilder,
+    (
+      StudioEntity,
+      BaseReferences<_$AniflowDatabase, $StudioTableTable, StudioEntity>
+    ),
+    StudioEntity,
+    PrefetchHooks Function()>;
 typedef $$StaffTableTableCreateCompanionBuilder = StaffTableCompanion Function({
   required String id,
   Value<String?> largeImage,
@@ -9302,22 +9395,223 @@ typedef $$StaffTableTableUpdateCompanionBuilder = StaffTableCompanion Function({
   Value<int> rowid,
 });
 
+class $$StaffTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $StaffTableTable> {
+  $$StaffTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get largeImage => $composableBuilder(
+      column: $table.largeImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediumImage => $composableBuilder(
+      column: $table.mediumImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get firstName => $composableBuilder(
+      column: $table.firstName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get middleName => $composableBuilder(
+      column: $table.middleName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get lastName => $composableBuilder(
+      column: $table.lastName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get fullName => $composableBuilder(
+      column: $table.fullName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get nativeName => $composableBuilder(
+      column: $table.nativeName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get gender => $composableBuilder(
+      column: $table.gender, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get dateOfBirth => $composableBuilder(
+      column: $table.dateOfBirth, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get dateOfDeath => $composableBuilder(
+      column: $table.dateOfDeath, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get age => $composableBuilder(
+      column: $table.age, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get yearsActive => $composableBuilder(
+      column: $table.yearsActive, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get homeTown => $composableBuilder(
+      column: $table.homeTown, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get bloodType => $composableBuilder(
+      column: $table.bloodType, builder: (column) => ColumnFilters(column));
+}
+
+class $$StaffTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $StaffTableTable> {
+  $$StaffTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get largeImage => $composableBuilder(
+      column: $table.largeImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediumImage => $composableBuilder(
+      column: $table.mediumImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get firstName => $composableBuilder(
+      column: $table.firstName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get middleName => $composableBuilder(
+      column: $table.middleName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get lastName => $composableBuilder(
+      column: $table.lastName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fullName => $composableBuilder(
+      column: $table.fullName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get nativeName => $composableBuilder(
+      column: $table.nativeName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get gender => $composableBuilder(
+      column: $table.gender, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get dateOfBirth => $composableBuilder(
+      column: $table.dateOfBirth, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get dateOfDeath => $composableBuilder(
+      column: $table.dateOfDeath, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get age => $composableBuilder(
+      column: $table.age, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get yearsActive => $composableBuilder(
+      column: $table.yearsActive, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get homeTown => $composableBuilder(
+      column: $table.homeTown, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get bloodType => $composableBuilder(
+      column: $table.bloodType, builder: (column) => ColumnOrderings(column));
+}
+
+class $$StaffTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $StaffTableTable> {
+  $$StaffTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get largeImage => $composableBuilder(
+      column: $table.largeImage, builder: (column) => column);
+
+  GeneratedColumn<String> get mediumImage => $composableBuilder(
+      column: $table.mediumImage, builder: (column) => column);
+
+  GeneratedColumn<String> get firstName =>
+      $composableBuilder(column: $table.firstName, builder: (column) => column);
+
+  GeneratedColumn<String> get middleName => $composableBuilder(
+      column: $table.middleName, builder: (column) => column);
+
+  GeneratedColumn<String> get lastName =>
+      $composableBuilder(column: $table.lastName, builder: (column) => column);
+
+  GeneratedColumn<String> get fullName =>
+      $composableBuilder(column: $table.fullName, builder: (column) => column);
+
+  GeneratedColumn<String> get nativeName => $composableBuilder(
+      column: $table.nativeName, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get gender =>
+      $composableBuilder(column: $table.gender, builder: (column) => column);
+
+  GeneratedColumn<String> get siteUrl =>
+      $composableBuilder(column: $table.siteUrl, builder: (column) => column);
+
+  GeneratedColumn<int> get dateOfBirth => $composableBuilder(
+      column: $table.dateOfBirth, builder: (column) => column);
+
+  GeneratedColumn<int> get dateOfDeath => $composableBuilder(
+      column: $table.dateOfDeath, builder: (column) => column);
+
+  GeneratedColumn<int> get age =>
+      $composableBuilder(column: $table.age, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => column);
+
+  GeneratedColumn<String> get yearsActive => $composableBuilder(
+      column: $table.yearsActive, builder: (column) => column);
+
+  GeneratedColumn<String> get homeTown =>
+      $composableBuilder(column: $table.homeTown, builder: (column) => column);
+
+  GeneratedColumn<String> get bloodType =>
+      $composableBuilder(column: $table.bloodType, builder: (column) => column);
+}
+
 class $$StaffTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $StaffTableTable,
     StaffEntity,
     $$StaffTableTableFilterComposer,
     $$StaffTableTableOrderingComposer,
+    $$StaffTableTableAnnotationComposer,
     $$StaffTableTableCreateCompanionBuilder,
-    $$StaffTableTableUpdateCompanionBuilder> {
+    $$StaffTableTableUpdateCompanionBuilder,
+    (
+      StaffEntity,
+      BaseReferences<_$AniflowDatabase, $StaffTableTable, StaffEntity>
+    ),
+    StaffEntity,
+    PrefetchHooks Function()> {
   $$StaffTableTableTableManager(_$AniflowDatabase db, $StaffTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$StaffTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$StaffTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$StaffTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StaffTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StaffTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String?> largeImage = const Value.absent(),
@@ -9402,197 +9696,28 @@ class $$StaffTableTableTableManager extends RootTableManager<
             bloodType: bloodType,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$StaffTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $StaffTableTable> {
-  $$StaffTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get largeImage => $state.composableBuilder(
-      column: $state.table.largeImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediumImage => $state.composableBuilder(
-      column: $state.table.mediumImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get firstName => $state.composableBuilder(
-      column: $state.table.firstName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get middleName => $state.composableBuilder(
-      column: $state.table.middleName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get lastName => $state.composableBuilder(
-      column: $state.table.lastName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get fullName => $state.composableBuilder(
-      column: $state.table.fullName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get nativeName => $state.composableBuilder(
-      column: $state.table.nativeName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get gender => $state.composableBuilder(
-      column: $state.table.gender,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get dateOfBirth => $state.composableBuilder(
-      column: $state.table.dateOfBirth,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get dateOfDeath => $state.composableBuilder(
-      column: $state.table.dateOfDeath,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get age => $state.composableBuilder(
-      column: $state.table.age,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get yearsActive => $state.composableBuilder(
-      column: $state.table.yearsActive,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get homeTown => $state.composableBuilder(
-      column: $state.table.homeTown,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get bloodType => $state.composableBuilder(
-      column: $state.table.bloodType,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$StaffTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $StaffTableTable> {
-  $$StaffTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get largeImage => $state.composableBuilder(
-      column: $state.table.largeImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediumImage => $state.composableBuilder(
-      column: $state.table.mediumImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get firstName => $state.composableBuilder(
-      column: $state.table.firstName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get middleName => $state.composableBuilder(
-      column: $state.table.middleName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get lastName => $state.composableBuilder(
-      column: $state.table.lastName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get fullName => $state.composableBuilder(
-      column: $state.table.fullName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get nativeName => $state.composableBuilder(
-      column: $state.table.nativeName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get gender => $state.composableBuilder(
-      column: $state.table.gender,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get dateOfBirth => $state.composableBuilder(
-      column: $state.table.dateOfBirth,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get dateOfDeath => $state.composableBuilder(
-      column: $state.table.dateOfDeath,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get age => $state.composableBuilder(
-      column: $state.table.age,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get yearsActive => $state.composableBuilder(
-      column: $state.table.yearsActive,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get homeTown => $state.composableBuilder(
-      column: $state.table.homeTown,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get bloodType => $state.composableBuilder(
-      column: $state.table.bloodType,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$StaffTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $StaffTableTable,
+    StaffEntity,
+    $$StaffTableTableFilterComposer,
+    $$StaffTableTableOrderingComposer,
+    $$StaffTableTableAnnotationComposer,
+    $$StaffTableTableCreateCompanionBuilder,
+    $$StaffTableTableUpdateCompanionBuilder,
+    (
+      StaffEntity,
+      BaseReferences<_$AniflowDatabase, $StaffTableTable, StaffEntity>
+    ),
+    StaffEntity,
+    PrefetchHooks Function()>;
 typedef $$ActivityTableTableCreateCompanionBuilder = ActivityTableCompanion
     Function({
   required String id,
@@ -9630,23 +9755,188 @@ typedef $$ActivityTableTableUpdateCompanionBuilder = ActivityTableCompanion
   Value<int> rowid,
 });
 
+class $$ActivityTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $ActivityTableTable> {
+  $$ActivityTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get textContent => $composableBuilder(
+      column: $table.textContent, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get progress => $composableBuilder(
+      column: $table.progress, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get replyCount => $composableBuilder(
+      column: $table.replyCount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get likeCount => $composableBuilder(
+      column: $table.likeCount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isLocked => $composableBuilder(
+      column: $table.isLocked, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isLiked => $composableBuilder(
+      column: $table.isLiked, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isPinned => $composableBuilder(
+      column: $table.isPinned, builder: (column) => ColumnFilters(column));
+}
+
+class $$ActivityTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $ActivityTableTable> {
+  $$ActivityTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get textContent => $composableBuilder(
+      column: $table.textContent, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get progress => $composableBuilder(
+      column: $table.progress, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get replyCount => $composableBuilder(
+      column: $table.replyCount, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get likeCount => $composableBuilder(
+      column: $table.likeCount, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isLocked => $composableBuilder(
+      column: $table.isLocked, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isLiked => $composableBuilder(
+      column: $table.isLiked, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isPinned => $composableBuilder(
+      column: $table.isPinned, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ActivityTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $ActivityTableTable> {
+  $$ActivityTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<String> get textContent => $composableBuilder(
+      column: $table.textContent, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get progress =>
+      $composableBuilder(column: $table.progress, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get siteUrl =>
+      $composableBuilder(column: $table.siteUrl, builder: (column) => column);
+
+  GeneratedColumn<int> get replyCount => $composableBuilder(
+      column: $table.replyCount, builder: (column) => column);
+
+  GeneratedColumn<int> get likeCount =>
+      $composableBuilder(column: $table.likeCount, builder: (column) => column);
+
+  GeneratedColumn<int> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isLocked =>
+      $composableBuilder(column: $table.isLocked, builder: (column) => column);
+
+  GeneratedColumn<bool> get isLiked =>
+      $composableBuilder(column: $table.isLiked, builder: (column) => column);
+
+  GeneratedColumn<bool> get isPinned =>
+      $composableBuilder(column: $table.isPinned, builder: (column) => column);
+}
+
 class $$ActivityTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $ActivityTableTable,
     ActivityEntity,
     $$ActivityTableTableFilterComposer,
     $$ActivityTableTableOrderingComposer,
+    $$ActivityTableTableAnnotationComposer,
     $$ActivityTableTableCreateCompanionBuilder,
-    $$ActivityTableTableUpdateCompanionBuilder> {
+    $$ActivityTableTableUpdateCompanionBuilder,
+    (
+      ActivityEntity,
+      BaseReferences<_$AniflowDatabase, $ActivityTableTable, ActivityEntity>
+    ),
+    ActivityEntity,
+    PrefetchHooks Function()> {
   $$ActivityTableTableTableManager(
       _$AniflowDatabase db, $ActivityTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$ActivityTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$ActivityTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$ActivityTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ActivityTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ActivityTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> userId = const Value.absent(),
@@ -9715,157 +10005,28 @@ class $$ActivityTableTableTableManager extends RootTableManager<
             isPinned: isPinned,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$ActivityTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $ActivityTableTable> {
-  $$ActivityTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get textContent => $state.composableBuilder(
-      column: $state.table.textContent,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get status => $state.composableBuilder(
-      column: $state.table.status,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get progress => $state.composableBuilder(
-      column: $state.table.progress,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get replyCount => $state.composableBuilder(
-      column: $state.table.replyCount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get likeCount => $state.composableBuilder(
-      column: $state.table.likeCount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isLocked => $state.composableBuilder(
-      column: $state.table.isLocked,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isLiked => $state.composableBuilder(
-      column: $state.table.isLiked,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isPinned => $state.composableBuilder(
-      column: $state.table.isPinned,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$ActivityTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $ActivityTableTable> {
-  $$ActivityTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get textContent => $state.composableBuilder(
-      column: $state.table.textContent,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get status => $state.composableBuilder(
-      column: $state.table.status,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get progress => $state.composableBuilder(
-      column: $state.table.progress,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get replyCount => $state.composableBuilder(
-      column: $state.table.replyCount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get likeCount => $state.composableBuilder(
-      column: $state.table.likeCount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isLocked => $state.composableBuilder(
-      column: $state.table.isLocked,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isLiked => $state.composableBuilder(
-      column: $state.table.isLiked,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isPinned => $state.composableBuilder(
-      column: $state.table.isPinned,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$ActivityTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $ActivityTableTable,
+    ActivityEntity,
+    $$ActivityTableTableFilterComposer,
+    $$ActivityTableTableOrderingComposer,
+    $$ActivityTableTableAnnotationComposer,
+    $$ActivityTableTableCreateCompanionBuilder,
+    $$ActivityTableTableUpdateCompanionBuilder,
+    (
+      ActivityEntity,
+      BaseReferences<_$AniflowDatabase, $ActivityTableTable, ActivityEntity>
+    ),
+    ActivityEntity,
+    PrefetchHooks Function()>;
 typedef $$AiringScheduleTableTableCreateCompanionBuilder
     = AiringScheduleTableCompanion Function({
   required String id,
@@ -9885,23 +10046,112 @@ typedef $$AiringScheduleTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$AiringScheduleTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $AiringScheduleTableTable> {
+  $$AiringScheduleTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get airingAt => $composableBuilder(
+      column: $table.airingAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get timeUntilAiring => $composableBuilder(
+      column: $table.timeUntilAiring,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get episode => $composableBuilder(
+      column: $table.episode, builder: (column) => ColumnFilters(column));
+}
+
+class $$AiringScheduleTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $AiringScheduleTableTable> {
+  $$AiringScheduleTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get airingAt => $composableBuilder(
+      column: $table.airingAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get timeUntilAiring => $composableBuilder(
+      column: $table.timeUntilAiring,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get episode => $composableBuilder(
+      column: $table.episode, builder: (column) => ColumnOrderings(column));
+}
+
+class $$AiringScheduleTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $AiringScheduleTableTable> {
+  $$AiringScheduleTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<int> get airingAt =>
+      $composableBuilder(column: $table.airingAt, builder: (column) => column);
+
+  GeneratedColumn<int> get timeUntilAiring => $composableBuilder(
+      column: $table.timeUntilAiring, builder: (column) => column);
+
+  GeneratedColumn<int> get episode =>
+      $composableBuilder(column: $table.episode, builder: (column) => column);
+}
+
 class $$AiringScheduleTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $AiringScheduleTableTable,
     AiringScheduleEntity,
     $$AiringScheduleTableTableFilterComposer,
     $$AiringScheduleTableTableOrderingComposer,
+    $$AiringScheduleTableTableAnnotationComposer,
     $$AiringScheduleTableTableCreateCompanionBuilder,
-    $$AiringScheduleTableTableUpdateCompanionBuilder> {
+    $$AiringScheduleTableTableUpdateCompanionBuilder,
+    (
+      AiringScheduleEntity,
+      BaseReferences<_$AniflowDatabase, $AiringScheduleTableTable,
+          AiringScheduleEntity>
+    ),
+    AiringScheduleEntity,
+    PrefetchHooks Function()> {
   $$AiringScheduleTableTableTableManager(
       _$AniflowDatabase db, $AiringScheduleTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$AiringScheduleTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$AiringScheduleTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$AiringScheduleTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AiringScheduleTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AiringScheduleTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -9934,67 +10184,29 @@ class $$AiringScheduleTableTableTableManager extends RootTableManager<
             episode: episode,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$AiringScheduleTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $AiringScheduleTableTable> {
-  $$AiringScheduleTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get airingAt => $state.composableBuilder(
-      column: $state.table.airingAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get timeUntilAiring => $state.composableBuilder(
-      column: $state.table.timeUntilAiring,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get episode => $state.composableBuilder(
-      column: $state.table.episode,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$AiringScheduleTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $AiringScheduleTableTable> {
-  $$AiringScheduleTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get airingAt => $state.composableBuilder(
-      column: $state.table.airingAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get timeUntilAiring => $state.composableBuilder(
-      column: $state.table.timeUntilAiring,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get episode => $state.composableBuilder(
-      column: $state.table.episode,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$AiringScheduleTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $AiringScheduleTableTable,
+    AiringScheduleEntity,
+    $$AiringScheduleTableTableFilterComposer,
+    $$AiringScheduleTableTableOrderingComposer,
+    $$AiringScheduleTableTableAnnotationComposer,
+    $$AiringScheduleTableTableCreateCompanionBuilder,
+    $$AiringScheduleTableTableUpdateCompanionBuilder,
+    (
+      AiringScheduleEntity,
+      BaseReferences<_$AniflowDatabase, $AiringScheduleTableTable,
+          AiringScheduleEntity>
+    ),
+    AiringScheduleEntity,
+    PrefetchHooks Function()>;
 typedef $$CharacterTableTableCreateCompanionBuilder = CharacterTableCompanion
     Function({
   required String id,
@@ -10036,23 +10248,206 @@ typedef $$CharacterTableTableUpdateCompanionBuilder = CharacterTableCompanion
   Value<int> rowid,
 });
 
+class $$CharacterTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $CharacterTableTable> {
+  $$CharacterTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get largeImage => $composableBuilder(
+      column: $table.largeImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediumImage => $composableBuilder(
+      column: $table.mediumImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get firstName => $composableBuilder(
+      column: $table.firstName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get middleName => $composableBuilder(
+      column: $table.middleName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get lastName => $composableBuilder(
+      column: $table.lastName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get fullName => $composableBuilder(
+      column: $table.fullName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get nativeName => $composableBuilder(
+      column: $table.nativeName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get gender => $composableBuilder(
+      column: $table.gender, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get age => $composableBuilder(
+      column: $table.age, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get bloodType => $composableBuilder(
+      column: $table.bloodType, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get dateOfBirth => $composableBuilder(
+      column: $table.dateOfBirth, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get favourites => $composableBuilder(
+      column: $table.favourites, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnFilters(column));
+}
+
+class $$CharacterTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $CharacterTableTable> {
+  $$CharacterTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get largeImage => $composableBuilder(
+      column: $table.largeImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediumImage => $composableBuilder(
+      column: $table.mediumImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get firstName => $composableBuilder(
+      column: $table.firstName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get middleName => $composableBuilder(
+      column: $table.middleName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get lastName => $composableBuilder(
+      column: $table.lastName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fullName => $composableBuilder(
+      column: $table.fullName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get nativeName => $composableBuilder(
+      column: $table.nativeName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get gender => $composableBuilder(
+      column: $table.gender, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get age => $composableBuilder(
+      column: $table.age, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get bloodType => $composableBuilder(
+      column: $table.bloodType, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get dateOfBirth => $composableBuilder(
+      column: $table.dateOfBirth, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get favourites => $composableBuilder(
+      column: $table.favourites, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CharacterTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $CharacterTableTable> {
+  $$CharacterTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get largeImage => $composableBuilder(
+      column: $table.largeImage, builder: (column) => column);
+
+  GeneratedColumn<String> get mediumImage => $composableBuilder(
+      column: $table.mediumImage, builder: (column) => column);
+
+  GeneratedColumn<String> get firstName =>
+      $composableBuilder(column: $table.firstName, builder: (column) => column);
+
+  GeneratedColumn<String> get middleName => $composableBuilder(
+      column: $table.middleName, builder: (column) => column);
+
+  GeneratedColumn<String> get lastName =>
+      $composableBuilder(column: $table.lastName, builder: (column) => column);
+
+  GeneratedColumn<String> get fullName =>
+      $composableBuilder(column: $table.fullName, builder: (column) => column);
+
+  GeneratedColumn<String> get nativeName => $composableBuilder(
+      column: $table.nativeName, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get gender =>
+      $composableBuilder(column: $table.gender, builder: (column) => column);
+
+  GeneratedColumn<String> get age =>
+      $composableBuilder(column: $table.age, builder: (column) => column);
+
+  GeneratedColumn<String> get bloodType =>
+      $composableBuilder(column: $table.bloodType, builder: (column) => column);
+
+  GeneratedColumn<String> get siteUrl =>
+      $composableBuilder(column: $table.siteUrl, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dateOfBirth => $composableBuilder(
+      column: $table.dateOfBirth, builder: (column) => column);
+
+  GeneratedColumn<int> get favourites => $composableBuilder(
+      column: $table.favourites, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => column);
+}
+
 class $$CharacterTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $CharacterTableTable,
     CharacterEntity,
     $$CharacterTableTableFilterComposer,
     $$CharacterTableTableOrderingComposer,
+    $$CharacterTableTableAnnotationComposer,
     $$CharacterTableTableCreateCompanionBuilder,
-    $$CharacterTableTableUpdateCompanionBuilder> {
+    $$CharacterTableTableUpdateCompanionBuilder,
+    (
+      CharacterEntity,
+      BaseReferences<_$AniflowDatabase, $CharacterTableTable, CharacterEntity>
+    ),
+    CharacterEntity,
+    PrefetchHooks Function()> {
   $$CharacterTableTableTableManager(
       _$AniflowDatabase db, $CharacterTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CharacterTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CharacterTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$CharacterTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CharacterTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CharacterTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String?> largeImage = const Value.absent(),
@@ -10129,177 +10524,28 @@ class $$CharacterTableTableTableManager extends RootTableManager<
             isFavourite: isFavourite,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$CharacterTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $CharacterTableTable> {
-  $$CharacterTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get largeImage => $state.composableBuilder(
-      column: $state.table.largeImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediumImage => $state.composableBuilder(
-      column: $state.table.mediumImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get firstName => $state.composableBuilder(
-      column: $state.table.firstName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get middleName => $state.composableBuilder(
-      column: $state.table.middleName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get lastName => $state.composableBuilder(
-      column: $state.table.lastName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get fullName => $state.composableBuilder(
-      column: $state.table.fullName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get nativeName => $state.composableBuilder(
-      column: $state.table.nativeName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get gender => $state.composableBuilder(
-      column: $state.table.gender,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get age => $state.composableBuilder(
-      column: $state.table.age,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get bloodType => $state.composableBuilder(
-      column: $state.table.bloodType,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get dateOfBirth => $state.composableBuilder(
-      column: $state.table.dateOfBirth,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get favourites => $state.composableBuilder(
-      column: $state.table.favourites,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$CharacterTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $CharacterTableTable> {
-  $$CharacterTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get largeImage => $state.composableBuilder(
-      column: $state.table.largeImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediumImage => $state.composableBuilder(
-      column: $state.table.mediumImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get firstName => $state.composableBuilder(
-      column: $state.table.firstName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get middleName => $state.composableBuilder(
-      column: $state.table.middleName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get lastName => $state.composableBuilder(
-      column: $state.table.lastName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get fullName => $state.composableBuilder(
-      column: $state.table.fullName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get nativeName => $state.composableBuilder(
-      column: $state.table.nativeName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get gender => $state.composableBuilder(
-      column: $state.table.gender,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get age => $state.composableBuilder(
-      column: $state.table.age,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get bloodType => $state.composableBuilder(
-      column: $state.table.bloodType,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get dateOfBirth => $state.composableBuilder(
-      column: $state.table.dateOfBirth,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get favourites => $state.composableBuilder(
-      column: $state.table.favourites,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$CharacterTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $CharacterTableTable,
+    CharacterEntity,
+    $$CharacterTableTableFilterComposer,
+    $$CharacterTableTableOrderingComposer,
+    $$CharacterTableTableAnnotationComposer,
+    $$CharacterTableTableCreateCompanionBuilder,
+    $$CharacterTableTableUpdateCompanionBuilder,
+    (
+      CharacterEntity,
+      BaseReferences<_$AniflowDatabase, $CharacterTableTable, CharacterEntity>
+    ),
+    CharacterEntity,
+    PrefetchHooks Function()>;
 typedef $$MediaListTableTableCreateCompanionBuilder = MediaListTableCompanion
     Function({
   required String id,
@@ -10335,23 +10581,181 @@ typedef $$MediaListTableTableUpdateCompanionBuilder = MediaListTableCompanion
   Value<int> rowid,
 });
 
+class $$MediaListTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $MediaListTableTable> {
+  $$MediaListTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get progress => $composableBuilder(
+      column: $table.progress, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get progressVolumes => $composableBuilder(
+      column: $table.progressVolumes,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get startedAt => $composableBuilder(
+      column: $table.startedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get completedAt => $composableBuilder(
+      column: $table.completedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get repeat => $composableBuilder(
+      column: $table.repeat, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get score => $composableBuilder(
+      column: $table.score, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get private => $composableBuilder(
+      column: $table.private, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaListTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $MediaListTableTable> {
+  $$MediaListTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get progress => $composableBuilder(
+      column: $table.progress, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get progressVolumes => $composableBuilder(
+      column: $table.progressVolumes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get startedAt => $composableBuilder(
+      column: $table.startedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get completedAt => $composableBuilder(
+      column: $table.completedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get repeat => $composableBuilder(
+      column: $table.repeat, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get score => $composableBuilder(
+      column: $table.score, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get private => $composableBuilder(
+      column: $table.private, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaListTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $MediaListTableTable> {
+  $$MediaListTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<int> get progress =>
+      $composableBuilder(column: $table.progress, builder: (column) => column);
+
+  GeneratedColumn<int> get progressVolumes => $composableBuilder(
+      column: $table.progressVolumes, builder: (column) => column);
+
+  GeneratedColumn<int> get startedAt =>
+      $composableBuilder(column: $table.startedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get completedAt => $composableBuilder(
+      column: $table.completedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get repeat =>
+      $composableBuilder(column: $table.repeat, builder: (column) => column);
+
+  GeneratedColumn<double> get score =>
+      $composableBuilder(column: $table.score, builder: (column) => column);
+
+  GeneratedColumn<bool> get private =>
+      $composableBuilder(column: $table.private, builder: (column) => column);
+}
+
 class $$MediaListTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $MediaListTableTable,
     MediaListEntity,
     $$MediaListTableTableFilterComposer,
     $$MediaListTableTableOrderingComposer,
+    $$MediaListTableTableAnnotationComposer,
     $$MediaListTableTableCreateCompanionBuilder,
-    $$MediaListTableTableUpdateCompanionBuilder> {
+    $$MediaListTableTableUpdateCompanionBuilder,
+    (
+      MediaListEntity,
+      BaseReferences<_$AniflowDatabase, $MediaListTableTable, MediaListEntity>
+    ),
+    MediaListEntity,
+    PrefetchHooks Function()> {
   $$MediaListTableTableTableManager(
       _$AniflowDatabase db, $MediaListTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$MediaListTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$MediaListTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$MediaListTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MediaListTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaListTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> userId = const Value.absent(),
@@ -10416,147 +10820,28 @@ class $$MediaListTableTableTableManager extends RootTableManager<
             private: private,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$MediaListTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $MediaListTableTable> {
-  $$MediaListTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get status => $state.composableBuilder(
-      column: $state.table.status,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get notes => $state.composableBuilder(
-      column: $state.table.notes,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get progress => $state.composableBuilder(
-      column: $state.table.progress,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get progressVolumes => $state.composableBuilder(
-      column: $state.table.progressVolumes,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get startedAt => $state.composableBuilder(
-      column: $state.table.startedAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get completedAt => $state.composableBuilder(
-      column: $state.table.completedAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get updatedAt => $state.composableBuilder(
-      column: $state.table.updatedAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get repeat => $state.composableBuilder(
-      column: $state.table.repeat,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get score => $state.composableBuilder(
-      column: $state.table.score,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get private => $state.composableBuilder(
-      column: $state.table.private,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$MediaListTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $MediaListTableTable> {
-  $$MediaListTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get status => $state.composableBuilder(
-      column: $state.table.status,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get notes => $state.composableBuilder(
-      column: $state.table.notes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get progress => $state.composableBuilder(
-      column: $state.table.progress,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get progressVolumes => $state.composableBuilder(
-      column: $state.table.progressVolumes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get startedAt => $state.composableBuilder(
-      column: $state.table.startedAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get completedAt => $state.composableBuilder(
-      column: $state.table.completedAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get updatedAt => $state.composableBuilder(
-      column: $state.table.updatedAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get repeat => $state.composableBuilder(
-      column: $state.table.repeat,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get score => $state.composableBuilder(
-      column: $state.table.score,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get private => $state.composableBuilder(
-      column: $state.table.private,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$MediaListTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $MediaListTableTable,
+    MediaListEntity,
+    $$MediaListTableTableFilterComposer,
+    $$MediaListTableTableOrderingComposer,
+    $$MediaListTableTableAnnotationComposer,
+    $$MediaListTableTableCreateCompanionBuilder,
+    $$MediaListTableTableUpdateCompanionBuilder,
+    (
+      MediaListEntity,
+      BaseReferences<_$AniflowDatabase, $MediaListTableTable, MediaListEntity>
+    ),
+    MediaListEntity,
+    PrefetchHooks Function()>;
 typedef $$MediaTableTableCreateCompanionBuilder = MediaTableCompanion Function({
   required String id,
   Value<String?> type,
@@ -10632,22 +10917,391 @@ typedef $$MediaTableTableUpdateCompanionBuilder = MediaTableCompanion Function({
   Value<int> rowid,
 });
 
+class $$MediaTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $MediaTableTable> {
+  $$MediaTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get englishTitle => $composableBuilder(
+      column: $table.englishTitle, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get romajiTitle => $composableBuilder(
+      column: $table.romajiTitle, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get nativeTitle => $composableBuilder(
+      column: $table.nativeTitle, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get coverImageExtraLarge => $composableBuilder(
+      column: $table.coverImageExtraLarge,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get coverImageLarge => $composableBuilder(
+      column: $table.coverImageLarge,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get coverImageMedium => $composableBuilder(
+      column: $table.coverImageMedium,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get coverImageColor => $composableBuilder(
+      column: $table.coverImageColor,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get episodes => $composableBuilder(
+      column: $table.episodes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get seasonYear => $composableBuilder(
+      column: $table.seasonYear, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get season => $composableBuilder(
+      column: $table.season, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get source => $composableBuilder(
+      column: $table.source, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get hashtag => $composableBuilder(
+      column: $table.hashtag, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get bannerImage => $composableBuilder(
+      column: $table.bannerImage, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get averageScore => $composableBuilder(
+      column: $table.averageScore, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get trailerId => $composableBuilder(
+      column: $table.trailerId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get trailerSite => $composableBuilder(
+      column: $table.trailerSite, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get trailerThumbnail => $composableBuilder(
+      column: $table.trailerThumbnail,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get genres => $composableBuilder(
+      column: $table.genres, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get format => $composableBuilder(
+      column: $table.format, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get trending => $composableBuilder(
+      column: $table.trending, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get favourites => $composableBuilder(
+      column: $table.favourites, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get popularRanking => $composableBuilder(
+      column: $table.popularRanking,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get ratedRanking => $composableBuilder(
+      column: $table.ratedRanking, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get nextAiringEpisode => $composableBuilder(
+      column: $table.nextAiringEpisode,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get timeUntilAiring => $composableBuilder(
+      column: $table.timeUntilAiring,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+      column: $table.startDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get endDate => $composableBuilder(
+      column: $table.endDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get nextAiringEpisodeUpdateTime => $composableBuilder(
+      column: $table.nextAiringEpisodeUpdateTime,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $MediaTableTable> {
+  $$MediaTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get englishTitle => $composableBuilder(
+      column: $table.englishTitle,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get romajiTitle => $composableBuilder(
+      column: $table.romajiTitle, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get nativeTitle => $composableBuilder(
+      column: $table.nativeTitle, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get coverImageExtraLarge => $composableBuilder(
+      column: $table.coverImageExtraLarge,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get coverImageLarge => $composableBuilder(
+      column: $table.coverImageLarge,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get coverImageMedium => $composableBuilder(
+      column: $table.coverImageMedium,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get coverImageColor => $composableBuilder(
+      column: $table.coverImageColor,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get episodes => $composableBuilder(
+      column: $table.episodes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get seasonYear => $composableBuilder(
+      column: $table.seasonYear, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get season => $composableBuilder(
+      column: $table.season, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get source => $composableBuilder(
+      column: $table.source, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get hashtag => $composableBuilder(
+      column: $table.hashtag, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get bannerImage => $composableBuilder(
+      column: $table.bannerImage, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get averageScore => $composableBuilder(
+      column: $table.averageScore,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get trailerId => $composableBuilder(
+      column: $table.trailerId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get trailerSite => $composableBuilder(
+      column: $table.trailerSite, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get trailerThumbnail => $composableBuilder(
+      column: $table.trailerThumbnail,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get genres => $composableBuilder(
+      column: $table.genres, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get format => $composableBuilder(
+      column: $table.format, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get trending => $composableBuilder(
+      column: $table.trending, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get favourites => $composableBuilder(
+      column: $table.favourites, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get popularRanking => $composableBuilder(
+      column: $table.popularRanking,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get ratedRanking => $composableBuilder(
+      column: $table.ratedRanking,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get nextAiringEpisode => $composableBuilder(
+      column: $table.nextAiringEpisode,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get timeUntilAiring => $composableBuilder(
+      column: $table.timeUntilAiring,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+      column: $table.startDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get endDate => $composableBuilder(
+      column: $table.endDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get nextAiringEpisodeUpdateTime =>
+      $composableBuilder(
+          column: $table.nextAiringEpisodeUpdateTime,
+          builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get siteUrl => $composableBuilder(
+      column: $table.siteUrl, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $MediaTableTable> {
+  $$MediaTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get englishTitle => $composableBuilder(
+      column: $table.englishTitle, builder: (column) => column);
+
+  GeneratedColumn<String> get romajiTitle => $composableBuilder(
+      column: $table.romajiTitle, builder: (column) => column);
+
+  GeneratedColumn<String> get nativeTitle => $composableBuilder(
+      column: $table.nativeTitle, builder: (column) => column);
+
+  GeneratedColumn<String> get coverImageExtraLarge => $composableBuilder(
+      column: $table.coverImageExtraLarge, builder: (column) => column);
+
+  GeneratedColumn<String> get coverImageLarge => $composableBuilder(
+      column: $table.coverImageLarge, builder: (column) => column);
+
+  GeneratedColumn<String> get coverImageMedium => $composableBuilder(
+      column: $table.coverImageMedium, builder: (column) => column);
+
+  GeneratedColumn<String> get coverImageColor => $composableBuilder(
+      column: $table.coverImageColor, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<int> get episodes =>
+      $composableBuilder(column: $table.episodes, builder: (column) => column);
+
+  GeneratedColumn<int> get seasonYear => $composableBuilder(
+      column: $table.seasonYear, builder: (column) => column);
+
+  GeneratedColumn<String> get season =>
+      $composableBuilder(column: $table.season, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get hashtag =>
+      $composableBuilder(column: $table.hashtag, builder: (column) => column);
+
+  GeneratedColumn<String> get bannerImage => $composableBuilder(
+      column: $table.bannerImage, builder: (column) => column);
+
+  GeneratedColumn<int> get averageScore => $composableBuilder(
+      column: $table.averageScore, builder: (column) => column);
+
+  GeneratedColumn<String> get trailerId =>
+      $composableBuilder(column: $table.trailerId, builder: (column) => column);
+
+  GeneratedColumn<String> get trailerSite => $composableBuilder(
+      column: $table.trailerSite, builder: (column) => column);
+
+  GeneratedColumn<String> get trailerThumbnail => $composableBuilder(
+      column: $table.trailerThumbnail, builder: (column) => column);
+
+  GeneratedColumn<String> get genres =>
+      $composableBuilder(column: $table.genres, builder: (column) => column);
+
+  GeneratedColumn<String> get format =>
+      $composableBuilder(column: $table.format, builder: (column) => column);
+
+  GeneratedColumn<int> get trending =>
+      $composableBuilder(column: $table.trending, builder: (column) => column);
+
+  GeneratedColumn<int> get favourites => $composableBuilder(
+      column: $table.favourites, builder: (column) => column);
+
+  GeneratedColumn<int> get popularRanking => $composableBuilder(
+      column: $table.popularRanking, builder: (column) => column);
+
+  GeneratedColumn<int> get ratedRanking => $composableBuilder(
+      column: $table.ratedRanking, builder: (column) => column);
+
+  GeneratedColumn<int> get nextAiringEpisode => $composableBuilder(
+      column: $table.nextAiringEpisode, builder: (column) => column);
+
+  GeneratedColumn<int> get timeUntilAiring => $composableBuilder(
+      column: $table.timeUntilAiring, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endDate =>
+      $composableBuilder(column: $table.endDate, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavourite => $composableBuilder(
+      column: $table.isFavourite, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get nextAiringEpisodeUpdateTime =>
+      $composableBuilder(
+          column: $table.nextAiringEpisodeUpdateTime,
+          builder: (column) => column);
+
+  GeneratedColumn<String> get siteUrl =>
+      $composableBuilder(column: $table.siteUrl, builder: (column) => column);
+}
+
 class $$MediaTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $MediaTableTable,
     MediaEntity,
     $$MediaTableTableFilterComposer,
     $$MediaTableTableOrderingComposer,
+    $$MediaTableTableAnnotationComposer,
     $$MediaTableTableCreateCompanionBuilder,
-    $$MediaTableTableUpdateCompanionBuilder> {
+    $$MediaTableTableUpdateCompanionBuilder,
+    (
+      MediaEntity,
+      BaseReferences<_$AniflowDatabase, $MediaTableTable, MediaEntity>
+    ),
+    MediaEntity,
+    PrefetchHooks Function()> {
   $$MediaTableTableTableManager(_$AniflowDatabase db, $MediaTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$MediaTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$MediaTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$MediaTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MediaTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String?> type = const Value.absent(),
@@ -10796,359 +11450,28 @@ class $$MediaTableTableTableManager extends RootTableManager<
             siteUrl: siteUrl,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$MediaTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $MediaTableTable> {
-  $$MediaTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get englishTitle => $state.composableBuilder(
-      column: $state.table.englishTitle,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get romajiTitle => $state.composableBuilder(
-      column: $state.table.romajiTitle,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get nativeTitle => $state.composableBuilder(
-      column: $state.table.nativeTitle,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get coverImageExtraLarge => $state.composableBuilder(
-      column: $state.table.coverImageExtraLarge,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get coverImageLarge => $state.composableBuilder(
-      column: $state.table.coverImageLarge,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get coverImageMedium => $state.composableBuilder(
-      column: $state.table.coverImageMedium,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get coverImageColor => $state.composableBuilder(
-      column: $state.table.coverImageColor,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get episodes => $state.composableBuilder(
-      column: $state.table.episodes,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get seasonYear => $state.composableBuilder(
-      column: $state.table.seasonYear,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get season => $state.composableBuilder(
-      column: $state.table.season,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get source => $state.composableBuilder(
-      column: $state.table.source,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get status => $state.composableBuilder(
-      column: $state.table.status,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get hashtag => $state.composableBuilder(
-      column: $state.table.hashtag,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get bannerImage => $state.composableBuilder(
-      column: $state.table.bannerImage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get averageScore => $state.composableBuilder(
-      column: $state.table.averageScore,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get trailerId => $state.composableBuilder(
-      column: $state.table.trailerId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get trailerSite => $state.composableBuilder(
-      column: $state.table.trailerSite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get trailerThumbnail => $state.composableBuilder(
-      column: $state.table.trailerThumbnail,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get genres => $state.composableBuilder(
-      column: $state.table.genres,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get format => $state.composableBuilder(
-      column: $state.table.format,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get trending => $state.composableBuilder(
-      column: $state.table.trending,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get favourites => $state.composableBuilder(
-      column: $state.table.favourites,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get popularRanking => $state.composableBuilder(
-      column: $state.table.popularRanking,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get ratedRanking => $state.composableBuilder(
-      column: $state.table.ratedRanking,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get nextAiringEpisode => $state.composableBuilder(
-      column: $state.table.nextAiringEpisode,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get timeUntilAiring => $state.composableBuilder(
-      column: $state.table.timeUntilAiring,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get startDate => $state.composableBuilder(
-      column: $state.table.startDate,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get endDate => $state.composableBuilder(
-      column: $state.table.endDate,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get nextAiringEpisodeUpdateTime =>
-      $state.composableBuilder(
-          column: $state.table.nextAiringEpisodeUpdateTime,
-          builder: (column, joinBuilders) =>
-              ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$MediaTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $MediaTableTable> {
-  $$MediaTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get englishTitle => $state.composableBuilder(
-      column: $state.table.englishTitle,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get romajiTitle => $state.composableBuilder(
-      column: $state.table.romajiTitle,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get nativeTitle => $state.composableBuilder(
-      column: $state.table.nativeTitle,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get coverImageExtraLarge => $state.composableBuilder(
-      column: $state.table.coverImageExtraLarge,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get coverImageLarge => $state.composableBuilder(
-      column: $state.table.coverImageLarge,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get coverImageMedium => $state.composableBuilder(
-      column: $state.table.coverImageMedium,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get coverImageColor => $state.composableBuilder(
-      column: $state.table.coverImageColor,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get episodes => $state.composableBuilder(
-      column: $state.table.episodes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get seasonYear => $state.composableBuilder(
-      column: $state.table.seasonYear,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get season => $state.composableBuilder(
-      column: $state.table.season,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get source => $state.composableBuilder(
-      column: $state.table.source,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get status => $state.composableBuilder(
-      column: $state.table.status,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get hashtag => $state.composableBuilder(
-      column: $state.table.hashtag,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get bannerImage => $state.composableBuilder(
-      column: $state.table.bannerImage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get averageScore => $state.composableBuilder(
-      column: $state.table.averageScore,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get trailerId => $state.composableBuilder(
-      column: $state.table.trailerId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get trailerSite => $state.composableBuilder(
-      column: $state.table.trailerSite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get trailerThumbnail => $state.composableBuilder(
-      column: $state.table.trailerThumbnail,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get genres => $state.composableBuilder(
-      column: $state.table.genres,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get format => $state.composableBuilder(
-      column: $state.table.format,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get trending => $state.composableBuilder(
-      column: $state.table.trending,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get favourites => $state.composableBuilder(
-      column: $state.table.favourites,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get popularRanking => $state.composableBuilder(
-      column: $state.table.popularRanking,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get ratedRanking => $state.composableBuilder(
-      column: $state.table.ratedRanking,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get nextAiringEpisode => $state.composableBuilder(
-      column: $state.table.nextAiringEpisode,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get timeUntilAiring => $state.composableBuilder(
-      column: $state.table.timeUntilAiring,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get startDate => $state.composableBuilder(
-      column: $state.table.startDate,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get endDate => $state.composableBuilder(
-      column: $state.table.endDate,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isFavourite => $state.composableBuilder(
-      column: $state.table.isFavourite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get nextAiringEpisodeUpdateTime =>
-      $state.composableBuilder(
-          column: $state.table.nextAiringEpisodeUpdateTime,
-          builder: (column, joinBuilders) =>
-              ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get siteUrl => $state.composableBuilder(
-      column: $state.table.siteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$MediaTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $MediaTableTable,
+    MediaEntity,
+    $$MediaTableTableFilterComposer,
+    $$MediaTableTableOrderingComposer,
+    $$MediaTableTableAnnotationComposer,
+    $$MediaTableTableCreateCompanionBuilder,
+    $$MediaTableTableUpdateCompanionBuilder,
+    (
+      MediaEntity,
+      BaseReferences<_$AniflowDatabase, $MediaTableTable, MediaEntity>
+    ),
+    MediaEntity,
+    PrefetchHooks Function()>;
 typedef $$StudioMediaCrossRefTableTableCreateCompanionBuilder
     = StudioMediaCrossRefTableCompanion Function({
   required String studioId,
@@ -11162,23 +11485,84 @@ typedef $$StudioMediaCrossRefTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$StudioMediaCrossRefTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $StudioMediaCrossRefTableTable> {
+  $$StudioMediaCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get studioId => $composableBuilder(
+      column: $table.studioId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+}
+
+class $$StudioMediaCrossRefTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $StudioMediaCrossRefTableTable> {
+  $$StudioMediaCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get studioId => $composableBuilder(
+      column: $table.studioId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+}
+
+class $$StudioMediaCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $StudioMediaCrossRefTableTable> {
+  $$StudioMediaCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get studioId =>
+      $composableBuilder(column: $table.studioId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+}
+
 class $$StudioMediaCrossRefTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $StudioMediaCrossRefTableTable,
     StudioMediaCrossRefEntity,
     $$StudioMediaCrossRefTableTableFilterComposer,
     $$StudioMediaCrossRefTableTableOrderingComposer,
+    $$StudioMediaCrossRefTableTableAnnotationComposer,
     $$StudioMediaCrossRefTableTableCreateCompanionBuilder,
-    $$StudioMediaCrossRefTableTableUpdateCompanionBuilder> {
+    $$StudioMediaCrossRefTableTableUpdateCompanionBuilder,
+    (
+      StudioMediaCrossRefEntity,
+      BaseReferences<_$AniflowDatabase, $StudioMediaCrossRefTableTable,
+          StudioMediaCrossRefEntity>
+    ),
+    StudioMediaCrossRefEntity,
+    PrefetchHooks Function()> {
   $$StudioMediaCrossRefTableTableTableManager(
       _$AniflowDatabase db, $StudioMediaCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$StudioMediaCrossRefTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$StudioMediaCrossRefTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$StudioMediaCrossRefTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StudioMediaCrossRefTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StudioMediaCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> studioId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -11199,37 +11583,30 @@ class $$StudioMediaCrossRefTableTableTableManager extends RootTableManager<
             mediaId: mediaId,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$StudioMediaCrossRefTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $StudioMediaCrossRefTableTable> {
-  $$StudioMediaCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get studioId => $state.composableBuilder(
-      column: $state.table.studioId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$StudioMediaCrossRefTableTableOrderingComposer extends OrderingComposer<
-    _$AniflowDatabase, $StudioMediaCrossRefTableTable> {
-  $$StudioMediaCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get studioId => $state.composableBuilder(
-      column: $state.table.studioId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$StudioMediaCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $StudioMediaCrossRefTableTable,
+        StudioMediaCrossRefEntity,
+        $$StudioMediaCrossRefTableTableFilterComposer,
+        $$StudioMediaCrossRefTableTableOrderingComposer,
+        $$StudioMediaCrossRefTableTableAnnotationComposer,
+        $$StudioMediaCrossRefTableTableCreateCompanionBuilder,
+        $$StudioMediaCrossRefTableTableUpdateCompanionBuilder,
+        (
+          StudioMediaCrossRefEntity,
+          BaseReferences<_$AniflowDatabase, $StudioMediaCrossRefTableTable,
+              StudioMediaCrossRefEntity>
+        ),
+        StudioMediaCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$CharacterRelatedMediaCrossRefTableTableCreateCompanionBuilder
     = CharacterRelatedMediaCrossRefTableCompanion Function({
   required String characterId,
@@ -11243,6 +11620,56 @@ typedef $$CharacterRelatedMediaCrossRefTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$CharacterRelatedMediaCrossRefTableTableFilterComposer extends Composer<
+    _$AniflowDatabase, $CharacterRelatedMediaCrossRefTableTable> {
+  $$CharacterRelatedMediaCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+}
+
+class $$CharacterRelatedMediaCrossRefTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase,
+        $CharacterRelatedMediaCrossRefTableTable> {
+  $$CharacterRelatedMediaCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CharacterRelatedMediaCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase,
+        $CharacterRelatedMediaCrossRefTableTable> {
+  $$CharacterRelatedMediaCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+}
+
 class $$CharacterRelatedMediaCrossRefTableTableTableManager
     extends RootTableManager<
         _$AniflowDatabase,
@@ -11250,19 +11677,32 @@ class $$CharacterRelatedMediaCrossRefTableTableTableManager
         CharacterRelatedMediaCrossRefEntity,
         $$CharacterRelatedMediaCrossRefTableTableFilterComposer,
         $$CharacterRelatedMediaCrossRefTableTableOrderingComposer,
+        $$CharacterRelatedMediaCrossRefTableTableAnnotationComposer,
         $$CharacterRelatedMediaCrossRefTableTableCreateCompanionBuilder,
-        $$CharacterRelatedMediaCrossRefTableTableUpdateCompanionBuilder> {
+        $$CharacterRelatedMediaCrossRefTableTableUpdateCompanionBuilder,
+        (
+          CharacterRelatedMediaCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $CharacterRelatedMediaCrossRefTableTable,
+              CharacterRelatedMediaCrossRefEntity>
+        ),
+        CharacterRelatedMediaCrossRefEntity,
+        PrefetchHooks Function()> {
   $$CharacterRelatedMediaCrossRefTableTableTableManager(
       _$AniflowDatabase db, $CharacterRelatedMediaCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$CharacterRelatedMediaCrossRefTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$CharacterRelatedMediaCrossRefTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CharacterRelatedMediaCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> characterId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -11283,39 +11723,32 @@ class $$CharacterRelatedMediaCrossRefTableTableTableManager
             mediaId: mediaId,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$CharacterRelatedMediaCrossRefTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase,
-        $CharacterRelatedMediaCrossRefTableTable> {
-  $$CharacterRelatedMediaCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$CharacterRelatedMediaCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $CharacterRelatedMediaCrossRefTableTable> {
-  $$CharacterRelatedMediaCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$CharacterRelatedMediaCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $CharacterRelatedMediaCrossRefTableTable,
+        CharacterRelatedMediaCrossRefEntity,
+        $$CharacterRelatedMediaCrossRefTableTableFilterComposer,
+        $$CharacterRelatedMediaCrossRefTableTableOrderingComposer,
+        $$CharacterRelatedMediaCrossRefTableTableAnnotationComposer,
+        $$CharacterRelatedMediaCrossRefTableTableCreateCompanionBuilder,
+        $$CharacterRelatedMediaCrossRefTableTableUpdateCompanionBuilder,
+        (
+          CharacterRelatedMediaCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $CharacterRelatedMediaCrossRefTableTable,
+              CharacterRelatedMediaCrossRefEntity>
+        ),
+        CharacterRelatedMediaCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$ActivityFilterTypePagingCrossRefTableTableCreateCompanionBuilder
     = ActivityFilterTypePagingCrossRefTableCompanion Function({
   Value<int> id,
@@ -11329,6 +11762,66 @@ typedef $$ActivityFilterTypePagingCrossRefTableTableUpdateCompanionBuilder
   Value<String> category,
 });
 
+class $$ActivityFilterTypePagingCrossRefTableTableFilterComposer
+    extends Composer<_$AniflowDatabase,
+        $ActivityFilterTypePagingCrossRefTableTable> {
+  $$ActivityFilterTypePagingCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get activityId => $composableBuilder(
+      column: $table.activityId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+}
+
+class $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase,
+        $ActivityFilterTypePagingCrossRefTableTable> {
+  $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get activityId => $composableBuilder(
+      column: $table.activityId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ActivityFilterTypePagingCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase,
+        $ActivityFilterTypePagingCrossRefTableTable> {
+  $$ActivityFilterTypePagingCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get activityId => $composableBuilder(
+      column: $table.activityId, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+}
+
 class $$ActivityFilterTypePagingCrossRefTableTableTableManager
     extends RootTableManager<
         _$AniflowDatabase,
@@ -11336,19 +11829,32 @@ class $$ActivityFilterTypePagingCrossRefTableTableTableManager
         ActivityFilterTypePagingCrossRefEntity,
         $$ActivityFilterTypePagingCrossRefTableTableFilterComposer,
         $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer,
+        $$ActivityFilterTypePagingCrossRefTableTableAnnotationComposer,
         $$ActivityFilterTypePagingCrossRefTableTableCreateCompanionBuilder,
-        $$ActivityFilterTypePagingCrossRefTableTableUpdateCompanionBuilder> {
+        $$ActivityFilterTypePagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          ActivityFilterTypePagingCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $ActivityFilterTypePagingCrossRefTableTable,
+              ActivityFilterTypePagingCrossRefEntity>
+        ),
+        ActivityFilterTypePagingCrossRefEntity,
+        PrefetchHooks Function()> {
   $$ActivityFilterTypePagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $ActivityFilterTypePagingCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$ActivityFilterTypePagingCrossRefTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ActivityFilterTypePagingCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> activityId = const Value.absent(),
@@ -11369,49 +11875,32 @@ class $$ActivityFilterTypePagingCrossRefTableTableTableManager
             activityId: activityId,
             category: category,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$ActivityFilterTypePagingCrossRefTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase,
-        $ActivityFilterTypePagingCrossRefTableTable> {
-  $$ActivityFilterTypePagingCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get activityId => $state.composableBuilder(
-      column: $state.table.activityId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $ActivityFilterTypePagingCrossRefTableTable> {
-  $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get activityId => $state.composableBuilder(
-      column: $state.table.activityId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$ActivityFilterTypePagingCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $ActivityFilterTypePagingCrossRefTableTable,
+        ActivityFilterTypePagingCrossRefEntity,
+        $$ActivityFilterTypePagingCrossRefTableTableFilterComposer,
+        $$ActivityFilterTypePagingCrossRefTableTableOrderingComposer,
+        $$ActivityFilterTypePagingCrossRefTableTableAnnotationComposer,
+        $$ActivityFilterTypePagingCrossRefTableTableCreateCompanionBuilder,
+        $$ActivityFilterTypePagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          ActivityFilterTypePagingCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $ActivityFilterTypePagingCrossRefTableTable,
+              ActivityFilterTypePagingCrossRefEntity>
+        ),
+        ActivityFilterTypePagingCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$MediaCharacterPagingCrossRefTableTableCreateCompanionBuilder
     = MediaCharacterPagingCrossRefTableCompanion Function({
   required String characterId,
@@ -11427,6 +11916,64 @@ typedef $$MediaCharacterPagingCrossRefTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$MediaCharacterPagingCrossRefTableTableFilterComposer extends Composer<
+    _$AniflowDatabase, $MediaCharacterPagingCrossRefTableTable> {
+  $$MediaCharacterPagingCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get timeStamp => $composableBuilder(
+      column: $table.timeStamp, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaCharacterPagingCrossRefTableTableOrderingComposer extends Composer<
+    _$AniflowDatabase, $MediaCharacterPagingCrossRefTableTable> {
+  $$MediaCharacterPagingCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get timeStamp => $composableBuilder(
+      column: $table.timeStamp, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaCharacterPagingCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase,
+        $MediaCharacterPagingCrossRefTableTable> {
+  $$MediaCharacterPagingCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<int> get timeStamp =>
+      $composableBuilder(column: $table.timeStamp, builder: (column) => column);
+}
+
 class $$MediaCharacterPagingCrossRefTableTableTableManager
     extends RootTableManager<
         _$AniflowDatabase,
@@ -11434,19 +11981,32 @@ class $$MediaCharacterPagingCrossRefTableTableTableManager
         MediaCharacterPagingCrossRefEntity,
         $$MediaCharacterPagingCrossRefTableTableFilterComposer,
         $$MediaCharacterPagingCrossRefTableTableOrderingComposer,
+        $$MediaCharacterPagingCrossRefTableTableAnnotationComposer,
         $$MediaCharacterPagingCrossRefTableTableCreateCompanionBuilder,
-        $$MediaCharacterPagingCrossRefTableTableUpdateCompanionBuilder> {
+        $$MediaCharacterPagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          MediaCharacterPagingCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $MediaCharacterPagingCrossRefTableTable,
+              MediaCharacterPagingCrossRefEntity>
+        ),
+        MediaCharacterPagingCrossRefEntity,
+        PrefetchHooks Function()> {
   $$MediaCharacterPagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $MediaCharacterPagingCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$MediaCharacterPagingCrossRefTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$MediaCharacterPagingCrossRefTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaCharacterPagingCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> characterId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -11471,49 +12031,32 @@ class $$MediaCharacterPagingCrossRefTableTableTableManager
             timeStamp: timeStamp,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$MediaCharacterPagingCrossRefTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase,
-        $MediaCharacterPagingCrossRefTableTable> {
-  $$MediaCharacterPagingCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get timeStamp => $state.composableBuilder(
-      column: $state.table.timeStamp,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$MediaCharacterPagingCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $MediaCharacterPagingCrossRefTableTable> {
-  $$MediaCharacterPagingCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get timeStamp => $state.composableBuilder(
-      column: $state.table.timeStamp,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$MediaCharacterPagingCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $MediaCharacterPagingCrossRefTableTable,
+        MediaCharacterPagingCrossRefEntity,
+        $$MediaCharacterPagingCrossRefTableTableFilterComposer,
+        $$MediaCharacterPagingCrossRefTableTableOrderingComposer,
+        $$MediaCharacterPagingCrossRefTableTableAnnotationComposer,
+        $$MediaCharacterPagingCrossRefTableTableCreateCompanionBuilder,
+        $$MediaCharacterPagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          MediaCharacterPagingCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $MediaCharacterPagingCrossRefTableTable,
+              MediaCharacterPagingCrossRefEntity>
+        ),
+        MediaCharacterPagingCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$CharacterVoiceActorCrossRefTableTableCreateCompanionBuilder
     = CharacterVoiceActorCrossRefTableCompanion Function({
   Value<int> id,
@@ -11531,6 +12074,82 @@ typedef $$CharacterVoiceActorCrossRefTableTableUpdateCompanionBuilder
   Value<String> language,
 });
 
+class $$CharacterVoiceActorCrossRefTableTableFilterComposer extends Composer<
+    _$AniflowDatabase, $CharacterVoiceActorCrossRefTableTable> {
+  $$CharacterVoiceActorCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get staffId => $composableBuilder(
+      column: $table.staffId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get role => $composableBuilder(
+      column: $table.role, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get language => $composableBuilder(
+      column: $table.language, builder: (column) => ColumnFilters(column));
+}
+
+class $$CharacterVoiceActorCrossRefTableTableOrderingComposer extends Composer<
+    _$AniflowDatabase, $CharacterVoiceActorCrossRefTableTable> {
+  $$CharacterVoiceActorCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get staffId => $composableBuilder(
+      column: $table.staffId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get role => $composableBuilder(
+      column: $table.role, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get language => $composableBuilder(
+      column: $table.language, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CharacterVoiceActorCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase,
+        $CharacterVoiceActorCrossRefTableTable> {
+  $$CharacterVoiceActorCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => column);
+
+  GeneratedColumn<String> get staffId =>
+      $composableBuilder(column: $table.staffId, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<String> get language =>
+      $composableBuilder(column: $table.language, builder: (column) => column);
+}
+
 class $$CharacterVoiceActorCrossRefTableTableTableManager
     extends RootTableManager<
         _$AniflowDatabase,
@@ -11538,19 +12157,32 @@ class $$CharacterVoiceActorCrossRefTableTableTableManager
         CharacterCharacterVoiceActorCrossRefEntity,
         $$CharacterVoiceActorCrossRefTableTableFilterComposer,
         $$CharacterVoiceActorCrossRefTableTableOrderingComposer,
+        $$CharacterVoiceActorCrossRefTableTableAnnotationComposer,
         $$CharacterVoiceActorCrossRefTableTableCreateCompanionBuilder,
-        $$CharacterVoiceActorCrossRefTableTableUpdateCompanionBuilder> {
+        $$CharacterVoiceActorCrossRefTableTableUpdateCompanionBuilder,
+        (
+          CharacterCharacterVoiceActorCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $CharacterVoiceActorCrossRefTableTable,
+              CharacterCharacterVoiceActorCrossRefEntity>
+        ),
+        CharacterCharacterVoiceActorCrossRefEntity,
+        PrefetchHooks Function()> {
   $$CharacterVoiceActorCrossRefTableTableTableManager(
       _$AniflowDatabase db, $CharacterVoiceActorCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$CharacterVoiceActorCrossRefTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$CharacterVoiceActorCrossRefTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CharacterVoiceActorCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> characterId = const Value.absent(),
@@ -11579,69 +12211,32 @@ class $$CharacterVoiceActorCrossRefTableTableTableManager
             role: role,
             language: language,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$CharacterVoiceActorCrossRefTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase,
-        $CharacterVoiceActorCrossRefTableTable> {
-  $$CharacterVoiceActorCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get staffId => $state.composableBuilder(
-      column: $state.table.staffId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get role => $state.composableBuilder(
-      column: $state.table.role,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get language => $state.composableBuilder(
-      column: $state.table.language,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$CharacterVoiceActorCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $CharacterVoiceActorCrossRefTableTable> {
-  $$CharacterVoiceActorCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get staffId => $state.composableBuilder(
-      column: $state.table.staffId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get role => $state.composableBuilder(
-      column: $state.table.role,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get language => $state.composableBuilder(
-      column: $state.table.language,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$CharacterVoiceActorCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $CharacterVoiceActorCrossRefTableTable,
+        CharacterCharacterVoiceActorCrossRefEntity,
+        $$CharacterVoiceActorCrossRefTableTableFilterComposer,
+        $$CharacterVoiceActorCrossRefTableTableOrderingComposer,
+        $$CharacterVoiceActorCrossRefTableTableAnnotationComposer,
+        $$CharacterVoiceActorCrossRefTableTableCreateCompanionBuilder,
+        $$CharacterVoiceActorCrossRefTableTableUpdateCompanionBuilder,
+        (
+          CharacterCharacterVoiceActorCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $CharacterVoiceActorCrossRefTableTable,
+              CharacterCharacterVoiceActorCrossRefEntity>
+        ),
+        CharacterCharacterVoiceActorCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$MediaRelationCrossRefTableTableCreateCompanionBuilder
     = MediaRelationCrossRefTableCompanion Function({
   required String ownerId,
@@ -11657,23 +12252,94 @@ typedef $$MediaRelationCrossRefTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$MediaRelationCrossRefTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $MediaRelationCrossRefTableTable> {
+  $$MediaRelationCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get ownerId => $composableBuilder(
+      column: $table.ownerId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get relationId => $composableBuilder(
+      column: $table.relationId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get relationType => $composableBuilder(
+      column: $table.relationType, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaRelationCrossRefTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $MediaRelationCrossRefTableTable> {
+  $$MediaRelationCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get ownerId => $composableBuilder(
+      column: $table.ownerId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get relationId => $composableBuilder(
+      column: $table.relationId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get relationType => $composableBuilder(
+      column: $table.relationType,
+      builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaRelationCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $MediaRelationCrossRefTableTable> {
+  $$MediaRelationCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get ownerId =>
+      $composableBuilder(column: $table.ownerId, builder: (column) => column);
+
+  GeneratedColumn<String> get relationId => $composableBuilder(
+      column: $table.relationId, builder: (column) => column);
+
+  GeneratedColumn<String> get relationType => $composableBuilder(
+      column: $table.relationType, builder: (column) => column);
+}
+
 class $$MediaRelationCrossRefTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $MediaRelationCrossRefTableTable,
     MediaRelationCrossRefEntity,
     $$MediaRelationCrossRefTableTableFilterComposer,
     $$MediaRelationCrossRefTableTableOrderingComposer,
+    $$MediaRelationCrossRefTableTableAnnotationComposer,
     $$MediaRelationCrossRefTableTableCreateCompanionBuilder,
-    $$MediaRelationCrossRefTableTableUpdateCompanionBuilder> {
+    $$MediaRelationCrossRefTableTableUpdateCompanionBuilder,
+    (
+      MediaRelationCrossRefEntity,
+      BaseReferences<_$AniflowDatabase, $MediaRelationCrossRefTableTable,
+          MediaRelationCrossRefEntity>
+    ),
+    MediaRelationCrossRefEntity,
+    PrefetchHooks Function()> {
   $$MediaRelationCrossRefTableTableTableManager(
       _$AniflowDatabase db, $MediaRelationCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$MediaRelationCrossRefTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$MediaRelationCrossRefTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$MediaRelationCrossRefTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MediaRelationCrossRefTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaRelationCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> ownerId = const Value.absent(),
             Value<String> relationId = const Value.absent(),
@@ -11698,48 +12364,30 @@ class $$MediaRelationCrossRefTableTableTableManager extends RootTableManager<
             relationType: relationType,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$MediaRelationCrossRefTableTableFilterComposer extends FilterComposer<
-    _$AniflowDatabase, $MediaRelationCrossRefTableTable> {
-  $$MediaRelationCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get ownerId => $state.composableBuilder(
-      column: $state.table.ownerId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get relationId => $state.composableBuilder(
-      column: $state.table.relationId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get relationType => $state.composableBuilder(
-      column: $state.table.relationType,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$MediaRelationCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $MediaRelationCrossRefTableTable> {
-  $$MediaRelationCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get ownerId => $state.composableBuilder(
-      column: $state.table.ownerId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get relationId => $state.composableBuilder(
-      column: $state.table.relationId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get relationType => $state.composableBuilder(
-      column: $state.table.relationType,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$MediaRelationCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $MediaRelationCrossRefTableTable,
+        MediaRelationCrossRefEntity,
+        $$MediaRelationCrossRefTableTableFilterComposer,
+        $$MediaRelationCrossRefTableTableOrderingComposer,
+        $$MediaRelationCrossRefTableTableAnnotationComposer,
+        $$MediaRelationCrossRefTableTableCreateCompanionBuilder,
+        $$MediaRelationCrossRefTableTableUpdateCompanionBuilder,
+        (
+          MediaRelationCrossRefEntity,
+          BaseReferences<_$AniflowDatabase, $MediaRelationCrossRefTableTable,
+              MediaRelationCrossRefEntity>
+        ),
+        MediaRelationCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$MediaStaffPagingCrossRefTableTableCreateCompanionBuilder
     = MediaStaffPagingCrossRefTableCompanion Function({
   required String staffId,
@@ -11757,24 +12405,102 @@ typedef $$MediaStaffPagingCrossRefTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$MediaStaffPagingCrossRefTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $MediaStaffPagingCrossRefTableTable> {
+  $$MediaStaffPagingCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get staffId => $composableBuilder(
+      column: $table.staffId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get staffRole => $composableBuilder(
+      column: $table.staffRole, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get timeStamp => $composableBuilder(
+      column: $table.timeStamp, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaStaffPagingCrossRefTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $MediaStaffPagingCrossRefTableTable> {
+  $$MediaStaffPagingCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get staffId => $composableBuilder(
+      column: $table.staffId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get staffRole => $composableBuilder(
+      column: $table.staffRole, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get timeStamp => $composableBuilder(
+      column: $table.timeStamp, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaStaffPagingCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $MediaStaffPagingCrossRefTableTable> {
+  $$MediaStaffPagingCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get staffId =>
+      $composableBuilder(column: $table.staffId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<String> get staffRole =>
+      $composableBuilder(column: $table.staffRole, builder: (column) => column);
+
+  GeneratedColumn<int> get timeStamp =>
+      $composableBuilder(column: $table.timeStamp, builder: (column) => column);
+}
+
 class $$MediaStaffPagingCrossRefTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $MediaStaffPagingCrossRefTableTable,
     MediaStaffPagingCrossRefEntity,
     $$MediaStaffPagingCrossRefTableTableFilterComposer,
     $$MediaStaffPagingCrossRefTableTableOrderingComposer,
+    $$MediaStaffPagingCrossRefTableTableAnnotationComposer,
     $$MediaStaffPagingCrossRefTableTableCreateCompanionBuilder,
-    $$MediaStaffPagingCrossRefTableTableUpdateCompanionBuilder> {
+    $$MediaStaffPagingCrossRefTableTableUpdateCompanionBuilder,
+    (
+      MediaStaffPagingCrossRefEntity,
+      BaseReferences<_$AniflowDatabase, $MediaStaffPagingCrossRefTableTable,
+          MediaStaffPagingCrossRefEntity>
+    ),
+    MediaStaffPagingCrossRefEntity,
+    PrefetchHooks Function()> {
   $$MediaStaffPagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $MediaStaffPagingCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$MediaStaffPagingCrossRefTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer:
+          createFilteringComposer: () =>
+              $$MediaStaffPagingCrossRefTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$MediaStaffPagingCrossRefTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaStaffPagingCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> staffId = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -11803,58 +12529,30 @@ class $$MediaStaffPagingCrossRefTableTableTableManager extends RootTableManager<
             timeStamp: timeStamp,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$MediaStaffPagingCrossRefTableTableFilterComposer extends FilterComposer<
-    _$AniflowDatabase, $MediaStaffPagingCrossRefTableTable> {
-  $$MediaStaffPagingCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get staffId => $state.composableBuilder(
-      column: $state.table.staffId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get staffRole => $state.composableBuilder(
-      column: $state.table.staffRole,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get timeStamp => $state.composableBuilder(
-      column: $state.table.timeStamp,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$MediaStaffPagingCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $MediaStaffPagingCrossRefTableTable> {
-  $$MediaStaffPagingCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get staffId => $state.composableBuilder(
-      column: $state.table.staffId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get staffRole => $state.composableBuilder(
-      column: $state.table.staffRole,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get timeStamp => $state.composableBuilder(
-      column: $state.table.timeStamp,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$MediaStaffPagingCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $MediaStaffPagingCrossRefTableTable,
+        MediaStaffPagingCrossRefEntity,
+        $$MediaStaffPagingCrossRefTableTableFilterComposer,
+        $$MediaStaffPagingCrossRefTableTableOrderingComposer,
+        $$MediaStaffPagingCrossRefTableTableAnnotationComposer,
+        $$MediaStaffPagingCrossRefTableTableCreateCompanionBuilder,
+        $$MediaStaffPagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          MediaStaffPagingCrossRefEntity,
+          BaseReferences<_$AniflowDatabase, $MediaStaffPagingCrossRefTableTable,
+              MediaStaffPagingCrossRefEntity>
+        ),
+        MediaStaffPagingCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$MediaExternalLinkTableTableCreateCompanionBuilder
     = MediaExternalLinkTableCompanion Function({
   required String id,
@@ -11880,23 +12578,138 @@ typedef $$MediaExternalLinkTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$MediaExternalLinkTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $MediaExternalLinkTableTable> {
+  $$MediaExternalLinkTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get site => $composableBuilder(
+      column: $table.site, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get siteId => $composableBuilder(
+      column: $table.siteId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaExternalLinkTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $MediaExternalLinkTableTable> {
+  $$MediaExternalLinkTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get url => $composableBuilder(
+      column: $table.url, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get site => $composableBuilder(
+      column: $table.site, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get siteId => $composableBuilder(
+      column: $table.siteId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaExternalLinkTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $MediaExternalLinkTableTable> {
+  $$MediaExternalLinkTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<String> get url =>
+      $composableBuilder(column: $table.url, builder: (column) => column);
+
+  GeneratedColumn<String> get site =>
+      $composableBuilder(column: $table.site, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<int> get siteId =>
+      $composableBuilder(column: $table.siteId, builder: (column) => column);
+
+  GeneratedColumn<String> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<String> get icon =>
+      $composableBuilder(column: $table.icon, builder: (column) => column);
+}
+
 class $$MediaExternalLinkTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $MediaExternalLinkTableTable,
     MediaExternalLinkEntity,
     $$MediaExternalLinkTableTableFilterComposer,
     $$MediaExternalLinkTableTableOrderingComposer,
+    $$MediaExternalLinkTableTableAnnotationComposer,
     $$MediaExternalLinkTableTableCreateCompanionBuilder,
-    $$MediaExternalLinkTableTableUpdateCompanionBuilder> {
+    $$MediaExternalLinkTableTableUpdateCompanionBuilder,
+    (
+      MediaExternalLinkEntity,
+      BaseReferences<_$AniflowDatabase, $MediaExternalLinkTableTable,
+          MediaExternalLinkEntity>
+    ),
+    MediaExternalLinkEntity,
+    PrefetchHooks Function()> {
   $$MediaExternalLinkTableTableTableManager(
       _$AniflowDatabase db, $MediaExternalLinkTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$MediaExternalLinkTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$MediaExternalLinkTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$MediaExternalLinkTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MediaExternalLinkTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaExternalLinkTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> mediaId = const Value.absent(),
@@ -11941,97 +12754,30 @@ class $$MediaExternalLinkTableTableTableManager extends RootTableManager<
             icon: icon,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$MediaExternalLinkTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $MediaExternalLinkTableTable> {
-  $$MediaExternalLinkTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get url => $state.composableBuilder(
-      column: $state.table.url,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get site => $state.composableBuilder(
-      column: $state.table.site,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get siteId => $state.composableBuilder(
-      column: $state.table.siteId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get color => $state.composableBuilder(
-      column: $state.table.color,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get icon => $state.composableBuilder(
-      column: $state.table.icon,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$MediaExternalLinkTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $MediaExternalLinkTableTable> {
-  $$MediaExternalLinkTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get url => $state.composableBuilder(
-      column: $state.table.url,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get site => $state.composableBuilder(
-      column: $state.table.site,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get siteId => $state.composableBuilder(
-      column: $state.table.siteId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get color => $state.composableBuilder(
-      column: $state.table.color,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get icon => $state.composableBuilder(
-      column: $state.table.icon,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$MediaExternalLinkTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $MediaExternalLinkTableTable,
+        MediaExternalLinkEntity,
+        $$MediaExternalLinkTableTableFilterComposer,
+        $$MediaExternalLinkTableTableOrderingComposer,
+        $$MediaExternalLinkTableTableAnnotationComposer,
+        $$MediaExternalLinkTableTableCreateCompanionBuilder,
+        $$MediaExternalLinkTableTableUpdateCompanionBuilder,
+        (
+          MediaExternalLinkEntity,
+          BaseReferences<_$AniflowDatabase, $MediaExternalLinkTableTable,
+              MediaExternalLinkEntity>
+        ),
+        MediaExternalLinkEntity,
+        PrefetchHooks Function()>;
 typedef $$CategoryMediaPagingCrossRefTableTableCreateCompanionBuilder
     = CategoryMediaPagingCrossRefTableCompanion Function({
   required String mediaId,
@@ -12047,6 +12793,64 @@ typedef $$CategoryMediaPagingCrossRefTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$CategoryMediaPagingCrossRefTableTableFilterComposer extends Composer<
+    _$AniflowDatabase, $CategoryMediaPagingCrossRefTableTable> {
+  $$CategoryMediaPagingCrossRefTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get timeStamp => $composableBuilder(
+      column: $table.timeStamp, builder: (column) => ColumnFilters(column));
+}
+
+class $$CategoryMediaPagingCrossRefTableTableOrderingComposer extends Composer<
+    _$AniflowDatabase, $CategoryMediaPagingCrossRefTableTable> {
+  $$CategoryMediaPagingCrossRefTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get timeStamp => $composableBuilder(
+      column: $table.timeStamp, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CategoryMediaPagingCrossRefTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase,
+        $CategoryMediaPagingCrossRefTableTable> {
+  $$CategoryMediaPagingCrossRefTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<int> get timeStamp =>
+      $composableBuilder(column: $table.timeStamp, builder: (column) => column);
+}
+
 class $$CategoryMediaPagingCrossRefTableTableTableManager
     extends RootTableManager<
         _$AniflowDatabase,
@@ -12054,19 +12858,32 @@ class $$CategoryMediaPagingCrossRefTableTableTableManager
         CategoryMediaPagingCrossRefEntity,
         $$CategoryMediaPagingCrossRefTableTableFilterComposer,
         $$CategoryMediaPagingCrossRefTableTableOrderingComposer,
+        $$CategoryMediaPagingCrossRefTableTableAnnotationComposer,
         $$CategoryMediaPagingCrossRefTableTableCreateCompanionBuilder,
-        $$CategoryMediaPagingCrossRefTableTableUpdateCompanionBuilder> {
+        $$CategoryMediaPagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          CategoryMediaPagingCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $CategoryMediaPagingCrossRefTableTable,
+              CategoryMediaPagingCrossRefEntity>
+        ),
+        CategoryMediaPagingCrossRefEntity,
+        PrefetchHooks Function()> {
   $$CategoryMediaPagingCrossRefTableTableTableManager(
       _$AniflowDatabase db, $CategoryMediaPagingCrossRefTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$CategoryMediaPagingCrossRefTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$CategoryMediaPagingCrossRefTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CategoryMediaPagingCrossRefTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> mediaId = const Value.absent(),
             Value<String> category = const Value.absent(),
@@ -12091,49 +12908,32 @@ class $$CategoryMediaPagingCrossRefTableTableTableManager
             timeStamp: timeStamp,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$CategoryMediaPagingCrossRefTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase,
-        $CategoryMediaPagingCrossRefTableTable> {
-  $$CategoryMediaPagingCrossRefTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get timeStamp => $state.composableBuilder(
-      column: $state.table.timeStamp,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$CategoryMediaPagingCrossRefTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase,
-        $CategoryMediaPagingCrossRefTableTable> {
-  $$CategoryMediaPagingCrossRefTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get mediaId => $state.composableBuilder(
-      column: $state.table.mediaId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get timeStamp => $state.composableBuilder(
-      column: $state.table.timeStamp,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$CategoryMediaPagingCrossRefTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $CategoryMediaPagingCrossRefTableTable,
+        CategoryMediaPagingCrossRefEntity,
+        $$CategoryMediaPagingCrossRefTableTableFilterComposer,
+        $$CategoryMediaPagingCrossRefTableTableOrderingComposer,
+        $$CategoryMediaPagingCrossRefTableTableAnnotationComposer,
+        $$CategoryMediaPagingCrossRefTableTableCreateCompanionBuilder,
+        $$CategoryMediaPagingCrossRefTableTableUpdateCompanionBuilder,
+        (
+          CategoryMediaPagingCrossRefEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $CategoryMediaPagingCrossRefTableTable,
+              CategoryMediaPagingCrossRefEntity>
+        ),
+        CategoryMediaPagingCrossRefEntity,
+        PrefetchHooks Function()>;
 typedef $$FavoriteInfoTableTableCreateCompanionBuilder
     = FavoriteInfoTableCompanion Function({
   Value<int> id,
@@ -12149,23 +12949,101 @@ typedef $$FavoriteInfoTableTableUpdateCompanionBuilder
   Value<String> userId,
 });
 
+class $$FavoriteInfoTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $FavoriteInfoTableTable> {
+  $$FavoriteInfoTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get favoriteType => $composableBuilder(
+      column: $table.favoriteType, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get infoId => $composableBuilder(
+      column: $table.infoId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnFilters(column));
+}
+
+class $$FavoriteInfoTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $FavoriteInfoTableTable> {
+  $$FavoriteInfoTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get favoriteType => $composableBuilder(
+      column: $table.favoriteType,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get infoId => $composableBuilder(
+      column: $table.infoId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FavoriteInfoTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $FavoriteInfoTableTable> {
+  $$FavoriteInfoTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get favoriteType => $composableBuilder(
+      column: $table.favoriteType, builder: (column) => column);
+
+  GeneratedColumn<String> get infoId =>
+      $composableBuilder(column: $table.infoId, builder: (column) => column);
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+}
+
 class $$FavoriteInfoTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $FavoriteInfoTableTable,
     FavoriteInfoEntity,
     $$FavoriteInfoTableTableFilterComposer,
     $$FavoriteInfoTableTableOrderingComposer,
+    $$FavoriteInfoTableTableAnnotationComposer,
     $$FavoriteInfoTableTableCreateCompanionBuilder,
-    $$FavoriteInfoTableTableUpdateCompanionBuilder> {
+    $$FavoriteInfoTableTableUpdateCompanionBuilder,
+    (
+      FavoriteInfoEntity,
+      BaseReferences<_$AniflowDatabase, $FavoriteInfoTableTable,
+          FavoriteInfoEntity>
+    ),
+    FavoriteInfoEntity,
+    PrefetchHooks Function()> {
   $$FavoriteInfoTableTableTableManager(
       _$AniflowDatabase db, $FavoriteInfoTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$FavoriteInfoTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer: $$FavoriteInfoTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$FavoriteInfoTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FavoriteInfoTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FavoriteInfoTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> favoriteType = const Value.absent(),
@@ -12190,57 +13068,29 @@ class $$FavoriteInfoTableTableTableManager extends RootTableManager<
             infoId: infoId,
             userId: userId,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$FavoriteInfoTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $FavoriteInfoTableTable> {
-  $$FavoriteInfoTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get favoriteType => $state.composableBuilder(
-      column: $state.table.favoriteType,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get infoId => $state.composableBuilder(
-      column: $state.table.infoId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$FavoriteInfoTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $FavoriteInfoTableTable> {
-  $$FavoriteInfoTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get favoriteType => $state.composableBuilder(
-      column: $state.table.favoriteType,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get infoId => $state.composableBuilder(
-      column: $state.table.infoId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$FavoriteInfoTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $FavoriteInfoTableTable,
+    FavoriteInfoEntity,
+    $$FavoriteInfoTableTableFilterComposer,
+    $$FavoriteInfoTableTableOrderingComposer,
+    $$FavoriteInfoTableTableAnnotationComposer,
+    $$FavoriteInfoTableTableCreateCompanionBuilder,
+    $$FavoriteInfoTableTableUpdateCompanionBuilder,
+    (
+      FavoriteInfoEntity,
+      BaseReferences<_$AniflowDatabase, $FavoriteInfoTableTable,
+          FavoriteInfoEntity>
+    ),
+    FavoriteInfoEntity,
+    PrefetchHooks Function()>;
 typedef $$EpisodeTableTableCreateCompanionBuilder = EpisodeTableCompanion
     Function({
   Value<int?> id,
@@ -12264,23 +13114,140 @@ typedef $$EpisodeTableTableUpdateCompanionBuilder = EpisodeTableCompanion
   Value<String?> playableLink,
 });
 
+class $$EpisodeTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $EpisodeTableTable> {
+  $$EpisodeTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get animeId => $composableBuilder(
+      column: $table.animeId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get episodeNum => $composableBuilder(
+      column: $table.episodeNum, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get playSourceType => $composableBuilder(
+      column: $table.playSourceType,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get playSourceId => $composableBuilder(
+      column: $table.playSourceId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get playSourceSiteUrl => $composableBuilder(
+      column: $table.playSourceSiteUrl,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get playableLink => $composableBuilder(
+      column: $table.playableLink, builder: (column) => ColumnFilters(column));
+}
+
+class $$EpisodeTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $EpisodeTableTable> {
+  $$EpisodeTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get animeId => $composableBuilder(
+      column: $table.animeId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get episodeNum => $composableBuilder(
+      column: $table.episodeNum, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get playSourceType => $composableBuilder(
+      column: $table.playSourceType,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get playSourceId => $composableBuilder(
+      column: $table.playSourceId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get playSourceSiteUrl => $composableBuilder(
+      column: $table.playSourceSiteUrl,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get playableLink => $composableBuilder(
+      column: $table.playableLink,
+      builder: (column) => ColumnOrderings(column));
+}
+
+class $$EpisodeTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $EpisodeTableTable> {
+  $$EpisodeTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get animeId =>
+      $composableBuilder(column: $table.animeId, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get episodeNum => $composableBuilder(
+      column: $table.episodeNum, builder: (column) => column);
+
+  GeneratedColumn<String> get playSourceType => $composableBuilder(
+      column: $table.playSourceType, builder: (column) => column);
+
+  GeneratedColumn<String> get playSourceId => $composableBuilder(
+      column: $table.playSourceId, builder: (column) => column);
+
+  GeneratedColumn<String> get playSourceSiteUrl => $composableBuilder(
+      column: $table.playSourceSiteUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get playableLink => $composableBuilder(
+      column: $table.playableLink, builder: (column) => column);
+}
+
 class $$EpisodeTableTableTableManager extends RootTableManager<
     _$AniflowDatabase,
     $EpisodeTableTable,
     EpisodeEntity,
     $$EpisodeTableTableFilterComposer,
     $$EpisodeTableTableOrderingComposer,
+    $$EpisodeTableTableAnnotationComposer,
     $$EpisodeTableTableCreateCompanionBuilder,
-    $$EpisodeTableTableUpdateCompanionBuilder> {
+    $$EpisodeTableTableUpdateCompanionBuilder,
+    (
+      EpisodeEntity,
+      BaseReferences<_$AniflowDatabase, $EpisodeTableTable, EpisodeEntity>
+    ),
+    EpisodeEntity,
+    PrefetchHooks Function()> {
   $$EpisodeTableTableTableManager(
       _$AniflowDatabase db, $EpisodeTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$EpisodeTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$EpisodeTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$EpisodeTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EpisodeTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EpisodeTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int?> id = const Value.absent(),
             Value<String> animeId = const Value.absent(),
@@ -12321,96 +13288,28 @@ class $$EpisodeTableTableTableManager extends RootTableManager<
             playSourceSiteUrl: playSourceSiteUrl,
             playableLink: playableLink,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$EpisodeTableTableFilterComposer
-    extends FilterComposer<_$AniflowDatabase, $EpisodeTableTable> {
-  $$EpisodeTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get animeId => $state.composableBuilder(
-      column: $state.table.animeId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get episodeNum => $state.composableBuilder(
-      column: $state.table.episodeNum,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get playSourceType => $state.composableBuilder(
-      column: $state.table.playSourceType,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get playSourceId => $state.composableBuilder(
-      column: $state.table.playSourceId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get playSourceSiteUrl => $state.composableBuilder(
-      column: $state.table.playSourceSiteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get playableLink => $state.composableBuilder(
-      column: $state.table.playableLink,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$EpisodeTableTableOrderingComposer
-    extends OrderingComposer<_$AniflowDatabase, $EpisodeTableTable> {
-  $$EpisodeTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get animeId => $state.composableBuilder(
-      column: $state.table.animeId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get episodeNum => $state.composableBuilder(
-      column: $state.table.episodeNum,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get playSourceType => $state.composableBuilder(
-      column: $state.table.playSourceType,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get playSourceId => $state.composableBuilder(
-      column: $state.table.playSourceId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get playSourceSiteUrl => $state.composableBuilder(
-      column: $state.table.playSourceSiteUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get playableLink => $state.composableBuilder(
-      column: $state.table.playableLink,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
+typedef $$EpisodeTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $EpisodeTableTable,
+    EpisodeEntity,
+    $$EpisodeTableTableFilterComposer,
+    $$EpisodeTableTableOrderingComposer,
+    $$EpisodeTableTableAnnotationComposer,
+    $$EpisodeTableTableCreateCompanionBuilder,
+    $$EpisodeTableTableUpdateCompanionBuilder,
+    (
+      EpisodeEntity,
+      BaseReferences<_$AniflowDatabase, $EpisodeTableTable, EpisodeEntity>
+    ),
+    EpisodeEntity,
+    PrefetchHooks Function()>;
 
 class $AniflowDatabaseManager {
   final _$AniflowDatabase _db;

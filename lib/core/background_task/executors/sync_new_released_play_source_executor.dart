@@ -7,7 +7,6 @@ import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
-import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 
 const _tag = 'SyncNewReleasedPlaySourceExecutor';
@@ -64,7 +63,7 @@ class SyncNewReleasedPlaySourceExecutor implements Executor {
             nextProgress.toString(),
           );
         })
-        .whereNotNull()
+        .nonNulls
         .toList();
     final results = await Future.wait(tasks);
     return results.every(
