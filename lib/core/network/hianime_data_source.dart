@@ -23,7 +23,7 @@ class HiAnimationDataSource {
       final numbers = keywords.first
           .split(' ')
           .map((e) => int.tryParse(e))
-          .whereNotNull()
+          .nonNulls
           .toList();
       if (numbers.isNotEmpty) {
         bool matchNumbers = true;
@@ -55,7 +55,7 @@ class HiAnimationDataSource {
       final elements = document
           .querySelectorAll('div.flw-item')
           .map((e) => e.querySelector('a'))
-          .whereNotNull()
+          .nonNulls
           .toList();
 
       for (var element in elements) {
@@ -111,7 +111,7 @@ class HiAnimationDataSource {
         .map((element) {
           return element.attributes["data-id"];
         })
-        .whereNotNull()
+        .nonNulls
         .toList();
 
     final linkResult = await dio.get(

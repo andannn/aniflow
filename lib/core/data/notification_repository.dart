@@ -10,7 +10,6 @@ import 'package:aniflow/core/database/mappers/user_mapper.dart';
 import 'package:aniflow/core/network/api/notification_query_graphql.dart';
 import 'package:aniflow/core/network/auth_data_source.dart';
 import 'package:aniflow/core/network/model/notification.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -80,7 +79,7 @@ class NotificationRepository {
       onInsertToDB: (dto) async {
         final userEntities = dto
             .map((e) => e.userDto)
-            .whereNotNull()
+            .nonNulls
             .map((e) => e.toEntity())
             .toList();
 
@@ -88,7 +87,7 @@ class NotificationRepository {
 
         final mediaEntities = dto
             .map((e) => e.mediaDto)
-            .whereNotNull()
+            .nonNulls
             .map((e) => e.toEntity())
             .toList();
 

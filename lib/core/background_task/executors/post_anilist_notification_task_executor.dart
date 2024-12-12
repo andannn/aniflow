@@ -120,7 +120,7 @@ class PostAnilistNotificationExecutor implements Executor {
 
     final platFormNotifications = matchedNotification
         .map((e) => e.mapToPlatformModel(_userDataRepository.userTitleLanguage))
-        .whereNotNull()
+        .nonNulls
         .toList();
     if (notifications.isEmpty) {
       logger.d('$_tag notification mapped null.');

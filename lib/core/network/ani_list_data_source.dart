@@ -44,7 +44,6 @@ import 'package:aniflow/core/network/model/user_favourites_dto.dart';
 import 'package:aniflow/core/network/model/user_statistics_dto.dart';
 import 'package:aniflow/core/network/util/anilist_page_util.dart';
 import 'package:aniflow/core/network/util/date_time_util.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -586,7 +585,7 @@ class AniListDataSource {
     final List resultJson = response.data['data']['Page']['activities'];
     final activities = resultJson
         .map((e) => AniActivity.mapToAniActivity(e))
-        .whereNotNull()
+        .nonNulls
         .toList();
 
     return activities;

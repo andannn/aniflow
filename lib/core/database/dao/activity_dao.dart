@@ -5,7 +5,6 @@ import 'package:aniflow/core/database/tables/activity_filter_type_paging_cross_r
 import 'package:aniflow/core/database/tables/activity_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
 import 'package:aniflow/core/database/tables/user_table.dart';
-import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 
 part 'activity_dao.g.dart';
@@ -31,13 +30,13 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
 
         batch.insertAll(
           userTable,
-          entities.map((e) => e.user).whereNotNull(),
+          entities.map((e) => e.user).nonNulls,
           mode: InsertMode.insertOrIgnore,
         );
 
         batch.insertAllOnConflictUpdate(
           mediaTable,
-          entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
+          entities.map((e) => e.media?.toCompanion(true)).nonNulls,
         );
       });
     });
@@ -66,13 +65,13 @@ class ActivityDao extends DatabaseAccessor<AniflowDatabase>
 
         batch.insertAll(
           userTable,
-          entities.map((e) => e.user).whereNotNull(),
+          entities.map((e) => e.user).nonNulls,
           mode: InsertMode.insertOrIgnore,
         );
 
         batch.insertAllOnConflictUpdate(
           mediaTable,
-          entities.map((e) => e.media?.toCompanion(true)).whereNotNull(),
+          entities.map((e) => e.media?.toCompanion(true)).nonNulls,
         );
       });
     });
