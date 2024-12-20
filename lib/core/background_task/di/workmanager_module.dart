@@ -8,7 +8,7 @@ import 'package:workmanager/workmanager.dart';
 abstract class DIWorkmanagerModule {
   @lazySingleton
   @preResolve
-  @Environment(AfEnvironment.impl)
+  @Environment(AfEnvironment.mobile)
   Future<Workmanager> get workManager async {
     final workManager = Workmanager();
     await Workmanager()

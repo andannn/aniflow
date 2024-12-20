@@ -9,7 +9,8 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class DIFirebaseRemoteConfigModule {
   @preResolve
-  @Environment(AfEnvironment.impl)
+  @Environment(AfEnvironment.mobile)
+  @Environment(AfEnvironment.desktop)
   @lazySingleton
   Future<FirebaseRemoteConfig> get remoteConfig async {
     final remoteConfig = FirebaseRemoteConfig.instance;

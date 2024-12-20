@@ -37,7 +37,7 @@ class ActivityStatus extends Equatable {
   List<Object?> get props => [replyCount, likeCount, isLiked];
 }
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class ActivityRepository {
   ActivityRepository(
       this.activityDao, this.aniListDataSource, this.preferences);

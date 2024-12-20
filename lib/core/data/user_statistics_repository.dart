@@ -12,7 +12,7 @@ import 'package:aniflow/core/network/ani_list_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class UserStatisticsRepository {
   UserStatisticsRepository(
     this.mediaDao,

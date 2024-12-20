@@ -4,7 +4,7 @@ import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class UserInfoRepository {
   UserInfoRepository(this.userDao);
 

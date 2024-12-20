@@ -31,7 +31,7 @@ class Episode extends Equatable {
   List<Object?> get props => [url, title];
 }
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class HiAnimationRepository {
   HiAnimationRepository(
     this._datasource,

@@ -9,7 +9,7 @@ import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class GithubRepository {
   GithubRepository(this.githubDataSource, this.preferences);
 

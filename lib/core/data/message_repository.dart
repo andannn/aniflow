@@ -40,7 +40,7 @@ abstract class SnackBarMessage extends Message {
   List<Object?> get props => [...varargs, duration];
 }
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class MessageRepository {
   MessageRepository() {
     _messageSubject = PublishSubject(

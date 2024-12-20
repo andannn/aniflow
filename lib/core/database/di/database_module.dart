@@ -34,7 +34,8 @@ String _tag = 'DIDataBaseModule';
 @module
 abstract class DIDataBaseModule {
   @preResolve
-  @Environment(AfEnvironment.impl)
+  @Environment(AfEnvironment.mobile)
+  @Environment(AfEnvironment.desktop)
   Future<AniflowDatabase> get database async {
     return AniflowDatabase(
       kDebugMode ? _openDatabaseConnection() : await _openIsolateConnection(),

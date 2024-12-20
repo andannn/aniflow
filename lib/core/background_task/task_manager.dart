@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/background_task/task.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
@@ -14,7 +15,7 @@ mixin BackgroundTaskName {
       'sync_new_released_play_source_task';
 }
 
-@lazySingleton
+@LazySingleton(env: [AfEnvironment.mobile])
 class BackgroundTaskManager {
   BackgroundTaskManager(this._authRepository, this._workManager) {
     _authRepository.getAuthedUserStream().distinct().listen((userOrNull) {
