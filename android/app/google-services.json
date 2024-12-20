@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "356471534096",
     "project_id": "aniflow-fea18",
-    "storage_bucket": "aniflow-fea18.appspot.com"
+    "storage_bucket": "aniflow-fea18.firebasestorage.app"
   },
   "client": [
     {
@@ -26,9 +26,47 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:356471534096:android:c9781c4c444d0975fe5095",
+        "android_client_info": {
+          "package_name": "com.andannn.aniflow.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAibl877ZhTQYw9pQ6dDymlbtKG7CLWNA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:356471534096:android:b8e3959371145a44fe5095",
         "android_client_info": {
           "package_name": "com.andannn.aniflow.github"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAibl877ZhTQYw9pQ6dDymlbtKG7CLWNA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356471534096:android:b57de335f1bd4810fe5095",
+        "android_client_info": {
+          "package_name": "com.andannn.aniflow.github.debug"
         }
       },
       "oauth_client": [],

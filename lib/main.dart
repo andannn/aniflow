@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/app/app.dart';
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
+import 'package:aniflow/firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -19,7 +20,9 @@ void main() async {
   await PackageInfo.fromPlatform();
 
   /// init firebase
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
