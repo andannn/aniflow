@@ -28,5 +28,11 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleURLName</key>
+    <string>com.example.animetracker</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+        <string>animetracker</string>
+    </array>
 </dict>
 </plist>
