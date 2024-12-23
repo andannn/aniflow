@@ -28,11 +28,18 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>CFBundleURLName</key>
-    <string>com.example.animetracker</string>
-    <key>CFBundleURLSchemes</key>
+	<key>CFBundleURLTypes</key>
     <array>
-        <string>animetracker</string>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.example.animetracker</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>animetracker</string>
+            </array>
+        </dict>
     </array>
 </dict>
 </plist>
