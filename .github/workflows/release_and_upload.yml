@@ -101,13 +101,13 @@ jobs:
           name: macos-release
 
       - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: ncipollo/release-action@v1
         with:
+          tag: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          token: ${{ secrets.TOKEN }}
           artifacts: |
             app-arm64-v8a-full-release.apk
             app-armeabi-v7a-full-release.apk
             app-x86_64-full-release.apk
             aniflow.dmg
-
-          repo_token: "${{ secrets.TOKEN }}"
-          prerelease: true
