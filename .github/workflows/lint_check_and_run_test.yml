@@ -6,8 +6,9 @@
 name: 'Test & Build'
 
 on:
-  pull_request:
-    branches: [ "master" ]
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:

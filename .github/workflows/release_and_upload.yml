@@ -6,9 +6,8 @@
 name: 'tagged-release'
 
 on:
-  push:
-    tags:
-      - "v*"
+  pull_request:
+    branches: [ "macos" ]
 
 jobs:
   build:
