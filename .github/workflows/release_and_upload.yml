@@ -6,9 +6,9 @@
 name: 'tagged-release'
 
 on:
-  pull_request:
-    branches:
-      - master
+  push:
+    tags:
+      - "v*"
 
 jobs:
   android:
