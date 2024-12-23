@@ -1,0 +1,37 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: 'tagged-release'
+
+on:
+  push:
+    tags:
+      - "aniflow_macos-v*"
+
+jobs:
+  build:
+    name: 'build'
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - run: flutter pub get
+
+      - name: build macos app
+        run: flutter build macos
+
+      - name: Upload to github
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          files: |
+            build/macos/Build/Products/Release/aniflow.app
+            build/macos/Build/Products/Release/aniflow.app.dSYM
+          repo_token: "${{ secrets.TOKEN }}"
+          prerelease: true
