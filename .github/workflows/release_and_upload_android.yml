@@ -8,7 +8,7 @@ name: 'tagged-release'
 on:
   push:
     tags:
-      - "v*"
+      - "aniflow_android-v*"
 
 jobs:
   build:
@@ -35,14 +35,14 @@ jobs:
 
       - run: flutter pub get
 
-      - name: build bundle
-        run: flutter build appbundle --flavor limited
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+#      - name: build bundle
+#        run: flutter build appbundle --flavor limited
+#        env:
+#          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+#          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+#          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
-      - name: build apk
+      - name: build android app
         run: flutter build apk --split-per-abi --flavor full
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -54,6 +54,5 @@ jobs:
         with:
           files: |
             build/app/outputs/flutter-apk/*
-            build/app/outputs/bundle/limitedRelease/*
           repo_token: "${{ secrets.TOKEN }}"
           prerelease: true

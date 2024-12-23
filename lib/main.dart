@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:aniflow/app/app.dart';
+import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
+import 'package:aniflow/firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -19,7 +22,9 @@ void main() async {
   await PackageInfo.fromPlatform();
 
   /// init firebase
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -27,9 +32,18 @@ void main() async {
   ));
 
   /// run app after core instance initialized.
+  final String env;
+  if (Platform.isIOS || Platform.isAndroid) {
+    env = AfEnvironment.mobile;
+  } else if (Platform.isMacOS) {
+    env = AfEnvironment.desktop;
+  } else {
+      throw 'unsupported platform';
+  }
   runApp(
-    const RootGetItScope(
-      child: AniflowApp(),
+    RootGetItScope(
+      env: env,
+      child: const AniflowApp(),
     ),
   );
 
@@ -45,7 +59,9 @@ void main() async {
   unawaited(FirebaseAnalytics.instance.setInitialUserProperty());
   unawaited(FirebaseAnalytics.instance.logAppDataSizeEvent());
 
-  unawaited(requestNotificationPermissionIfNeeded());
+  if (Platform.isAndroid || Platform.isIOS) {
+    unawaited(requestNotificationPermissionIfNeeded());
+  }
 }
 
 Future requestNotificationPermissionIfNeeded() async {

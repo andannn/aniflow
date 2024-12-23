@@ -7,7 +7,8 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class DINetworkModule {
   @lazySingleton
-  @Environment(AfEnvironment.impl)
+  @Environment(AfEnvironment.mobile)
+  @Environment(AfEnvironment.desktop)
   Dio getDio(UserDataPreferences preferences) => Dio()
     ..options = BaseOptions(
       connectTimeout: const Duration(seconds: 15),

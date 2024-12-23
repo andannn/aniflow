@@ -33,7 +33,7 @@ import 'package:aniflow/core/network/model/user_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class SearchRepository {
   SearchRepository(
     this.dataSource,

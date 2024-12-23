@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 @injectableInit
-Future<GetIt> initDI(GetIt getIt, {String env = AfEnvironment.impl}) =>
+Future<GetIt> initDI(GetIt getIt, {String env = AfEnvironment.mobile}) =>
     getIt.init(environment: env);
 
 extension GetItEx on GetIt {

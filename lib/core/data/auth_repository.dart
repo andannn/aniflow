@@ -30,7 +30,7 @@ const String authUrl =
 
 class CancelException implements Exception {}
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class AuthRepository {
   AuthRepository(
     this._authDataSource,

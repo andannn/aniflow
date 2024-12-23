@@ -21,7 +21,7 @@ enum NotificationCategory {
   media;
 }
 
-@LazySingleton(env: [AfEnvironment.impl])
+@LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class NotificationRepository {
   NotificationRepository(
     this.dataSource,
