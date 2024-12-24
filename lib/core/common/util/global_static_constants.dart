@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:aniflow/core/common/util/app_version_util.dart';
+import 'package:flutter/widgets.dart';
 
 mixin AfConfig {
   static const defaultAnimationDuration = Duration(milliseconds: 300);
@@ -30,4 +31,9 @@ mixin AfConfig {
 
   static String Function(AppVersion) get appDownloadLink => (version) =>
       'https://github.com/andannn/aniflow/releases/download/v${version.toString()}/app-arm64-v8a-full-release.apk';
+
+  static SliverGridDelegate commonGridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
+    childAspectRatio: 3.0 / 5.2,
+    maxCrossAxisExtent: 230,
+  );
 }

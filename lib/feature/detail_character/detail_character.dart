@@ -2,6 +2,7 @@ import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/character_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -137,10 +138,7 @@ class _DetailCharacterContentState extends State<_DetailCharacterContent>
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               sliver: SliverGrid.builder(
                 itemCount: relatedMedias.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 3.0 / 5.2,
-                ),
+                gridDelegate: AfConfig.commonGridDelegate,
                 itemBuilder: (context, index) {
                   return _buildGridItems(context, relatedMedias[index]);
                 },

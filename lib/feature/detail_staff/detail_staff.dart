@@ -4,6 +4,7 @@ import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/description_item_util.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
@@ -292,10 +293,7 @@ class _DetailStaffContentState extends State<_DetailStaffContent>
       ),
       SliverGrid.builder(
         itemCount: e.items.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0 / 6.2,
-        ),
+        gridDelegate: AfConfig.commonGridDelegate,
         itemBuilder: (context, index) => _buildCharacterWithMediaItem(
           context,
           item: e.items[index],
