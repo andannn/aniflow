@@ -11,6 +11,16 @@ class DescriptionItem {
   final String value;
 }
 
+List<DescriptionItem> createDescription(dynamic model, BuildContext context) {
+  if (model is CharacterModel) {
+    return model.createDescriptionItem(context);
+  } else if (model is StaffModel) {
+    return model.createDescriptionItem(context);
+  } else {
+    throw Exception('Unknown model type');
+  }
+}
+
 extension CharacterModelEx on CharacterModel {
   List<DescriptionItem> createDescriptionItem(BuildContext context) {
     final localization = Localizations.of<MaterialLocalizations>(

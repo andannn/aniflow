@@ -1,6 +1,7 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/design_system/widget/af_network_image.dart';
@@ -156,10 +157,7 @@ class _DetailStudioContentState extends State<_DetailStudioContent>
       ),
       SliverGrid.builder(
         itemCount: e.items.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0 / 6.2,
-        ),
+        gridDelegate: AfConfig.commonGridDelegate,
         itemBuilder: (context, index) => _buildMediaItem(
           context,
           item: e.items[index],

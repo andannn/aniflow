@@ -1,6 +1,7 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_category.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -63,10 +64,7 @@ class _MediaListPageContent extends StatelessWidget {
         ),
         body: PagingContent<MediaModel, AnimePageBloc>(
           pagingState: pagingState,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 3.0 / 5.2,
-          ),
+          gridDelegate: AfConfig.commonGridDelegate,
           onBuildItem: (context, model) => _buildGridItems(context, model),
         ),
       );
