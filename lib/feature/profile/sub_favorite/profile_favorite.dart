@@ -3,6 +3,7 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/favorite_category.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/favorite_item_model.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
@@ -98,10 +99,7 @@ class _ProfileFavoriteTabContent extends StatelessWidget {
             )
           : SliverGrid.builder(
               itemCount: items.length,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                childAspectRatio: 3.0 / 5.2,
-                maxCrossAxisExtent: 230,
-              ),
+              gridDelegate: AfConfig.commonGridDelegate,
               itemBuilder: (context, index) => _buildGridItems(
                 context,
                 model: items[index],

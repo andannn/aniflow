@@ -1,3 +1,4 @@
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
 import 'package:aniflow/core/paging/page_loading_state.dart';
@@ -39,10 +40,7 @@ List<Widget> buildTitleBarWithContent({
     ),
     SliverGrid.builder(
       itemCount: items.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 3.0 / 5.2,
-      ),
+      gridDelegate: AfConfig.commonGridDelegate,
       itemBuilder: (context, index) => onBuildItem(context, items[index]),
     ),
   ];

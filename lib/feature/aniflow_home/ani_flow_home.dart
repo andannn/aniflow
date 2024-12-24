@@ -113,7 +113,20 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
                       afRouterDelegate.navigateToTopLevelPage(navigation);
                     },
                   ),
-                  Expanded(child: body())
+                  Expanded(
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceContainer,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: body(),
+                      ),
+                    ),
+                  )
                 ],
               ),
             );
@@ -141,15 +154,16 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
   }) {
     final currentIndex = navigationList.indexOf(selected);
     return NavigationRail(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       elevation: 5,
       leading: const SizedBox(height: 32),
       destinations: navigationList
           .map(
             (navigation) => _buildNavigationRailItem(
-          navigation,
-          isSelected: navigation == selected,
-        ),
-      )
+              navigation,
+              isSelected: navigation == selected,
+            ),
+          )
           .toList(),
       labelType: NavigationRailLabelType.all,
       onDestinationSelected: (index) {

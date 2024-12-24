@@ -3,20 +3,16 @@ import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/character_role.dart';
 import 'package:aniflow/core/common/definitions/media_sort.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
-import 'package:aniflow/core/common/util/description_item_util.dart';
 import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_and_media_connection.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
-import 'package:aniflow/core/data/model/staff_model.dart';
-import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
-import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/character_with_media_item_widget.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/popup_menu_anchor.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/core/design_system/widget/reactive_profile_with_description.dart';
 import 'package:aniflow/core/paging/paging_content_widget.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_bloc.dart';
 import 'package:aniflow/feature/detail_staff/bloc/detail_staff_state.dart';
@@ -112,36 +108,21 @@ class _DetailStaffContentState extends State<_DetailStaffContent>
           ),
           body: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: FractionallySizedBox(
-                  widthFactor: 0.65,
-                  child: InkWell(
-                    onTap: () {
-                      RootRouterDelegate.get().navigateImagePreviewPage(
-                        staff.previewSource,
-                      );
-                    },
-                    child: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      )),
-                      child: Hero(
-                        tag: staff.previewSource,
-                        child: AFNetworkImage(imageUrl: staff.largeImage),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24.0,
                   vertical: 8.0,
                 ),
                 sliver: SliverToBoxAdapter(
-                  child: _buildDescriptionSection(context, staff),
+                  child: ReactiveProfileWithDescription(
+                    model: staff,
+                    previewSource: staff.previewSource,
+                    onImageTap: () {
+                      RootRouterDelegate.get().navigateImagePreviewPage(
+                        staff.previewSource,
+                      );
+                    },
+                  ),
                 ),
               ),
               const SliverPadding(padding: EdgeInsets.only(top: 48)),
@@ -153,36 +134,6 @@ class _DetailStaffContentState extends State<_DetailStaffContent>
           ),
         );
       },
-    );
-  }
-
-  Widget _buildDescriptionSection(BuildContext context, StaffModel staff) {
-    final textTheme = Theme.of(context).textTheme;
-    final items = staff.createDescriptionItem(context);
-    final description = staff.description ?? '';
-    return AnimatedScaleSwitcher(
-      visible: items.isNotEmpty || description.isNotEmpty,
-      builder: () => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ...items.map(
-            (item) => RichText(
-              text: TextSpan(
-                text: item.key,
-                style: textTheme.titleSmall,
-                children: [
-                  TextSpan(
-                    text: item.value,
-                    style: textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          AfHtmlWidget(html: description)
-        ],
-      ),
     );
   }
 
@@ -220,10 +171,7 @@ class _DetailStaffContentState extends State<_DetailStaffContent>
         return [
           SliverGrid.builder(
             itemCount: pagingState.data.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 3.0 / 6.2,
-            ),
+            gridDelegate: AfConfig.commonGridDelegate,
             itemBuilder: (context, index) => _buildCharacterWithMediaItem(
               context,
               item: pagingState.data[index],
