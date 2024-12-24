@@ -65,11 +65,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyC5xln87eOfyfUaciHAZFCl9BaFJJASss4',
-    appId: '1:356471534096:ios:81c7eb38d650b97afe5095',
+    appId: '1:356471534096:ios:0750bc7d0878ee3ffe5095',
     messagingSenderId: '356471534096',
     projectId: 'aniflow-fea18',
     storageBucket: 'aniflow-fea18.firebasestorage.app',
-    iosBundleId: 'com.andannn.animetracker.aniflow',
+    iosBundleId: 'com.andannn.aniflow',
   );
 
 }
