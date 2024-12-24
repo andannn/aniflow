@@ -59,8 +59,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   extended_image: ^8.2.1
   sprintf: ^7.0.0
-  flutter_slidable:
-    path: ./flutter_slidable
+  flutter_slidable: ^3.1.2
   loading_animation_widget: ^1.2.0+4
   timeline_tile: ^2.0.0
   collection: ^1.17.2
