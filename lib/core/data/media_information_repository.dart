@@ -210,8 +210,8 @@ class MediaInformationRepository {
   Stream<MediaModel> getDetailMediaInfoStream(String id) {
     final mediaStream = _mediaDao.getMediaStream(id);
     final characterStream = _characterDao.getCharacterListStream(id,
-        staffLanguage: StaffLanguage.japanese.toJson());
-    final staffStream = _staffDao.getStaffListStream(id);
+        staffLanguage: StaffLanguage.japanese.toJson(), count: 6);
+    final staffStream = _staffDao.getStaffListStream(id, count: 6);
     final studioStream = _studioDao.getStudioOfMediaStream(id);
     final externalLinkStream = _mediaDao.getAllExternalLinksOfMediaStream(id);
     final mediaRelationStream = _mediaDao.getMediaRelationsStream(id);

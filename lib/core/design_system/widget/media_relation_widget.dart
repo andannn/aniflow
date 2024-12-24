@@ -20,53 +20,50 @@ class MediaRelationWidget extends StatelessWidget {
     final labelStyle = textTheme.bodyLarge!
         .copyWith(color: Theme.of(context).colorScheme.primary);
 
-    return Card.filled(
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        onTap: onClick,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            AspectRatio(
-              aspectRatio: 3.0 / 4,
-              child: Card.filled(
-                clipBehavior: Clip.antiAlias,
-                child: AFNetworkImage(
-                  imageUrl: model.media.coverImage?.large ?? '',
+    return InkWell(
+      onTap: onClick,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          AspectRatio(
+            aspectRatio: 3.0 / 4,
+            child: Card.filled(
+              clipBehavior: Clip.antiAlias,
+              child: AFNetworkImage(
+                imageUrl: model.media.coverImage?.large ?? '',
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model.type.translated(context),
+                  style: labelStyle,
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model.type.translated(context),
-                    style: labelStyle,
+                const SizedBox(height: 8),
+                Container(
+                  constraints:
+                      const BoxConstraints(maxWidth: 200, maxHeight: 50),
+                  child: AutoSizeText(
+                    model.media.title!.native,
+                    style: textStyle,
+                    maxLines: 3,
+                    softWrap: true,
                   ),
-                  const SizedBox(height: 8),
-                  Container(
-                    constraints:
-                        const BoxConstraints(maxWidth: 200, maxHeight: 50),
-                    child: AutoSizeText(
-                      model.media.title!.native,
-                      style: textStyle,
-                      maxLines: 3,
-                      softWrap: true,
-                    ),
-                  ),
-                  const Expanded(child: SizedBox()),
-                  Text(model.media.getMediaInfoString(context),
-                      style: textStyle),
-                ],
-              ),
+                ),
+                const Expanded(child: SizedBox()),
+                Text(model.media.getMediaInfoString(context),
+                    style: textStyle),
+              ],
             ),
-            const SizedBox(width: 12),
-          ],
-        ),
+          ),
+          const SizedBox(width: 12),
+        ],
       ),
     );
   }

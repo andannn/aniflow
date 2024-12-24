@@ -32,8 +32,17 @@ mixin AfConfig {
   static String Function(AppVersion) get appDownloadLink => (version) =>
       'https://github.com/andannn/aniflow/releases/download/v${version.toString()}/app-arm64-v8a-full-release.apk';
 
-  static SliverGridDelegate commonGridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
+  // vertical preview grid delegate
+  static SliverGridDelegate commonGridDelegate =
+      const SliverGridDelegateWithMaxCrossAxisExtent(
     childAspectRatio: 3.0 / 5.2,
     maxCrossAxisExtent: 230,
+  );
+
+  // character and staff grid delegate
+  static SliverGridDelegate horizonGridDelegate =
+      const SliverGridDelegateWithMaxCrossAxisExtent(
+    childAspectRatio: 8.0 / 2.0,
+    maxCrossAxisExtent: 630,
   );
 }

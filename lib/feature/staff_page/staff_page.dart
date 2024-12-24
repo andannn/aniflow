@@ -1,6 +1,7 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/staff_and_role_model.dart';
 import 'package:aniflow/core/design_system/widget/staff_item.dart';
@@ -60,6 +61,7 @@ class _StaffListPageContent extends StatelessWidget {
         ),
         body: PagingContent<StaffAndRoleModel, StaffPageBloc>(
           pagingState: pagingState,
+          gridDelegate: AfConfig.horizonGridDelegate,
           onBuildItem: (context, model) => _buildListItems(
             context,
             model,

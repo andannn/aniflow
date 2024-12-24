@@ -2,6 +2,7 @@ import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/staff_language.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/character_and_voice_actor_model.dart';
 import 'package:aniflow/core/design_system/widget/character_and_voice_actor_widget.dart';
@@ -135,6 +136,7 @@ class _CharacterListPagingContent extends StatelessWidget {
           context.read<CharacterPageBloc>().state.userStaffNameLanguage;
       return PagingContent<CharacterAndVoiceActorModel, CharacterPagingBloc>(
         pagingState: pagingState,
+        gridDelegate: AfConfig.horizonGridDelegate,
         onBuildItem: (context, model) => _buildListItems(
           context,
           model,
