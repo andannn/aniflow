@@ -15,7 +15,6 @@ analyzer:
     - "**/*.freezed.dart"
     - "/platform_downloader/**"
     - "/platform_notification/**"
-    - "/flutter_slidable/**"
 #    - test/**
   errors:
     invalid_annotation_target: ignore
