@@ -172,7 +172,7 @@ class CategoryTitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(children: [
         Expanded(
           child: Text(

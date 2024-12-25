@@ -1,17 +1,14 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
-import 'package:aniflow/core/common/util/description_item_util.dart';
-import 'package:aniflow/core/data/model/character_model.dart';
+import 'package:aniflow/core/common/util/global_static_constants.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/model/staff_character_name_model.dart';
-import 'package:aniflow/core/design_system/widget/af_html_widget.dart';
-import 'package:aniflow/core/design_system/widget/af_network_image.dart';
 import 'package:aniflow/core/design_system/widget/loading_dummy_scaffold.dart';
 import 'package:aniflow/core/design_system/widget/loading_indicator.dart';
 import 'package:aniflow/core/design_system/widget/media_preview_item.dart';
-import 'package:aniflow/core/design_system/widget/vertical_animated_scale_switcher.dart';
+import 'package:aniflow/core/design_system/widget/reactive_profile_with_description.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_bloc.dart';
 import 'package:aniflow/feature/detail_character/bloc/detail_character_state.dart';
 import 'package:aniflow/feature/image_preview/util/preview_source_extensions.dart';
@@ -101,35 +98,15 @@ class _DetailCharacterContentState extends State<_DetailCharacterContent>
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               sliver: SliverToBoxAdapter(
-                child: FractionallySizedBox(
-                  widthFactor: 0.65,
-                  child: InkWell(
-                    onTap: () {
-                      RootRouterDelegate.get().navigateImagePreviewPage(
-                        character.previewSource,
-                      );
-                    },
-                    child: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      )),
-                      child: Hero(
-                        tag: character.previewSource,
-                        child: AFNetworkImage(
-                          imageUrl: character.largeImage,
-                        ),
-                      ),
-                    ),
-                  ),
+                child: ReactiveProfileWithDescription(
+                  model: character,
+                  previewSource: character.previewSource,
+                  onImageTap: () {
+                    RootRouterDelegate.get().navigateImagePreviewPage(
+                      character.previewSource,
+                    );
+                  },
                 ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              sliver: SliverToBoxAdapter(
-                child: _buildDescriptionSection(context, character),
               ),
             ),
             const SliverPadding(padding: EdgeInsets.only(top: 48)),
@@ -137,10 +114,7 @@ class _DetailCharacterContentState extends State<_DetailCharacterContent>
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               sliver: SliverGrid.builder(
                 itemCount: relatedMedias.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 3.0 / 5.2,
-                ),
+                gridDelegate: AfConfig.commonGridDelegate,
                 itemBuilder: (context, index) {
                   return _buildGridItems(context, relatedMedias[index]);
                 },
@@ -151,37 +125,6 @@ class _DetailCharacterContentState extends State<_DetailCharacterContent>
         ),
       );
     });
-  }
-
-  Widget _buildDescriptionSection(
-      BuildContext context, CharacterModel character) {
-    final textTheme = Theme.of(context).textTheme;
-    final items = character.createDescriptionItem(context);
-    final description = character.description ?? '';
-    return AnimatedScaleSwitcher(
-      visible: items.isNotEmpty || description.isNotEmpty,
-      builder: () => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ...items.map(
-            (item) => RichText(
-              text: TextSpan(
-                text: item.key,
-                style: textTheme.titleSmall,
-                children: [
-                  TextSpan(
-                    text: item.value,
-                    style: textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          AfHtmlWidget(html: description)
-        ],
-      ),
-    );
   }
 
   Widget _buildGridItems(BuildContext context, MediaModel model) {
@@ -198,3 +141,4 @@ class _DetailCharacterContentState extends State<_DetailCharacterContent>
     );
   }
 }
+
