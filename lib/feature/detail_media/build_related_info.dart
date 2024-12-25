@@ -138,6 +138,8 @@ List<Widget> buildCharacterSection(
           ],
         ),
       ),
+    if (models.isNotEmpty)
+      const SliverPadding(padding: EdgeInsets.only(top: 8.0)),
     SliverGrid.builder(
       itemCount: models.length,
       gridDelegate: AfConfig.horizonGridDelegate,
@@ -151,25 +153,22 @@ List<Widget> buildCharacterSection(
 Widget _buildCharacterAndVoiceActorItem(
     BuildContext context, CharacterAndVoiceActorModel model) {
   final language = context.read<DetailMediaBloc>().state.userStaffNameLanguage;
-  return Expanded(
-    flex: 1,
-    child: Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: CharacterAndVoiceActorWidget(
-        model: model,
-        language: language,
-        textStyle: Theme.of(context).textTheme.bodyMedium,
-        onCharacterTap: () {
-          final characterId = model.characterModel.id;
-          RootRouterDelegate.get().navigateToDetailCharacter(characterId);
-        },
-        onVoiceActorTop: () {
-          final id = model.voiceActorModel?.id;
-          if (id != null) {
-            RootRouterDelegate.get().navigateToDetailStaff(id);
-          }
-        },
-      ),
+  return Padding(
+    padding: const EdgeInsets.all(3.0),
+    child: CharacterAndVoiceActorWidget(
+      model: model,
+      language: language,
+      textStyle: Theme.of(context).textTheme.bodyMedium,
+      onCharacterTap: () {
+        final characterId = model.characterModel.id;
+        RootRouterDelegate.get().navigateToDetailCharacter(characterId);
+      },
+      onVoiceActorTop: () {
+        final id = model.voiceActorModel?.id;
+        if (id != null) {
+          RootRouterDelegate.get().navigateToDetailStaff(id);
+        }
+      },
     ),
   );
 }
@@ -179,20 +178,16 @@ List<Widget> buildStaffsSection(
   return [
     if (staffs.isNotEmpty)
       SliverToBoxAdapter(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CategoryTitleBar(
-              title: context.appLocal.staff,
-              onMoreClick: () {
-                RootRouterDelegate.get().navigateToStaffList(
-                    context.read<DetailMediaBloc>().mediaId);
-              },
-            ),
-            const SizedBox(height: 8),
-          ],
+        child: CategoryTitleBar(
+          title: context.appLocal.staff,
+          onMoreClick: () {
+            RootRouterDelegate.get()
+                .navigateToStaffList(context.read<DetailMediaBloc>().mediaId);
+          },
         ),
       ),
+    if (staffs.isNotEmpty)
+      const SliverPadding(padding: EdgeInsets.only(top: 8.0)),
     SliverGrid.builder(
       itemCount: staffs.length,
       gridDelegate: AfConfig.horizonGridDelegate,
@@ -205,20 +200,17 @@ List<Widget> buildStaffsSection(
 
 Widget _buildStaffItem(BuildContext context, StaffAndRoleModel model) {
   final language = context.read<DetailMediaBloc>().state.userStaffNameLanguage;
-  return Expanded(
-    flex: 1,
-    child: Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: StaffItem(
-        model: model,
-        language: language,
-        textStyle: Theme.of(context).textTheme.bodyMedium,
-        onStaffClick: () {
-          RootRouterDelegate.get().navigateToDetailStaff(
-            model.staff.id,
-          );
-        },
-      ),
+  return Padding(
+    padding: const EdgeInsets.all(3.0),
+    child: StaffItem(
+      model: model,
+      language: language,
+      textStyle: Theme.of(context).textTheme.bodyMedium,
+      onStaffClick: () {
+        RootRouterDelegate.get().navigateToDetailStaff(
+          model.staff.id,
+        );
+      },
     ),
   );
 }
