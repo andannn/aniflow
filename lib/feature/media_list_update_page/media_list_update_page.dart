@@ -102,29 +102,28 @@ class MediaListUpdatePageContent extends StatelessWidget {
           constraints: const BoxConstraints.expand(),
           color: Theme.of(context).colorScheme.surfaceDim.withAlpha(200),
           child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Hero(
-                    tag: mediaListUpdatePageHeroTagBuilder(mediaId, from),
-                    child: GestureDetector(
-                      // intercept click event of the children
-                      onTap: () {},
-                      child: Card(
-                        color: Theme.of(context).colorScheme.surfaceBright,
-                        child: UpdateMediaListBottomWidget(
-                          mediaModel: mediaModel,
-                          mediaListItem: mediaListItem,
-                          scoreFormat: scoreFormat,
-                          userTitleLanguage: userTitleLanguage,
-                        ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+              child: Hero(
+                tag: mediaListUpdatePageHeroTagBuilder(mediaId, from),
+                child: GestureDetector(
+                  // intercept click event of the children
+                  onTap: () {},
+                  child: Card(
+                    color: Theme.of(context).colorScheme.surfaceBright,
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 800),
+                      child: UpdateMediaListBottomWidget(
+                        mediaModel: mediaModel,
+                        mediaListItem: mediaListItem,
+                        scoreFormat: scoreFormat,
+                        userTitleLanguage: userTitleLanguage,
                       ),
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -218,152 +217,154 @@ class _UpdateMediaListBottomWidgetState
     }
 
     return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 16),
-          _buildTopBarSection(context),
-          const Divider(),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: buildLabelWithChild(
-                  label: context.appLocal.status,
-                  child: DropdownButton(
-                    value: status,
-                    isExpanded: true,
-                    hint: Text(context.appLocal.status),
-                    iconSize: 0,
-                    items: getStatusModels(context)
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e.status,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(e.icon),
-                                  const SizedBox(width: 8),
-                                  Text(e.label),
-                                ],
+      child: IntrinsicHeight(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 16),
+            _buildTopBarSection(context),
+            const Divider(),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: buildLabelWithChild(
+                    label: context.appLocal.status,
+                    child: DropdownButton(
+                      value: status,
+                      isExpanded: true,
+                      hint: Text(context.appLocal.status),
+                      iconSize: 0,
+                      items: getStatusModels(context)
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e.status,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(e.icon),
+                                    const SizedBox(width: 8),
+                                    Text(e.label),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (status) {
-                      setState(() {
-                        this.status = status;
-                      });
-                    },
+                          )
+                          .toList(),
+                      onChanged: (status) {
+                        setState(() {
+                          this.status = status;
+                        });
+                      },
+                    ),
                   ),
                 ),
-              ),
-              const Expanded(child: SizedBox())
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: buildLabelWithChild(
-                  label: context.appLocal.scoring,
-                  child: ScoringWidget(
-                    format: scoreFormat,
-                    score: score ?? 0,
-                    onScoreChanged: (value) {
-                      setState(() {
-                        score = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: buildLabelWithChild(
-                  label: context.appLocal.progress,
-                  child: Builder(
-                    builder: (context) {
-                      final maxValue = widget.mediaModel?.episodes;
-                      final suffix =
-                          maxValue != null ? '/${maxValue.toString()}' : '/?';
-                      return MaxLimitTextFiled(
-                        initialValue: progress ?? 0,
-                        maxValue: maxValue,
-                        suffixText: suffix,
-                        onValueApplied: (value) {
-                          progress = value;
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Expanded(
-                child: buildLabelWithChild(
-                  label: context.appLocal.totalRewatches,
-                  child: MaxLimitTextFiled(
-                    initialValue: repeat ?? 0,
-                    onValueApplied: (value) {
-                      repeat = value;
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: buildLabelWithChild(
-                  label: context.appLocal.startDate,
-                  child: DateTimeButton(
-                    dateTime: startedAt,
-                    onDateTimeChanged: (time) {
-                      setState(() {
-                        startedAt = time;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Expanded(
-                child: buildLabelWithChild(
-                  label: context.appLocal.finishDate,
-                  child: DateTimeButton(
-                    dateTime: completedAt,
-                    onDateTimeChanged: (time) {
-                      setState(() {
-                        completedAt = time;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          buildLabelWithChild(
-            label: context.appLocal.notes,
-            child: TextFormField(
-              initialValue: notes,
-              onChanged: (text) {
-                notes = text;
-              },
+                const Expanded(child: SizedBox())
+              ],
             ),
-          ),
-          const SizedBox(height: 8),
-          _buildControlSection(context),
-          const SizedBox(height: 16),
-        ],
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: buildLabelWithChild(
+                    label: context.appLocal.scoring,
+                    child: ScoringWidget(
+                      format: scoreFormat,
+                      score: score ?? 0,
+                      onScoreChanged: (value) {
+                        setState(() {
+                          score = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: buildLabelWithChild(
+                    label: context.appLocal.progress,
+                    child: Builder(
+                      builder: (context) {
+                        final maxValue = widget.mediaModel?.episodes;
+                        final suffix =
+                            maxValue != null ? '/${maxValue.toString()}' : '/?';
+                        return MaxLimitTextFiled(
+                          initialValue: progress ?? 0,
+                          maxValue: maxValue,
+                          suffixText: suffix,
+                          onValueApplied: (value) {
+                            progress = value;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: buildLabelWithChild(
+                    label: context.appLocal.totalRewatches,
+                    child: MaxLimitTextFiled(
+                      initialValue: repeat ?? 0,
+                      onValueApplied: (value) {
+                        repeat = value;
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: buildLabelWithChild(
+                    label: context.appLocal.startDate,
+                    child: DateTimeButton(
+                      dateTime: startedAt,
+                      onDateTimeChanged: (time) {
+                        setState(() {
+                          startedAt = time;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: buildLabelWithChild(
+                    label: context.appLocal.finishDate,
+                    child: DateTimeButton(
+                      dateTime: completedAt,
+                      onDateTimeChanged: (time) {
+                        setState(() {
+                          completedAt = time;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            buildLabelWithChild(
+              label: context.appLocal.notes,
+              child: TextFormField(
+                initialValue: notes,
+                onChanged: (text) {
+                  notes = text;
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+            _buildControlSection(context),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
