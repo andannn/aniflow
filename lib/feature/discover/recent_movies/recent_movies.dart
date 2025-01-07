@@ -77,68 +77,74 @@ class RecentMoviesWidget extends StatelessWidget {
           final screenWidth = constrains.maxWidth;
           final imageWidth = min(screenWidth * 0.7, maxMovieImageWidth);
           final imageHeight = imageWidth / imageAspectRadio;
-          final viewportFraction = imageWidth / screenWidth;
           final totalHeight = imageHeight + 50;
+
+          Widget itemBuilder(BuildContext context, int index) {
+            final model = movies[index];
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Card.filled(
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () {
+                      RootRouterDelegate.get().navigateToDetailMedia(model.id);
+                    },
+                    child: AspectRatio(
+                      aspectRatio: imageAspectRadio,
+                      child: AFNetworkImage(
+                        imageUrl: model.coverImage?.extraLarge ?? '',
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Flexible(
+                  flex: 1,
+                  child: Center(
+                    child: Opacity(
+                      opacity: 0.7,
+                      child: AutoSizeText(
+                        model.title?.getTitle(titleLanguage) ?? '',
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Center(
+                    child: Opacity(
+                      opacity: 0.7,
+                      child: model.startDate != null
+                          ? AutoSizeText(
+                              context.materialLocal
+                                  .formatMediumDate(model.startDate!),
+                            )
+                          : const SizedBox(),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
 
           return SizedBox(
             height: totalHeight,
-            child: PageView.builder(
-              controller: PageController(
-                viewportFraction: viewportFraction,
-                initialPage: movies.length > 1 ? 1 : 0,
-              ),
-              itemCount: movies.length,
-              itemBuilder: (context, index) {
-                final model = movies[index];
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Card.filled(
-                      clipBehavior: Clip.antiAlias,
-                      child: InkWell(
-                        onTap: () {
-                          RootRouterDelegate.get()
-                              .navigateToDetailMedia(model.id);
-                        },
-                        child: AspectRatio(
-                          aspectRatio: imageAspectRadio,
-                          child: AFNetworkImage(
-                            imageUrl: model.coverImage?.extraLarge ?? '',
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Flexible(
-                      flex: 1,
-                      child: Center(
-                        child: Opacity(
-                          opacity: 0.7,
-                          child: AutoSizeText(
-                            model.title?.getTitle(titleLanguage) ?? '',
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Center(
-                        child: Opacity(
-                          opacity: 0.7,
-                          child: model.startDate != null
-                              ? AutoSizeText(
-                                  context.materialLocal
-                                      .formatMediumDate(model.startDate!),
-                                )
-                              : const SizedBox(),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
+            child: CustomScrollView(
+              scrollDirection: Axis.horizontal,
+              slivers: [
+                SliverList.builder(
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      width: imageWidth.toDouble(),
+                      child: itemBuilder(context, index),
+                    );
+                  },
+                )
+              ],
             ),
           );
         }),
