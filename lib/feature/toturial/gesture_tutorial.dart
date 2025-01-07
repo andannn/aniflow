@@ -10,28 +10,32 @@ class GestureTutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Card.filled(
-          clipBehavior: Clip.antiAlias,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-          ),
-          child: SizedBox(
-            width: 300,
-            height: 400,
-            child: _AssetVideo(dataSource: datasource),
-          ),
+    return SingleChildScrollView(
+      child: IntrinsicHeight(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Card.filled(
+              clipBehavior: Clip.antiAlias,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+              child: SizedBox(
+                width: 300,
+                height: 400,
+                child: _AssetVideo(dataSource: datasource),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
