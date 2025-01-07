@@ -26,9 +26,15 @@ Widget buildBannerSectionSection(BuildContext context, MediaModel model,
           clipBehavior: Clip.hardEdge,
           child: Hero(
             tag: model.bannerImagePreviewSource,
-            child: AFNetworkImage(
-              height: 128,
-              imageUrl: model.bannerImage ?? '',
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AFNetworkImage(
+                  height: 128,
+                  placeholder: null,
+                  imageUrl: model.bannerImage ?? '',
+                ),
+              ],
             ),
           ),
         ),

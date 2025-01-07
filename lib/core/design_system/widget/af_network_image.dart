@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class AFNetworkImage extends StatelessWidget {
-  const AFNetworkImage(
-      {required this.imageUrl,
-      super.key,
-      this.width,
-      this.height,
-      this.fit = BoxFit.cover});
+  const AFNetworkImage({
+    required this.imageUrl,
+    super.key,
+    this.width,
+    this.height,
+    this.fit = BoxFit.cover,
+    this.placeholder = _buildPlaceHolderWidget,
+  });
 
   final String imageUrl;
   final double? width;
   final double? height;
   final BoxFit fit;
+  final PlaceholderWidgetBuilder? placeholder;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class AFNetworkImage extends StatelessWidget {
 //        memCacheWidth: cacheWidthInPixel,
           fit: fit,
           errorWidget: _buildErrorWidget,
-          placeholder: _buildPlaceHolderWidget,
+          placeholder: placeholder,
           cacheManager: CustomCacheManager(),
         );
       },
@@ -44,12 +47,12 @@ class AFNetworkImage extends StatelessWidget {
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
     );
   }
+}
 
-  Widget _buildPlaceHolderWidget(BuildContext context, String url) {
-    return Container(
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-    );
-  }
+Widget _buildPlaceHolderWidget(BuildContext context, String url) {
+  return Container(
+    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+  );
 }
 
 class CustomCacheManager extends CacheManager with ImageCacheManager {
