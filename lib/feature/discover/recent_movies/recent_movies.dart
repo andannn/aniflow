@@ -39,7 +39,9 @@ class RecentMoviesContent extends StatelessWidget {
       builder: (context, state) {
         return RecentMoviesWidget(
           models: state.movies,
-          titleLanguage: GetItScope.of(context).get<UserDataRepository>().userTitleLanguage,
+          titleLanguage: GetItScope.of(context)
+              .get<UserDataRepository>()
+              .userTitleLanguage,
         );
       },
     );
@@ -64,7 +66,8 @@ class RecentMoviesWidget extends StatelessWidget {
         CategoryTitleBar(
           title: context.appLocal.recentMovies,
           onMoreClick: () {
-            RootRouterDelegate.get().navigateToAiringSchedule(type: ScheduleType.movie);
+            RootRouterDelegate.get()
+                .navigateToAiringSchedule(type: ScheduleType.movie);
           },
         ),
         LayoutBuilder(builder: (context, constrains) {
@@ -87,13 +90,10 @@ class RecentMoviesWidget extends StatelessWidget {
                     onTap: () {
                       RootRouterDelegate.get().navigateToDetailMedia(model.id);
                     },
-                    child: SizedBox(
-                      height: imageHeight,
-                      child: AspectRatio(
-                        aspectRatio: imageAspectRadio,
-                        child: AFNetworkImage(
-                          imageUrl: model.coverImage?.extraLarge ?? '',
-                        ),
+                    child: AspectRatio(
+                      aspectRatio: imageAspectRadio,
+                      child: AFNetworkImage(
+                        imageUrl: model.coverImage?.extraLarge ?? '',
                       ),
                     ),
                   ),
@@ -119,7 +119,8 @@ class RecentMoviesWidget extends StatelessWidget {
                       opacity: 0.7,
                       child: model.startDate != null
                           ? AutoSizeText(
-                              context.materialLocal.formatMediumDate(model.startDate!),
+                              context.materialLocal
+                                  .formatMediumDate(model.startDate!),
                             )
                           : const SizedBox(),
                     ),
@@ -138,7 +139,7 @@ class RecentMoviesWidget extends StatelessWidget {
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
                     return SizedBox(
-
+                      width: imageWidth.toDouble(),
                       child: itemBuilder(context, index),
                     );
                   },
