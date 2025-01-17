@@ -17,6 +17,7 @@ import 'package:aniflow/core/common/setting/user_title_language.dart';
 import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/data/model/home_sector_model.dart';
 import 'package:aniflow/core/data/model/user_data_model.dart';
+import 'package:aniflow/core/database/dao/github_release_dao.dart';
 import 'package:aniflow/core/firebase/analytics/firebase_analytics_util.dart';
 import 'package:aniflow/core/firebase/remote_config/remote_config_manager.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
@@ -26,10 +27,12 @@ import 'package:rxdart/rxdart.dart';
 
 @LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class UserDataRepository {
-  UserDataRepository(this._preferences, this._remoteConfigManager);
+  UserDataRepository(
+      this._preferences, this._remoteConfigManager, this._githubReleaseDao);
 
   final UserDataPreferences _preferences;
   final RemoteConfigManager _remoteConfigManager;
+  final GithubReleaseDao _githubReleaseDao;
 
   Stream<UserDataModel> get userDataStream => _preferences.userDataStream;
 
@@ -115,7 +118,12 @@ class UserDataRepository {
       !BuildEnvironment.isFeatureLimited;
 
   Stream<AppVersion?> get latestAppVersion =>
-      _remoteConfigManager.latestAppVersionStream();
+      _githubReleaseDao.getLatestReleasePackages().map((e) {
+        if (e == null) {
+          return null;
+        }
+        return AppVersion.parse(e.tagName);
+      });
 
   Future setActivityFilterType(ActivityFilterType category) =>
       _preferences.setActivityFilterType(category);

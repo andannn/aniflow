@@ -10,6 +10,7 @@ class AppVersion implements Comparable<AppVersion> {
   AppVersion(this.major, this.minor, this.patch);
 
   factory AppVersion.parse(String version) {
+    version = version.replaceAll('v', '');
     final parts = version.split('.');
     if (parts.length != 3) {
       throw FormatException('Invalid version string: $version');

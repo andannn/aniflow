@@ -23,7 +23,21 @@ void main() {
       final version6 = AppVersion.parse('2.2.2');
       expect(version5.compareTo(version6), -1);
     });
-    
+
+    test('test compare app version with v*', () async {
+      final version = AppVersion.parse('v1.2.3');
+      final version2 = AppVersion.parse('v1.2.4');
+      expect(version.compareTo(version2), -1);
+
+      final version3 = AppVersion.parse('v1.1.2');
+      final version4 = AppVersion.parse('v1.2.2');
+      expect(version3.compareTo(version4), -1);
+
+      final version5 = AppVersion.parse('v1.2.2');
+      final version6 = AppVersion.parse('v2.2.2');
+      expect(version5.compareTo(version6), -1);
+    });
+
     test('test map to version', () async {
       final version = AppVersionUtil.mapToVersion('1.a.3');
       expect(version, equals(null));

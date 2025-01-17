@@ -56,6 +56,7 @@ import 'package:aniflow/core/database/dao/airing_schedules_dao.dart' as _i1007;
 import 'package:aniflow/core/database/dao/character_dao.dart' as _i595;
 import 'package:aniflow/core/database/dao/episode_dao.dart' as _i393;
 import 'package:aniflow/core/database/dao/favorite_dao.dart' as _i609;
+import 'package:aniflow/core/database/dao/github_release_dao.dart' as _i115;
 import 'package:aniflow/core/database/dao/media_dao.dart' as _i509;
 import 'package:aniflow/core/database/dao/media_list_dao.dart' as _i29;
 import 'package:aniflow/core/database/dao/staff_dao.dart' as _i339;
@@ -443,6 +444,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => dIDataBaseModule.geFavoriteDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i393.EpisodeDao>(
         () => dIDataBaseModule.geEpisodeDao(gh<_i545.AniflowDatabase>()));
+    gh.factory<_i115.GithubReleaseDao>(() =>
+        dIDataBaseModule.getGithubReleaseDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i1013.RecentMoviesBloc>(
         () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));
     gh.lazySingleton<_i630.RemoteConfigManager>(
@@ -458,16 +461,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.lazySingleton<_i361.Dio>(
       () => dINetworkModule.getDio(gh<_i918.UserDataPreferences>()),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
-    gh.lazySingleton<_i810.UserDataRepository>(
-      () => _i810.UserDataRepository(
-        gh<_i918.UserDataPreferences>(),
-        gh<_i630.RemoteConfigManager>(),
-      ),
       registerFor: {
         _Mobile,
         _Desktop,
@@ -513,6 +506,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i14.CharacterRepository(
         gh<_i595.CharacterDao>(),
         gh<_i1001.AniListDataSource>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
+    gh.lazySingleton<_i810.UserDataRepository>(
+      () => _i810.UserDataRepository(
+        gh<_i918.UserDataPreferences>(),
+        gh<_i630.RemoteConfigManager>(),
+        gh<_i115.GithubReleaseDao>(),
       ),
       registerFor: {
         _Mobile,

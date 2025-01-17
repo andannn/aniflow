@@ -33,4 +33,9 @@ class GithubRepository {
         .whereNotNull()
         .map((str) => GithubUserModel.fromJson(jsonDecode(str)));
   }
+
+  Future refreshLatestRelease({required String owner, required String repo}) async {
+    final dto = await githubDataSource.getLatestRelease(owner: owner, repo: repo);
+    return dto.toModel();
+  }
 }
