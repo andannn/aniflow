@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ReleasePackageModel {
-  AppVersion get tagName => throw _privateConstructorUsedError;
+  AppVersion get version => throw _privateConstructorUsedError;
   String get downloadUrl => throw _privateConstructorUsedError;
 
   /// Create a copy of ReleasePackageModel
@@ -32,7 +32,7 @@ abstract class $ReleasePackageModelCopyWith<$Res> {
           ReleasePackageModel value, $Res Function(ReleasePackageModel) then) =
       _$ReleasePackageModelCopyWithImpl<$Res, ReleasePackageModel>;
   @useResult
-  $Res call({AppVersion tagName, String downloadUrl});
+  $Res call({AppVersion version, String downloadUrl});
 }
 
 /// @nodoc
@@ -50,13 +50,13 @@ class _$ReleasePackageModelCopyWithImpl<$Res, $Val extends ReleasePackageModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tagName = null,
+    Object? version = null,
     Object? downloadUrl = null,
   }) {
     return _then(_value.copyWith(
-      tagName: null == tagName
-          ? _value.tagName
-          : tagName // ignore: cast_nullable_to_non_nullable
+      version: null == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
               as AppVersion,
       downloadUrl: null == downloadUrl
           ? _value.downloadUrl
@@ -74,7 +74,7 @@ abstract class _$$ReleasePackageModelImplCopyWith<$Res>
       __$$ReleasePackageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppVersion tagName, String downloadUrl});
+  $Res call({AppVersion version, String downloadUrl});
 }
 
 /// @nodoc
@@ -90,13 +90,13 @@ class __$$ReleasePackageModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tagName = null,
+    Object? version = null,
     Object? downloadUrl = null,
   }) {
     return _then(_$ReleasePackageModelImpl(
-      tagName: null == tagName
-          ? _value.tagName
-          : tagName // ignore: cast_nullable_to_non_nullable
+      version: null == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
               as AppVersion,
       downloadUrl: null == downloadUrl
           ? _value.downloadUrl
@@ -110,16 +110,16 @@ class __$$ReleasePackageModelImplCopyWithImpl<$Res>
 
 class _$ReleasePackageModelImpl implements _ReleasePackageModel {
   const _$ReleasePackageModelImpl(
-      {required this.tagName, required this.downloadUrl});
+      {required this.version, required this.downloadUrl});
 
   @override
-  final AppVersion tagName;
+  final AppVersion version;
   @override
   final String downloadUrl;
 
   @override
   String toString() {
-    return 'ReleasePackageModel(tagName: $tagName, downloadUrl: $downloadUrl)';
+    return 'ReleasePackageModel(version: $version, downloadUrl: $downloadUrl)';
   }
 
   @override
@@ -127,13 +127,13 @@ class _$ReleasePackageModelImpl implements _ReleasePackageModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReleasePackageModelImpl &&
-            (identical(other.tagName, tagName) || other.tagName == tagName) &&
+            (identical(other.version, version) || other.version == version) &&
             (identical(other.downloadUrl, downloadUrl) ||
                 other.downloadUrl == downloadUrl));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tagName, downloadUrl);
+  int get hashCode => Object.hash(runtimeType, version, downloadUrl);
 
   /// Create a copy of ReleasePackageModel
   /// with the given fields replaced by the non-null parameter values.
@@ -147,11 +147,11 @@ class _$ReleasePackageModelImpl implements _ReleasePackageModel {
 
 abstract class _ReleasePackageModel implements ReleasePackageModel {
   const factory _ReleasePackageModel(
-      {required final AppVersion tagName,
+      {required final AppVersion version,
       required final String downloadUrl}) = _$ReleasePackageModelImpl;
 
   @override
-  AppVersion get tagName;
+  AppVersion get version;
   @override
   String get downloadUrl;
 

@@ -225,11 +225,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i768.AuthRepository>(),
           gh<_i67.MessageRepository>(),
         ));
-    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
-          gh<_i810.UserDataRepository>(),
-          gh<_i768.AuthRepository>(),
-          gh<_i67.MessageRepository>(),
-        ));
     gh.factory<_i336.MovieScheduleTimeLineBloc>(
         () => _i336.MovieScheduleTimeLineBloc(
               gh<_i970.MediaInformationRepository>(),
@@ -525,16 +520,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i638.HiAnimationDataSource>(
         () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
-    gh.lazySingleton<_i309.GithubRepository>(
-      () => _i309.GithubRepository(
-        gh<_i70.GithubDataSource>(),
-        gh<_i918.UserDataPreferences>(),
-      ),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
     gh.lazySingleton<_i319.MediaListRepository>(
       () => _i319.MediaListRepository(
         gh<_i1026.AuthDataSource>(),
@@ -632,6 +617,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i609.FavoriteDao>(),
         gh<_i918.UserDataPreferences>(),
         gh<_i159.StudioDao>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
+    gh.lazySingleton<_i309.GithubRepository>(
+      () => _i309.GithubRepository(
+        gh<_i70.GithubDataSource>(),
+        gh<_i918.UserDataPreferences>(),
+        gh<_i115.GithubReleaseDao>(),
       ),
       registerFor: {
         _Mobile,
@@ -768,6 +764,12 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
           gh<_i810.UserDataRepository>(),
+        ));
+    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
+          gh<_i810.UserDataRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i309.GithubRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
     gh.factoryParam<_i553.ActivityRepliesBloc, String, dynamic>((
       activityId,

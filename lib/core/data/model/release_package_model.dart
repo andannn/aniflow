@@ -6,7 +6,7 @@ part 'release_package_model.freezed.dart';
 @freezed
 class ReleasePackageModel with _$ReleasePackageModel {
   const factory ReleasePackageModel({
-    required AppVersion tagName,
+    required AppVersion version,
     required String downloadUrl,
   }) = _ReleasePackageModel;
 }

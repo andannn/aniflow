@@ -1237,13 +1237,13 @@ mixin _$AssetDto {
   String? get label => throw _privateConstructorUsedError;
   @JsonKey(name: 'uploader')
   UploaderDto? get uploader => throw _privateConstructorUsedError;
-  @JsonKey(name: 'contentType')
+  @JsonKey(name: 'content_type')
   String? get contentType => throw _privateConstructorUsedError;
   @JsonKey(name: 'state')
   String? get state => throw _privateConstructorUsedError;
   @JsonKey(name: 'size')
   int? get size => throw _privateConstructorUsedError;
-  @JsonKey(name: 'downloadCount')
+  @JsonKey(name: 'download_count')
   int? get downloadCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -1274,10 +1274,10 @@ abstract class $AssetDtoCopyWith<$Res> {
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'label') String? label,
       @JsonKey(name: 'uploader') UploaderDto? uploader,
-      @JsonKey(name: 'contentType') String? contentType,
+      @JsonKey(name: 'content_type') String? contentType,
       @JsonKey(name: 'state') String? state,
       @JsonKey(name: 'size') int? size,
-      @JsonKey(name: 'downloadCount') int? downloadCount,
+      @JsonKey(name: 'download_count') int? downloadCount,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'browser_download_url') String browserDownloadUrl});
@@ -1400,10 +1400,10 @@ abstract class _$$AssetDtoImplCopyWith<$Res>
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'label') String? label,
       @JsonKey(name: 'uploader') UploaderDto? uploader,
-      @JsonKey(name: 'contentType') String? contentType,
+      @JsonKey(name: 'content_type') String? contentType,
       @JsonKey(name: 'state') String? state,
       @JsonKey(name: 'size') int? size,
-      @JsonKey(name: 'downloadCount') int? downloadCount,
+      @JsonKey(name: 'download_count') int? downloadCount,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'browser_download_url') String browserDownloadUrl});
@@ -1506,10 +1506,10 @@ class _$AssetDtoImpl implements _AssetDto {
       @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'label') this.label,
       @JsonKey(name: 'uploader') this.uploader,
-      @JsonKey(name: 'contentType') this.contentType,
+      @JsonKey(name: 'content_type') this.contentType,
       @JsonKey(name: 'state') this.state,
       @JsonKey(name: 'size') this.size,
-      @JsonKey(name: 'downloadCount') this.downloadCount,
+      @JsonKey(name: 'download_count') this.downloadCount,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'browser_download_url') required this.browserDownloadUrl});
@@ -1536,7 +1536,7 @@ class _$AssetDtoImpl implements _AssetDto {
   @JsonKey(name: 'uploader')
   final UploaderDto? uploader;
   @override
-  @JsonKey(name: 'contentType')
+  @JsonKey(name: 'content_type')
   final String? contentType;
   @override
   @JsonKey(name: 'state')
@@ -1545,7 +1545,7 @@ class _$AssetDtoImpl implements _AssetDto {
   @JsonKey(name: 'size')
   final int? size;
   @override
-  @JsonKey(name: 'downloadCount')
+  @JsonKey(name: 'download_count')
   final int? downloadCount;
   @override
   @JsonKey(name: 'created_at')
@@ -1630,10 +1630,10 @@ abstract class _AssetDto implements AssetDto {
       @JsonKey(name: 'name') final String? name,
       @JsonKey(name: 'label') final String? label,
       @JsonKey(name: 'uploader') final UploaderDto? uploader,
-      @JsonKey(name: 'contentType') final String? contentType,
+      @JsonKey(name: 'content_type') final String? contentType,
       @JsonKey(name: 'state') final String? state,
       @JsonKey(name: 'size') final int? size,
-      @JsonKey(name: 'downloadCount') final int? downloadCount,
+      @JsonKey(name: 'download_count') final int? downloadCount,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'updated_at') required final DateTime updatedAt,
       @JsonKey(name: 'browser_download_url')
@@ -1661,7 +1661,7 @@ abstract class _AssetDto implements AssetDto {
   @JsonKey(name: 'uploader')
   UploaderDto? get uploader;
   @override
-  @JsonKey(name: 'contentType')
+  @JsonKey(name: 'content_type')
   String? get contentType;
   @override
   @JsonKey(name: 'state')
@@ -1670,7 +1670,7 @@ abstract class _AssetDto implements AssetDto {
   @JsonKey(name: 'size')
   int? get size;
   @override
-  @JsonKey(name: 'downloadCount')
+  @JsonKey(name: 'download_count')
   int? get downloadCount;
   @override
   @JsonKey(name: 'created_at')

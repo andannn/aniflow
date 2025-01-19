@@ -8924,15 +8924,8 @@ class $ReleasedPackageTableTable extends ReleasedPackageTable
   late final GeneratedColumn<String> tagName = GeneratedColumn<String>(
       'released_package_tag_name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _releasedTimeMeta =
-      const VerificationMeta('releasedTime');
   @override
-  late final GeneratedColumn<DateTime> releasedTime = GeneratedColumn<DateTime>(
-      'released_package_time', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, apkDownloadUrl, tagName, releasedTime];
+  List<GeneratedColumn> get $columns => [id, apkDownloadUrl, tagName];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -8964,14 +8957,6 @@ class $ReleasedPackageTableTable extends ReleasedPackageTable
     } else if (isInserting) {
       context.missing(_tagNameMeta);
     }
-    if (data.containsKey('released_package_time')) {
-      context.handle(
-          _releasedTimeMeta,
-          releasedTime.isAcceptableOrUnknown(
-              data['released_package_time']!, _releasedTimeMeta));
-    } else if (isInserting) {
-      context.missing(_releasedTimeMeta);
-    }
     return context;
   }
 
@@ -8987,8 +8972,6 @@ class $ReleasedPackageTableTable extends ReleasedPackageTable
           data['${effectivePrefix}released_package_apk_download_url'])!,
       tagName: attachedDatabase.typeMapping.read(DriftSqlType.string,
           data['${effectivePrefix}released_package_tag_name'])!,
-      releasedTime: attachedDatabase.typeMapping.read(DriftSqlType.dateTime,
-          data['${effectivePrefix}released_package_time'])!,
     );
   }
 
@@ -9003,12 +8986,8 @@ class ReleasedPackageEntity extends DataClass
   final int? id;
   final String apkDownloadUrl;
   final String tagName;
-  final DateTime releasedTime;
   const ReleasedPackageEntity(
-      {this.id,
-      required this.apkDownloadUrl,
-      required this.tagName,
-      required this.releasedTime});
+      {this.id, required this.apkDownloadUrl, required this.tagName});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -9017,7 +8996,6 @@ class ReleasedPackageEntity extends DataClass
     }
     map['released_package_apk_download_url'] = Variable<String>(apkDownloadUrl);
     map['released_package_tag_name'] = Variable<String>(tagName);
-    map['released_package_time'] = Variable<DateTime>(releasedTime);
     return map;
   }
 
@@ -9026,7 +9004,6 @@ class ReleasedPackageEntity extends DataClass
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       apkDownloadUrl: Value(apkDownloadUrl),
       tagName: Value(tagName),
-      releasedTime: Value(releasedTime),
     );
   }
 
@@ -9037,7 +9014,6 @@ class ReleasedPackageEntity extends DataClass
       id: serializer.fromJson<int?>(json['id']),
       apkDownloadUrl: serializer.fromJson<String>(json['apkDownloadUrl']),
       tagName: serializer.fromJson<String>(json['tagName']),
-      releasedTime: serializer.fromJson<DateTime>(json['releasedTime']),
     );
   }
   @override
@@ -9047,20 +9023,17 @@ class ReleasedPackageEntity extends DataClass
       'id': serializer.toJson<int?>(id),
       'apkDownloadUrl': serializer.toJson<String>(apkDownloadUrl),
       'tagName': serializer.toJson<String>(tagName),
-      'releasedTime': serializer.toJson<DateTime>(releasedTime),
     };
   }
 
   ReleasedPackageEntity copyWith(
           {Value<int?> id = const Value.absent(),
           String? apkDownloadUrl,
-          String? tagName,
-          DateTime? releasedTime}) =>
+          String? tagName}) =>
       ReleasedPackageEntity(
         id: id.present ? id.value : this.id,
         apkDownloadUrl: apkDownloadUrl ?? this.apkDownloadUrl,
         tagName: tagName ?? this.tagName,
-        releasedTime: releasedTime ?? this.releasedTime,
       );
   ReleasedPackageEntity copyWithCompanion(ReleasedPackageTableCompanion data) {
     return ReleasedPackageEntity(
@@ -9069,9 +9042,6 @@ class ReleasedPackageEntity extends DataClass
           ? data.apkDownloadUrl.value
           : this.apkDownloadUrl,
       tagName: data.tagName.present ? data.tagName.value : this.tagName,
-      releasedTime: data.releasedTime.present
-          ? data.releasedTime.value
-          : this.releasedTime,
     );
   }
 
@@ -9080,22 +9050,20 @@ class ReleasedPackageEntity extends DataClass
     return (StringBuffer('ReleasedPackageEntity(')
           ..write('id: $id, ')
           ..write('apkDownloadUrl: $apkDownloadUrl, ')
-          ..write('tagName: $tagName, ')
-          ..write('releasedTime: $releasedTime')
+          ..write('tagName: $tagName')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, apkDownloadUrl, tagName, releasedTime);
+  int get hashCode => Object.hash(id, apkDownloadUrl, tagName);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ReleasedPackageEntity &&
           other.id == this.id &&
           other.apkDownloadUrl == this.apkDownloadUrl &&
-          other.tagName == this.tagName &&
-          other.releasedTime == this.releasedTime);
+          other.tagName == this.tagName);
 }
 
 class ReleasedPackageTableCompanion
@@ -9103,46 +9071,38 @@ class ReleasedPackageTableCompanion
   final Value<int?> id;
   final Value<String> apkDownloadUrl;
   final Value<String> tagName;
-  final Value<DateTime> releasedTime;
   const ReleasedPackageTableCompanion({
     this.id = const Value.absent(),
     this.apkDownloadUrl = const Value.absent(),
     this.tagName = const Value.absent(),
-    this.releasedTime = const Value.absent(),
   });
   ReleasedPackageTableCompanion.insert({
     this.id = const Value.absent(),
     required String apkDownloadUrl,
     required String tagName,
-    required DateTime releasedTime,
   })  : apkDownloadUrl = Value(apkDownloadUrl),
-        tagName = Value(tagName),
-        releasedTime = Value(releasedTime);
+        tagName = Value(tagName);
   static Insertable<ReleasedPackageEntity> custom({
     Expression<int>? id,
     Expression<String>? apkDownloadUrl,
     Expression<String>? tagName,
-    Expression<DateTime>? releasedTime,
   }) {
     return RawValuesInsertable({
       if (id != null) 'released_package_id': id,
       if (apkDownloadUrl != null)
         'released_package_apk_download_url': apkDownloadUrl,
       if (tagName != null) 'released_package_tag_name': tagName,
-      if (releasedTime != null) 'released_package_time': releasedTime,
     });
   }
 
   ReleasedPackageTableCompanion copyWith(
       {Value<int?>? id,
       Value<String>? apkDownloadUrl,
-      Value<String>? tagName,
-      Value<DateTime>? releasedTime}) {
+      Value<String>? tagName}) {
     return ReleasedPackageTableCompanion(
       id: id ?? this.id,
       apkDownloadUrl: apkDownloadUrl ?? this.apkDownloadUrl,
       tagName: tagName ?? this.tagName,
-      releasedTime: releasedTime ?? this.releasedTime,
     );
   }
 
@@ -9159,9 +9119,6 @@ class ReleasedPackageTableCompanion
     if (tagName.present) {
       map['released_package_tag_name'] = Variable<String>(tagName.value);
     }
-    if (releasedTime.present) {
-      map['released_package_time'] = Variable<DateTime>(releasedTime.value);
-    }
     return map;
   }
 
@@ -9170,8 +9127,7 @@ class ReleasedPackageTableCompanion
     return (StringBuffer('ReleasedPackageTableCompanion(')
           ..write('id: $id, ')
           ..write('apkDownloadUrl: $apkDownloadUrl, ')
-          ..write('tagName: $tagName, ')
-          ..write('releasedTime: $releasedTime')
+          ..write('tagName: $tagName')
           ..write(')'))
         .toString();
   }
@@ -13600,14 +13556,12 @@ typedef $$ReleasedPackageTableTableCreateCompanionBuilder
   Value<int?> id,
   required String apkDownloadUrl,
   required String tagName,
-  required DateTime releasedTime,
 });
 typedef $$ReleasedPackageTableTableUpdateCompanionBuilder
     = ReleasedPackageTableCompanion Function({
   Value<int?> id,
   Value<String> apkDownloadUrl,
   Value<String> tagName,
-  Value<DateTime> releasedTime,
 });
 
 class $$ReleasedPackageTableTableFilterComposer
@@ -13628,9 +13582,6 @@ class $$ReleasedPackageTableTableFilterComposer
 
   ColumnFilters<String> get tagName => $composableBuilder(
       column: $table.tagName, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get releasedTime => $composableBuilder(
-      column: $table.releasedTime, builder: (column) => ColumnFilters(column));
 }
 
 class $$ReleasedPackageTableTableOrderingComposer
@@ -13651,10 +13602,6 @@ class $$ReleasedPackageTableTableOrderingComposer
 
   ColumnOrderings<String> get tagName => $composableBuilder(
       column: $table.tagName, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get releasedTime => $composableBuilder(
-      column: $table.releasedTime,
-      builder: (column) => ColumnOrderings(column));
 }
 
 class $$ReleasedPackageTableTableAnnotationComposer
@@ -13674,9 +13621,6 @@ class $$ReleasedPackageTableTableAnnotationComposer
 
   GeneratedColumn<String> get tagName =>
       $composableBuilder(column: $table.tagName, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get releasedTime => $composableBuilder(
-      column: $table.releasedTime, builder: (column) => column);
 }
 
 class $$ReleasedPackageTableTableTableManager extends RootTableManager<
@@ -13712,25 +13656,21 @@ class $$ReleasedPackageTableTableTableManager extends RootTableManager<
             Value<int?> id = const Value.absent(),
             Value<String> apkDownloadUrl = const Value.absent(),
             Value<String> tagName = const Value.absent(),
-            Value<DateTime> releasedTime = const Value.absent(),
           }) =>
               ReleasedPackageTableCompanion(
             id: id,
             apkDownloadUrl: apkDownloadUrl,
             tagName: tagName,
-            releasedTime: releasedTime,
           ),
           createCompanionCallback: ({
             Value<int?> id = const Value.absent(),
             required String apkDownloadUrl,
             required String tagName,
-            required DateTime releasedTime,
           }) =>
               ReleasedPackageTableCompanion.insert(
             id: id,
             apkDownloadUrl: apkDownloadUrl,
             tagName: tagName,
-            releasedTime: releasedTime,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
