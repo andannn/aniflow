@@ -27,7 +27,7 @@ class _DownloadingDialog extends StatefulWidget {
 class _DownloadingDialogState extends State<_DownloadingDialog> {
   CancelToken cancelToken = CancelToken();
 
-  double _progress = 0.5;
+  double _progress = 0;
 
   @override
   void initState() {

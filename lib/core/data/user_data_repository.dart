@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
@@ -115,7 +116,7 @@ class UserDataRepository {
   bool get useInAppPlayer => _preferences.userData.useInAppPlayer;
 
   bool get isAppUpdateDialogFeatureEnabled =>
-      !BuildEnvironment.isFeatureLimited;
+      Platform.isAndroid && !BuildEnvironment.isFeatureLimited;
 
   Stream<AppVersion?> get latestAppVersion =>
       _githubReleaseDao.getLatestReleasePackages().map((e) {
