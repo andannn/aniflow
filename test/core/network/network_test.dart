@@ -27,10 +27,10 @@ void main() {
       githubDataSource = GithubDataSource(dio);
     });
 
-    // test('getPlayLink', () async {
-    //   final source = await dataSource.getPlayLink("128750");
-    //   logger.d(source);
-    // });
+    test('getPlayLink', () async {
+      final source = await dataSource.getPlayLink("128750");
+      logger.d(source);
+    });
 
     test('aaa', () async {
       final source = await githubDataSource.getLatestRelease(
