@@ -77,7 +77,7 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase(super.executor);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   DriftDatabaseOptions get options =>
@@ -166,6 +166,9 @@ class AniflowDatabase extends _$AniflowDatabase {
               schema.episodeTable.playSourceSiteUrl);
           await m.addColumn(episodeTable, schema.episodeTable.playSourceType);
           await m.addColumn(episodeTable, schema.episodeTable.playableLink);
+        },
+        from8To9: (Migrator m, Schema9 schema) async {
+          await m.createTable(schema.releasedPackageTable);
         },
       ),
     );
