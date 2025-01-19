@@ -56,6 +56,22 @@ Map<String, dynamic> _$$SlideGestureTutorialDialogImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$DownloadingDialogImpl _$$DownloadingDialogImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DownloadingDialogImpl(
+      downloadUrl: json['downloadUrl'] as String,
+      savePath: json['savePath'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$DownloadingDialogImplToJson(
+        _$DownloadingDialogImpl instance) =>
+    <String, dynamic>{
+      'downloadUrl': instance.downloadUrl,
+      'savePath': instance.savePath,
+      'runtimeType': instance.$type,
+    };
+
 _$AniFlowAboutDialogImpl _$$AniFlowAboutDialogImplFromJson(
         Map<String, dynamic> json) =>
     _$AniFlowAboutDialogImpl(
