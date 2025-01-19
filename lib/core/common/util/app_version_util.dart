@@ -53,9 +53,10 @@ class AppVersion implements Comparable<AppVersion> {
 }
 
 mixin AppVersionUtil {
-  static Future<AppVersion?> get currentVersion => PackageInfo.fromPlatform()
-      .then((package) => package.version)
-      .then((version) => mapToVersion(version));
+  // static Future<AppVersion?> get currentVersion => PackageInfo.fromPlatform()
+  //     .then((package) => package.version)
+  //     .then((version) => mapToVersion(version));
+  static Future<AppVersion?> get currentVersion => Future.value(AppVersion(0, 2,12));
 
   static AppVersion? mapToVersion(String version) {
     String trimmedString = version;
