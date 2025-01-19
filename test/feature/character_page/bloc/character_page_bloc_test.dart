@@ -8,6 +8,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/data/mocks/mock_github_release_dao.dart';
 import '../../../core/data/mocks/mock_remote_config_manager.dart';
 
 void main() {
@@ -21,7 +22,9 @@ void main() {
       final sharedPref = await SharedPreferences.getInstance();
       UserDataPreferences preferences = UserDataPreferences(sharedPref);
       RemoteConfigManager remoteConfigManager = MockRemoteConfigManager();
-      userDataRepository = UserDataRepository(preferences, remoteConfigManager);
+      final githubReleaseDao = MockGithubReleaseDao();
+      userDataRepository = UserDataRepository(
+          preferences, remoteConfigManager, githubReleaseDao);
     });
 
     tearDown(() async {});

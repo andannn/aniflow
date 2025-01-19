@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'mocks/mock_github_data_source.dart';
+import 'mocks/mock_github_release_dao.dart';
 
 void main() {
   group('github_repository_test', () {
@@ -16,8 +17,9 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       final sharedPref = await SharedPreferences.getInstance();
       preferences = UserDataPreferences(sharedPref);
-
-      repository = GithubRepository(MockGithubDataSource(), preferences);
+      final githubReleaseDao = MockGithubReleaseDao();
+      repository = GithubRepository(
+          MockGithubDataSource(), preferences, githubReleaseDao);
     });
 
     test('refresh Github Info', () async {

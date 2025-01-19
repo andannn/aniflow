@@ -5,6 +5,7 @@ import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
+import 'package:aniflow/core/database/dao/github_release_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
@@ -26,6 +27,7 @@ import 'package:aniflow/core/database/tables/media_list_table.dart';
 import 'package:aniflow/core/database/tables/media_relation_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/media_staff_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
+import 'package:aniflow/core/database/tables/released_package_table.dart';
 import 'package:aniflow/core/database/tables/staff_table.dart';
 import 'package:aniflow/core/database/tables/studio_media_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/studio_table.dart';
@@ -55,6 +57,7 @@ part 'aniflow_database.g.dart';
     CategoryMediaPagingCrossRefTable,
     FavoriteInfoTable,
     EpisodeTable,
+    ReleasedPackageTable,
   ],
   daos: [
     UserDao,
@@ -67,13 +70,14 @@ part 'aniflow_database.g.dart';
     MediaDao,
     FavoriteDao,
     EpisodeDao,
+    GithubReleaseDao,
   ],
 )
 class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase(super.executor);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   DriftDatabaseOptions get options =>
@@ -162,6 +166,9 @@ class AniflowDatabase extends _$AniflowDatabase {
               schema.episodeTable.playSourceSiteUrl);
           await m.addColumn(episodeTable, schema.episodeTable.playSourceType);
           await m.addColumn(episodeTable, schema.episodeTable.playableLink);
+        },
+        from8To9: (Migrator m, Schema9 schema) async {
+          await m.createTable(schema.releasedPackageTable);
         },
       ),
     );

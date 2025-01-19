@@ -1,13 +1,17 @@
 package com.andannn.aniflow
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
-import io.flutter.embedding.android.FlutterActivity
+import androidx.core.content.FileProvider
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugins.GeneratedPluginRegistrant
+import java.io.File
 
 private const val TAG = "MainActivity"
 
@@ -30,7 +34,7 @@ class MainActivity : FlutterFragmentActivity() {
         )
         methodChannel = MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger,
-            "com.andannn.animetracker/navi"
+            "com.andannn.animetracker/platform_method"
         )
         authChannel.setStreamHandler(
             /* handler = */ object : EventChannel.StreamHandler {
@@ -43,6 +47,23 @@ class MainActivity : FlutterFragmentActivity() {
                     authEventSink = null
                 }
             })
+        methodChannel.setMethodCallHandler { call, result ->
+            onMethodCall(call, result)
+        }
+    }
+
+    private fun onMethodCall(call: MethodCall, result: Result) {
+        if (call.method == "installPackage") {
+            val path: String = call.argument<String>("path") ?: return result.error(
+                /* errorCode = */ "ERROR",
+                /* errorMessage = */ "param is null",
+                /* errorDetails = */ null,
+            )
+
+            installApk(this, path)
+        } else {
+            result.notImplemented()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -63,6 +84,20 @@ class MainActivity : FlutterFragmentActivity() {
             // Launched by deep link, let flutter handle the uri.
             flutterEngine?.navigationChannel?.pushRouteInformation(it.toString())
         }
+    }
+
+    private fun installApk(context: Context, path: String) {
+        val intent = Intent(Intent.ACTION_VIEW).also { intent ->
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true)
+            intent.data = FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID + ".provider",
+                File(path)
+            )
+        }
+        context.startActivity(intent)
     }
 }
 

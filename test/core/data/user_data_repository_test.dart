@@ -3,6 +3,7 @@ import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'mocks/mock_github_release_dao.dart';
 import 'mocks/mock_remote_config_manager.dart';
 
 class MockUserDataPreferences extends Fake implements UserDataPreferences {
@@ -26,8 +27,10 @@ void main() {
     setUp(() async {
       final remoteConfig = MockRemoteConfigManager();
       final userDataPref = MockUserDataPreferences();
+      final githubReleaseDao = MockGithubReleaseDao();
 
-      repository = UserDataRepository(userDataPref, remoteConfig);
+      repository =
+          UserDataRepository(userDataPref, remoteConfig, githubReleaseDao);
     });
 
     test('can refresh without set', () async {

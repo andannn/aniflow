@@ -11,6 +11,7 @@ import 'package:aniflow/core/database/dao/airing_schedules_dao.dart';
 import 'package:aniflow/core/database/dao/character_dao.dart';
 import 'package:aniflow/core/database/dao/episode_dao.dart';
 import 'package:aniflow/core/database/dao/favorite_dao.dart';
+import 'package:aniflow/core/database/dao/github_release_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
@@ -62,6 +63,8 @@ abstract class DIDataBaseModule {
   FavoriteDao geFavoriteDao(AniflowDatabase db) => db.favoriteDao;
 
   EpisodeDao geEpisodeDao(AniflowDatabase db) => db.episodeDao;
+
+  GithubReleaseDao getGithubReleaseDao(AniflowDatabase db) => db.githubReleaseDao;
 }
 
 FutureOr<DatabaseConnection> _openIsolateConnection() async {

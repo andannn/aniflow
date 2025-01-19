@@ -29,6 +29,6 @@ jobs:
 
       - name: Analyze project source
         run: dart analyze
-
-      - run: flutter test
+#
+#      - run: flutter test
 

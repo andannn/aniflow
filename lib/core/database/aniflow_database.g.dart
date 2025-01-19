@@ -8897,6 +8897,242 @@ class EpisodeTableCompanion extends UpdateCompanion<EpisodeEntity> {
   }
 }
 
+class $ReleasedPackageTableTable extends ReleasedPackageTable
+    with TableInfo<$ReleasedPackageTableTable, ReleasedPackageEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReleasedPackageTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'released_package_id', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _apkDownloadUrlMeta =
+      const VerificationMeta('apkDownloadUrl');
+  @override
+  late final GeneratedColumn<String> apkDownloadUrl = GeneratedColumn<String>(
+      'released_package_apk_download_url', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _tagNameMeta =
+      const VerificationMeta('tagName');
+  @override
+  late final GeneratedColumn<String> tagName = GeneratedColumn<String>(
+      'released_package_tag_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, apkDownloadUrl, tagName];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'released_package_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ReleasedPackageEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('released_package_id')) {
+      context.handle(_idMeta,
+          id.isAcceptableOrUnknown(data['released_package_id']!, _idMeta));
+    }
+    if (data.containsKey('released_package_apk_download_url')) {
+      context.handle(
+          _apkDownloadUrlMeta,
+          apkDownloadUrl.isAcceptableOrUnknown(
+              data['released_package_apk_download_url']!, _apkDownloadUrlMeta));
+    } else if (isInserting) {
+      context.missing(_apkDownloadUrlMeta);
+    }
+    if (data.containsKey('released_package_tag_name')) {
+      context.handle(
+          _tagNameMeta,
+          tagName.isAcceptableOrUnknown(
+              data['released_package_tag_name']!, _tagNameMeta));
+    } else if (isInserting) {
+      context.missing(_tagNameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ReleasedPackageEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReleasedPackageEntity(
+      id: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}released_package_id']),
+      apkDownloadUrl: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}released_package_apk_download_url'])!,
+      tagName: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}released_package_tag_name'])!,
+    );
+  }
+
+  @override
+  $ReleasedPackageTableTable createAlias(String alias) {
+    return $ReleasedPackageTableTable(attachedDatabase, alias);
+  }
+}
+
+class ReleasedPackageEntity extends DataClass
+    implements Insertable<ReleasedPackageEntity> {
+  final int? id;
+  final String apkDownloadUrl;
+  final String tagName;
+  const ReleasedPackageEntity(
+      {this.id, required this.apkDownloadUrl, required this.tagName});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['released_package_id'] = Variable<int>(id);
+    }
+    map['released_package_apk_download_url'] = Variable<String>(apkDownloadUrl);
+    map['released_package_tag_name'] = Variable<String>(tagName);
+    return map;
+  }
+
+  ReleasedPackageTableCompanion toCompanion(bool nullToAbsent) {
+    return ReleasedPackageTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      apkDownloadUrl: Value(apkDownloadUrl),
+      tagName: Value(tagName),
+    );
+  }
+
+  factory ReleasedPackageEntity.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReleasedPackageEntity(
+      id: serializer.fromJson<int?>(json['id']),
+      apkDownloadUrl: serializer.fromJson<String>(json['apkDownloadUrl']),
+      tagName: serializer.fromJson<String>(json['tagName']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'apkDownloadUrl': serializer.toJson<String>(apkDownloadUrl),
+      'tagName': serializer.toJson<String>(tagName),
+    };
+  }
+
+  ReleasedPackageEntity copyWith(
+          {Value<int?> id = const Value.absent(),
+          String? apkDownloadUrl,
+          String? tagName}) =>
+      ReleasedPackageEntity(
+        id: id.present ? id.value : this.id,
+        apkDownloadUrl: apkDownloadUrl ?? this.apkDownloadUrl,
+        tagName: tagName ?? this.tagName,
+      );
+  ReleasedPackageEntity copyWithCompanion(ReleasedPackageTableCompanion data) {
+    return ReleasedPackageEntity(
+      id: data.id.present ? data.id.value : this.id,
+      apkDownloadUrl: data.apkDownloadUrl.present
+          ? data.apkDownloadUrl.value
+          : this.apkDownloadUrl,
+      tagName: data.tagName.present ? data.tagName.value : this.tagName,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReleasedPackageEntity(')
+          ..write('id: $id, ')
+          ..write('apkDownloadUrl: $apkDownloadUrl, ')
+          ..write('tagName: $tagName')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, apkDownloadUrl, tagName);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReleasedPackageEntity &&
+          other.id == this.id &&
+          other.apkDownloadUrl == this.apkDownloadUrl &&
+          other.tagName == this.tagName);
+}
+
+class ReleasedPackageTableCompanion
+    extends UpdateCompanion<ReleasedPackageEntity> {
+  final Value<int?> id;
+  final Value<String> apkDownloadUrl;
+  final Value<String> tagName;
+  const ReleasedPackageTableCompanion({
+    this.id = const Value.absent(),
+    this.apkDownloadUrl = const Value.absent(),
+    this.tagName = const Value.absent(),
+  });
+  ReleasedPackageTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String apkDownloadUrl,
+    required String tagName,
+  })  : apkDownloadUrl = Value(apkDownloadUrl),
+        tagName = Value(tagName);
+  static Insertable<ReleasedPackageEntity> custom({
+    Expression<int>? id,
+    Expression<String>? apkDownloadUrl,
+    Expression<String>? tagName,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'released_package_id': id,
+      if (apkDownloadUrl != null)
+        'released_package_apk_download_url': apkDownloadUrl,
+      if (tagName != null) 'released_package_tag_name': tagName,
+    });
+  }
+
+  ReleasedPackageTableCompanion copyWith(
+      {Value<int?>? id,
+      Value<String>? apkDownloadUrl,
+      Value<String>? tagName}) {
+    return ReleasedPackageTableCompanion(
+      id: id ?? this.id,
+      apkDownloadUrl: apkDownloadUrl ?? this.apkDownloadUrl,
+      tagName: tagName ?? this.tagName,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['released_package_id'] = Variable<int>(id.value);
+    }
+    if (apkDownloadUrl.present) {
+      map['released_package_apk_download_url'] =
+          Variable<String>(apkDownloadUrl.value);
+    }
+    if (tagName.present) {
+      map['released_package_tag_name'] = Variable<String>(tagName.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReleasedPackageTableCompanion(')
+          ..write('id: $id, ')
+          ..write('apkDownloadUrl: $apkDownloadUrl, ')
+          ..write('tagName: $tagName')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AniflowDatabase extends GeneratedDatabase {
   _$AniflowDatabase(QueryExecutor e) : super(e);
   $AniflowDatabaseManager get managers => $AniflowDatabaseManager(this);
@@ -8935,6 +9171,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
   late final $FavoriteInfoTableTable favoriteInfoTable =
       $FavoriteInfoTableTable(this);
   late final $EpisodeTableTable episodeTable = $EpisodeTableTable(this);
+  late final $ReleasedPackageTableTable releasedPackageTable =
+      $ReleasedPackageTableTable(this);
   late final UserDao userDao = UserDao(this as AniflowDatabase);
   late final StudioDao studioDao = StudioDao(this as AniflowDatabase);
   late final StaffDao staffDao = StaffDao(this as AniflowDatabase);
@@ -8946,6 +9184,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
   late final MediaDao mediaDao = MediaDao(this as AniflowDatabase);
   late final FavoriteDao favoriteDao = FavoriteDao(this as AniflowDatabase);
   late final EpisodeDao episodeDao = EpisodeDao(this as AniflowDatabase);
+  late final GithubReleaseDao githubReleaseDao =
+      GithubReleaseDao(this as AniflowDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8969,7 +9209,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
         mediaExternalLinkTable,
         categoryMediaPagingCrossRefTable,
         favoriteInfoTable,
-        episodeTable
+        episodeTable,
+        releasedPackageTable
       ];
 }
 
@@ -13310,6 +13551,151 @@ typedef $$EpisodeTableTableProcessedTableManager = ProcessedTableManager<
     ),
     EpisodeEntity,
     PrefetchHooks Function()>;
+typedef $$ReleasedPackageTableTableCreateCompanionBuilder
+    = ReleasedPackageTableCompanion Function({
+  Value<int?> id,
+  required String apkDownloadUrl,
+  required String tagName,
+});
+typedef $$ReleasedPackageTableTableUpdateCompanionBuilder
+    = ReleasedPackageTableCompanion Function({
+  Value<int?> id,
+  Value<String> apkDownloadUrl,
+  Value<String> tagName,
+});
+
+class $$ReleasedPackageTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $ReleasedPackageTableTable> {
+  $$ReleasedPackageTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get apkDownloadUrl => $composableBuilder(
+      column: $table.apkDownloadUrl,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get tagName => $composableBuilder(
+      column: $table.tagName, builder: (column) => ColumnFilters(column));
+}
+
+class $$ReleasedPackageTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $ReleasedPackageTableTable> {
+  $$ReleasedPackageTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get apkDownloadUrl => $composableBuilder(
+      column: $table.apkDownloadUrl,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get tagName => $composableBuilder(
+      column: $table.tagName, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ReleasedPackageTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $ReleasedPackageTableTable> {
+  $$ReleasedPackageTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get apkDownloadUrl => $composableBuilder(
+      column: $table.apkDownloadUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get tagName =>
+      $composableBuilder(column: $table.tagName, builder: (column) => column);
+}
+
+class $$ReleasedPackageTableTableTableManager extends RootTableManager<
+    _$AniflowDatabase,
+    $ReleasedPackageTableTable,
+    ReleasedPackageEntity,
+    $$ReleasedPackageTableTableFilterComposer,
+    $$ReleasedPackageTableTableOrderingComposer,
+    $$ReleasedPackageTableTableAnnotationComposer,
+    $$ReleasedPackageTableTableCreateCompanionBuilder,
+    $$ReleasedPackageTableTableUpdateCompanionBuilder,
+    (
+      ReleasedPackageEntity,
+      BaseReferences<_$AniflowDatabase, $ReleasedPackageTableTable,
+          ReleasedPackageEntity>
+    ),
+    ReleasedPackageEntity,
+    PrefetchHooks Function()> {
+  $$ReleasedPackageTableTableTableManager(
+      _$AniflowDatabase db, $ReleasedPackageTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReleasedPackageTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReleasedPackageTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReleasedPackageTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int?> id = const Value.absent(),
+            Value<String> apkDownloadUrl = const Value.absent(),
+            Value<String> tagName = const Value.absent(),
+          }) =>
+              ReleasedPackageTableCompanion(
+            id: id,
+            apkDownloadUrl: apkDownloadUrl,
+            tagName: tagName,
+          ),
+          createCompanionCallback: ({
+            Value<int?> id = const Value.absent(),
+            required String apkDownloadUrl,
+            required String tagName,
+          }) =>
+              ReleasedPackageTableCompanion.insert(
+            id: id,
+            apkDownloadUrl: apkDownloadUrl,
+            tagName: tagName,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ReleasedPackageTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $ReleasedPackageTableTable,
+        ReleasedPackageEntity,
+        $$ReleasedPackageTableTableFilterComposer,
+        $$ReleasedPackageTableTableOrderingComposer,
+        $$ReleasedPackageTableTableAnnotationComposer,
+        $$ReleasedPackageTableTableCreateCompanionBuilder,
+        $$ReleasedPackageTableTableUpdateCompanionBuilder,
+        (
+          ReleasedPackageEntity,
+          BaseReferences<_$AniflowDatabase, $ReleasedPackageTableTable,
+              ReleasedPackageEntity>
+        ),
+        ReleasedPackageEntity,
+        PrefetchHooks Function()>;
 
 class $AniflowDatabaseManager {
   final _$AniflowDatabase _db;
@@ -13368,4 +13754,6 @@ class $AniflowDatabaseManager {
       $$FavoriteInfoTableTableTableManager(_db, _db.favoriteInfoTable);
   $$EpisodeTableTableTableManager get episodeTable =>
       $$EpisodeTableTableTableManager(_db, _db.episodeTable);
+  $$ReleasedPackageTableTableTableManager get releasedPackageTable =>
+      $$ReleasedPackageTableTableTableManager(_db, _db.releasedPackageTable);
 }

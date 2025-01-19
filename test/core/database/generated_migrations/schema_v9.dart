@@ -260,14 +260,14 @@ class ActivityTable extends Table with TableInfo {
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("activity_isLiked" IN (0, 1))'),
-      defaultValue: const Constant(false));
+      defaultValue: const Constant<bool>(false));
   late final GeneratedColumn<bool> isPinned = GeneratedColumn<bool>(
       'activity_isPinned', aliasedName, true,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("activity_isPinned" IN (0, 1))'),
-      defaultValue: const Constant(false));
+      defaultValue: const Constant<bool>(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1083,21 +1083,36 @@ class EpisodeTable extends Table with TableInfo {
   late final GeneratedColumn<String> animeId = GeneratedColumn<String>(
       'episode_anime_cross_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  late final GeneratedColumn<String> episodeId = GeneratedColumn<String>(
-      'episode_source_episode_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'episode_title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  late final GeneratedColumn<String> url = GeneratedColumn<String>(
-      'episode_url', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   late final GeneratedColumn<String> episodeNum = GeneratedColumn<String>(
       'episode_number', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> playSourceType = GeneratedColumn<String>(
+      'episode_play_source_type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> playSourceId = GeneratedColumn<String>(
+      'episode_play_source_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> playSourceSiteUrl =
+      GeneratedColumn<String>(
+          'episode_play_source_site_url', aliasedName, false,
+          type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> playableLink = GeneratedColumn<String>(
+      'episode_site_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, animeId, episodeId, title, url, episodeNum];
+  List<GeneratedColumn> get $columns => [
+        id,
+        animeId,
+        title,
+        episodeNum,
+        playSourceType,
+        playSourceId,
+        playSourceSiteUrl,
+        playableLink
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1116,8 +1131,46 @@ class EpisodeTable extends Table with TableInfo {
   }
 }
 
-class DatabaseAtV7 extends GeneratedDatabase {
-  DatabaseAtV7(QueryExecutor e) : super(e);
+class ReleasedPackageTable extends Table with TableInfo {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  ReleasedPackageTable(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'released_package_id', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  late final GeneratedColumn<String> apkDownloadUrl = GeneratedColumn<String>(
+      'released_package_apk_download_url', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> tagName = GeneratedColumn<String>(
+      'released_package_tag_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, apkDownloadUrl, tagName];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'released_package_table';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Never map(Map<String, dynamic> data, {String? tablePrefix}) {
+    throw UnsupportedError('TableInfo.map in schema verification code');
+  }
+
+  @override
+  ReleasedPackageTable createAlias(String alias) {
+    return ReleasedPackageTable(attachedDatabase, alias);
+  }
+}
+
+class DatabaseAtV9 extends GeneratedDatabase {
+  DatabaseAtV9(QueryExecutor e) : super(e);
   late final UserTable userTable = UserTable(this);
   late final StudioTable studioTable = StudioTable(this);
   late final StaffTable staffTable = StaffTable(this);
@@ -1150,6 +1203,8 @@ class DatabaseAtV7 extends GeneratedDatabase {
       CategoryMediaPagingCrossRefTable(this);
   late final FavoriteInfoTable favoriteInfoTable = FavoriteInfoTable(this);
   late final EpisodeTable episodeTable = EpisodeTable(this);
+  late final ReleasedPackageTable releasedPackageTable =
+      ReleasedPackageTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1173,8 +1228,9 @@ class DatabaseAtV7 extends GeneratedDatabase {
         mediaExternalLinkTable,
         categoryMediaPagingCrossRefTable,
         favoriteInfoTable,
-        episodeTable
+        episodeTable,
+        releasedPackageTable
       ];
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 9;
 }

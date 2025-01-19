@@ -56,6 +56,7 @@ import 'package:aniflow/core/database/dao/airing_schedules_dao.dart' as _i1007;
 import 'package:aniflow/core/database/dao/character_dao.dart' as _i595;
 import 'package:aniflow/core/database/dao/episode_dao.dart' as _i393;
 import 'package:aniflow/core/database/dao/favorite_dao.dart' as _i609;
+import 'package:aniflow/core/database/dao/github_release_dao.dart' as _i115;
 import 'package:aniflow/core/database/dao/media_dao.dart' as _i509;
 import 'package:aniflow/core/database/dao/media_list_dao.dart' as _i29;
 import 'package:aniflow/core/database/dao/staff_dao.dart' as _i339;
@@ -220,11 +221,6 @@ extension GetItInjectableX on _i174.GetIt {
       registerFor: {_Mock},
     );
     gh.factory<_i565.SettingsBloc>(() => _i565.SettingsBloc(
-          gh<_i810.UserDataRepository>(),
-          gh<_i768.AuthRepository>(),
-          gh<_i67.MessageRepository>(),
-        ));
-    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
           gh<_i810.UserDataRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i67.MessageRepository>(),
@@ -443,6 +439,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => dIDataBaseModule.geFavoriteDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i393.EpisodeDao>(
         () => dIDataBaseModule.geEpisodeDao(gh<_i545.AniflowDatabase>()));
+    gh.factory<_i115.GithubReleaseDao>(() =>
+        dIDataBaseModule.getGithubReleaseDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i1013.RecentMoviesBloc>(
         () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));
     gh.lazySingleton<_i630.RemoteConfigManager>(
@@ -458,16 +456,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.lazySingleton<_i361.Dio>(
       () => dINetworkModule.getDio(gh<_i918.UserDataPreferences>()),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
-    gh.lazySingleton<_i810.UserDataRepository>(
-      () => _i810.UserDataRepository(
-        gh<_i918.UserDataPreferences>(),
-        gh<_i630.RemoteConfigManager>(),
-      ),
       registerFor: {
         _Mobile,
         _Desktop,
@@ -519,18 +507,19 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.lazySingleton<_i638.HiAnimationDataSource>(
-        () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
-    gh.lazySingleton<_i309.GithubRepository>(
-      () => _i309.GithubRepository(
-        gh<_i70.GithubDataSource>(),
+    gh.lazySingleton<_i810.UserDataRepository>(
+      () => _i810.UserDataRepository(
         gh<_i918.UserDataPreferences>(),
+        gh<_i630.RemoteConfigManager>(),
+        gh<_i115.GithubReleaseDao>(),
       ),
       registerFor: {
         _Mobile,
         _Desktop,
       },
     );
+    gh.lazySingleton<_i638.HiAnimationDataSource>(
+        () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i319.MediaListRepository>(
       () => _i319.MediaListRepository(
         gh<_i1026.AuthDataSource>(),
@@ -628,6 +617,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i609.FavoriteDao>(),
         gh<_i918.UserDataPreferences>(),
         gh<_i159.StudioDao>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
+    gh.lazySingleton<_i309.GithubRepository>(
+      () => _i309.GithubRepository(
+        gh<_i70.GithubDataSource>(),
+        gh<_i918.UserDataPreferences>(),
+        gh<_i115.GithubReleaseDao>(),
       ),
       registerFor: {
         _Mobile,
@@ -764,6 +764,12 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
           gh<_i810.UserDataRepository>(),
+        ));
+    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
+          gh<_i810.UserDataRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i309.GithubRepository>(),
+          gh<_i67.MessageRepository>(),
         ));
     gh.factoryParam<_i553.ActivityRepliesBloc, String, dynamic>((
       activityId,

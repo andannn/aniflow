@@ -1,6 +1,6 @@
+// dart format width=80
 // GENERATED CODE, DO NOT EDIT BY HAND.
 // ignore_for_file: type=lint
-//@dart=2.12
 import 'package:drift/drift.dart';
 import 'package:drift/internal/migrations.dart';
 import 'schema_v1.dart' as v1;
@@ -11,6 +11,7 @@ import 'schema_v5.dart' as v5;
 import 'schema_v6.dart' as v6;
 import 'schema_v7.dart' as v7;
 import 'schema_v8.dart' as v8;
+import 'schema_v9.dart' as v9;
 
 class GeneratedHelper implements SchemaInstantiationHelper {
   @override
@@ -32,8 +33,12 @@ class GeneratedHelper implements SchemaInstantiationHelper {
         return v7.DatabaseAtV7(db);
       case 8:
         return v8.DatabaseAtV8(db);
+      case 9:
+        return v9.DatabaseAtV9(db);
       default:
-        throw MissingSchemaException(version, const {1, 2, 3, 4, 5, 6, 7, 8});
+        throw MissingSchemaException(version, versions);
     }
   }
+
+  static const versions = const [1, 2, 3, 4, 5, 6, 7, 8, 9];
 }

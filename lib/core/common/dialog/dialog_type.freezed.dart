@@ -24,6 +24,8 @@ DialogType _$DialogTypeFromJson(Map<String, dynamic> json) {
       return LongPressGestureTutorialDialog.fromJson(json);
     case 'slideGestureTutorial':
       return SlideGestureTutorialDialog.fromJson(json);
+    case 'downloading':
+      return DownloadingDialog.fromJson(json);
     case 'about':
       return AniFlowAboutDialog.fromJson(json);
 
@@ -42,6 +44,7 @@ mixin _$DialogType {
     required TResult Function() appUpToDate,
     required TResult Function() longPressGestureTutorial,
     required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
     required TResult Function(String appVersion) about,
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +54,7 @@ mixin _$DialogType {
     TResult? Function()? appUpToDate,
     TResult? Function()? longPressGestureTutorial,
     TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
     TResult? Function(String appVersion)? about,
   }) =>
       throw _privateConstructorUsedError;
@@ -60,6 +64,7 @@ mixin _$DialogType {
     TResult Function()? appUpToDate,
     TResult Function()? longPressGestureTutorial,
     TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
     TResult Function(String appVersion)? about,
     required TResult orElse(),
   }) =>
@@ -72,6 +77,7 @@ mixin _$DialogType {
         longPressGestureTutorial,
     required TResult Function(SlideGestureTutorialDialog value)
         slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
     required TResult Function(AniFlowAboutDialog value) about,
   }) =>
       throw _privateConstructorUsedError;
@@ -82,6 +88,7 @@ mixin _$DialogType {
     TResult? Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
     TResult? Function(AniFlowAboutDialog value)? about,
   }) =>
       throw _privateConstructorUsedError;
@@ -92,6 +99,7 @@ mixin _$DialogType {
     TResult Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
     TResult Function(AniFlowAboutDialog value)? about,
     required TResult orElse(),
   }) =>
@@ -208,6 +216,7 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
     required TResult Function() appUpToDate,
     required TResult Function() longPressGestureTutorial,
     required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
     required TResult Function(String appVersion) about,
   }) {
     return appUpdate(appVersion);
@@ -220,6 +229,7 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
     TResult? Function()? appUpToDate,
     TResult? Function()? longPressGestureTutorial,
     TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
     TResult? Function(String appVersion)? about,
   }) {
     return appUpdate?.call(appVersion);
@@ -232,6 +242,7 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
     TResult Function()? appUpToDate,
     TResult Function()? longPressGestureTutorial,
     TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
     TResult Function(String appVersion)? about,
     required TResult orElse(),
   }) {
@@ -250,6 +261,7 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
         longPressGestureTutorial,
     required TResult Function(SlideGestureTutorialDialog value)
         slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
     required TResult Function(AniFlowAboutDialog value) about,
   }) {
     return appUpdate(this);
@@ -263,6 +275,7 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
     TResult? Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
     TResult? Function(AniFlowAboutDialog value)? about,
   }) {
     return appUpdate?.call(this);
@@ -276,6 +289,7 @@ class _$AppUpdateDialogImpl implements AppUpdateDialog {
     TResult Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
     TResult Function(AniFlowAboutDialog value)? about,
     required TResult orElse(),
   }) {
@@ -365,6 +379,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
     required TResult Function() appUpToDate,
     required TResult Function() longPressGestureTutorial,
     required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
     required TResult Function(String appVersion) about,
   }) {
     return appUpToDate();
@@ -377,6 +392,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
     TResult? Function()? appUpToDate,
     TResult? Function()? longPressGestureTutorial,
     TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
     TResult? Function(String appVersion)? about,
   }) {
     return appUpToDate?.call();
@@ -389,6 +405,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
     TResult Function()? appUpToDate,
     TResult Function()? longPressGestureTutorial,
     TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
     TResult Function(String appVersion)? about,
     required TResult orElse(),
   }) {
@@ -407,6 +424,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
         longPressGestureTutorial,
     required TResult Function(SlideGestureTutorialDialog value)
         slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
     required TResult Function(AniFlowAboutDialog value) about,
   }) {
     return appUpToDate(this);
@@ -420,6 +438,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
     TResult? Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
     TResult? Function(AniFlowAboutDialog value)? about,
   }) {
     return appUpToDate?.call(this);
@@ -433,6 +452,7 @@ class _$AppUpToDateDialogImpl implements AppUpToDateDialog {
     TResult Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
     TResult Function(AniFlowAboutDialog value)? about,
     required TResult orElse(),
   }) {
@@ -516,6 +536,7 @@ class _$LongPressGestureTutorialDialogImpl
     required TResult Function() appUpToDate,
     required TResult Function() longPressGestureTutorial,
     required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
     required TResult Function(String appVersion) about,
   }) {
     return longPressGestureTutorial();
@@ -528,6 +549,7 @@ class _$LongPressGestureTutorialDialogImpl
     TResult? Function()? appUpToDate,
     TResult? Function()? longPressGestureTutorial,
     TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
     TResult? Function(String appVersion)? about,
   }) {
     return longPressGestureTutorial?.call();
@@ -540,6 +562,7 @@ class _$LongPressGestureTutorialDialogImpl
     TResult Function()? appUpToDate,
     TResult Function()? longPressGestureTutorial,
     TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
     TResult Function(String appVersion)? about,
     required TResult orElse(),
   }) {
@@ -558,6 +581,7 @@ class _$LongPressGestureTutorialDialogImpl
         longPressGestureTutorial,
     required TResult Function(SlideGestureTutorialDialog value)
         slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
     required TResult Function(AniFlowAboutDialog value) about,
   }) {
     return longPressGestureTutorial(this);
@@ -571,6 +595,7 @@ class _$LongPressGestureTutorialDialogImpl
     TResult? Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
     TResult? Function(AniFlowAboutDialog value)? about,
   }) {
     return longPressGestureTutorial?.call(this);
@@ -584,6 +609,7 @@ class _$LongPressGestureTutorialDialogImpl
     TResult Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
     TResult Function(AniFlowAboutDialog value)? about,
     required TResult orElse(),
   }) {
@@ -668,6 +694,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
     required TResult Function() appUpToDate,
     required TResult Function() longPressGestureTutorial,
     required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
     required TResult Function(String appVersion) about,
   }) {
     return slideGestureTutorial();
@@ -680,6 +707,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
     TResult? Function()? appUpToDate,
     TResult? Function()? longPressGestureTutorial,
     TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
     TResult? Function(String appVersion)? about,
   }) {
     return slideGestureTutorial?.call();
@@ -692,6 +720,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
     TResult Function()? appUpToDate,
     TResult Function()? longPressGestureTutorial,
     TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
     TResult Function(String appVersion)? about,
     required TResult orElse(),
   }) {
@@ -710,6 +739,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
         longPressGestureTutorial,
     required TResult Function(SlideGestureTutorialDialog value)
         slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
     required TResult Function(AniFlowAboutDialog value) about,
   }) {
     return slideGestureTutorial(this);
@@ -723,6 +753,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
     TResult? Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
     TResult? Function(AniFlowAboutDialog value)? about,
   }) {
     return slideGestureTutorial?.call(this);
@@ -736,6 +767,7 @@ class _$SlideGestureTutorialDialogImpl implements SlideGestureTutorialDialog {
     TResult Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
     TResult Function(AniFlowAboutDialog value)? about,
     required TResult orElse(),
   }) {
@@ -759,6 +791,208 @@ abstract class SlideGestureTutorialDialog
 
   factory SlideGestureTutorialDialog.fromJson(Map<String, dynamic> json) =
       _$SlideGestureTutorialDialogImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$DownloadingDialogImplCopyWith<$Res> {
+  factory _$$DownloadingDialogImplCopyWith(_$DownloadingDialogImpl value,
+          $Res Function(_$DownloadingDialogImpl) then) =
+      __$$DownloadingDialogImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String downloadUrl, String savePath});
+}
+
+/// @nodoc
+class __$$DownloadingDialogImplCopyWithImpl<$Res>
+    extends _$DialogTypeCopyWithImpl<$Res, _$DownloadingDialogImpl>
+    implements _$$DownloadingDialogImplCopyWith<$Res> {
+  __$$DownloadingDialogImplCopyWithImpl(_$DownloadingDialogImpl _value,
+      $Res Function(_$DownloadingDialogImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? downloadUrl = null,
+    Object? savePath = null,
+  }) {
+    return _then(_$DownloadingDialogImpl(
+      downloadUrl: null == downloadUrl
+          ? _value.downloadUrl
+          : downloadUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      savePath: null == savePath
+          ? _value.savePath
+          : savePath // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DownloadingDialogImpl implements DownloadingDialog {
+  const _$DownloadingDialogImpl(
+      {required this.downloadUrl, required this.savePath, final String? $type})
+      : $type = $type ?? 'downloading';
+
+  factory _$DownloadingDialogImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DownloadingDialogImplFromJson(json);
+
+  @override
+  final String downloadUrl;
+  @override
+  final String savePath;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'DialogType.downloading(downloadUrl: $downloadUrl, savePath: $savePath)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DownloadingDialogImpl &&
+            (identical(other.downloadUrl, downloadUrl) ||
+                other.downloadUrl == downloadUrl) &&
+            (identical(other.savePath, savePath) ||
+                other.savePath == savePath));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, downloadUrl, savePath);
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DownloadingDialogImplCopyWith<_$DownloadingDialogImpl> get copyWith =>
+      __$$DownloadingDialogImplCopyWithImpl<_$DownloadingDialogImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(@DialogTypeJsonConverter() String appVersion)
+        appUpdate,
+    required TResult Function() appUpToDate,
+    required TResult Function() longPressGestureTutorial,
+    required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
+    required TResult Function(String appVersion) about,
+  }) {
+    return downloading(downloadUrl, savePath);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(@DialogTypeJsonConverter() String appVersion)? appUpdate,
+    TResult? Function()? appUpToDate,
+    TResult? Function()? longPressGestureTutorial,
+    TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
+    TResult? Function(String appVersion)? about,
+  }) {
+    return downloading?.call(downloadUrl, savePath);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(@DialogTypeJsonConverter() String appVersion)? appUpdate,
+    TResult Function()? appUpToDate,
+    TResult Function()? longPressGestureTutorial,
+    TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
+    TResult Function(String appVersion)? about,
+    required TResult orElse(),
+  }) {
+    if (downloading != null) {
+      return downloading(downloadUrl, savePath);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AppUpdateDialog value) appUpdate,
+    required TResult Function(AppUpToDateDialog value) appUpToDate,
+    required TResult Function(LongPressGestureTutorialDialog value)
+        longPressGestureTutorial,
+    required TResult Function(SlideGestureTutorialDialog value)
+        slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
+    required TResult Function(AniFlowAboutDialog value) about,
+  }) {
+    return downloading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AppUpdateDialog value)? appUpdate,
+    TResult? Function(AppUpToDateDialog value)? appUpToDate,
+    TResult? Function(LongPressGestureTutorialDialog value)?
+        longPressGestureTutorial,
+    TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
+    TResult? Function(AniFlowAboutDialog value)? about,
+  }) {
+    return downloading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AppUpdateDialog value)? appUpdate,
+    TResult Function(AppUpToDateDialog value)? appUpToDate,
+    TResult Function(LongPressGestureTutorialDialog value)?
+        longPressGestureTutorial,
+    TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
+    TResult Function(AniFlowAboutDialog value)? about,
+    required TResult orElse(),
+  }) {
+    if (downloading != null) {
+      return downloading(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DownloadingDialogImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class DownloadingDialog implements DialogType {
+  const factory DownloadingDialog(
+      {required final String downloadUrl,
+      required final String savePath}) = _$DownloadingDialogImpl;
+
+  factory DownloadingDialog.fromJson(Map<String, dynamic> json) =
+      _$DownloadingDialogImpl.fromJson;
+
+  String get downloadUrl;
+  String get savePath;
+
+  /// Create a copy of DialogType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DownloadingDialogImplCopyWith<_$DownloadingDialogImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -845,6 +1079,7 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
     required TResult Function() appUpToDate,
     required TResult Function() longPressGestureTutorial,
     required TResult Function() slideGestureTutorial,
+    required TResult Function(String downloadUrl, String savePath) downloading,
     required TResult Function(String appVersion) about,
   }) {
     return about(appVersion);
@@ -857,6 +1092,7 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
     TResult? Function()? appUpToDate,
     TResult? Function()? longPressGestureTutorial,
     TResult? Function()? slideGestureTutorial,
+    TResult? Function(String downloadUrl, String savePath)? downloading,
     TResult? Function(String appVersion)? about,
   }) {
     return about?.call(appVersion);
@@ -869,6 +1105,7 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
     TResult Function()? appUpToDate,
     TResult Function()? longPressGestureTutorial,
     TResult Function()? slideGestureTutorial,
+    TResult Function(String downloadUrl, String savePath)? downloading,
     TResult Function(String appVersion)? about,
     required TResult orElse(),
   }) {
@@ -887,6 +1124,7 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
         longPressGestureTutorial,
     required TResult Function(SlideGestureTutorialDialog value)
         slideGestureTutorial,
+    required TResult Function(DownloadingDialog value) downloading,
     required TResult Function(AniFlowAboutDialog value) about,
   }) {
     return about(this);
@@ -900,6 +1138,7 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
     TResult? Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult? Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult? Function(DownloadingDialog value)? downloading,
     TResult? Function(AniFlowAboutDialog value)? about,
   }) {
     return about?.call(this);
@@ -913,6 +1152,7 @@ class _$AniFlowAboutDialogImpl implements AniFlowAboutDialog {
     TResult Function(LongPressGestureTutorialDialog value)?
         longPressGestureTutorial,
     TResult Function(SlideGestureTutorialDialog value)? slideGestureTutorial,
+    TResult Function(DownloadingDialog value)? downloading,
     TResult Function(AniFlowAboutDialog value)? about,
     required TResult orElse(),
   }) {

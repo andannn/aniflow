@@ -25,6 +25,10 @@ sealed class DialogType with _$DialogType {
   @Implements<TutorialDialog>()
   const factory DialogType.slideGestureTutorial() = SlideGestureTutorialDialog;
 
+  const factory DialogType.downloading(
+      {required String downloadUrl,
+      required String savePath}) = DownloadingDialog;
+
   const factory DialogType.about({required String appVersion}) =
       AniFlowAboutDialog;
 

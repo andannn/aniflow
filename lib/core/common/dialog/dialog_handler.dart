@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aniflow/app/di/get_it_scope.dart';
 import 'package:aniflow/core/common/dialog/about_dialog.dart';
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
+import 'package:aniflow/core/common/dialog/downloading_dialog.dart';
 import 'package:aniflow/core/common/dialog/message_dialog.dart';
 import 'package:aniflow/core/common/dialog/tutorial_dialog.dart';
 import 'package:aniflow/core/common/util/logger.dart';
@@ -89,6 +90,8 @@ Future<T?> _showDialog<T>({
     } else if (type is TutorialDialog) {
       return (type as TutorialDialog).buildDialog(context);
     } else if (type is AniFlowAboutDialog) {
+      return type.buildDialog(context);
+    } else if (type is DownloadingDialog) {
       return type.buildDialog(context);
     } else {
       throw Exception('Unknown dialog type: $type');
