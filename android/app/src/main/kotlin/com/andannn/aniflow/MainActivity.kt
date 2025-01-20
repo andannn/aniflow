@@ -61,6 +61,7 @@ class MainActivity : FlutterFragmentActivity() {
             )
 
             installApk(this, path)
+            result.success(null)
         } else {
             result.notImplemented()
         }

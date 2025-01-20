@@ -303,10 +303,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i847.EditProfileBloc>(
         () => _i847.EditProfileBloc(gh<_i768.AuthRepository>()));
-    gh.factory<_i308.CheckForUpdateBloc>(() => _i308.CheckForUpdateBloc(
-          gh<_i810.UserDataRepository>(),
-          gh<_i67.MessageRepository>(),
-        ));
     gh.lazySingleton<_i918.UserDataPreferences>(
         () => _i918.UserDataPreferences(gh<_i460.SharedPreferences>()));
     gh.factoryParam<_i782.StaffPageBloc, String, dynamic>((
@@ -788,6 +784,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i951.ActivityRepository>(),
           gh<_i67.MessageRepository>(),
           activityId,
+        ));
+    gh.factory<_i308.CheckForUpdateBloc>(() => _i308.CheckForUpdateBloc(
+          gh<_i67.MessageRepository>(),
+          gh<_i309.GithubRepository>(),
         ));
     gh.factory<_i462.PostAnilistNotificationExecutor>(
         () => _i462.PostAnilistNotificationExecutor(

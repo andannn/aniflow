@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +42,7 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Downloading'),
+      title: Text(context.appLocal.downloading),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,9 +63,8 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
           onPressed: () async {
             // cancel download process and delete temp file.
             cancelToken.cancel();
-            Navigator.of(context).pop(DownloadResult.canceled);
           },
-          child: const Text('Cancel'),
+          child: Text(context.materialLocal.cancelButtonLabel),
         ),
       ],
     );
@@ -71,9 +73,16 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
   Future _startDownload() async {
     try {
       logger.d("star downloading... savePath: ${widget.savePath}");
+      final tempSavePath = '${widget.savePath}.temp';
+
+      final tempFile = File(tempSavePath);
+      if (await tempFile.exists()) {
+        await tempFile.delete();
+      }
+
       await Dio().download(
         widget.downloadUrl,
-        widget.savePath,
+        tempSavePath,
         cancelToken: cancelToken,
         onReceiveProgress: (received, total) {
           if (total <= 0) return;
@@ -83,10 +92,18 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
           });
         },
       );
+
+      // rename temp file to savePath
+      await File(tempSavePath).rename(widget.savePath);
+
       Navigator.of(context).pop(DownloadResult.success);
     } on DioException catch (e) {
       logger.d("failed to download apk $e");
-      Navigator.of(context).pop(DownloadResult.failed);
+      if (e.type == DioExceptionType.cancel) {
+        Navigator.of(context).pop(DownloadResult.canceled);
+      } else {
+        Navigator.of(context).pop(DownloadResult.failed);
+      }
     }
   }
 }

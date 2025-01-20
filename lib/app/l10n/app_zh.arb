@@ -150,5 +150,6 @@
 	"newAddedAnime": "新增动画",
 	"newAddedManga": "新增漫画",
 	"experimental": "实验功能",
-	"useInAppPlayer": "使用应用内播放器"
+	"useInAppPlayer": "使用应用内播放器",
+	"downloading": "下载中"
 }

@@ -211,5 +211,6 @@
 	"newAddedAnime": "New Added Anime",
 	"newAddedManga": "New Added Manga",
 	"experimental": "Experimental",
-	"useInAppPlayer": "Use in-app-player"
+	"useInAppPlayer": "Use in-app-player",
+	"downloading": "Downloading"
 }

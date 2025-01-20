@@ -179,10 +179,6 @@ class UserDataRepository {
     await _preferences.clearNotificationId();
   }
 
-  Future<AppVersion?> updateAndGetLatestAppVersion() {
-    return _remoteConfigManager.refreshAndGetLatestAppVersion();
-  }
-
   bool canRefresh(RefreshTimeKey key) {
     final lastRefreshTime = _preferences.getLastSuccessRefreshTime(key);
     if (lastRefreshTime == null) {

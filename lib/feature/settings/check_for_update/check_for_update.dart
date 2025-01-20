@@ -38,30 +38,10 @@ class CheckForUpdateContent extends StatelessWidget {
                 context.appLocal.checkForUpdate,
                 style: textTheme.headlineSmall,
               ),
-              if (state.currentVersion != null) ...[
-                const SizedBox(height: 2),
-                Text(
-                  _buildSubText(context, state),
-                  style: textTheme.bodySmall,
-                ),
-              ]
             ],
           ),
         ),
       );
     });
-  }
-
-  String _buildSubText(BuildContext context, CheckForUpdateState state) {
-    final currentVersion = state.currentVersion!;
-    final latestVersion = state.latestVersion;
-    if (latestVersion == null) {
-      return '${context.appLocal.currentVersion}: $currentVersion';
-    }
-    if (currentVersion == latestVersion) {
-      return '${context.appLocal.appUpToDate}: $currentVersion';
-    }
-
-    return context.appLocal.clickToUpdate(latestVersion.toString());
   }
 }

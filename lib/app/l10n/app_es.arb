@@ -150,5 +150,6 @@
 	"newAddedAnime": "Nuevo Anime Añadido",
 	"newAddedManga": "Nuevo Manga Añadido",
 	"experimental": "Experimental",
-	"useInAppPlayer": "Usar reproductor de la aplicación"
+	"useInAppPlayer": "Usar reproductor de la aplicación",
+	"downloading": "Descargando"
 }

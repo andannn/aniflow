@@ -1,23 +1,16 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:aniflow/core/common/dialog/dialog_type.dart';
-import 'package:aniflow/core/common/dialog/downloading_dialog.dart';
-import 'package:aniflow/core/common/dialog/message_dialog.dart';
 import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/data/app_update_dialog_util.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/github_repository.dart';
 import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/user_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/core/platform/platform_channel.dart';
 import 'package:aniflow/feature/aniflow_home/aniflow_home_state.dart';
 import 'package:aniflow/feature/aniflow_home/top_level_navigation.dart';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:path_provider/path_provider.dart';
 
 sealed class AniflowHomeEvent {}
 
@@ -96,46 +89,13 @@ class AniflowHomeBloc extends Bloc<AniflowHomeEvent, AniflowHomeState>
       logger.d('$_tag No latestReleasedPackage');
       return;
     }
-
-    final latestAppVersion = latestReleasedPackage.version;
-    if (latestAppVersion.compareTo(currentVersion) > 0) {
-      logger
-          .d('$_tag show app update dialog latestAppVersion $latestAppVersion');
-      final result = await _messageRepository.showDialog<MessageDialogResult>(
-        DialogType.appUpdate(appVersion: latestAppVersion.toString()),
-      );
-      if (result == MessageDialogResult.clickPositive) {
-        final savedPath = await clearAndGetApkSavePath(latestAppVersion);
-        final downloadResult =
-            await _messageRepository.showDialog<DownloadResult>(
-          DialogType.downloading(
-            downloadUrl: latestReleasedPackage.downloadUrl,
-            savePath: savedPath,
-          ),
-        );
-
-        logger.d('$_tag download end $downloadResult savedPath $savedPath');
-        if (downloadResult == DownloadResult.success) {
-          unawaited(PlatformMethod().installPackage(savedPath));
-        }
-      }
-    } else {
-      logger.d('$_tag no need to update $latestAppVersion');
-    }
-  }
-
-  Future<String> clearAndGetApkSavePath(AppVersion v) async {
-    final folder = await getTemporaryDirectory();
-    final savedFolder = '${folder.path}/apk';
-    final savedPath = '$savedFolder/${v.major}_${v.minor}_${v.patch}.apk';
-
-    if (await Directory(savedFolder).exists()) {
-      await Directory(savedFolder).delete(recursive: true);
-    }
-
-    return savedPath;
+    await showAppUpdateDialogIfNeeded(
+      messageRepository: _messageRepository,
+      latestReleasedPackage: latestReleasedPackage,
+    );
   }
 }
+
 
 extension AniflowHomeStateEx on AniflowHomeState {
   bool get isLogIn => userModel != null;

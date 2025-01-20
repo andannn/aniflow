@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CheckForUpdateState {
   bool get isLoading => throw _privateConstructorUsedError;
   AppVersion? get currentVersion => throw _privateConstructorUsedError;
-  AppVersion? get latestVersion => throw _privateConstructorUsedError;
+  ReleasePackageModel? get latestReleasedPackage =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of CheckForUpdateState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,11 @@ abstract class $CheckForUpdateStateCopyWith<$Res> {
       _$CheckForUpdateStateCopyWithImpl<$Res, CheckForUpdateState>;
   @useResult
   $Res call(
-      {bool isLoading, AppVersion? currentVersion, AppVersion? latestVersion});
+      {bool isLoading,
+      AppVersion? currentVersion,
+      ReleasePackageModel? latestReleasedPackage});
+
+  $ReleasePackageModelCopyWith<$Res>? get latestReleasedPackage;
 }
 
 /// @nodoc
@@ -54,7 +59,7 @@ class _$CheckForUpdateStateCopyWithImpl<$Res, $Val extends CheckForUpdateState>
   $Res call({
     Object? isLoading = null,
     Object? currentVersion = freezed,
-    Object? latestVersion = freezed,
+    Object? latestReleasedPackage = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -65,11 +70,26 @@ class _$CheckForUpdateStateCopyWithImpl<$Res, $Val extends CheckForUpdateState>
           ? _value.currentVersion
           : currentVersion // ignore: cast_nullable_to_non_nullable
               as AppVersion?,
-      latestVersion: freezed == latestVersion
-          ? _value.latestVersion
-          : latestVersion // ignore: cast_nullable_to_non_nullable
-              as AppVersion?,
+      latestReleasedPackage: freezed == latestReleasedPackage
+          ? _value.latestReleasedPackage
+          : latestReleasedPackage // ignore: cast_nullable_to_non_nullable
+              as ReleasePackageModel?,
     ) as $Val);
+  }
+
+  /// Create a copy of CheckForUpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ReleasePackageModelCopyWith<$Res>? get latestReleasedPackage {
+    if (_value.latestReleasedPackage == null) {
+      return null;
+    }
+
+    return $ReleasePackageModelCopyWith<$Res>(_value.latestReleasedPackage!,
+        (value) {
+      return _then(_value.copyWith(latestReleasedPackage: value) as $Val);
+    });
   }
 }
 
@@ -82,7 +102,12 @@ abstract class _$$CheckForUpdateStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading, AppVersion? currentVersion, AppVersion? latestVersion});
+      {bool isLoading,
+      AppVersion? currentVersion,
+      ReleasePackageModel? latestReleasedPackage});
+
+  @override
+  $ReleasePackageModelCopyWith<$Res>? get latestReleasedPackage;
 }
 
 /// @nodoc
@@ -100,7 +125,7 @@ class __$$CheckForUpdateStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? currentVersion = freezed,
-    Object? latestVersion = freezed,
+    Object? latestReleasedPackage = freezed,
   }) {
     return _then(_$CheckForUpdateStateImpl(
       isLoading: null == isLoading
@@ -111,10 +136,10 @@ class __$$CheckForUpdateStateImplCopyWithImpl<$Res>
           ? _value.currentVersion
           : currentVersion // ignore: cast_nullable_to_non_nullable
               as AppVersion?,
-      latestVersion: freezed == latestVersion
-          ? _value.latestVersion
-          : latestVersion // ignore: cast_nullable_to_non_nullable
-              as AppVersion?,
+      latestReleasedPackage: freezed == latestReleasedPackage
+          ? _value.latestReleasedPackage
+          : latestReleasedPackage // ignore: cast_nullable_to_non_nullable
+              as ReleasePackageModel?,
     ));
   }
 }
@@ -123,7 +148,9 @@ class __$$CheckForUpdateStateImplCopyWithImpl<$Res>
 
 class _$CheckForUpdateStateImpl implements _CheckForUpdateState {
   const _$CheckForUpdateStateImpl(
-      {this.isLoading = false, this.currentVersion, this.latestVersion});
+      {this.isLoading = false,
+      this.currentVersion,
+      this.latestReleasedPackage});
 
   @override
   @JsonKey()
@@ -131,11 +158,11 @@ class _$CheckForUpdateStateImpl implements _CheckForUpdateState {
   @override
   final AppVersion? currentVersion;
   @override
-  final AppVersion? latestVersion;
+  final ReleasePackageModel? latestReleasedPackage;
 
   @override
   String toString() {
-    return 'CheckForUpdateState(isLoading: $isLoading, currentVersion: $currentVersion, latestVersion: $latestVersion)';
+    return 'CheckForUpdateState(isLoading: $isLoading, currentVersion: $currentVersion, latestReleasedPackage: $latestReleasedPackage)';
   }
 
   @override
@@ -147,13 +174,13 @@ class _$CheckForUpdateStateImpl implements _CheckForUpdateState {
                 other.isLoading == isLoading) &&
             (identical(other.currentVersion, currentVersion) ||
                 other.currentVersion == currentVersion) &&
-            (identical(other.latestVersion, latestVersion) ||
-                other.latestVersion == latestVersion));
+            (identical(other.latestReleasedPackage, latestReleasedPackage) ||
+                other.latestReleasedPackage == latestReleasedPackage));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, currentVersion, latestVersion);
+  int get hashCode => Object.hash(
+      runtimeType, isLoading, currentVersion, latestReleasedPackage);
 
   /// Create a copy of CheckForUpdateState
   /// with the given fields replaced by the non-null parameter values.
@@ -167,16 +194,17 @@ class _$CheckForUpdateStateImpl implements _CheckForUpdateState {
 
 abstract class _CheckForUpdateState implements CheckForUpdateState {
   const factory _CheckForUpdateState(
-      {final bool isLoading,
-      final AppVersion? currentVersion,
-      final AppVersion? latestVersion}) = _$CheckForUpdateStateImpl;
+          {final bool isLoading,
+          final AppVersion? currentVersion,
+          final ReleasePackageModel? latestReleasedPackage}) =
+      _$CheckForUpdateStateImpl;
 
   @override
   bool get isLoading;
   @override
   AppVersion? get currentVersion;
   @override
-  AppVersion? get latestVersion;
+  ReleasePackageModel? get latestReleasedPackage;
 
   /// Create a copy of CheckForUpdateState
   /// with the given fields replaced by the non-null parameter values.
