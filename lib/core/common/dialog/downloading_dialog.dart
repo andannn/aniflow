@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
@@ -71,9 +73,16 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
   Future _startDownload() async {
     try {
       logger.d("star downloading... savePath: ${widget.savePath}");
+      final tempSavePath = '${widget.savePath}.temp';
+
+      final tempFile = File(tempSavePath);
+      if (await tempFile.exists()) {
+        await tempFile.delete();
+      }
+
       await Dio().download(
         widget.downloadUrl,
-        widget.savePath,
+        tempSavePath,
         cancelToken: cancelToken,
         onReceiveProgress: (received, total) {
           if (total <= 0) return;
@@ -83,6 +92,10 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
           });
         },
       );
+
+      // rename temp file to savePath
+      await File(tempSavePath).rename(widget.savePath);
+
       Navigator.of(context).pop(DownloadResult.success);
     } on DioException catch (e) {
       logger.d("failed to download apk $e");

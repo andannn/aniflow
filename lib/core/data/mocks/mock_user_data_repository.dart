@@ -181,11 +181,6 @@ class MockUserDataRepository implements UserDataRepository {
       Stream.value(UserTitleLanguage.native);
 
   @override
-  Future<AppVersion?> updateAndGetLatestAppVersion() {
-    return Future.value(null);
-  }
-
-  @override
   Stream<UserDataModel> get userDataStream =>
       Stream.value(const UserDataModel());
 
