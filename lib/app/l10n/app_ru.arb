@@ -150,5 +150,6 @@
 	"newAddedAnime": "Новое Добавленное Аниме",
 	"newAddedManga": "Новый Добавленный Манга",
 	"experimental": "экспериментальный",
-	"useInAppPlayer": "Использовать встроенный плеер"
+	"useInAppPlayer": "Использовать встроенный плеер",
+	"downloading": "Загрузка"
 }

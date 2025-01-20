@@ -1,5 +1,6 @@
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
 import 'package:aniflow/core/common/util/logger.dart';
+import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,7 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Downloading'),
+      title: Text(context.appLocal.appUpgrade),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,7 +63,7 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
             cancelToken.cancel();
             Navigator.of(context).pop(DownloadResult.canceled);
           },
-          child: const Text('Cancel'),
+          child: Text(context.materialLocal.cancelButtonLabel),
         ),
       ],
     );
