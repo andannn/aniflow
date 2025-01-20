@@ -24,7 +24,7 @@ Future<void> showAppUpdateDialogIfNeeded(
   }
 
   final latestAppVersion = latestReleasedPackage.version;
-  if (latestAppVersion.compareTo(currentVersion) < 0) {
+  if (latestAppVersion.compareTo(currentVersion) <= 0) {
     logger.d('$_tag no need to update $latestAppVersion');
     return;
   }
