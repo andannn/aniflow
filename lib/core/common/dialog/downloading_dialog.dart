@@ -40,7 +40,7 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(context.appLocal.appUpgrade),
+      title: Text(context.appLocal.downloading),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,7 +61,6 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
           onPressed: () async {
             // cancel download process and delete temp file.
             cancelToken.cancel();
-            Navigator.of(context).pop(DownloadResult.canceled);
           },
           child: Text(context.materialLocal.cancelButtonLabel),
         ),
@@ -87,7 +86,11 @@ class _DownloadingDialogState extends State<_DownloadingDialog> {
       Navigator.of(context).pop(DownloadResult.success);
     } on DioException catch (e) {
       logger.d("failed to download apk $e");
-      Navigator.of(context).pop(DownloadResult.failed);
+      if (e.type == DioExceptionType.cancel) {
+        Navigator.of(context).pop(DownloadResult.canceled);
+      } else {
+        Navigator.of(context).pop(DownloadResult.failed);
+      }
     }
   }
 }
