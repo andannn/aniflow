@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -29,6 +29,6 @@ jobs:
 
       - name: Analyze project source
         run: dart analyze
-#
-#      - run: flutter test
+
+      - run: flutter test
 
