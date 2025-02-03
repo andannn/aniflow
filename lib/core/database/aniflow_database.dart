@@ -21,6 +21,7 @@ import 'package:aniflow/core/database/tables/character_table.dart';
 import 'package:aniflow/core/database/tables/character_voice_actor_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/episode_table.dart';
 import 'package:aniflow/core/database/tables/favorite_info_table.dart';
+import 'package:aniflow/core/database/tables/media_airing_schedule_updated_table.dart';
 import 'package:aniflow/core/database/tables/media_character_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/media_external_link_table.dart';
 import 'package:aniflow/core/database/tables/media_list_table.dart';
@@ -58,6 +59,7 @@ part 'aniflow_database.g.dart';
     FavoriteInfoTable,
     EpisodeTable,
     ReleasedPackageTable,
+    MediaAiringScheduleUpdatedTable,
   ],
   daos: [
     UserDao,
@@ -77,7 +79,7 @@ class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase(super.executor);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   DriftDatabaseOptions get options =>
@@ -85,24 +87,11 @@ class AniflowDatabase extends _$AniflowDatabase {
 
   @override
   MigrationStrategy get migration {
-    Future updateNextEpisodeUpdateTimeTrigger() => customStatement('''
-          CREATE TRIGGER IF NOT EXISTS update_next_airing_episode_update_time_trigger
-          AFTER UPDATE OF next_airing_episode ON media_table
-          WHEN (
-              (OLD.next_airing_episode IS NOT NULL AND NEW.next_airing_episode IS NULL)
-              OR OLD.next_airing_episode != NEW.next_airing_episode
-          )
-          BEGIN
-            UPDATE media_table
-            SET next_airing_episode_update_time = DATETIME('now')
-            WHERE id = OLD.id;
-          END;
-        ''');
     return MigrationStrategy(
       onCreate: (Migrator m) async {
         await m.createAll();
 
-        await updateNextEpisodeUpdateTimeTrigger();
+        await updateNextEpisodeUpdateTimeTriggerV2();
       },
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
@@ -170,7 +159,40 @@ class AniflowDatabase extends _$AniflowDatabase {
         from8To9: (Migrator m, Schema9 schema) async {
           await m.createTable(schema.releasedPackageTable);
         },
+        from9To10: (Migrator m, Schema10 schema) async {
+          await m.createTable(schema.mediaAiringScheduleUpdatedTable);
+          await updateNextEpisodeUpdateTimeTriggerV2();
+        },
       ),
     );
   }
+
+  Future updateNextEpisodeUpdateTimeTrigger() => customStatement('''
+          CREATE TRIGGER IF NOT EXISTS update_next_airing_episode_update_time_trigger
+          AFTER UPDATE OF next_airing_episode ON media_table
+          WHEN (
+              (OLD.next_airing_episode IS NOT NULL AND NEW.next_airing_episode IS NULL)
+              OR OLD.next_airing_episode != NEW.next_airing_episode
+          )
+          BEGIN
+            UPDATE media_table
+            SET next_airing_episode_update_time = DATETIME('now')
+            WHERE id = OLD.id;
+          END;
+        ''');
+
+  Future updateNextEpisodeUpdateTimeTriggerV2() => customStatement('''
+          CREATE TRIGGER IF NOT EXISTS update_next_airing_episode_update_time_trigger_v2
+          AFTER UPDATE OF next_airing_episode ON media_table
+          WHEN (
+              (OLD.next_airing_episode IS NOT NULL AND NEW.next_airing_episode IS NULL)
+              OR OLD.next_airing_episode != NEW.next_airing_episode
+          )
+          BEGIN
+            INSERT INTO media_airing_schedule_updated_table
+            (updated_media_id, new_episode_update_date_time)
+            VALUES (OLD.id, DATETIME('now'))
+            ON CONFLICT("updated_media_id") DO UPDATE SET new_episode_update_date_time = DATETIME('now');
+          END;
+        ''');
 }

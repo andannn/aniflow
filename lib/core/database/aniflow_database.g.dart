@@ -9133,6 +9133,219 @@ class ReleasedPackageTableCompanion
   }
 }
 
+class $MediaAiringScheduleUpdatedTableTable
+    extends MediaAiringScheduleUpdatedTable
+    with
+        TableInfo<$MediaAiringScheduleUpdatedTableTable,
+            MediaAiringScheduleUpdatedEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MediaAiringScheduleUpdatedTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedMediaIdMeta =
+      const VerificationMeta('updatedMediaId');
+  @override
+  late final GeneratedColumn<String> updatedMediaId = GeneratedColumn<String>(
+      'updated_media_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _updateTimeMeta =
+      const VerificationMeta('updateTime');
+  @override
+  late final GeneratedColumn<DateTime> updateTime = GeneratedColumn<DateTime>(
+      'new_episode_update_date_time', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [updatedMediaId, updateTime];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'media_airing_schedule_updated_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MediaAiringScheduleUpdatedEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_media_id')) {
+      context.handle(
+          _updatedMediaIdMeta,
+          updatedMediaId.isAcceptableOrUnknown(
+              data['updated_media_id']!, _updatedMediaIdMeta));
+    } else if (isInserting) {
+      context.missing(_updatedMediaIdMeta);
+    }
+    if (data.containsKey('new_episode_update_date_time')) {
+      context.handle(
+          _updateTimeMeta,
+          updateTime.isAcceptableOrUnknown(
+              data['new_episode_update_date_time']!, _updateTimeMeta));
+    } else if (isInserting) {
+      context.missing(_updateTimeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {updatedMediaId};
+  @override
+  MediaAiringScheduleUpdatedEntity map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MediaAiringScheduleUpdatedEntity(
+      updatedMediaId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}updated_media_id'])!,
+      updateTime: attachedDatabase.typeMapping.read(DriftSqlType.dateTime,
+          data['${effectivePrefix}new_episode_update_date_time'])!,
+    );
+  }
+
+  @override
+  $MediaAiringScheduleUpdatedTableTable createAlias(String alias) {
+    return $MediaAiringScheduleUpdatedTableTable(attachedDatabase, alias);
+  }
+}
+
+class MediaAiringScheduleUpdatedEntity extends DataClass
+    implements Insertable<MediaAiringScheduleUpdatedEntity> {
+  final String updatedMediaId;
+  final DateTime updateTime;
+  const MediaAiringScheduleUpdatedEntity(
+      {required this.updatedMediaId, required this.updateTime});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_media_id'] = Variable<String>(updatedMediaId);
+    map['new_episode_update_date_time'] = Variable<DateTime>(updateTime);
+    return map;
+  }
+
+  MediaAiringScheduleUpdatedTableCompanion toCompanion(bool nullToAbsent) {
+    return MediaAiringScheduleUpdatedTableCompanion(
+      updatedMediaId: Value(updatedMediaId),
+      updateTime: Value(updateTime),
+    );
+  }
+
+  factory MediaAiringScheduleUpdatedEntity.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MediaAiringScheduleUpdatedEntity(
+      updatedMediaId: serializer.fromJson<String>(json['updatedMediaId']),
+      updateTime: serializer.fromJson<DateTime>(json['updateTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedMediaId': serializer.toJson<String>(updatedMediaId),
+      'updateTime': serializer.toJson<DateTime>(updateTime),
+    };
+  }
+
+  MediaAiringScheduleUpdatedEntity copyWith(
+          {String? updatedMediaId, DateTime? updateTime}) =>
+      MediaAiringScheduleUpdatedEntity(
+        updatedMediaId: updatedMediaId ?? this.updatedMediaId,
+        updateTime: updateTime ?? this.updateTime,
+      );
+  MediaAiringScheduleUpdatedEntity copyWithCompanion(
+      MediaAiringScheduleUpdatedTableCompanion data) {
+    return MediaAiringScheduleUpdatedEntity(
+      updatedMediaId: data.updatedMediaId.present
+          ? data.updatedMediaId.value
+          : this.updatedMediaId,
+      updateTime:
+          data.updateTime.present ? data.updateTime.value : this.updateTime,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MediaAiringScheduleUpdatedEntity(')
+          ..write('updatedMediaId: $updatedMediaId, ')
+          ..write('updateTime: $updateTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(updatedMediaId, updateTime);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MediaAiringScheduleUpdatedEntity &&
+          other.updatedMediaId == this.updatedMediaId &&
+          other.updateTime == this.updateTime);
+}
+
+class MediaAiringScheduleUpdatedTableCompanion
+    extends UpdateCompanion<MediaAiringScheduleUpdatedEntity> {
+  final Value<String> updatedMediaId;
+  final Value<DateTime> updateTime;
+  final Value<int> rowid;
+  const MediaAiringScheduleUpdatedTableCompanion({
+    this.updatedMediaId = const Value.absent(),
+    this.updateTime = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MediaAiringScheduleUpdatedTableCompanion.insert({
+    required String updatedMediaId,
+    required DateTime updateTime,
+    this.rowid = const Value.absent(),
+  })  : updatedMediaId = Value(updatedMediaId),
+        updateTime = Value(updateTime);
+  static Insertable<MediaAiringScheduleUpdatedEntity> custom({
+    Expression<String>? updatedMediaId,
+    Expression<DateTime>? updateTime,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (updatedMediaId != null) 'updated_media_id': updatedMediaId,
+      if (updateTime != null) 'new_episode_update_date_time': updateTime,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MediaAiringScheduleUpdatedTableCompanion copyWith(
+      {Value<String>? updatedMediaId,
+      Value<DateTime>? updateTime,
+      Value<int>? rowid}) {
+    return MediaAiringScheduleUpdatedTableCompanion(
+      updatedMediaId: updatedMediaId ?? this.updatedMediaId,
+      updateTime: updateTime ?? this.updateTime,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedMediaId.present) {
+      map['updated_media_id'] = Variable<String>(updatedMediaId.value);
+    }
+    if (updateTime.present) {
+      map['new_episode_update_date_time'] =
+          Variable<DateTime>(updateTime.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MediaAiringScheduleUpdatedTableCompanion(')
+          ..write('updatedMediaId: $updatedMediaId, ')
+          ..write('updateTime: $updateTime, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AniflowDatabase extends GeneratedDatabase {
   _$AniflowDatabase(QueryExecutor e) : super(e);
   $AniflowDatabaseManager get managers => $AniflowDatabaseManager(this);
@@ -9173,6 +9386,9 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
   late final $EpisodeTableTable episodeTable = $EpisodeTableTable(this);
   late final $ReleasedPackageTableTable releasedPackageTable =
       $ReleasedPackageTableTable(this);
+  late final $MediaAiringScheduleUpdatedTableTable
+      mediaAiringScheduleUpdatedTable =
+      $MediaAiringScheduleUpdatedTableTable(this);
   late final UserDao userDao = UserDao(this as AniflowDatabase);
   late final StudioDao studioDao = StudioDao(this as AniflowDatabase);
   late final StaffDao staffDao = StaffDao(this as AniflowDatabase);
@@ -9210,7 +9426,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
         categoryMediaPagingCrossRefTable,
         favoriteInfoTable,
         episodeTable,
-        releasedPackageTable
+        releasedPackageTable,
+        mediaAiringScheduleUpdatedTable
       ];
 }
 
@@ -13696,6 +13913,148 @@ typedef $$ReleasedPackageTableTableProcessedTableManager
         ),
         ReleasedPackageEntity,
         PrefetchHooks Function()>;
+typedef $$MediaAiringScheduleUpdatedTableTableCreateCompanionBuilder
+    = MediaAiringScheduleUpdatedTableCompanion Function({
+  required String updatedMediaId,
+  required DateTime updateTime,
+  Value<int> rowid,
+});
+typedef $$MediaAiringScheduleUpdatedTableTableUpdateCompanionBuilder
+    = MediaAiringScheduleUpdatedTableCompanion Function({
+  Value<String> updatedMediaId,
+  Value<DateTime> updateTime,
+  Value<int> rowid,
+});
+
+class $$MediaAiringScheduleUpdatedTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $MediaAiringScheduleUpdatedTableTable> {
+  $$MediaAiringScheduleUpdatedTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get updatedMediaId => $composableBuilder(
+      column: $table.updatedMediaId,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updateTime => $composableBuilder(
+      column: $table.updateTime, builder: (column) => ColumnFilters(column));
+}
+
+class $$MediaAiringScheduleUpdatedTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $MediaAiringScheduleUpdatedTableTable> {
+  $$MediaAiringScheduleUpdatedTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get updatedMediaId => $composableBuilder(
+      column: $table.updatedMediaId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updateTime => $composableBuilder(
+      column: $table.updateTime, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MediaAiringScheduleUpdatedTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $MediaAiringScheduleUpdatedTableTable> {
+  $$MediaAiringScheduleUpdatedTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get updatedMediaId => $composableBuilder(
+      column: $table.updatedMediaId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updateTime => $composableBuilder(
+      column: $table.updateTime, builder: (column) => column);
+}
+
+class $$MediaAiringScheduleUpdatedTableTableTableManager
+    extends RootTableManager<
+        _$AniflowDatabase,
+        $MediaAiringScheduleUpdatedTableTable,
+        MediaAiringScheduleUpdatedEntity,
+        $$MediaAiringScheduleUpdatedTableTableFilterComposer,
+        $$MediaAiringScheduleUpdatedTableTableOrderingComposer,
+        $$MediaAiringScheduleUpdatedTableTableAnnotationComposer,
+        $$MediaAiringScheduleUpdatedTableTableCreateCompanionBuilder,
+        $$MediaAiringScheduleUpdatedTableTableUpdateCompanionBuilder,
+        (
+          MediaAiringScheduleUpdatedEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $MediaAiringScheduleUpdatedTableTable,
+              MediaAiringScheduleUpdatedEntity>
+        ),
+        MediaAiringScheduleUpdatedEntity,
+        PrefetchHooks Function()> {
+  $$MediaAiringScheduleUpdatedTableTableTableManager(
+      _$AniflowDatabase db, $MediaAiringScheduleUpdatedTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MediaAiringScheduleUpdatedTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MediaAiringScheduleUpdatedTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MediaAiringScheduleUpdatedTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> updatedMediaId = const Value.absent(),
+            Value<DateTime> updateTime = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MediaAiringScheduleUpdatedTableCompanion(
+            updatedMediaId: updatedMediaId,
+            updateTime: updateTime,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String updatedMediaId,
+            required DateTime updateTime,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MediaAiringScheduleUpdatedTableCompanion.insert(
+            updatedMediaId: updatedMediaId,
+            updateTime: updateTime,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$MediaAiringScheduleUpdatedTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AniflowDatabase,
+        $MediaAiringScheduleUpdatedTableTable,
+        MediaAiringScheduleUpdatedEntity,
+        $$MediaAiringScheduleUpdatedTableTableFilterComposer,
+        $$MediaAiringScheduleUpdatedTableTableOrderingComposer,
+        $$MediaAiringScheduleUpdatedTableTableAnnotationComposer,
+        $$MediaAiringScheduleUpdatedTableTableCreateCompanionBuilder,
+        $$MediaAiringScheduleUpdatedTableTableUpdateCompanionBuilder,
+        (
+          MediaAiringScheduleUpdatedEntity,
+          BaseReferences<
+              _$AniflowDatabase,
+              $MediaAiringScheduleUpdatedTableTable,
+              MediaAiringScheduleUpdatedEntity>
+        ),
+        MediaAiringScheduleUpdatedEntity,
+        PrefetchHooks Function()>;
 
 class $AniflowDatabaseManager {
   final _$AniflowDatabase _db;
@@ -13756,4 +14115,8 @@ class $AniflowDatabaseManager {
       $$EpisodeTableTableTableManager(_db, _db.episodeTable);
   $$ReleasedPackageTableTableTableManager get releasedPackageTable =>
       $$ReleasedPackageTableTableTableManager(_db, _db.releasedPackageTable);
+  $$MediaAiringScheduleUpdatedTableTableTableManager
+      get mediaAiringScheduleUpdatedTable =>
+          $$MediaAiringScheduleUpdatedTableTableTableManager(
+              _db, _db.mediaAiringScheduleUpdatedTable);
 }
