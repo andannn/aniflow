@@ -50,7 +50,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-release
           path: build/app/outputs/flutter-apk/*
@@ -79,7 +79,7 @@ jobs:
           create-dmg build/macos/Build/Products/Release/aniflow.dmg build/macos/Build/Products/Release/aniflow.app
 
       - name: Upload Macos app Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macos-release
           path: build/macos/Build/Products/Release/aniflow.dmg
@@ -90,6 +90,8 @@ jobs:
     needs: [android, macos]
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Download Android Artifact
         uses: actions/download-artifact@v3
         with:
