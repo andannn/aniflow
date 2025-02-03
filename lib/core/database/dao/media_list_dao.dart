@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/model/sorted_group_media_list_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 import 'package:aniflow/core/database/relations/sorted_group_media_list_entity.dart';
+import 'package:aniflow/core/database/tables/media_airing_schedule_updated_table.dart';
 import 'package:aniflow/core/database/tables/media_list_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
 import 'package:collection/collection.dart';
@@ -11,7 +12,11 @@ import 'package:drift/drift.dart';
 
 part 'media_list_dao.g.dart';
 
-@DriftAccessor(tables: [MediaListTable, MediaTable])
+@DriftAccessor(tables: [
+  MediaListTable,
+  MediaTable,
+  MediaAiringScheduleUpdatedTable,
+])
 class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     with _$MediaListDaoMixin {
   MediaListDao(super.db);
@@ -158,7 +163,8 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
       String userId, List<String> status, String mediaType) {
     SortedGroupMediaListEntity sortList(List<MediaListAndMediaRelation> list) {
       bool isNewUpdateMedia(MediaListAndMediaRelation relation) {
-        final updateTime = relation.mediaEntity.nextAiringEpisodeUpdateTime;
+        final updateTime =
+            relation.mediaAiringScheduleUpdatedEntity?.updateTime;
         if (updateTime == null) {
           return false;
         }
@@ -172,7 +178,7 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
       final map = list.groupListsBy((e) => isNewUpdateMedia(e));
       // Ordered by newest to oldest.
       final newUpdateList = (map[true] ?? [])
-          .sortedBy((e) => e.mediaEntity.nextAiringEpisodeUpdateTime!)
+          .sortedBy((e) => e.mediaAiringScheduleUpdatedEntity!.updateTime)
           .reversed
           .toList();
       final otherList = (map[false] ?? [])
@@ -183,7 +189,11 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
     }
 
     final query = select(mediaListTable).join([
-      innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id))
+      innerJoin(mediaTable, mediaListTable.mediaId.equalsExp(mediaTable.id)),
+      leftOuterJoin(
+          mediaAiringScheduleUpdatedTable,
+          mediaListTable.mediaId
+              .equalsExp(mediaAiringScheduleUpdatedTable.updatedMediaId))
     ])
       ..where(
         mediaListTable.status.isIn(status) &
@@ -196,6 +206,8 @@ class MediaListDao extends DatabaseAccessor<AniflowDatabase>
           (row) => MediaListAndMediaRelation(
             mediaListEntity: row.readTable(mediaListTable),
             mediaEntity: row.readTable(mediaTable),
+            mediaAiringScheduleUpdatedEntity:
+                row.readTableOrNull(mediaAiringScheduleUpdatedTable),
           ),
         )
         .watch()

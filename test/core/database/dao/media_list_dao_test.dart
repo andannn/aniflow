@@ -2,7 +2,6 @@ import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
-import 'package:aniflow/core/database/relations/sorted_group_media_list_entity.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -100,9 +99,6 @@ void main() {
             nativeTitle: 'モーレツ宇宙海賊',
             nextAiringEpisode: 3,
             status: MediaStatus.releasing.toJson(),
-            nextAiringEpisodeUpdateTime: DateTime.now()
-                .subtract(const Duration(days: 3))
-                .add(const Duration(seconds: 1)),
           ),
           mediaListEntity: const MediaListEntity(
             id: '1',
@@ -112,15 +108,13 @@ void main() {
             mediaId: '8917',
           ),
         ),
-        MediaListAndMediaRelation(
+        const MediaListAndMediaRelation(
           mediaEntity: MediaEntity(
             id: '8111',
             type: 'anime',
             nativeTitle: 'ヨルクラ  ',
-            nextAiringEpisodeUpdateTime:
-                DateTime.now().subtract(const Duration(days: 4, seconds: 1)),
           ),
-          mediaListEntity: const MediaListEntity(
+          mediaListEntity: MediaListEntity(
             id: '2',
             status: 'current',
             userId: '22',
@@ -129,18 +123,59 @@ void main() {
         )
       ];
       await dao.upsertMediaListAndMediaRelations(data);
-      final expectation = expectLater(
-        stream,
-        emitsInOrder([
-          SortedGroupMediaListEntity([
-            data[0]
-          ], [
-            data[1],
-          ])
-        ]),
-      );
+      await db.mediaDao.insertOrUpdateMedia([
+        MediaEntity(
+          id: '8917',
+          type: 'anime',
+          nativeTitle: 'モーレツ宇宙海賊',
+          nextAiringEpisode: 4,
+          status: MediaStatus.releasing.toJson(),
+        )
+      ]);
 
-      await expectation;
+      final result = await stream.first;
+      expect(result.newUpdateList.first.mediaEntity.id, '8917');
+      expect(result.otherList.first.mediaEntity.id, '8111');
+    });
+
+    test('insert into MediaAiringScheduleUpdatedTable trigger test', () async {
+      await db.batch((batch) {
+        batch.insert(
+            db.mediaTable,
+            const MediaEntity(
+              id: '8111',
+              type: 'anime',
+              nativeTitle: 'ヨルクラ  ',
+              nextAiringEpisode: 0,
+            ));
+      });
+
+      expect((await db.select(db.mediaAiringScheduleUpdatedTable).get()).length,
+          0);
+
+      await db.batch((batch) {
+        batch.insertAllOnConflictUpdate(db.mediaTable, [
+          const MediaEntity(
+              id: '8111',
+              type: 'anime',
+              nativeTitle: 'ヨルクラ  ',
+              nextAiringEpisode: 1)
+        ]);
+      });
+      expect((await db.select(db.mediaAiringScheduleUpdatedTable).get()).length,
+          1);
+
+      await db.batch((batch) {
+        batch.insertAllOnConflictUpdate(db.mediaTable, [
+          const MediaEntity(
+              id: '8111',
+              type: 'anime',
+              nativeTitle: 'ヨルクラ  ',
+              nextAiringEpisode: 2)
+        ]);
+      });
+      expect((await db.select(db.mediaAiringScheduleUpdatedTable).get()).length,
+          1);
     });
 
     test('upsert and get mediaId stream', () async {

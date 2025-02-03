@@ -6,4 +6,6 @@ part of 'media_list_dao.dart';
 mixin _$MediaListDaoMixin on DatabaseAccessor<AniflowDatabase> {
   $MediaListTableTable get mediaListTable => attachedDatabase.mediaListTable;
   $MediaTableTable get mediaTable => attachedDatabase.mediaTable;
+  $MediaAiringScheduleUpdatedTableTable get mediaAiringScheduleUpdatedTable =>
+      attachedDatabase.mediaAiringScheduleUpdatedTable;
 }
