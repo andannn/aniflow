@@ -9,13 +9,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:aniflow/app/app_bloc.dart' as _i343;
-import 'package:aniflow/core/background_task/di/workmanager_module.dart'
-    as _i555;
-import 'package:aniflow/core/background_task/executors/post_anilist_notification_task_executor.dart'
-    as _i462;
-import 'package:aniflow/core/background_task/executors/sync_new_released_play_source_executor.dart'
-    as _i855;
-import 'package:aniflow/core/background_task/task_manager.dart' as _i490;
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart'
     as _i196;
 import 'package:aniflow/core/common/definitions/activity_scope_category.dart'
@@ -164,7 +157,6 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:platform_extractor/platform_extractor.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
-import 'package:workmanager/workmanager.dart' as _i500;
 
 const String _Mock = 'Mock';
 const String _Mobile = 'Mobile';
@@ -185,7 +177,6 @@ extension GetItInjectableX on _i174.GetIt {
     final dIFirebaseRemoteConfigModule = _$DIFirebaseRemoteConfigModule();
     final dIDataBaseModule = _$DIDataBaseModule();
     final registerModule = _$RegisterModule();
-    final dIWorkmanagerModule = _$DIWorkmanagerModule();
     final dINetworkModule = _$DINetworkModule();
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
     gh.lazySingleton<_i4.AuthEventChannel>(
@@ -260,11 +251,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Mobile,
         _Desktop,
       },
-      preResolve: true,
-    );
-    await gh.lazySingletonAsync<_i500.Workmanager>(
-      () => dIWorkmanagerModule.workManager,
-      registerFor: {_Mobile},
       preResolve: true,
     );
     gh.factoryParam<_i748.AnimePageBloc, _i505.MediaCategory, dynamic>((
@@ -376,12 +362,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i319.MediaListRepository>(),
         ));
-    gh.factory<_i855.SyncNewReleasedPlaySourceExecutor>(
-        () => _i855.SyncNewReleasedPlaySourceExecutor(
-              gh<_i827.HiAnimationRepository>(),
-              gh<_i319.MediaListRepository>(),
-              gh<_i768.AuthRepository>(),
-            ));
     gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
       mediaId,
       _,
@@ -701,13 +681,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.lazySingleton<_i490.BackgroundTaskManager>(
-      () => _i490.BackgroundTaskManager(
-        gh<_i768.AuthRepository>(),
-        gh<_i500.Workmanager>(),
-      ),
-      registerFor: {_Mobile},
-    );
     gh.factoryParam<_i860.ActivityPagingBloc, _i650.ActivityScopeCategory,
         _i196.ActivityFilterType>((
       userType,
@@ -789,12 +762,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i67.MessageRepository>(),
           gh<_i309.GithubRepository>(),
         ));
-    gh.factory<_i462.PostAnilistNotificationExecutor>(
-        () => _i462.PostAnilistNotificationExecutor(
-              gh<_i221.NotificationRepository>(),
-              gh<_i768.AuthRepository>(),
-              gh<_i810.UserDataRepository>(),
-            ));
     return this;
   }
 }
@@ -807,7 +774,5 @@ class _$DIFirebaseRemoteConfigModule
 class _$DIDataBaseModule extends _i669.DIDataBaseModule {}
 
 class _$RegisterModule extends _i365.RegisterModule {}
-
-class _$DIWorkmanagerModule extends _i555.DIWorkmanagerModule {}
 
 class _$DINetworkModule extends _i106.DINetworkModule {}
