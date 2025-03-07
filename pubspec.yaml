@@ -97,7 +97,11 @@ dependencies:
   platform_player:
     path: ./platform_player
   firebase_remote_config: ^5.0.4
-  workmanager: ^0.5.2
+  workmanager:
+    git:
+      url: https://github.com/fluttercommunity/flutter_workmanager.git
+      path: workmanager
+      ref: main
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.1
   video_player: ^2.9.1
