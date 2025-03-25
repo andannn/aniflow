@@ -38,6 +38,11 @@ class PlayableSourceRepository {
           .where((episode) => episode.episodeNum == episodeNum)
           .map((e) => Episode(e.link, e.name))
           .toList();
+
+      if (result.isEmpty) {
+        return LoadError(Exception("not found"));
+      }
+
       return LoadSuccess(data: result);
     } on Exception catch (e) {
       return LoadError(e);

@@ -7,7 +7,9 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:html/parser.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class PlayableWebSource {
   final Dio dio;
 
@@ -130,15 +132,18 @@ extension DioExtension on Dio {
         .toList();
   }
 
-  Future<String?> convertKeyword(Locale toLocal, String keyword) async {
+  Future<String?> convertKeyword(Locale toLocal, String title) async {
     if (toLocal.languageCode.contains('zh')) {
       String? converted;
       try {
         final result = await get(
-          'https://api.bgm.tv/search/subject/$keyword',
+          'https://api.bgm.tv/search/subject/$title',
           queryParameters: {'type': 2, 'responseGroup': 'small'},
         );
-        converted = result.data['list'].first["name_cn"];
+        final matchedResult = (result.data['list'] as List).firstWhereOrNull((element) {
+          return element["name"] == title;
+        });
+        converted = matchedResult["name_cn"];
       } catch (e) {}
 
       return converted;

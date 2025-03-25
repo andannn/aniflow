@@ -46,6 +46,10 @@ abstract class SubjectMatcher {
 
   String get episodeMatchRegex => "第s*(?<num>.+)s*[话集]";
 
+  String get matchNestedUrl => "^.+(m3u8|vip|xigua\\.php).+\\?";
+
+  String get matchVideoUrl => "(^http(s)?:\\/\\/(?!.*http(s)?:\\/\\/).+((\\.mp4)|(\\.mkv)|(m3u8)).*(\\?.+)?)|(akamaized)|(bilivideo.com)";
+
   SearchedSubjectInfo matchSearchedSubject(
       Element element, SearchConfig config);
 

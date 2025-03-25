@@ -54,7 +54,7 @@ void main() {
     });
 
     test('convert keyword', () async {
-      final res = await dio.convertKeyword(Locale("zh"), "Re:ゼロから始める異世界生活");
+      final res = await dio.convertKeyword(Locale("zh"), "ぼっち・ざ・ろっく！");
       print(res);
     });
   });

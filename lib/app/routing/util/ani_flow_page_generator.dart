@@ -8,6 +8,7 @@ import 'package:aniflow/feature/detail_character/detail_character.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/detail_staff/detail_staff.dart';
 import 'package:aniflow/feature/detail_studio/detail_studio.dart';
+import 'package:aniflow/feature/episode_player/episode_player.dart';
 import 'package:aniflow/feature/image_preview/image_preview.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_update_page.dart';
 import 'package:aniflow/feature/media_page/media_page.dart';
@@ -122,6 +123,16 @@ extension AniFlowRoutePathEx on AniFlowRoutePath {
         return SettingsPage(
           key: ValueKey(toString()),
           onPopInvoked: onPopInvoked,
+        );
+      case EpisodePlayerPagePath(
+          mediaId: final mediaId,
+          episodeNum: final episodeNum
+        ):
+        return EpisodePlayerPage(
+          key: ValueKey(toString()),
+          onPopInvoked: onPopInvoked,
+          mediaId: mediaId,
+          episodeNum: episodeNum,
         );
     }
   }

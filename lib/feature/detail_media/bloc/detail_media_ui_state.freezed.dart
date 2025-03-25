@@ -17,14 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DetailMediaUiState {
   bool get isLoading => throw _privateConstructorUsedError;
-  bool get isHiAnimationFeatureEnabled => throw _privateConstructorUsedError;
   MediaModel? get detailAnimeModel => throw _privateConstructorUsedError;
   MediaListItemModel? get mediaListItem => throw _privateConstructorUsedError;
   UserTitleLanguage get userTitleLanguage => throw _privateConstructorUsedError;
   UserStaffNameLanguage get userStaffNameLanguage =>
       throw _privateConstructorUsedError;
   ScoreFormat get scoreFormat => throw _privateConstructorUsedError;
-  LoadingState<Episode> get episode => throw _privateConstructorUsedError;
 
   /// Create a copy of DetailMediaUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -41,13 +39,11 @@ abstract class $DetailMediaUiStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
-      bool isHiAnimationFeatureEnabled,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
-      ScoreFormat scoreFormat,
-      LoadingState<Episode> episode});
+      ScoreFormat scoreFormat});
 
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
   $MediaListItemModelCopyWith<$Res>? get mediaListItem;
@@ -69,22 +65,16 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? isHiAnimationFeatureEnabled = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
     Object? scoreFormat = null,
-    Object? episode = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isHiAnimationFeatureEnabled: null == isHiAnimationFeatureEnabled
-          ? _value.isHiAnimationFeatureEnabled
-          : isHiAnimationFeatureEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
@@ -106,10 +96,6 @@ class _$DetailMediaUiStateCopyWithImpl<$Res, $Val extends DetailMediaUiState>
           ? _value.scoreFormat
           : scoreFormat // ignore: cast_nullable_to_non_nullable
               as ScoreFormat,
-      episode: null == episode
-          ? _value.episode
-          : episode // ignore: cast_nullable_to_non_nullable
-              as LoadingState<Episode>,
     ) as $Val);
   }
 
@@ -152,13 +138,11 @@ abstract class _$$DetailMediaUiStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
-      bool isHiAnimationFeatureEnabled,
       MediaModel? detailAnimeModel,
       MediaListItemModel? mediaListItem,
       UserTitleLanguage userTitleLanguage,
       UserStaffNameLanguage userStaffNameLanguage,
-      ScoreFormat scoreFormat,
-      LoadingState<Episode> episode});
+      ScoreFormat scoreFormat});
 
   @override
   $MediaModelCopyWith<$Res>? get detailAnimeModel;
@@ -180,22 +164,16 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? isHiAnimationFeatureEnabled = null,
     Object? detailAnimeModel = freezed,
     Object? mediaListItem = freezed,
     Object? userTitleLanguage = null,
     Object? userStaffNameLanguage = null,
     Object? scoreFormat = null,
-    Object? episode = null,
   }) {
     return _then(_$DetailMediaUiStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isHiAnimationFeatureEnabled: null == isHiAnimationFeatureEnabled
-          ? _value.isHiAnimationFeatureEnabled
-          : isHiAnimationFeatureEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
       detailAnimeModel: freezed == detailAnimeModel
           ? _value.detailAnimeModel
@@ -217,10 +195,6 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
           ? _value.scoreFormat
           : scoreFormat // ignore: cast_nullable_to_non_nullable
               as ScoreFormat,
-      episode: null == episode
-          ? _value.episode
-          : episode // ignore: cast_nullable_to_non_nullable
-              as LoadingState<Episode>,
     ));
   }
 }
@@ -230,20 +204,15 @@ class __$$DetailMediaUiStateImplCopyWithImpl<$Res>
 class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   _$DetailMediaUiStateImpl(
       {this.isLoading = false,
-      this.isHiAnimationFeatureEnabled = false,
       this.detailAnimeModel,
       this.mediaListItem,
       this.userTitleLanguage = UserTitleLanguage.native,
       this.userStaffNameLanguage = UserStaffNameLanguage.native,
-      this.scoreFormat = ScoreFormat.point3,
-      this.episode = const None<Episode>()});
+      this.scoreFormat = ScoreFormat.point3});
 
   @override
   @JsonKey()
   final bool isLoading;
-  @override
-  @JsonKey()
-  final bool isHiAnimationFeatureEnabled;
   @override
   final MediaModel? detailAnimeModel;
   @override
@@ -257,13 +226,10 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
   @override
   @JsonKey()
   final ScoreFormat scoreFormat;
-  @override
-  @JsonKey()
-  final LoadingState<Episode> episode;
 
   @override
   String toString() {
-    return 'DetailMediaUiState(isLoading: $isLoading, isHiAnimationFeatureEnabled: $isHiAnimationFeatureEnabled, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat, episode: $episode)';
+    return 'DetailMediaUiState(isLoading: $isLoading, detailAnimeModel: $detailAnimeModel, mediaListItem: $mediaListItem, userTitleLanguage: $userTitleLanguage, userStaffNameLanguage: $userStaffNameLanguage, scoreFormat: $scoreFormat)';
   }
 
   @override
@@ -273,10 +239,6 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
             other is _$DetailMediaUiStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.isHiAnimationFeatureEnabled,
-                    isHiAnimationFeatureEnabled) ||
-                other.isHiAnimationFeatureEnabled ==
-                    isHiAnimationFeatureEnabled) &&
             (identical(other.detailAnimeModel, detailAnimeModel) ||
                 other.detailAnimeModel == detailAnimeModel) &&
             (identical(other.mediaListItem, mediaListItem) ||
@@ -286,21 +248,12 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
             (identical(other.userStaffNameLanguage, userStaffNameLanguage) ||
                 other.userStaffNameLanguage == userStaffNameLanguage) &&
             (identical(other.scoreFormat, scoreFormat) ||
-                other.scoreFormat == scoreFormat) &&
-            (identical(other.episode, episode) || other.episode == episode));
+                other.scoreFormat == scoreFormat));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isHiAnimationFeatureEnabled,
-      detailAnimeModel,
-      mediaListItem,
-      userTitleLanguage,
-      userStaffNameLanguage,
-      scoreFormat,
-      episode);
+  int get hashCode => Object.hash(runtimeType, isLoading, detailAnimeModel,
+      mediaListItem, userTitleLanguage, userStaffNameLanguage, scoreFormat);
 
   /// Create a copy of DetailMediaUiState
   /// with the given fields replaced by the non-null parameter values.
@@ -315,18 +268,14 @@ class _$DetailMediaUiStateImpl implements _DetailMediaUiState {
 abstract class _DetailMediaUiState implements DetailMediaUiState {
   factory _DetailMediaUiState(
       {final bool isLoading,
-      final bool isHiAnimationFeatureEnabled,
       final MediaModel? detailAnimeModel,
       final MediaListItemModel? mediaListItem,
       final UserTitleLanguage userTitleLanguage,
       final UserStaffNameLanguage userStaffNameLanguage,
-      final ScoreFormat scoreFormat,
-      final LoadingState<Episode> episode}) = _$DetailMediaUiStateImpl;
+      final ScoreFormat scoreFormat}) = _$DetailMediaUiStateImpl;
 
   @override
   bool get isLoading;
-  @override
-  bool get isHiAnimationFeatureEnabled;
   @override
   MediaModel? get detailAnimeModel;
   @override
@@ -337,8 +286,6 @@ abstract class _DetailMediaUiState implements DetailMediaUiState {
   UserStaffNameLanguage get userStaffNameLanguage;
   @override
   ScoreFormat get scoreFormat;
-  @override
-  LoadingState<Episode> get episode;
 
   /// Create a copy of DetailMediaUiState
   /// with the given fields replaced by the non-null parameter values.

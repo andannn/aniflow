@@ -555,4 +555,8 @@ class MediaInformationRepository {
           (entities) => entities.map((entity) => entity.toModel()).toList(),
         );
   }
+
+  Future<MediaModel> getMedia(String id) async {
+    return (await _mediaDao.getMedia(id)).toModel();
+  }
 }

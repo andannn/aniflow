@@ -25,6 +25,11 @@ class MainActivity : FlutterFragmentActivity() {
         return intent?.data?.toString() ?: super.getInitialRoute()
     }
 
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: ${this.hashCode()}")
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         Log.d(TAG, "configureFlutterEngine: ${this.hashCode()}")
         GeneratedPluginRegistrant.registerWith(flutterEngine)

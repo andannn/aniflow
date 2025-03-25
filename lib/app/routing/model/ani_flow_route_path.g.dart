@@ -253,3 +253,19 @@ Map<String, dynamic> _$$BirthdayCharacterPagePathImplToJson(
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
+
+_$EpisodePlayerPagePathImpl _$$EpisodePlayerPagePathImplFromJson(
+        Map<String, dynamic> json) =>
+    _$EpisodePlayerPagePathImpl(
+      mediaId: json['mediaId'] as String,
+      episodeNum: (json['episodeNum'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$EpisodePlayerPagePathImplToJson(
+        _$EpisodePlayerPagePathImpl instance) =>
+    <String, dynamic>{
+      'mediaId': instance.mediaId,
+      'episodeNum': instance.episodeNum,
+      'runtimeType': instance.$type,
+    };
