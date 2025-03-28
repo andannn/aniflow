@@ -4,10 +4,11 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
-import 'package:aniflow/feature/detail_media/build_media_basic_info.dart';
 import 'package:aniflow/feature/episode_player/episode_player_bloc.dart';
 import 'package:aniflow/feature/episode_player/episode_player_state.dart';
+import 'package:aniflow/feature/episode_player/media_source/media_source.dart';
 import 'package:aniflow/feature/episode_player/player/player_area.dart';
+import 'package:aniflow/feature/episode_player/player/player_area_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -138,9 +139,10 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
                       ),
                       if (state.mediaModel != null)
                         Expanded(
-                          child: _BasicInfo(
+                          child: ControlArea(
                             model: state.mediaModel!,
-                            selected: selectedEpisodeNumber,
+                            playingEpisode: selectedEpisodeNumber,
+                            currentMediaSource: selectedMediaSource,
                           ),
                         )
                     ],
@@ -186,19 +188,25 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
   }
 }
 
-class _BasicInfo extends StatelessWidget {
-  const _BasicInfo({
+
+class ControlArea extends StatelessWidget {
+  const ControlArea({
     super.key,
     required this.model,
-    required this.selected,
+    required this.playingEpisode,
+    required this.currentMediaSource,
   });
 
   final MediaModel model;
-  final int selected;
+  final int playingEpisode;
+  final MediaSource currentMediaSource;
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey controlAreaKey = GlobalKey();
+    final playerState = context.watch<PlayerAreaBloc>().state.searchState;
     return CustomScrollView(
+      key: controlAreaKey,
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
@@ -207,14 +215,12 @@ class _BasicInfo extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
-                  "Now Playing: $selected${context.appLocal.episodes}",
+                  "Now Playing: $playingEpisode${context.appLocal.episodes}",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(width: 8),
                 FilledButton.tonal(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   child: const Text("Mark Watched"),
                 )
               ],
@@ -229,11 +235,11 @@ class _BasicInfo extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: EpisodeNode(
                 number: episode,
-                playing: episode == selected,
+                playing: episode == playingEpisode,
                 onItemPressed: () {
-                  if (episode != selected) {
+                  if (episode != playingEpisode) {
                     context.read<EpisodePlayerBloc>().add(
-                          OnSelectEpisode(episode),
+                          OnSelectEpisodeNumber(episode),
                         );
                   }
                 },
@@ -244,15 +250,26 @@ class _BasicInfo extends StatelessWidget {
             maxCrossAxisExtent: 64,
           ),
         ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Play source",
-              style: Theme.of(context).textTheme.titleMedium,
+        if (playerState != null)
+          SliverToBoxAdapter(
+            child: MediaSourceBox(
+              playerState: playerState,
+              currentMediaSource: currentMediaSource,
+              onSelectMatchedEpisode: (selected) {
+                context.read<PlayerAreaBloc>().add(
+                      OnChangeMatchedEpisode(selected),
+                    );
+              },
+              onSelectMediaSource: (selected) {
+                context.read<EpisodePlayerBloc>().add(
+                      OnSelectMediaSource(selected),
+                    );
+              },
+              onGetSheetHeight: () {
+                return controlAreaKey.currentContext?.size?.height ?? 0;
+              }
             ),
-          ),
-        ),
+          )
       ],
     );
   }

@@ -90,6 +90,17 @@ extension on SubjectMatcher {
           link: _getFullLink(config.baseUrl, element.attributes['href']!),
           season: findSeason(element.text)
       );
+
+  EpisodeInfo _matchEpisodes(Element element, SearchConfig config) {
+    return EpisodeInfo(
+      name: element.text,
+      link: _getFullLink(
+        config.baseUrl,
+        element.attributes["href"] ?? "",
+      ),
+      episodeNum: findEpisodeNum(element.text),
+    );
+  }
 }
 
 int? _convertToNumber(String num) {

@@ -6,16 +6,13 @@ class Qdm8Macher extends SubjectMatcher {
 
   @override
   SearchedSubjectInfo matchSearchedSubject(
-      Element element, SearchConfig config) =>
+          Element element, SearchConfig config) =>
       _matchWithATag(element, config);
 
   @override
-  String get episodeListMatchSelector =>
-      "body > div.container > div > div.col-md-wide-7.col-xs-1.padding-0 > div:nth-child(4) > div > div.tab-content.myui-panel_bd > div";
+  String get episodeListMatchSelector => "#playlist1 > ul > li > a";
 
   @override
-  EpisodeInfo matchEpisodes(Element element, SearchConfig config) {
-    print(element.outerHtml);
-    return EpisodeInfo(name: "name", link: "link", episodeNum: 1);
-  }
+  EpisodeInfo matchEpisodes(Element element, SearchConfig config) =>
+      _matchEpisodes(element, config);
 }

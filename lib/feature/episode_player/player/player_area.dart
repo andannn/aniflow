@@ -70,17 +70,20 @@ class PlayerArea extends StatelessWidget {
             return hint("Searching ${searchState.source.name} ...");
           case LoadingPlayResource(
               source: final source,
-              episodes: final episodes
             ):
             return Stack(
               children: [
                 PlayableSourceFetcher(
-                  webPageUri: episodes.first.url,
+                  key: ValueKey(searchState.current.episodeUrl),
+                  webPageUri: searchState.current.episodeUrl,
                   source: source,
                   onUrlFetched: (url) {
-                    context
-                        .read<PlayerAreaBloc>()
-                        .add(OnPlayableResourceLoaded(url));
+                    context.read<PlayerAreaBloc>().add(
+                          OnPlayableResourceLoaded(url, searchState.current),
+                        );
+                  },
+                  onTimeOut: () {
+                    context.read<PlayerAreaBloc>().add(OnFetchResourceError());
                   },
                 ),
                 hint(

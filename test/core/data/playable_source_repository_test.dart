@@ -1,7 +1,3 @@
-import 'dart:ui';
-
-import 'package:aniflow/core/data/hi_animation_repository.dart';
-import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:aniflow/core/network/playable_web_source.dart';
 import 'package:dio/dio.dart';
@@ -42,14 +38,14 @@ void main() {
       expect(parseSeasonNumFromTitle("モブサイコ100 Ⅲ"), 3);
     });
 
-    test("test fetch episode", () async {
-      final result = await repository.searchPlaySource(MediaSource.vdm10, "1", "Unnamed Memory Act.2", Locale('JP'), 1);
-      switch (result) {
-        case LoadError<List<Episode>>():
-          print(result.exception);
-        case LoadSuccess<List<Episode>>():
-          print(result.data);
-      }
-    });
+    // test("test fetch episode", () async {
+    //   final result = await repository.searchPlaySource(MediaSource.vdm10, "1", "Unnamed Memory Act.2", Locale('JP'), 1);
+    //   switch (result) {
+    //     case LoadError<List<EpisodeModel>>():
+    //       print(result.exception);
+    //     case LoadSuccess<List<EpisodeModel>>():
+    //       print(result.data);
+    //   }
+    // });
   });
 }

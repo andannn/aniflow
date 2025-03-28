@@ -43,10 +43,10 @@ class OnPlayStateChanged extends EpisodePlayerEvent {
   OnPlayStateChanged(this.state);
 }
 
-class OnSelectEpisode extends EpisodePlayerEvent {
+class OnSelectEpisodeNumber extends EpisodePlayerEvent {
   final int episode;
 
-  OnSelectEpisode(this.episode);
+  OnSelectEpisodeNumber(this.episode);
 }
 
 @injectable
@@ -59,7 +59,7 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
   ) : super(EpisodePlayerState(selectedEpisodeNumber: param.episodeNum)) {
     on<OnMediaModelChanged>(
         (event, emit) => emit(state.copyWith(mediaModel: event.mediaModel)));
-    on<OnSelectEpisode>((event, emit) =>
+    on<OnSelectEpisodeNumber>((event, emit) =>
         emit(state.copyWith(selectedEpisodeNumber: event.episode)));
     on<OnSelectMediaSource>((event, emit) =>
         emit(state.copyWith(selectedMediaSource: event.source)));
@@ -71,7 +71,7 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
     );
 
     // trigger search
-    add(OnSelectMediaSource(MediaSource.vdm10));
+    add(OnSelectMediaSource(MediaSource.qdm8));
   }
 
   final EpisodePlayerReq param;

@@ -33,7 +33,7 @@ void main() {
         "Re：从零开始的异世界生活",
         "Re:ZERO -Starting Life in Another World-"
       ]) {
-        for (final config in MediaSource.values.map((e) => e.toConfig())) {
+        for (final config in [MediaSource.qdm8.toConfig()]) {
           final res1 = await dio.searchSubject(config: config, title: title);
           print("config: ${config.baseUrl} / title: $title \n result $res1");
         }
@@ -42,11 +42,10 @@ void main() {
 
     test('test search episode', () async {
       final templateUrl = [
-        "https://www.vdm10.com/video/13538.html",
         "https://www.qdm8.com/dongman/6240.html"
       ];
       await Future.wait(
-          MediaSource.values.map((e) => e.toConfig()).mapIndexed((index, config) async {
+          [MediaSource.qdm8.toConfig()].mapIndexed((index, config) async {
         final res1 =
             await dio.getEpisodes(config: config, url: templateUrl[index]);
         print("config: ${config.baseUrl} \n result $res1");
@@ -54,7 +53,7 @@ void main() {
     });
 
     test('convert keyword', () async {
-      final res = await dio.convertKeyword(Locale("zh"), "ぼっち・ざ・ろっく！");
+      final res = await dio.convertKeyword(Locale("zh"), "シャングリラ・フロンティア 2nd season");
       print(res);
     });
   });

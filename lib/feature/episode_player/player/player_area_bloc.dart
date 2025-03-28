@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/playable_source_repository.dart';
@@ -12,33 +11,50 @@ import 'package:injectable/injectable.dart';
 import 'package:video_player/video_player.dart';
 
 sealed class PlayerState extends Equatable {
-  const PlayerState();
+  final MediaSource source;
+
+  const PlayerState(this.source);
 }
 
 class Searching extends PlayerState {
-  final MediaSource source;
-
-  const Searching(this.source);
+  const Searching(super.source);
 
   @override
   List<Object?> get props => [source];
 }
 
 class LoadingPlayResource extends PlayerState {
-  final MediaSource source;
-  final List<Episode> episodes;
+  final List<MatchedEpisode> matchedList;
+  final int loadingIndex;
 
-  const LoadingPlayResource({required this.source, required this.episodes});
+  MatchedEpisode get current => matchedList[loadingIndex];
+
+  const LoadingPlayResource(
+    super.source, {
+    required this.matchedList,
+    this.loadingIndex = 0,
+  });
+
+  LoadingPlayResource? next() {
+    if (loadingIndex < matchedList.length - 1) {
+      return LoadingPlayResource(
+        source,
+        matchedList: matchedList,
+        loadingIndex: loadingIndex + 1,
+      );
+    } else {
+      return null;
+    }
+  }
 
   @override
-  List<Object?> get props => [source, episodes];
+  List<Object?> get props => [source, matchedList, loadingIndex];
 }
 
 class SearchError extends PlayerState {
-  final MediaSource source;
   final Exception exception;
 
-  const SearchError({required this.source, required this.exception});
+  const SearchError(super.source, {required this.exception});
 
   @override
   List<Object?> get props => [exception, source];
@@ -47,24 +63,32 @@ class SearchError extends PlayerState {
 class PlayingResource extends PlayerState {
   final String url;
   final VideoPlayerValue playerState;
+  final List<MatchedEpisode> matchedList;
+  final int playingIndex;
 
-  const PlayingResource(this.url, this.playerState);
+  MatchedEpisode get episode => matchedList[playingIndex];
+
+  const PlayingResource(super.source, this.url, this.playerState,
+      this.matchedList, this.playingIndex);
 
   @override
-  List<Object?> get props => [url, playerState];
+  List<Object?> get props => [source, url, playerState, playingIndex];
 }
 
 sealed class PlayerAreaEvent {}
 
 class OnPlayableResourceLoaded extends PlayerAreaEvent {
   final String url;
+  final MatchedEpisode episode;
 
-  OnPlayableResourceLoaded(this.url);
+  OnPlayableResourceLoaded(this.url, this.episode);
 }
 
-class OnTogglePlayState extends PlayerAreaEvent { }
+class OnTogglePlayState extends PlayerAreaEvent {}
+
 class OnSeekToPositionMs extends PlayerAreaEvent {
   final int positionMs;
+
   OnSeekToPositionMs(this.positionMs);
 }
 
@@ -74,10 +98,18 @@ class _OnSearchStateChanged extends PlayerAreaEvent {
   _OnSearchStateChanged(this.searchState);
 }
 
+class OnFetchResourceError extends PlayerAreaEvent {}
+
 class _OnPlayStateChanged extends PlayerAreaEvent {
   final VideoPlayerValue state;
 
   _OnPlayStateChanged(this.state);
+}
+
+class OnChangeMatchedEpisode extends PlayerAreaEvent {
+  final MatchedEpisode episode;
+
+  OnChangeMatchedEpisode(this.episode);
 }
 
 class PlayerAreaParam extends Equatable {
@@ -106,13 +138,21 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       final lastSearchState = state.searchState;
       PlayingResource? newState;
       if (lastSearchState is PlayingResource) {
-        newState = PlayingResource(lastSearchState.url, playerState);
+        newState = PlayingResource(
+          lastSearchState.source,
+          lastSearchState.url,
+          playerState,
+          lastSearchState.matchedList,
+          lastSearchState.playingIndex,
+        );
+        emit(state.copyWith(searchState: newState));
       }
-      emit(state.copyWith(searchState: newState));
     });
     on<OnPlayableResourceLoaded>(_handleLoadedPlayableResource);
     on<OnTogglePlayState>(_handleTogglePlayState);
     on<OnSeekToPositionMs>(_handleSeekToPositionMs);
+    on<OnFetchResourceError>(_handleFetchResourceError);
+    on<OnChangeMatchedEpisode>(_handleOnChangeMatchedEpisode);
 
     _init();
   }
@@ -146,22 +186,22 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       source,
       param.mediaId,
       title.native,
-      const Locale("jp"),
+      const Locale("ja"),
       param.episodeNum,
       token,
     );
 
     switch (result) {
-      case LoadError<List<Episode>>():
+      case LoadError<List<MatchedEpisode>>():
         add(
           _OnSearchStateChanged(
-            SearchError(source: source, exception: result.exception),
+            SearchError(source, exception: result.exception),
           ),
         );
-      case LoadSuccess<List<Episode>>():
+      case LoadSuccess<List<MatchedEpisode>>():
         add(
           _OnSearchStateChanged(
-            LoadingPlayResource(source: source, episodes: result.data),
+            LoadingPlayResource(source, matchedList: result.data),
           ),
         );
     }
@@ -174,10 +214,26 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
   Future _handleLoadedPlayableResource(
       OnPlayableResourceLoaded event, Emitter<PlayerAreaState> emit) async {
     final webUrl = event.url;
-    final controller = await _initPlayer(webUrl);
+    final lastSearchState = state.searchState;
+    if (lastSearchState is LoadingPlayResource) {
+      final controller = await _initPlayer(webUrl);
 
-    emit(
-        state.copyWith(searchState: PlayingResource(webUrl, controller.value)));
+      final list = lastSearchState.matchedList;
+      emit(
+        state.copyWith(
+          searchState: PlayingResource(
+            lastSearchState.source,
+            webUrl,
+            controller.value,
+            list,
+            list.indexOf(event.episode),
+          ),
+        ),
+      );
+    } else {
+      // Do nothing
+      return;
+    }
   }
 
   Future _handleTogglePlayState(
@@ -193,9 +249,9 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
 
   Future _handleSeekToPositionMs(
       OnSeekToPositionMs event, Emitter<PlayerAreaState> emit) async {
-      final controller = currentPlayerController;
-      if (controller == null) return;
-      await controller.seekTo(Duration(milliseconds: event.positionMs));
+    final controller = currentPlayerController;
+    if (controller == null) return;
+    await controller.seekTo(Duration(milliseconds: event.positionMs));
   }
 
   Future<VideoPlayerController> _initPlayer(String url) async {
@@ -212,5 +268,50 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
     );
     currentPlayerController = controller;
     return controller;
+  }
+
+  Future _handleFetchResourceError(
+      OnFetchResourceError event, Emitter<PlayerAreaState> emit) async {
+    final searchedState = state.searchState;
+    if (searchedState is LoadingPlayResource) {
+      final next = searchedState.next();
+      if (next != null) {
+        emit(state.copyWith(searchState: searchedState.next()));
+      } else {
+        emit(
+          state.copyWith(
+            searchState: SearchError(
+              searchedState.source,
+              exception: Exception("All matched episode load failed"),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future _handleOnChangeMatchedEpisode(
+      OnChangeMatchedEpisode event, Emitter<PlayerAreaState> emit) async {
+    final playerState = state.searchState;
+    if (playerState == null) {
+      return;
+    }
+
+    final matchedList = <MatchedEpisode>[];
+    if (playerState is LoadingPlayResource) {
+      matchedList.addAll(playerState.matchedList);
+    } else if (playerState is PlayingResource) {
+      matchedList.addAll(playerState.matchedList);
+    }
+
+    emit(
+      state.copyWith(
+        searchState: LoadingPlayResource(
+          playerState.source,
+          matchedList: matchedList,
+          loadingIndex: matchedList.indexOf(event.episode),
+        ),
+      ),
+    );
   }
 }

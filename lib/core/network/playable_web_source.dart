@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aniflow/core/network/model/bangumi_subject_dto.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
 import 'package:aniflow/core/network/web_source/subject_matcher.dart';
 import 'package:aniflow/core/network/web_source/subject_with_episodes.dart';
@@ -8,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 @lazySingleton
 class PlayableWebSource {
@@ -15,7 +17,7 @@ class PlayableWebSource {
 
   PlayableWebSource(this.dio);
 
-  Future<List<SubjectWithEpisodes>> fetch(
+  Future<(List<SubjectWithEpisodes>, SearchTitle)> fetch(
       {required SearchConfig config,
       required SearchRequest searchRequest}) async {
     final validSearchTitle = await _getValidTitle(searchRequest.title, config);
@@ -39,7 +41,7 @@ class PlayableWebSource {
       ret.add(SubjectWithEpisodes(subject: e, episodes: episodes));
     }
 
-    return ret;
+    return (ret, validSearchTitle);
   }
 
   Future<SearchTitle?> _getValidTitle(
@@ -56,7 +58,7 @@ class PlayableWebSource {
           if (converted != null) {
             return SearchTitle(
               converted,
-              converted.split(" ").toSet(),
+              converted.split(RegExp(r'[ ,!@?#~・·～:：]+')).toSet(),
               validLocal,
             );
           } else {
@@ -127,6 +129,7 @@ extension DioExtension on Dio {
       return [];
     }
 
+
     return episodeGroup
         .map((ep) => config.matcher.matchEpisodes(ep, config))
         .toList();
@@ -140,10 +143,16 @@ extension DioExtension on Dio {
           'https://api.bgm.tv/search/subject/$title',
           queryParameters: {'type': 2, 'responseGroup': 'small'},
         );
-        final matchedResult = (result.data['list'] as List).firstWhereOrNull((element) {
-          return element["name"] == title;
-        });
-        converted = matchedResult["name_cn"];
+
+        final subjects = (result.data['list'] as List)
+            .map((e) => BangumiSubjectDto.fromJson(e))
+            .toList();
+
+        final jpNameList = subjects.map((e) => e.name).toList();
+
+        final bestMatch = title.bestMatch(jpNameList);
+        final bestMatchedSubject = subjects[bestMatch.bestMatchIndex];
+        converted = bestMatchedSubject.nameCn;
       } catch (e) {}
 
       return converted;

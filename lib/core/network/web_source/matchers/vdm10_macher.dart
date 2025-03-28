@@ -9,19 +9,11 @@ class Vdm10Macher extends SubjectMatcher {
   String get episodeListMatchSelector => ".con_c2_list > li > a";
 
   @override
-  SearchedSubjectInfo matchSearchedSubject(Element element,
-      SearchConfig config) =>
+  SearchedSubjectInfo matchSearchedSubject(
+          Element element, SearchConfig config) =>
       _matchWithATag(element, config);
 
   @override
-  EpisodeInfo matchEpisodes(Element element, SearchConfig config) {
-    return EpisodeInfo(
-      name: element.text,
-      link: _getFullLink(
-        config.baseUrl,
-        element.attributes["href"] ?? "",
-      ),
-      episodeNum: findEpisodeNum(element.text),
-    );
-  }
+  EpisodeInfo matchEpisodes(Element element, SearchConfig config) =>
+      _matchEpisodes(element, config);
 }

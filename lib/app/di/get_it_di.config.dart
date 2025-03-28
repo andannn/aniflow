@@ -13,8 +13,6 @@ import 'package:aniflow/core/background_task/di/workmanager_module.dart'
     as _i555;
 import 'package:aniflow/core/background_task/executors/post_anilist_notification_task_executor.dart'
     as _i462;
-import 'package:aniflow/core/background_task/executors/sync_new_released_play_source_executor.dart'
-    as _i855;
 import 'package:aniflow/core/background_task/task_manager.dart' as _i490;
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart'
     as _i196;
@@ -30,14 +28,11 @@ import 'package:aniflow/core/data/auth_repository.dart' as _i768;
 import 'package:aniflow/core/data/character_repository.dart' as _i14;
 import 'package:aniflow/core/data/favorite_repository.dart' as _i462;
 import 'package:aniflow/core/data/github_repository.dart' as _i309;
-import 'package:aniflow/core/data/hi_animation_repository.dart' as _i827;
 import 'package:aniflow/core/data/media_information_repository.dart' as _i970;
 import 'package:aniflow/core/data/media_list_repository.dart' as _i319;
 import 'package:aniflow/core/data/message_repository.dart' as _i67;
 import 'package:aniflow/core/data/mocks/mock_auth_repository.dart' as _i91;
 import 'package:aniflow/core/data/mocks/mock_favorite_repository.dart' as _i989;
-import 'package:aniflow/core/data/mocks/mock_hi_animation_repository.dart'
-    as _i944;
 import 'package:aniflow/core/data/mocks/mock_media_information_repository.dart'
     as _i784;
 import 'package:aniflow/core/data/mocks/mock_media_list_repository.dart'
@@ -198,10 +193,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => platformEventChannelModule.getAuthEventChannel());
     gh.lazySingleton<_i974.PlatformExtractor>(
         () => platformEventChannelModule.getPlatformExtractor());
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i944.MockHiAnimationRepository(),
-      registerFor: {_Mock},
-    );
     gh.lazySingleton<_i970.MediaInformationRepository>(
       () => _i784.MockMediaInformationRepository(),
       registerFor: {_Mock},
@@ -382,12 +373,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i319.MediaListRepository>(),
         ));
-    gh.factory<_i855.SyncNewReleasedPlaySourceExecutor>(
-        () => _i855.SyncNewReleasedPlaySourceExecutor(
-              gh<_i827.HiAnimationRepository>(),
-              gh<_i319.MediaListRepository>(),
-              gh<_i768.AuthRepository>(),
-            ));
     gh.factoryParam<_i436.DetailStaffBloc, String, dynamic>((
       staffId,
       _,
@@ -712,18 +697,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i221.NotificationRepository>(),
           _category,
         ));
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i827.HiAnimationRepository(
-        gh<_i638.HiAnimationDataSource>(),
-        gh<_i393.EpisodeDao>(),
-        gh<_i918.UserDataPreferences>(),
-        gh<_i974.PlatformExtractor>(),
-      ),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
     gh.singleton<_i490.BackgroundTaskManager>(
       () => _i490.BackgroundTaskManager(
         gh<_i768.AuthRepository>(),
