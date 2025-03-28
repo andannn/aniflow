@@ -8,6 +8,7 @@ part 'episode_player_state.freezed.dart';
 class EpisodePlayerState with _$EpisodePlayerState {
   const factory EpisodePlayerState({
     MediaSource? selectedMediaSource,
+    required int selectedEpisodeNumber,
     MediaModel? mediaModel,
   }) = _EpisodePlayerState;
 }

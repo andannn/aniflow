@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$EpisodePlayerState {
   MediaSource? get selectedMediaSource => throw _privateConstructorUsedError;
+  int get selectedEpisodeNumber => throw _privateConstructorUsedError;
   MediaModel? get mediaModel => throw _privateConstructorUsedError;
 
   /// Create a copy of EpisodePlayerState
@@ -32,7 +33,10 @@ abstract class $EpisodePlayerStateCopyWith<$Res> {
           EpisodePlayerState value, $Res Function(EpisodePlayerState) then) =
       _$EpisodePlayerStateCopyWithImpl<$Res, EpisodePlayerState>;
   @useResult
-  $Res call({MediaSource? selectedMediaSource, MediaModel? mediaModel});
+  $Res call(
+      {MediaSource? selectedMediaSource,
+      int selectedEpisodeNumber,
+      MediaModel? mediaModel});
 
   $MediaModelCopyWith<$Res>? get mediaModel;
 }
@@ -53,6 +57,7 @@ class _$EpisodePlayerStateCopyWithImpl<$Res, $Val extends EpisodePlayerState>
   @override
   $Res call({
     Object? selectedMediaSource = freezed,
+    Object? selectedEpisodeNumber = null,
     Object? mediaModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +65,10 @@ class _$EpisodePlayerStateCopyWithImpl<$Res, $Val extends EpisodePlayerState>
           ? _value.selectedMediaSource
           : selectedMediaSource // ignore: cast_nullable_to_non_nullable
               as MediaSource?,
+      selectedEpisodeNumber: null == selectedEpisodeNumber
+          ? _value.selectedEpisodeNumber
+          : selectedEpisodeNumber // ignore: cast_nullable_to_non_nullable
+              as int,
       mediaModel: freezed == mediaModel
           ? _value.mediaModel
           : mediaModel // ignore: cast_nullable_to_non_nullable
@@ -90,7 +99,10 @@ abstract class _$$EpisodePlayerStateImplCopyWith<$Res>
       __$$EpisodePlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({MediaSource? selectedMediaSource, MediaModel? mediaModel});
+  $Res call(
+      {MediaSource? selectedMediaSource,
+      int selectedEpisodeNumber,
+      MediaModel? mediaModel});
 
   @override
   $MediaModelCopyWith<$Res>? get mediaModel;
@@ -110,6 +122,7 @@ class __$$EpisodePlayerStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedMediaSource = freezed,
+    Object? selectedEpisodeNumber = null,
     Object? mediaModel = freezed,
   }) {
     return _then(_$EpisodePlayerStateImpl(
@@ -117,6 +130,10 @@ class __$$EpisodePlayerStateImplCopyWithImpl<$Res>
           ? _value.selectedMediaSource
           : selectedMediaSource // ignore: cast_nullable_to_non_nullable
               as MediaSource?,
+      selectedEpisodeNumber: null == selectedEpisodeNumber
+          ? _value.selectedEpisodeNumber
+          : selectedEpisodeNumber // ignore: cast_nullable_to_non_nullable
+              as int,
       mediaModel: freezed == mediaModel
           ? _value.mediaModel
           : mediaModel // ignore: cast_nullable_to_non_nullable
@@ -128,16 +145,21 @@ class __$$EpisodePlayerStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$EpisodePlayerStateImpl implements _EpisodePlayerState {
-  const _$EpisodePlayerStateImpl({this.selectedMediaSource, this.mediaModel});
+  const _$EpisodePlayerStateImpl(
+      {this.selectedMediaSource,
+      required this.selectedEpisodeNumber,
+      this.mediaModel});
 
   @override
   final MediaSource? selectedMediaSource;
+  @override
+  final int selectedEpisodeNumber;
   @override
   final MediaModel? mediaModel;
 
   @override
   String toString() {
-    return 'EpisodePlayerState(selectedMediaSource: $selectedMediaSource, mediaModel: $mediaModel)';
+    return 'EpisodePlayerState(selectedMediaSource: $selectedMediaSource, selectedEpisodeNumber: $selectedEpisodeNumber, mediaModel: $mediaModel)';
   }
 
   @override
@@ -147,12 +169,15 @@ class _$EpisodePlayerStateImpl implements _EpisodePlayerState {
             other is _$EpisodePlayerStateImpl &&
             (identical(other.selectedMediaSource, selectedMediaSource) ||
                 other.selectedMediaSource == selectedMediaSource) &&
+            (identical(other.selectedEpisodeNumber, selectedEpisodeNumber) ||
+                other.selectedEpisodeNumber == selectedEpisodeNumber) &&
             (identical(other.mediaModel, mediaModel) ||
                 other.mediaModel == mediaModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedMediaSource, mediaModel);
+  int get hashCode => Object.hash(
+      runtimeType, selectedMediaSource, selectedEpisodeNumber, mediaModel);
 
   /// Create a copy of EpisodePlayerState
   /// with the given fields replaced by the non-null parameter values.
@@ -167,10 +192,13 @@ class _$EpisodePlayerStateImpl implements _EpisodePlayerState {
 abstract class _EpisodePlayerState implements EpisodePlayerState {
   const factory _EpisodePlayerState(
       {final MediaSource? selectedMediaSource,
+      required final int selectedEpisodeNumber,
       final MediaModel? mediaModel}) = _$EpisodePlayerStateImpl;
 
   @override
   MediaSource? get selectedMediaSource;
+  @override
+  int get selectedEpisodeNumber;
   @override
   MediaModel? get mediaModel;
 

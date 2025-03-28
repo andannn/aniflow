@@ -43,6 +43,12 @@ class OnPlayStateChanged extends EpisodePlayerEvent {
   OnPlayStateChanged(this.state);
 }
 
+class OnSelectEpisode extends EpisodePlayerEvent {
+  final int episode;
+
+  OnSelectEpisode(this.episode);
+}
+
 @injectable
 class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
     with AutoCancelMixin {
@@ -50,9 +56,11 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
     @factoryParam this.param,
     this._playableSourceRepository,
     this._mediaInformationRepository,
-  ) : super(const EpisodePlayerState()) {
+  ) : super(EpisodePlayerState(selectedEpisodeNumber: param.episodeNum)) {
     on<OnMediaModelChanged>(
         (event, emit) => emit(state.copyWith(mediaModel: event.mediaModel)));
+    on<OnSelectEpisode>((event, emit) =>
+        emit(state.copyWith(selectedEpisodeNumber: event.episode)));
     on<OnSelectMediaSource>((event, emit) =>
         emit(state.copyWith(selectedMediaSource: event.source)));
 

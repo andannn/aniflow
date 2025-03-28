@@ -4,6 +4,7 @@ import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
 import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/feature/detail_media/build_media_basic_info.dart';
 import 'package:aniflow/feature/episode_player/episode_player_bloc.dart';
 import 'package:aniflow/feature/episode_player/episode_player_state.dart';
 import 'package:aniflow/feature/episode_player/player/player_area.dart';
@@ -103,14 +104,21 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
                     .get<UserDataRepository>()
                     .userTitleLanguage) ??
             "";
+        final selectedEpisodeNumber = state.selectedEpisodeNumber;
+        final selectedMediaSource = state.selectedMediaSource;
+
+        if (selectedMediaSource == null) {
+          return const SizedBox();
+        }
+
         final appBarTitle =
-            "$mediaTitle - ${context.read<EpisodePlayerBloc>().param.episodeNum}${context.appLocal.episodes}";
+            "$mediaTitle - ${selectedEpisodeNumber}${context.appLocal.episodes}";
         return PlayerAreaBlocProvider(
           key: ValueKey(
-              "player_${req.mediaId}_${req.episodeNum}_${MediaSource.vdm10}_key"),
+              "player_${req.mediaId}_${selectedEpisodeNumber}_${selectedMediaSource}_key"),
           mediaId: req.mediaId,
-          episodeNum: req.episodeNum,
-          source: MediaSource.vdm10,
+          episodeNum: selectedEpisodeNumber,
+          source: selectedMediaSource,
           content: orientation == Orientation.portrait
               ? Scaffold(
                   appBar: AppBar(title: AutoSizeText(appBarTitle, maxLines: 2)),
@@ -130,7 +138,10 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
                       ),
                       if (state.mediaModel != null)
                         Expanded(
-                          child: _BasicInfo(model: state.mediaModel!),
+                          child: _BasicInfo(
+                            model: state.mediaModel!,
+                            selected: selectedEpisodeNumber,
+                          ),
                         )
                     ],
                   ),
@@ -179,25 +190,103 @@ class _BasicInfo extends StatelessWidget {
   const _BasicInfo({
     super.key,
     required this.model,
+    required this.selected,
   });
 
   final MediaModel model;
+  final int selected;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
-          child: Text(
-            model.title!.getTitle(
-              GetItScope.of(context)
-                  .get<UserDataRepository>()
-                  .userTitleLanguage,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  "Now Playing: $selected${context.appLocal.episodes}",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(width: 8),
+                FilledButton.tonal(
+                  onPressed: () {
+
+                  },
+                  child: const Text("Mark Watched"),
+                )
+              ],
             ),
-            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        SliverGrid.builder(
+          itemCount: model.episodes,
+          itemBuilder: (BuildContext context, int index) {
+            final episode = index + 1;
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: EpisodeNode(
+                number: episode,
+                playing: episode == selected,
+                onItemPressed: () {
+                  if (episode != selected) {
+                    context.read<EpisodePlayerBloc>().add(
+                          OnSelectEpisode(episode),
+                        );
+                  }
+                },
+              ),
+            );
+          },
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 64,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Play source",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class EpisodeNode extends StatelessWidget {
+  const EpisodeNode(
+      {super.key,
+      required this.number,
+      required this.playing,
+      required this.onItemPressed});
+
+  final int number;
+  final bool playing;
+  final VoidCallback onItemPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.outlined(
+      color: playing ? Theme.of(context).colorScheme.primary : null,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onItemPressed,
+        child: Center(
+          child: Text(
+            number.toString(),
+            style: TextStyle(
+              color: playing
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
