@@ -192,4 +192,9 @@ class MockMediaInformationRepository implements MediaInformationRepository {
       {required String id, required CancelToken token}) async {
     return LoadSuccess(data: null);
   }
+
+  @override
+  Future<MediaModel> getMedia(String id) {
+    return Future.value(MediaModel());
+  }
 }

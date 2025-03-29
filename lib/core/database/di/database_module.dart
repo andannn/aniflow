@@ -14,6 +14,7 @@ import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/github_release_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/search_result_cache_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
@@ -65,6 +66,8 @@ abstract class DIDataBaseModule {
   EpisodeDao geEpisodeDao(AniflowDatabase db) => db.episodeDao;
 
   GithubReleaseDao getGithubReleaseDao(AniflowDatabase db) => db.githubReleaseDao;
+
+  SearchResultCacheDao getSearchResultCacheDao(AniflowDatabase db) => db.searchResultCacheDao;
 }
 
 FutureOr<DatabaseConnection> _openIsolateConnection() async {

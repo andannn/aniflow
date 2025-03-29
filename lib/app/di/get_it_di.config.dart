@@ -13,8 +13,6 @@ import 'package:aniflow/core/background_task/di/workmanager_module.dart'
     as _i555;
 import 'package:aniflow/core/background_task/executors/post_anilist_notification_task_executor.dart'
     as _i462;
-import 'package:aniflow/core/background_task/executors/sync_new_released_play_source_executor.dart'
-    as _i855;
 import 'package:aniflow/core/background_task/task_manager.dart' as _i490;
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart'
     as _i196;
@@ -30,14 +28,11 @@ import 'package:aniflow/core/data/auth_repository.dart' as _i768;
 import 'package:aniflow/core/data/character_repository.dart' as _i14;
 import 'package:aniflow/core/data/favorite_repository.dart' as _i462;
 import 'package:aniflow/core/data/github_repository.dart' as _i309;
-import 'package:aniflow/core/data/hi_animation_repository.dart' as _i827;
 import 'package:aniflow/core/data/media_information_repository.dart' as _i970;
 import 'package:aniflow/core/data/media_list_repository.dart' as _i319;
 import 'package:aniflow/core/data/message_repository.dart' as _i67;
 import 'package:aniflow/core/data/mocks/mock_auth_repository.dart' as _i91;
 import 'package:aniflow/core/data/mocks/mock_favorite_repository.dart' as _i989;
-import 'package:aniflow/core/data/mocks/mock_hi_animation_repository.dart'
-    as _i944;
 import 'package:aniflow/core/data/mocks/mock_media_information_repository.dart'
     as _i784;
 import 'package:aniflow/core/data/mocks/mock_media_list_repository.dart'
@@ -46,6 +41,7 @@ import 'package:aniflow/core/data/mocks/mock_message_repository.dart' as _i752;
 import 'package:aniflow/core/data/mocks/mock_user_data_repository.dart'
     as _i520;
 import 'package:aniflow/core/data/notification_repository.dart' as _i221;
+import 'package:aniflow/core/data/playable_source_repository.dart' as _i197;
 import 'package:aniflow/core/data/search_repository.dart' as _i365;
 import 'package:aniflow/core/data/user_data_repository.dart' as _i810;
 import 'package:aniflow/core/data/user_info_repository.dart' as _i1066;
@@ -59,6 +55,7 @@ import 'package:aniflow/core/database/dao/favorite_dao.dart' as _i609;
 import 'package:aniflow/core/database/dao/github_release_dao.dart' as _i115;
 import 'package:aniflow/core/database/dao/media_dao.dart' as _i509;
 import 'package:aniflow/core/database/dao/media_list_dao.dart' as _i29;
+import 'package:aniflow/core/database/dao/search_result_cache_dao.dart' as _i53;
 import 'package:aniflow/core/database/dao/staff_dao.dart' as _i339;
 import 'package:aniflow/core/database/dao/studio_dao.dart' as _i159;
 import 'package:aniflow/core/database/dao/user_dao.dart' as _i874;
@@ -72,6 +69,7 @@ import 'package:aniflow/core/network/auth_data_source.dart' as _i1026;
 import 'package:aniflow/core/network/di/di_network_module.dart' as _i106;
 import 'package:aniflow/core/network/github_data_source.dart' as _i70;
 import 'package:aniflow/core/network/hianime_data_source.dart' as _i638;
+import 'package:aniflow/core/network/playable_web_source.dart' as _i311;
 import 'package:aniflow/core/platform/auth_event_channel.dart' as _i4;
 import 'package:aniflow/core/platform/di/auth_event_channel_module.dart'
     as _i329;
@@ -79,6 +77,8 @@ import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart
     as _i365;
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i918;
+import 'package:aniflow/core/usecase/media_mark_watched_use_case.dart'
+    as _i1027;
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart'
     as _i553;
 import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/airing_schedule_of_day_bloc.dart'
@@ -118,6 +118,10 @@ import 'package:aniflow/feature/discover/recent_movies/recent_movies_bloc.dart'
     as _i1013;
 import 'package:aniflow/feature/edit_profile/bloc/edit_profile_bloc.dart'
     as _i847;
+import 'package:aniflow/feature/episode_player/episode_player_bloc.dart'
+    as _i668;
+import 'package:aniflow/feature/episode_player/player/player_area_bloc.dart'
+    as _i1048;
 import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_bloc.dart'
     as _i782;
 import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart' as _i748;
@@ -192,10 +196,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => platformEventChannelModule.getAuthEventChannel());
     gh.lazySingleton<_i974.PlatformExtractor>(
         () => platformEventChannelModule.getPlatformExtractor());
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i944.MockHiAnimationRepository(),
-      registerFor: {_Mock},
-    );
     gh.lazySingleton<_i970.MediaInformationRepository>(
       () => _i784.MockMediaInformationRepository(),
       registerFor: {_Mock},
@@ -376,26 +376,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i319.MediaListRepository>(),
         ));
-    gh.factory<_i855.SyncNewReleasedPlaySourceExecutor>(
-        () => _i855.SyncNewReleasedPlaySourceExecutor(
-              gh<_i827.HiAnimationRepository>(),
-              gh<_i319.MediaListRepository>(),
-              gh<_i768.AuthRepository>(),
-            ));
-    gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
-      mediaId,
-      _,
-    ) =>
-        _i789.DetailMediaBloc(
-          mediaId,
-          gh<_i768.AuthRepository>(),
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i319.MediaListRepository>(),
-          gh<_i827.HiAnimationRepository>(),
-          gh<_i67.MessageRepository>(),
-        ));
     gh.factoryParam<_i436.DetailStaffBloc, String, dynamic>((
       staffId,
       _,
@@ -437,6 +417,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => dIDataBaseModule.geEpisodeDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i115.GithubReleaseDao>(() =>
         dIDataBaseModule.getGithubReleaseDao(gh<_i545.AniflowDatabase>()));
+    gh.factory<_i53.SearchResultCacheDao>(() =>
+        dIDataBaseModule.getSearchResultCacheDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i1013.RecentMoviesBloc>(
         () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));
     gh.lazySingleton<_i630.RemoteConfigManager>(
@@ -468,12 +450,27 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i319.MediaListRepository>(),
           gh<_i810.UserDataRepository>(),
         ));
+    gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
+      mediaId,
+      _,
+    ) =>
+        _i789.DetailMediaBloc(
+          mediaId,
+          gh<_i768.AuthRepository>(),
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i319.MediaListRepository>(),
+          gh<_i67.MessageRepository>(),
+        ));
     gh.lazySingleton<_i1001.AniListDataSource>(
         () => _i1001.AniListDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i1026.AuthDataSource>(
         () => _i1026.AuthDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i70.GithubDataSource>(
         () => _i70.GithubDataSource(gh<_i361.Dio>()));
+    gh.lazySingleton<_i311.PlayableWebSource>(
+        () => _i311.PlayableWebSource(gh<_i361.Dio>()));
     gh.factoryParam<_i409.StudioContentsPagingBloc, String, dynamic>((
       studioId,
       _,
@@ -516,6 +513,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i638.HiAnimationDataSource>(
         () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
+    gh.lazySingleton<_i197.PlayableSourceRepository>(
+      () => _i197.PlayableSourceRepository(
+        gh<_i311.PlayableWebSource>(),
+        gh<_i53.SearchResultCacheDao>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
     gh.lazySingleton<_i319.MediaListRepository>(
       () => _i319.MediaListRepository(
         gh<_i1026.AuthDataSource>(),
@@ -689,18 +696,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i221.NotificationRepository>(),
           _category,
         ));
-    gh.lazySingleton<_i827.HiAnimationRepository>(
-      () => _i827.HiAnimationRepository(
-        gh<_i638.HiAnimationDataSource>(),
-        gh<_i393.EpisodeDao>(),
-        gh<_i918.UserDataPreferences>(),
-        gh<_i974.PlatformExtractor>(),
-      ),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
     gh.singleton<_i490.BackgroundTaskManager>(
       () => _i490.BackgroundTaskManager(
         gh<_i768.AuthRepository>(),
@@ -751,6 +746,25 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
         ));
+    gh.lazySingleton<_i1027.MediaMarkWatchedUseCase>(
+      () => _i1027.MediaMarkWatchedUseCase(
+        gh<_i67.MessageRepository>(),
+        gh<_i319.MediaListRepository>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
+    gh.factoryParam<_i1048.PlayerAreaBloc, _i1048.PlayerAreaParam, dynamic>((
+      param,
+      _,
+    ) =>
+        _i1048.PlayerAreaBloc(
+          param,
+          gh<_i197.PlayableSourceRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+        ));
     gh.factoryParam<_i425.MediaSearchResultPagingBloc, _i55.MediaType, String>((
       _mediaType,
       _searchString,
@@ -795,6 +809,17 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i768.AuthRepository>(),
               gh<_i810.UserDataRepository>(),
             ));
+    gh.factoryParam<_i668.EpisodePlayerBloc, _i668.EpisodePlayerReq, dynamic>((
+      param,
+      _,
+    ) =>
+        _i668.EpisodePlayerBloc(
+          param,
+          gh<_i319.MediaListRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i1027.MediaMarkWatchedUseCase>(),
+        ));
     return this;
   }
 }

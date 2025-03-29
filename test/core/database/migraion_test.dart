@@ -34,6 +34,13 @@ void main() {
     await verifier.migrateAndValidate(db, 9);
   });
 
+  test('upgrade from v10 to v11', () async {
+    final connection = await verifier.startAt(10);
+    final db = AniflowDatabase(connection);
+
+    await verifier.migrateAndValidate(db, 11);
+  });
+
   // test('upgrade from v8 to v9', () async {
   //   final connection = await verifier.startAt(9);
   //   final db = AniflowDatabase(connection);

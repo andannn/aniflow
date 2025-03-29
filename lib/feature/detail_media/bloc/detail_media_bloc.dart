@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:aniflow/core/common/definitions/media_list_status.dart';
-import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/message/snack_bar_message.dart';
 import 'package:aniflow/core/common/util/bloc_util.dart';
 import 'package:aniflow/core/common/util/error_handler.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/favorite_repository.dart';
-import 'package:aniflow/core/data/hi_animation_repository.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -22,7 +20,6 @@ import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
 sealed class DetailAnimeEvent {}
@@ -37,12 +34,6 @@ class _OnMediaListItemChanged extends DetailAnimeEvent {
   _OnMediaListItemChanged({required this.mediaListItemModel});
 
   final MediaListItemModel? mediaListItemModel;
-}
-
-class _OnHiAnimationEnabledChanged extends DetailAnimeEvent {
-  _OnHiAnimationEnabledChanged({required this.enabled});
-
-  final bool enabled;
 }
 
 class OnMediaListModified extends DetailAnimeEvent {
@@ -64,38 +55,7 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
   final bool isLoading;
 }
 
-class _OnEpisodeFound extends DetailAnimeEvent {
-  _OnEpisodeFound({required this.episode});
-
-  final Episode episode;
-}
-
 class OnMarkWatchedClick extends DetailAnimeEvent {}
-
-class OnRetryGetHighAnimationSource extends DetailAnimeEvent {}
-
-class _OnFindEpisodeError extends DetailAnimeEvent {
-  _OnFindEpisodeError({
-    required this.exception,
-    this.searchUrl,
-  });
-
-  final Exception exception;
-  final String? searchUrl;
-}
-
-class _OnStartFindSource extends DetailAnimeEvent {}
-
-class HiAnimationSource extends Equatable {
-  final String animeId;
-  final int episode;
-  final List<String> keywords;
-
-  const HiAnimationSource(this.animeId, this.episode, this.keywords);
-
-  @override
-  List<Object?> get props => [animeId, episode, ...keywords];
-}
 
 sealed class LoadingState<T> {
   const LoadingState();
@@ -142,7 +102,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
     this._userDataRepository,
     this._mediaRepository,
     this._mediaListRepository,
-    this._hiAnimationRepository,
     this._messageRepository,
   ) : super(DetailMediaUiState(
           userTitleLanguage: _userDataRepository.userTitleLanguage,
@@ -156,27 +115,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       (event, emit) =>
           emit(state.copyWith(mediaListItem: event.mediaListItemModel)),
     );
-    on<_OnHiAnimationEnabledChanged>(
-      (event, emit) =>
-          emit(state.copyWith(isHiAnimationFeatureEnabled: event.enabled)),
-    );
     on<OnMediaListModified>(_onMediaListModified);
     on<OnToggleFavoriteState>(_onToggleFavoriteState);
     on<_OnLoadingStateChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
-    on<_OnEpisodeFound>(
-      (event, emit) => emit(state.copyWith(episode: Ready(event.episode))),
-    );
-    on<_OnFindEpisodeError>(
-      (event, emit) => emit(
-          state.copyWith(episode: Error(event.exception, event.searchUrl))),
-    );
-    on<_OnStartFindSource>(
-      (event, emit) => emit(state.copyWith(episode: Loading())),
-    );
     on<OnMarkWatchedClick>(_onMarkWatchedClick);
-    on<OnRetryGetHighAnimationSource>(_onRetryGetHighAnimationSource);
 
     _init();
   }
@@ -186,11 +130,10 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
   final MediaListRepository _mediaListRepository;
   final FavoriteRepository _favoriteRepository;
   final AuthRepository _authRepository;
-  final HiAnimationRepository _hiAnimationRepository;
   final UserDataRepository _userDataRepository;
   final MessageRepository _messageRepository;
 
-  HiAnimationSource? _hiAnimationSource;
+  // HiAnimationSource? _hiAnimationSource;
 
   StreamSubscription? _isHiAnimationEnabledSub;
 
@@ -221,43 +164,9 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       );
     }
 
-    _isHiAnimationEnabledSub =
-        _userDataRepository.isHiAnimationFeatureEnabledStream.listen((enabled) {
-      safeAdd(_OnHiAnimationEnabledChanged(enabled: enabled));
-    });
-
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
     _startFetchDetailAnimeInfo();
-  }
-
-  @override
-  void onChange(Change<DetailMediaUiState> change) {
-    super.onChange(change);
-    final progress = change.nextState.mediaListItem?.progress;
-    final title = change.nextState.detailAnimeModel?.title;
-    final isAnime = change.nextState.detailAnimeModel?.type == MediaType.anime;
-
-    if (change.nextState.isHiAnimationFeatureEnabled &&
-        progress != null &&
-        title != null &&
-        isAnime) {
-      final hasNextReleasingEpisode =
-          change.nextState.hasNextReleasedEpisode == true;
-      final nextProgress = hasNextReleasingEpisode ? progress + 1 : null;
-      final animeId = change.nextState.detailAnimeModel!.id;
-      if (nextProgress != null) {
-        _updateHiAnimationSource(
-          HiAnimationSource(
-            animeId,
-            nextProgress,
-            [title.english, title.romaji, title.native]
-                .where((e) => e.isNotEmpty)
-                .toList(),
-          ),
-        );
-      }
-    }
   }
 
   @override
@@ -336,42 +245,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
         mediaId, _toggleFavoriteCancelToken!));
   }
 
-  void _updateHiAnimationSource(HiAnimationSource source,
-      {bool isForce = false}) async {
-    if (_hiAnimationSource != source || isForce) {
-      _hiAnimationSource = source;
-      _findPlaySourceCancelToken?.cancel();
-      _findPlaySourceCancelToken = CancelToken();
-      safeAdd(_OnStartFindSource());
-      final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
-        source.animeId,
-        source.keywords,
-        source.episode.toString(),
-        _findPlaySourceCancelToken,
-      );
-
-      switch (result) {
-        case LoadError<Episode>(exception: final exception):
-          logger.d('findPlaySource failed ${result.exception}');
-          if (exception is NotFoundEpisodeException) {
-            safeAdd(_OnFindEpisodeError(
-                exception: result.exception, searchUrl: exception.searchUrl));
-          } else {
-            safeAdd(_OnFindEpisodeError(exception: result.exception));
-          }
-
-          final message =
-              await ErrorHandler.convertExceptionToMessage(result.exception);
-          if (message != null) {
-            _messageRepository.showMessage(message);
-          }
-        case LoadSuccess<Episode>():
-          logger.d('findPlaySource success ${result.data}');
-          safeAdd(_OnEpisodeFound(episode: result.data));
-      }
-    }
-  }
-
   FutureOr<void> _onMarkWatchedClick(
     OnMarkWatchedClick event,
     Emitter<DetailMediaUiState> emit,
@@ -407,14 +280,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       } else {
         _messageRepository.showMessage(const MediaMarkWatchedMessage());
       }
-    }
-  }
-
-  FutureOr<void> _onRetryGetHighAnimationSource(
-      OnRetryGetHighAnimationSource event, Emitter<DetailMediaUiState> emit) {
-    final source = _hiAnimationSource;
-    if (source != null) {
-      _updateHiAnimationSource(source, isForce: true);
     }
   }
 }

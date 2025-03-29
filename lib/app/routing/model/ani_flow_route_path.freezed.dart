@@ -50,6 +50,8 @@ AniFlowRoutePath _$AniFlowRoutePathFromJson(Map<String, dynamic> json) {
       return SettingsRoutePath.fromJson(json);
     case 'birthdayCharacterPage':
       return BirthdayCharacterPagePath.fromJson(json);
+    case 'episodePlayer':
+      return EpisodePlayerPagePath.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'AniFlowRoutePath',
@@ -79,6 +81,7 @@ mixin _$AniFlowRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -101,6 +104,7 @@ mixin _$AniFlowRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -123,6 +127,7 @@ mixin _$AniFlowRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -148,6 +153,7 @@ mixin _$AniFlowRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -169,6 +175,7 @@ mixin _$AniFlowRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -190,6 +197,7 @@ mixin _$AniFlowRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -285,6 +293,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return home();
   }
@@ -310,6 +319,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return home?.call();
   }
@@ -335,6 +345,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (home != null) {
@@ -366,6 +377,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return home(this);
   }
@@ -390,6 +402,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return home?.call(this);
   }
@@ -414,6 +427,7 @@ class _$AniFlowHomePathImpl implements AniFlowHomePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (home != null) {
@@ -504,6 +518,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return search();
   }
@@ -529,6 +544,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return search?.call();
   }
@@ -554,6 +570,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (search != null) {
@@ -585,6 +602,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return search(this);
   }
@@ -609,6 +627,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return search?.call(this);
   }
@@ -633,6 +652,7 @@ class _$SearchRoutePathImpl implements SearchRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (search != null) {
@@ -752,6 +772,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return userProfile(id);
   }
@@ -777,6 +798,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return userProfile?.call(id);
   }
@@ -802,6 +824,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (userProfile != null) {
@@ -833,6 +856,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return userProfile(this);
   }
@@ -857,6 +881,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return userProfile?.call(this);
   }
@@ -881,6 +906,7 @@ class _$UserProfileRoutePathImpl implements UserProfileRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (userProfile != null) {
@@ -1014,6 +1040,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return categoryAnimeList(category);
   }
@@ -1039,6 +1066,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return categoryAnimeList?.call(category);
   }
@@ -1064,6 +1092,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (categoryAnimeList != null) {
@@ -1095,6 +1124,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return categoryAnimeList(this);
   }
@@ -1119,6 +1149,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return categoryAnimeList?.call(this);
   }
@@ -1143,6 +1174,7 @@ class _$CategoryAnimeListRoutePathImpl implements CategoryAnimeListRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (categoryAnimeList != null) {
@@ -1276,6 +1308,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return mediaCharacterList(id);
   }
@@ -1301,6 +1334,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return mediaCharacterList?.call(id);
   }
@@ -1326,6 +1360,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (mediaCharacterList != null) {
@@ -1357,6 +1392,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return mediaCharacterList(this);
   }
@@ -1381,6 +1417,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return mediaCharacterList?.call(this);
   }
@@ -1405,6 +1442,7 @@ class _$MediaCharacterListRoutePathImpl implements MediaCharacterListRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (mediaCharacterList != null) {
@@ -1534,6 +1572,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return mediaStaffList(id);
   }
@@ -1559,6 +1598,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return mediaStaffList?.call(id);
   }
@@ -1584,6 +1624,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (mediaStaffList != null) {
@@ -1615,6 +1656,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return mediaStaffList(this);
   }
@@ -1639,6 +1681,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return mediaStaffList?.call(this);
   }
@@ -1663,6 +1706,7 @@ class _$MediaStaffListRoutePathImpl implements MediaStaffListRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (mediaStaffList != null) {
@@ -1791,6 +1835,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return detailMedia(id);
   }
@@ -1816,6 +1861,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return detailMedia?.call(id);
   }
@@ -1841,6 +1887,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailMedia != null) {
@@ -1872,6 +1919,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return detailMedia(this);
   }
@@ -1896,6 +1944,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return detailMedia?.call(this);
   }
@@ -1920,6 +1969,7 @@ class _$DetailMediaRoutePathImpl implements DetailMediaRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailMedia != null) {
@@ -2047,6 +2097,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return detailCharacter(id);
   }
@@ -2072,6 +2123,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return detailCharacter?.call(id);
   }
@@ -2097,6 +2149,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailCharacter != null) {
@@ -2128,6 +2181,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return detailCharacter(this);
   }
@@ -2152,6 +2206,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return detailCharacter?.call(this);
   }
@@ -2176,6 +2231,7 @@ class _$DetailCharacterPathImpl implements DetailCharacterPath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailCharacter != null) {
@@ -2303,6 +2359,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return detailStaff(id);
   }
@@ -2328,6 +2385,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return detailStaff?.call(id);
   }
@@ -2353,6 +2411,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailStaff != null) {
@@ -2384,6 +2443,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return detailStaff(this);
   }
@@ -2408,6 +2468,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return detailStaff?.call(this);
   }
@@ -2432,6 +2493,7 @@ class _$DetailStaffPathImpl implements DetailStaffPath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailStaff != null) {
@@ -2561,6 +2623,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return airingSchedule(type);
   }
@@ -2586,6 +2649,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return airingSchedule?.call(type);
   }
@@ -2611,6 +2675,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (airingSchedule != null) {
@@ -2642,6 +2707,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return airingSchedule(this);
   }
@@ -2666,6 +2732,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return airingSchedule?.call(this);
   }
@@ -2690,6 +2757,7 @@ class _$AiringScheduleRoutePathImpl implements AiringScheduleRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (airingSchedule != null) {
@@ -2791,6 +2859,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return notification();
   }
@@ -2816,6 +2885,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return notification?.call();
   }
@@ -2841,6 +2911,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (notification != null) {
@@ -2872,6 +2943,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return notification(this);
   }
@@ -2896,6 +2968,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return notification?.call(this);
   }
@@ -2920,6 +2993,7 @@ class _$NotificationRoutePathImpl implements NotificationRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (notification != null) {
@@ -3039,6 +3113,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return detailStudio(id);
   }
@@ -3064,6 +3139,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return detailStudio?.call(id);
   }
@@ -3089,6 +3165,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailStudio != null) {
@@ -3120,6 +3197,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return detailStudio(this);
   }
@@ -3144,6 +3222,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return detailStudio?.call(this);
   }
@@ -3168,6 +3247,7 @@ class _$DetailStudioRoutePathImpl implements DetailStudioRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (detailStudio != null) {
@@ -3297,6 +3377,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return activityReplies(id);
   }
@@ -3322,6 +3403,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return activityReplies?.call(id);
   }
@@ -3347,6 +3429,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (activityReplies != null) {
@@ -3378,6 +3461,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return activityReplies(this);
   }
@@ -3402,6 +3486,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return activityReplies?.call(this);
   }
@@ -3426,6 +3511,7 @@ class _$ActivityRepliesRoutePathImpl implements ActivityRepliesRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (activityReplies != null) {
@@ -3568,6 +3654,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return imagePreview(source);
   }
@@ -3593,6 +3680,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return imagePreview?.call(source);
   }
@@ -3618,6 +3706,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (imagePreview != null) {
@@ -3649,6 +3738,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return imagePreview(this);
   }
@@ -3673,6 +3763,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return imagePreview?.call(this);
   }
@@ -3697,6 +3788,7 @@ class _$ImagePreviewRoutePathImpl implements ImagePreviewRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (imagePreview != null) {
@@ -3837,6 +3929,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return mediaListUpdate(mediaId, from);
   }
@@ -3862,6 +3955,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return mediaListUpdate?.call(mediaId, from);
   }
@@ -3887,6 +3981,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (mediaListUpdate != null) {
@@ -3918,6 +4013,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return mediaListUpdate(this);
   }
@@ -3942,6 +4038,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return mediaListUpdate?.call(this);
   }
@@ -3966,6 +4063,7 @@ class _$MediaListUpdateRoutePathImpl implements MediaListUpdateRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (mediaListUpdate != null) {
@@ -4067,6 +4165,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return settings();
   }
@@ -4092,6 +4191,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return settings?.call();
   }
@@ -4117,6 +4217,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (settings != null) {
@@ -4148,6 +4249,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return settings(this);
   }
@@ -4172,6 +4274,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return settings?.call(this);
   }
@@ -4196,6 +4299,7 @@ class _$SettingsRoutePathImpl implements SettingsRoutePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (settings != null) {
@@ -4290,6 +4394,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     required TResult Function(String mediaId, String from) mediaListUpdate,
     required TResult Function() settings,
     required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
   }) {
     return birthdayCharacterPage();
   }
@@ -4315,6 +4420,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult? Function(String mediaId, String from)? mediaListUpdate,
     TResult? Function()? settings,
     TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
   }) {
     return birthdayCharacterPage?.call();
   }
@@ -4340,6 +4446,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult Function(String mediaId, String from)? mediaListUpdate,
     TResult Function()? settings,
     TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
     required TResult orElse(),
   }) {
     if (birthdayCharacterPage != null) {
@@ -4371,6 +4478,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     required TResult Function(SettingsRoutePath value) settings,
     required TResult Function(BirthdayCharacterPagePath value)
         birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
   }) {
     return birthdayCharacterPage(this);
   }
@@ -4395,6 +4503,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult? Function(SettingsRoutePath value)? settings,
     TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
   }) {
     return birthdayCharacterPage?.call(this);
   }
@@ -4419,6 +4528,7 @@ class _$BirthdayCharacterPagePathImpl implements BirthdayCharacterPagePath {
     TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
     TResult Function(SettingsRoutePath value)? settings,
     TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
     required TResult orElse(),
   }) {
     if (birthdayCharacterPage != null) {
@@ -4440,4 +4550,279 @@ abstract class BirthdayCharacterPagePath implements AniFlowRoutePath {
 
   factory BirthdayCharacterPagePath.fromJson(Map<String, dynamic> json) =
       _$BirthdayCharacterPagePathImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$EpisodePlayerPagePathImplCopyWith<$Res> {
+  factory _$$EpisodePlayerPagePathImplCopyWith(
+          _$EpisodePlayerPagePathImpl value,
+          $Res Function(_$EpisodePlayerPagePathImpl) then) =
+      __$$EpisodePlayerPagePathImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String mediaId, int episodeNum});
+}
+
+/// @nodoc
+class __$$EpisodePlayerPagePathImplCopyWithImpl<$Res>
+    extends _$AniFlowRoutePathCopyWithImpl<$Res, _$EpisodePlayerPagePathImpl>
+    implements _$$EpisodePlayerPagePathImplCopyWith<$Res> {
+  __$$EpisodePlayerPagePathImplCopyWithImpl(_$EpisodePlayerPagePathImpl _value,
+      $Res Function(_$EpisodePlayerPagePathImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? mediaId = null,
+    Object? episodeNum = null,
+  }) {
+    return _then(_$EpisodePlayerPagePathImpl(
+      mediaId: null == mediaId
+          ? _value.mediaId
+          : mediaId // ignore: cast_nullable_to_non_nullable
+              as String,
+      episodeNum: null == episodeNum
+          ? _value.episodeNum
+          : episodeNum // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$EpisodePlayerPagePathImpl implements EpisodePlayerPagePath {
+  const _$EpisodePlayerPagePathImpl(
+      {required this.mediaId, required this.episodeNum, final String? $type})
+      : $type = $type ?? 'episodePlayer';
+
+  factory _$EpisodePlayerPagePathImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EpisodePlayerPagePathImplFromJson(json);
+
+  @override
+  final String mediaId;
+  @override
+  final int episodeNum;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'AniFlowRoutePath.episodePlayer(mediaId: $mediaId, episodeNum: $episodeNum)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EpisodePlayerPagePathImpl &&
+            (identical(other.mediaId, mediaId) || other.mediaId == mediaId) &&
+            (identical(other.episodeNum, episodeNum) ||
+                other.episodeNum == episodeNum));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, mediaId, episodeNum);
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EpisodePlayerPagePathImplCopyWith<_$EpisodePlayerPagePathImpl>
+      get copyWith => __$$EpisodePlayerPagePathImplCopyWithImpl<
+          _$EpisodePlayerPagePathImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() home,
+    required TResult Function() search,
+    required TResult Function(String id) userProfile,
+    required TResult Function(MediaCategory category) categoryAnimeList,
+    required TResult Function(String id) mediaCharacterList,
+    required TResult Function(String id) mediaStaffList,
+    required TResult Function(String id) detailMedia,
+    required TResult Function(String id) detailCharacter,
+    required TResult Function(String id) detailStaff,
+    required TResult Function(ScheduleType type) airingSchedule,
+    required TResult Function() notification,
+    required TResult Function(String id) detailStudio,
+    required TResult Function(String id) activityReplies,
+    required TResult Function(@PreviewSourceConverter() PreviewSource source)
+        imagePreview,
+    required TResult Function(String mediaId, String from) mediaListUpdate,
+    required TResult Function() settings,
+    required TResult Function() birthdayCharacterPage,
+    required TResult Function(String mediaId, int episodeNum) episodePlayer,
+  }) {
+    return episodePlayer(mediaId, episodeNum);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? home,
+    TResult? Function()? search,
+    TResult? Function(String id)? userProfile,
+    TResult? Function(MediaCategory category)? categoryAnimeList,
+    TResult? Function(String id)? mediaCharacterList,
+    TResult? Function(String id)? mediaStaffList,
+    TResult? Function(String id)? detailMedia,
+    TResult? Function(String id)? detailCharacter,
+    TResult? Function(String id)? detailStaff,
+    TResult? Function(ScheduleType type)? airingSchedule,
+    TResult? Function()? notification,
+    TResult? Function(String id)? detailStudio,
+    TResult? Function(String id)? activityReplies,
+    TResult? Function(@PreviewSourceConverter() PreviewSource source)?
+        imagePreview,
+    TResult? Function(String mediaId, String from)? mediaListUpdate,
+    TResult? Function()? settings,
+    TResult? Function()? birthdayCharacterPage,
+    TResult? Function(String mediaId, int episodeNum)? episodePlayer,
+  }) {
+    return episodePlayer?.call(mediaId, episodeNum);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? home,
+    TResult Function()? search,
+    TResult Function(String id)? userProfile,
+    TResult Function(MediaCategory category)? categoryAnimeList,
+    TResult Function(String id)? mediaCharacterList,
+    TResult Function(String id)? mediaStaffList,
+    TResult Function(String id)? detailMedia,
+    TResult Function(String id)? detailCharacter,
+    TResult Function(String id)? detailStaff,
+    TResult Function(ScheduleType type)? airingSchedule,
+    TResult Function()? notification,
+    TResult Function(String id)? detailStudio,
+    TResult Function(String id)? activityReplies,
+    TResult Function(@PreviewSourceConverter() PreviewSource source)?
+        imagePreview,
+    TResult Function(String mediaId, String from)? mediaListUpdate,
+    TResult Function()? settings,
+    TResult Function()? birthdayCharacterPage,
+    TResult Function(String mediaId, int episodeNum)? episodePlayer,
+    required TResult orElse(),
+  }) {
+    if (episodePlayer != null) {
+      return episodePlayer(mediaId, episodeNum);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AniFlowHomePath value) home,
+    required TResult Function(SearchRoutePath value) search,
+    required TResult Function(UserProfileRoutePath value) userProfile,
+    required TResult Function(CategoryAnimeListRoutePath value)
+        categoryAnimeList,
+    required TResult Function(MediaCharacterListRoutePath value)
+        mediaCharacterList,
+    required TResult Function(MediaStaffListRoutePath value) mediaStaffList,
+    required TResult Function(DetailMediaRoutePath value) detailMedia,
+    required TResult Function(DetailCharacterPath value) detailCharacter,
+    required TResult Function(DetailStaffPath value) detailStaff,
+    required TResult Function(AiringScheduleRoutePath value) airingSchedule,
+    required TResult Function(NotificationRoutePath value) notification,
+    required TResult Function(DetailStudioRoutePath value) detailStudio,
+    required TResult Function(ActivityRepliesRoutePath value) activityReplies,
+    required TResult Function(ImagePreviewRoutePath value) imagePreview,
+    required TResult Function(MediaListUpdateRoutePath value) mediaListUpdate,
+    required TResult Function(SettingsRoutePath value) settings,
+    required TResult Function(BirthdayCharacterPagePath value)
+        birthdayCharacterPage,
+    required TResult Function(EpisodePlayerPagePath value) episodePlayer,
+  }) {
+    return episodePlayer(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AniFlowHomePath value)? home,
+    TResult? Function(SearchRoutePath value)? search,
+    TResult? Function(UserProfileRoutePath value)? userProfile,
+    TResult? Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
+    TResult? Function(MediaCharacterListRoutePath value)? mediaCharacterList,
+    TResult? Function(MediaStaffListRoutePath value)? mediaStaffList,
+    TResult? Function(DetailMediaRoutePath value)? detailMedia,
+    TResult? Function(DetailCharacterPath value)? detailCharacter,
+    TResult? Function(DetailStaffPath value)? detailStaff,
+    TResult? Function(AiringScheduleRoutePath value)? airingSchedule,
+    TResult? Function(NotificationRoutePath value)? notification,
+    TResult? Function(DetailStudioRoutePath value)? detailStudio,
+    TResult? Function(ActivityRepliesRoutePath value)? activityReplies,
+    TResult? Function(ImagePreviewRoutePath value)? imagePreview,
+    TResult? Function(MediaListUpdateRoutePath value)? mediaListUpdate,
+    TResult? Function(SettingsRoutePath value)? settings,
+    TResult? Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult? Function(EpisodePlayerPagePath value)? episodePlayer,
+  }) {
+    return episodePlayer?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AniFlowHomePath value)? home,
+    TResult Function(SearchRoutePath value)? search,
+    TResult Function(UserProfileRoutePath value)? userProfile,
+    TResult Function(CategoryAnimeListRoutePath value)? categoryAnimeList,
+    TResult Function(MediaCharacterListRoutePath value)? mediaCharacterList,
+    TResult Function(MediaStaffListRoutePath value)? mediaStaffList,
+    TResult Function(DetailMediaRoutePath value)? detailMedia,
+    TResult Function(DetailCharacterPath value)? detailCharacter,
+    TResult Function(DetailStaffPath value)? detailStaff,
+    TResult Function(AiringScheduleRoutePath value)? airingSchedule,
+    TResult Function(NotificationRoutePath value)? notification,
+    TResult Function(DetailStudioRoutePath value)? detailStudio,
+    TResult Function(ActivityRepliesRoutePath value)? activityReplies,
+    TResult Function(ImagePreviewRoutePath value)? imagePreview,
+    TResult Function(MediaListUpdateRoutePath value)? mediaListUpdate,
+    TResult Function(SettingsRoutePath value)? settings,
+    TResult Function(BirthdayCharacterPagePath value)? birthdayCharacterPage,
+    TResult Function(EpisodePlayerPagePath value)? episodePlayer,
+    required TResult orElse(),
+  }) {
+    if (episodePlayer != null) {
+      return episodePlayer(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$EpisodePlayerPagePathImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class EpisodePlayerPagePath implements AniFlowRoutePath {
+  const factory EpisodePlayerPagePath(
+      {required final String mediaId,
+      required final int episodeNum}) = _$EpisodePlayerPagePathImpl;
+
+  factory EpisodePlayerPagePath.fromJson(Map<String, dynamic> json) =
+      _$EpisodePlayerPagePathImpl.fromJson;
+
+  String get mediaId;
+  int get episodeNum;
+
+  /// Create a copy of AniFlowRoutePath
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$EpisodePlayerPagePathImplCopyWith<_$EpisodePlayerPagePathImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
