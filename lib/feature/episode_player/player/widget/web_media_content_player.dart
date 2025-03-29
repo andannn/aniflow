@@ -64,7 +64,7 @@ class PlayerWithControlPanel extends StatelessWidget {
 }
 
 class _PlayerGestureController extends StatefulWidget {
-  const _PlayerGestureController({super.key, required this.overlay});
+  const _PlayerGestureController({required this.overlay});
 
   final Widget overlay;
 

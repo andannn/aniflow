@@ -1,28 +1,26 @@
 import 'package:aniflow/core/data/playable_source_repository.dart';
-import 'package:aniflow/core/network/playable_web_source.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('playable source repository test', () {
-    late PlayableWebSource dataSource;
+    // late PlayableWebSource dataSource;
 
-    late Dio dio;
-    setUp(() async {
-      dio = Dio()
-        ..options = BaseOptions(
-          connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(seconds: 15),
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        )
-        ..interceptors.addAll([
-          LogInterceptor(),
-        ]);
-      dataSource = PlayableWebSource(dio);
-    });
+    // late Dio dio;
+    // setUp(() async {
+      // dio = Dio()
+      //   ..options = BaseOptions(
+      //     connectTimeout: const Duration(seconds: 15),
+      //     receiveTimeout: const Duration(seconds: 15),
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "Accept": "application/json",
+      //     },
+      //   )
+      //   ..interceptors.addAll([
+      //     LogInterceptor(),
+      //   ]);
+      // dataSource = PlayableWebSource(dio);
+    // });
 
     test('parse season', () async {
       expect(parseSeasonNumFromTitle("Unnamed Memory Act.2"), 2);

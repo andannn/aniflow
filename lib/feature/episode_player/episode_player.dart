@@ -63,7 +63,7 @@ class EpisodePlayerRoute extends PageRoute with MaterialRouteTransitionMixin {
 }
 
 class _EpisodePlayerContent extends StatefulWidget {
-  const _EpisodePlayerContent({super.key});
+  const _EpisodePlayerContent();
 
   @override
   State<_EpisodePlayerContent> createState() => _EpisodePlayerContentState();
