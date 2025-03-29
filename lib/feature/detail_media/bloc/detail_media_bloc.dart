@@ -36,12 +36,6 @@ class _OnMediaListItemChanged extends DetailAnimeEvent {
   final MediaListItemModel? mediaListItemModel;
 }
 
-// class _OnHiAnimationEnabledChanged extends DetailAnimeEvent {
-//   _OnHiAnimationEnabledChanged({required this.enabled});
-//
-//   final bool enabled;
-// }
-
 class OnMediaListModified extends DetailAnimeEvent {
   OnMediaListModified({required this.result});
 
@@ -60,39 +54,8 @@ class _OnLoadingStateChanged extends DetailAnimeEvent {
 
   final bool isLoading;
 }
-//
-// class _OnEpisodeFound extends DetailAnimeEvent {
-//   _OnEpisodeFound({required this.episode});
-//
-//   final Episode episode;
-// }
 
 class OnMarkWatchedClick extends DetailAnimeEvent {}
-
-// class OnRetryGetHighAnimationSource extends DetailAnimeEvent {}
-
-// class _OnFindEpisodeError extends DetailAnimeEvent {
-//   _OnFindEpisodeError({
-//     required this.exception,
-//     this.searchUrl,
-//   });
-//
-//   final Exception exception;
-//   final String? searchUrl;
-// }
-
-// class _OnStartFindSource extends DetailAnimeEvent {}
-
-// class HiAnimationSource extends Equatable {
-//   final String animeId;
-//   final int episode;
-//   final List<String> keywords;
-//
-//   const HiAnimationSource(this.animeId, this.episode, this.keywords);
-//
-//   @override
-//   List<Object?> get props => [animeId, episode, ...keywords];
-// }
 
 sealed class LoadingState<T> {
   const LoadingState();
@@ -152,27 +115,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       (event, emit) =>
           emit(state.copyWith(mediaListItem: event.mediaListItemModel)),
     );
-    // on<_OnHiAnimationEnabledChanged>(
-    //   (event, emit) =>
-    //       emit(state.copyWith(isHiAnimationFeatureEnabled: event.enabled)),
-    // );
     on<OnMediaListModified>(_onMediaListModified);
     on<OnToggleFavoriteState>(_onToggleFavoriteState);
     on<_OnLoadingStateChanged>(
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
-    // on<_OnEpisodeFound>(
-    //   (event, emit) => emit(state.copyWith(episode: Ready(event.episode))),
-    // );
-    // on<_OnFindEpisodeError>(
-    //   (event, emit) => emit(
-    //       state.copyWith(episode: Error(event.exception, event.searchUrl))),
-    // );
-    // on<_OnStartFindSource>(
-    //   (event, emit) => emit(state.copyWith(episode: Loading())),
-    // );
     on<OnMarkWatchedClick>(_onMarkWatchedClick);
-    // on<OnRetryGetHighAnimationSource>(_onRetryGetHighAnimationSource);
 
     _init();
   }
@@ -215,11 +163,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
         ),
       );
     }
-
-    // _isHiAnimationEnabledSub =
-    //     _userDataRepository.isHiAnimationFeatureEnabledStream.listen((enabled) {
-    //   safeAdd(_OnHiAnimationEnabledChanged(enabled: enabled));
-    // });
 
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
@@ -302,42 +245,6 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
         mediaId, _toggleFavoriteCancelToken!));
   }
 
-  // void _updateHiAnimationSource(HiAnimationSource source,
-  //     {bool isForce = false}) async {
-  //   if (_hiAnimationSource != source || isForce) {
-  //     _hiAnimationSource = source;
-  //     _findPlaySourceCancelToken?.cancel();
-  //     _findPlaySourceCancelToken = CancelToken();
-  //     safeAdd(_OnStartFindSource());
-  //     final result = await _hiAnimationRepository.searchPlaySourceByKeyword(
-  //       source.animeId,
-  //       source.keywords,
-  //       source.episode.toString(),
-  //       _findPlaySourceCancelToken,
-  //     );
-  //
-  //     switch (result) {
-  //       case LoadError<Episode>(exception: final exception):
-  //         logger.d('findPlaySource failed ${result.exception}');
-  //         if (exception is NotFoundEpisodeException) {
-  //           safeAdd(_OnFindEpisodeError(
-  //               exception: result.exception, searchUrl: exception.searchUrl));
-  //         } else {
-  //           safeAdd(_OnFindEpisodeError(exception: result.exception));
-  //         }
-  //
-  //         final message =
-  //             await ErrorHandler.convertExceptionToMessage(result.exception);
-  //         if (message != null) {
-  //           _messageRepository.showMessage(message);
-  //         }
-  //       case LoadSuccess<Episode>():
-  //         logger.d('findPlaySource success ${result.data}');
-  //         safeAdd(_OnEpisodeFound(episode: result.data));
-  //     }
-  //   }
-  // }
-
   FutureOr<void> _onMarkWatchedClick(
     OnMarkWatchedClick event,
     Emitter<DetailMediaUiState> emit,
@@ -375,12 +282,4 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       }
     }
   }
-  //
-  // FutureOr<void> _onRetryGetHighAnimationSource(
-  //     OnRetryGetHighAnimationSource event, Emitter<DetailMediaUiState> emit) {
-  //   final source = _hiAnimationSource;
-  //   if (source != null) {
-  //     _updateHiAnimationSource(source, isForce: true);
-  //   }
-  // }
 }

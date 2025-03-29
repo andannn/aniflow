@@ -19,6 +19,8 @@ mixin _$EpisodePlayerState {
   MediaSource? get selectedMediaSource => throw _privateConstructorUsedError;
   int get selectedEpisodeNumber => throw _privateConstructorUsedError;
   MediaModel? get mediaModel => throw _privateConstructorUsedError;
+  MediaListItemModel? get mediaListItemModel =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of EpisodePlayerState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,9 +38,11 @@ abstract class $EpisodePlayerStateCopyWith<$Res> {
   $Res call(
       {MediaSource? selectedMediaSource,
       int selectedEpisodeNumber,
-      MediaModel? mediaModel});
+      MediaModel? mediaModel,
+      MediaListItemModel? mediaListItemModel});
 
   $MediaModelCopyWith<$Res>? get mediaModel;
+  $MediaListItemModelCopyWith<$Res>? get mediaListItemModel;
 }
 
 /// @nodoc
@@ -59,6 +63,7 @@ class _$EpisodePlayerStateCopyWithImpl<$Res, $Val extends EpisodePlayerState>
     Object? selectedMediaSource = freezed,
     Object? selectedEpisodeNumber = null,
     Object? mediaModel = freezed,
+    Object? mediaListItemModel = freezed,
   }) {
     return _then(_value.copyWith(
       selectedMediaSource: freezed == selectedMediaSource
@@ -73,6 +78,10 @@ class _$EpisodePlayerStateCopyWithImpl<$Res, $Val extends EpisodePlayerState>
           ? _value.mediaModel
           : mediaModel // ignore: cast_nullable_to_non_nullable
               as MediaModel?,
+      mediaListItemModel: freezed == mediaListItemModel
+          ? _value.mediaListItemModel
+          : mediaListItemModel // ignore: cast_nullable_to_non_nullable
+              as MediaListItemModel?,
     ) as $Val);
   }
 
@@ -89,6 +98,21 @@ class _$EpisodePlayerStateCopyWithImpl<$Res, $Val extends EpisodePlayerState>
       return _then(_value.copyWith(mediaModel: value) as $Val);
     });
   }
+
+  /// Create a copy of EpisodePlayerState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MediaListItemModelCopyWith<$Res>? get mediaListItemModel {
+    if (_value.mediaListItemModel == null) {
+      return null;
+    }
+
+    return $MediaListItemModelCopyWith<$Res>(_value.mediaListItemModel!,
+        (value) {
+      return _then(_value.copyWith(mediaListItemModel: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -102,10 +126,13 @@ abstract class _$$EpisodePlayerStateImplCopyWith<$Res>
   $Res call(
       {MediaSource? selectedMediaSource,
       int selectedEpisodeNumber,
-      MediaModel? mediaModel});
+      MediaModel? mediaModel,
+      MediaListItemModel? mediaListItemModel});
 
   @override
   $MediaModelCopyWith<$Res>? get mediaModel;
+  @override
+  $MediaListItemModelCopyWith<$Res>? get mediaListItemModel;
 }
 
 /// @nodoc
@@ -124,6 +151,7 @@ class __$$EpisodePlayerStateImplCopyWithImpl<$Res>
     Object? selectedMediaSource = freezed,
     Object? selectedEpisodeNumber = null,
     Object? mediaModel = freezed,
+    Object? mediaListItemModel = freezed,
   }) {
     return _then(_$EpisodePlayerStateImpl(
       selectedMediaSource: freezed == selectedMediaSource
@@ -138,6 +166,10 @@ class __$$EpisodePlayerStateImplCopyWithImpl<$Res>
           ? _value.mediaModel
           : mediaModel // ignore: cast_nullable_to_non_nullable
               as MediaModel?,
+      mediaListItemModel: freezed == mediaListItemModel
+          ? _value.mediaListItemModel
+          : mediaListItemModel // ignore: cast_nullable_to_non_nullable
+              as MediaListItemModel?,
     ));
   }
 }
@@ -148,7 +180,8 @@ class _$EpisodePlayerStateImpl implements _EpisodePlayerState {
   const _$EpisodePlayerStateImpl(
       {this.selectedMediaSource,
       required this.selectedEpisodeNumber,
-      this.mediaModel});
+      this.mediaModel,
+      this.mediaListItemModel});
 
   @override
   final MediaSource? selectedMediaSource;
@@ -156,10 +189,12 @@ class _$EpisodePlayerStateImpl implements _EpisodePlayerState {
   final int selectedEpisodeNumber;
   @override
   final MediaModel? mediaModel;
+  @override
+  final MediaListItemModel? mediaListItemModel;
 
   @override
   String toString() {
-    return 'EpisodePlayerState(selectedMediaSource: $selectedMediaSource, selectedEpisodeNumber: $selectedEpisodeNumber, mediaModel: $mediaModel)';
+    return 'EpisodePlayerState(selectedMediaSource: $selectedMediaSource, selectedEpisodeNumber: $selectedEpisodeNumber, mediaModel: $mediaModel, mediaListItemModel: $mediaListItemModel)';
   }
 
   @override
@@ -172,12 +207,14 @@ class _$EpisodePlayerStateImpl implements _EpisodePlayerState {
             (identical(other.selectedEpisodeNumber, selectedEpisodeNumber) ||
                 other.selectedEpisodeNumber == selectedEpisodeNumber) &&
             (identical(other.mediaModel, mediaModel) ||
-                other.mediaModel == mediaModel));
+                other.mediaModel == mediaModel) &&
+            (identical(other.mediaListItemModel, mediaListItemModel) ||
+                other.mediaListItemModel == mediaListItemModel));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, selectedMediaSource, selectedEpisodeNumber, mediaModel);
+  int get hashCode => Object.hash(runtimeType, selectedMediaSource,
+      selectedEpisodeNumber, mediaModel, mediaListItemModel);
 
   /// Create a copy of EpisodePlayerState
   /// with the given fields replaced by the non-null parameter values.
@@ -193,7 +230,8 @@ abstract class _EpisodePlayerState implements EpisodePlayerState {
   const factory _EpisodePlayerState(
       {final MediaSource? selectedMediaSource,
       required final int selectedEpisodeNumber,
-      final MediaModel? mediaModel}) = _$EpisodePlayerStateImpl;
+      final MediaModel? mediaModel,
+      final MediaListItemModel? mediaListItemModel}) = _$EpisodePlayerStateImpl;
 
   @override
   MediaSource? get selectedMediaSource;
@@ -201,6 +239,8 @@ abstract class _EpisodePlayerState implements EpisodePlayerState {
   int get selectedEpisodeNumber;
   @override
   MediaModel? get mediaModel;
+  @override
+  MediaListItemModel? get mediaListItemModel;
 
   /// Create a copy of EpisodePlayerState
   /// with the given fields replaced by the non-null parameter values.

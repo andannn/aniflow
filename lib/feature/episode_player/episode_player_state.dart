@@ -1,3 +1,4 @@
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,5 +11,6 @@ class EpisodePlayerState with _$EpisodePlayerState {
     MediaSource? selectedMediaSource,
     required int selectedEpisodeNumber,
     MediaModel? mediaModel,
+    MediaListItemModel? mediaListItemModel,
   }) = _EpisodePlayerState;
 }

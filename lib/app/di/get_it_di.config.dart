@@ -77,6 +77,8 @@ import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart
     as _i365;
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i918;
+import 'package:aniflow/core/usecase/media_mark_watched_use_case.dart'
+    as _i1027;
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart'
     as _i553;
 import 'package:aniflow/feature/airing_schedule/airing_schedule_of_day/airing_schedule_of_day_bloc.dart'
@@ -652,15 +654,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.factoryParam<_i668.EpisodePlayerBloc, _i668.EpisodePlayerReq, dynamic>((
-      param,
-      _,
-    ) =>
-        _i668.EpisodePlayerBloc(
-          param,
-          gh<_i197.PlayableSourceRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-        ));
     gh.lazySingleton<_i768.AuthRepository>(
       () => _i768.AuthRepository(
         gh<_i1026.AuthDataSource>(),
@@ -753,6 +746,16 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
         ));
+    gh.lazySingleton<_i1027.MediaMarkWatchedUseCase>(
+      () => _i1027.MediaMarkWatchedUseCase(
+        gh<_i67.MessageRepository>(),
+        gh<_i319.MediaListRepository>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
     gh.factoryParam<_i1048.PlayerAreaBloc, _i1048.PlayerAreaParam, dynamic>((
       param,
       _,
@@ -806,6 +809,17 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i768.AuthRepository>(),
               gh<_i810.UserDataRepository>(),
             ));
+    gh.factoryParam<_i668.EpisodePlayerBloc, _i668.EpisodePlayerReq, dynamic>((
+      param,
+      _,
+    ) =>
+        _i668.EpisodePlayerBloc(
+          param,
+          gh<_i319.MediaListRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i768.AuthRepository>(),
+          gh<_i1027.MediaMarkWatchedUseCase>(),
+        ));
     return this;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:aniflow/app/di/get_it_scope.dart';
+import 'package:aniflow/core/common/message/snack_bar_message_mixin.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_title_model.dart';
@@ -51,7 +52,9 @@ class EpisodePlayerRoute extends PageRoute with MaterialRouteTransitionMixin {
           episodeNum: episodeNum,
         ),
       ),
-      child: const _EpisodePlayerContent(),
+      child: const ScaffoldMessenger(
+        child: _EpisodePlayerContent(),
+      ),
     );
   }
 
@@ -66,7 +69,8 @@ class _EpisodePlayerContent extends StatefulWidget {
   State<_EpisodePlayerContent> createState() => _EpisodePlayerContentState();
 }
 
-class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
+class _EpisodePlayerContentState extends State<_EpisodePlayerContent>
+    with ShowSnackBarMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EpisodePlayerBloc, EpisodePlayerState>(
@@ -107,13 +111,15 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
             "";
         final selectedEpisodeNumber = state.selectedEpisodeNumber;
         final selectedMediaSource = state.selectedMediaSource;
+        final progress = state.progress;
+        final nextAiringEpisode = state.nextAiringEpisode;
 
         if (selectedMediaSource == null) {
           return const SizedBox();
         }
 
         final appBarTitle =
-            "$mediaTitle - ${selectedEpisodeNumber}${context.appLocal.episodes}";
+            "$mediaTitle - $selectedEpisodeNumber${context.appLocal.episodes}";
         return PlayerAreaBlocProvider(
           key: ValueKey(
               "player_${req.mediaId}_${selectedEpisodeNumber}_${selectedMediaSource}_key"),
@@ -141,6 +147,8 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
                         Expanded(
                           child: ControlArea(
                             model: state.mediaModel!,
+                            watchingProgress: progress,
+                            nextAiringEpisode: nextAiringEpisode,
                             playingEpisode: selectedEpisodeNumber,
                             currentMediaSource: selectedMediaSource,
                           ),
@@ -188,16 +196,19 @@ class _EpisodePlayerContentState extends State<_EpisodePlayerContent> {
   }
 }
 
-
 class ControlArea extends StatelessWidget {
   const ControlArea({
     super.key,
     required this.model,
     required this.playingEpisode,
     required this.currentMediaSource,
+    this.watchingProgress,
+    this.nextAiringEpisode,
   });
 
   final MediaModel model;
+  final int? watchingProgress;
+  final int? nextAiringEpisode;
   final int playingEpisode;
   final MediaSource currentMediaSource;
 
@@ -220,7 +231,11 @@ class ControlArea extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 FilledButton.tonal(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<EpisodePlayerBloc>().add(
+                          OnMarkWatchedClick(),
+                        );
+                  },
                   child: const Text("Mark Watched"),
                 )
               ],
@@ -235,7 +250,11 @@ class ControlArea extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: EpisodeNode(
                 number: episode,
+                watched:
+                    watchingProgress != null && watchingProgress! >= episode,
                 playing: episode == playingEpisode,
+                enabled: nextAiringEpisode == null ||
+                    (nextAiringEpisode != null && nextAiringEpisode! > episode),
                 onItemPressed: () {
                   if (episode != playingEpisode) {
                     context.read<EpisodePlayerBloc>().add(
@@ -253,22 +272,21 @@ class ControlArea extends StatelessWidget {
         if (playerState != null)
           SliverToBoxAdapter(
             child: MediaSourceBox(
-              playerState: playerState,
-              currentMediaSource: currentMediaSource,
-              onSelectMatchedEpisode: (selected) {
-                context.read<PlayerAreaBloc>().add(
-                      OnChangeMatchedEpisode(selected),
-                    );
-              },
-              onSelectMediaSource: (selected) {
-                context.read<EpisodePlayerBloc>().add(
-                      OnSelectMediaSource(selected),
-                    );
-              },
-              onGetSheetHeight: () {
-                return controlAreaKey.currentContext?.size?.height ?? 0;
-              }
-            ),
+                playerState: playerState,
+                currentMediaSource: currentMediaSource,
+                onSelectMatchedEpisode: (selected) {
+                  context.read<PlayerAreaBloc>().add(
+                        OnChangeMatchedEpisode(selected),
+                      );
+                },
+                onSelectMediaSource: (selected) {
+                  context.read<EpisodePlayerBloc>().add(
+                        OnSelectMediaSource(selected),
+                      );
+                },
+                onGetSheetHeight: () {
+                  return controlAreaKey.currentContext?.size?.height ?? 0;
+                }),
           )
       ],
     );
@@ -280,29 +298,55 @@ class EpisodeNode extends StatelessWidget {
       {super.key,
       required this.number,
       required this.playing,
-      required this.onItemPressed});
+      required this.onItemPressed,
+      required this.watched,
+      required this.enabled});
 
   final int number;
   final bool playing;
+  final bool watched;
+  final bool enabled;
   final VoidCallback onItemPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Card.outlined(
-      color: playing ? Theme.of(context).colorScheme.primary : null,
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onItemPressed,
-        child: Center(
-          child: Text(
-            number.toString(),
-            style: TextStyle(
-              color: playing
-                  ? Colors.white
-                  : Theme.of(context).colorScheme.onSurface,
+    return Opacity(
+      opacity: enabled ? 1 : 0.5,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Card.outlined(
+            color: watched ? Theme.of(context).colorScheme.primary : null,
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              enableFeedback: enabled,
+              onTap: () {
+                if (enabled) {
+                  onItemPressed();
+                }
+              },
+              child: Center(
+                child: Text(
+                  number.toString(),
+                  style: TextStyle(
+                    color: watched
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+          if (playing)
+            Positioned(
+              bottom: -8,
+              right: -8,
+              child: Icon(
+                Icons.play_circle_fill_rounded,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+        ],
       ),
     );
   }
