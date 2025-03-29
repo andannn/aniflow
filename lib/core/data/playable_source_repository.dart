@@ -1,7 +1,15 @@
+import 'dart:convert';
+
 import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/load_result.dart';
 import 'package:aniflow/core/data/mappers/subject_with_episodes_mapper.dart';
+import 'package:aniflow/core/data/model/episode_model.dart';
+import 'package:aniflow/core/data/model/search_result_model.dart';
+import 'package:aniflow/core/data/model/subject_with_episodes_model.dart';
+import 'package:aniflow/core/database/aniflow_database.dart';
+import 'package:aniflow/core/database/dao/search_result_cache_dao.dart';
+import 'package:aniflow/core/network/model/search_title.dart';
 import 'package:aniflow/core/network/playable_web_source.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
 import 'package:aniflow/core/network/web_source/subject_matcher.dart';
@@ -15,7 +23,26 @@ import 'package:string_similarity/string_similarity.dart';
 
 enum MediaSource {
   vdm10,
-  qdm8,
+  qdm8;
+
+  String get jsonString {
+    switch (this) {
+      case MediaSource.vdm10:
+        return "vdm10";
+      case MediaSource.qdm8:
+        return "qdm8";
+    }
+  }
+
+  static MediaSource fromJson(String source) {
+    switch (source) {
+      case "vdm10":
+        return MediaSource.vdm10;
+      case "qdm8":
+        return MediaSource.qdm8;
+    }
+    throw Exception("unknown source: $source");
+  }
 }
 
 const _tag = "PlayableSourceRepository";
@@ -34,36 +61,12 @@ class MatchedEpisode extends Equatable {
       [subjectTitle, subjectUrl, episodeUrl, episodeTitle];
 }
 
-class SubjectWithEpisodesModel extends Equatable {
-  final String title;
-  final String originalPageUrl;
-  final List<EpisodeModel> episodes;
-
-  const SubjectWithEpisodesModel(
-      {required this.title,
-      required this.originalPageUrl,
-      required this.episodes});
-
-  @override
-  List<Object?> get props => [title, originalPageUrl, episodes];
-}
-
-class EpisodeModel extends Equatable {
-  final String url;
-  final String title;
-  final int episodeNum;
-
-  const EpisodeModel(this.url, this.title, this.episodeNum);
-
-  @override
-  List<Object?> get props => [url, title, episodeNum];
-}
-
 @LazySingleton(env: [AfEnvironment.mobile, AfEnvironment.desktop])
 class PlayableSourceRepository {
   final PlayableWebSource source;
+  final SearchResultCacheDao cacheDao;
 
-  PlayableSourceRepository(this.source);
+  PlayableSourceRepository(this.source, this.cacheDao);
 
   Future<LoadResult<List<MatchedEpisode>>> searchPlaySource(
       MediaSource mediaSource,
@@ -73,64 +76,94 @@ class PlayableSourceRepository {
       int episodeNum,
       [CancelToken? cancelToken]) async {
     try {
+      // First: get cache and try to match.
+      final cache =
+          (await cacheDao.getCache(animeId, mediaSource.jsonString))?.cache;
+      try {
+        if (cache != null) {
+          final result = SearchResultModel.fromJson(jsonDecode(cache));
+          final ret =
+              await _tryMatch(result.subjects, episodeNum, result.title);
+          return LoadSuccess(data: ret);
+        }
+      } on Exception catch (e) {
+        // ignore error when load from cache.
+        logger.e("$_tag match content from cache error: $e");
+      }
+
+      // Second: search from web.
       final (subjectList, searchTitle) = await source.fetch(
         config: mediaSource.toConfig(),
         searchRequest: _toSearchRequest(title, locale, episodeNum),
       );
+      final searchedSubjects = subjectList.map((e) => e.toModel()).toList();
 
-      logger.d("$_tag fetch success $subjectList");
-// TODO: save cache.
-
-      final filtered = _filterMatched(
-        subjectList.map((e) => e.toModel()).toList(),
-        episodeNum,
-      );
-      logger.d("$_tag after filtered $filtered");
-
-      if (filtered.isEmpty) {
-        return LoadError(
-          Exception(
-            "not found content with title: ${searchTitle.keyword.firstOrNull}",
+      // Third: save the search cache.
+      await cacheDao.saveCache([
+        SearchResultEntity(
+          mediaId: animeId,
+          mediaSource: mediaSource.jsonString,
+          cache: jsonEncode(
+            SearchResultModel(subjects: searchedSubjects, title: searchTitle),
           ),
-        );
-      }
+        )
+      ]);
 
-      final mapped = filtered
-          .expand(
-            (element) => element.episodes.map(
-              (ep) => SubjectWithEpisodesModel(
-                title: element.title,
-                originalPageUrl: element.originalPageUrl,
-                episodes: [ep],
-              ),
-            ),
-          )
-          .map(
-            (subject) => MatchedEpisode(
-              subject.title,
-              subject.originalPageUrl,
-              subject.episodes.first.url,
-              subject.episodes.first.title,
-            ),
-          )
-          .toList();
-      final bestMatch = searchTitle.fullText.bestMatch(
-        mapped.map((e) => e.subjectTitle).toList(),
-      );
-
-      final episodeWithMatchRatting =
-          Map.fromIterables(mapped, bestMatch.ratings).entries;
-
-      final sorted = episodeWithMatchRatting.sortedByCompare(
-        (entry) => entry.value.rating ?? 0,
-        (a, b) => b.compareTo(a),
-      );
-
-      final ret = sorted.map((e) => e.key).toList();
+      final ret = await _tryMatch(searchedSubjects, episodeNum, searchTitle);
       return LoadSuccess(data: ret);
     } on Exception catch (e) {
       return LoadError(e);
     }
+  }
+
+  Future<List<MatchedEpisode>> _tryMatch(
+      List<SubjectWithEpisodesModel> searchedSubjects,
+      int episodeNum,
+      SearchTitle searchTitle) async {
+    final filtered = _filterMatched(
+      searchedSubjects,
+      episodeNum,
+    );
+    logger.d("$_tag after filtered $filtered");
+
+    if (filtered.isEmpty) {
+      throw Exception(
+        "not found content with title: ${searchTitle.keyword.firstOrNull}",
+      );
+    }
+
+    final mapped = filtered
+        .expand(
+          (element) => element.episodes.map(
+            (ep) => SubjectWithEpisodesModel(
+              title: element.title,
+              originalPageUrl: element.originalPageUrl,
+              episodes: [ep],
+            ),
+          ),
+        )
+        .map(
+          (subject) => MatchedEpisode(
+            subject.title,
+            subject.originalPageUrl,
+            subject.episodes.first.url,
+            subject.episodes.first.title,
+          ),
+        )
+        .toList();
+    final bestMatch = searchTitle.fullText.bestMatch(
+      mapped.map((e) => e.subjectTitle).toList(),
+    );
+
+    final episodeWithMatchRatting =
+        Map.fromIterables(mapped, bestMatch.ratings).entries;
+
+    final sorted = episodeWithMatchRatting.sortedByCompare(
+      (entry) => entry.value.rating ?? 0,
+      (a, b) => b.compareTo(a),
+    );
+
+    return sorted.map((e) => e.key).toList();
   }
 
   List<SubjectWithEpisodesModel> _filterMatched(
@@ -153,7 +186,8 @@ class PlayableSourceRepository {
 }
 
 SearchRequest _toSearchRequest(String title, Locale locale, int episodeNum) {
-  final searchTitle = SearchTitle(title, title.split(" ").toSet(), locale);
+  final searchTitle = SearchTitle(
+      fullText: title, keyword: title.split(" ").toSet(), locale: locale);
   final season = parseSeasonNumFromTitle(title);
   return SearchRequest(title: searchTitle, season: season, episode: episodeNum);
 }

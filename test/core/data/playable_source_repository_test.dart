@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('playable source repository test', () {
     late PlayableWebSource dataSource;
-    late PlayableSourceRepository repository;
 
     late Dio dio;
     setUp(() async {
@@ -23,7 +22,6 @@ void main() {
           LogInterceptor(),
         ]);
       dataSource = PlayableWebSource(dio);
-      repository = PlayableSourceRepository(dataSource);
     });
 
     test('parse season', () async {

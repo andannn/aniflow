@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:aniflow/core/network/model/bangumi_subject_dto.dart';
+import 'package:aniflow/core/network/model/search_title.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
 import 'package:aniflow/core/network/web_source/subject_matcher.dart';
 import 'package:aniflow/core/network/web_source/subject_with_episodes.dart';
@@ -57,9 +58,9 @@ class PlayableWebSource {
               await dio.convertKeyword(validLocal, title.fullText);
           if (converted != null) {
             return SearchTitle(
-              converted,
-              converted.split(RegExp(r'[ ,!@?#~・·～:：]+')).toSet(),
-              validLocal,
+              fullText: converted,
+              keyword: converted.split(RegExp(r'[ ,!@?#~・·～:：]+')).toSet(),
+              locale: validLocal,
             );
           } else {
             return null;
@@ -71,17 +72,6 @@ class PlayableWebSource {
 
     return validSearchTitle;
   }
-}
-
-class SearchTitle extends Equatable {
-  final String fullText;
-  final Set<String> keyword;
-  final Locale locale;
-
-  const SearchTitle(this.fullText, this.keyword, this.locale);
-
-  @override
-  List<Object?> get props => [fullText, keyword, locale];
 }
 
 class SearchRequest extends Equatable {

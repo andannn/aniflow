@@ -9346,6 +9346,245 @@ class MediaAiringScheduleUpdatedTableCompanion
   }
 }
 
+class $SearchResultTableTable extends SearchResultTable
+    with TableInfo<$SearchResultTableTable, SearchResultEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SearchResultTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _mediaIdMeta =
+      const VerificationMeta('mediaId');
+  @override
+  late final GeneratedColumn<String> mediaId = GeneratedColumn<String>(
+      'search_result_media_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _mediaSourceMeta =
+      const VerificationMeta('mediaSource');
+  @override
+  late final GeneratedColumn<String> mediaSource = GeneratedColumn<String>(
+      'search_result_media_source', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _cacheMeta = const VerificationMeta('cache');
+  @override
+  late final GeneratedColumn<String> cache = GeneratedColumn<String>(
+      'search_result_cache', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [mediaId, mediaSource, cache];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'search_result_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<SearchResultEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('search_result_media_id')) {
+      context.handle(
+          _mediaIdMeta,
+          mediaId.isAcceptableOrUnknown(
+              data['search_result_media_id']!, _mediaIdMeta));
+    } else if (isInserting) {
+      context.missing(_mediaIdMeta);
+    }
+    if (data.containsKey('search_result_media_source')) {
+      context.handle(
+          _mediaSourceMeta,
+          mediaSource.isAcceptableOrUnknown(
+              data['search_result_media_source']!, _mediaSourceMeta));
+    } else if (isInserting) {
+      context.missing(_mediaSourceMeta);
+    }
+    if (data.containsKey('search_result_cache')) {
+      context.handle(
+          _cacheMeta,
+          cache.isAcceptableOrUnknown(
+              data['search_result_cache']!, _cacheMeta));
+    } else if (isInserting) {
+      context.missing(_cacheMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {mediaId, mediaSource};
+  @override
+  SearchResultEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SearchResultEntity(
+      mediaId: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}search_result_media_id'])!,
+      mediaSource: attachedDatabase.typeMapping.read(DriftSqlType.string,
+          data['${effectivePrefix}search_result_media_source'])!,
+      cache: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}search_result_cache'])!,
+    );
+  }
+
+  @override
+  $SearchResultTableTable createAlias(String alias) {
+    return $SearchResultTableTable(attachedDatabase, alias);
+  }
+}
+
+class SearchResultEntity extends DataClass
+    implements Insertable<SearchResultEntity> {
+  final String mediaId;
+  final String mediaSource;
+  final String cache;
+  const SearchResultEntity(
+      {required this.mediaId, required this.mediaSource, required this.cache});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['search_result_media_id'] = Variable<String>(mediaId);
+    map['search_result_media_source'] = Variable<String>(mediaSource);
+    map['search_result_cache'] = Variable<String>(cache);
+    return map;
+  }
+
+  SearchResultTableCompanion toCompanion(bool nullToAbsent) {
+    return SearchResultTableCompanion(
+      mediaId: Value(mediaId),
+      mediaSource: Value(mediaSource),
+      cache: Value(cache),
+    );
+  }
+
+  factory SearchResultEntity.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SearchResultEntity(
+      mediaId: serializer.fromJson<String>(json['mediaId']),
+      mediaSource: serializer.fromJson<String>(json['mediaSource']),
+      cache: serializer.fromJson<String>(json['cache']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'mediaId': serializer.toJson<String>(mediaId),
+      'mediaSource': serializer.toJson<String>(mediaSource),
+      'cache': serializer.toJson<String>(cache),
+    };
+  }
+
+  SearchResultEntity copyWith(
+          {String? mediaId, String? mediaSource, String? cache}) =>
+      SearchResultEntity(
+        mediaId: mediaId ?? this.mediaId,
+        mediaSource: mediaSource ?? this.mediaSource,
+        cache: cache ?? this.cache,
+      );
+  SearchResultEntity copyWithCompanion(SearchResultTableCompanion data) {
+    return SearchResultEntity(
+      mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      mediaSource:
+          data.mediaSource.present ? data.mediaSource.value : this.mediaSource,
+      cache: data.cache.present ? data.cache.value : this.cache,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SearchResultEntity(')
+          ..write('mediaId: $mediaId, ')
+          ..write('mediaSource: $mediaSource, ')
+          ..write('cache: $cache')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(mediaId, mediaSource, cache);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SearchResultEntity &&
+          other.mediaId == this.mediaId &&
+          other.mediaSource == this.mediaSource &&
+          other.cache == this.cache);
+}
+
+class SearchResultTableCompanion extends UpdateCompanion<SearchResultEntity> {
+  final Value<String> mediaId;
+  final Value<String> mediaSource;
+  final Value<String> cache;
+  final Value<int> rowid;
+  const SearchResultTableCompanion({
+    this.mediaId = const Value.absent(),
+    this.mediaSource = const Value.absent(),
+    this.cache = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SearchResultTableCompanion.insert({
+    required String mediaId,
+    required String mediaSource,
+    required String cache,
+    this.rowid = const Value.absent(),
+  })  : mediaId = Value(mediaId),
+        mediaSource = Value(mediaSource),
+        cache = Value(cache);
+  static Insertable<SearchResultEntity> custom({
+    Expression<String>? mediaId,
+    Expression<String>? mediaSource,
+    Expression<String>? cache,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (mediaId != null) 'search_result_media_id': mediaId,
+      if (mediaSource != null) 'search_result_media_source': mediaSource,
+      if (cache != null) 'search_result_cache': cache,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SearchResultTableCompanion copyWith(
+      {Value<String>? mediaId,
+      Value<String>? mediaSource,
+      Value<String>? cache,
+      Value<int>? rowid}) {
+    return SearchResultTableCompanion(
+      mediaId: mediaId ?? this.mediaId,
+      mediaSource: mediaSource ?? this.mediaSource,
+      cache: cache ?? this.cache,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (mediaId.present) {
+      map['search_result_media_id'] = Variable<String>(mediaId.value);
+    }
+    if (mediaSource.present) {
+      map['search_result_media_source'] = Variable<String>(mediaSource.value);
+    }
+    if (cache.present) {
+      map['search_result_cache'] = Variable<String>(cache.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SearchResultTableCompanion(')
+          ..write('mediaId: $mediaId, ')
+          ..write('mediaSource: $mediaSource, ')
+          ..write('cache: $cache, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AniflowDatabase extends GeneratedDatabase {
   _$AniflowDatabase(QueryExecutor e) : super(e);
   $AniflowDatabaseManager get managers => $AniflowDatabaseManager(this);
@@ -9389,6 +9628,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
   late final $MediaAiringScheduleUpdatedTableTable
       mediaAiringScheduleUpdatedTable =
       $MediaAiringScheduleUpdatedTableTable(this);
+  late final $SearchResultTableTable searchResultTable =
+      $SearchResultTableTable(this);
   late final UserDao userDao = UserDao(this as AniflowDatabase);
   late final StudioDao studioDao = StudioDao(this as AniflowDatabase);
   late final StaffDao staffDao = StaffDao(this as AniflowDatabase);
@@ -9402,6 +9643,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
   late final EpisodeDao episodeDao = EpisodeDao(this as AniflowDatabase);
   late final GithubReleaseDao githubReleaseDao =
       GithubReleaseDao(this as AniflowDatabase);
+  late final SearchResultCacheDao searchResultCacheDao =
+      SearchResultCacheDao(this as AniflowDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -9427,7 +9670,8 @@ abstract class _$AniflowDatabase extends GeneratedDatabase {
         favoriteInfoTable,
         episodeTable,
         releasedPackageTable,
-        mediaAiringScheduleUpdatedTable
+        mediaAiringScheduleUpdatedTable,
+        searchResultTable
       ];
 }
 
@@ -14055,6 +14299,153 @@ typedef $$MediaAiringScheduleUpdatedTableTableProcessedTableManager
         ),
         MediaAiringScheduleUpdatedEntity,
         PrefetchHooks Function()>;
+typedef $$SearchResultTableTableCreateCompanionBuilder
+    = SearchResultTableCompanion Function({
+  required String mediaId,
+  required String mediaSource,
+  required String cache,
+  Value<int> rowid,
+});
+typedef $$SearchResultTableTableUpdateCompanionBuilder
+    = SearchResultTableCompanion Function({
+  Value<String> mediaId,
+  Value<String> mediaSource,
+  Value<String> cache,
+  Value<int> rowid,
+});
+
+class $$SearchResultTableTableFilterComposer
+    extends Composer<_$AniflowDatabase, $SearchResultTableTable> {
+  $$SearchResultTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mediaSource => $composableBuilder(
+      column: $table.mediaSource, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get cache => $composableBuilder(
+      column: $table.cache, builder: (column) => ColumnFilters(column));
+}
+
+class $$SearchResultTableTableOrderingComposer
+    extends Composer<_$AniflowDatabase, $SearchResultTableTable> {
+  $$SearchResultTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get mediaId => $composableBuilder(
+      column: $table.mediaId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mediaSource => $composableBuilder(
+      column: $table.mediaSource, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get cache => $composableBuilder(
+      column: $table.cache, builder: (column) => ColumnOrderings(column));
+}
+
+class $$SearchResultTableTableAnnotationComposer
+    extends Composer<_$AniflowDatabase, $SearchResultTableTable> {
+  $$SearchResultTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get mediaId =>
+      $composableBuilder(column: $table.mediaId, builder: (column) => column);
+
+  GeneratedColumn<String> get mediaSource => $composableBuilder(
+      column: $table.mediaSource, builder: (column) => column);
+
+  GeneratedColumn<String> get cache =>
+      $composableBuilder(column: $table.cache, builder: (column) => column);
+}
+
+class $$SearchResultTableTableTableManager extends RootTableManager<
+    _$AniflowDatabase,
+    $SearchResultTableTable,
+    SearchResultEntity,
+    $$SearchResultTableTableFilterComposer,
+    $$SearchResultTableTableOrderingComposer,
+    $$SearchResultTableTableAnnotationComposer,
+    $$SearchResultTableTableCreateCompanionBuilder,
+    $$SearchResultTableTableUpdateCompanionBuilder,
+    (
+      SearchResultEntity,
+      BaseReferences<_$AniflowDatabase, $SearchResultTableTable,
+          SearchResultEntity>
+    ),
+    SearchResultEntity,
+    PrefetchHooks Function()> {
+  $$SearchResultTableTableTableManager(
+      _$AniflowDatabase db, $SearchResultTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SearchResultTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SearchResultTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SearchResultTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> mediaId = const Value.absent(),
+            Value<String> mediaSource = const Value.absent(),
+            Value<String> cache = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SearchResultTableCompanion(
+            mediaId: mediaId,
+            mediaSource: mediaSource,
+            cache: cache,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String mediaId,
+            required String mediaSource,
+            required String cache,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SearchResultTableCompanion.insert(
+            mediaId: mediaId,
+            mediaSource: mediaSource,
+            cache: cache,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$SearchResultTableTableProcessedTableManager = ProcessedTableManager<
+    _$AniflowDatabase,
+    $SearchResultTableTable,
+    SearchResultEntity,
+    $$SearchResultTableTableFilterComposer,
+    $$SearchResultTableTableOrderingComposer,
+    $$SearchResultTableTableAnnotationComposer,
+    $$SearchResultTableTableCreateCompanionBuilder,
+    $$SearchResultTableTableUpdateCompanionBuilder,
+    (
+      SearchResultEntity,
+      BaseReferences<_$AniflowDatabase, $SearchResultTableTable,
+          SearchResultEntity>
+    ),
+    SearchResultEntity,
+    PrefetchHooks Function()>;
 
 class $AniflowDatabaseManager {
   final _$AniflowDatabase _db;
@@ -14119,4 +14510,6 @@ class $AniflowDatabaseManager {
       get mediaAiringScheduleUpdatedTable =>
           $$MediaAiringScheduleUpdatedTableTableTableManager(
               _db, _db.mediaAiringScheduleUpdatedTable);
+  $$SearchResultTableTableTableManager get searchResultTable =>
+      $$SearchResultTableTableTableManager(_db, _db.searchResultTable);
 }

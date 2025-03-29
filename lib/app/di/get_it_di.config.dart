@@ -55,6 +55,7 @@ import 'package:aniflow/core/database/dao/favorite_dao.dart' as _i609;
 import 'package:aniflow/core/database/dao/github_release_dao.dart' as _i115;
 import 'package:aniflow/core/database/dao/media_dao.dart' as _i509;
 import 'package:aniflow/core/database/dao/media_list_dao.dart' as _i29;
+import 'package:aniflow/core/database/dao/search_result_cache_dao.dart' as _i53;
 import 'package:aniflow/core/database/dao/staff_dao.dart' as _i339;
 import 'package:aniflow/core/database/dao/studio_dao.dart' as _i159;
 import 'package:aniflow/core/database/dao/user_dao.dart' as _i874;
@@ -414,6 +415,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => dIDataBaseModule.geEpisodeDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i115.GithubReleaseDao>(() =>
         dIDataBaseModule.getGithubReleaseDao(gh<_i545.AniflowDatabase>()));
+    gh.factory<_i53.SearchResultCacheDao>(() =>
+        dIDataBaseModule.getSearchResultCacheDao(gh<_i545.AniflowDatabase>()));
     gh.factory<_i1013.RecentMoviesBloc>(
         () => _i1013.RecentMoviesBloc(gh<_i970.MediaInformationRepository>()));
     gh.lazySingleton<_i630.RemoteConfigManager>(
@@ -509,7 +512,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i638.HiAnimationDataSource>(
         () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i197.PlayableSourceRepository>(
-      () => _i197.PlayableSourceRepository(gh<_i311.PlayableWebSource>()),
+      () => _i197.PlayableSourceRepository(
+        gh<_i311.PlayableWebSource>(),
+        gh<_i53.SearchResultCacheDao>(),
+      ),
       registerFor: {
         _Mobile,
         _Desktop,

@@ -8,6 +8,7 @@ import 'package:aniflow/core/database/dao/favorite_dao.dart';
 import 'package:aniflow/core/database/dao/github_release_dao.dart';
 import 'package:aniflow/core/database/dao/media_dao.dart';
 import 'package:aniflow/core/database/dao/media_list_dao.dart';
+import 'package:aniflow/core/database/dao/search_result_cache_dao.dart';
 import 'package:aniflow/core/database/dao/staff_dao.dart';
 import 'package:aniflow/core/database/dao/studio_dao.dart';
 import 'package:aniflow/core/database/dao/user_dao.dart';
@@ -29,6 +30,7 @@ import 'package:aniflow/core/database/tables/media_relation_cross_reference_tabl
 import 'package:aniflow/core/database/tables/media_staff_paging_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/media_table.dart';
 import 'package:aniflow/core/database/tables/released_package_table.dart';
+import 'package:aniflow/core/database/tables/search_result_table.dart';
 import 'package:aniflow/core/database/tables/staff_table.dart';
 import 'package:aniflow/core/database/tables/studio_media_cross_reference_table.dart';
 import 'package:aniflow/core/database/tables/studio_table.dart';
@@ -60,6 +62,7 @@ part 'aniflow_database.g.dart';
     EpisodeTable,
     ReleasedPackageTable,
     MediaAiringScheduleUpdatedTable,
+    SearchResultTable,
   ],
   daos: [
     UserDao,
@@ -73,13 +76,14 @@ part 'aniflow_database.g.dart';
     FavoriteDao,
     EpisodeDao,
     GithubReleaseDao,
+    SearchResultCacheDao,
   ],
 )
 class AniflowDatabase extends _$AniflowDatabase {
   AniflowDatabase(super.executor);
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   DriftDatabaseOptions get options =>
@@ -162,6 +166,9 @@ class AniflowDatabase extends _$AniflowDatabase {
         from9To10: (Migrator m, Schema10 schema) async {
           await m.createTable(schema.mediaAiringScheduleUpdatedTable);
           await updateNextEpisodeUpdateTimeTriggerV2();
+        },
+        from10To11: (Migrator m, Schema11 schema) async {
+          await m.createTable(schema.searchResultTable);
         },
       ),
     );
