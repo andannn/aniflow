@@ -125,20 +125,30 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
           return const LoadingDummyScaffold();
         }
         final stateString =
-            state.mediaListItem?.status?.translated(context) ?? '';
-        final hasDescription = stateString.isNotEmpty;
+            state.mediaListItem?.status?.translated(context) ?? "Follow";
         final statusIcon = state.mediaListItem?.status?.statusIcon ?? Icons.add;
         final isFavorite = model.isFavourite;
         final isLoading = state.isLoading;
 
         void floatingButtonClickAction() async {
           final bloc = context.read<DetailMediaBloc>();
-          RootRouterDelegate.get().navigateToMediaListUpdatePage(
-              state.detailAnimeModel!.id, _identifier);
-          MediaListModifyResult? result =
-              await RootRouterDelegate.get().awaitPageResult();
-          if (result != null) {
-            bloc.safeAdd(OnMediaListModified(result: result));
+          final isAuthed = await bloc.authed();
+          if (!isAuthed) {
+            bloc.add(OnTapFollowWithoutAuth());
+          } else {
+            final mediaListItem = state.mediaListItem;
+            if (mediaListItem == null) {
+              bloc.add(OnTapFollowWithAuthed());
+              return;
+            }
+
+            RootRouterDelegate.get().navigateToMediaListUpdatePage(
+                state.detailAnimeModel!.id, _identifier);
+            MediaListModifyResult? result =
+            await RootRouterDelegate.get().awaitPageResult();
+            if (result != null) {
+              bloc.safeAdd(OnMediaListModified(result: result));
+            }
           }
         }
 
@@ -179,7 +189,7 @@ class _DetailMediaPageContentState extends State<_DetailMediaPageContent>
               ShrinkableFloatingActionButton(
                 heroTag:
                     mediaListUpdatePageHeroTagBuilder(model.id, _identifier),
-                isExtended: hasDescription && !isScrollOverLimit,
+                isExtended: !isScrollOverLimit,
                 icon: Icon(statusIcon),
                 label: Text(stateString),
                 onPressed: floatingButtonClickAction,

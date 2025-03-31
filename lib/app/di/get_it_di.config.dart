@@ -76,6 +76,8 @@ import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart
     as _i365;
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i918;
+import 'package:aniflow/core/usecase/get_media_list_item_use_case.dart'
+    as _i660;
 import 'package:aniflow/core/usecase/media_mark_watched_use_case.dart'
     as _i1027;
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart'
@@ -446,19 +448,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i319.MediaListRepository>(),
           gh<_i810.UserDataRepository>(),
         ));
-    gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
-      mediaId,
-      _,
-    ) =>
-        _i789.DetailMediaBloc(
-          mediaId,
-          gh<_i768.AuthRepository>(),
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i319.MediaListRepository>(),
-          gh<_i67.MessageRepository>(),
-        ));
     gh.lazySingleton<_i1001.AniListDataSource>(
         () => _i1001.AniListDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i1026.AuthDataSource>(
@@ -797,6 +786,16 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i67.MessageRepository>(),
           gh<_i309.GithubRepository>(),
         ));
+    gh.lazySingleton<_i660.GetMediaListItemStreamUseCase>(
+      () => _i660.GetMediaListItemStreamUseCase(
+        gh<_i768.AuthRepository>(),
+        gh<_i319.MediaListRepository>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
     gh.factory<_i462.PostAnilistNotificationExecutor>(
         () => _i462.PostAnilistNotificationExecutor(
               gh<_i221.NotificationRepository>(),
@@ -813,6 +812,20 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i1027.MediaMarkWatchedUseCase>(),
+        ));
+    gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
+      mediaId,
+      _,
+    ) =>
+        _i789.DetailMediaBloc(
+          mediaId,
+          gh<_i768.AuthRepository>(),
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i319.MediaListRepository>(),
+          gh<_i67.MessageRepository>(),
+          gh<_i660.GetMediaListItemStreamUseCase>(),
         ));
     return this;
   }

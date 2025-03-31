@@ -92,8 +92,6 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
   final AuthRepository _authRepository;
   final MediaMarkWatchedUseCase _mediaMarkWatchedUseCase;
 
-  CancelToken? searchTask;
-
   void _init() async {
     autoCancel(
       () => _mediaInformationRepository

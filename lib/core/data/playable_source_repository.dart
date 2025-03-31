@@ -95,6 +95,7 @@ class PlayableSourceRepository {
       final (subjectList, searchTitle) = await source.fetch(
         config: mediaSource.toConfig(),
         searchRequest: _toSearchRequest(title, locale, episodeNum),
+        cancelToken: cancelToken
       );
       final searchedSubjects = subjectList.map((e) => e.toModel()).toList();
 

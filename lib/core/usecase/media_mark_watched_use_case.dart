@@ -33,25 +33,3 @@ class MediaMarkWatchedUseCase {
     }
   }
 }
-//
-// Future<void> _onMediaMarkWatched(
-//     OnAnimeMarkWatched event, Emitter<TrackUiState> emit) async {
-//   final isFinished = event.progress == event.totalEpisode;
-//   final MediaListStatus status =
-//   isFinished ? MediaListStatus.completed : MediaListStatus.current;
-//
-//   safeAdd(_OnLoadStateChanged(isLoading: true));
-//   final result = await _mediaListRepository.updateMediaList(
-//       animeId: event.animeId, status: status, progress: event.progress);
-//   safeAdd(_OnLoadStateChanged(isLoading: false));
-//
-//   if (result is LoadError) {
-//     _messageRepository.handleException(result.exception);
-//   } else {
-//     if (isFinished) {
-//       _messageRepository.showMessage(const MediaCompletedMessage());
-//     } else {
-//       _messageRepository.showMessage(const MediaMarkWatchedMessage());
-//     }
-//   }
-// }
