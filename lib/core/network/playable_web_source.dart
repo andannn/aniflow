@@ -8,7 +8,6 @@ import 'package:aniflow/core/network/web_source/subject_matcher.dart';
 import 'package:aniflow/core/network/web_source/subject_with_episodes.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
 import 'package:string_similarity/string_similarity.dart';

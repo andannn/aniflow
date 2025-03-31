@@ -14,7 +14,6 @@ import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
 import 'package:aniflow/core/usecase/get_media_list_item_use_case.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
