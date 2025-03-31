@@ -10,6 +10,7 @@ class SubjectWithEpisodesModel with _$SubjectWithEpisodesModel {
   const factory SubjectWithEpisodesModel({
     required String title,
     required String originalPageUrl,
+    required int seasonNum,
     required List<EpisodeModel> episodes,
 }) = _SubjectWithEpisodesModel;
 

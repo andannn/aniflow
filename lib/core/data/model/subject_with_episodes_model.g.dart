@@ -11,6 +11,7 @@ _$SubjectWithEpisodesModelImpl _$$SubjectWithEpisodesModelImplFromJson(
     _$SubjectWithEpisodesModelImpl(
       title: json['title'] as String,
       originalPageUrl: json['originalPageUrl'] as String,
+      seasonNum: (json['seasonNum'] as num).toInt(),
       episodes: (json['episodes'] as List<dynamic>)
           .map((e) => EpisodeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,5 +22,6 @@ Map<String, dynamic> _$$SubjectWithEpisodesModelImplToJson(
     <String, dynamic>{
       'title': instance.title,
       'originalPageUrl': instance.originalPageUrl,
+      'seasonNum': instance.seasonNum,
       'episodes': instance.episodes,
     };

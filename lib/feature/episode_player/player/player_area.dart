@@ -74,16 +74,18 @@ class PlayerArea extends StatelessWidget {
             return Stack(
               children: [
                 PlayableSourceFetcher(
-                  key: ValueKey(searchState.current.episodeUrl),
-                  webPageUri: searchState.current.episodeUrl,
+                  key: ValueKey(searchState.currentEpisode.episodeUrl),
+                  webPageUri: searchState.currentEpisode.episodeUrl,
                   source: source,
                   onUrlFetched: (url) {
                     context.read<PlayerAreaBloc>().add(
-                          OnPlayableResourceLoaded(url, searchState.current),
+                          OnPlayableResourceLoaded(url, searchState.currentEpisode),
                         );
                   },
                   onTimeOut: () {
-                    context.read<PlayerAreaBloc>().add(OnFetchResourceError());
+                    context.read<PlayerAreaBloc>().add(OnFetchResourceError(
+                        Exception(
+                            "Load resource timeout. url: ${searchState.currentEpisode.episodeUrl}")));
                   },
                 ),
                 hint(
@@ -110,7 +112,11 @@ class PlayerArea extends StatelessWidget {
               },
             );
           case SearchError():
-            return hint("Error when loading Resource ${searchState.exception}");
+            return hint("${searchState.exception}");
+          case LoadResourceError():
+            return hint("${searchState.exception}");
+          case EpisodeLoaded():
+            throw Exception("Never reach here");
         }
       },
     );

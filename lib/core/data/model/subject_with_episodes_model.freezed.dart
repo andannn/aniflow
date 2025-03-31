@@ -23,6 +23,7 @@ SubjectWithEpisodesModel _$SubjectWithEpisodesModelFromJson(
 mixin _$SubjectWithEpisodesModel {
   String get title => throw _privateConstructorUsedError;
   String get originalPageUrl => throw _privateConstructorUsedError;
+  int get seasonNum => throw _privateConstructorUsedError;
   List<EpisodeModel> get episodes => throw _privateConstructorUsedError;
 
   /// Serializes this SubjectWithEpisodesModel to a JSON map.
@@ -42,7 +43,10 @@ abstract class $SubjectWithEpisodesModelCopyWith<$Res> {
       _$SubjectWithEpisodesModelCopyWithImpl<$Res, SubjectWithEpisodesModel>;
   @useResult
   $Res call(
-      {String title, String originalPageUrl, List<EpisodeModel> episodes});
+      {String title,
+      String originalPageUrl,
+      int seasonNum,
+      List<EpisodeModel> episodes});
 }
 
 /// @nodoc
@@ -63,6 +67,7 @@ class _$SubjectWithEpisodesModelCopyWithImpl<$Res,
   $Res call({
     Object? title = null,
     Object? originalPageUrl = null,
+    Object? seasonNum = null,
     Object? episodes = null,
   }) {
     return _then(_value.copyWith(
@@ -74,6 +79,10 @@ class _$SubjectWithEpisodesModelCopyWithImpl<$Res,
           ? _value.originalPageUrl
           : originalPageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      seasonNum: null == seasonNum
+          ? _value.seasonNum
+          : seasonNum // ignore: cast_nullable_to_non_nullable
+              as int,
       episodes: null == episodes
           ? _value.episodes
           : episodes // ignore: cast_nullable_to_non_nullable
@@ -92,7 +101,10 @@ abstract class _$$SubjectWithEpisodesModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title, String originalPageUrl, List<EpisodeModel> episodes});
+      {String title,
+      String originalPageUrl,
+      int seasonNum,
+      List<EpisodeModel> episodes});
 }
 
 /// @nodoc
@@ -112,6 +124,7 @@ class __$$SubjectWithEpisodesModelImplCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? originalPageUrl = null,
+    Object? seasonNum = null,
     Object? episodes = null,
   }) {
     return _then(_$SubjectWithEpisodesModelImpl(
@@ -123,6 +136,10 @@ class __$$SubjectWithEpisodesModelImplCopyWithImpl<$Res>
           ? _value.originalPageUrl
           : originalPageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      seasonNum: null == seasonNum
+          ? _value.seasonNum
+          : seasonNum // ignore: cast_nullable_to_non_nullable
+              as int,
       episodes: null == episodes
           ? _value._episodes
           : episodes // ignore: cast_nullable_to_non_nullable
@@ -137,6 +154,7 @@ class _$SubjectWithEpisodesModelImpl implements _SubjectWithEpisodesModel {
   const _$SubjectWithEpisodesModelImpl(
       {required this.title,
       required this.originalPageUrl,
+      required this.seasonNum,
       required final List<EpisodeModel> episodes})
       : _episodes = episodes;
 
@@ -147,6 +165,8 @@ class _$SubjectWithEpisodesModelImpl implements _SubjectWithEpisodesModel {
   final String title;
   @override
   final String originalPageUrl;
+  @override
+  final int seasonNum;
   final List<EpisodeModel> _episodes;
   @override
   List<EpisodeModel> get episodes {
@@ -157,7 +177,7 @@ class _$SubjectWithEpisodesModelImpl implements _SubjectWithEpisodesModel {
 
   @override
   String toString() {
-    return 'SubjectWithEpisodesModel(title: $title, originalPageUrl: $originalPageUrl, episodes: $episodes)';
+    return 'SubjectWithEpisodesModel(title: $title, originalPageUrl: $originalPageUrl, seasonNum: $seasonNum, episodes: $episodes)';
   }
 
   @override
@@ -168,13 +188,15 @@ class _$SubjectWithEpisodesModelImpl implements _SubjectWithEpisodesModel {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.originalPageUrl, originalPageUrl) ||
                 other.originalPageUrl == originalPageUrl) &&
+            (identical(other.seasonNum, seasonNum) ||
+                other.seasonNum == seasonNum) &&
             const DeepCollectionEquality().equals(other._episodes, _episodes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, title, originalPageUrl,
-      const DeepCollectionEquality().hash(_episodes));
+      seasonNum, const DeepCollectionEquality().hash(_episodes));
 
   /// Create a copy of SubjectWithEpisodesModel
   /// with the given fields replaced by the non-null parameter values.
@@ -197,6 +219,7 @@ abstract class _SubjectWithEpisodesModel implements SubjectWithEpisodesModel {
   const factory _SubjectWithEpisodesModel(
           {required final String title,
           required final String originalPageUrl,
+          required final int seasonNum,
           required final List<EpisodeModel> episodes}) =
       _$SubjectWithEpisodesModelImpl;
 
@@ -207,6 +230,8 @@ abstract class _SubjectWithEpisodesModel implements SubjectWithEpisodesModel {
   String get title;
   @override
   String get originalPageUrl;
+  @override
+  int get seasonNum;
   @override
   List<EpisodeModel> get episodes;
 

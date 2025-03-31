@@ -9,6 +9,7 @@ import 'package:aniflow/core/data/model/search_result_model.dart';
 import 'package:aniflow/core/data/model/subject_with_episodes_model.dart';
 import 'package:aniflow/core/database/aniflow_database.dart';
 import 'package:aniflow/core/database/dao/search_result_cache_dao.dart';
+import 'package:aniflow/core/network/model/search_request.dart';
 import 'package:aniflow/core/network/model/search_title.dart';
 import 'package:aniflow/core/network/playable_web_source.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
@@ -76,14 +77,20 @@ class PlayableSourceRepository {
       int episodeNum,
       [CancelToken? cancelToken]) async {
     try {
+      final searchRequest = _toSearchRequest(title, locale, episodeNum);
+      logger.e("$_tag start search with request: $searchRequest");
       // First: get cache and try to match.
       final cache =
           (await cacheDao.getCache(animeId, mediaSource.jsonString))?.cache;
       try {
         if (cache != null) {
           final result = SearchResultModel.fromJson(jsonDecode(cache));
-          final ret =
-              await _tryMatch(result.subjects, episodeNum, result.title);
+          final ret = await _tryMatch(
+            result.subjects,
+            episodeNum,
+            searchRequest,
+            result.title,
+          );
           return LoadSuccess(data: ret);
         }
       } on Exception catch (e) {
@@ -92,25 +99,47 @@ class PlayableSourceRepository {
       }
 
       // Second: search from web.
-      final (subjectList, searchTitle) = await source.fetch(
-        config: mediaSource.toConfig(),
-        searchRequest: _toSearchRequest(title, locale, episodeNum),
-        cancelToken: cancelToken
-      );
-      final searchedSubjects = subjectList.map((e) => e.toModel()).toList();
+      Future<List<MatchedEpisode>> searchWithRequest(SearchRequest r) async {
+        final (subjectList, searchTitle) = await source.fetch(
+            config: mediaSource.toConfig(),
+            searchRequest: r,
+            cancelToken: cancelToken);
+        final searchedSubjects = subjectList.map((e) => e.toModel()).toList();
 
-      // Third: save the search cache.
-      await cacheDao.saveCache([
-        SearchResultEntity(
-          mediaId: animeId,
-          mediaSource: mediaSource.jsonString,
-          cache: jsonEncode(
-            SearchResultModel(subjects: searchedSubjects, title: searchTitle),
-          ),
-        )
-      ]);
+        // throw exception when no subject found.
+        final ret = await _tryMatch(
+          searchedSubjects,
+          episodeNum,
+          r,
+          searchTitle,
+        );
 
-      final ret = await _tryMatch(searchedSubjects, episodeNum, searchTitle);
+        // save the search cache.
+        await cacheDao.saveCache([
+          SearchResultEntity(
+            mediaId: animeId,
+            mediaSource: mediaSource.jsonString,
+            cache: jsonEncode(
+              SearchResultModel(subjects: searchedSubjects, title: searchTitle),
+            ),
+          )
+        ]);
+        return ret;
+      }
+
+      try {
+        final ret = await searchWithRequest(
+            searchRequest.copyWith(useFirstKeyword: false));
+        return LoadSuccess(data: ret);
+      } catch (e) {
+        // ignore error when search with full title.
+        logger.e("$_tag match content with full title error: $e");
+      }
+
+      // finally, search content with first keyword.
+      // return error when no subject found.
+      final ret = await searchWithRequest(
+          searchRequest.copyWith(useFirstKeyword: true));
       return LoadSuccess(data: ret);
     } on Exception catch (e) {
       return LoadError(e);
@@ -120,16 +149,20 @@ class PlayableSourceRepository {
   Future<List<MatchedEpisode>> _tryMatch(
       List<SubjectWithEpisodesModel> searchedSubjects,
       int episodeNum,
+      SearchRequest searchRequest,
       SearchTitle searchTitle) async {
+    logger.d("$_tag before filtered $searchedSubjects");
     final filtered = _filterMatched(
       searchedSubjects,
       episodeNum,
+      searchRequest.season,
     );
     logger.d("$_tag after filtered $filtered");
 
     if (filtered.isEmpty) {
       throw Exception(
-        "not found content with title: ${searchTitle.keyword.firstOrNull}",
+        "not found content with title:\n"
+        "${searchRequest.useFirstKeyword ? searchRequest.title.keyword.first : searchRequest.title.fullText}",
       );
     }
 
@@ -139,6 +172,7 @@ class PlayableSourceRepository {
             (ep) => SubjectWithEpisodesModel(
               title: element.title,
               originalPageUrl: element.originalPageUrl,
+              seasonNum: element.seasonNum,
               episodes: [ep],
             ),
           ),
@@ -168,15 +202,20 @@ class PlayableSourceRepository {
   }
 
   List<SubjectWithEpisodesModel> _filterMatched(
-      List<SubjectWithEpisodesModel> from, int episodeNum) {
+    List<SubjectWithEpisodesModel> from,
+    int episodeNum,
+    int seasonNum,
+  ) {
     bool epMatched(EpisodeModel element) {
       return element.episodeNum == episodeNum;
     }
 
     return from
+        .where((subject) => subject.seasonNum == seasonNum)
         .map(
           (subject) => SubjectWithEpisodesModel(
             title: subject.title,
+            seasonNum: subject.seasonNum,
             originalPageUrl: subject.originalPageUrl,
             episodes: subject.episodes.where(epMatched).toList(),
           ),
@@ -189,18 +228,20 @@ class PlayableSourceRepository {
 SearchRequest _toSearchRequest(String title, Locale locale, int episodeNum) {
   final searchTitle = SearchTitle(
       fullText: title, keyword: title.split(" ").toSet(), locale: locale);
-  final season = parseSeasonNumFromTitle(title);
+  final season = parseSeasonNumFromTitle(title) ?? 1;
   return SearchRequest(title: searchTitle, season: season, episode: episodeNum);
 }
 
 List<RegExp> _seasonNumPatterns = [
-  RegExp(".*第s*(?<num>\\d+)s*クール"),
-  RegExp(".*第s*(?<num>\\d+)s*期"),
-  RegExp(".*(?<num>\\d+)(?<suffix>st|nd|rd|th).*"),
-  RegExp(".*Act.(?<num>\\d+)"),
-  RegExp(".*Season\\s+(?<num>\\d+).*"),
-  RegExp("(?<title>.+?)(?<num>[０-９]+)"),
-  RegExp("(?<title>.+?)(?<num>[ⅰ-ⅸⅹⅺⅻⅠ-ⅫⅬⅭⅮⅯ]+)"),
+  RegExp('.*第\\s*(?<num>\\d+)\\s*クール'),
+  RegExp('.*第\\s*(?<num>.+)\\s*クール'),
+  RegExp('.*第\\s*(?<num>\\d+)\\s*期'),
+  RegExp('.*第\\s*(?<num>.+)\\s*期'),
+  RegExp('.*(?<num>\\d+)(?<suffix>st|nd|rd|th).*'),
+  RegExp('.*Act.(?<num>\\d+)'),
+  RegExp('.*Season\\s+(?<num>\\d+).*'),
+  RegExp('(?<title>.+?)(?<num>[０-９]+)'),
+  RegExp('(?<title>.+?)(?<num>[ⅰ-ⅸⅹⅺⅻⅠ-ⅫⅬⅭⅮⅯ]+)'),
 ];
 
 @visibleForTesting

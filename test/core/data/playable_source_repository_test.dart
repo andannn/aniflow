@@ -32,6 +32,7 @@ void main() {
       expect(parseSeasonNumFromTitle("僕のヒーローアカデミア２"), 2);
       expect(parseSeasonNumFromTitle("Dr.STONE NEW WORLD 第2クール"), 2);
       expect(parseSeasonNumFromTitle("モブサイコ100 Ⅲ"), 3);
+      expect(parseSeasonNumFromTitle("わたしの幸せな結婚 第二期"), 2);
     });
 
     // test("test fetch episode", () async {

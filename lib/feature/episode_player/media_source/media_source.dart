@@ -14,6 +14,7 @@ class MediaSourceBox extends StatelessWidget {
     required this.playerState,
     required this.onSelectMatchedEpisode,
     required this.onGetSheetHeight,
+    required this.onRetryClick,
   });
 
   final MediaSource currentMediaSource;
@@ -21,9 +22,13 @@ class MediaSourceBox extends StatelessWidget {
   final Function(MatchedEpisode) onSelectMatchedEpisode;
   final double Function() onGetSheetHeight;
   final PlayerState playerState;
+  final VoidCallback onRetryClick;
 
   @override
   Widget build(BuildContext context) {
+    final showRetryButton =
+        playerState is LoadResourceError || playerState is SearchError;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,6 +94,9 @@ class MediaSourceBox extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
+                      if (showRetryButton)
+                        TextButton(
+                            onPressed: onRetryClick, child: const Text("Retry"))
                     ],
                   ),
                 ),
@@ -103,9 +111,11 @@ class MediaSourceBox extends StatelessWidget {
   Widget _buildSearchState(BuildContext context, PlayerState playerState) {
     String state() => switch (playerState) {
           Searching() => "Searching",
-          LoadingPlayResource() => "Loading Resource",
-          SearchError() => "Error",
+          LoadingPlayResource() => "Loading resource",
           PlayingResource() => "Playing",
+          SearchError() => "No Content",
+          LoadResourceError() => "Can not Load resource",
+          EpisodeLoaded() => throw Exception("Never reach here"),
         };
 
     final textTheme = Theme.of(context).textTheme;
@@ -120,16 +130,13 @@ class MediaSourceBox extends StatelessWidget {
     String state() => switch (playerState) {
           Searching() => "--",
           SearchError() => "--",
-          PlayingResource() =>
-            "${playerState.episode.subjectTitle} - ${playerState.episode.episodeTitle}",
-          LoadingPlayResource() =>
-            "${playerState.current.subjectTitle} - ${playerState.current.episodeTitle}",
+          EpisodeLoaded() =>
+            "${playerState.currentEpisode.subjectTitle} - ${playerState.currentEpisode.episodeTitle}",
         };
     String? url() => switch (playerState) {
+          EpisodeLoaded() => playerState.currentEpisode.episodeUrl,
           Searching() => null,
           SearchError() => null,
-          PlayingResource() => playerState.episode.episodeUrl,
-          LoadingPlayResource() => playerState.current.episodeUrl,
         };
 
     final urlLink = url();
@@ -146,12 +153,9 @@ class MediaSourceBox extends StatelessWidget {
     List<MatchedEpisode> episodeList = [];
 
     final state = playerState;
-    if (state is PlayingResource) {
+    if (state is EpisodeLoaded) {
       episodeList = state.matchedList;
-      current = state.episode;
-    } else if (state is LoadingPlayResource) {
-      episodeList = state.matchedList;
-      current = state.current;
+      current = state.currentEpisode;
     }
 
     if (episodeList.isEmpty || current == null) {

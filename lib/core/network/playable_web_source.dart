@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:aniflow/core/network/model/bangumi_subject_dto.dart';
+import 'package:aniflow/core/network/model/search_request.dart';
 import 'package:aniflow/core/network/model/search_title.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
 import 'package:aniflow/core/network/web_source/subject_matcher.dart';
@@ -28,7 +29,7 @@ class PlayableWebSource {
       cancelToken,
     );
     if (validSearchTitle == null) {
-      throw Exception("no valid local found");
+      throw Exception("no valid locale found");
     }
 
     final searchedSubjects = await dio.searchSubject(
@@ -38,8 +39,9 @@ class PlayableWebSource {
             : validSearchTitle.fullText,
         cancelToken: cancelToken);
 
-    final validSubjects = searchedSubjects.where((e) =>
-        searchRequest.season == null || e.season == searchRequest.season);
+    final validSubjects = searchedSubjects.where(
+      (e) => searchRequest.season == 1 || e.season == searchRequest.season,
+    );
 
     final ret = <SubjectWithEpisodes>[];
     for (var e in validSubjects) {
@@ -81,23 +83,6 @@ class PlayableWebSource {
 
     return validSearchTitle;
   }
-}
-
-class SearchRequest extends Equatable {
-  final SearchTitle title;
-  final int? season;
-  final int episode;
-  final bool useFirstKeyword;
-
-  const SearchRequest({
-    required this.title,
-    this.season,
-    required this.episode,
-    this.useFirstKeyword = true,
-  });
-
-  @override
-  List<Object?> get props => [title, season, episode];
 }
 
 extension DioExtension on Dio {
