@@ -3,6 +3,7 @@ import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:aniflow/core/usecase/media_mark_watched_use_case.dart';
@@ -10,7 +11,6 @@ import 'package:aniflow/feature/episode_player/episode_player_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-import 'package:video_player/video_player.dart';
 
 class EpisodePlayerReq extends Equatable {
   final String mediaId;
@@ -45,12 +45,6 @@ class OnSelectMediaSource extends EpisodePlayerEvent {
   OnSelectMediaSource(this.source);
 }
 
-class OnPlayStateChanged extends EpisodePlayerEvent {
-  final VideoPlayerValue state;
-
-  OnPlayStateChanged(this.state);
-}
-
 class OnSelectEpisodeNumber extends EpisodePlayerEvent {
   final int episode;
 
@@ -58,6 +52,8 @@ class OnSelectEpisodeNumber extends EpisodePlayerEvent {
 }
 
 class OnMarkWatchedClick extends EpisodePlayerEvent {}
+
+class OnPlayEnd extends EpisodePlayerEvent {}
 
 @injectable
 class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
@@ -78,6 +74,7 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
     on<_OnMediaListItemChanged>((event, emit) =>
         emit(state.copyWith(mediaListItemModel: event.mediaListItemModel)));
     on<OnMarkWatchedClick>(_handleMarkWatchedClick);
+    on<OnPlayEnd>(_handleOnPlayEnd);
 
     _init();
 
@@ -115,6 +112,16 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
   ) async {
     await _mediaMarkWatchedUseCase.onMarkWatched(
         param.mediaId, state.selectedEpisodeNumber, state.episodes);
+  }
+
+  Future _handleOnPlayEnd(
+      OnPlayEnd event, Emitter<EpisodePlayerState> emit) async {
+    final hasNextEpisode =
+        haveNextEpisode(state.mediaModel, state.mediaListItemModel);
+    if (hasNextEpisode) {
+      final nextEpisode = state.selectedEpisodeNumber + 1;
+      add(OnSelectEpisodeNumber(nextEpisode));
+    }
   }
 }
 

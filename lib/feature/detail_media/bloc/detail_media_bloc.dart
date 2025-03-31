@@ -87,12 +87,7 @@ class Error<T> extends LoadingState<T> {
 
 extension DetailMediaUiStateEx on DetailMediaUiState {
   bool get hasNextReleasedEpisode {
-    if (detailAnimeModel == null) return false;
-
-    return MediaWithListModel(
-      mediaModel: detailAnimeModel!,
-      mediaListModel: mediaListItem,
-    ).hasNextReleasedEpisode;
+    return haveNextEpisode(detailAnimeModel, mediaListItem);
   }
 }
 
