@@ -68,7 +68,6 @@ import 'package:aniflow/core/network/ani_list_data_source.dart' as _i1001;
 import 'package:aniflow/core/network/auth_data_source.dart' as _i1026;
 import 'package:aniflow/core/network/di/di_network_module.dart' as _i106;
 import 'package:aniflow/core/network/github_data_source.dart' as _i70;
-import 'package:aniflow/core/network/hianime_data_source.dart' as _i638;
 import 'package:aniflow/core/network/playable_web_source.dart' as _i311;
 import 'package:aniflow/core/platform/auth_event_channel.dart' as _i4;
 import 'package:aniflow/core/platform/di/auth_event_channel_module.dart'
@@ -166,7 +165,6 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_remote_config/firebase_remote_config.dart' as _i627;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:platform_extractor/platform_extractor.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:workmanager/workmanager.dart' as _i500;
 
@@ -194,8 +192,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
     gh.lazySingleton<_i4.AuthEventChannel>(
         () => platformEventChannelModule.getAuthEventChannel());
-    gh.lazySingleton<_i974.PlatformExtractor>(
-        () => platformEventChannelModule.getPlatformExtractor());
     gh.lazySingleton<_i970.MediaInformationRepository>(
       () => _i784.MockMediaInformationRepository(),
       registerFor: {_Mock},
@@ -511,8 +507,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.lazySingleton<_i638.HiAnimationDataSource>(
-        () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i197.PlayableSourceRepository>(
       () => _i197.PlayableSourceRepository(
         gh<_i311.PlayableWebSource>(),
