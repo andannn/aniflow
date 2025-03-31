@@ -8,7 +8,6 @@ import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:aniflow/core/usecase/media_mark_watched_use_case.dart';
 import 'package:aniflow/feature/episode_player/episode_player_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:video_player/video_player.dart';

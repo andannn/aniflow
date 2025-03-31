@@ -23,7 +23,6 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 sealed class DetailAnimeEvent {}
 
@@ -88,7 +87,6 @@ class Error<T> extends LoadingState<T> {
 
 extension DetailMediaUiStateEx on DetailMediaUiState {
   bool get hasNextReleasedEpisode {
-    if (mediaListItem == null) return false;
     if (detailAnimeModel == null) return false;
 
     return MediaWithListModel(
