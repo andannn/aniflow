@@ -14,10 +14,11 @@ import 'package:aniflow/core/data/message_repository.dart';
 import 'package:aniflow/core/data/model/anime_list_item_model.dart';
 import 'package:aniflow/core/data/model/extension/media_list_item_model_extension.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
-import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/data/user_data_repository.dart';
+import 'package:aniflow/core/usecase/get_media_list_item_use_case.dart';
 import 'package:aniflow/feature/detail_media/bloc/detail_media_ui_state.dart';
 import 'package:aniflow/feature/media_list_update_page/media_list_modify_result.dart';
+import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -48,6 +49,9 @@ class OnToggleFavoriteState extends DetailAnimeEvent {
   final bool isAnime;
   final String mediaId;
 }
+
+class OnTapFollowWithoutAuth extends DetailAnimeEvent {}
+class OnTapFollowWithAuthed extends DetailAnimeEvent {}
 
 class _OnLoadingStateChanged extends DetailAnimeEvent {
   _OnLoadingStateChanged({required this.isLoading});
@@ -82,13 +86,7 @@ class Error<T> extends LoadingState<T> {
 
 extension DetailMediaUiStateEx on DetailMediaUiState {
   bool get hasNextReleasedEpisode {
-    if (mediaListItem == null) return false;
-    if (detailAnimeModel == null) return false;
-
-    return MediaWithListModel(
-      mediaModel: detailAnimeModel!,
-      mediaListModel: mediaListItem,
-    ).hasNextReleasedEpisode;
+    return haveNextEpisode(detailAnimeModel, mediaListItem);
   }
 }
 
@@ -103,6 +101,7 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
     this._mediaRepository,
     this._mediaListRepository,
     this._messageRepository,
+    this._getMediaListItemStreamUseCase,
   ) : super(DetailMediaUiState(
           userTitleLanguage: _userDataRepository.userTitleLanguage,
           userStaffNameLanguage: _userDataRepository.userStaffNameLanguage,
@@ -121,6 +120,8 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       (event, emit) => emit(state.copyWith(isLoading: event.isLoading)),
     );
     on<OnMarkWatchedClick>(_onMarkWatchedClick);
+    on<OnTapFollowWithoutAuth>(_onTapFollowWithoutAuth);
+    on<OnTapFollowWithAuthed>(_onTapFollowWithAuthed);
 
     _init();
   }
@@ -132,14 +133,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
   final AuthRepository _authRepository;
   final UserDataRepository _userDataRepository;
   final MessageRepository _messageRepository;
-
-  // HiAnimationSource? _hiAnimationSource;
-
-  StreamSubscription? _isHiAnimationEnabledSub;
+  final GetMediaListItemStreamUseCase _getMediaListItemStreamUseCase;
 
   CancelToken? _toggleFavoriteCancelToken;
   CancelToken? _networkActionCancelToken;
   CancelToken? _findPlaySourceCancelToken;
+  CancelableOperation<bool?>? _loginOperation;
 
   void _init() async {
     autoCancel(
@@ -150,19 +149,14 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
       ),
     );
 
-    final userData = await _authRepository.getAuthedUserStream().first;
-    if (userData != null) {
-      autoCancel(
-        () => _mediaListRepository
-            .getMediaListItemByUserAndIdStream(
-                userId: userData.id, animeId: mediaId)
-            .listen(
-          (item) {
-            safeAdd(_OnMediaListItemChanged(mediaListItemModel: item));
-          },
-        ),
-      );
-    }
+    autoCancel(
+      () => _getMediaListItemStreamUseCase.invoke(mediaId)
+          .listen(
+        (item) {
+          safeAdd(_OnMediaListItemChanged(mediaListItemModel: item));
+        },
+      ),
+    );
 
     /// start fetch detail anime info.
     /// detail info stream will emit new value when data ready.
@@ -174,9 +168,12 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
     _toggleFavoriteCancelToken?.cancel();
     _networkActionCancelToken?.cancel();
     _findPlaySourceCancelToken?.cancel();
-    _isHiAnimationEnabledSub?.cancel();
 
     return super.close();
+  }
+
+  Future<bool> authed() async {
+    return (await _authRepository.getAuthedUser()) != null;
   }
 
   void _startFetchDetailAnimeInfo() async {
@@ -279,6 +276,47 @@ class DetailMediaBloc extends Bloc<DetailAnimeEvent, DetailMediaUiState>
         _messageRepository.showMessage(const MediaCompletedMessage());
       } else {
         _messageRepository.showMessage(const MediaMarkWatchedMessage());
+      }
+    }
+  }
+
+  FutureOr<void> _onTapFollowWithoutAuth(
+    OnTapFollowWithoutAuth event,
+    Emitter<DetailMediaUiState> emit,
+  ) async {
+    await _loginOperation?.cancel();
+
+    final operation = _authRepository.loginProcessOperation();
+    _loginOperation = operation;
+    final result = await operation.valueOrCancellation();
+
+    if (result == true) {
+      // login success.
+      await _handleFollowNew();
+    }
+  }
+
+  FutureOr<void> _onTapFollowWithAuthed(
+    OnTapFollowWithAuthed event,
+    Emitter<DetailMediaUiState> emit,
+  ) async {
+    await _handleFollowNew();
+  }
+
+  Future _handleFollowNew() async {
+    final mediaId = state.detailAnimeModel?.id;
+    if (mediaId == null) return;
+
+    final result = await _mediaListRepository.updateMediaList(
+        animeId: mediaId,
+        status: MediaListStatus.planning
+    );
+
+    if (result is LoadError) {
+      final message =
+          await ErrorHandler.convertExceptionToMessage(result.exception);
+      if (message != null) {
+        _messageRepository.showMessage(message);
       }
     }
   }

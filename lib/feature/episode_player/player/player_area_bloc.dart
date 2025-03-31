@@ -6,6 +6,7 @@ import 'package:aniflow/core/data/playable_source_repository.dart';
 import 'package:aniflow/feature/episode_player/player/player_area_state.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:video_player/video_player.dart';
@@ -13,66 +14,75 @@ import 'package:video_player/video_player.dart';
 sealed class PlayerState extends Equatable {
   final MediaSource source;
 
-  const PlayerState(this.source);
+  const PlayerState({required this.source});
 }
 
 class Searching extends PlayerState {
-  const Searching(super.source);
+  const Searching({required super.source});
 
   @override
   List<Object?> get props => [source];
 }
 
-class LoadingPlayResource extends PlayerState {
-  final List<MatchedEpisode> matchedList;
-  final int loadingIndex;
-
-  MatchedEpisode get current => matchedList[loadingIndex];
-
-  const LoadingPlayResource(
-    super.source, {
-    required this.matchedList,
-    this.loadingIndex = 0,
-  });
-
-  LoadingPlayResource? next() {
-    if (loadingIndex < matchedList.length - 1) {
-      return LoadingPlayResource(
-        source,
-        matchedList: matchedList,
-        loadingIndex: loadingIndex + 1,
-      );
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  List<Object?> get props => [source, matchedList, loadingIndex];
-}
-
 class SearchError extends PlayerState {
   final Exception exception;
 
-  const SearchError(super.source, {required this.exception});
+  const SearchError({required super.source, required this.exception});
 
   @override
   List<Object?> get props => [exception, source];
 }
 
-class PlayingResource extends PlayerState {
-  final String url;
-  final VideoPlayerValue playerState;
+abstract class EpisodeLoaded extends PlayerState {
+  const EpisodeLoaded(
+      {required super.source,
+      required this.matchedList,
+      required this.currentIndex});
+
   final List<MatchedEpisode> matchedList;
-  final int playingIndex;
+  final int currentIndex;
 
-  MatchedEpisode get episode => matchedList[playingIndex];
+  MatchedEpisode get currentEpisode => matchedList[currentIndex];
+}
 
-  const PlayingResource(super.source, this.url, this.playerState,
-      this.matchedList, this.playingIndex);
+class LoadingPlayResource extends EpisodeLoaded {
+  const LoadingPlayResource({
+    required super.source,
+    required super.matchedList,
+    required super.currentIndex,
+  });
 
   @override
-  List<Object?> get props => [source, url, playerState, playingIndex];
+  List<Object?> get props => [source, matchedList, currentIndex];
+}
+
+class LoadResourceError extends EpisodeLoaded {
+  final Exception exception;
+
+  const LoadResourceError(
+      {required super.source,
+      required super.matchedList,
+      required super.currentIndex,
+      required this.exception});
+
+  @override
+  List<Object?> get props => [exception, source, matchedList, currentIndex];
+}
+
+class PlayingResource extends EpisodeLoaded {
+  final String url;
+  final VideoPlayerValue playerState;
+
+  const PlayingResource(
+      {required super.source,
+      required this.url,
+      required this.playerState,
+      required super.matchedList,
+      required super.currentIndex});
+
+  @override
+  List<Object?> get props =>
+      [source, url, playerState, currentIndex, matchedList];
 }
 
 sealed class PlayerAreaEvent {}
@@ -98,7 +108,11 @@ class _OnSearchStateChanged extends PlayerAreaEvent {
   _OnSearchStateChanged(this.searchState);
 }
 
-class OnFetchResourceError extends PlayerAreaEvent {}
+class OnFetchResourceError extends PlayerAreaEvent {
+  final Exception exception;
+
+  OnFetchResourceError(this.exception);
+}
 
 class _OnPlayStateChanged extends PlayerAreaEvent {
   final VideoPlayerValue state;
@@ -111,6 +125,8 @@ class OnChangeMatchedEpisode extends PlayerAreaEvent {
 
   OnChangeMatchedEpisode(this.episode);
 }
+
+class OnRetryClick extends PlayerAreaEvent {}
 
 class PlayerAreaParam extends Equatable {
   final String mediaId;
@@ -139,11 +155,11 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       PlayingResource? newState;
       if (lastSearchState is PlayingResource) {
         newState = PlayingResource(
-          lastSearchState.source,
-          lastSearchState.url,
-          playerState,
-          lastSearchState.matchedList,
-          lastSearchState.playingIndex,
+          source: lastSearchState.source,
+          url: lastSearchState.url,
+          playerState: playerState,
+          matchedList: lastSearchState.matchedList,
+          currentIndex: lastSearchState.currentIndex,
         );
         emit(state.copyWith(searchState: newState));
       }
@@ -153,6 +169,7 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
     on<OnSeekToPositionMs>(_handleSeekToPositionMs);
     on<OnFetchResourceError>(_handleFetchResourceError);
     on<OnChangeMatchedEpisode>(_handleOnChangeMatchedEpisode);
+    on<OnRetryClick>(_handleOnRetryClick);
 
     _init();
   }
@@ -180,7 +197,7 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
     final title = media.title!;
     final source = param.source;
     final token = CancelToken();
-    add(_OnSearchStateChanged(Searching(source)));
+    add(_OnSearchStateChanged(Searching(source: source)));
 
     final result = await _playableSourceRepository.searchPlaySource(
       source,
@@ -195,13 +212,18 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       case LoadError<List<MatchedEpisode>>():
         add(
           _OnSearchStateChanged(
-            SearchError(source, exception: result.exception),
+            SearchError(source: source, exception: result.exception),
           ),
         );
       case LoadSuccess<List<MatchedEpisode>>():
+        // find episode. load resource from index 0.
         add(
           _OnSearchStateChanged(
-            LoadingPlayResource(source, matchedList: result.data),
+            LoadingPlayResource(
+              source: source,
+              matchedList: result.data,
+              currentIndex: 0,
+            ),
           ),
         );
     }
@@ -222,17 +244,14 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       emit(
         state.copyWith(
           searchState: PlayingResource(
-            lastSearchState.source,
-            webUrl,
-            controller.value,
-            list,
-            list.indexOf(event.episode),
+            source: lastSearchState.source,
+            url: webUrl,
+            playerState: controller.value,
+            matchedList: list,
+            currentIndex: list.indexOf(event.episode),
           ),
         ),
       );
-    } else {
-      // Do nothing
-      return;
     }
   }
 
@@ -274,19 +293,16 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       OnFetchResourceError event, Emitter<PlayerAreaState> emit) async {
     final searchedState = state.searchState;
     if (searchedState is LoadingPlayResource) {
-      final next = searchedState.next();
-      if (next != null) {
-        emit(state.copyWith(searchState: searchedState.next()));
-      } else {
-        emit(
-          state.copyWith(
-            searchState: SearchError(
-              searchedState.source,
-              exception: Exception("All matched episode load failed"),
-            ),
+      emit(
+        state.copyWith(
+          searchState: LoadResourceError(
+            source:  searchedState.source,
+            matchedList: searchedState.matchedList,
+            currentIndex: searchedState.currentIndex,
+            exception: event.exception,
           ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -307,11 +323,37 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
     emit(
       state.copyWith(
         searchState: LoadingPlayResource(
-          playerState.source,
+          source:  playerState.source,
           matchedList: matchedList,
-          loadingIndex: matchedList.indexOf(event.episode),
+          currentIndex: matchedList.indexOf(event.episode),
         ),
       ),
     );
+  }
+
+  Future _handleOnRetryClick(
+      OnRetryClick event, Emitter<PlayerAreaState> emit) async {
+    final playState = state.searchState;
+    if (playState == null) {
+      return;
+    }
+
+    switch (playState) {
+      case LoadResourceError():
+        add(
+          _OnSearchStateChanged(
+            LoadingPlayResource(
+              source: playState.source,
+              matchedList: playState.matchedList,
+              currentIndex: playState.currentIndex,
+            ),
+          ),
+        );
+      case SearchError():
+        searchTask?.cancel();
+        searchTask = await _startSearchTask();
+      default:
+        // noop
+    }
   }
 }

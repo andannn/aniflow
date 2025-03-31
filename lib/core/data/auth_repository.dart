@@ -40,11 +40,8 @@ class AuthRepository {
   );
 
   final AuthEventChannel _authEventChannel;
-
   final UserDataPreferences _preferences;
-
   final AuthDataSource _authDataSource;
-
   final UserDao _userDataDao;
 
   CancelableOperation<bool?> loginProcessOperation() {

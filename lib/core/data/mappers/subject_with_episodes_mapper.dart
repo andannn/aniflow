@@ -8,6 +8,7 @@ extension SubjectWithEpisodesMapper on SubjectWithEpisodes {
     return SubjectWithEpisodesModel(
       title: subject.name,
       originalPageUrl: subject.link,
+      seasonNum: subject.season,
       episodes: episodes.map((e) => e.toModel()).toList(),
     );
   }

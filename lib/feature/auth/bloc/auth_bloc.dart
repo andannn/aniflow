@@ -54,9 +54,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AutoCancelMixin {
 
   Future<void> _onLoginButtonTapped(
       OnLoginButtonTapped event, Emitter<AuthState> emit) async {
-    final operation = _authRepository.loginProcessOperation();
-
     await _loginOperation?.cancel();
+
+    final operation = _authRepository.loginProcessOperation();
+    _loginOperation = operation;
+
     final result = await operation.valueOrCancellation();
     if (result == null) {
       return;

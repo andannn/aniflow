@@ -272,21 +272,25 @@ class ControlArea extends StatelessWidget {
         if (playerState != null)
           SliverToBoxAdapter(
             child: MediaSourceBox(
-                playerState: playerState,
-                currentMediaSource: currentMediaSource,
-                onSelectMatchedEpisode: (selected) {
-                  context.read<PlayerAreaBloc>().add(
-                        OnChangeMatchedEpisode(selected),
-                      );
-                },
-                onSelectMediaSource: (selected) {
-                  context.read<EpisodePlayerBloc>().add(
-                        OnSelectMediaSource(selected),
-                      );
-                },
-                onGetSheetHeight: () {
-                  return controlAreaKey.currentContext?.size?.height ?? 0;
-                }),
+              playerState: playerState,
+              currentMediaSource: currentMediaSource,
+              onSelectMatchedEpisode: (selected) {
+                context
+                    .read<PlayerAreaBloc>()
+                    .add(OnChangeMatchedEpisode(selected));
+              },
+              onSelectMediaSource: (selected) {
+                context
+                    .read<EpisodePlayerBloc>()
+                    .add(OnSelectMediaSource(selected));
+              },
+              onGetSheetHeight: () {
+                return controlAreaKey.currentContext?.size?.height ?? 0;
+              },
+              onRetryClick: () {
+                context.read<PlayerAreaBloc>().add(OnRetryClick());
+              },
+            ),
           )
       ],
     );

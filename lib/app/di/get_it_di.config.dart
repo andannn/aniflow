@@ -68,7 +68,6 @@ import 'package:aniflow/core/network/ani_list_data_source.dart' as _i1001;
 import 'package:aniflow/core/network/auth_data_source.dart' as _i1026;
 import 'package:aniflow/core/network/di/di_network_module.dart' as _i106;
 import 'package:aniflow/core/network/github_data_source.dart' as _i70;
-import 'package:aniflow/core/network/hianime_data_source.dart' as _i638;
 import 'package:aniflow/core/network/playable_web_source.dart' as _i311;
 import 'package:aniflow/core/platform/auth_event_channel.dart' as _i4;
 import 'package:aniflow/core/platform/di/auth_event_channel_module.dart'
@@ -77,6 +76,8 @@ import 'package:aniflow/core/shared_preference/di/shared_preferences_module.dart
     as _i365;
 import 'package:aniflow/core/shared_preference/user_data_preferences.dart'
     as _i918;
+import 'package:aniflow/core/usecase/get_media_list_item_use_case.dart'
+    as _i660;
 import 'package:aniflow/core/usecase/media_mark_watched_use_case.dart'
     as _i1027;
 import 'package:aniflow/feature/activity_replies/bloc/activity_replies_bloc.dart'
@@ -166,7 +167,6 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_remote_config/firebase_remote_config.dart' as _i627;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:platform_extractor/platform_extractor.dart' as _i974;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:workmanager/workmanager.dart' as _i500;
 
@@ -194,8 +194,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i953.NotificationBloc>(() => _i953.NotificationBloc());
     gh.lazySingleton<_i4.AuthEventChannel>(
         () => platformEventChannelModule.getAuthEventChannel());
-    gh.lazySingleton<_i974.PlatformExtractor>(
-        () => platformEventChannelModule.getPlatformExtractor());
     gh.lazySingleton<_i970.MediaInformationRepository>(
       () => _i784.MockMediaInformationRepository(),
       registerFor: {_Mock},
@@ -450,19 +448,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i319.MediaListRepository>(),
           gh<_i810.UserDataRepository>(),
         ));
-    gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
-      mediaId,
-      _,
-    ) =>
-        _i789.DetailMediaBloc(
-          mediaId,
-          gh<_i768.AuthRepository>(),
-          gh<_i462.FavoriteRepository>(),
-          gh<_i810.UserDataRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i319.MediaListRepository>(),
-          gh<_i67.MessageRepository>(),
-        ));
     gh.lazySingleton<_i1001.AniListDataSource>(
         () => _i1001.AniListDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i1026.AuthDataSource>(
@@ -511,8 +496,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.lazySingleton<_i638.HiAnimationDataSource>(
-        () => _i638.HiAnimationDataSource(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i197.PlayableSourceRepository>(
       () => _i197.PlayableSourceRepository(
         gh<_i311.PlayableWebSource>(),
@@ -803,6 +786,16 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i67.MessageRepository>(),
           gh<_i309.GithubRepository>(),
         ));
+    gh.lazySingleton<_i660.GetMediaListItemStreamUseCase>(
+      () => _i660.GetMediaListItemStreamUseCase(
+        gh<_i768.AuthRepository>(),
+        gh<_i319.MediaListRepository>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
     gh.factory<_i462.PostAnilistNotificationExecutor>(
         () => _i462.PostAnilistNotificationExecutor(
               gh<_i221.NotificationRepository>(),
@@ -819,6 +812,20 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i1027.MediaMarkWatchedUseCase>(),
+        ));
+    gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
+      mediaId,
+      _,
+    ) =>
+        _i789.DetailMediaBloc(
+          mediaId,
+          gh<_i768.AuthRepository>(),
+          gh<_i462.FavoriteRepository>(),
+          gh<_i810.UserDataRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+          gh<_i319.MediaListRepository>(),
+          gh<_i67.MessageRepository>(),
+          gh<_i660.GetMediaListItemStreamUseCase>(),
         ));
     return this;
   }

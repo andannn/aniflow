@@ -25,7 +25,7 @@ class EpisodeInfo extends Equatable {
 class SearchedSubjectInfo extends Equatable {
   final String name;
   final String link;
-  final int? season;
+  final int season;
 
   const SearchedSubjectInfo({
     required this.name,
@@ -75,12 +75,12 @@ extension on SubjectMatcher {
     }
   }
 
-  int? findSeason(String name) {
+  int findSeason(String name) {
     final result = RegExp(seasonMatchRegex).firstMatch(name);
     if (result != null) {
       return _convertToNumber(result.namedGroup("num") ?? "") ?? -1;
     } else {
-      return -1;
+      return 1;
     }
   }
 

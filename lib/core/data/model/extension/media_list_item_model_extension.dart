@@ -1,11 +1,13 @@
 import 'package:aniflow/core/common/definitions/media_status.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
+import 'package:aniflow/core/data/model/anime_list_item_model.dart';
+import 'package:aniflow/core/data/model/media_model.dart';
 import 'package:aniflow/core/data/model/media_with_list_model.dart';
 import 'package:aniflow/core/database/relations/media_list_and_media_relation.dart';
 
 extension MediaWithListModelEx on MediaWithListModel {
   bool get hasNextReleasedEpisode {
-    return _hasNextReleasingEpisode(
+    return _haveNextReleasingEpisode(
       type: mediaModel.type.toJson(),
       status: (mediaModel.status ?? MediaStatus.finished).toJson(),
       progress: mediaListModel?.progress ?? 0,
@@ -17,7 +19,7 @@ extension MediaWithListModelEx on MediaWithListModel {
 
 extension MediaListAndMediaRelationEx on MediaListAndMediaRelation {
   bool get hasNextReleasingEpisode {
-    return _hasNextReleasingEpisode(
+    return _haveNextReleasingEpisode(
       type: mediaEntity.type ?? '',
       status: mediaEntity.status ?? '',
       progress: mediaListEntity?.progress ?? 0,
@@ -27,7 +29,23 @@ extension MediaListAndMediaRelationEx on MediaListAndMediaRelation {
   }
 }
 
-bool _hasNextReleasingEpisode(
+bool haveNextEpisode(
+  MediaModel? mediaModel,
+  MediaListItemModel? mediaListModel,
+) {
+  if (mediaModel == null) {
+    return false;
+  }
+  return _haveNextReleasingEpisode(
+    type: mediaModel.type.toJson(),
+    status: (mediaModel.status ?? MediaStatus.finished).toJson(),
+    progress: mediaListModel?.progress ?? 0,
+    nextAiringEpisode: mediaModel.nextAiringEpisode,
+    episodes: mediaModel.episodes,
+  );
+}
+
+bool _haveNextReleasingEpisode(
     {required String type,
     required String status,
     int? nextAiringEpisode,

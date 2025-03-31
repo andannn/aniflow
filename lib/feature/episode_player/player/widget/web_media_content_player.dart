@@ -4,7 +4,7 @@ import 'package:aniflow/feature/episode_player/player/widget/player_control_over
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class PlayerWithControlPanel extends StatelessWidget {
+class PlayerWithControlPanel extends StatefulWidget {
   const PlayerWithControlPanel({
     super.key,
     required this.url,
@@ -15,6 +15,7 @@ class PlayerWithControlPanel extends StatelessWidget {
     required this.onTogglePlay,
     required this.isFullScreen,
     required this.title,
+    required this.onPlayCompleted,
   });
 
   final String url;
@@ -26,40 +27,72 @@ class PlayerWithControlPanel extends StatelessWidget {
   final VoidCallback onRequestToggleFullscreen;
   final void Function(int) onSeekToPositionMs;
   final VoidCallback onTogglePlay;
+  final VoidCallback onPlayCompleted;
+
+  @override
+  State<PlayerWithControlPanel> createState() => _PlayerWithControlPanelState();
+}
+
+class _PlayerWithControlPanelState extends State<PlayerWithControlPanel> {
+  VideoPlayerController get controller => widget.controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(_checkVideoEnded);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_checkVideoEnded);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: !isFullScreen,
+      canPop: !widget.isFullScreen,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          onRequestToggleFullscreen();
+          widget.onRequestToggleFullscreen();
         }
       },
       child: Stack(
         children: [
           Center(
-            child: state.isInitialized
+            child: widget.state.isInitialized
                 ? AspectRatio(
-                    aspectRatio: state.aspectRatio,
-                    child: VideoPlayer(controller),
+                    aspectRatio: widget.state.aspectRatio,
+                    child: VideoPlayer(widget.controller),
                   )
                 : Container(),
           ),
           // if (isReady)
           _PlayerGestureController(
             overlay: PlayerControlOverlay(
-              state: state,
-              title: title,
-              isFullScreen: isFullScreen,
-              onRequestToggle: onRequestToggleFullscreen,
-              onSeekToPositionMs: onSeekToPositionMs,
-              onTogglePlay: onTogglePlay,
+              state: widget.state,
+              title: widget.title,
+              isFullScreen: widget.isFullScreen,
+              onRequestToggle: widget.onRequestToggleFullscreen,
+              onSeekToPositionMs: widget.onSeekToPositionMs,
+              onTogglePlay: widget.onTogglePlay,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _checkVideoEnded() {
+    final position = controller.value.position;
+    final duration = controller.value.duration;
+
+    if (controller.value.isInitialized &&
+        position >= duration &&
+        !controller.value.isPlaying) {
+      widget.onPlayCompleted();
+    }
   }
 }
 

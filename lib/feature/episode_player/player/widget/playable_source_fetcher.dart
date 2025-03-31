@@ -27,7 +27,7 @@ class _PlayableSourceFetcherState extends State<PlayableSourceFetcher> {
   late Timer timer;
   @override
   void initState() {
-    timer = Timer(const Duration(seconds: 10), () {
+    timer = Timer(const Duration(seconds: 30), () {
       widget.onTimeOut();
     });
     super.initState();
