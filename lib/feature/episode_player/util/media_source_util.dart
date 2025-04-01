@@ -7,5 +7,6 @@ extension MediaSourceEx on MediaSource {
     MediaSource.vdm10 => "风车动漫",
     MediaSource.qdm8 => "趣动漫",
     MediaSource.fqdm => "番茄动漫",
+    MediaSource.dmdan8 => "动漫蛋",
   };
 }

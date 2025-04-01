@@ -7,19 +7,18 @@ void main() {
 
     // late Dio dio;
     // setUp(() async {
-      // dio = Dio()
-      //   ..options = BaseOptions(
-      //     connectTimeout: const Duration(seconds: 15),
-      //     receiveTimeout: const Duration(seconds: 15),
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "Accept": "application/json",
-      //     },
-      //   )
-      //   ..interceptors.addAll([
-      //     LogInterceptor(),
-      //   ]);
-      // dataSource = PlayableWebSource(dio);
+    //   dio = Dio()
+    //     ..options = BaseOptions(
+    //       connectTimeout: const Duration(seconds: 15),
+    //       receiveTimeout: const Duration(seconds: 15),
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "Accept": "application/json",
+    //       },
+    //     )
+    //     ..interceptors.addAll([
+    //       LogInterceptor(),
+    //     ]);
     // });
 
     test('parse season', () async {
@@ -35,14 +34,10 @@ void main() {
       expect(parseSeasonNumFromTitle("わたしの幸せな結婚 第二期"), 2);
     });
 
-    // test("test fetch episode", () async {
-    //   final result = await repository.searchPlaySource(MediaSource.vdm10, "1", "Unnamed Memory Act.2", Locale('JP'), 1);
-    //   switch (result) {
-    //     case LoadError<List<EpisodeModel>>():
-    //       print(result.exception);
-    //     case LoadSuccess<List<EpisodeModel>>():
-    //       print(result.data);
-    //   }
-    // });
+    test("test fetch episode", () async {
+      // final a = document.querySelectorAll("#playlist1 > ul > li > a");
+      // final a =  await dio.getEpisodes(config: SearchConfig(baseUrl: "https://www.dmdan8.com", searchUrl: "https://www.dmdan8.com/search/-------------.html?wd={keyword}", matcher: Dmdan8Macher()), url: 'https://www.dmdan8.com/video/9142.html');
+      // print(a);
+    });
   });
 }
