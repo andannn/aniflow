@@ -26,7 +26,8 @@ enum MediaSource {
   vdm10,
   qdm8,
   fqdm,
-  dmdan8;
+  dmdan8,
+  mcydh;
 
   String get jsonString {
     switch (this) {
@@ -38,6 +39,8 @@ enum MediaSource {
         return "fqdm";
       case MediaSource.dmdan8:
         return "dmdan8";
+      case MediaSource.mcydh:
+        return "mcydh";
     }
   }
 
@@ -51,6 +54,8 @@ enum MediaSource {
         return MediaSource.fqdm;
       case "dmdan8":
         return MediaSource.dmdan8;
+      case "mcydh":
+        return MediaSource.mcydh;
     }
     throw Exception("unknown source: $source");
   }
@@ -322,6 +327,16 @@ extension MediaSourceEx on MediaSource {
           searchUrl:
               "https://www.dmdan8.com/search/-------------.html?wd={keyword}",
           matcher: Dmdan8Macher(),
+          validLocal: [
+            const Locale("zh"),
+          ],
+        );
+      case MediaSource.mcydh:
+        return SearchConfig(
+          baseUrl: "https://www.mcydh.com/",
+          searchUrl:
+              "https://www.mcydh.com/vodsearch/-------------.html?wd={keyword}",
+          matcher: McydhMacher(),
           validLocal: [
             const Locale("zh"),
           ],

@@ -12,8 +12,8 @@ void main() {
     //       connectTimeout: const Duration(seconds: 15),
     //       receiveTimeout: const Duration(seconds: 15),
     //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Accept": "application/json",
+    //         "Content-Type": "text/html",
+    //         "Accept": "text/html",
     //       },
     //     )
     //     ..interceptors.addAll([
@@ -35,8 +35,17 @@ void main() {
     });
 
     test("test fetch episode", () async {
+      // final result = await dio.get("https://www.mcydh.com/voddetail/9071.html");
+      // final document = parse(result.data);
+      // print(document.body?.outerHtml);
+
+      // final a = document.querySelectorAll(".box-width.cor5 > .anthology.wow.fadeInUp.animated > .anthology-list.top20.select-a > div > div > ul > li > a");
+      // print(a?.firstOrNull?.outerHtml);
       // final a = document.querySelectorAll("#playlist1 > ul > li > a");
-      // final a =  await dio.getEpisodes(config: SearchConfig(baseUrl: "https://www.dmdan8.com", searchUrl: "https://www.dmdan8.com/search/-------------.html?wd={keyword}", matcher: Dmdan8Macher()), url: 'https://www.dmdan8.com/video/9142.html');
+      // final a =  await dio.searchSubject(config: SearchConfig(baseUrl: "https://www.mcydh.com/", searchUrl: "https://www.mcydh.com/vodsearch/-------------.html?wd={keyword}", matcher: McydhMacher()), title: '1');
+      // print(a);
+      
+      // final a = await dio.getEpisodes(url: "https://www.mcydh.com/voddetail/9071.html", config: SearchConfig(baseUrl: "https://www.mcydh.com/", searchUrl: "https://www.mcydh.com/vodsearch/-------------.html?wd={keyword}", matcher: McydhMacher()));
       // print(a);
     });
   });

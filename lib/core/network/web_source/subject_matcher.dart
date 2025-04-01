@@ -7,6 +7,7 @@ part 'matchers/qdm8_macher.dart';
 part 'matchers/fqdm_macher.dart';
 part 'matchers/vdm10_macher.dart';
 part 'matchers/dmdan8_macher.dart';
+part 'matchers/mcydh_macher.dart';
 
 class EpisodeInfo extends Equatable {
   final String name;
