@@ -93,7 +93,7 @@ class PlayableSourceRepository {
           );
           return LoadSuccess(data: ret);
         }
-      } on Exception catch (e) {
+      } catch (e) {
         // ignore error when load from cache.
         logger.e("$_tag match content from cache error: $e");
       }
