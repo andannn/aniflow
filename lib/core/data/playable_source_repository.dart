@@ -24,7 +24,8 @@ import 'package:string_similarity/string_similarity.dart';
 
 enum MediaSource {
   vdm10,
-  qdm8;
+  qdm8,
+  fqdm;
 
   String get jsonString {
     switch (this) {
@@ -32,6 +33,8 @@ enum MediaSource {
         return "vdm10";
       case MediaSource.qdm8:
         return "qdm8";
+      case MediaSource.fqdm:
+        return "fqdm";
     }
   }
 
@@ -41,6 +44,8 @@ enum MediaSource {
         return MediaSource.vdm10;
       case "qdm8":
         return MediaSource.qdm8;
+      case "fqdm":
+        return MediaSource.fqdm;
     }
     throw Exception("unknown source: $source");
   }
@@ -290,6 +295,17 @@ extension MediaSourceEx on MediaSource {
           iconUrl: "https://www.qdm8.com/favicon.ico",
           searchUrl: "https://www.qdm88.com/search/{keyword}-------------.html",
           matcher: Qdm8Macher(),
+          validLocal: [
+            const Locale("zh"),
+          ],
+        );
+      case MediaSource.fqdm:
+        return SearchConfig(
+          baseUrl: "https://www.fqdm.cc",
+          iconUrl: "https://www.fqdm.cc/upload/mxprocms/20240530-1/3d17fab3cb763e6ad7031974bf87f322.jpg",
+          searchUrl:
+              "https://www.fqdm.cc/index.php/vod/search.html?wd={keyword}",
+          matcher: FqdmMatcher(),
           validLocal: [
             const Locale("zh"),
           ],
