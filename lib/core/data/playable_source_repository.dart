@@ -276,7 +276,7 @@ extension MediaSourceEx on MediaSource {
       case MediaSource.vdm10:
         return SearchConfig(
           baseUrl: "https://www.vdm10.com",
-          iconUrl: "",
+          iconUrl: "https://vdm10.com/favicon.ico",
           searchUrl:
               "https://www.vdm10.com/search/-------------.html?wd={keyword}",
           matcher: Vdm10Macher(),
@@ -287,7 +287,7 @@ extension MediaSourceEx on MediaSource {
       case MediaSource.qdm8:
         return SearchConfig(
           baseUrl: "https://www.qdm8.com",
-          iconUrl: "https://www.qdm88.com/qdm8.png",
+          iconUrl: "https://www.qdm8.com/favicon.ico",
           searchUrl: "https://www.qdm88.com/search/{keyword}-------------.html",
           matcher: Qdm8Macher(),
           validLocal: [
