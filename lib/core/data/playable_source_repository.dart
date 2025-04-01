@@ -15,6 +15,7 @@ import 'package:aniflow/core/network/playable_web_source.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
 import 'package:aniflow/core/network/web_source/subject_matcher.dart';
 import 'package:aniflow/core/network/web_source/util.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -81,8 +82,9 @@ class MatchedEpisode extends Equatable {
 class PlayableSourceRepository {
   final PlayableWebSource source;
   final SearchResultCacheDao cacheDao;
+  final UserDataPreferences preference;
 
-  PlayableSourceRepository(this.source, this.cacheDao);
+  PlayableSourceRepository(this.source, this.cacheDao, this.preference);
 
   Future<LoadResult<List<MatchedEpisode>>> searchPlaySource(
       MediaSource mediaSource,
@@ -237,6 +239,20 @@ class PlayableSourceRepository {
         )
         .whereNot((e) => e.episodes.isEmpty)
         .toList();
+  }
+
+  MediaSource? getLastSuccessMatchedMediaSource(String mediaId) {
+    final source = preference.getLastSuccessMatching(mediaId);
+    MediaSource? ret;
+    if (source != null) {
+      ret = MediaSource.fromJson(source);
+    }
+    return ret;
+  }
+
+  Future setLastSuccessMatchedMediaSource(
+      String mediaId, MediaSource mediaSource) async {
+    await preference.setSuccessMatching(mediaId, mediaSource.jsonString);
   }
 }
 

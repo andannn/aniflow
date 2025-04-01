@@ -46,6 +46,8 @@ mixin _UserDataKey {
   static const mineGithubUserInfoKey = 'mine_github_user_info_key';
 
   static const useInAppPlayerKey = 'use_in_app_player_key';
+
+  static const lastSuccessMatchingKey = 'last_success_matching_key';
 }
 
 @lazySingleton
@@ -287,5 +289,37 @@ class UserDataPreferences {
     }
 
     return DateTime.tryParse(timeStringOrNull);
+  }
+
+  Future setSuccessMatching(String mediaId, String mediaSource) async {
+    final recordMapString =
+    _preferences.getString(_UserDataKey.lastSuccessMatchingKey);
+
+    Map<String, dynamic> recordMap;
+    if (recordMapString == null) {
+      recordMap = {};
+    } else {
+      recordMap = jsonDecode(recordMapString) as Map<String, dynamic>;
+    }
+
+    recordMap[mediaId] = mediaSource;
+    await _preferences.setString(
+        _UserDataKey.lastSuccessMatchingKey, jsonEncode(recordMap));
+  }
+
+  String? getLastSuccessMatching(String mediaId) {
+    final recordMapString =
+        _preferences.getString(_UserDataKey.lastSuccessMatchingKey);
+    if (recordMapString == null) {
+      return null;
+    }
+
+    final recordMap = jsonDecode(recordMapString) as Map<String, dynamic>;
+    final value = recordMap[mediaId];
+    if (value is String?) {
+      return value;
+    } else {
+      return null;
+    }
   }
 }
