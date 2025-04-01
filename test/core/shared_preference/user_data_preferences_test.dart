@@ -216,5 +216,22 @@ void main() {
           const MediaList(userId: '', status: [], type: MediaType.anime));
       expect(getTime, null);
     });
+
+    test('set last success matching test', () async {
+      await preferences.setSuccessMatching('1', 'source');
+
+      expect(preferences.getLastSuccessMatching('1'), 'source');
+    });
+
+    test('set twice success matching test', () async {
+      await preferences.setSuccessMatching('1', 'source');
+      await preferences.setSuccessMatching('1', 'vlc');
+
+      expect(preferences.getLastSuccessMatching('1'), 'vlc');
+    });
+
+    test('get null when not set', () async {
+      expect(preferences.getLastSuccessMatching('1'), null);
+    });
   });
 }

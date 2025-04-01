@@ -252,6 +252,12 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
           ),
         ),
       );
+
+      // save last success matched media source.
+      await _playableSourceRepository.setLastSuccessMatchedMediaSource(
+        param.mediaId,
+        lastSearchState.source,
+      );
     }
   }
 
@@ -296,7 +302,7 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
       emit(
         state.copyWith(
           searchState: LoadResourceError(
-            source:  searchedState.source,
+            source: searchedState.source,
             matchedList: searchedState.matchedList,
             currentIndex: searchedState.currentIndex,
             exception: event.exception,
@@ -323,7 +329,7 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
     emit(
       state.copyWith(
         searchState: LoadingPlayResource(
-          source:  playerState.source,
+          source: playerState.source,
           matchedList: matchedList,
           currentIndex: matchedList.indexOf(event.episode),
         ),
@@ -353,7 +359,7 @@ class PlayerAreaBloc extends Bloc<PlayerAreaEvent, PlayerAreaState> {
         searchTask?.cancel();
         searchTask = await _startSearchTask();
       default:
-        // noop
+      // noop
     }
   }
 }

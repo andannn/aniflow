@@ -15,6 +15,7 @@ import 'package:aniflow/core/network/playable_web_source.dart';
 import 'package:aniflow/core/network/web_source/search_config.dart';
 import 'package:aniflow/core/network/web_source/subject_matcher.dart';
 import 'package:aniflow/core/network/web_source/util.dart';
+import 'package:aniflow/core/shared_preference/user_data_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -24,7 +25,10 @@ import 'package:string_similarity/string_similarity.dart';
 
 enum MediaSource {
   vdm10,
-  qdm8;
+  qdm8,
+  fqdm,
+  dmdan8,
+  mcydh;
 
   String get jsonString {
     switch (this) {
@@ -32,6 +36,12 @@ enum MediaSource {
         return "vdm10";
       case MediaSource.qdm8:
         return "qdm8";
+      case MediaSource.fqdm:
+        return "fqdm";
+      case MediaSource.dmdan8:
+        return "dmdan8";
+      case MediaSource.mcydh:
+        return "mcydh";
     }
   }
 
@@ -41,6 +51,12 @@ enum MediaSource {
         return MediaSource.vdm10;
       case "qdm8":
         return MediaSource.qdm8;
+      case "fqdm":
+        return MediaSource.fqdm;
+      case "dmdan8":
+        return MediaSource.dmdan8;
+      case "mcydh":
+        return MediaSource.mcydh;
     }
     throw Exception("unknown source: $source");
   }
@@ -66,8 +82,9 @@ class MatchedEpisode extends Equatable {
 class PlayableSourceRepository {
   final PlayableWebSource source;
   final SearchResultCacheDao cacheDao;
+  final UserDataPreferences preference;
 
-  PlayableSourceRepository(this.source, this.cacheDao);
+  PlayableSourceRepository(this.source, this.cacheDao, this.preference);
 
   Future<LoadResult<List<MatchedEpisode>>> searchPlaySource(
       MediaSource mediaSource,
@@ -223,6 +240,20 @@ class PlayableSourceRepository {
         .whereNot((e) => e.episodes.isEmpty)
         .toList();
   }
+
+  MediaSource? getLastSuccessMatchedMediaSource(String mediaId) {
+    final source = preference.getLastSuccessMatching(mediaId);
+    MediaSource? ret;
+    if (source != null) {
+      ret = MediaSource.fromJson(source);
+    }
+    return ret;
+  }
+
+  Future setLastSuccessMatchedMediaSource(
+      String mediaId, MediaSource mediaSource) async {
+    await preference.setSuccessMatching(mediaId, mediaSource.jsonString);
+  }
 }
 
 SearchRequest _toSearchRequest(String title, Locale locale, int episodeNum) {
@@ -276,7 +307,7 @@ extension MediaSourceEx on MediaSource {
       case MediaSource.vdm10:
         return SearchConfig(
           baseUrl: "https://www.vdm10.com",
-          iconUrl: "",
+          iconUrl: "https://vdm10.com/favicon.ico",
           searchUrl:
               "https://www.vdm10.com/search/-------------.html?wd={keyword}",
           matcher: Vdm10Macher(),
@@ -287,9 +318,41 @@ extension MediaSourceEx on MediaSource {
       case MediaSource.qdm8:
         return SearchConfig(
           baseUrl: "https://www.qdm8.com",
-          iconUrl: "https://www.qdm88.com/qdm8.png",
+          iconUrl: "https://www.qdm8.com/favicon.ico",
           searchUrl: "https://www.qdm88.com/search/{keyword}-------------.html",
           matcher: Qdm8Macher(),
+          validLocal: [
+            const Locale("zh"),
+          ],
+        );
+      case MediaSource.fqdm:
+        return SearchConfig(
+          baseUrl: "https://www.fqdm.cc",
+          iconUrl:
+              "https://www.fqdm.cc/upload/mxprocms/20240530-1/3d17fab3cb763e6ad7031974bf87f322.jpg",
+          searchUrl:
+              "https://www.fqdm.cc/index.php/vod/search.html?wd={keyword}",
+          matcher: FqdmMatcher(),
+          validLocal: [
+            const Locale("zh"),
+          ],
+        );
+      case MediaSource.dmdan8:
+        return SearchConfig(
+          baseUrl: "https://www.dmdan8.com",
+          searchUrl:
+              "https://www.dmdan8.com/search/-------------.html?wd={keyword}",
+          matcher: Dmdan8Macher(),
+          validLocal: [
+            const Locale("zh"),
+          ],
+        );
+      case MediaSource.mcydh:
+        return SearchConfig(
+          baseUrl: "https://www.mcydh.com/",
+          searchUrl:
+              "https://www.mcydh.com/vodsearch/-------------.html?wd={keyword}",
+          matcher: McydhMacher(),
           validLocal: [
             const Locale("zh"),
           ],

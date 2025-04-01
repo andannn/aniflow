@@ -64,6 +64,7 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
     this._mediaInformationRepository,
     this._authRepository,
     this._mediaMarkWatchedUseCase,
+    this._playableSourceRepository,
   ) : super(EpisodePlayerState(selectedEpisodeNumber: param.episodeNum)) {
     on<_OnMediaModelChanged>(
         (event, emit) => emit(state.copyWith(mediaModel: event.mediaModel)));
@@ -79,13 +80,17 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
     _init();
 
     // trigger search
-    add(OnSelectMediaSource(MediaSource.qdm8));
+    final initialMediaSource = _playableSourceRepository
+            .getLastSuccessMatchedMediaSource(param.mediaId) ??
+        MediaSource.dmdan8;
+    add(OnSelectMediaSource(initialMediaSource));
   }
 
   final EpisodePlayerReq param;
   final MediaInformationRepository _mediaInformationRepository;
   final MediaListRepository _mediaListRepository;
   final AuthRepository _authRepository;
+  final PlayableSourceRepository _playableSourceRepository;
   final MediaMarkWatchedUseCase _mediaMarkWatchedUseCase;
 
   void _init() async {

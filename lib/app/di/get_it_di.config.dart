@@ -464,6 +464,17 @@ extension GetItInjectableX on _i174.GetIt {
           studioId,
           gh<_i970.MediaInformationRepository>(),
         ));
+    gh.lazySingleton<_i197.PlayableSourceRepository>(
+      () => _i197.PlayableSourceRepository(
+        gh<_i311.PlayableWebSource>(),
+        gh<_i53.SearchResultCacheDao>(),
+        gh<_i918.UserDataPreferences>(),
+      ),
+      registerFor: {
+        _Mobile,
+        _Desktop,
+      },
+    );
     gh.factoryParam<_i440.ProfileFavoriteBloc, String,
         _i636.LoadingStateRepository>((
       userId,
@@ -485,21 +496,20 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
+    gh.factoryParam<_i1048.PlayerAreaBloc, _i1048.PlayerAreaParam, dynamic>((
+      param,
+      _,
+    ) =>
+        _i1048.PlayerAreaBloc(
+          param,
+          gh<_i197.PlayableSourceRepository>(),
+          gh<_i970.MediaInformationRepository>(),
+        ));
     gh.lazySingleton<_i810.UserDataRepository>(
       () => _i810.UserDataRepository(
         gh<_i918.UserDataPreferences>(),
         gh<_i630.RemoteConfigManager>(),
         gh<_i115.GithubReleaseDao>(),
-      ),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
-    gh.lazySingleton<_i197.PlayableSourceRepository>(
-      () => _i197.PlayableSourceRepository(
-        gh<_i311.PlayableWebSource>(),
-        gh<_i53.SearchResultCacheDao>(),
       ),
       registerFor: {
         _Mobile,
@@ -739,15 +749,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.factoryParam<_i1048.PlayerAreaBloc, _i1048.PlayerAreaParam, dynamic>((
-      param,
-      _,
-    ) =>
-        _i1048.PlayerAreaBloc(
-          param,
-          gh<_i197.PlayableSourceRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-        ));
     gh.factoryParam<_i425.MediaSearchResultPagingBloc, _i55.MediaType, String>((
       _mediaType,
       _searchString,
@@ -812,6 +813,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i970.MediaInformationRepository>(),
           gh<_i768.AuthRepository>(),
           gh<_i1027.MediaMarkWatchedUseCase>(),
+          gh<_i197.PlayableSourceRepository>(),
         ));
     gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
       mediaId,

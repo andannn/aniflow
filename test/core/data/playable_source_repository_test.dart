@@ -7,19 +7,18 @@ void main() {
 
     // late Dio dio;
     // setUp(() async {
-      // dio = Dio()
-      //   ..options = BaseOptions(
-      //     connectTimeout: const Duration(seconds: 15),
-      //     receiveTimeout: const Duration(seconds: 15),
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "Accept": "application/json",
-      //     },
-      //   )
-      //   ..interceptors.addAll([
-      //     LogInterceptor(),
-      //   ]);
-      // dataSource = PlayableWebSource(dio);
+    //   dio = Dio()
+    //     ..options = BaseOptions(
+    //       connectTimeout: const Duration(seconds: 15),
+    //       receiveTimeout: const Duration(seconds: 15),
+    //       headers: {
+    //         "Content-Type": "text/html",
+    //         "Accept": "text/html",
+    //       },
+    //     )
+    //     ..interceptors.addAll([
+    //       LogInterceptor(),
+    //     ]);
     // });
 
     test('parse season', () async {
@@ -35,14 +34,19 @@ void main() {
       expect(parseSeasonNumFromTitle("わたしの幸せな結婚 第二期"), 2);
     });
 
-    // test("test fetch episode", () async {
-    //   final result = await repository.searchPlaySource(MediaSource.vdm10, "1", "Unnamed Memory Act.2", Locale('JP'), 1);
-    //   switch (result) {
-    //     case LoadError<List<EpisodeModel>>():
-    //       print(result.exception);
-    //     case LoadSuccess<List<EpisodeModel>>():
-    //       print(result.data);
-    //   }
-    // });
+    test("test fetch episode", () async {
+      // final result = await dio.get("https://www.mcydh.com/voddetail/9071.html");
+      // final document = parse(result.data);
+      // print(document.body?.outerHtml);
+
+      // final a = document.querySelectorAll(".box-width.cor5 > .anthology.wow.fadeInUp.animated > .anthology-list.top20.select-a > div > div > ul > li > a");
+      // print(a?.firstOrNull?.outerHtml);
+      // final a = document.querySelectorAll("#playlist1 > ul > li > a");
+      // final a =  await dio.searchSubject(config: SearchConfig(baseUrl: "https://www.mcydh.com/", searchUrl: "https://www.mcydh.com/vodsearch/-------------.html?wd={keyword}", matcher: McydhMacher()), title: '1');
+      // print(a);
+      
+      // final a = await dio.getEpisodes(url: "https://www.mcydh.com/voddetail/9071.html", config: SearchConfig(baseUrl: "https://www.mcydh.com/", searchUrl: "https://www.mcydh.com/vodsearch/-------------.html?wd={keyword}", matcher: McydhMacher()));
+      // print(a);
+    });
   });
 }
