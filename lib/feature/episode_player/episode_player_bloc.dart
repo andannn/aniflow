@@ -1,4 +1,5 @@
 import 'package:aniflow/core/common/util/bloc_util.dart';
+import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/data/auth_repository.dart';
 import 'package:aniflow/core/data/media_information_repository.dart';
 import 'package:aniflow/core/data/media_list_repository.dart';
@@ -121,8 +122,12 @@ class EpisodePlayerBloc extends Bloc<EpisodePlayerEvent, EpisodePlayerState>
 
   Future _handleOnPlayEnd(
       OnPlayEnd event, Emitter<EpisodePlayerState> emit) async {
-    final hasNextEpisode =
-        haveNextEpisode(state.mediaModel, state.mediaListItemModel);
+    final hasNextEpisode = haveNextEpisode(
+        state.mediaModel,
+        state.mediaListItemModel
+            ?.copyWith(progress: state.selectedEpisodeNumber));
+    logger.d(
+        "${state.mediaModel?.id} ${state.mediaModel?.title?.native} play end. hasNextEpisode ${hasNextEpisode}");
     if (hasNextEpisode) {
       final nextEpisode = state.selectedEpisodeNumber + 1;
       add(OnSelectEpisodeNumber(nextEpisode));
