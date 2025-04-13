@@ -85,12 +85,14 @@ class _PlayerWithControlPanelState extends State<PlayerWithControlPanel> {
   }
 
   void _checkVideoEnded() {
+    if (!controller.value.isInitialized) return;
+
     final position = controller.value.position;
     final duration = controller.value.duration;
 
-    if (controller.value.isInitialized &&
-        position >= duration &&
-        !controller.value.isPlaying) {
+    final isEnded = position.inMilliseconds >= (duration.inMilliseconds - 500);
+
+    if (isEnded && !controller.value.isPlaying) {
       widget.onPlayCompleted();
     }
   }
