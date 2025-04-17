@@ -15,6 +15,7 @@
 
     <application
         android:name=".AniflowApplication"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="AniFlow"
         android:usesCleartextTraffic="true">
