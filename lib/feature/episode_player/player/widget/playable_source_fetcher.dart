@@ -61,9 +61,7 @@ class _PlayableSourceFetcherState extends State<PlayableSourceFetcher> {
               return;
             }
 
-            final videoUrlMatched = RegExp(searchConfig.matcher.matchVideoUrl)
-                .firstMatch(resource.url?.rawValue ?? "") !=
-                null;
+            final videoUrlMatched = matchVideoUrl(resource.url.toString());
             logger
                 .d("resource videoUrlMatched $videoUrlMatched ${resource.url}");
             if (videoUrlMatched) {
@@ -74,4 +72,24 @@ class _PlayableSourceFetcherState extends State<PlayableSourceFetcher> {
       ),
     );
   }
+}
+
+bool matchVideoUrl(String url) {
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return false;
+  }
+  final lowerUrl = url.toLowerCase();
+  if (lowerUrl.contains('.mp4') || lowerUrl.contains('.mkv') || lowerUrl.contains('.m3u8')) {
+    return true;
+  }
+  if (lowerUrl.contains('mime_type=video_mp4') || lowerUrl.contains('mime=video_mp4')) {
+    return true;
+  }
+  const knownHosts = ['akamaized', 'bilivideo.com', 'muscdn.com', 'resso.app'];
+  for (final keyword in knownHosts) {
+    if (lowerUrl.contains(keyword)) {
+      return true;
+    }
+  }
+  return false;
 }
