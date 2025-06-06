@@ -320,25 +320,6 @@ extension SettingsBlocEx on SettingsBloc {
           ),
         ],
       ),
-      SettingCategory(
-        titleBuilder: (context) => context.appLocal.experimental,
-        settingItems: [
-          SwitchSettingItem<InAppPlayer>(
-            titleBuilder: (context) => context.appLocal.useInAppPlayer,
-            current: InAppPlayer.getSetting(state.useInAppPlayer),
-          ),
-        ],
-      ),
-      SettingCategory(
-        titleBuilder: (context) => context.appLocal.about,
-        settingItems: [
-          if (_userDataRepository.isGithubLinkFeatureEnabled)
-            GithubLinkSettingItem(),
-          SingleLineWithTapActionSettingItem<About>(
-            titleBuilder: (context) => context.materialLocal.moreButtonTooltip,
-          ),
-        ],
-      ),
     ];
   }
 }
