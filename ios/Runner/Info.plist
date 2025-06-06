@@ -22,6 +22,12 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLName</key>
+	<string>com.example.animetracker</string>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<string>animetracker</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -35,6 +41,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>http</string>
+		<string>https</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -58,16 +69,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>http</string>
-      <string>https</string>
-    </array>
-    <key>CFBundleURLName</key>
-    <string>com.example.animetracker</string>
-    <key>CFBundleURLSchemes</key>
-    <array>
-        <string>animetracker</string>
-    </array>
 </dict>
 </plist>

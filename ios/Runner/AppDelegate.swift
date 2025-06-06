@@ -24,7 +24,6 @@ extension AppDelegate: FlutterStreamHandler {
 
 	override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 		if url.scheme == "animetracker" {
-			print(eventSink)
 			eventSink?(url.absoluteString.replacingOccurrences(of: "#", with: "?"))
 			eventSink?(FlutterEndOfEventStream)
 			eventSink = nil

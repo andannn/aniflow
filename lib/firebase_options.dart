@@ -64,11 +64,11 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyC5xln87eOfyfUaciHAZFCl9BaFJJASss4',
-    appId: '1:356471534096:ios:0750bc7d0878ee3ffe5095',
-    messagingSenderId: '356471534096',
-    projectId: 'aniflow-fea18',
-    storageBucket: 'aniflow-fea18.firebasestorage.app',
+    apiKey: 'AIzaSyAyQ_lkY9ApxcGrKyED-ctrNLeodjJCtzI',
+    appId: '1:154390430681:ios:2ac5c1b83ca76135934fc8',
+    messagingSenderId: '154390430681',
+    projectId: 'aniflow-dev',
+    storageBucket: 'aniflow-dev.firebasestorage.app',
     iosBundleId: 'com.andannn.aniflow',
   );
 
