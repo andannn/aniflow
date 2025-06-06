@@ -1,4 +1,3 @@
-import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/util/string_resource_util.dart';
 import 'package:aniflow/core/data/model/media_model.dart';
@@ -41,21 +40,6 @@ Widget _buildNextEpisodeInfo(BuildContext context, DetailMediaUiState state) {
                 ],
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  FilledButton.icon(
-                    onPressed: () async {
-                      // go to episode detail page.
-                      RootRouterDelegate.get().navigateToEpisodePlayerPage(
-                        state.detailAnimeModel!.id,
-                        nextProgress,
-                      );
-                    },
-                    label: Text(context.appLocal.watchNow),
-                    icon: const Icon(Icons.play_arrow),
-                  ),
-                ],
-              ),
             ],
           ),
         )

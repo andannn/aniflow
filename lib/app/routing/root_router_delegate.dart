@@ -209,11 +209,6 @@ mixin _AfRouterBackStackMixin
     _pushAsSingleton(const SettingsRoutePath());
   }
 
-  void navigateToEpisodePlayerPage(String mediaId, int episodeNum) {
-    _pushAsSingleton(
-        EpisodePlayerPagePath(mediaId: mediaId, episodeNum: episodeNum));
-  }
-
   void _popBackStack() {
     _stack.value = [..._stack.value]..removeLast();
     notifyListeners();

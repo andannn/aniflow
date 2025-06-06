@@ -100,7 +100,6 @@ dependencies:
       ref: main
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.1
-  video_player: ^2.9.3
   analyzer: ^6.7.0
   async: ^2.11.0
   mocktail: ^1.0.4
