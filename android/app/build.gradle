@@ -59,15 +59,6 @@ android {
         buildConfig true
     }
 
-    signingConfigs {
-        release {
-            storeFile file("keystore/aniflow-keystore.jks")
-            storePassword System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
-        }
-    }
-
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -85,33 +76,22 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
-        }
-    }
-}
+            boolean shouldSign = project.findProperty("android.releaseSigning") == "true"
+            if (shouldSign) {
+                signingConfigs {
+                    release {
+                        storeFile file("keystore/aniflow-keystore.jks")
+                        storePassword System.getenv("SIGNING_STORE_PASSWORD")
+                        keyAlias System.getenv("SIGNING_KEY_ALIAS")
+                        keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+                    }
+                }
 
-
-task moveKeyStoreRelease {
-    if (project.gradle.startParameter.taskNames.any { it.contains("Release") }) {
-        def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
-        def allFilesFromDir = new File(tmpFilePath).listFiles()
-        if (allFilesFromDir != null) {
-            def keystoreFile = allFilesFromDir.first()
-
-            if (keystoreFile == null || keystoreFile.name != 'aniflow-keystore.jks') {
-                throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
             }
-
-            copy {
-                from keystoreFile.absolutePath
-                into "$projectDir/keystore"
-            }
-        } else {
-            throw new GradleException("File not found: ${tmpFilePath} Aborting build.")
         }
-    } else {
-        println("Debug mode. skip moving keystore file.")
     }
 }
 
