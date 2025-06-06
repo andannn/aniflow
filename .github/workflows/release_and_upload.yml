@@ -25,6 +25,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          flutter-version: 3.29.3
 
       - name: Decode Keystore
         id: decode_keystore
@@ -37,7 +38,7 @@ jobs:
       - run: flutter pub get
 
       - name: build bundle
-        run: flutter build appbundle
+        run: flutter build appbundle --enable-impeller=false
         env:
           SIGNING_KEYSTORE_PATH: ./keystore/keystore.jks
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -45,7 +46,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: build android app
-        run: flutter build apk --split-per-abi
+        run: flutter build apk --split-per-abi --enable-impeller=false
         env:
           SIGNING_KEYSTORE_PATH: ./keystore/keystore.jks
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
