@@ -1,6 +1,7 @@
 import 'package:aniflow/app/app_bloc.dart';
 import 'package:aniflow/app/app_state.dart';
 import 'package:aniflow/app/di/get_it_scope.dart';
+import 'package:aniflow/app/l10n/app_localizations.dart';
 import 'package:aniflow/app/routing/root_router_delegate.dart';
 import 'package:aniflow/app/routing/root_router_info_parser.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
@@ -8,7 +9,6 @@ import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AniflowApp extends StatelessWidget {

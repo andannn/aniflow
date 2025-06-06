@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
@@ -10,7 +9,6 @@ import 'package:aniflow/core/common/definitions/media_type.dart';
 import 'package:aniflow/core/common/definitions/refresh_time_key.dart';
 import 'package:aniflow/core/common/definitions/track_list_filter.dart';
 import 'package:aniflow/core/common/dialog/dialog_type.dart';
-import 'package:aniflow/core/common/environment/build_environment.dart';
 import 'package:aniflow/core/common/setting/score_format.dart';
 import 'package:aniflow/core/common/setting/theme_setting.dart';
 import 'package:aniflow/core/common/setting/user_staff_name_language.dart';
@@ -115,8 +113,7 @@ class UserDataRepository {
 
   bool get useInAppPlayer => _preferences.userData.useInAppPlayer;
 
-  bool get isAppUpdateDialogFeatureEnabled =>
-      Platform.isAndroid && !BuildEnvironment.isFeatureLimited;
+  bool get isAppUpdateDialogFeatureEnabled => false;
 
   Stream<AppVersion?> get latestAppVersion =>
       _githubReleaseDao.getLatestReleasePackages().map((e) {

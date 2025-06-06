@@ -41,7 +41,6 @@ import 'package:aniflow/core/data/mocks/mock_message_repository.dart' as _i752;
 import 'package:aniflow/core/data/mocks/mock_user_data_repository.dart'
     as _i520;
 import 'package:aniflow/core/data/notification_repository.dart' as _i221;
-import 'package:aniflow/core/data/playable_source_repository.dart' as _i197;
 import 'package:aniflow/core/data/search_repository.dart' as _i365;
 import 'package:aniflow/core/data/user_data_repository.dart' as _i810;
 import 'package:aniflow/core/data/user_info_repository.dart' as _i1066;
@@ -68,7 +67,6 @@ import 'package:aniflow/core/network/ani_list_data_source.dart' as _i1001;
 import 'package:aniflow/core/network/auth_data_source.dart' as _i1026;
 import 'package:aniflow/core/network/di/di_network_module.dart' as _i106;
 import 'package:aniflow/core/network/github_data_source.dart' as _i70;
-import 'package:aniflow/core/network/playable_web_source.dart' as _i311;
 import 'package:aniflow/core/platform/auth_event_channel.dart' as _i4;
 import 'package:aniflow/core/platform/di/auth_event_channel_module.dart'
     as _i329;
@@ -119,10 +117,6 @@ import 'package:aniflow/feature/discover/recent_movies/recent_movies_bloc.dart'
     as _i1013;
 import 'package:aniflow/feature/edit_profile/bloc/edit_profile_bloc.dart'
     as _i847;
-import 'package:aniflow/feature/episode_player/episode_player_bloc.dart'
-    as _i668;
-import 'package:aniflow/feature/episode_player/player/player_area_bloc.dart'
-    as _i1048;
 import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_bloc.dart'
     as _i782;
 import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart' as _i748;
@@ -454,8 +448,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1026.AuthDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i70.GithubDataSource>(
         () => _i70.GithubDataSource(gh<_i361.Dio>()));
-    gh.lazySingleton<_i311.PlayableWebSource>(
-        () => _i311.PlayableWebSource(gh<_i361.Dio>()));
     gh.factoryParam<_i409.StudioContentsPagingBloc, String, dynamic>((
       studioId,
       _,
@@ -464,17 +456,6 @@ extension GetItInjectableX on _i174.GetIt {
           studioId,
           gh<_i970.MediaInformationRepository>(),
         ));
-    gh.lazySingleton<_i197.PlayableSourceRepository>(
-      () => _i197.PlayableSourceRepository(
-        gh<_i311.PlayableWebSource>(),
-        gh<_i53.SearchResultCacheDao>(),
-        gh<_i918.UserDataPreferences>(),
-      ),
-      registerFor: {
-        _Mobile,
-        _Desktop,
-      },
-    );
     gh.factoryParam<_i440.ProfileFavoriteBloc, String,
         _i636.LoadingStateRepository>((
       userId,
@@ -496,15 +477,6 @@ extension GetItInjectableX on _i174.GetIt {
         _Desktop,
       },
     );
-    gh.factoryParam<_i1048.PlayerAreaBloc, _i1048.PlayerAreaParam, dynamic>((
-      param,
-      _,
-    ) =>
-        _i1048.PlayerAreaBloc(
-          param,
-          gh<_i197.PlayableSourceRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-        ));
     gh.lazySingleton<_i810.UserDataRepository>(
       () => _i810.UserDataRepository(
         gh<_i918.UserDataPreferences>(),
@@ -803,18 +775,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i768.AuthRepository>(),
               gh<_i810.UserDataRepository>(),
             ));
-    gh.factoryParam<_i668.EpisodePlayerBloc, _i668.EpisodePlayerReq, dynamic>((
-      param,
-      _,
-    ) =>
-        _i668.EpisodePlayerBloc(
-          param,
-          gh<_i319.MediaListRepository>(),
-          gh<_i970.MediaInformationRepository>(),
-          gh<_i768.AuthRepository>(),
-          gh<_i1027.MediaMarkWatchedUseCase>(),
-          gh<_i197.PlayableSourceRepository>(),
-        ));
     gh.factoryParam<_i789.DetailMediaBloc, String, dynamic>((
       mediaId,
       _,

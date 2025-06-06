@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniflow/app/l10n/app_localizations.dart';
 import 'package:aniflow/core/common/definitions/activity_filter_type.dart';
 import 'package:aniflow/core/common/definitions/anime_season.dart';
 import 'package:aniflow/core/common/definitions/anime_source.dart';
@@ -24,7 +25,6 @@ import 'package:aniflow/feature/profile/profile_tab_category.dart';
 import 'package:aniflow/feature/search/bloc/search_type.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension BuildContextEx on BuildContext {
   AppLocalizations get appLocal => AppLocalizations.of(this)!;

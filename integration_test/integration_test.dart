@@ -1,12 +1,12 @@
 import 'package:aniflow/app/di/env.dart';
 import 'package:aniflow/app/di/get_it_scope.dart';
+import 'package:aniflow/app/l10n/app_localizations.dart';
 import 'package:aniflow/core/common/util/logger.dart';
 import 'package:aniflow/core/design_system/theme/colors.dart';
 import 'package:aniflow/feature/detail_media/detail_media.dart';
 import 'package:aniflow/feature/media_track/media_track.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
