@@ -38,7 +38,7 @@ jobs:
       - run: flutter pub get
 
       - name: build bundle
-        run: flutter build appbundle --enable-impeller=false
+        run: flutter build appbundle
         env:
           SIGNING_KEYSTORE_PATH: ./keystore/keystore.jks
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -46,7 +46,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: build android app
-        run: flutter build apk --split-per-abi --enable-impeller=false
+        run: flutter build apk --split-per-abi
         env:
           SIGNING_KEYSTORE_PATH: ./keystore/keystore.jks
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
