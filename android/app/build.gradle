@@ -68,22 +68,6 @@ android {
         }
     }
 
-    flavorDimensions += "feature"
-
-    productFlavors {
-        // play store release build.
-        limited {
-            dimension = "feature"
-        }
-
-        // github release build.
-        full {
-            dimension = "feature"
-            applicationIdSuffix ".github"
-            versionNameSuffix "-github"
-        }
-    }
-
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -130,6 +114,7 @@ task moveKeyStoreRelease {
         println("Debug mode. skip moving keystore file.")
     }
 }
+
 flutter {
     source '../..'
 }
