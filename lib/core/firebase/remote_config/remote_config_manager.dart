@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:aniflow/core/common/util/app_version_util.dart';
 import 'package:aniflow/core/common/util/change_notifier_util.dart';
 import 'package:aniflow/core/common/util/stream_util.dart';
 import 'package:aniflow/core/firebase/remote_config/model/home_struct_remote_model.dart';
@@ -42,15 +41,6 @@ class RemoteConfigManager {
     );
   }
 
-  Stream<bool> isHiAnimationFeatureEnabledStream() => StreamUtil.createStream(
-        _changeNotifier,
-        () => Future.value(_isHiAnimationFeatureEnabled()),
-      ).distinct();
-
-  bool _isHiAnimationFeatureEnabled() {
-    return config.getBool(FirebaseRemoteConfigKeys.isHiAnimationFeatureEnabled);
-  }
-
   Stream<bool> isSocialFeatureEnabledStream() => StreamUtil.createStream(
         _changeNotifier,
         () => Future.value(
@@ -60,26 +50,5 @@ class RemoteConfigManager {
 
   bool _isSocialFeatureEnabled() {
     return config.getBool(FirebaseRemoteConfigKeys.isSocialFeatureEnabled);
-  }
-
-  bool isAdultContentsFeatureEnabled() {
-    return config
-        .getBool(FirebaseRemoteConfigKeys.isAdultContentsFeatureEnabled);
-  }
-
-  bool isGithubLinkFeatureEnabled() {
-    return config
-        .getBool(FirebaseRemoteConfigKeys.enableGithubLinkFeature);
-  }
-
-  Stream<AppVersion?> latestAppVersionStream() => StreamUtil.createStream(
-        _changeNotifier,
-        () => Future.value(_latestAppVersion()),
-      ).distinct();
-
-  AppVersion? _latestAppVersion() {
-    return AppVersionUtil.mapToVersion(
-      config.getString(FirebaseRemoteConfigKeys.latestAppVersion),
-    );
   }
 }
