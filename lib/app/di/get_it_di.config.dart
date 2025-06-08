@@ -115,8 +115,6 @@ import 'package:aniflow/feature/discover/next_to_watch/next_to_watch_bloc.dart'
     as _i742;
 import 'package:aniflow/feature/discover/recent_movies/recent_movies_bloc.dart'
     as _i1013;
-import 'package:aniflow/feature/edit_profile/bloc/edit_profile_bloc.dart'
-    as _i847;
 import 'package:aniflow/feature/media_list_update_page/bloc/media_list_update_bloc.dart'
     as _i782;
 import 'package:aniflow/feature/media_page/bloc/media_page_bloc.dart' as _i748;
@@ -293,8 +291,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i768.AuthRepository>(),
           gh<_i67.MessageRepository>(),
         ));
-    gh.factory<_i847.EditProfileBloc>(
-        () => _i847.EditProfileBloc(gh<_i768.AuthRepository>()));
     gh.lazySingleton<_i918.UserDataPreferences>(
         () => _i918.UserDataPreferences(gh<_i460.SharedPreferences>()));
     gh.factoryParam<_i782.StaffPageBloc, String, dynamic>((
