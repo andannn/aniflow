@@ -65,16 +65,7 @@ class MockUserDataRepository implements UserDataRepository {
       ]);
 
   @override
-  bool get isAdultContentsFeatureEnabled => true;
-
-  @override
   bool get isAppUpdateDialogFeatureEnabled => true;
-
-  @override
-  bool get isGithubLinkFeatureEnabled => true;
-
-  @override
-  Stream<bool> get isHiAnimationFeatureEnabledStream => Stream.value(true);
 
   @override
   Stream<bool> get isSocialFeatureEnabledStream => Stream.value(true);

@@ -245,8 +245,6 @@ class SettingsBloc extends Bloc<SettingEvent, SettingsState>
 
 extension SettingsBlocEx on SettingsBloc {
   List<SettingCategory> buildSettingCategoryList() {
-    final enableAdultFeature =
-        _userDataRepository.isAdultContentsFeatureEnabled;
     final appUpdateDialogFeatureEnabled =
         _userDataRepository.isAppUpdateDialogFeatureEnabled;
     return [
@@ -292,12 +290,6 @@ extension SettingsBlocEx on SettingsBloc {
                 .map((e) => e._createSettingOption())
                 .toList(),
           ),
-          if (enableAdultFeature)
-            SwitchSettingItem(
-              titleBuilder: (context) => '18+ ${context.appLocal.contents}',
-              current:
-                  DisplayAdultContent.getSetting(state.displayAdultContent),
-            ),
         ],
       ),
       SettingCategory(

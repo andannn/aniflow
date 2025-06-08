@@ -83,27 +83,12 @@ class UserDataRepository {
 
   int get seasonYear => _preferences.userData.seasonYear;
 
-  bool get isAdultContentsFeatureEnabled =>
-      _remoteConfigManager.isAdultContentsFeatureEnabled();
+  bool get displayAdultContent => false;
 
-  bool get isGithubLinkFeatureEnabled =>
-      _remoteConfigManager.isGithubLinkFeatureEnabled();
-
-  bool get displayAdultContent =>
-      isAdultContentsFeatureEnabled &&
-      _preferences.userData.displayAdultContent;
-
-  Stream<bool> get displayAdultContentStream => isAdultContentsFeatureEnabled
-      ? _preferences.userDataStream
-          .map((data) => data.aniListSettings.displayAdultContent)
-          .distinct()
-      : Stream.value(false);
+  Stream<bool> get displayAdultContentStream => Stream.value(false);
 
   Stream<HomeSectorModel> get _homeStructModelStream =>
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
-
-  Stream<bool> get isHiAnimationFeatureEnabledStream =>
-      _remoteConfigManager.isHiAnimationFeatureEnabledStream();
 
   Stream<bool> get isSocialFeatureEnabledStream =>
       _remoteConfigManager.isSocialFeatureEnabledStream();
