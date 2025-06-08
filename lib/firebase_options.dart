@@ -56,11 +56,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyC5xln87eOfyfUaciHAZFCl9BaFJJASss4',
-    appId: '1:356471534096:ios:a02f2d86cf503e09fe5095',
+    appId: '1:356471534096:ios:def8b28845f06df6fe5095',
     messagingSenderId: '356471534096',
     projectId: 'aniflow-fea18',
     storageBucket: 'aniflow-fea18.firebasestorage.app',
-    iosBundleId: 'com.andannn.animetracker.animeTracker',
+    iosBundleId: 'me.andannn.aniflow',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

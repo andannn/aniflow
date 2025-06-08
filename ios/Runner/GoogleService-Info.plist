@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.andannn.animetracker.animeTracker</string>
+	<string>me.andannn.aniflow</string>
 	<key>PROJECT_ID</key>
 	<string>aniflow-fea18</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:356471534096:ios:a02f2d86cf503e09fe5095</string>
+	<string>1:356471534096:ios:def8b28845f06df6fe5095</string>
 </dict>
 </plist>
