@@ -90,9 +90,6 @@ class UserDataRepository {
   Stream<HomeSectorModel> get _homeStructModelStream =>
       _remoteConfigManager.getHomeStructStream().map((e) => e.toModel());
 
-  Stream<bool> get isSocialFeatureEnabledStream =>
-      _remoteConfigManager.isSocialFeatureEnabledStream();
-
   Stream<bool> get useInAppPlayerStream =>
       _preferences.userDataStream.map((data) => data.useInAppPlayer).distinct();
 

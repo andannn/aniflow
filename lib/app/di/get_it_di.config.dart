@@ -452,6 +452,10 @@ extension GetItInjectableX on _i174.GetIt {
           studioId,
           gh<_i970.MediaInformationRepository>(),
         ));
+    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
+          gh<_i810.UserDataRepository>(),
+          gh<_i768.AuthRepository>(),
+        ));
     gh.factoryParam<_i440.ProfileFavoriteBloc, String,
         _i636.LoadingStateRepository>((
       userId,
@@ -726,12 +730,6 @@ extension GetItInjectableX on _i174.GetIt {
           _searchString,
           gh<_i365.SearchRepository>(),
           gh<_i810.UserDataRepository>(),
-        ));
-    gh.factory<_i86.AniflowHomeBloc>(() => _i86.AniflowHomeBloc(
-          gh<_i810.UserDataRepository>(),
-          gh<_i768.AuthRepository>(),
-          gh<_i309.GithubRepository>(),
-          gh<_i67.MessageRepository>(),
         ));
     gh.factoryParam<_i553.ActivityRepliesBloc, String, dynamic>((
       activityId,

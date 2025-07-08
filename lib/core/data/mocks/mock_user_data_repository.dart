@@ -68,9 +68,6 @@ class MockUserDataRepository implements UserDataRepository {
   bool get isAppUpdateDialogFeatureEnabled => true;
 
   @override
-  Stream<bool> get isSocialFeatureEnabledStream => Stream.value(true);
-
-  @override
   Stream<AppVersion?> get latestAppVersion => Stream.value(null);
 
   @override
