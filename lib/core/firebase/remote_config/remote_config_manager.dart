@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 
 mixin FirebaseRemoteConfigKeys {
   static String homeStruct = 'home_struct_list';
+  static String isPresentationMode = 'presentation_mode';
 }
 
 @lazySingleton
@@ -34,5 +35,14 @@ class RemoteConfigManager {
     return HomeStructRemoteModel.fromJson(
       jsonDecode(config.getString(FirebaseRemoteConfigKeys.homeStruct)),
     );
+  }
+
+  Stream<bool> getIsPresentationModeStream() => StreamUtil.createStream(
+        _changeNotifier,
+        () => Future.value(_getIsPresentationMode()),
+      ).distinct();
+
+  bool _getIsPresentationMode() {
+    return config.getBool(FirebaseRemoteConfigKeys.isPresentationMode);
   }
 }

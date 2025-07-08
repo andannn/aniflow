@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AniflowHomeState {
   bool get isSocialFeatureEnabled => throw _privateConstructorUsedError;
+  bool get isPresentationMode => throw _privateConstructorUsedError;
   UserModel? get userModel => throw _privateConstructorUsedError;
 
   /// Create a copy of AniflowHomeState
@@ -32,7 +33,10 @@ abstract class $AniflowHomeStateCopyWith<$Res> {
           AniflowHomeState value, $Res Function(AniflowHomeState) then) =
       _$AniflowHomeStateCopyWithImpl<$Res, AniflowHomeState>;
   @useResult
-  $Res call({bool isSocialFeatureEnabled, UserModel? userModel});
+  $Res call(
+      {bool isSocialFeatureEnabled,
+      bool isPresentationMode,
+      UserModel? userModel});
 
   $UserModelCopyWith<$Res>? get userModel;
 }
@@ -53,12 +57,17 @@ class _$AniflowHomeStateCopyWithImpl<$Res, $Val extends AniflowHomeState>
   @override
   $Res call({
     Object? isSocialFeatureEnabled = null,
+    Object? isPresentationMode = null,
     Object? userModel = freezed,
   }) {
     return _then(_value.copyWith(
       isSocialFeatureEnabled: null == isSocialFeatureEnabled
           ? _value.isSocialFeatureEnabled
           : isSocialFeatureEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPresentationMode: null == isPresentationMode
+          ? _value.isPresentationMode
+          : isPresentationMode // ignore: cast_nullable_to_non_nullable
               as bool,
       userModel: freezed == userModel
           ? _value.userModel
@@ -90,7 +99,10 @@ abstract class _$$AniflowHomeStateImplCopyWith<$Res>
       __$$AniflowHomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isSocialFeatureEnabled, UserModel? userModel});
+  $Res call(
+      {bool isSocialFeatureEnabled,
+      bool isPresentationMode,
+      UserModel? userModel});
 
   @override
   $UserModelCopyWith<$Res>? get userModel;
@@ -110,12 +122,17 @@ class __$$AniflowHomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isSocialFeatureEnabled = null,
+    Object? isPresentationMode = null,
     Object? userModel = freezed,
   }) {
     return _then(_$AniflowHomeStateImpl(
       isSocialFeatureEnabled: null == isSocialFeatureEnabled
           ? _value.isSocialFeatureEnabled
           : isSocialFeatureEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPresentationMode: null == isPresentationMode
+          ? _value.isPresentationMode
+          : isPresentationMode // ignore: cast_nullable_to_non_nullable
               as bool,
       userModel: freezed == userModel
           ? _value.userModel
@@ -129,17 +146,22 @@ class __$$AniflowHomeStateImplCopyWithImpl<$Res>
 
 class _$AniflowHomeStateImpl implements _AniflowHomeState {
   const _$AniflowHomeStateImpl(
-      {this.isSocialFeatureEnabled = false, this.userModel});
+      {this.isSocialFeatureEnabled = false,
+      this.isPresentationMode = false,
+      this.userModel});
 
   @override
   @JsonKey()
   final bool isSocialFeatureEnabled;
   @override
+  @JsonKey()
+  final bool isPresentationMode;
+  @override
   final UserModel? userModel;
 
   @override
   String toString() {
-    return 'AniflowHomeState(isSocialFeatureEnabled: $isSocialFeatureEnabled, userModel: $userModel)';
+    return 'AniflowHomeState(isSocialFeatureEnabled: $isSocialFeatureEnabled, isPresentationMode: $isPresentationMode, userModel: $userModel)';
   }
 
   @override
@@ -149,13 +171,15 @@ class _$AniflowHomeStateImpl implements _AniflowHomeState {
             other is _$AniflowHomeStateImpl &&
             (identical(other.isSocialFeatureEnabled, isSocialFeatureEnabled) ||
                 other.isSocialFeatureEnabled == isSocialFeatureEnabled) &&
+            (identical(other.isPresentationMode, isPresentationMode) ||
+                other.isPresentationMode == isPresentationMode) &&
             (identical(other.userModel, userModel) ||
                 other.userModel == userModel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isSocialFeatureEnabled, userModel);
+  int get hashCode => Object.hash(
+      runtimeType, isSocialFeatureEnabled, isPresentationMode, userModel);
 
   /// Create a copy of AniflowHomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -170,10 +194,13 @@ class _$AniflowHomeStateImpl implements _AniflowHomeState {
 abstract class _AniflowHomeState implements AniflowHomeState {
   const factory _AniflowHomeState(
       {final bool isSocialFeatureEnabled,
+      final bool isPresentationMode,
       final UserModel? userModel}) = _$AniflowHomeStateImpl;
 
   @override
   bool get isSocialFeatureEnabled;
+  @override
+  bool get isPresentationMode;
   @override
   UserModel? get userModel;
 

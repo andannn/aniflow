@@ -105,6 +105,9 @@ class UserDataRepository {
         return AppVersion.parse(e.tagName);
       });
 
+  Stream<bool> get getIsPresentationMode =>
+      _remoteConfigManager.getIsPresentationModeStream();
+
   Future setActivityFilterType(ActivityFilterType category) =>
       _preferences.setActivityFilterType(category);
 

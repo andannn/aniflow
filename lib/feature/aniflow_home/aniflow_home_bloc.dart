@@ -23,6 +23,12 @@ class _IsSocialFeatureEnabledChange extends AniflowHomeEvent {
   _IsSocialFeatureEnabledChange(this.enabled);
 }
 
+class _IsPresentationModeChange extends AniflowHomeEvent {
+  final bool enabled;
+
+  _IsPresentationModeChange(this.enabled);
+}
+
 const _tag = 'AniflowHomeBloc';
 
 @injectable
@@ -38,11 +44,22 @@ class AniflowHomeBloc extends Bloc<AniflowHomeEvent, AniflowHomeState>
     on<_IsSocialFeatureEnabledChange>((event, emit) {
       emit(state.copyWith(isSocialFeatureEnabled: event.enabled));
     });
+    on<_IsPresentationModeChange>((event, emit) {
+      emit(state.copyWith(isPresentationMode: event.enabled));
+    });
 
     autoCancel(
       () => _authRepository.getAuthedUserStream().listen(
         (userModel) {
           safeAdd(_OnUserDataChanged(userModel));
+        },
+      ),
+    );
+
+    autoCancel(
+      () => _userDataRepository.getIsPresentationMode.listen(
+        (enabled) {
+          safeAdd(_IsPresentationModeChange(enabled));
         },
       ),
     );

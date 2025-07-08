@@ -84,6 +84,7 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
   Widget build(BuildContext context) {
     return BlocBuilder<AniflowHomeBloc, AniflowHomeState>(
         builder: (context, state) {
+      final isPresentationMode = state.isPresentationMode;
       return MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -91,15 +92,20 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
           ),
         ],
         child: LayoutBuilder(builder: (context, constrains) {
-          Widget body() => PopScope(
-                canPop: afRouterDelegate.canPop,
-                onPopInvokedWithResult: (didPop, result) {
-                  afRouterDelegate.onPopPage(didPop, result);
-                },
-                child: Router(
-                  restorationScopeId: "aniflow_home",
-                  routerDelegate: afRouterDelegate,
-                ),
+          Widget body() => Stack(
+                children: [
+                  PopScope(
+                    canPop: afRouterDelegate.canPop,
+                    onPopInvokedWithResult: (didPop, result) {
+                      afRouterDelegate.onPopPage(didPop, result);
+                    },
+                    child: Router(
+                      restorationScopeId: "aniflow_home",
+                      routerDelegate: afRouterDelegate,
+                    ),
+                  ),
+                  if (state.isPresentationMode) const PresentationCover(),
+                ],
               );
 
           if (ScreenSizeUtil.isLargeScreen(context)) {
@@ -213,6 +219,28 @@ class _AniFlowAppScaffoldState extends State<AniFlowAppScaffold>
       label: Text(item.iconTextId),
       icon: Icon(item.unSelectedIcon),
       selectedIcon: Icon(item.selectedIcon),
+    );
+  }
+}
+
+class PresentationCover extends StatelessWidget {
+  const PresentationCover({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      color: Colors.amber.withAlpha(158),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Presentation Mode",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          FilledButton(onPressed: () {}, child: const Text("START"))
+        ],
+      ),
     );
   }
 }

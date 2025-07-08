@@ -189,4 +189,7 @@ class MockUserDataRepository implements UserDataRepository {
 
   @override
   bool get useInAppPlayer => throw UnimplementedError();
+
+  @override
+  Stream<bool> get getIsPresentationMode => throw UnimplementedError();
 }

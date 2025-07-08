@@ -8,6 +8,7 @@ part 'aniflow_home_state.freezed.dart';
 class AniflowHomeState with _$AniflowHomeState {
   const factory AniflowHomeState({
     @Default(false) bool isSocialFeatureEnabled,
+    @Default(false) bool isPresentationMode,
     UserModel? userModel,
   }) = _AniflowHomeState;
 }
