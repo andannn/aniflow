@@ -99,7 +99,7 @@ dependencies:
       ref: main
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.1
-  analyzer: ^6.7.0
+  analyzer: ^6.4.1
   async: ^2.11.0
   mocktail: ^1.0.4
   url_launcher_platform_interface: ^2.3.2
