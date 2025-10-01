@@ -1,3 +1,11 @@
+# Project Archived
+
+This repository has been archived and is no longer actively maintained.  
+The project has been migrated to **Kotlin Multiplatform** under a new repository:
+
+👉 [AniFlowKMP](https://github.com/andannn/AniflowKMP)
+
+
 # AniFlow
 
 An unofficial client for [AniList](https://anilist.co/home).
